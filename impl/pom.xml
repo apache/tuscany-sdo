@@ -21,7 +21,7 @@
         <version>SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>tuscany-impl</artifactId>
+    <artifactId>tuscany-sdo-impl</artifactId>
     <name>Tuscany SDO Implementation</name>
     <description>Tuscany implementation of SDO API.</description>
     <version>SNAPSHOT</version>
