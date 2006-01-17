@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SDO Runtime Implementation
+Bundle-SymbolicName: org.apache.tuscany.sdo.impl
+Bundle-Version: 1.0.0
+Bundle-Localization: plugin
+Bundle-Vendor: Apache
+Require-Bundle: org.eclipse.emf.common,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.change,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.xsd,
+ org.apache.tuscany.sdo.spec;visibility:=reexport
+Export-Package: commonj.sdo.impl,
+ org.apache.tuscany.sdo,
+ org.apache.tuscany.sdo.helper,
+ org.apache.tuscany.sdo.impl,
+ org.apache.tuscany.sdo.test,
+ org.apache.tuscany.sdo.util
