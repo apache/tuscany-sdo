@@ -32,7 +32,7 @@ public class XSDHelperTestCase extends TestCase {
     private static final String TEST_MODEL = "/simple.xsd";
     private URL modelURL;
 
-    public void testDuplicateDefineWithLocation() throws IOException {
+    public void testDefineWithLocation() throws IOException {
         List<Type> types = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
         assertEquals(2, types.size());
     }
@@ -43,15 +43,13 @@ public class XSDHelperTestCase extends TestCase {
     }
 */
 
-/* FIXME the same Types should be returned each time
     public void testDuplicateDefineWithLocation() throws IOException {
         List<Type> types = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
-        System.out.println("types = " + types);
+        assertEquals(2, types.size());
 
-        types = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
-        System.out.println("types = " + types);
+        List<Type> types2 = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
+        assertEquals(types, types2);
     }
-*/
 
     protected void setUp() throws Exception {
         super.setUp();

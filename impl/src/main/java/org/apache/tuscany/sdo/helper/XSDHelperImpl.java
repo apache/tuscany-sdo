@@ -21,10 +21,10 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Reader;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tuscany.sdo.impl.DynamicDataObjectImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
@@ -170,21 +170,25 @@ public class XSDHelperImpl implements XSDHelper
       Resource model = resourceSet.createResource(URI.createURI(schemaLocation));
       ((XSDResourceImpl)model).load(inputSource, null);
       XSDSchema schema = (XSDSchema)model.getContents().get(0);
+      
+      Set keys = ecoreBuilder.getTargetNamespaceToEPackageMap().keySet();
+      if (keys.contains(schema.getTargetNamespace()))
+      {
+        // If define() is called more than once for the same XMLSchema return the existing defined types
+        EPackage ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
+        return ePackage.getEClassifiers();
+      }
 
-      Collection originalEPackages = new HashSet(ecoreBuilder.getTargetNamespaceToEPackageMap().values());
       ecoreBuilder.generate(schema);
       Collection newEPackages = ecoreBuilder.getTargetNamespaceToEPackageMap().values();
-
+      
       for (Iterator iter = newEPackages.iterator(); iter.hasNext();)
       {
         EPackage currentPackage = (EPackage)iter.next();
-        if (!originalEPackages.contains(currentPackage))
-        {
-          currentPackage.setEFactoryInstance(new DynamicDataObjectImpl.FactoryImpl());
-          EcoreUtil.freeze(currentPackage);
-        }
+        currentPackage.setEFactoryInstance(new DynamicDataObjectImpl.FactoryImpl());
+        EcoreUtil.freeze(currentPackage);
       }
-
+      
       EPackage ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
       return ePackage.getEClassifiers();
     }
