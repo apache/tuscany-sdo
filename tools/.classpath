@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/test/resources"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="MAVEN_REPO/eclipse/jars/emf-codegen-2.2.0-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/eclipse/jars/emf-codegen-ecore-2.2.0-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/eclipse/jars/emf-common-2.2.0-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/eclipse/jars/emf-ecore-2.2.0-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/eclipse/jars/emf-ecore-change-2.2.0-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/eclipse/jars/emf-ecore-xmi-2.2.0-SNAPSHOT.jar"/>
+	<classpathentry kind="var" path="MAVEN_REPO/eclipse/jars/xsd-2.2.0-SNAPSHOT.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.apache.tuscany.sdo.spec"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.apache.tuscany.sdo.impl"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

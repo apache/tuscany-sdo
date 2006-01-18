@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SDO Tools
+Bundle-SymbolicName: org.apache.tuscany.sdo.tools
+Bundle-Version: 1.0.0
+Bundle-Localization: plugin
+Bundle-Vendor: Apache
+Require-Bundle: org.apache.tuscany.sdo.impl,
+ org.eclipse.emf.codegen.ecore,
+ org.eclipse.emf.common,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.xsd
