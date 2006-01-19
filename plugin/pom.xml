@@ -17,32 +17,26 @@
 <project>
     <parent>
         <groupId>org.apache.tuscany</groupId>
-        <artifactId>tuscany-project</artifactId>
+        <artifactId>tuscany-sdo</artifactId>
         <version>SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>tuscany-sdo</artifactId>
-    <packaging>pom</packaging>
-    <name>Tuscany SDO Implementation Project</name>
+    <artifactId>tuscany-sdo-plugin</artifactId>
+    <packaging>maven-plugin</packaging>
     <version>SNAPSHOT</version>
+    <name>Tuscany SDO Maven Plugin</name>
 
-    <modules>
-        <module>impl</module>
-        <module>tools</module>
-        <module>plugin</module>
-    </modules>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <includes>
-                        <include>**/*TestCase.java</include>
-                    </includes>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tuscany</groupId>
+            <artifactId>tuscany-sdo-tools</artifactId>
+            <version>${pom.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>
