@@ -167,26 +167,22 @@ public class XSDHelperImpl implements XSDHelper
     try
     {
       ResourceSet resourceSet = DataObjectUtil.createResourceSet();
-      Resource model = resourceSet.createResource(URI.createURI(schemaLocation));
+      Resource model = resourceSet.createResource(URI.createURI(schemaLocation != null ? schemaLocation : "null.xsd"));
       ((XSDResourceImpl)model).load(inputSource, null);
       XSDSchema schema = (XSDSchema)model.getContents().get(0);
       
-      Set keys = ecoreBuilder.getTargetNamespaceToEPackageMap().keySet();
-      if (keys.contains(schema.getTargetNamespace()))
+      // If define() is called more than once for the same XMLSchema, return the existing defined types
+      if (!ecoreBuilder.getTargetNamespaceToEPackageMap().containsKey(schema.getTargetNamespace()))
       {
-        // If define() is called more than once for the same XMLSchema return the existing defined types
-        EPackage ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
-        return ePackage.getEClassifiers();
-      }
-
-      ecoreBuilder.generate(schema);
-      Collection newEPackages = ecoreBuilder.getTargetNamespaceToEPackageMap().values();
+        ecoreBuilder.generate(schema);
+        Collection newEPackages = ecoreBuilder.getTargetNamespaceToEPackageMap().values();
       
-      for (Iterator iter = newEPackages.iterator(); iter.hasNext();)
-      {
-        EPackage currentPackage = (EPackage)iter.next();
-        currentPackage.setEFactoryInstance(new DynamicDataObjectImpl.FactoryImpl());
-        EcoreUtil.freeze(currentPackage);
+        for (Iterator iter = newEPackages.iterator(); iter.hasNext();)
+        {
+          EPackage currentPackage = (EPackage)iter.next();
+          currentPackage.setEFactoryInstance(new DynamicDataObjectImpl.FactoryImpl());
+          EcoreUtil.freeze(currentPackage);
+        }
       }
       
       EPackage ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
