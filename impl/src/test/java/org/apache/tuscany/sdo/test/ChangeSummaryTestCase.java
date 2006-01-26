@@ -17,6 +17,10 @@
 package org.apache.tuscany.sdo.test;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -32,7 +36,9 @@ import org.apache.tuscany.sdo.util.SDOUtil;
 
 
 public class ChangeSummaryTestCase extends TestCase {
-    private static final String TEST_MODEL = "/simple.xsd";
+    private final String TEST_MODEL = "/simple.xsd";
+    private final String TEST_DATA = "/simplechangesummary.xml";
+    private File tmpFile;
 
     /**
      * Simple ChangeSummary test.
@@ -40,6 +46,7 @@ public class ChangeSummaryTestCase extends TestCase {
     public void testChangeSummary() throws IOException {
         // Create an empty data graph and add a root object, an instance of type Quote
         //
+      
         DataGraph dataGraph = SDOUtil.createDataGraph();
         DataObject quote = dataGraph.createRootObject("http://www.example.com/simple", "Quote");
 
@@ -65,9 +72,11 @@ public class ChangeSummaryTestCase extends TestCase {
         // Stop logging changes and print the resulting data graph to stdout
         //
         changeSummary.endLogging();
-        SDOUtil.saveDataGraph(dataGraph, System.out, null);
+        
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        SDOUtil.saveDataGraph(dataGraph, baos, null);
 
-        // TODO verify that what was saved was correct
+        assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA)));
     }
 
     protected void setUp() throws Exception {
