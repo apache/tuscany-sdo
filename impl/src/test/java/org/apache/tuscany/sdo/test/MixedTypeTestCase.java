@@ -17,6 +17,8 @@
 package org.apache.tuscany.sdo.test;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -33,8 +35,9 @@ import junit.framework.TestCase;
 
 
 public class MixedTypeTestCase extends TestCase {
-    private static final String TEST_MODEL = "/mixed.xsd";
-    static final String TEST_NAMESPACE = "http://www.example.com/mixed";
+    private final String TEST_MODEL = "/mixed.xsd";
+    private final String TEST_NAMESPACE = "http://www.example.com/mixed";
+    private final String TEST_DATA = "/mixed.xml";
 
     /**
      * Sequenced type SDO 2 test.
@@ -42,9 +45,6 @@ public class MixedTypeTestCase extends TestCase {
     public void testSequencedType() throws IOException {
         Type quoteType = TypeHelper.INSTANCE.getType(TEST_NAMESPACE, "MixedQuote");
         DataObject quote = DataFactory.INSTANCE.create(quoteType);
-
-        System.out.println("quote type isOpen: " + quoteType.isOpen());
-        System.out.println("quote type isSequenced: " + quoteType.isSequenced());
 
         Sequence sequence = quote.getSequence();
 
@@ -68,9 +68,10 @@ public class MixedTypeTestCase extends TestCase {
 
         sequence.add("\n");
 
-        XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "mixedStockQuote", System.out);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "mixedStockQuote", baos);
 
-        // TODO verify that what was saved was correct
+        assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA)));
     }
 
     protected void setUp() throws Exception {

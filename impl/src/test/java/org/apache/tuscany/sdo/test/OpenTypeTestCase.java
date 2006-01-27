@@ -17,6 +17,8 @@
 package org.apache.tuscany.sdo.test;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -34,8 +36,9 @@ import junit.framework.TestCase;
 
 
 public class OpenTypeTestCase extends TestCase {
-    private static final String TEST_MODEL = "/open.xsd";
-    private static final String TEST_NAMESPACE = "http://www.example.com/open";
+    private final String TEST_MODEL = "/open.xsd";
+    private final String TEST_NAMESPACE = "http://www.example.com/open";
+    private final String TEST_DATA = "/open.xml";
 
     /**
      * Open content SDO 2 test.
@@ -44,15 +47,10 @@ public class OpenTypeTestCase extends TestCase {
         Type quoteType = TypeHelper.INSTANCE.getType(TEST_NAMESPACE, "OpenQuote");
         DataObject quote = DataFactory.INSTANCE.create(quoteType);
 
-        System.out.println("quote type isOpen: " + quoteType.isOpen());
-        System.out.println("quote type isSequenced: " + quoteType.isSequenced());
-
         quote.setString("symbol", "s1");
 
-        System.out.println("Before instance properties: " + quote.getInstanceProperties().size());
         for (Iterator iter = quote.getInstanceProperties().iterator(); iter.hasNext();) {
             Property property = (Property) iter.next();
-            System.out.println("  " + property.getName());
         }
 
         Property companyProperty = XSDHelper.INSTANCE.getGlobalProperty(TEST_NAMESPACE, "company", true);
@@ -62,13 +60,14 @@ public class OpenTypeTestCase extends TestCase {
         Property priceProperty = XSDHelper.INSTANCE.getGlobalProperty(TEST_NAMESPACE, "price", true);
         quote.getList(priceProperty).add(new BigDecimal("1000.0"));
 
-        System.out.println("After instance properties: " + quote.getInstanceProperties().size());
         for (Iterator iter = quote.getInstanceProperties().iterator(); iter.hasNext();) {
             Property property = (Property) iter.next();
-            System.out.println("  " + property.getName());
         }
 
-        XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "openStockQuote", System.out);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "openStockQuote", baos);
+        
+        assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA)));
     }
 
     protected void setUp() throws Exception {

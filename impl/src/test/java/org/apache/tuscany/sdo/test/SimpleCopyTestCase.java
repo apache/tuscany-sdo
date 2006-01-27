@@ -16,6 +16,8 @@
  */
 package org.apache.tuscany.sdo.test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -29,31 +31,28 @@ import junit.framework.TestCase;
 
 public class SimpleCopyTestCase extends TestCase {
 
-  private static final String TEST_MODEL = "/simple.xsd";
-  private static final String TEST_NAMESPACE = "http://www.example.com/simple";
-  private static final String TEST_INSTANCE = "/quote.xml";
+  private final String TEST_MODEL = "/simple.xsd";
+  private final String TEST_NAMESPACE = "http://www.example.com/simple";
+  private final String QUOTE_XML = "/quote.xml";
+  private final String SHALLOW_QUOTE_XML = "/shallowquote.xml";
 
   public void testSimpleCopy() throws IOException {
-      XMLDocument doc = XMLHelper.INSTANCE.load(getClass().getResourceAsStream(TEST_INSTANCE));
+      XMLDocument doc = XMLHelper.INSTANCE.load(getClass().getResourceAsStream(QUOTE_XML));
       DataObject sdo = doc.getRootObject();
-
-      System.out.println("Original DataObject:");
-      XMLHelper.INSTANCE.save(sdo, TEST_NAMESPACE, "stockQuote", System.out);
-
-      System.out.println();
-      System.out.println("******************************");
 
       DataObject copiedSdo = CopyHelper.INSTANCE.copyShallow(sdo);
 
-      System.out.println("Shallow Copy:");
-      XMLHelper.INSTANCE.save(copiedSdo, TEST_NAMESPACE, "stockQuote", System.out);
-
-      System.out.println();
-      System.out.println("******************************");
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      XMLHelper.INSTANCE.save(copiedSdo, TEST_NAMESPACE, "stockQuote", baos);
+      assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(SHALLOW_QUOTE_XML)));
+      assertFalse(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(QUOTE_XML)));
 
       copiedSdo = CopyHelper.INSTANCE.copy(sdo);
-      System.out.println("Deep Copy:");
-      XMLHelper.INSTANCE.save(copiedSdo, TEST_NAMESPACE, "stockQuote", System.out);
+      
+      baos.reset();
+      XMLHelper.INSTANCE.save(copiedSdo, TEST_NAMESPACE, "stockQuote", baos);
+      assertFalse(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(SHALLOW_QUOTE_XML)));
+      assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(QUOTE_XML)));
   }
 
     protected void setUp() throws Exception {

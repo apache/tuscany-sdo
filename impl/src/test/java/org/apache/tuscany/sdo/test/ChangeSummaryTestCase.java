@@ -38,7 +38,6 @@ import org.apache.tuscany.sdo.util.SDOUtil;
 public class ChangeSummaryTestCase extends TestCase {
     private final String TEST_MODEL = "/simple.xsd";
     private final String TEST_DATA = "/simplechangesummary.xml";
-    private File tmpFile;
 
     /**
      * Simple ChangeSummary test.

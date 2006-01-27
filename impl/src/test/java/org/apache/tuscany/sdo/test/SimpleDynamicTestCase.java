@@ -17,6 +17,8 @@
 package org.apache.tuscany.sdo.test;
 
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,9 +38,9 @@ import junit.framework.TestCase;
 
 
 public class SimpleDynamicTestCase extends TestCase {
-    private static final String TEST_MODEL = "/simple.xsd";
-    private static final String TEST_NAMESPACE = "http://www.example.com/simple";
-    private File tmpFile;
+    private final String TEST_MODEL = "/simple.xsd";
+    private final String TEST_NAMESPACE = "http://www.example.com/simple";
+    private final String QUOTE_XML = "/quote.xml";
 
     /**
      * Simple Dynamic SDO 2 test.
@@ -59,16 +61,10 @@ public class SimpleDynamicTestCase extends TestCase {
         DataObject child = quote.createDataObject("quotes");
         child.setBigDecimal("price", new BigDecimal("2000.0"));
 
-/*      FIXME the next line causes a ClassCastException when run from mvn
-        XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "stockQuote", new FileOutputStream(tmpFile));
-
-        XMLDocument doc = XMLHelper.INSTANCE.load(new FileInputStream(tmpFile));
-
-        System.out.println("Root element URI: " + doc.getRootElementURI());
-        System.out.println("Root element name: " + doc.getRootElementName());
-        System.out.println("Root object type: " + doc.getRootObject().getType().getName());
-        XMLHelper.INSTANCE.save(doc, System.out, null);
-*/
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "stockQuote", baos);
+        
+        assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(QUOTE_XML)));
     }
 
 
@@ -80,12 +76,6 @@ public class SimpleDynamicTestCase extends TestCase {
         InputStream inputStream = url.openStream();
         XSDHelper.INSTANCE.define(inputStream, url.toString());
         inputStream.close();
-
-        tmpFile = File.createTempFile("SimpleDynamicTestCase", ".xml");
     }
 
-    protected void tearDown() throws Exception {
-        tmpFile.delete();
-        super.tearDown();
-    }
 }

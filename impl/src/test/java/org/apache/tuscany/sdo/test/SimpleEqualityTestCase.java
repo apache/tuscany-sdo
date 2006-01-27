@@ -29,35 +29,22 @@ import junit.framework.TestCase;
 
 public class SimpleEqualityTestCase extends TestCase {
     private static final String TEST_MODEL = "/simple.xsd";
-    private static final String QUOTE_NAMESPACE = "http://www.example.com/simple";
-    private static final String TEST_INSTANCE = "/quote.xml";
-    private static final String SHALLOWQUOTE_INSTANCE = "/shallowquote.xml";
+    private static final String QUOTE_XML = "/quote.xml";
+    private static final String SHALLOW_QUOTE_XML = "/shallowquote.xml";
 
     public void testEquality() throws IOException {
 
-        XMLDocument doc = XMLHelper.INSTANCE.load(getClass().getResourceAsStream(TEST_INSTANCE));
+        XMLDocument doc = XMLHelper.INSTANCE.load(getClass().getResourceAsStream(QUOTE_XML));
         DataObject sdo = doc.getRootObject();
 
-        System.out.println("Source DataObject:");
-        XMLHelper.INSTANCE.save(sdo, QUOTE_NAMESPACE, "stockQuote", System.out);
-
-        System.out.println();
-        System.out.println("******************************");
-
-        doc = XMLHelper.INSTANCE.load(getClass().getResourceAsStream(SHALLOWQUOTE_INSTANCE));
+        doc = XMLHelper.INSTANCE.load(getClass().getResourceAsStream(SHALLOW_QUOTE_XML));
         DataObject shallowSdo = doc.getRootObject();
 
-        System.out.println("Target DataObject:");
-        XMLHelper.INSTANCE.save(shallowSdo, QUOTE_NAMESPACE, "stockQuote", System.out);
-
-        System.out.println();
-        System.out.println("******************************");
-
         boolean result = EqualityHelper.INSTANCE.equalShallow(sdo, shallowSdo);
-        System.out.println("Shallow comparison result: " + result);
+        assertTrue(result);
 
         result = EqualityHelper.INSTANCE.equal(sdo, shallowSdo);
-        System.out.println("Deep comparison result: " + result);
+        assertFalse(result);
     }
 
 

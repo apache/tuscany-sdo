@@ -37,11 +37,10 @@ public class XSDHelperTestCase extends TestCase {
         assertEquals(2, types.size());
     }
 
-/*  FIXME null should be allowed but this throws a NPE
     public void testDefineWithNoLocation() {
         List<Type> types = XSDHelper.INSTANCE.define(getClass().getResourceAsStream(TEST_MODEL), null);
+        assertEquals(2, types.size());
     }
-*/
 
     public void testDuplicateDefineWithLocation() throws IOException {
         List<Type> types = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
