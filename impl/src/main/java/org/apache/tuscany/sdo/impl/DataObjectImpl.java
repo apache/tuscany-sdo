@@ -30,6 +30,7 @@ import java.util.List;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.impl.ChangeSummaryImpl.SDOChangeRecorder;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -1571,6 +1572,16 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
 
   public void setChangeRecorder(SDOChangeRecorder changeRecorder)
   {
+    if (this.changeRecorder != null)
+    {
+      this.changeRecorder.unsetTarget(this);
+    }
+
+    if (changeRecorder != null)
+    {
+      changeRecorder.setTarget(this);
+    }
+    
     this.changeRecorder = changeRecorder;
   }
 
