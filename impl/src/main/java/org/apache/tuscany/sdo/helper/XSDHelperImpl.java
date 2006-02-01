@@ -34,13 +34,17 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.util.XSDResourceImpl;
+import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 import commonj.sdo.Property;
@@ -64,7 +68,7 @@ public class XSDHelperImpl implements XSDHelper
   public XSDHelperImpl(ExtendedMetaData extendedMetaData)
   {
     this.extendedMetaData = extendedMetaData;
-    ecoreBuilder = new XSDEcoreBuilder(extendedMetaData);
+    ecoreBuilder = new SDOXSDEcoreBuilder(extendedMetaData);
   }
 
   public XSDHelperImpl(TypeHelper typeHelper)
@@ -202,6 +206,65 @@ public class XSDHelperImpl implements XSDHelper
   public String generate(List /*Type*/types, Map /*String, String*/namespaceToSchemaLocation)
   {
     throw new UnsupportedOperationException(); //TODO
+  }
+  
+  protected static class SDOXSDEcoreBuilder extends XSDEcoreBuilder
+  {
+    public SDOXSDEcoreBuilder(ExtendedMetaData extendedMetaData)
+    {
+      super(extendedMetaData);
+    }
+
+    protected String getEcoreAttribute(Element element, String attribute)
+    {
+      String sdoAttribute = null;
+      
+      if ("name".equals(attribute))
+        sdoAttribute = "name";
+      else if ("opposite".equals(attribute))
+        sdoAttribute = "oppositeProperty";
+      else if ("mixed".equals(attribute))
+        sdoAttribute = "sequence";
+      
+      if (sdoAttribute != null)
+      {
+        return 
+          element != null && element.hasAttributeNS("commonj.sdo/xml", sdoAttribute) ? 
+            element.getAttributeNS("commonj.sdo/xml", sdoAttribute) : 
+            null;
+      }
+      
+      if ("package".equals(attribute))
+        sdoAttribute = "package";
+      else if ("instanceClass".equals(attribute))
+        sdoAttribute = "instanceClass";
+
+      if (sdoAttribute != null)
+      {
+        return 
+          element != null && element.hasAttributeNS("commonj.sdo/java", sdoAttribute) ? 
+            element.getAttributeNS("commonj.sdo/java", sdoAttribute) : 
+            null;
+      }
+
+      return super.getEcoreAttribute(element, attribute);
+    }
+
+    protected XSDTypeDefinition getEcoreTypeQNameAttribute(XSDConcreteComponent xsdConcreteComponent, String attribute)
+    {
+      String sdoAttribute = null;
+      
+      if ("reference".equals(attribute)) sdoAttribute = "propertyType";
+      
+      if (sdoAttribute != null)
+      {
+        Element element = xsdConcreteComponent.getElement();
+        return  element == null ? null : getEcoreTypeQNameAttribute(xsdConcreteComponent, element, "commonj.sdo/xml", sdoAttribute);
+      }
+
+      return super.getEcoreTypeQNameAttribute(xsdConcreteComponent, attribute);
+    }
+     
   }
 
 }
