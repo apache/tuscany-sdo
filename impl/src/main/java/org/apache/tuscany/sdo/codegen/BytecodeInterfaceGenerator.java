@@ -16,81 +16,69 @@
  */
 package org.apache.tuscany.sdo.codegen;
 
-import java.io.PrintWriter;
 import java.util.List;
 
 import commonj.sdo.Property;
 import commonj.sdo.Type;
+import org.objectweb.asm.ClassWriter;
+import static org.objectweb.asm.Opcodes.*;
 
 import org.apache.tuscany.sdo.SDOTypeVisitor;
 
 /**
  * @version $Rev$ $Date$
  */
-public class JavaInterfaceGenerator implements SDOTypeVisitor {
-    private final PrintWriter writer;
+public class BytecodeInterfaceGenerator implements SDOTypeVisitor {
+    private final ClassWriter cw;
 
-    public JavaInterfaceGenerator(PrintWriter writer) {
-        this.writer = writer;
+    protected BytecodeInterfaceGenerator() {
+        cw = new ClassWriter(false);
     }
 
     public void visitType(Type type) {
         String name = type.getName();
         int lastDot = name.lastIndexOf('.');
         if (lastDot != -1) {
-            writer.print("package ");
-            writer.print(name.substring(0, lastDot));
-            writer.println(';');
-            writer.println();
-
-            name = name.substring(lastDot + 1);
+            name = name.replace('.', '/');
         } else {
             name = Character.toUpperCase(name.charAt(0)) + name.substring(1);
         }
 
-        writer.print("public interface ");
-        writer.print(name);
         List baseTypes = type.getBaseTypes();
+        String[] interfaces = new String[baseTypes.size()];
         for (int i = 0; i < baseTypes.size(); i++) {
             Type baseType = (Type) baseTypes.get(i);
-            if (i == 0) {
-                writer.print(" extends ");
-            } else {
-                writer.print(", ");
-            }
-            writer.print(baseType.getInstanceClass().getName());
+            interfaces[i] = baseType.getInstanceClass().getName().replace('.', '/');
         }
 
-        writer.println(" {");
+        cw.visit(V1_5, ACC_PUBLIC + ACC_ABSTRACT + ACC_INTERFACE, name, null, "java/lang/Object", interfaces);
     }
 
     public void visitProperty(Property property) {
         String name = property.getName();
         String propertyName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-        String javaType = property.getType().getInstanceClass().getCanonicalName();
+        Class<?> javaType = property.getType().getInstanceClass();
+        String desc = org.objectweb.asm.Type.getDescriptor(javaType);
 
-        if (!property.isMany()) {
-            writer.print("    ");
-            writer.print(javaType);
-            writer.print("boolean".equals(javaType) ? " is" : " get");
-            writer.print(propertyName);
-            writer.println("();");
-            if (!property.isReadOnly()) {
-                writer.print("    void set");
-                writer.print(propertyName);
-                writer.print('(');
-                writer.print(javaType);
-                writer.println(" value);");
-            }
+        if (property.isMany()) {
+            cw.visitMethod(ACC_PUBLIC + ACC_ABSTRACT, "get" + propertyName, "()Ljava/util/List;", null, null).visitEnd();
         } else {
-            writer.print("    java.util.List get");
-            writer.print(propertyName);
-            writer.println("();");
+            if (boolean.class.equals(javaType)) {
+                cw.visitMethod(ACC_PUBLIC + ACC_ABSTRACT, "is" + propertyName, "()Z", null, null).visitEnd();
+            } else {
+                cw.visitMethod(ACC_PUBLIC + ACC_ABSTRACT, "get" + propertyName, "()" + desc, null, null).visitEnd();
+            }
+            if (!property.isReadOnly()) {
+                cw.visitMethod(ACC_PUBLIC + ACC_ABSTRACT, "set" + propertyName, '(' + desc + ")V", null, null).visitEnd();
+            }
         }
     }
 
     public void visitEnd() {
-        writer.println('}');
-        writer.flush();
+        cw.visitEnd();
+    }
+
+    public byte[] getClassData() {
+        return cw.toByteArray();
     }
 }

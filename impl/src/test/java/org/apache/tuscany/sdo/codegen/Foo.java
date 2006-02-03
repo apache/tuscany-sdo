@@ -17,23 +17,7 @@
 package org.apache.tuscany.sdo.codegen;
 
 /**
- * Exception indicating there was a problem with code generation.
- *
  * @version $Rev$ $Date$
  */
-public abstract class GenerationException extends RuntimeException {
-    public GenerationException() {
-    }
-
-    public GenerationException(String message) {
-        super(message);
-    }
-
-    public GenerationException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-    public GenerationException(Throwable cause) {
-        super(cause);
-    }
+public interface Foo {
 }

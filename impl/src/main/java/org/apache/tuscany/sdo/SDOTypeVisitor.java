@@ -16,9 +16,8 @@
  */
 package org.apache.tuscany.sdo;
 
+import commonj.sdo.Property;
 import commonj.sdo.Type;
-
-import org.apache.tuscany.sdo.codegen.GenerationException;
 
 /**
  * Visitor interface that allows applications to process SDO type metadata.
@@ -27,56 +26,21 @@ import org.apache.tuscany.sdo.codegen.GenerationException;
  */
 public interface SDOTypeVisitor {
     /**
-     * Visit the type definition.
+     * Visit a type definition.
      *
-     * @param namespace  the namespace that the type is declared in
-     * @param name       the name of the type
-     * @param open       true if the type is open
-     * @param sequenced  true if the type is sequenced
-     * @param isAbstract true if the type is abstract
-     * @return this visitor
+     * @param type the type to visit
      */
-    SDOTypeVisitor visitType(String namespace, String name, boolean open, boolean sequenced, boolean isAbstract);
+    void visitType(Type type);
 
     /**
-     * Visit the declaration of a base type this type extends.
+     * Visit a property definition.
      *
-     * @param baseType a base type this type extends
-     * @return this visitor
+     * @param property the property to visit
      */
-    SDOTypeVisitor visitBaseType(Type baseType) throws GenerationException;
+    void visitProperty(Property property);
 
     /**
-     * Visit the declaration of an alias for this type.
-     *
-     * @param aliasName an alias for this type
-     * @return this visitor
-     */
-    SDOTypeVisitor visitAlias(String aliasName);
-
-    /**
-     * Visit a property declared by this type. Property indices are determined by the order in which
-     * properties are visited.
-     *
-     * @param name     the name of the property
-     * @param type     the SDO type of the property
-     * @param many     true if the property is multi-valued
-     * @param contains true if the property is a containing property
-     * @param readOnly true if the property only supports read access through the SDO API
-     * @return a property visitor that can be used to visit the property
-     */
-    SDOPropertyVisitor visitProperty(String name, Type type, boolean many, boolean contains, boolean readOnly) throws GenerationException;
-
-    /**
-     * Visit the Java type associated with this SDO type.
-     *
-     * @param javaType the Java type for an interface associated with this SDO type
-     * @return this visitor
-     */
-    SDOTypeVisitor visitJavaType(java.lang.reflect.Type javaType);
-
-    /**
-     * Indicate that this visitor will not be called again.
+     * Visit after all properties.
      */
     void visitEnd();
 }
