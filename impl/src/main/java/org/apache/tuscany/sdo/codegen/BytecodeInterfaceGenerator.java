@@ -26,12 +26,15 @@ import static org.objectweb.asm.Opcodes.*;
 import org.apache.tuscany.sdo.SDOTypeVisitor;
 
 /**
+ * Implementation of a generator that will directly emit bytecode for an interface that
+ * corresponds to the static properties of a SDO type.
+ *
  * @version $Rev$ $Date$
  */
 public class BytecodeInterfaceGenerator implements SDOTypeVisitor {
     private final ClassWriter cw;
 
-    protected BytecodeInterfaceGenerator() {
+    public BytecodeInterfaceGenerator() {
         cw = new ClassWriter(false);
     }
 
@@ -78,6 +81,12 @@ public class BytecodeInterfaceGenerator implements SDOTypeVisitor {
         cw.visitEnd();
     }
 
+    /**
+     * Return the bytecode for the interface class in a form that can be written
+     * to disk, added to a JAR file, or passed to a ClassLoader.
+     *
+     * @return the bytecode for the SDO Type's interface class
+     */
     public byte[] getClassData() {
         return cw.toByteArray();
     }

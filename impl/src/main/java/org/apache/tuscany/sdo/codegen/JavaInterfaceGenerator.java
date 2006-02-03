@@ -25,11 +25,19 @@ import commonj.sdo.Type;
 import org.apache.tuscany.sdo.SDOTypeVisitor;
 
 /**
+ * Implementation of a generator that will output the source code for a Java interface
+ * that corresponds to the SDO Type's static properties.
+ *
  * @version $Rev$ $Date$
  */
 public class JavaInterfaceGenerator implements SDOTypeVisitor {
     private final PrintWriter writer;
 
+    /**
+     * Constructor providing the Writer to output the source to.
+     *
+     * @param writer where the generated source code will be written to 
+     */
     public JavaInterfaceGenerator(PrintWriter writer) {
         this.writer = writer;
     }
