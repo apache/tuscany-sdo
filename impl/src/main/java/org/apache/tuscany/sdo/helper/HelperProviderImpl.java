@@ -14,7 +14,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package commonj.sdo.impl;
+package org.apache.tuscany.sdo.helper;
 
 
 import org.apache.tuscany.sdo.helper.CopyHelperImpl;
@@ -30,6 +30,7 @@ import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.impl.ExternalizableDelegator.Resolvable;
+import commonj.sdo.impl.HelperProvider;
 
 
 /**
@@ -51,7 +52,7 @@ public class HelperProviderImpl extends HelperProvider
 
   protected XSDHelper xsdHelper;
 
-  HelperProviderImpl()
+  public HelperProviderImpl()
   {
     typeHelper = SDOUtil.createTypeHelper();
     dataFactory = SDOUtil.createDataFactory(typeHelper);
@@ -62,47 +63,47 @@ public class HelperProviderImpl extends HelperProvider
     dataHelper = new DataHelperImpl();
   }
 
-  CopyHelper copyHelper()
+  public CopyHelper copyHelper()
   {
     return copyHelper;
   }
 
-  DataFactory dataFactory()
+  public DataFactory dataFactory()
   {
     return dataFactory;
   }
 
-  DataHelper dataHelper()
+  public DataHelper dataHelper()
   {
     return dataHelper;
   }
 
-  EqualityHelper equalityHelper()
+  public EqualityHelper equalityHelper()
   {
     return equalityHelper;
   }
 
-  TypeHelper typeHelper()
+  public TypeHelper typeHelper()
   {
     return typeHelper;
   }
 
-  XMLHelper xmlHelper()
+  public XMLHelper xmlHelper()
   {
     return xmlHelper;
   }
 
-  XSDHelper xsdHelper()
+  public XSDHelper xsdHelper()
   {
     return xsdHelper;
   }
 
-  Resolvable resolvable()
+  public Resolvable resolvable()
   {
     throw new UnsupportedOperationException(); //TODO
   }
 
-  Resolvable resolvable(Object target)
+  public Resolvable resolvable(Object target)
   {
     throw new UnsupportedOperationException(); //TODO
   }
