@@ -318,6 +318,9 @@ public class JavaGenerator
     genModel.setSuppressEMFMetaData(true);
     genModel.setSuppressEMFModelTags(true);
     genModel.setCanGenerate(true);
+    //FIXME workaround java.lang.NoClassDefFoundError: org/eclipse/jdt/core/jdom/IDOMNode with 02162006 build
+    genModel.setFacadeHelperClass("Hack");
+    genModel.setForceOverwrite(true);
     
     if ((genOptions & OPTION_NO_INTERFACES) != 0)
     {
@@ -336,26 +339,26 @@ public class JavaGenerator
 
     if ((genOptions & OPTION_NO_CONTAINMENT) != 0)
     {
-      //TODO genModel.setSuppressContainment(true);
+      genModel.setSuppressContainment(true);
     }
     
     if ((genOptions & OPTION_NO_NOTIFICATION) != 0)
     {
-      //TODO genModel.setSuppressNotification(true);
+      genModel.setSuppressNotification(true);
     }
     
     if ((genOptions & OPTION_ARRAY_ACCESSORS) != 0)
     {
-      //TODO genModel.setArrayAccessors(true);
+      genModel.setArrayAccessors(true);
     }
     
     if ((genOptions & OPTION_NO_UNSETTABLE) != 0)
     {
-      //TODO genModel.setSuppressUnsettable(true);
+      genModel.setSuppressUnsettable(true);
     }
     
     GenPackage genPackage = (GenPackage)genModel.getGenPackages().get(0);
-    
+
     if (basePackage != null)
     {
       genPackage.setBasePackage(basePackage);
@@ -369,7 +372,9 @@ public class JavaGenerator
 
     if ((genOptions & OPTION_GENERATE_LOADER) != 0)
     {
-      //TODO genPackage.setDataTypeConverters(true);
+      //FIXME workaround compile error with 02162006 build, generated code references non-existent EcoreResourceImpl class
+      genPackage.setResource(GenResourceKind.XML_LITERAL);
+      //genPackage.setDataTypeConverters(true);
     }
     else
     {
