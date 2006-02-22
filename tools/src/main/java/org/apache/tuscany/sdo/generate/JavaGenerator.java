@@ -21,8 +21,10 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
@@ -45,6 +47,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.util.XSDResourceImpl;
 
 import commonj.sdo.helper.XSDHelper;
 
@@ -227,7 +231,11 @@ public class JavaGenerator
   public static void generateFromXMLSchema(String xsdFileName, String targetDirectory, String javaPackage, String prefix, int genOptions)
   {
     DataObjectUtil.initRuntime();
-    EPackage.Registry packageRegistry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE);
+    EPackage.Registry packageRegistry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE)
+    {
+      public EPackage firstPackage = null;
+            
+    };
     ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(packageRegistry);
     XSDHelper xsdHelper = new XSDHelperImpl(extendedMetaData);
 
@@ -246,6 +254,36 @@ public class JavaGenerator
         targetDirectory = new File(targetDirectory).getCanonicalPath();
       }
 
+      if (!packageRegistry.values().isEmpty())
+      {
+        String packageURI = getSchemaNamespace(xsdFileName);
+        ResourceSet resourceSet = DataObjectUtil.createResourceSet();
+        
+        List usedGenPackages = new ArrayList();
+        GenModel genModel = null;
+        
+        for (Iterator iter = packageRegistry.values().iterator(); iter.hasNext();)
+        {
+          EPackage currentEPackage = (EPackage)iter.next();
+          String currentBasePackage = extractBasePackageName(currentEPackage, javaPackage);
+          String currentPrefix = prefix == null ? CodeGenUtil.capName(currentEPackage.getName()) : prefix;
+          
+          GenPackage currentGenPackage = createGenPackage(currentEPackage, currentBasePackage, currentPrefix, genOptions, resourceSet);
+          if (currentEPackage.getNsURI().equals(packageURI))
+          {
+            genModel = currentGenPackage.getGenModel();
+          }
+          else
+          {
+            usedGenPackages.add(currentGenPackage);
+          }
+        }
+        
+        genModel.getUsedGenPackages().addAll(usedGenPackages);
+        generateFromGenModel(genModel, targetDirectory);
+      }
+
+      /*
       for (Iterator iter = packageRegistry.values().iterator(); iter.hasNext();)
       {
         EPackage ePackage = (EPackage)iter.next();
@@ -256,11 +294,43 @@ public class JavaGenerator
         }
         generateFromEPackage(ePackage, targetDirectory, basePackage, prefix, genOptions);
       }
+      */
     }
     catch (IOException e)
     {
       e.printStackTrace();
     }
+  }
+  
+  public static String getSchemaNamespace(String xsdFileName)
+  {
+    File inputFile = new File(xsdFileName).getAbsoluteFile();
+    ResourceSet resourceSet = DataObjectUtil.createResourceSet();
+    Resource model = resourceSet.createResource(URI.createURI(inputFile.toURI().toString()));
+    try {
+      InputStream inputStream = new FileInputStream(inputFile);
+      ((XSDResourceImpl)model).load(inputStream, null);
+    }
+    catch (Exception e) {}
+    XSDSchema schema = (XSDSchema)model.getContents().get(0);
+    return schema.getTargetNamespace();
+
+  }
+
+  public static GenPackage createGenPackage(EPackage ePackage, String basePackage, String prefix, int genOptions, ResourceSet resourceSet)
+  {
+    GenModel genModel = ecore2GenModel(ePackage, basePackage, prefix, genOptions);
+
+    URI ecoreURI = URI.createURI("file:///" + ePackage.getName() + ".ecore");
+    URI genModelURI = ecoreURI.trimFileExtension().appendFileExtension("genmodel");
+
+    Resource ecoreResource = resourceSet.createResource(ecoreURI);
+    ecoreResource.getContents().add(ePackage);
+
+    Resource genModelResource = resourceSet.createResource(genModelURI);
+    genModelResource.getContents().add(genModel);
+
+    return (GenPackage)genModel.getGenPackages().get(0);
   }
 
   public static void generateFromEPackage(EPackage ePackage, String targetDirectory, String basePackage, String prefix, int genOptions)
