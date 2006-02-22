@@ -19,6 +19,7 @@ package org.apache.tuscany.sdo.plugin;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
@@ -66,11 +67,6 @@ public class GeneratorMojo extends AbstractMojo {
     private List compilerSourceRoots;
 
     public void execute() throws MojoExecutionException {
-        getLog().info("schemaDir = " + schemaDir);
-        getLog().info("targetDirectory = " + targetDirectory);
-        getLog().info("javaPackage = " + javaPackage);
-        getLog().info("Generating SDO interfaces");
-
         File[] files;
         if (schemaFile == null) {
             files = new File(schemaDir).listFiles(FILTER);
@@ -80,8 +76,17 @@ public class GeneratorMojo extends AbstractMojo {
 
         for (int i = 0; i < files.length; i++) {
             File file = files[i];
-            getLog().info("Generating from " + file);
-            JavaGenerator.generateFromXMLSchema(file.toString(), targetDirectory, javaPackage, null, 0);
+            File marker = new File(targetDirectory, ".gen#" + file.getName());
+            if (file.lastModified() > marker.lastModified()) {
+                getLog().info("Generating SDO interfaces from " + file);
+                JavaGenerator.generateFromXMLSchema(file.toString(), targetDirectory, javaPackage, null, 0);
+            }
+            try {
+                marker.createNewFile();
+            } catch (IOException e) {
+                throw new MojoExecutionException(e.getMessage(), e);
+            }
+            marker.setLastModified(System.currentTimeMillis());
         }
 
         compilerSourceRoots.add(targetDirectory);
