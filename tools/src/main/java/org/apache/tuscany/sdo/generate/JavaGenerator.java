@@ -59,6 +59,8 @@ public class JavaGenerator
   public static int OPTION_ARRAY_ACCESSORS=0x20;
   public static int OPTION_GENERATE_LOADER=0x40;
   public static int OPTION_NO_UNSETTABLE=0x80;
+  //FIXME Temporary, I need this option for now to get Switch classes generated for the SCDL models
+  public static int OPTION_GENERATE_SWITCH=0x100;
   
   /**
    * Generate static SDOs from XML Schema
@@ -367,8 +369,12 @@ public class JavaGenerator
     {
       genPackage.setPrefix(prefix);
     }
-    
-    genPackage.setAdapterFactory(false);
+
+    //FIXME Temporary, I need this option for now to get Switch classes generated for the SCDL models
+    if ((genOptions & OPTION_GENERATE_SWITCH) == 0)
+    {
+        genPackage.setAdapterFactory(false);
+    }
 
     if ((genOptions & OPTION_GENERATE_LOADER) != 0)
     {

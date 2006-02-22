@@ -61,6 +61,48 @@ public class GeneratorMojo extends AbstractMojo {
     private String targetDirectory;
 
     /**
+     * Specifies the prefix string to use for naming the generated factory. 
+     * @parameter
+     */
+    private String prefix;
+
+    /**
+     * This option can be used to eliminate the generated interface and to generate only an implementation class. 
+     * @parameter
+     */
+    private boolean noInterface;
+
+    /**
+     * Turns off container management for containment properties.  
+     * @parameter
+     */
+    private boolean noContainment;
+
+    /**
+     * This option eliminates all change notification overhead in the generated classes.   
+     * @parameter
+     */
+    private boolean noNotification;
+
+    /**
+     * With this option, all generated properties will not record their unset state. 
+     * @parameter
+     */
+    private boolean noUnsettable;
+
+    /**
+     * Generate a fast XML parser/loader for instances of the model.   
+     * @parameter
+     */
+    private boolean generateLoader;
+
+    /**
+     * Generate a Switch class for the model.   
+     * @parameter
+     */
+    private boolean generateSwitch;
+
+    /**
      * @parameter expression="${project.compileSourceRoots}"
      * @readonly
      */
@@ -73,13 +115,33 @@ public class GeneratorMojo extends AbstractMojo {
         } else {
             files = new File[]{schemaFile};
         }
+        
+        int genOptions = 0;
+        if (noInterface) {
+          genOptions |= JavaGenerator.OPTION_NO_INTERFACES;
+        }
+        if (noContainment) {
+          genOptions |= JavaGenerator.OPTION_NO_CONTAINMENT;
+        }
+        if (noNotification) {
+          genOptions |= JavaGenerator.OPTION_NO_NOTIFICATION;
+        }
+        if (generateLoader) {
+          genOptions |= JavaGenerator.OPTION_GENERATE_LOADER;
+        }
+        if (noUnsettable) {
+          genOptions |= JavaGenerator.OPTION_NO_UNSETTABLE;
+        }
+        if (generateSwitch) {
+            genOptions |= JavaGenerator.OPTION_GENERATE_SWITCH;
+          }
 
         for (int i = 0; i < files.length; i++) {
             File file = files[i];
             File marker = new File(targetDirectory, ".gen#" + file.getName());
             if (file.lastModified() > marker.lastModified()) {
                 getLog().info("Generating SDO interfaces from " + file);
-                JavaGenerator.generateFromXMLSchema(file.toString(), targetDirectory, javaPackage, null, 0);
+                JavaGenerator.generateFromXMLSchema(file.toString(), targetDirectory, javaPackage, prefix, genOptions);
             }
             try {
                 marker.createNewFile();
