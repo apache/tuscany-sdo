@@ -40,6 +40,12 @@ public class GeneratorMojo extends AbstractMojo {
     private String schemaDir;
 
     /**
+     * Name of the schema file; if omitted all files in the directory are processed
+     * @parameter
+     */
+    private File schemaFile;
+
+    /**
      * The Java package to generate into. By default the value is derived from the schema URI.
      *
      * @parameter
@@ -65,7 +71,13 @@ public class GeneratorMojo extends AbstractMojo {
         getLog().info("javaPackage = " + javaPackage);
         getLog().info("Generating SDO interfaces");
 
-        File[] files = new File(schemaDir).listFiles(FILTER);
+        File[] files;
+        if (schemaFile == null) {
+            files = new File(schemaDir).listFiles(FILTER);
+        } else {
+            files = new File[]{schemaFile};
+        }
+
         for (int i = 0; i < files.length; i++) {
             File file = files[i];
             getLog().info("Generating from " + file);
