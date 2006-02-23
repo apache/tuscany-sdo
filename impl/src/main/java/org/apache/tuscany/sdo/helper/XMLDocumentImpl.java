@@ -26,6 +26,7 @@ import java.io.Writer;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -131,6 +132,13 @@ public class XMLDocumentImpl implements XMLDocument
     resource.getDefaultSaveOptions().put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
     resource.getDefaultLoadOptions().put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
     
+    //FIXME temporary patch for JIRA Tuscany-36
+    resource.getDefaultLoadOptions().put(XMLResource.OPTION_ANY_TYPE, SDOPackage.eINSTANCE.getAnyTypeDataObject());
+    resource.getDefaultSaveOptions().put(XMLResource.OPTION_ANY_TYPE, SDOPackage.eINSTANCE.getAnyTypeDataObject());
+
+    resource.getDefaultLoadOptions().put(XMLResource.OPTION_ANY_SIMPLE_TYPE, SDOPackage.eINSTANCE.getSimpleAnyTypeDataObject());
+    resource.getDefaultSaveOptions().put(XMLResource.OPTION_ANY_SIMPLE_TYPE, SDOPackage.eINSTANCE.getSimpleAnyTypeDataObject());
+
     //resource.getDefaultLoadOptions().put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, globalHashMap);
 
     //resource.getDefaultSaveOptions().put(XMLResource.OPTION_FORMATTED, Boolean.FALSE);
