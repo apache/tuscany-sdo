@@ -18,6 +18,7 @@ package org.apache.tuscany.sdo.impl;
 
 import org.apache.tuscany.sdo.AnyTypeDataObject;
 import org.apache.tuscany.sdo.SDOPackage;
+import org.apache.tuscany.sdo.util.BasicSequence;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -87,13 +88,14 @@ public class AnyTypeDataObjectImpl extends DataObjectImpl implements AnyTypeData
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public FeatureMap getMixed()
   {
     if (mixed == null)
     {
-      mixed = new BasicFeatureMap(this, SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED);
+      //mixed = new BasicFeatureMap(this, SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED);
+      mixed = new BasicSequence(new BasicFeatureMap(this, SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED)).featureMap();
     }
     return mixed;
   }
@@ -101,23 +103,25 @@ public class AnyTypeDataObjectImpl extends DataObjectImpl implements AnyTypeData
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public FeatureMap getAny()
   {
-    return (FeatureMap)((FeatureMap)getMixed()).list(XMLTypePackage.eINSTANCE.getAnyType_Any());
+    //return (FeatureMap)((FeatureMap)getMixed()).list(XMLTypePackage.eINSTANCE.getAnyType_Any());
+    return new BasicSequence((FeatureMap.Internal)((FeatureMap)getMixed()).list(XMLTypePackage.eINSTANCE.getAnyType_Any())).featureMap();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public FeatureMap getAnyAttribute()
   {
     if (anyAttribute == null)
     {
-      anyAttribute = new BasicFeatureMap(this, SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE);
+      //anyAttribute = new BasicFeatureMap(this, SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE);
+      anyAttribute = new BasicSequence(new BasicFeatureMap(this, SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE)).featureMap();
     }
     return anyAttribute;
   }
