@@ -1673,6 +1673,13 @@ public final class DataObjectUtil
         result.put("xsd", new XSDResourceFactoryImpl());
       }
 
+      //FIXME ClassCastException in XSDHelper.define() if you give it a WSDL file
+      // Patch for JIRA TUSCANY-42
+      if (Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.wsdl")) == null)
+      {
+        result.put("wsdl", new XSDResourceFactoryImpl());
+      }
+
       if (Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.*")) == null)
       {
         result.put("*", new XMLResourceFactoryImpl());
