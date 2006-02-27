@@ -70,7 +70,7 @@ public class GeneratorMojo extends AbstractMojo {
      * This option can be used to eliminate the generated interface and to generate only an implementation class. 
      * @parameter
      */
-    private boolean noInterface;
+    private boolean noInterfaces;
 
     /**
      * Turns off container management for containment properties.  
@@ -117,7 +117,7 @@ public class GeneratorMojo extends AbstractMojo {
         }
         
         int genOptions = 0;
-        if (noInterface) {
+        if (noInterfaces) {
           genOptions |= JavaGenerator.OPTION_NO_INTERFACES;
         }
         if (noContainment) {
