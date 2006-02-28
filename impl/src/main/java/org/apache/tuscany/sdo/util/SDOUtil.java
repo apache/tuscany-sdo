@@ -23,20 +23,25 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import org.apache.tuscany.sdo.SDOFactory;
+import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.helper.DataFactoryImpl;
 import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.helper.XMLHelperImpl;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import commonj.sdo.DataGraph;
+import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLHelper;
@@ -49,6 +54,21 @@ import commonj.sdo.helper.XSDHelper;
  */
 public final class SDOUtil
 {
+  /**
+   * Get the SDO built-in type corresponding to the specified XSD type in the XML Schema
+   * namespace ("http://www.w3.org/2001/XMLSchema").
+   * @param xsdType a type name in the XML Schema namespace.
+   * @return the SDO built-in Type corresponding to the specified XSD type.
+   */
+  public static Type getXSDSDOType(String xsdType)
+  {
+    //FIXME Temporary impl to be replaced with proper XSD to SDO mapping (see SDO spec - pg 95)
+    return (Type)
+      ("anyType".equals(xsdType) ?
+        SDOPackage.eINSTANCE.getDataObject() :
+        ExtendedMetaData.INSTANCE.getType(XMLTypePackage.eINSTANCE, xsdType));
+  }
+  
   /**
    * Create an empty data graph.
    * @return the new data graph instance.
