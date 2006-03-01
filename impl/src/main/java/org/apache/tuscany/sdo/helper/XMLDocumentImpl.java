@@ -132,7 +132,6 @@ public class XMLDocumentImpl implements XMLDocument
     resource.getDefaultSaveOptions().put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
     resource.getDefaultLoadOptions().put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
     
-    //FIXME temporary patch for JIRA Tuscany-36
     resource.getDefaultLoadOptions().put(XMLResource.OPTION_ANY_TYPE, SDOPackage.eINSTANCE.getAnyTypeDataObject());
     resource.getDefaultSaveOptions().put(XMLResource.OPTION_ANY_TYPE, SDOPackage.eINSTANCE.getAnyTypeDataObject());
 
@@ -256,6 +255,7 @@ public class XMLDocumentImpl implements XMLDocument
         {
           rootObject = (EObject)documentRoot.eContents().get(0);
           rootElement = rootObject.eContainmentFeature();
+          documentRoot.eUnset(rootElement);
         }
       }
       else
