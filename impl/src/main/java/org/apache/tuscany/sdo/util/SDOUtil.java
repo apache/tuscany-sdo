@@ -31,12 +31,14 @@ import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -54,6 +56,30 @@ import commonj.sdo.helper.XSDHelper;
  */
 public final class SDOUtil
 {
+  /**
+   * Creates an instance of a data type from the specified string.
+   * @param dataType a Type, for which isDataType() returns true, to instantiate.
+   * @param literal the string value of the dataType.
+   * @return an instance of the dataType.
+   * @see #convertToString(Type, Object)
+   */
+  public static Object createFromString(Type dataType, String literal)
+  {
+    return EcoreUtil.createFromString((EDataType)dataType, literal);
+  }
+  
+  /**
+   * Converts an instance of a data type to a string literal representation.
+   * @param dataType the Type, for which isDataType() returns true, of the value to convert.
+   * @param value a value of the dataType.
+   * @return the string literal representation of the value.
+   * @see #createFromString(Type, String)
+   */
+  public static String convertToString(Type dataType, Object value)
+  {
+    return EcoreUtil.convertToString((EDataType)dataType, value);
+  }
+
   /**
    * Get the SDO built-in type corresponding to the specified XSD type in the XML Schema
    * namespace ("http://www.w3.org/2001/XMLSchema").
