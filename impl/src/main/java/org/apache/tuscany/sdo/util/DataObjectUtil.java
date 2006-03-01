@@ -1044,7 +1044,7 @@ public final class DataObjectUtil
             if (property.getName().equals(featureName)) return entryFeature;
 
             List aliasNames = property.getAliasNames();
-            for (int aliasCount = aliasNames.size(); count > 0; )
+            for (int aliasCount = aliasNames.size(); aliasCount > 0; )
             {
               if (aliasNames.get(--aliasCount).equals(featureName)) return entryFeature;
             }
