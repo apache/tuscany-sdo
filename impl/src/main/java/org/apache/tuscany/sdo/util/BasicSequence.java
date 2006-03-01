@@ -19,6 +19,7 @@ package org.apache.tuscany.sdo.util;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
@@ -48,7 +49,12 @@ public class BasicSequence implements Sequence, FeatureMap.Internal.Wrapper
 
   public Property getProperty(int index)
   {
-    return (Property)featureMap.getEStructuralFeature(index);
+    EStructuralFeature feature = featureMap.getEStructuralFeature(index);
+    boolean isText = 
+      feature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT ||
+      feature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA ||    
+      feature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT;
+    return isText ? null : (Property)feature;
   }
   
   public Object getValue(int index)
