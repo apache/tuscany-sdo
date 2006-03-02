@@ -19,12 +19,12 @@ package org.apache.tuscany.sdo.impl;
 import java.util.Collections;
 import java.util.List;
 
-//import org.apache.tuscany.sdo.SDOPackage;
-
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EDataTypeImpl;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import commonj.sdo.Property;
 import commonj.sdo.Type;
@@ -143,7 +143,15 @@ public class DataTypeImpl extends EDataTypeImpl implements Type
    */
   public List getBaseTypes()
   {
-    return Collections.EMPTY_LIST;
+    EDataType dataType = ExtendedMetaData.INSTANCE.getBaseType(this);
+    if (dataType == null)
+    {
+      return Collections.EMPTY_LIST;
+    }
+    else
+    {
+      return Collections.singletonList(dataType);
+    }
   }
 
   /**
