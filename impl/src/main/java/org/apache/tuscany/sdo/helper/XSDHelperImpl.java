@@ -176,7 +176,11 @@ public class XSDHelperImpl implements XSDHelper
       XSDSchema schema = (XSDSchema)model.getContents().get(0);
       
       // If define() is called more than once for the same XMLSchema, return the existing defined types
-      if (!ecoreBuilder.getTargetNamespaceToEPackageMap().containsKey(schema.getTargetNamespace()))
+      //FIXME ... need to rethink this design
+      //if (!ecoreBuilder.getTargetNamespaceToEPackageMap().containsKey(schema.getTargetNamespace()))
+      // also return generated types registered via SDOUtil.registerStaticTypes()
+      EPackage ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
+      if (ePackage == null)
       {
         ecoreBuilder.generate(schema);
         Collection newEPackages = ecoreBuilder.getTargetNamespaceToEPackageMap().values();
@@ -188,8 +192,7 @@ public class XSDHelperImpl implements XSDHelper
           EcoreUtil.freeze(currentPackage);
         }
       }
-      
-      EPackage ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
+      ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
       return ePackage.getEClassifiers();
     }
     catch (Exception e)
