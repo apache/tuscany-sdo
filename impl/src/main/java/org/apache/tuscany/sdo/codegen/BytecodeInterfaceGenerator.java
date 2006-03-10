@@ -21,7 +21,10 @@ import java.util.List;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 import org.objectweb.asm.ClassWriter;
-import static org.objectweb.asm.Opcodes.*;
+import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
+import static org.objectweb.asm.Opcodes.ACC_INTERFACE;
+import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
+import static org.objectweb.asm.Opcodes.V1_5;
 
 import org.apache.tuscany.sdo.SDOTypeVisitor;
 
