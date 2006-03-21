@@ -298,7 +298,7 @@ public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
           {
             if (declareXML)
             {
-              doc.add("<?xml version=\"" + xmlVersion + "\" encoding=\"" + encoding + "\"?>");
+              doc.add("<?xml version=\"" + XML_VERSION + "\" encoding=\"" + encoding + "\"?>");
               doc.addLine();
             }
             String elementName = helper.getQName(eDataGraph.eClass());
