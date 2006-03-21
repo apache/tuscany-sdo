@@ -319,14 +319,12 @@ public class XMLDocumentImpl implements XMLDocument
 
   public String getXMLVersion()
   {
-    //return resource.getXMLVersion();
-    return "1.0"; //TODO
+    return resource.getXMLVersion();
   }
 
   public void setXMLVersion(String xmlVersion)
   {
-    //resource.setXMLVersion(xmlVersion);
-    throw new UnsupportedOperationException(); //TODO
+    resource.setXMLVersion(xmlVersion);
   }
 
   public String getSchemaLocation()
