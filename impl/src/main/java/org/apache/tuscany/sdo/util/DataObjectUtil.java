@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.impl.SDOFactoryImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
@@ -1057,24 +1058,20 @@ public final class DataObjectUtil
   
   public static List getAliasNames(EStructuralFeature eStructuralFeature)
   {
-    List aliasNames = new ArrayList();
-    String xmlName = ExtendedMetaData.INSTANCE.getName(eStructuralFeature);
-    if (!xmlName.equals(eStructuralFeature.getName()))
-    {
-      aliasNames.add(xmlName);
+    List list = SDOExtendedMetaData.INSTANCE.getAliasNames(eStructuralFeature);
+    if (list == null) {
+      list = new ArrayList();
     }
-    return aliasNames;
+    return list;
   }
 
   public static List getAliasNames(EClassifier eClassifier)
   {
-    List aliasNames = new ArrayList();
-    String xmlName = ExtendedMetaData.INSTANCE.getName(eClassifier);
-    if (!xmlName.equals(eClassifier.getName()))
-    {
-      aliasNames.add(xmlName);
+    List list = SDOExtendedMetaData.INSTANCE.getAliasNames(eClassifier);
+    if (list == null) {
+      list = new ArrayList();
     }
-    return aliasNames;
+    return list;
   }
 
   /**

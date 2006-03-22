@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
+import org.apache.tuscany.sdo.impl.SDOPackageImpl;
+import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind;
@@ -48,7 +50,6 @@ import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.Diagnostician;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.util.XSDResourceImpl;
 
 import commonj.sdo.helper.XSDHelper;
 
@@ -279,6 +280,9 @@ public class JavaGenerator
           }
         }
         
+        usedGenPackages.add(createGenPackage(SDOPackageImpl.eINSTANCE, "org.apache.tuscany", "SDO", 0, resourceSet));
+        usedGenPackages.add(createGenPackage(ModelPackageImpl.eINSTANCE, "org.apache.tuscany.sdo", "Model", 0, resourceSet));
+        
         genModel.getUsedGenPackages().addAll(usedGenPackages);
         generateFromGenModel(genModel, targetDirectory);
       }
@@ -304,17 +308,11 @@ public class JavaGenerator
   
   public static String getSchemaNamespace(String xsdFileName)
   {
-    File inputFile = new File(xsdFileName).getAbsoluteFile();
     ResourceSet resourceSet = DataObjectUtil.createResourceSet();
-    Resource model = resourceSet.createResource(URI.createURI(inputFile.toURI().toString()));
-    try {
-      InputStream inputStream = new FileInputStream(inputFile);
-      ((XSDResourceImpl)model).load(inputStream, null);
-    }
-    catch (Exception e) {}
+    File inputFile = new File(xsdFileName).getAbsoluteFile();
+    Resource model = resourceSet.getResource(URI.createURI(inputFile.toURI().toString()), true);
     XSDSchema schema = (XSDSchema)model.getContents().get(0);
     return schema.getTargetNamespace();
-
   }
 
   public static GenPackage createGenPackage(EPackage ePackage, String basePackage, String prefix, int genOptions, ResourceSet resourceSet)
@@ -430,7 +428,7 @@ public class JavaGenerator
     }
     
     GenPackage genPackage = (GenPackage)genModel.getGenPackages().get(0);
-
+    
     if (basePackage != null)
     {
       genPackage.setBasePackage(basePackage);

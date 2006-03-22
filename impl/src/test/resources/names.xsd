@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+  targetNamespace="http://www.example.com/names"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:names="http://www.example.com/names"> 
+  
+   <xsd:element name="class" type="names:class"/>
+   <xsd:element name="test.element" type="names:test.element" />
+   <xsd:element name="void" type="names:void" />
+
+   <xsd:complexType name="class" />
+   <xsd:complexType name="test.element" />
+   <xsd:complexType name="void" />
+
+</xsd:schema>

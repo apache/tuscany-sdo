@@ -20,24 +20,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.helper.DataFactoryImpl;
+import org.apache.tuscany.sdo.helper.SDOExtendedMetaDataImpl;
 import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.helper.XMLHelperImpl;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
@@ -56,6 +59,57 @@ import commonj.sdo.helper.XSDHelper;
  */
 public final class SDOUtil
 {
+  //XSD to SDO Mappings mappings (p.95 of the SDO spec)
+  private static Map<String,String> xsdToSdoMappings = new HashMap<String,String>();
+  static {
+    xsdToSdoMappings.put("anySimpleType", "Object");
+    xsdToSdoMappings.put("anyType", "DataObject");
+    xsdToSdoMappings.put("anyURI", "URI");
+    xsdToSdoMappings.put("base64Binary", "Bytes");
+    xsdToSdoMappings.put("boolean", "Boolean");
+    xsdToSdoMappings.put("byte", "Byte");
+    xsdToSdoMappings.put("date", "YearMonthDay");
+    xsdToSdoMappings.put("dateTime", "DateTime");
+    xsdToSdoMappings.put("decimal", "Decimal");
+    xsdToSdoMappings.put("double", "Double");
+    xsdToSdoMappings.put("duration", "Duration");
+    xsdToSdoMappings.put("ENTITIES", "Strings");
+    xsdToSdoMappings.put("ENTITY", "String");
+    xsdToSdoMappings.put("float", "Float");
+    xsdToSdoMappings.put("gDay", "Day");
+    xsdToSdoMappings.put("gMonth", "Month");
+    xsdToSdoMappings.put("gMonthDay", "MonthDay");
+    xsdToSdoMappings.put("gYear", "Year");
+    xsdToSdoMappings.put("gYearMonth", "YearMonth");
+    xsdToSdoMappings.put("hexBinary", "Bytes");
+    xsdToSdoMappings.put("ID","String");
+    xsdToSdoMappings.put("IDREF","String");
+    xsdToSdoMappings.put("IDREFS","Strings");
+    xsdToSdoMappings.put("int","Int");
+    xsdToSdoMappings.put("integer","Integer");
+    xsdToSdoMappings.put("language","String");
+    xsdToSdoMappings.put("long","Long");
+    xsdToSdoMappings.put("Name","String");
+    xsdToSdoMappings.put("NCName","String");
+    xsdToSdoMappings.put("negativeInteger","Integer");
+    xsdToSdoMappings.put("NMTOKEN","String");
+    xsdToSdoMappings.put("NMTOKENS","Strings");
+    xsdToSdoMappings.put("nonNegativeInteger","Integer");
+    xsdToSdoMappings.put("nonPositiveInteger","Integer");
+    xsdToSdoMappings.put("normalizedString","String");
+    xsdToSdoMappings.put("NOTATION","String");
+    xsdToSdoMappings.put("positiveInteger","Integer");
+    xsdToSdoMappings.put("QName","URI");
+    xsdToSdoMappings.put("short","Short");
+    xsdToSdoMappings.put("string","String");
+    xsdToSdoMappings.put("time","Time");
+    xsdToSdoMappings.put("token","String");
+    xsdToSdoMappings.put("unsignedByte","Short");
+    xsdToSdoMappings.put("unsignedInt","Long");
+    xsdToSdoMappings.put("unsignedLong","Integer");
+    xsdToSdoMappings.put("unsignedShort","Int");
+  }
+  
   /**
    * Creates an instance of a data type from the specified string.
    * @param dataType a Type, for which isDataType() returns true, to instantiate.
@@ -87,12 +141,19 @@ public final class SDOUtil
    * @return the SDO built-in Type corresponding to the specified XSD type.
    */
   public static Type getXSDSDOType(String xsdType)
-  {
-    //FIXME Temporary impl to be replaced with proper XSD to SDO mapping (see SDO spec - pg 95)
-    return (Type)
-      ("anyType".equals(xsdType) ?
-        SDOPackage.eINSTANCE.getDataObject() :
-        ExtendedMetaData.INSTANCE.getType(XMLTypePackage.eINSTANCE, xsdType));
+  {    
+    Type type = null;
+    if ("anyType".equals(xsdType)) {
+      type = (Type)SDOPackage.eINSTANCE.getDataObject();
+    } else {
+      String name = xsdToSdoMappings.get(xsdType);
+      if (name != null) {
+        type = (Type)ModelPackageImpl.eINSTANCE.getEClassifier(name);
+      } else {
+        type = (Type)SDOExtendedMetaData.INSTANCE.getType(XMLTypePackage.eINSTANCE, xsdType);
+      }
+    }
+    return type;
   }
   
   /**
@@ -141,7 +202,7 @@ public final class SDOUtil
   public static TypeHelper createTypeHelper()
   {
     EPackage.Registry registry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE);
-    ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(registry); //TODO create subclass that makes demand() methods synchronous
+    ExtendedMetaData extendedMetaData = new SDOExtendedMetaDataImpl(registry); //TODO create subclass that makes demand() methods synchronous
     return new TypeHelperImpl(extendedMetaData);
   }
 

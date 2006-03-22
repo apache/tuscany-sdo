@@ -20,6 +20,7 @@ package org.apache.tuscany.sdo.helper;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -42,6 +43,9 @@ public class TypeHelperImpl implements TypeHelper
   public TypeHelperImpl(ExtendedMetaData extendedMetaData)
   {
     this.extendedMetaData = extendedMetaData;
+    
+    // Register the standard (predefined) SDO types
+    ModelPackageImpl.init();
   }
   
   public Type getType(String uri, String typeName)

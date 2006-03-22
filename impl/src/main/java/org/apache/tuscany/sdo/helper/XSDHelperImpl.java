@@ -24,27 +24,23 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.tuscany.sdo.impl.DynamicDataObjectImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
-import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDSchema;
-import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.util.XSDResourceImpl;
-import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
 
 import commonj.sdo.Property;
@@ -173,8 +169,8 @@ public class XSDHelperImpl implements XSDHelper
       ResourceSet resourceSet = DataObjectUtil.createResourceSet();
       Resource model = resourceSet.createResource(URI.createURI(schemaLocation != null ? schemaLocation : "null.xsd"));
       ((XSDResourceImpl)model).load(inputSource, null);
-      XSDSchema schema = (XSDSchema)model.getContents().get(0);
-      
+      XSDSchema schema = (XSDSchema)model.getContents().get(0);    
+
       // If define() is called more than once for the same XMLSchema, return the existing defined types
       //FIXME ... need to rethink this design
       //if (!ecoreBuilder.getTargetNamespaceToEPackageMap().containsKey(schema.getTargetNamespace()))
@@ -197,7 +193,8 @@ public class XSDHelperImpl implements XSDHelper
     }
     catch (Exception e)
     {
-      throw new IllegalArgumentException();
+      e.printStackTrace();
+      throw new IllegalArgumentException(e);
     }
   }
 
@@ -209,65 +206,6 @@ public class XSDHelperImpl implements XSDHelper
   public String generate(List /*Type*/types, Map /*String, String*/namespaceToSchemaLocation)
   {
     throw new UnsupportedOperationException(); //TODO
-  }
-  
-  protected static class SDOXSDEcoreBuilder extends XSDEcoreBuilder
-  {
-    public SDOXSDEcoreBuilder(ExtendedMetaData extendedMetaData)
-    {
-      super(extendedMetaData);
-    }
-
-    protected String getEcoreAttribute(Element element, String attribute)
-    {
-      String sdoAttribute = null;
-      
-      if ("name".equals(attribute))
-        sdoAttribute = "name";
-      else if ("opposite".equals(attribute))
-        sdoAttribute = "oppositeProperty";
-      else if ("mixed".equals(attribute))
-        sdoAttribute = "sequence";
-      
-      if (sdoAttribute != null)
-      {
-        return 
-          element != null && element.hasAttributeNS("commonj.sdo/xml", sdoAttribute) ? 
-            element.getAttributeNS("commonj.sdo/xml", sdoAttribute) : 
-            null;
-      }
-      
-      if ("package".equals(attribute))
-        sdoAttribute = "package";
-      else if ("instanceClass".equals(attribute))
-        sdoAttribute = "instanceClass";
-
-      if (sdoAttribute != null)
-      {
-        return 
-          element != null && element.hasAttributeNS("commonj.sdo/java", sdoAttribute) ? 
-            element.getAttributeNS("commonj.sdo/java", sdoAttribute) : 
-            null;
-      }
-
-      return super.getEcoreAttribute(element, attribute);
-    }
-
-    protected XSDTypeDefinition getEcoreTypeQNameAttribute(XSDConcreteComponent xsdConcreteComponent, String attribute)
-    {
-      String sdoAttribute = null;
-      
-      if ("reference".equals(attribute)) sdoAttribute = "propertyType";
-      
-      if (sdoAttribute != null)
-      {
-        Element element = xsdConcreteComponent.getElement();
-        return  element == null ? null : getEcoreTypeQNameAttribute(xsdConcreteComponent, element, "commonj.sdo/xml", sdoAttribute);
-      }
-
-      return super.getEcoreTypeQNameAttribute(xsdConcreteComponent, attribute);
-    }
-     
   }
 
 }
