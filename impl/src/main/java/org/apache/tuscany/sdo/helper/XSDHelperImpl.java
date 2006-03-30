@@ -27,7 +27,6 @@ import java.util.Map;
 
 import org.apache.tuscany.sdo.impl.DynamicDataObjectImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
-import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -194,7 +193,7 @@ public class XSDHelperImpl implements XSDHelper
     catch (Exception e)
     {
       e.printStackTrace();
-      throw new IllegalArgumentException(e);
+      throw new IllegalArgumentException(e.getMessage());
     }
   }
 

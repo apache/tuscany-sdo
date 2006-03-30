@@ -109,7 +109,7 @@ public class JavaInterfaceGeneratorTestCase extends TestCase {
     }
 
     private String localize(String s) {
-        StringBuilder b = new StringBuilder(s.length() + s.length()/10);
+        StringBuffer b = new StringBuffer(s.length() + s.length()/10);
         for (int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
             if (ch == '\t') {

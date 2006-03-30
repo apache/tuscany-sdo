@@ -28,7 +28,7 @@ import commonj.sdo.Property;
 class MockType implements Type {
     private final String name;
     private final Class javaClass;
-    private final List<Type> baseTypes = new ArrayList<Type>();
+    private final List baseTypes = new ArrayList();
 
     public MockType(String name, Class javaClass) {
         this.javaClass = javaClass;

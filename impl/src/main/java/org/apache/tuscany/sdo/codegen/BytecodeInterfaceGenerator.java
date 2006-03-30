@@ -21,10 +21,7 @@ import java.util.List;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 import org.objectweb.asm.ClassWriter;
-import static org.objectweb.asm.Opcodes.ACC_ABSTRACT;
-import static org.objectweb.asm.Opcodes.ACC_INTERFACE;
-import static org.objectweb.asm.Opcodes.ACC_PUBLIC;
-import static org.objectweb.asm.Opcodes.V1_5;
+import org.objectweb.asm.Opcodes;
 
 import org.apache.tuscany.sdo.SDOTypeVisitor;
 
@@ -57,25 +54,27 @@ public class BytecodeInterfaceGenerator implements SDOTypeVisitor {
             interfaces[i] = baseType.getInstanceClass().getName().replace('.', '/');
         }
 
-        cw.visit(V1_5, ACC_PUBLIC + ACC_ABSTRACT + ACC_INTERFACE, name, null, "java/lang/Object", interfaces);
+        cw.visit(Opcodes.V1_4,
+                 Opcodes.ACC_PUBLIC + Opcodes.ACC_ABSTRACT + Opcodes.ACC_INTERFACE,
+                 name, null, "java/lang/Object", interfaces);
     }
 
     public void visitProperty(Property property) {
         String name = property.getName();
         String propertyName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-        Class<?> javaType = property.getType().getInstanceClass();
+        Class javaType = property.getType().getInstanceClass();
         String desc = org.objectweb.asm.Type.getDescriptor(javaType);
 
         if (property.isMany()) {
-            cw.visitMethod(ACC_PUBLIC + ACC_ABSTRACT, "get" + propertyName, "()Ljava/util/List;", null, null).visitEnd();
+            cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_ABSTRACT, "get" + propertyName, "()Ljava/util/List;", null, null).visitEnd();
         } else {
             if (boolean.class.equals(javaType)) {
-                cw.visitMethod(ACC_PUBLIC + ACC_ABSTRACT, "is" + propertyName, "()Z", null, null).visitEnd();
+                cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_ABSTRACT, "is" + propertyName, "()Z", null, null).visitEnd();
             } else {
-                cw.visitMethod(ACC_PUBLIC + ACC_ABSTRACT, "get" + propertyName, "()" + desc, null, null).visitEnd();
+                cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_ABSTRACT, "get" + propertyName, "()" + desc, null, null).visitEnd();
             }
             if (!property.isReadOnly()) {
-                cw.visitMethod(ACC_PUBLIC + ACC_ABSTRACT, "set" + propertyName, '(' + desc + ")V", null, null).visitEnd();
+                cw.visitMethod(Opcodes.ACC_PUBLIC + Opcodes.ACC_ABSTRACT, "set" + propertyName, '(' + desc + ")V", null, null).visitEnd();
             }
         }
     }

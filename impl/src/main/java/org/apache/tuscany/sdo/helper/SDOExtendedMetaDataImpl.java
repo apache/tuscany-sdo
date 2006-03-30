@@ -39,11 +39,11 @@ public class SDOExtendedMetaDataImpl
    */
   public List getAliasNames(EModelElement modelElement) {
     EAnnotation eAnnotation = getAnnotation(modelElement, false);
-    List<String> list = null;
+    List list = null;
     if (eAnnotation != null) {
       String aliasNames = (String)eAnnotation.getDetails().get("aliasNames");
       if (aliasNames != null) {
-        list = new ArrayList<String>();
+        list = new ArrayList();
         StringTokenizer st = new StringTokenizer(aliasNames, " ");
         while (st.hasMoreTokens()) {
           String t = st.nextToken();

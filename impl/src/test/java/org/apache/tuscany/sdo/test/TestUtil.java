@@ -28,13 +28,15 @@ import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.DocumentType;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class TestUtil
 {
-  private static void getAllNodes(NodeList nodeList, List<Node> nodes)
+  private static void getAllNodes(NodeList nodeList, List nodes)
   {
     int length = nodeList.getLength();
     if (length == 0)
@@ -50,10 +52,113 @@ public class TestUtil
     } // for
   }
   
+  private static boolean equalNamedNodeMap(NamedNodeMap mapA, NamedNodeMap mapB) {
+        if (mapA == null) {
+            if (mapB == null) {
+                return true;
+            }
+            return false;
+        }
+        if (mapA.getLength() != mapB.getLength()) {
+            return false;
+        }
+        for (int i = 0; i < mapA.getLength(); i++) {
+            Node trialNode = mapA.item(i);
+            if (trialNode == null) {
+                return false;
+            }
+            Node checkNode = mapB.getNamedItem(trialNode.getNodeName());
+            if (checkNode == null) {
+                return false;
+            }
+            if (!equalNode(trialNode, checkNode)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean equalNode(Node nodeA, Node nodeB) {
+        if (nodeA == null) {
+            if (nodeB == null) {
+                return true;
+            }
+            return false;
+        }
+        // following is intended to provide same function as 1.5 isEqualNode()
+        if (nodeA.getNodeType() != nodeB.getNodeType()) {
+            return false;
+        }
+        if (!equalString(nodeA.getNodeName(), nodeB.getNodeName())) {
+            return false;
+        }
+        if (!equalString(nodeA.getLocalName(), nodeB.getLocalName())) {
+            return false;
+        }
+        if (!equalString(nodeA.getNamespaceURI(), nodeB.getNamespaceURI())) {
+            return false;
+        }
+        if (!equalString(nodeA.getNamespaceURI(), nodeB.getNamespaceURI())) {
+            return false;
+        }
+        if (!equalString(nodeA.getPrefix(), nodeB.getPrefix())) {
+            return false;
+        }
+        if (!equalString(nodeA.getNodeValue(), nodeB.getNodeValue())) {
+            return false;
+        }
+        if (!equalNamedNodeMap(nodeA.getAttributes(), nodeB.getAttributes())) {
+            return false;
+        }
+        if (!equalNodeList(nodeA.getChildNodes(), nodeB.getChildNodes())) {
+            return false;
+        }
+        if (nodeA.getNodeType() == Node.DOCUMENT_TYPE_NODE) {
+            DocumentType documentTypeA = (DocumentType) nodeA;
+            DocumentType documentTypeB = (DocumentType) nodeB;
+            if (!equalString(documentTypeA.getPublicId(), documentTypeB.getPublicId())) {
+                return false;
+            }
+            if (!equalString(documentTypeA.getSystemId(), documentTypeB.getSystemId())) {
+                return false;
+            }
+            if (!equalString(documentTypeA.getInternalSubset(), documentTypeB.getInternalSubset())) {
+                return false;
+            }
+            if (!equalNamedNodeMap(documentTypeA.getEntities(), documentTypeB.getEntities())) {
+                return false;
+            }
+            if (!equalNamedNodeMap(documentTypeA.getNotations(), documentTypeB.getNotations())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static boolean equalNodeList(NodeList nodeListA, NodeList nodeListB) {
+        if (nodeListA == null) {
+            if (nodeListB == null) {
+                return true;
+            }
+            return false;
+        }
+        return equalNodes(nodeListA, nodeListB);
+    }
+
+    private static boolean equalString(String stringA, String stringB) {
+        if (stringA == null) {
+            if (stringB == null) {
+                return true;
+            }
+            return false;
+        }
+        return stringA.equals(stringB);
+    }
+  
   private static boolean equalNodes(NodeList sourceNodeList, NodeList targetNodeList)
   {
-    ArrayList<Node> sourceNodes = new ArrayList<Node>();
-    ArrayList<Node> targetNodes = new ArrayList<Node>();
+    ArrayList sourceNodes = new ArrayList();
+    ArrayList targetNodes = new ArrayList();
     
     getAllNodes(sourceNodeList, sourceNodes);
     getAllNodes(targetNodeList, targetNodes);
@@ -68,10 +173,17 @@ public class TestUtil
     
     for (int i=0; i<sourceLength; i++)
     {
-      Node sourceNode = sourceNodes.get(i);
-      Node targetNode = targetNodes.get(i);
+      Node sourceNode = (Node)sourceNodes.get(i);
+      Node targetNode = (Node)targetNodes.get(i);
       
+      /* remove comment when migrated to Java 1.5
       if (!sourceNode.isEqualNode(targetNode))
+      {
+        return false;
+      }
+      */
+      // following is intended as 1.4 equivalent of isEqualNode()
+      if (!equalNode(sourceNode, targetNode))
       {
         return false;
       }
@@ -139,9 +251,10 @@ public class TestUtil
       return false;
     }
 
-    sourceDocument.normalizeDocument();
-    targetDocument.normalizeDocument();
+    sourceDocument.normalize();
+    targetDocument.normalize();
     
+    /* remove comment when migrated to Java 1.5 
     if (!sourceDocument.getXmlVersion().equals(targetDocument.getXmlVersion()))
     {
       return false;
@@ -159,6 +272,7 @@ public class TestUtil
     {
       return false;
     }
+    */
 
     NodeList sourceNodes = sourceDocument.getChildNodes();
     NodeList targetNodes = targetDocument.getChildNodes();

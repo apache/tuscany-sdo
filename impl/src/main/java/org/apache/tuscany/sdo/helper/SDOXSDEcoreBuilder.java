@@ -35,7 +35,6 @@ class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     super(extendedMetaData);
   }
 
-  @Override
   public EClassifier getEClassifier(XSDTypeDefinition xsdTypeDefinition) {
     EClassifier eClassifier = null;
     if (rootSchema.getSchemaForSchemaNamespace().equals(xsdTypeDefinition.getTargetNamespace())) {
@@ -49,7 +48,6 @@ class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return eClassifier;
   }
   
-  @Override
   public EDataType getEDataType(XSDSimpleTypeDefinition xsdSimpleTypeDefinition) {
     EDataType eClassifier = null;
     if (rootSchema.getSchemaForSchemaNamespace().equals(xsdSimpleTypeDefinition.getTargetNamespace())) {
@@ -63,7 +61,6 @@ class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return (EDataType)eClassifier;
   }
   
-  @Override
   protected EClassifier getBuiltInEClassifier(String namespace, String name)
   {
     EClassifier eClassifier = (EClassifier)SDOUtil.getXSDSDOType(name);
@@ -73,7 +70,6 @@ class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return eClassifier;
   }
   
-  @Override
   public EClass computeEClass(XSDComplexTypeDefinition xsdComplexTypeDefinition) {
     EClass eclass = super.computeEClass(xsdComplexTypeDefinition);
     String aliasNames = getEcoreAttribute(xsdComplexTypeDefinition.getElement(), "aliasName");
@@ -83,7 +79,6 @@ class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return eclass;
   }
 
-  @Override
   protected EClassifier computeEClassifier(XSDTypeDefinition xsdTypeDefinition) {
     EClassifier eclassifier = super.computeEClassifier(xsdTypeDefinition);
     EClassifier etype = (EClassifier) typeToTypeObjectMap.get(eclassifier);
@@ -97,7 +92,6 @@ class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return eclassifier;
   }
 
-  @Override
   protected EDataType computeEDataType(XSDSimpleTypeDefinition xsdSimpleTypeDefinition) {
     EDataType edatatype = super.computeEDataType(xsdSimpleTypeDefinition);
     String aliasNames = getEcoreAttribute(xsdSimpleTypeDefinition.getElement(), "aliasName");
@@ -107,14 +101,12 @@ class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return edatatype;
   }
 
-  @Override
   protected EEnum computeEEnum(XSDSimpleTypeDefinition xsdSimpleTypeDefinition) {
     EEnum eenum = super.computeEEnum(xsdSimpleTypeDefinition);
     return eenum;
   }
 
     
-  @Override
   protected EStructuralFeature createFeature(EClass eClass, String name, EClassifier type, XSDComponent xsdComponent, int minOccurs, int maxOccurs) {
     EStructuralFeature feature = 
       super.createFeature(eClass, name, type, xsdComponent, minOccurs, maxOccurs);
@@ -202,7 +194,6 @@ class SDOXSDEcoreBuilder extends XSDEcoreBuilder
   /**
    * Override default EMF behavior so that the name is not mangled.
    */
-  @Override
   protected String validName(String name, int casing, String prefix) {
     return name; 
   }
@@ -210,7 +201,6 @@ class SDOXSDEcoreBuilder extends XSDEcoreBuilder
   /**
   * Override default EMF name mangling for anonymous types (simple and complex)
   */
-  @Override
   protected String validAliasName(XSDTypeDefinition xsdTypeDefinition, boolean isUpperCase) {
     return getAliasName(xsdTypeDefinition);
   }
@@ -228,7 +218,6 @@ class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return result;
   }
   
-  @Override
   protected XSDTypeDefinition getEffectiveTypeDefinition(XSDComponent xsdComponent, XSDFeature xsdFeature) {
     XSDTypeDefinition typeDef = getEcoreTypeQNameAttribute(xsdComponent, "dataType");
 

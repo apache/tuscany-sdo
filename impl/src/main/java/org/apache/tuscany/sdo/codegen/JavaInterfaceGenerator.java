@@ -31,6 +31,78 @@ import org.apache.tuscany.sdo.SDOTypeVisitor;
  * @version $Rev$ $Date$
  */
 public class JavaInterfaceGenerator implements SDOTypeVisitor {
+    
+    private static String canonicalize(String className) {
+        if (className == null) {
+            return "";
+        }
+        if (className.charAt(0) != '[') { // if not array
+            return className;
+        }
+        // process array
+        boolean invalidClassName = false;
+        int nestLevel = 1;
+        StringBuffer sb = new StringBuffer();
+        try {
+            while (className.charAt(nestLevel) == '[') {
+                nestLevel++;
+            }
+            char typeChar = className.charAt(nestLevel);
+            int end = nestLevel;
+            switch (typeChar) {
+            case 'L':
+                end = className.length() - 1;
+                if (className.charAt(end) != ';') {
+                    invalidClassName = true;
+                } else {
+                    sb.append(className.substring(nestLevel+1, end));    
+                }
+                break;
+            case 'Z':
+                sb.append("boolean"); 
+                break;
+            case 'B':
+                sb.append("byte"); 
+                break;
+            case 'C':
+                sb.append("char"); 
+                break;
+            case 'D':
+                sb.append("double"); 
+                break;
+            case 'F':
+                sb.append("float"); 
+                break;
+            case 'I':
+                sb.append("int"); 
+                break;
+            case 'J':
+                sb.append("long"); 
+                break;
+            case 'S':
+                sb.append("short"); 
+                break;
+            default:
+                invalidClassName = true;
+                break;
+            }
+            if (end != (className.length() - 1)) {
+                invalidClassName = true; // we have not used all the characters
+            } else {
+                for (int i=0; i<nestLevel; i++) {
+                    sb.append("[]");
+                }
+            }
+        } catch(Exception e) {
+            invalidClassName = true;
+        }
+        if (invalidClassName) {
+            System.err.println("unable to canonicalize class name: "+className);
+            return className;
+        }
+        return sb.toString();
+    }
+    
     private final PrintWriter writer;
 
     /**
@@ -75,7 +147,7 @@ public class JavaInterfaceGenerator implements SDOTypeVisitor {
     public void visitProperty(Property property) {
         String name = property.getName();
         String propertyName = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-        String javaType = property.getType().getInstanceClass().getCanonicalName();
+        String javaType = canonicalize(property.getType().getInstanceClass().getName());
 
         if (!property.isMany()) {
             writer.print("    ");

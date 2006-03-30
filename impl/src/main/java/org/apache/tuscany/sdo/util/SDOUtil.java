@@ -60,7 +60,7 @@ import commonj.sdo.helper.XSDHelper;
 public final class SDOUtil
 {
   //XSD to SDO Mappings mappings (p.95 of the SDO spec)
-  private static Map<String,String> xsdToSdoMappings = new HashMap<String,String>();
+  private static Map xsdToSdoMappings = new HashMap();
   static {
     xsdToSdoMappings.put("anySimpleType", "Object");
     xsdToSdoMappings.put("anyType", "DataObject");
@@ -146,7 +146,7 @@ public final class SDOUtil
     if ("anyType".equals(xsdType)) {
       type = (Type)SDOPackage.eINSTANCE.getDataObject();
     } else {
-      String name = xsdToSdoMappings.get(xsdType);
+      String name = (String)xsdToSdoMappings.get(xsdType);
       if (name != null) {
         type = (Type)ModelPackageImpl.eINSTANCE.getEClassifier(name);
       } else {

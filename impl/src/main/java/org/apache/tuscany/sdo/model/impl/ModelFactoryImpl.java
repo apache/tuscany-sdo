@@ -590,7 +590,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertDoubleToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertDouble((Double)instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertDoubleObject((Double)instanceValue);
   }
 
   /**
@@ -651,7 +651,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertFloatToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertFloat((Float)instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertFloatObject((Float)instanceValue);
   }
 
   /**
@@ -691,7 +691,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertIntToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertInt((Integer)instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertIntObject((Integer)instanceValue);
   }
 
   /**
@@ -751,7 +751,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertLongToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertLong((Long)instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertLongObject((Long)instanceValue);
   }
 
   /**
@@ -853,7 +853,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertShortToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertShort((Short)instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertShortObject((Short)instanceValue);
   }
 
   /**

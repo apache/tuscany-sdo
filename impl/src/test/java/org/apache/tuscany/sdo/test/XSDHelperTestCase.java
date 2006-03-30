@@ -33,20 +33,20 @@ public class XSDHelperTestCase extends TestCase {
     private URL modelURL;
 
     public void testDefineWithLocation() throws IOException {
-        List<Type> types = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
+        List types = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
         assertEquals(2, types.size());
     }
 
     public void testDefineWithNoLocation() {
-        List<Type> types = XSDHelper.INSTANCE.define(getClass().getResourceAsStream(TEST_MODEL), null);
+        List types = XSDHelper.INSTANCE.define(getClass().getResourceAsStream(TEST_MODEL), null);
         assertEquals(2, types.size());
     }
 
     public void testDuplicateDefineWithLocation() throws IOException {
-        List<Type> types = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
+        List types = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
         assertEquals(2, types.size());
 
-        List<Type> types2 = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
+        List types2 = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
         assertEquals(types, types2);
     }
 

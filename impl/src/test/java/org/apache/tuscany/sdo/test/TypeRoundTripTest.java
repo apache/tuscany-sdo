@@ -126,7 +126,7 @@ public class TypeRoundTripTest extends TestCase {
         tests[n].value
       );
       
-      System.out.print(".");
+      //System.out.print(".");
       
       if (tests[n].comp == null) {
         assertEquals(

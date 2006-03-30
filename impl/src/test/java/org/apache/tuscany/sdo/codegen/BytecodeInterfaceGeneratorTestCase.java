@@ -32,7 +32,7 @@ public class BytecodeInterfaceGeneratorTestCase extends TestCase {
     public void testHeaderNoBaseClass() {
         gen.visitType(foo);
         gen.visitEnd();
-        Class<?> c = cl.addClass(gen.getClassData());
+        Class c = cl.addClass(gen.getClassData());
         assertEquals("Foo", c.getName());
         assertTrue(c.isInterface());
         assertEquals(0, c.getInterfaces().length);
@@ -42,7 +42,7 @@ public class BytecodeInterfaceGeneratorTestCase extends TestCase {
     public void testHeaderWithPackage() {
         gen.visitType(new MockType("org.apache.Foo", null));
         gen.visitEnd();
-        Class<?> c = cl.addClass(gen.getClassData());
+        Class c = cl.addClass(gen.getClassData());
         assertEquals("org.apache.Foo", c.getName());
         assertEquals(0, c.getInterfaces().length);
         assertEquals(0, c.getMethods().length);
@@ -52,7 +52,7 @@ public class BytecodeInterfaceGeneratorTestCase extends TestCase {
         foo.addBaseType(new MockType("bar1", Bar1.class));
         gen.visitType(foo);
         gen.visitEnd();
-        Class<?> c = cl.addClass(gen.getClassData());
+        Class c = cl.addClass(gen.getClassData());
         assertEquals("Foo", c.getName());
         assertEquals(1, c.getInterfaces().length);
         assertEquals(Bar1.class, c.getInterfaces()[0]);
@@ -64,7 +64,7 @@ public class BytecodeInterfaceGeneratorTestCase extends TestCase {
         foo.addBaseType(new MockType("bar2", Bar2.class));
         gen.visitType(foo);
         gen.visitEnd();
-        Class<?> c = cl.addClass(gen.getClassData());
+        Class c = cl.addClass(gen.getClassData());
         assertEquals("Foo", c.getName());
         assertEquals(2, c.getInterfaces().length);
         assertEquals(Bar1.class, c.getInterfaces()[0]);
@@ -76,11 +76,11 @@ public class BytecodeInterfaceGeneratorTestCase extends TestCase {
         gen.visitType(foo);
         gen.visitProperty(new MockProperty("true", Boolean.TYPE, false, false));
         gen.visitEnd();
-        Class<?> c = cl.addClass(gen.getClassData());
+        Class c = cl.addClass(gen.getClassData());
         assertEquals(2, c.getMethods().length);
-        Method getter = c.getMethod("isTrue");
+        Method getter = c.getMethod("isTrue", new Class[0]);
         assertEquals(boolean.class, getter.getReturnType());
-        Method setter = c.getMethod("setTrue", boolean.class);
+        Method setter = c.getMethod("setTrue", new Class[] {boolean.class});
         assertEquals(void.class, setter.getReturnType());
     }
 
@@ -88,11 +88,11 @@ public class BytecodeInterfaceGeneratorTestCase extends TestCase {
         gen.visitType(foo);
         gen.visitProperty(new MockProperty("bytes", byte[].class, false, false));
         gen.visitEnd();
-        Class<?> c = cl.addClass(gen.getClassData());
+        Class c = cl.addClass(gen.getClassData());
         assertEquals(2, c.getMethods().length);
-        Method getter = c.getMethod("getBytes");
+        Method getter = c.getMethod("getBytes", new Class[0]);
         assertEquals(byte[].class, getter.getReturnType());
-        Method setter = c.getMethod("setBytes", byte[].class);
+        Method setter = c.getMethod("setBytes", new Class[] {byte[].class});
         assertEquals(void.class, setter.getReturnType());
     }
 
@@ -100,11 +100,11 @@ public class BytecodeInterfaceGeneratorTestCase extends TestCase {
         gen.visitType(foo);
         gen.visitProperty(new MockProperty("bar", Bar1.class, false, false));
         gen.visitEnd();
-        Class<?> c = cl.addClass(gen.getClassData());
+        Class c = cl.addClass(gen.getClassData());
         assertEquals(2, c.getMethods().length);
-        Method getter = c.getMethod("getBar");
+        Method getter = c.getMethod("getBar", new Class[0]);
         assertEquals(Bar1.class, getter.getReturnType());
-        Method setter = c.getMethod("setBar", Bar1.class);
+        Method setter = c.getMethod("setBar", new Class[] {Bar1.class});
         assertEquals(void.class, setter.getReturnType());
     }
 
@@ -112,9 +112,9 @@ public class BytecodeInterfaceGeneratorTestCase extends TestCase {
         gen.visitType(foo);
         gen.visitProperty(new MockProperty("int", Integer.TYPE, false, true));
         gen.visitEnd();
-        Class<?> c = cl.addClass(gen.getClassData());
+        Class c = cl.addClass(gen.getClassData());
         assertEquals(1, c.getMethods().length);
-        Method getter = c.getMethod("getInt");
+        Method getter = c.getMethod("getInt", new Class[0]);
         assertEquals(int.class, getter.getReturnType());
     }
 
@@ -122,9 +122,9 @@ public class BytecodeInterfaceGeneratorTestCase extends TestCase {
         gen.visitType(foo);
         gen.visitProperty(new MockProperty("list", Integer.TYPE, true, false));
         gen.visitEnd();
-        Class<?> c = cl.addClass(gen.getClassData());
+        Class c = cl.addClass(gen.getClassData());
         assertEquals(1, c.getMethods().length);
-        Method getter = c.getMethod("getList");
+        Method getter = c.getMethod("getList", new Class[0]);
         assertEquals(List.class, getter.getReturnType());
     }
 
@@ -133,15 +133,15 @@ public class BytecodeInterfaceGeneratorTestCase extends TestCase {
         gen.visitProperty(new MockProperty("true", Boolean.TYPE, false, false));
         gen.visitProperty(new MockProperty("int", Integer.TYPE, false, false));
         gen.visitEnd();
-        Class<?> c = cl.addClass(gen.getClassData());
+        Class c = cl.addClass(gen.getClassData());
         assertEquals(4, c.getMethods().length);
-        Method getter = c.getMethod("isTrue");
+        Method getter = c.getMethod("isTrue", new Class[0]);
         assertEquals(boolean.class, getter.getReturnType());
-        Method setter = c.getMethod("setTrue", boolean.class);
+        Method setter = c.getMethod("setTrue", new Class[] {boolean.class});
         assertEquals(void.class, setter.getReturnType());
-        getter = c.getMethod("getInt");
+        getter = c.getMethod("getInt", new Class[0]);
         assertEquals(int.class, getter.getReturnType());
-        setter = c.getMethod("setInt", int.class);
+        setter = c.getMethod("setInt", new Class[] {int.class});
         assertEquals(void.class, setter.getReturnType());
     }
 
@@ -157,7 +157,7 @@ public class BytecodeInterfaceGeneratorTestCase extends TestCase {
             super(TestClassLoader.class.getClassLoader());
         }
 
-        Class<?> addClass(byte[] bytes) {
+        Class addClass(byte[] bytes) {
             return defineClass(null, bytes, 0, bytes.length);
         }
     }
