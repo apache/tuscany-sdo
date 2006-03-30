@@ -38,7 +38,7 @@ public interface XMLStreamHelper {
      * @throws XMLStreamException    if there was a problem reading the stream
      * @throws IllegalStateException if the reader is not positioned on a START_DOCUMENT event
      */
-    public XMLDocument load(XMLStreamReader reader) throws XMLStreamException, IllegalStateException;
+    XMLDocument load(XMLStreamReader reader) throws XMLStreamException, IllegalStateException;
 
     /**
      * Save a XMLDocument to an XML stream.
@@ -47,7 +47,16 @@ public interface XMLStreamHelper {
      * @param writer   the stream to write to
      * @throws XMLStreamException if there was a problem writing to the stream
      */
-    public void save(XMLDocument document, XMLStreamWriter writer) throws XMLStreamException;
+    void save(XMLDocument document, XMLStreamWriter writer) throws XMLStreamException;
+
+    /**
+     * Creates and returns a XMLStreamReader that can be used to read an XMLDocument as a XML event stream.
+     * The reader will be positioned on a START_DOCUMENT event.
+     *
+     * @param document the XMLDocument to be read
+     * @return an XMLStreamReader that can be used to read the document
+     */
+    XMLStreamReader createXMLStreamReader(XMLDocument document) throws XMLStreamException;
 
     /**
      * Create a DataObject from an element in a XML stream.
@@ -58,7 +67,7 @@ public interface XMLStreamHelper {
      * @throws XMLStreamException    if there was a problem reading the stream
      * @throws IllegalStateException if the reader is not positioned on a START_ELEMENT event
      */
-    public DataObject loadObject(XMLStreamReader reader) throws XMLStreamException, IllegalStateException;
+    DataObject loadObject(XMLStreamReader reader) throws XMLStreamException, IllegalStateException;
 
     /**
      * Save a DataObject to an XML stream.
@@ -67,5 +76,14 @@ public interface XMLStreamHelper {
      * @param writer the stream to write to
      * @throws XMLStreamException if there was a problem writing to the stream
      */
-    public void saveObject(DataObject sdo, XMLStreamWriter writer) throws XMLStreamException;
+    void saveObject(DataObject sdo, XMLStreamWriter writer) throws XMLStreamException;
+
+    /**
+     * Creates and returns a XMLStreamReader that can be used to read a DataObject as a XML event stream.
+     * The reader will be positioned on a START_ELEMENT event.
+     *
+     * @param sdo the DataObject to be read
+     * @return an XMLStreamReader that can be used to read the DataObject
+     */
+    XMLStreamReader createXMLStreamReader(DataObject sdo);
 }

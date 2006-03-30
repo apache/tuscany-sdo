@@ -37,11 +37,19 @@ public class XMLStreamHelperImpl implements XMLStreamHelper {
         throw new UnsupportedOperationException();
     }
 
+    public XMLStreamReader createXMLStreamReader(XMLDocument document) throws XMLStreamException {
+        throw new UnsupportedOperationException();
+    }
+
     public DataObject loadObject(XMLStreamReader reader) throws XMLStreamException, IllegalStateException {
         throw new UnsupportedOperationException();
     }
 
     public void saveObject(DataObject sdo, XMLStreamWriter writer) throws XMLStreamException {
+        throw new UnsupportedOperationException();
+    }
+
+    public XMLStreamReader createXMLStreamReader(DataObject sdo) {
         throw new UnsupportedOperationException();
     }
 }
