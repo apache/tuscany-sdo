@@ -45,6 +45,14 @@
         </dependency>
 
         <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+            <version>1.0</version>
+            <!-- mark as provided to avoid adding this to the classpath for users that are not using StAX --> 
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
             <groupId>asm</groupId>
             <artifactId>asm</artifactId>
             <version>2.2</version>
