@@ -52,7 +52,11 @@ public class DataFactoryImpl implements DataFactory
   
   public DataObject create(Type type)
   {
-    EClass eClass = (EClass)type;
-    return (DataObject)EcoreUtil.create(eClass);
+    if (type instanceof EClass)
+    {
+      EClass eClass = (EClass)type;
+      return (DataObject)EcoreUtil.create(eClass);
+    }
+    throw new IllegalArgumentException();
   }
 }
