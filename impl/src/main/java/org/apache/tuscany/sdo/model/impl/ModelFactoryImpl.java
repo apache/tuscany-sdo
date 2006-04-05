@@ -1040,5 +1040,42 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
   {
     return ModelPackageImpl.eINSTANCE;
   }
+  
+  // Following methods are temporary ... for interop with new factory codegen pattern
+  //
+  public static final String NAMESPACE_URI = ModelPackageImpl.eNS_URI;
+  public commonj.sdo.Type getBoolean() { return (commonj.sdo.Type)getModelPackageImpl().getBoolean(); }
+  public commonj.sdo.Type getBooleanObject() { return (commonj.sdo.Type)getModelPackageImpl().getBooleanObject(); }
+  public commonj.sdo.Type getByte() { return (commonj.sdo.Type)getModelPackageImpl().getByte(); }
+  public commonj.sdo.Type getByteObject() { return (commonj.sdo.Type)getModelPackageImpl().getByteObject(); }
+  public commonj.sdo.Type getBytes() { return (commonj.sdo.Type)getModelPackageImpl().getBytes(); }
+  public commonj.sdo.Type getCharacter() { return (commonj.sdo.Type)getModelPackageImpl().getCharacter(); }
+  public commonj.sdo.Type getCharacterObject() { return (commonj.sdo.Type)getModelPackageImpl().getCharacterObject(); }
+  public commonj.sdo.Type getDate() { return (commonj.sdo.Type)getModelPackageImpl().getDate(); }
+  public commonj.sdo.Type getDateTime() { return (commonj.sdo.Type)getModelPackageImpl().getDateTime(); }
+  public commonj.sdo.Type getDay() { return (commonj.sdo.Type)getModelPackageImpl().getDay(); }
+  public commonj.sdo.Type getDecimal() { return (commonj.sdo.Type)getModelPackageImpl().getDecimal(); }
+  public commonj.sdo.Type getDouble() { return (commonj.sdo.Type)getModelPackageImpl().getDouble(); }
+  public commonj.sdo.Type getDoubleObject() { return (commonj.sdo.Type)getModelPackageImpl().getDoubleObject(); }
+  public commonj.sdo.Type getDuration() { return (commonj.sdo.Type)getModelPackageImpl().getDuration(); }
+  public commonj.sdo.Type getFloat() { return (commonj.sdo.Type)getModelPackageImpl().getFloat(); }
+  public commonj.sdo.Type getFloatObject() { return (commonj.sdo.Type)getModelPackageImpl().getFloatObject(); }
+  public commonj.sdo.Type getInt() { return (commonj.sdo.Type)getModelPackageImpl().getInt(); }
+  public commonj.sdo.Type getInteger() { return (commonj.sdo.Type)getModelPackageImpl().getInteger(); }
+  public commonj.sdo.Type getIntObject() { return (commonj.sdo.Type)getModelPackageImpl().getIntObject(); }
+  public commonj.sdo.Type getLong() { return (commonj.sdo.Type)getModelPackageImpl().getLong(); }
+  public commonj.sdo.Type getLongObject() { return (commonj.sdo.Type)getModelPackageImpl().getLongObject(); }
+  public commonj.sdo.Type getMonth() { return (commonj.sdo.Type)getModelPackageImpl().getMonth(); }
+  public commonj.sdo.Type getMonthDay() { return (commonj.sdo.Type)getModelPackageImpl().getMonthDay(); }
+  public commonj.sdo.Type getObject() { return (commonj.sdo.Type)getModelPackageImpl().getObject(); }
+  public commonj.sdo.Type getShort() { return (commonj.sdo.Type)getModelPackageImpl().getShort(); }
+  public commonj.sdo.Type getShortObject() { return (commonj.sdo.Type)getModelPackageImpl().getShortObject(); }
+  public commonj.sdo.Type getString() { return (commonj.sdo.Type)getModelPackageImpl().getString(); }
+  public commonj.sdo.Type getStrings() { return (commonj.sdo.Type)getModelPackageImpl().getStrings(); }
+  public commonj.sdo.Type getTime() { return (commonj.sdo.Type)getModelPackageImpl().getTime(); }
+  public commonj.sdo.Type getURI() { return (commonj.sdo.Type)getModelPackageImpl().getURI(); }
+  public commonj.sdo.Type getYear() { return (commonj.sdo.Type)getModelPackageImpl().getYear(); }
+  public commonj.sdo.Type getYearMonth() { return (commonj.sdo.Type)getModelPackageImpl().getYearMonth(); }
+  public commonj.sdo.Type getYearMonthDay() { return (commonj.sdo.Type)getModelPackageImpl().getYearMonthDay(); }
 
 } //ModelFactoryImpl

@@ -264,9 +264,17 @@ public final class SDOUtil
         Field field = javaClass.getField("eINSTANCE");
         field.get(null); 
       }
-      catch (Exception e)
+      catch (Exception e2)
       {
-        e.printStackTrace();
+        try
+        {
+          Field field = factoryClass.getField("INSTANCE");
+          field.get(null); 
+        }
+        catch (Exception e3)
+        {
+          e3.printStackTrace();
+        }
       }
     }
   }
