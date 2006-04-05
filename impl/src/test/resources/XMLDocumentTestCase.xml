@@ -1,0 +1,14 @@
+<sl:purchaseReport
+  xmlns:sl="http://www.example.com/xmlDocumentSchemaLocation"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.example.com/xmlDocumentSchemaLocation
+  /XMLDocumentSchemaLocation.xsd
+  http://www.example.com/open 
+  /open.xsd"
+  xsi:noNamespaceSchemaLocation="/XMLDocumentNoNamespaceSchemaLocation.xsd"
+  periodEnding="2007-12-31">
+  <sl:schemaLocationElement>some string</sl:schemaLocationElement>
+  <aNoNamespaceSchemaLocationElement date="2006-04-01">
+    <anElement>another string</anElement>
+  </aNoNamespaceSchemaLocationElement>
+</sl:purchaseReport>

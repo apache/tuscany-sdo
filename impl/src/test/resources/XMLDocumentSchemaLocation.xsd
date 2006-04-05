@@ -1,0 +1,16 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://www.example.com/xmlDocumentSchemaLocation"
+  xmlns:sl="http://www.example.com/xmlDocumentSchemaLocation">
+
+ <xsd:element name="schemaLocationElement" type="xsd:string" />
+
+ <xsd:element name="purchaseReport">
+  <xsd:complexType>
+   <xsd:sequence>
+    <xsd:any minOccurs="1" maxOccurs="unbounded"/>
+   </xsd:sequence>
+   <xsd:attribute name="periodEnding" type="xsd:date"/>
+  </xsd:complexType>
+ </xsd:element>
+
+</xsd:schema>

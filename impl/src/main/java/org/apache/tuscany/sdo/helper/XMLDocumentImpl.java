@@ -23,11 +23,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -90,6 +92,8 @@ public class XMLDocumentImpl implements XMLDocument
   protected EStructuralFeature rootElement;
 
   protected EObject documentRoot;
+  
+  protected final static String WHITESPACE_REGEX = "\\s";
   
   protected static XMLParserPool globalXMLParserPool = new XMLParserPoolImpl();
   
@@ -327,23 +331,192 @@ public class XMLDocumentImpl implements XMLDocument
     resource.setXMLVersion(xmlVersion);
   }
 
+  /**
+   * @return an EMap containing the schema locations or null when no map
+   */
+  protected EMap getSchemaLocationMap()
+  {
+    EMap result = null;
+    if ((documentRoot != null) && (extendedMetaData != null))
+    {
+      EReference xsiSchemaLocationMapFeature = extendedMetaData
+          .getXSISchemaLocationMapFeature(documentRoot.eClass());
+      if (xsiSchemaLocationMapFeature != null)
+      {
+        result = (EMap) documentRoot.eGet(xsiSchemaLocationMapFeature);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * @param value
+   *          from schema location map.
+   * @return string form of URI from provided value, deresolved if appropriate.
+   */
+  protected String deresolve(String value)
+  {
+    URI location = URI.createURI(value);
+    URI resourceURI = resource.getURI();
+    boolean shouldDeresolve = resourceURI != null && !resourceURI.isRelative()
+        && resourceURI.isHierarchical();
+    if (shouldDeresolve && !location.isRelative())
+    {
+      URI deresolvedURI = location.deresolve(resourceURI, true, true, false);
+      if (deresolvedURI.hasRelativePath())
+      {
+        location = deresolvedURI;
+      }
+    }
+    return location.toString();
+  }
+
+  /**
+   * @param value
+   *          for schema location from input parameter.
+   * @return string form of URI from provided value, resolved if appropriate.
+   */
+  protected String resolve(String value)
+  {
+    URI location = URI.createURI(value);
+    URI resourceURI = resource.getURI();
+    boolean shouldResolve = resourceURI != null && resourceURI.isHierarchical()
+        && !resourceURI.isRelative();
+    if (shouldResolve && location.isRelative() && location.hasRelativePath())
+    {
+      location = location.resolve(resourceURI, false);
+    }
+    return location.toString();
+  }
+
   public String getSchemaLocation()
   {
-    throw new UnsupportedOperationException(); //TODO
+    EMap xsiSchemaLocationMap = getSchemaLocationMap();
+    if (xsiSchemaLocationMap != null)
+    {
+      if (!xsiSchemaLocationMap.isEmpty())
+      {
+        StringBuffer xsiSchemaLocation = new StringBuffer();
+        for (Iterator i = xsiSchemaLocationMap.entrySet().iterator(); i
+            .hasNext();)
+        {
+          Map.Entry entry = (Map.Entry) i.next();
+          String namespace = (String) entry.getKey();
+          if (namespace != null)
+          {
+            if (xsiSchemaLocation.length() > 0)
+            {
+              xsiSchemaLocation.append(' ');
+            }
+            xsiSchemaLocation.append(namespace);
+            xsiSchemaLocation.append(' ');
+            String value = entry.getValue().toString();
+            xsiSchemaLocation.append(deresolve(value));
+          }
+        }
+        return xsiSchemaLocation.toString().equals("") ? null
+            : xsiSchemaLocation.toString();
+      }
+    }
+    return null;
   }
 
   public void setSchemaLocation(String schemaLocation)
   {
-    throw new UnsupportedOperationException(); //TODO
+    EMap xsiSchemaLocationMap = getSchemaLocationMap();
+    if (xsiSchemaLocationMap != null)
+    {
+      // only remove the entries from xsiSchemaLocationMap that contain a
+      // non-null key
+      for (Iterator i = xsiSchemaLocationMap.entrySet().iterator(); i.hasNext();)
+      {
+        Map.Entry entry = (Map.Entry) i.next();
+        if (entry.getKey() != null)
+        {
+          i.remove();
+        }
+      }
+      if (xsiSchemaLocationMap.size() == 0)
+      {
+        resource.getDefaultSaveOptions().put(
+            XMLResource.OPTION_SCHEMA_LOCATION, Boolean.FALSE);
+      }
+      if (schemaLocation != null)
+      {
+        String[] values = schemaLocation.split(WHITESPACE_REGEX);
+        for (int i = 0; i < values.length; i++) // note: also incremented in
+        // loop
+        {
+          String key = values[i++];
+          if (i < values.length)
+          {
+            xsiSchemaLocationMap.put(key, resolve(values[i]));
+          }
+        }
+        if (xsiSchemaLocationMap.size() != 0)
+        {
+          resource.getDefaultSaveOptions().put(
+              XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+        }
+      }
+    }
   }
 
   public String getNoNamespaceSchemaLocation()
   {
-    throw new UnsupportedOperationException(); //TODO
+    EMap xsiSchemaLocationMap = getSchemaLocationMap();
+    if (xsiSchemaLocationMap != null)
+    {
+      StringBuffer xsiSchemaLocation = new StringBuffer();
+      if (!xsiSchemaLocationMap.isEmpty())
+      {
+        Object valueObject = xsiSchemaLocationMap.get(null);
+        if (valueObject != null)
+        {
+          String valueString = (String) valueObject;
+          String[] values = valueString.split(WHITESPACE_REGEX);
+          for (int i = 0; i < values.length; i++)
+          {
+            if (xsiSchemaLocation.length() > 0)
+            {
+              xsiSchemaLocation.append(' ');
+            }
+            xsiSchemaLocation.append(deresolve(values[i]));
+          }
+        }
+        String result = xsiSchemaLocation.toString();
+        return result.equals("") ? null : result;
+      }
+    }
+    return null;
   }
 
   public void setNoNamespaceSchemaLocation(String schemaLocation)
   {
-    throw new UnsupportedOperationException(); //TODO
+    EMap xsiSchemaLocationMap = getSchemaLocationMap();
+    if (xsiSchemaLocationMap != null)
+    {
+      // only remove the entries from xsiSchemaLocationMap that contain a null
+      // key
+      xsiSchemaLocationMap.removeKey(null);
+      if (xsiSchemaLocationMap.size() == 0)
+      {
+        resource.getDefaultSaveOptions().put(
+            XMLResource.OPTION_SCHEMA_LOCATION, Boolean.FALSE);
+      }
+      if (schemaLocation != null)
+      {
+        String[] values = schemaLocation.split(WHITESPACE_REGEX);
+        for (int i = 0; i < values.length; i++)
+        {
+          xsiSchemaLocationMap.put(null, resolve(values[i]));
+        }
+        if (xsiSchemaLocationMap.size() != 0)
+        {
+          resource.getDefaultSaveOptions().put(
+              XMLResource.OPTION_SCHEMA_LOCATION, Boolean.TRUE);
+        }
+      }
+    }
   }
 }
