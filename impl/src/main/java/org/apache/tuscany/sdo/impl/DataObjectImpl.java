@@ -17,24 +17,18 @@
 package org.apache.tuscany.sdo.impl;
 
 
-import java.io.InvalidObjectException;
 import java.io.ObjectStreamException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-//import org.apache.sdo.util.SDOUtil;
 
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.impl.ChangeSummaryImpl.SDOChangeRecorder;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
-import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -42,13 +36,9 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.EStructuralFeature.Internal.DynamicValueHolder;
 import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EContentsEList;
 import org.eclipse.emf.ecore.util.ECrossReferenceEList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.util.FeatureMapUtil;
 
 import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataGraph;
@@ -88,108 +78,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
   {
     super();
   }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  protected EClass eStaticClass()
-  {
-    return SDOPackage.eINSTANCE.getDataObject();
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
-  public Object writeReplace() throws ObjectStreamException
-  {
-    //TODO implement this method properly
-    DataGraph dataGraph = getDataGraph();
-    if (dataGraph != null)
-    {
-      return ((DataGraphImpl)dataGraph).getWriteReplacement(this);
-    }
-    else
-    {
-      throw new InvalidObjectException("The object must be in a datagraph to be serialized " + this);
-    }
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
-  public Object get(String path)
-  {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      return get(property);
-    }
-    else
-    {
-      return DataObjectUtil.Accessor.create(this, path).getAndRecyle();
-    }
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
-  public void set(String path, Object value)
-  {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, value);
-    }
-    else
-    {
-      DataObjectUtil.Accessor.create(this, path).setAndRecyle(value);
-    }
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
-  public boolean isSet(String path)
-  {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      return isSet(property);
-    }
-    else
-    {
-      return DataObjectUtil.Accessor.create(this, path).isSetAndRecyle();
-    }
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
-  public void unset(String path)
-  {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      unset(property);
-    }
-    else
-    {
-      DataObjectUtil.Accessor.create(this, path).unsetAndRecyle();
-    }
-  }
-
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -249,7 +138,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
   {
     eSet((EStructuralFeature)property, value);
   }
-
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -295,18 +184,22 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public DataGraph getDataGraph()
+  public Type getType()
   {
-    Resource resource = eResource();
-    if (resource != null)
-    {
-      ResourceSet resourceSet = resource.getResourceSet();
-      if (resourceSet != null)
-      {
-        return (DataGraphImpl)EcoreUtil.getAdapter(resourceSet.eAdapters(), DataGraph.class);
-      }
-    }
-    return null;
+    return (Type)eClass();
+  }
+
+  
+  // Remaining DataObject methods are (will be) implemented as straight delegation to DataObjectUtil
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object writeReplace() throws ObjectStreamException
+  {
+    return DataObjectUtil.writeReplace(this);
   }
 
   /**
@@ -314,9 +207,49 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Type getType()
+  public Object get(String path)
   {
-    return (Type)eClass();
+    return DataObjectUtil.get(this, path);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void set(String path, Object value)
+  {
+    DataObjectUtil.set(this, path, value);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public boolean isSet(String path)
+  {
+    return DataObjectUtil.isSet(this, path);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public void unset(String path)
+  {
+    DataObjectUtil.unset(this, path);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public DataGraph getDataGraph()
+  {
+    return DataObjectUtil.getDataGraph(this);
   }
 
   /**
@@ -486,16 +419,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setBigDecimal(String path, BigDecimal value)
   {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, DataObjectUtil.getSetValue(property, value));
-    }
-    else
-    {
-      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create(this, path);
-      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
-    }
+    DataObjectUtil.setBigDecimal(this, path, value);
   }
 
   /**
@@ -505,16 +429,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setBigInteger(String path, BigInteger value)
   {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, DataObjectUtil.getSetValue(property, value));
-    }
-    else
-    {
-      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create(this, path);
-      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
-    }
+    DataObjectUtil.setBigInteger(this, path, value);
   }
 
   /**
@@ -524,16 +439,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setBoolean(String path, boolean value)
   {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, DataObjectUtil.getSetValue(property, value));
-    }
-    else
-    {
-      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create(this, path);
-      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
-    }
+    DataObjectUtil.setBoolean(this, path, value);
   }
 
   /**
@@ -543,16 +449,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setByte(String path, byte value)
   {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, DataObjectUtil.getSetValue(property, value));
-    }
-    else
-    {
-      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create(this, path);
-      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
-    }
+    DataObjectUtil.setByte(this, path, value);
   }
 
   /**
@@ -562,16 +459,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setBytes(String path, byte[] value)
   {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, DataObjectUtil.getSetValue(property, value));
-    }
-    else
-    {
-      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create(this, path);
-      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
-    }
+    DataObjectUtil.setBytes(this, path, value);
   }
 
   /**
@@ -581,16 +469,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setChar(String path, char value)
   {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, DataObjectUtil.getSetValue(property, value));
-    }
-    else
-    {
-      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create(this, path);
-      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
-    }
+    DataObjectUtil.setChar(this, path, value);
   }
 
   /**
@@ -600,7 +479,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setDataObject(String path, DataObject value)
   {
-    set(path, value);
+    DataObjectUtil.set(this, path, value);
   }
 
   /**
@@ -610,16 +489,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setDate(String path, Date value)
   {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, DataObjectUtil.getSetValue(property, value));
-    }
-    else
-    {
-      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create(this, path);
-      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
-    }
+    DataObjectUtil.setDate(this,path,value);
   }
 
   /**
@@ -629,16 +499,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setDouble(String path, double value)
   {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, DataObjectUtil.getSetValue(property, value));
-    }
-    else
-    {
-      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create(this, path);
-      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
-    }
+    DataObjectUtil.setDouble(this, path, value);
   }
 
   /**
@@ -648,16 +509,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setFloat(String path, float value)
   {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, DataObjectUtil.getSetValue(property, value));
-    }
-    else
-    {
-      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create(this, path);
-      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
-    }
+    DataObjectUtil.setFloat(this, path, value);
   }
 
   /**
@@ -667,16 +519,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setInt(String path, int value)
   {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, DataObjectUtil.getSetValue(property, value));
-    }
-    else
-    {
-      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create(this, path);
-      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
-    }
+    DataObjectUtil.setInt(this, path, value);
   }
 
   /**
@@ -686,7 +529,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setList(String path, List value)
   {
-    set(path, value);
+    DataObjectUtil.set(this, path, value);
   }
 
   /**
@@ -696,16 +539,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setLong(String path, long value)
   {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, DataObjectUtil.getSetValue(property, value));
-    }
-    else
-    {
-      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create(this, path);
-      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
-    }
+    DataObjectUtil.setLong(this, path, value);
   }
 
   /**
@@ -715,16 +549,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setShort(String path, short value)
   {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, DataObjectUtil.getSetValue(property, value));
-    }
-    else
-    {
-      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create(this, path);
-      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
-    }
+    DataObjectUtil.setShort(this, path, value);
   }
 
   /**
@@ -734,17 +559,8 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setString(String path, String value)
   {
-    Property property = getType().getProperty(path);
-    if (property != null)
-    {
-      set(property, DataObjectUtil.getSetValue(property, value));
-    }
-    else
-    {
-      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create(this, path);
-      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
-    }
-  }
+    DataObjectUtil.setString(this, path, value);
+  } 
 
   /**
    * <!-- begin-user-doc -->
@@ -753,7 +569,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public BigDecimal getBigDecimal(int propertyIndex)
   {
-    return DataObjectUtil.getBigDecimal(get(propertyIndex));
+    return DataObjectUtil.getBigDecimal(this, propertyIndex);
   }
 
   /**
@@ -763,7 +579,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public BigInteger getBigInteger(int propertyIndex)
   {
-    return DataObjectUtil.getBigInteger(get(propertyIndex));
+    return DataObjectUtil.getBigInteger(this,propertyIndex);
   }
 
   /**
@@ -773,7 +589,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public boolean getBoolean(int propertyIndex)
   {
-    return DataObjectUtil.getBoolean(get(propertyIndex));
+    return DataObjectUtil.getBoolean(this, propertyIndex);
   }
 
   /**
@@ -783,7 +599,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public byte getByte(int propertyIndex)
   {
-    return DataObjectUtil.getByte(get(propertyIndex));
+    return DataObjectUtil.getByte(this, propertyIndex);
   }
 
   /**
@@ -793,7 +609,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public byte[] getBytes(int propertyIndex)
   {
-    return DataObjectUtil.getBytes(get(propertyIndex));
+    return DataObjectUtil.getBytes(this, propertyIndex);
   }
 
   /**
@@ -803,7 +619,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public char getChar(int propertyIndex)
   {
-    return DataObjectUtil.getChar(get(propertyIndex));
+    return DataObjectUtil.getChar(this, propertyIndex);
   }
 
   /**
@@ -813,7 +629,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public DataObject getDataObject(int propertyIndex)
   {
-    return (DataObject)get(propertyIndex);
+    return DataObjectUtil.getDataObject(this, propertyIndex);
   }
 
   /**
@@ -823,7 +639,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public Date getDate(int propertyIndex)
   {
-    return DataObjectUtil.getDate(get(propertyIndex));
+    return DataObjectUtil.getDate(this,propertyIndex);
   }
 
   /**
@@ -833,7 +649,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public double getDouble(int propertyIndex)
   {
-    return DataObjectUtil.getDouble(get(propertyIndex));
+    return DataObjectUtil.getDouble(this, propertyIndex);
   }
 
   /**
@@ -843,7 +659,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public float getFloat(int propertyIndex)
   {
-    return DataObjectUtil.getFloat(get(propertyIndex));
+    return DataObjectUtil.getFloat(this,propertyIndex);
   }
 
   /**
@@ -853,7 +669,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public int getInt(int propertyIndex)
   {
-    return DataObjectUtil.getInt(get(propertyIndex));
+    return DataObjectUtil.getInt(this,propertyIndex);
   }
 
   /**
@@ -863,7 +679,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public List getList(int propertyIndex)
   {
-    return (List)get(propertyIndex);
+    return DataObjectUtil.getList(this, propertyIndex);
   }
 
   /**
@@ -873,7 +689,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public long getLong(int propertyIndex)
   {
-    return DataObjectUtil.getLong(get(propertyIndex));
+    return DataObjectUtil.getLong(this,propertyIndex);
   }
 
   /**
@@ -883,7 +699,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public Sequence getSequence(int propertyIndex)
   {
-    return (Sequence)get(propertyIndex);
+    return DataObjectUtil.getSequence(this, propertyIndex);
   }
 
   /**
@@ -893,7 +709,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public short getShort(int propertyIndex)
   {
-    return DataObjectUtil.getShort(get(propertyIndex));
+    return DataObjectUtil.getShort(this,propertyIndex);
   }
 
   /**
@@ -903,7 +719,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public String getString(int propertyIndex)
   {
-    return DataObjectUtil.getString(get(propertyIndex));
+    return DataObjectUtil.getString(this,propertyIndex);
   }
   
   /**
@@ -913,7 +729,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setBigDecimal(int propertyIndex, BigDecimal value)
   {
-    set(propertyIndex, DataObjectUtil.getSetValue((Property)eClass().getEStructuralFeature(propertyIndex), value));
+    DataObjectUtil.setBigDecimal(this, propertyIndex, value);
   }
 
   /**
@@ -923,7 +739,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setBigInteger(int propertyIndex, BigInteger value)
   {
-    set(propertyIndex, DataObjectUtil.getSetValue((Property)eClass().getEStructuralFeature(propertyIndex), value));
+    DataObjectUtil.setBigInteger(this, propertyIndex, value);
   }
 
   /**
@@ -933,7 +749,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setBoolean(int propertyIndex, boolean value)
   {
-    set(propertyIndex, DataObjectUtil.getSetValue((Property)eClass().getEStructuralFeature(propertyIndex), value));
+    DataObjectUtil.setBoolean(this, propertyIndex, value);
   }
 
   /**
@@ -943,7 +759,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setByte(int propertyIndex, byte value)
   {
-    set(propertyIndex, DataObjectUtil.getSetValue((Property)eClass().getEStructuralFeature(propertyIndex), value));
+    DataObjectUtil.setByte(this, propertyIndex, value);
   }
 
   /**
@@ -953,7 +769,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setBytes(int propertyIndex, byte[] value)
   {
-    set(propertyIndex, DataObjectUtil.getSetValue((Property)eClass().getEStructuralFeature(propertyIndex), value));
+    DataObjectUtil.setBytes(this, propertyIndex, value);
   }
 
   /**
@@ -963,7 +779,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setChar(int propertyIndex, char value)
   {
-    set(propertyIndex, DataObjectUtil.getSetValue((Property)eClass().getEStructuralFeature(propertyIndex), value));
+    DataObjectUtil.setChar(this, propertyIndex, value);
   }
 
   /**
@@ -973,7 +789,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setDataObject(int propertyIndex, DataObject value)
   {
-    set(propertyIndex, value);
+    DataObjectUtil.setDataObject(this, propertyIndex, value);
   }
 
   /**
@@ -983,7 +799,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setDate(int propertyIndex, Date value)
   {
-    set(propertyIndex, DataObjectUtil.getSetValue((Property)eClass().getEStructuralFeature(propertyIndex), value));
+    DataObjectUtil.setDate(this, propertyIndex, value);
   }
 
   /**
@@ -993,7 +809,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setDouble(int propertyIndex, double value)
   {
-    set(propertyIndex, DataObjectUtil.getSetValue((Property)eClass().getEStructuralFeature(propertyIndex), value));
+    DataObjectUtil.setDouble(this, propertyIndex, value);
   }
 
   /**
@@ -1003,7 +819,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setFloat(int propertyIndex, float value)
   {
-    set(propertyIndex, DataObjectUtil.getSetValue((Property)eClass().getEStructuralFeature(propertyIndex), value));
+    DataObjectUtil.setFloat(this, propertyIndex, value);
   }
 
   /**
@@ -1013,7 +829,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setInt(int propertyIndex, int value)
   {
-    set(propertyIndex, DataObjectUtil.getSetValue((Property)eClass().getEStructuralFeature(propertyIndex), value));
+    DataObjectUtil.setInt(this, propertyIndex, value);
   }
 
   /**
@@ -1023,7 +839,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setList(int propertyIndex, List value)
   {
-    set(propertyIndex, value);
+    DataObjectUtil.setList(this, propertyIndex, value);
   }
 
   /**
@@ -1033,7 +849,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setLong(int propertyIndex, long value)
   {
-    set(propertyIndex, DataObjectUtil.getSetValue((Property)eClass().getEStructuralFeature(propertyIndex), value));
+    DataObjectUtil.setLong(this, propertyIndex, value);
   }
 
   /**
@@ -1043,7 +859,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setShort(int propertyIndex, short value)
   {
-    set(propertyIndex, DataObjectUtil.getSetValue((Property)eClass().getEStructuralFeature(propertyIndex), value));
+    DataObjectUtil.setShort(this, propertyIndex, value);
   }
 
   /**
@@ -1053,7 +869,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setString(int propertyIndex, String value)
   {
-    set(propertyIndex, DataObjectUtil.getSetValue((Property)eClass().getEStructuralFeature(propertyIndex), value));
+    DataObjectUtil.setString(this, propertyIndex, value);
   }
 
   /**
@@ -1063,7 +879,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public BigDecimal getBigDecimal(Property property)
   {
-    return DataObjectUtil.getBigDecimal(get(property));
+    return DataObjectUtil.getBigDecimal(this, property);
   }
 
   /**
@@ -1073,7 +889,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public BigInteger getBigInteger(Property property)
   {
-    return DataObjectUtil.getBigInteger(get(property));
+    return DataObjectUtil.getBigInteger(this, property);
   }
 
   /**
@@ -1083,7 +899,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public boolean getBoolean(Property property)
   {
-    return DataObjectUtil.getBoolean(get(property));
+    return DataObjectUtil.getBoolean(this, property);
   }
 
   /**
@@ -1093,7 +909,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public byte getByte(Property property)
   {
-    return DataObjectUtil.getByte(get(property));
+    return DataObjectUtil.getByte(this, property);
   }
 
   /**
@@ -1103,7 +919,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public byte[] getBytes(Property property)
   {
-    return DataObjectUtil.getBytes(get(property));
+    return DataObjectUtil.getBytes(this, property);
   }
 
   /**
@@ -1113,7 +929,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public char getChar(Property property)
   {
-    return DataObjectUtil.getChar(get(property));
+    return DataObjectUtil.getChar(this, property);
   }
 
   /**
@@ -1123,7 +939,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public DataObject getDataObject(Property property)
   {
-    return (DataObject)get(property);
+    return (DataObject)DataObjectUtil.getDataObject(this,property);
   }
 
   /**
@@ -1133,7 +949,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public Date getDate(Property property)
   {
-    return DataObjectUtil.getDate(get(property));
+    return DataObjectUtil.getDate(this, property);
   }
 
   /**
@@ -1143,7 +959,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public double getDouble(Property property)
   {
-    return DataObjectUtil.getDouble(get(property));
+    return DataObjectUtil.getDouble(this, property);
   }
 
   /**
@@ -1153,7 +969,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public float getFloat(Property property)
   {
-    return DataObjectUtil.getFloat(get(property));
+    return DataObjectUtil.getFloat(this, property);
   }
 
   /**
@@ -1163,7 +979,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public int getInt(Property property)
   {
-    return DataObjectUtil.getInt(get(property));
+    return DataObjectUtil.getInt(this, property);
   }
 
   /**
@@ -1173,7 +989,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public List getList(Property property)
   {
-    return (List)get(property);
+    return (List)DataObjectUtil.getList(this, property);
   }
 
   /**
@@ -1183,7 +999,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public long getLong(Property property)
   {
-    return DataObjectUtil.getLong(get(property));
+    return DataObjectUtil.getLong(this, property);
   }
 
   /**
@@ -1193,7 +1009,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public Sequence getSequence(Property property)
   {
-    return (Sequence)get(property);
+    return (Sequence)DataObjectUtil.getSequence(this, property);
   }
 
   /**
@@ -1203,7 +1019,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public short getShort(Property property)
   {
-    return DataObjectUtil.getShort(get(property));
+    return DataObjectUtil.getShort(this, property);
   }
 
   /**
@@ -1213,7 +1029,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public String getString(Property property)
   {
-    return DataObjectUtil.getString(get(property));
+    return DataObjectUtil.getString(this, property);
   }
 
   /**
@@ -1223,7 +1039,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setBigDecimal(Property property, BigDecimal value)
   {
-    set(property, DataObjectUtil.getSetValue(property, value));
+    DataObjectUtil.setBigDecimal(this,property, value);
   }
 
   /**
@@ -1233,7 +1049,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setBigInteger(Property property, BigInteger value)
   {
-    set(property, DataObjectUtil.getSetValue(property, value));
+    DataObjectUtil.setBigInteger(this,property, value);
   }
 
   /**
@@ -1243,7 +1059,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setBoolean(Property property, boolean value)
   {
-    set(property, DataObjectUtil.getSetValue(property, value));
+    DataObjectUtil.setBoolean(this,property, value);
   }
 
   /**
@@ -1253,7 +1069,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setByte(Property property, byte value)
   {
-    set(property, DataObjectUtil.getSetValue(property, value));
+    DataObjectUtil.setByte(this,property, value);
   }
 
   /**
@@ -1263,7 +1079,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setBytes(Property property, byte[] value)
   {
-    set(property, DataObjectUtil.getSetValue(property, value));
+    DataObjectUtil.setBytes(this,property, value);
   }
 
   /**
@@ -1273,7 +1089,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setChar(Property property, char value)
   {
-    set(property, DataObjectUtil.getSetValue(property, value));
+    DataObjectUtil.setChar(this,property, value);
   }
 
   /**
@@ -1283,7 +1099,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setDataObject(Property property, DataObject value)
   {
-    set(property, value);
+    DataObjectUtil.setDataObject(this,property, value);
   }
 
   /**
@@ -1293,7 +1109,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setDate(Property property, Date value)
   {
-    set(property, DataObjectUtil.getSetValue(property, value));
+    DataObjectUtil.setDate(this,property, value);
   }
 
   /**
@@ -1303,7 +1119,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setDouble(Property property, double value)
   {
-    set(property, DataObjectUtil.getSetValue(property, value));
+    DataObjectUtil.setDouble(this,property, value);
   }
 
   /**
@@ -1313,7 +1129,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setFloat(Property property, float value)
   {
-    set(property, DataObjectUtil.getSetValue(property, value));
+    DataObjectUtil.setFloat(this,property, value);
   }
 
   /**
@@ -1323,7 +1139,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setInt(Property property, int value)
   {
-    set(property, DataObjectUtil.getSetValue(property, value));
+    DataObjectUtil.setInt(this,property, value);
   }
 
   /**
@@ -1333,7 +1149,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setList(Property property, List value)
   {
-    set(property, value);
+    DataObjectUtil.setList(this,property, value);
   }
 
   /**
@@ -1343,7 +1159,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setLong(Property property, long value)
   {
-    set(property, DataObjectUtil.getSetValue(property, value));
+    DataObjectUtil.setLong(this,property, value);
   }
 
   /**
@@ -1353,7 +1169,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setShort(Property property, short value)
   {
-    set(property, DataObjectUtil.getSetValue(property, value));
+    DataObjectUtil.setShort(this,property, value);
   }
 
   /**
@@ -1363,7 +1179,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void setString(Property property, String value)
   {
-    set(property, DataObjectUtil.getSetValue(property, value));
+    DataObjectUtil.setString(this,property, value);
   }
 
   /**
@@ -1373,9 +1189,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public DataObject createDataObject(String propertyName)
   {
-    Property property = (Property)DataObjectUtil.getProperty(this, propertyName);
-    Type type = property.getType();
-    return createDataObject(property, type);
+    return DataObjectUtil.createDataObject(this, propertyName);
   }
 
   /**
@@ -1385,9 +1199,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public DataObject createDataObject(int propertyIndex)
   {
-    Property property = DataObjectUtil.getProperty(this, propertyIndex);
-    Type type = property.getType();
-    return createDataObject(property, type);
+    return DataObjectUtil.createDataObject(this, propertyIndex);
   }
 
   /**
@@ -1397,8 +1209,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public DataObject createDataObject(Property property)
   {
-    Type type = property.getType();
-    return createDataObject(property, type);
+    return DataObjectUtil.createDataObject(this,property);
   }
 
   /**
@@ -1408,9 +1219,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public DataObject createDataObject(String propertyName, String namespaceURI, String typeName)
   {
-    Property property = DataObjectUtil.getProperty(this, propertyName);
-    Type type = DataObjectUtil.getType(this, namespaceURI, typeName);
-    return createDataObject(property, type);
+    return DataObjectUtil.createDataObject(this, propertyName, namespaceURI, typeName);
   }
 
   /**
@@ -1420,9 +1229,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public DataObject createDataObject(int propertyIndex, String namespaceURI, String typeName)
   {
-    Property property = DataObjectUtil.getProperty(this, propertyIndex);
-    Type type = DataObjectUtil.getType(this, namespaceURI, typeName);
-    return createDataObject(property, type);
+    return DataObjectUtil.createDataObject(this, propertyIndex, namespaceURI, typeName);
   }
 
   /**
@@ -1432,21 +1239,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public DataObject createDataObject(Property property, Type type)
   {
-    if (!property.isContainment())
-    {
-      throw new IllegalArgumentException("The property '" + property.getName() + "' of '" + property.getContainingType().getName()
-        + "' isn't a containment");
-    }
-    DataObject result = DataObjectUtil.create(type);
-    if (FeatureMapUtil.isMany(this, (EStructuralFeature)property))
-    {
-      ((List)get(property)).add(result);
-    }
-    else
-    {
-      set(property, result);
-    }
-    return result;
+    return DataObjectUtil.createDataObject(this, property, type);
   }
 
   /**
@@ -1456,21 +1249,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void delete()
   {
-    EcoreUtil.remove(this);
-    List contents = new ArrayList(eContents());
-    for (int i = 0, size = contents.size(); i < size; ++i)
-    {
-      ((DataObject)contents.get(i)).delete();
-    }
-    EClass eClass = eClass();
-    for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
-    {
-      EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
-      if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived() && !((Property)eStructuralFeature).isReadOnly())
-      {
-        eUnset(eStructuralFeature);
-      }
-    }
+    DataObjectUtil.delete(this);
   }
 
   /**
@@ -1491,23 +1270,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public List getInstanceProperties()
   {
-    //TODO maybe optimize this to just return type.getProperties if type.isOpen (isOpen would need to be cached)
-    List result = new UniqueEList(eClass().getEAllStructuralFeatures());
-    for (int i = 0, count = result.size(); i < count; ++i)
-    {
-      EStructuralFeature eStructuralFeature = (EStructuralFeature)result.get(i);
-      if (!eStructuralFeature.isDerived() && FeatureMapUtil.isFeatureMap(eStructuralFeature))
-      {
-        List features = (List)eGet(eStructuralFeature);
-        for (int j = 0, size = features.size(); j < size; ++j)
-        {
-          FeatureMap.Entry entry = (FeatureMap.Entry)features.get(j);
-          EStructuralFeature entryFeature = entry.getEStructuralFeature();
-          result.add(entryFeature);
-        }
-      }
-    }
-    return result;
+    return DataObjectUtil.getInstanceProperties(this);
   }
 
   /**
@@ -1517,12 +1280,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public Property getProperty(String propertyName)
   {
-    Property property = getType().getProperty(propertyName);
-    if (property == null)
-    {
-      property = (Property)DataObjectUtil.getOpenFeature(this, propertyName);
-    }
-    return property;
+    return DataObjectUtil.getProperty(this, propertyName);
   }
 
   /**
@@ -1532,7 +1290,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public DataObject getRootObject()
   {
-    return (DataObject)EcoreUtil.getRootContainer(this);
+    return DataObjectUtil.getRootObject(this);
   }
 
   /**
@@ -1553,12 +1311,22 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void detach()
   {
-    EcoreUtil.remove(this);
+    DataObjectUtil.detach(this);
   }
   
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Following methods customize BasicEObjectImpl, optimized for SDO 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  protected EClass eStaticClass()
+  {
+    return SDOPackage.eINSTANCE.getDataObject();
+  }
 
   public boolean eNotificationRequired()
   {
@@ -1701,5 +1469,40 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
     return eOpenIsSet(DataObjectUtil.getOpenFeature(this, featureID));
   }
   
-} //EDataObjectImpl
+  /*
+  public int eDerivedStructuralFeatureID(EStructuralFeature eStructuralFeature)
+  {
+    Class containerClass = eStructuralFeature.getContainerClass();
+    return 
+      containerClass == null ? 
+        eClass().getFeatureID(eStructuralFeature) : 
+          containerClass.isInstance(this) ?
+            eDerivedStructuralFeatureID(eStructuralFeature.getFeatureID(), containerClass) : 
+              -1;
+  }
+  
+  public void eOpenSet(EStructuralFeature eFeature, Object newValue) 
+  {
+    EStructuralFeature openFeature = ExtendedMetaData.INSTANCE.getAffiliation(eClass(), eFeature);
+    if (openFeature == null)
+    {
+      openFeature = (EStructuralFeature)eClass().getEStructuralFeature("any");
+    }
+    if (openFeature != null)
+    {
+      if (!FeatureMapUtil.isFeatureMap(openFeature))
+      {
+        openFeature = ExtendedMetaData.INSTANCE.getGroup(openFeature);
+      }
+      FeatureMap featureMap = (FeatureMap)eGet(openFeature);
+      ((FeatureMap.Internal)featureMap).set(eFeature, newValue);
+    }
+    else
+    {
+      throw new IllegalArgumentException("The feature '" + eFeature.getName() + "' is not a valid changeable feature");
+    }
+  }
+  */
+
+} //DataObjectImpl
 

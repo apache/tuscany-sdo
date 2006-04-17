@@ -17,6 +17,8 @@
 package org.apache.tuscany.sdo.util;
 
 
+import java.io.InvalidObjectException;
+import java.io.ObjectStreamException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -28,16 +30,22 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
+import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.impl.SDOFactoryImpl;
+import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -55,12 +63,739 @@ import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
+import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 import commonj.sdo.helper.TypeHelper;
 
 
 public final class DataObjectUtil
 {
+  public static Object get(org.apache.tuscany.sdo.model.Type type, int propertyIndex) {
+    switch (propertyIndex)
+    {
+      case ModelPackageImpl.TYPE__BASE_TYPE:
+        return type.getBaseType();
+      case ModelPackageImpl.TYPE__PROPERTY:
+        return type.getProperty();
+      case ModelPackageImpl.TYPE__ALIAS_NAME:
+        return type.getAliasName();
+      case ModelPackageImpl.TYPE__ANY:
+        return type.getAny();
+      case ModelPackageImpl.TYPE__ABSTRACT:
+        return type.isAbstract() ? Boolean.TRUE : Boolean.FALSE;
+      case ModelPackageImpl.TYPE__DATA_TYPE:
+        return type.isDataType() ? Boolean.TRUE : Boolean.FALSE;
+      case ModelPackageImpl.TYPE__NAME:
+        return type.getName();
+      case ModelPackageImpl.TYPE__OPEN:
+        return type.isOpen() ? Boolean.TRUE : Boolean.FALSE;
+      case ModelPackageImpl.TYPE__SEQUENCED:
+        return type.isSequenced() ? Boolean.TRUE : Boolean.FALSE;
+      case ModelPackageImpl.TYPE__URI:
+        return type.getUri();
+      case ModelPackageImpl.TYPE__ANY_ATTRIBUTE:
+        return type.getAnyAttribute();
+    }
+    return null;
+  }
+  
+  public static boolean isSet(org.apache.tuscany.sdo.model.Type type, int propertyIndex) {
+    //FB Note that this implementation has the undesirable effect of invoking lazy creation of feature lists
+    switch (propertyIndex)
+    {
+      case ModelPackageImpl.TYPE__BASE_TYPE:
+        return !type.getBaseType().isEmpty();
+      case ModelPackageImpl.TYPE__PROPERTY:
+        return !type.getProperty().isEmpty();
+      case ModelPackageImpl.TYPE__ALIAS_NAME:
+        return !type.getAliasName().isEmpty();
+      case ModelPackageImpl.TYPE__ANY:
+        return false;
+      case ModelPackageImpl.TYPE__ABSTRACT:
+        return type.isSetAbstract();
+      case ModelPackageImpl.TYPE__DATA_TYPE:
+        return type.isSetDataType();
+      case ModelPackageImpl.TYPE__NAME:
+        return type.getName() != null;
+      case ModelPackageImpl.TYPE__OPEN:
+        return type.isSetOpen();
+      case ModelPackageImpl.TYPE__SEQUENCED:
+        return type.isSetSequenced();
+      case ModelPackageImpl.TYPE__URI:
+        return type.getUri() != null;
+      case ModelPackageImpl.TYPE__ANY_ATTRIBUTE:
+        return false;
+    }
+    return false;
+  }
+  
+  public static Object writeReplace(DataObject dataObject) throws ObjectStreamException
+  {
+    DataGraph dataGraph = dataObject.getDataGraph();
+    if (dataGraph != null)
+    {
+      return ((DataGraphImpl)dataGraph).getWriteReplacement((EObject)dataObject);
+    }
+    else
+    {
+      throw new InvalidObjectException("The object must be in a datagraph to be serialized " + dataObject);
+    }
+  }
+  
+  public static void setString(DataObject dataObject, Property property, String value) {
+    dataObject.set(property, getSetValue(property, value));
+  }
+  
+  public static void setShort(DataObject dataObject, Property property, short value) {
+    dataObject.set(property, getSetValue(property, value));
+  }
+  
+  public static void setLong(DataObject dataObject, Property property, long value) {
+    dataObject.set(property, getSetValue(property, value));
+  }
+  
+  public static void setList(DataObject dataObject, Property property, List value) {
+    dataObject.set(property, value);
+  }
+  
+  public static void setInt(DataObject dataObject, Property property, int value) {
+    dataObject.set(property, getSetValue(property, value));
+  }
+  
+  public static void setFloat(DataObject dataObject, Property property, float value) {
+    dataObject.set(property, getSetValue(property, value));
+  }
+ 
+  public static void setDouble(DataObject dataObject, Property property, double value) {
+    dataObject.set(property, getSetValue(property, value));
+  }
+  
+  public static void setDate(DataObject dataObject, Property property, Date value) {
+    dataObject.set(property, getSetValue(property, value));
+  }
+  
+  public static void setDataObject(DataObject dataObject, Property property, DataObject value) {
+    dataObject.set(property, value);
+  }
+  
+  public static void setChar(DataObject dataObject, Property property, char value) {
+    dataObject.set(property, getSetValue(property, value));
+  }
+  
+  public static void setBytes(DataObject dataObject, Property property, byte[] value) {
+    dataObject.set(property, getSetValue(property, value));
+  }
+  
+  public static void setByte(DataObject dataObject, Property property, byte value) {
+    dataObject.set(property, getSetValue(property, value));
+  }
+  
+  public static void setBoolean(DataObject dataObject, Property property, boolean value) {
+    dataObject.set(property, getSetValue(property, value));
+  }
+  
+  public static void setBigInteger(DataObject dataObject, Property property, BigInteger value)
+  {
+    dataObject.set(property, getSetValue(property, value));
+  }
+  
+  public static void setBigDecimal(DataObject dataObject, Property property, BigDecimal value)
+  {
+    dataObject.set(property, getSetValue(property, value));
+  }
+   
+  public static String getString(DataObject dataObject, Property property)
+  {
+    return getString(dataObject.get(property));
+  }
+  
+  public static short getShort(DataObject dataObject, Property property)
+  {
+    return getShort(dataObject.get(property));
+  }
+  
+  public static Sequence getSequence(DataObject dataObject, Property property)
+  {
+    return (Sequence)dataObject.get(property);
+  }
+  
+  public static long getLong(DataObject dataObject, Property property)
+  {
+    return getLong(dataObject.get(property));
+  }
+  
+  public static List getList(DataObject dataObject, Property property)
+  {
+    return (List)dataObject.get(property);
+  }
+  
+  public static int getInt(DataObject dataObject, Property property)
+  {
+    return getInt(dataObject.get(property));
+  }
+  
+  public static float getFloat(DataObject dataObject, Property property)
+  {
+    return getFloat(dataObject.get(property));
+  }
+  
+  public static double getDouble(DataObject dataObject, Property property)
+  {
+    return getDouble(dataObject.get(property));
+  }
+  
+  public static Date getDate(DataObject dataObject, Property property)
+  {
+    return getDate(dataObject.get(property));
+  }
+  
+  public static DataObject getDataObject(DataObject dataObject, Property property)
+  {
+    return (DataObject)dataObject.get(property);
+  }
+  
+  public static char getChar(DataObject dataObject, Property property)
+  {
+    return getChar(dataObject.get(property));
+  }
+  
+  public static byte[] getBytes(DataObject dataObject, Property property)
+  {
+    return getBytes(dataObject.get(property));
+  }
+  
+  public static byte getByte(DataObject dataObject, Property property)
+  {
+    return getByte(dataObject.get(property));
+  }
+  
+  public static boolean getBoolean(DataObject dataObject, Property property)
+  {
+    return getBoolean(dataObject.get(property));
+  }
+  
+  public static BigInteger getBigInteger(DataObject dataObject, Property property)
+  {
+    return getBigInteger(dataObject.get(property));
+  }
+  
+  public static BigDecimal getBigDecimal(DataObject dataObject, Property property)
+  {
+    return getBigDecimal(dataObject.get(property));
+  }
+  
+
+  
+  private static Property getPropertyByIndex(DataObject dataObject, int propertyIndex) {
+    EObject eObject = (EObject) dataObject;
+    Property property = (Property)eObject.eClass().getEStructuralFeature(propertyIndex);
+    return property;
+  }
+
+  public static void setString(DataObject dataObject, int propertyIndex, String value) {
+    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+  }
+  
+  public static void setShort(DataObject dataObject, int propertyIndex, short value) {
+    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+  }
+  
+  public static void setLong(DataObject dataObject, int propertyIndex, long value) {
+    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+  }
+  
+  public static void setList(DataObject dataObject, int propertyIndex, List value) {
+    dataObject.set(propertyIndex, value);
+  }
+  
+  public static void setInt(DataObject dataObject, int propertyIndex, int value) {
+    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+  }
+  
+  public static void setFloat(DataObject dataObject, int propertyIndex, float value) {
+    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+  }
+ 
+  public static void setDouble(DataObject dataObject, int propertyIndex, double value) {
+    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+  }
+  
+  public static void setDate(DataObject dataObject, int propertyIndex, Date value) {
+    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+  }
+  
+  public static void setDataObject(DataObject dataObject, int propertyIndex, DataObject value) {
+    dataObject.set(propertyIndex, value);
+  }
+  
+  public static void setChar(DataObject dataObject, int propertyIndex, char value) {
+    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+  }
+  
+  public static void setBytes(DataObject dataObject, int propertyIndex, byte[] value) {
+    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+  }
+  
+  public static void setByte(DataObject dataObject, int propertyIndex, byte value) {
+    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+  }
+  
+  public static void setBoolean(DataObject dataObject, int propertyIndex, boolean value) {
+    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+  }
+  
+  public static void setBigInteger(DataObject dataObject, int propertyIndex, BigInteger value)
+  {
+    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+  }
+  
+  public static void setBigDecimal(DataObject dataObject, int propertyIndex, BigDecimal value)
+  {
+    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+  }
+  
+  public static String getString(DataObject dataObject, int propertyIndex)
+  {
+    return getString(dataObject.get(propertyIndex));
+  }
+  
+  public static short getShort(DataObject dataObject, int propertyIndex)
+  {
+    return getShort(dataObject.get(propertyIndex));
+  }
+  
+  public static Sequence getSequence(DataObject dataObject, int propertyIndex)
+  {
+    return (Sequence)dataObject.get(propertyIndex);
+  }
+  
+  public static long getLong(DataObject dataObject, int propertyIndex)
+  {
+    return getLong(dataObject.get(propertyIndex));
+  }
+  
+  public static List getList(DataObject dataObject, int propertyIndex)
+  {
+    return (List)dataObject.get(propertyIndex);
+  }
+  
+  public static int getInt(DataObject dataObject, int propertyIndex)
+  {
+    return getInt(dataObject.get(propertyIndex));
+  }
+  
+  public static float getFloat(DataObject dataObject, int propertyIndex)
+  {
+    return getFloat(dataObject.get(propertyIndex));
+  }
+  
+  public static double getDouble(DataObject dataObject, int propertyIndex)
+  {
+    return getDouble(dataObject.get(propertyIndex));
+  }
+  
+  public static Date getDate(DataObject dataObject, int propertyIndex)
+  {
+    return getDate(dataObject.get(propertyIndex));
+  }
+  
+  public static DataObject getDataObject(DataObject dataObject, int propertyIndex)
+  {
+    return (DataObject)dataObject.get(propertyIndex);
+  }
+  
+  public static char getChar(DataObject dataObject, int propertyIndex)
+  {
+    return getChar(dataObject.get(propertyIndex));
+  }
+  
+  public static byte[] getBytes(DataObject dataObject, int propertyIndex)
+  {
+    return getBytes(dataObject.get(propertyIndex));
+  }
+  
+  public static byte getByte(DataObject dataObject, int propertyIndex)
+  {
+    return getByte(dataObject.get(propertyIndex));
+  }
+  
+  public static boolean getBoolean(DataObject dataObject, int propertyIndex)
+  {
+    return getBoolean(dataObject.get(propertyIndex));
+  }
+  
+  public static BigInteger getBigInteger(DataObject dataObject, int propertyIndex)
+  {
+    return getBigInteger(dataObject.get(propertyIndex));
+  }
+  
+  public static BigDecimal getBigDecimal(DataObject dataObject, int propertyIndex)
+  {
+    return getBigDecimal(dataObject.get(propertyIndex));
+  }
+  
+  public static void detach(DataObject dataObject) {
+    EcoreUtil.remove((EObject)dataObject);
+  }
+  
+  public static DataObject getRootObject(DataObject dataObject)
+  {
+    return (DataObject)EcoreUtil.getRootContainer((EObject)dataObject);
+  }
+  
+  public static List getInstanceProperties(DataObject dataObject)
+  {
+    //TODO maybe optimize this to just return type.getProperties if type.isOpen (isOpen would need to be cached)
+    EObject eDataObject = (EObject) dataObject;
+    List result = new UniqueEList(eDataObject.eClass().getEAllStructuralFeatures());
+    for (int i = 0, count = result.size(); i < count; ++i)
+    {
+      EStructuralFeature eStructuralFeature = (EStructuralFeature)result.get(i);
+      if (!eStructuralFeature.isDerived() && FeatureMapUtil.isFeatureMap(eStructuralFeature))
+      {
+        List features = (List)eDataObject.eGet(eStructuralFeature);
+        for (int j = 0, size = features.size(); j < size; ++j)
+        {
+          FeatureMap.Entry entry = (FeatureMap.Entry)features.get(j);
+          EStructuralFeature entryFeature = entry.getEStructuralFeature();
+          result.add(entryFeature);
+        }
+      }
+    }
+    return result;
+  }
+  
+  public static void delete(DataObject dataObject)
+  {
+    EObject eDataObject = (EObject)dataObject;
+    EcoreUtil.remove(eDataObject);
+    List contents = new ArrayList((eDataObject).eContents());
+    for (int i = 0, size = contents.size(); i < size; ++i)
+    {
+      ((DataObject)contents.get(i)).delete();
+    }
+    EClass eClass = eDataObject.eClass();
+    for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
+    {
+      EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
+      if (eStructuralFeature.isChangeable() && !eStructuralFeature.isDerived() && !((Property)eStructuralFeature).isReadOnly())
+      {
+        eDataObject.eUnset(eStructuralFeature);
+      }
+    }
+  }
+  
+  public static DataObject createDataObject(DataObject dataObject, Property property, Type type)
+  {
+    if (!property.isContainment())
+    {
+      throw new IllegalArgumentException("The property '" + property.getName() + "' of '" + property.getContainingType().getName()
+        + "' isn't a containment");
+    }
+    DataObject result = DataObjectUtil.create(type);
+    if (FeatureMapUtil.isMany((EObject)dataObject, (EStructuralFeature)property))
+    {
+      ((List)dataObject.get(property)).add(result);
+    }
+    else
+    {
+      dataObject.set(property, result);
+    }
+    return result;
+  }
+  
+  public static DataObject createDataObject(DataObject dataObject, int propertyIndex, String namespaceURI, String typeName)
+  {
+    Property property = DataObjectUtil.getProperty(dataObject, propertyIndex);
+    Type type = DataObjectUtil.getType(dataObject, namespaceURI, typeName);
+    return createDataObject(dataObject, property, type);
+  }
+  
+  public static DataObject createDataObject(DataObject dataObject, String propertyName, String namespaceURI, String typeName)
+  {
+    Property property = getProperty(dataObject, propertyName);
+    Type type = DataObjectUtil.getType(dataObject, namespaceURI, typeName);
+    return createDataObject(dataObject, property, type);
+  }
+  
+  public static DataObject createDataObject(DataObject dataObject, Property property)
+  {
+    Type type = property.getType();
+    return createDataObject(dataObject, property, type);
+  }
+  
+  public static DataObject createDataObject(DataObject dataObject, int propertyIndex)
+  {
+    Property property = getProperty(dataObject, propertyIndex);
+    Type type = property.getType();
+    return createDataObject(dataObject,property, type);
+  }
+
+  public static DataObject createDataObject(DataObject dataObject, String propertyName)
+  {
+    Property property = (Property)getProperty(dataObject, propertyName);
+    Type type = property.getType();
+    return createDataObject(dataObject,property, type);
+  }
+  
+  public static void setString(DataObject dataObject, String path, String value)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, DataObjectUtil.getSetValue(property, value));
+    }
+    else
+    {
+      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create((EObject)dataObject, path);
+      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
+    }
+  }
+
+  
+  public static void setShort(DataObject dataObject, String path, short value)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, DataObjectUtil.getSetValue(property, value));
+    }
+    else
+    {
+      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create((EObject)dataObject, path);
+      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
+    }
+  }
+  
+  public static void setLong(DataObject dataObject, String path, long value)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, DataObjectUtil.getSetValue(property, value));
+    }
+    else
+    {
+      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create((EObject)dataObject, path);
+      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
+    }
+  }
+  
+  public static void setList(DataObject dataObject, String path, List value)
+  {
+    dataObject.set(path, value);
+  }
+  
+  public static void setInt(DataObject dataObject, String path, int value)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, DataObjectUtil.getSetValue(property, value));
+    }
+    else
+    {
+      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create((EObject)dataObject, path);
+      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
+    }
+  }
+  
+  public static void setFloat(DataObject dataObject, String path, float value)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, DataObjectUtil.getSetValue(property, value));
+    }
+    else
+    {
+      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create((EObject)dataObject, path);
+      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
+    }
+  }
+  
+  public static void setDouble(DataObject dataObject, String path, double value)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, DataObjectUtil.getSetValue(property, value));
+    }
+    else
+    {
+      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create((EObject)dataObject, path);
+      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
+    }
+  }  
+  
+  public static void setDate(DataObject dataObject, String path, Date value)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, DataObjectUtil.getSetValue(property, value));
+    }
+    else
+    {
+      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create((EObject)dataObject, path);
+      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
+    }
+  }
+  
+  public static void setDataObject(DataObject dataObject, String path, DataObject value)
+  {
+    dataObject.set(path, value);
+  }
+  
+  public static void setChar(DataObject dataObject, String path, char value)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, DataObjectUtil.getSetValue(property, value));
+    }
+    else
+    {
+      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create((EObject)dataObject, path);
+      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
+    }
+  }
+  
+  public static void setBytes(DataObject dataObject, String path, byte[] value)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, DataObjectUtil.getSetValue(property, value));
+    }
+    else
+    {
+      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create((EObject)dataObject, path);
+      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
+    }
+  }
+  
+  public static void setByte(DataObject dataObject, String path, byte value)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, DataObjectUtil.getSetValue(property, value));
+    }
+    else
+    {
+      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create((EObject)dataObject, path);
+      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
+    }
+  }
+  
+  public static void setBoolean(DataObject dataObject, String path, boolean value)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, DataObjectUtil.getSetValue(property, value));
+    }
+    else
+    {
+      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create((EObject)dataObject, path);
+      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
+    }
+  }
+  
+  public static void setBigInteger(DataObject dataObject, String path, BigInteger value)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, DataObjectUtil.getSetValue(property, value));
+    }
+    else
+    {
+      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create((EObject)dataObject, path);
+      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
+    }
+  }
+  
+  public static void setBigDecimal(DataObject dataObject, String path, BigDecimal value)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, DataObjectUtil.getSetValue(property, value));
+    }
+    else
+    {
+      DataObjectUtil.Accessor accessor = DataObjectUtil.Accessor.create((EObject)dataObject, path);
+      accessor.setAndRecyle(DataObjectUtil.getSetValue(accessor.getProperty(), value));
+    }
+  }
+  
+  public static DataGraph getDataGraph(DataObject dataObject)
+  {
+    Resource resource = ((EObject)dataObject).eResource();
+    if (resource != null)
+    {
+      ResourceSet resourceSet = resource.getResourceSet();
+      if (resourceSet != null)
+      {
+        return (DataGraphImpl)EcoreUtil.getAdapter(resourceSet.eAdapters(), DataGraph.class);
+      }
+    }
+    return null;
+  }
+  
+  public static void unset(DataObject dataObject, String path)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.unset(property);
+    }
+    else
+    {
+      DataObjectUtil.Accessor.create((EObject)dataObject, path).unsetAndRecyle();
+    }
+  }
+  
+  public static boolean isSet(DataObject dataObject, String path)
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      return dataObject.isSet(property);
+    }
+    else
+    {
+      return DataObjectUtil.Accessor.create(
+        (EObject)dataObject, path).isSetAndRecyle();
+    }
+  }  
+  
+  public static void set(DataObject dataObject, String path, Object value) 
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null)
+    {
+      dataObject.set(property, value);
+    } 
+    else 
+    {
+      DataObjectUtil.Accessor.create(
+        (EObject)dataObject, path).setAndRecyle(value);
+    }
+  }
+  
+  public static Object get(DataObject dataObject, String path) 
+  {
+    Property property = dataObject.getType().getProperty(path);
+    if (property != null) {
+      return dataObject.get(property);
+    } else {
+      return Accessor.create((EObject)dataObject, path).getAndRecyle();
+    }
+  }
+  
   public static BigDecimal getBigDecimal(Object value)
   {
     if (value instanceof BigDecimal)
@@ -1600,10 +2335,11 @@ public final class DataObjectUtil
 
   public static Property getProperty(DataObject dataObject, String propertyName)
   {
-    Property property = dataObject.getProperty(propertyName);
+    Property property = dataObject.getType().getProperty(propertyName);
     if (property == null)
     {
-      throw new IllegalArgumentException("Type '" + dataObject.getType().getName() + "' does not have a property named '" + propertyName + "'");
+      property = (Property)DataObjectUtil.getOpenFeature((EObject)dataObject, propertyName);
+      //throw new IllegalArgumentException("Type '" + dataObject.getType().getName() + "' does not have a property named '" + propertyName + "'");
     }
   
     return property;
@@ -1691,6 +2427,43 @@ public final class DataObjectUtil
   protected static void configureResourceSet(ResourceSet resourceSet)
   {
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().putAll(getRegistrations());
+  }
+  
+  public static EClass createDocumentRoot()
+  {
+    EClass documentRootEClass = EcoreFactory.eINSTANCE.createEClass();
+    ExtendedMetaData.INSTANCE.setName(documentRootEClass, "");
+    ExtendedMetaData.INSTANCE.setContentKind(documentRootEClass, ExtendedMetaData.MIXED_CONTENT);
+    
+    EAttribute mixed = EcoreFactory.eINSTANCE.createEAttribute();
+    mixed.setName("mixed");
+    mixed.setEType(EcorePackage.eINSTANCE.getEFeatureMapEntry());
+    mixed.setUpperBound(EStructuralFeature.UNBOUNDED_MULTIPLICITY);
+    ExtendedMetaData.INSTANCE.setName(mixed, ":mixed");
+    ExtendedMetaData.INSTANCE.setFeatureKind(mixed, ExtendedMetaData.ELEMENT_WILDCARD_FEATURE);
+    documentRootEClass.getEStructuralFeatures().add(mixed);
+    
+    EReference xmlnsPrefixMap = EcoreFactory.eINSTANCE.createEReference();
+    xmlnsPrefixMap.setName("xMLNSPrefixMap");
+    xmlnsPrefixMap.setEType(EcorePackage.eINSTANCE.getEStringToStringMapEntry());
+    xmlnsPrefixMap.setUpperBound(EStructuralFeature.UNBOUNDED_MULTIPLICITY);
+    xmlnsPrefixMap.setContainment(true);
+    xmlnsPrefixMap.setTransient(true);
+    ExtendedMetaData.INSTANCE.setName(xmlnsPrefixMap, "xmlns:prefix");
+    ExtendedMetaData.INSTANCE.setFeatureKind(xmlnsPrefixMap, ExtendedMetaData.ATTRIBUTE_FEATURE);
+    documentRootEClass.getEStructuralFeatures().add(xmlnsPrefixMap);
+    
+    EReference xsiSchemaLocation = EcoreFactory.eINSTANCE.createEReference();
+    xsiSchemaLocation.setName("xSISchemaLocation");
+    xsiSchemaLocation.setEType(EcorePackage.eINSTANCE.getEStringToStringMapEntry());
+    xsiSchemaLocation.setUpperBound(EStructuralFeature.UNBOUNDED_MULTIPLICITY);
+    xsiSchemaLocation.setContainment(true);
+    xsiSchemaLocation.setTransient(true);
+    ExtendedMetaData.INSTANCE.setName(xsiSchemaLocation, "xsi:schemaLocation");
+    ExtendedMetaData.INSTANCE.setFeatureKind(xsiSchemaLocation, ExtendedMetaData.ATTRIBUTE_FEATURE);
+    documentRootEClass.getEStructuralFeatures().add(xsiSchemaLocation);
+    
+    return documentRootEClass;
   }
 
   /**

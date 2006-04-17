@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
-import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,11 +33,19 @@ import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.helper.XMLHelperImpl;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
-import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.impl.DynamicDataObjectImpl;
 import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -46,6 +54,7 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import commonj.sdo.DataGraph;
+import commonj.sdo.Property;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.TypeHelper;
@@ -225,7 +234,7 @@ public final class SDOUtil
   {
     return new XMLHelperImpl(scope);
   }
-
+  
   /**
    * Create a new XSDHelper, with visibility to types in the specified TypeHelper scope.
    * @param scope the TypeHelper to use for locating and populating types.
@@ -234,6 +243,131 @@ public final class SDOUtil
   public static XSDHelper createXSDHelper(TypeHelper scope)
   {
     return new XSDHelperImpl(scope);
+  }
+  
+  public static Type createType(TypeHelper scope, String uri, String name, boolean isDataType)
+  {
+    ExtendedMetaData extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
+    
+    EPackage ePackage = extendedMetaData.getPackage(uri);
+    if (ePackage == null)
+    {
+      ePackage = EcoreFactory.eINSTANCE.createEPackage();
+      ePackage.setEFactoryInstance(new DynamicDataObjectImpl.FactoryImpl());
+      ePackage.setNsURI(uri);
+      String packagePrefix = URI.createURI(uri).trimFileExtension().lastSegment();
+      ePackage.setName(packagePrefix);
+      ePackage.setNsPrefix(packagePrefix);
+      extendedMetaData.putPackage(uri, ePackage);
+    }
+
+    EClassifier eClassifier = ePackage.getEClassifier(name);
+    if (eClassifier != null)
+      throw new IllegalArgumentException(); // already defined
+    
+    if (name != null)
+    { 
+      eClassifier = isDataType ? (EClassifier)SDOFactory.eINSTANCE.createDataType() : (EClassifier)SDOFactory.eINSTANCE.createClass();
+      eClassifier.setName(name);
+    }
+    else
+    {
+      eClassifier = DataObjectUtil.createDocumentRoot();
+    }
+    
+    ePackage.getEClassifiers().add(eClassifier);
+
+    return (Type)eClassifier;
+  }
+  
+  public static void addBaseType(Type type, Type baseType)
+  {
+    ((EClass)type).getESuperTypes().add(baseType);
+  }
+  
+  public static void addAliasName(Type type, String aliasName)
+  {
+    //TODO
+  }
+  
+  public static void setOpen(Type type, boolean isOpen)
+  {
+    if (type.isDataType() || !type.getProperties().isEmpty())
+    {
+      if (type.getName() != null) //FB TEMP ... figure out how to handle document root
+        throw new IllegalArgumentException(); // type must a non dataType with no properties yet
+    }
+    if (isOpen)
+    {
+      EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
+      ((EClass)type).getEStructuralFeatures().add(eAttribute);
+
+      eAttribute.setName("any");
+      eAttribute.setUnique(false);
+      eAttribute.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+      eAttribute.setEType(EcorePackage.eINSTANCE.getEFeatureMapEntry());
+      ExtendedMetaData.INSTANCE.setFeatureKind(eAttribute, ExtendedMetaData.ELEMENT_WILDCARD_FEATURE);
+      ExtendedMetaData.INSTANCE.setProcessingKind(eAttribute, ExtendedMetaData.LAX_PROCESSING);
+      ExtendedMetaData.INSTANCE.setWildcards(eAttribute, Collections.singletonList("##any"));
+    }
+  }
+  
+  public static void setSequenced(Type type, boolean isSequenced)
+  {
+    //TODO
+  }
+  
+  public static void setAbstract(Type type, boolean isAbstract)
+  {
+    ((EClass)type).setAbstract(isAbstract);
+  }
+  
+  public static void setJavaClassName(Type type, String javaClassName)
+  {
+    ((EClassifier)type).setInstanceClassName(javaClassName);
+  }
+  
+  public static Property createProperty(Type containingType, String name, Type propertyType)
+  {
+    EStructuralFeature eStructuralFeature = propertyType.isDataType() ? (EStructuralFeature)SDOFactory.eINSTANCE.createAttribute() : (EStructuralFeature)SDOFactory.eINSTANCE.createReference();
+    eStructuralFeature.setName(name);
+    eStructuralFeature.setEType((EClassifier)propertyType);
+    if (containingType.getName() == null)
+    {
+      ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
+    }
+    ((EClass)containingType).getEStructuralFeatures().add(eStructuralFeature);
+    return (Property)eStructuralFeature;
+  }
+  
+  public static void addAliasName(Property property, String aliasName)
+  {
+    //TODO
+  }
+ 
+  public static void setMany(Property property, boolean isMany)
+  {
+    ((EStructuralFeature)property).setUpperBound(isMany ? EStructuralFeature.UNBOUNDED_MULTIPLICITY : 1);
+  }
+  
+  public static void setContainment(Property property, boolean isContainment)
+  {
+    ((EReference)property).setContainment(isContainment);
+  }
+
+  public static void setDefault(Property property, String defaultValue)
+  {
+    ((EStructuralFeature)property).setDefaultValueLiteral(defaultValue);
+  }
+  
+  public static void setReadOnly(Property property, boolean isReadOnly)
+  {
+    ((EStructuralFeature)property).setChangeable(!isReadOnly);
+  }
+  
+  public static void setOpposite(Property property, Property opposite)
+  {
+    ((EReference)property).setEOpposite((EReference)opposite);
   }
   
   /**

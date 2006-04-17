@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.tuscany.sdo.impl.DataObjectImpl;
 import org.apache.tuscany.sdo.model.Property;
 import org.apache.tuscany.sdo.model.Type;
+import org.apache.tuscany.sdo.model.java.impl.JavaPackageImpl;
 
 import org.apache.tuscany.sdo.util.BasicSequence;
 
@@ -24,6 +25,7 @@ import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
@@ -819,5 +821,21 @@ public class TypeImpl extends DataObjectImpl implements Type
     result.append(')');
     return result.toString();
   }
-
+  
+  public String getInstanceClassName()
+  {
+    EStructuralFeature javaClassFeature = JavaPackageImpl.eINSTANCE.getDocumentRoot_JavaClass();
+    Sequence anyAttribute = getAnyAttribute();
+    int count = anyAttribute.size();
+    for (int i = 0; i < count; i++)
+    {
+      EStructuralFeature eFeature = (EStructuralFeature)anyAttribute.getProperty(i);
+      if (eFeature == javaClassFeature)
+      {
+        return (String)anyAttribute.getValue(i);
+      }
+    }
+    return null;
+  }
+  
 } //TypeImpl

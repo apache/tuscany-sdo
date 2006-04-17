@@ -29,6 +29,7 @@ import java.util.StringTokenizer;
 
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.SDOPackageImpl;
+import org.apache.tuscany.sdo.model.ModelPackage;
 import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
@@ -274,7 +275,7 @@ public class JavaGenerator
           {
             genModel = currentGenPackage.getGenModel();
           }
-          else
+          else if (!currentEPackage.getNsURI().equals(ModelPackage.eNS_URI))
           {
             usedGenPackages.add(currentGenPackage);
           }

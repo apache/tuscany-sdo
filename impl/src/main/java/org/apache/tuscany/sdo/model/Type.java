@@ -355,5 +355,7 @@ public interface Type
    * @generated
    */
   Sequence getAnyAttribute();
-
+  
+  String getInstanceClassName();
+  
 } // Type
