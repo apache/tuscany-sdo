@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -168,161 +169,162 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Boolean createBooleanObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Boolean)super.createFromString(eDataType, initialValue);
+    return XMLTypeFactory.eINSTANCE.createBooleanObject(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertBooleanObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertBooleanObject((Boolean)instanceValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Byte createByteObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Byte)super.createFromString(eDataType, initialValue);
+    return XMLTypeFactory.eINSTANCE.createByteObject(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertByteObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertByteObject((Byte)instanceValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Character createCharacterObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Character)super.createFromString(eDataType, initialValue);
+    return (initialValue == null && initialValue.length() > 0) 
+      ? null : Character.valueOf(collapseWhiteSpace(initialValue).charAt(0));
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertCharacterObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return instanceValue == null ? null : instanceValue.toString();
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Double createDoubleObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Double)super.createFromString(eDataType, initialValue);
+    return XMLTypeFactory.eINSTANCE.createDoubleObject(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertDoubleObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertDoubleObject((Double)instanceValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Float createFloatObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Float)super.createFromString(eDataType, initialValue);
+    return XMLTypeFactory.eINSTANCE.createFloatObject(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertFloatObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertFloatObject((Float)instanceValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Integer createIntObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Integer)super.createFromString(eDataType, initialValue);
+    return XMLTypeFactory.eINSTANCE.createIntObject(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertIntObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertIntObject((Integer)instanceValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Long createLongObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Long)super.createFromString(eDataType, initialValue);
+    return XMLTypeFactory.eINSTANCE.createLongObject(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertLongObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertLongObject((Long)instanceValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Short createShortObjectFromString(EDataType eDataType, String initialValue)
   {
-    return (Short)super.createFromString(eDataType, initialValue);
+    return XMLTypeFactory.eINSTANCE.createShortObject(initialValue);
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public String convertShortObjectToString(EDataType eDataType, Object instanceValue)
   {
-    return super.convertToString(eDataType, instanceValue);
+    return XMLTypeFactory.eINSTANCE.convertShortObject((Short)instanceValue);
   }
 
   /**

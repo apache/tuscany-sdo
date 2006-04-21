@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+<customer:Customer 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:customer="http://example.com/customer" 
+  xsi:type="customer:Customer"
+  custNum="2" 
+  firstName="Jeremy" 
+  lastName="Pavick"/>

@@ -170,13 +170,7 @@ public class ClassImpl extends EClassImpl implements Type, DataObject, org.apach
     return getESuperTypes();
   }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
-  public Property getProperty(String propertyName)
-  {
+  private void initAliasNames() {
     if (propertyNameToPropertyMap == null) //FB use eNameToFeatureMap for this?
     {
       Map result = new HashMap();
@@ -193,8 +187,23 @@ public class ClassImpl extends EClassImpl implements Type, DataObject, org.apach
       }
       propertyNameToPropertyMap = result;
     }
-
-    return (Property)propertyNameToPropertyMap.get(propertyName);
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Property getProperty(String propertyName)
+  {
+    initAliasNames();
+    Property property = (Property)propertyNameToPropertyMap.get(propertyName);
+    if (property == null && !isOpen()) {
+      propertyNameToPropertyMap = null;
+      initAliasNames();
+      property = (Property)propertyNameToPropertyMap.get(propertyName);
+    }
+    return property;
   }
   
   protected Map propertyNameToPropertyMap;

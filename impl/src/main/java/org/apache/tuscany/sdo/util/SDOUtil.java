@@ -287,7 +287,8 @@ public final class SDOUtil
   
   public static void addAliasName(Type type, String aliasName)
   {
-    //TODO
+    throw new UnsupportedOperationException(); // TODO: implement this method properly
+    //type.getAliasNames().add(aliasName);
   }
   
   public static void setOpen(Type type, boolean isOpen)
@@ -312,9 +313,52 @@ public final class SDOUtil
     }
   }
   
+  /*
+  private static boolean hasNonWildcardFeatures(EClass eclass) {
+    boolean answer = false;
+    List features = eclass.getEStructuralFeatures();
+    for (int n = 0; n < features.size(); n++) {
+      EStructuralFeature feature = (EStructuralFeature) features.get(n);
+      int kind = ExtendedMetaData.INSTANCE.getFeatureKind(feature);
+      if (kind != ExtendedMetaData.ELEMENT_WILDCARD_FEATURE && 
+          kind != ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE) {
+        answer = true;
+        break;
+      }
+    }
+    return answer;
+  }
+  */
+  
   public static void setSequenced(Type type, boolean isSequenced)
   {
-    //TODO
+    if (!isSequenced) return;
+    throw new UnsupportedOperationException(); // TODO: implement this method properly
+    /*
+    if ((isSequenced && type.isSequenced()) || 
+        !isSequenced && !type.isSequenced()) return;
+    if (!(type instanceof EClass)) return;
+    EClass eclass = (EClass)type;
+    if (type.isDataType() || hasNonWildcardFeatures(eclass))
+    {
+      if (type.getName() != null)
+        throw new IllegalArgumentException();
+    }
+    if (isSequenced) {
+      ExtendedMetaData.INSTANCE.setContentKind(eclass, ExtendedMetaData.MIXED_CONTENT);
+      EAttribute mixedFeature = EcoreFactory.eINSTANCE.createEAttribute();
+      mixedFeature.setName("mixed");
+      mixedFeature.setUnique(false);
+      mixedFeature.setEType(EcorePackage.eINSTANCE.getEFeatureMapEntry());
+      mixedFeature.setLowerBound(0);
+      mixedFeature.setUpperBound(-1);
+      eclass.getEStructuralFeatures().add(mixedFeature);
+      ExtendedMetaData.INSTANCE.setFeatureKind(mixedFeature, ExtendedMetaData.ELEMENT_WILDCARD_FEATURE);
+      ExtendedMetaData.INSTANCE.setName(mixedFeature, ":mixed");   
+    } else {
+      // do I really need to do anything here?
+    }
+    */
   }
   
   public static void setAbstract(Type type, boolean isAbstract)
@@ -342,7 +386,8 @@ public final class SDOUtil
   
   public static void addAliasName(Property property, String aliasName)
   {
-    //TODO
+    throw new UnsupportedOperationException(); // TODO: implement this method properly
+    //property.getAliasNames().add(aliasName);
   }
  
   public static void setMany(Property property, boolean isMany)
