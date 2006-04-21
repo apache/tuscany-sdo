@@ -160,5 +160,10 @@ public class TypesImpl extends DataObjectImpl implements Types
     }
     return super.eIsSet(featureID);
   }
-
+  
+  public List getTypeList()
+  {
+    return getType_();
+  }
+  
 } //TypesImpl

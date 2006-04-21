@@ -182,7 +182,7 @@
 				concurrency 	"Sequential"
 				opExportControl 	"Public"
 				uid        	0)
-			    (object Operation "getChangedObjects"
+			    (object Operation "getChangedDataObjects"
 				quid       	"435D2D2B001F"
 				result     	"EJavaList"
 				concurrency 	"Sequential"
@@ -2219,7 +2219,7 @@
 			zoom       	100
 			max_height 	28350
 			max_width  	21600
-			origin_x   	0
+			origin_x   	764
 			origin_y   	0
 			items      	(list diagram_item_list
 			    (object ClassView "Class" "Logical View::sdo::Sequence" @1
@@ -2350,10 +2350,10 @@
 				IncludeAttribute 	TRUE
 				IncludeOperation 	TRUE
 				ShowOperationSignature 	TRUE
-				location   	(2784, 560)
+				location   	(2768, 528)
 				label      	(object ItemLabel
 				    Parent_View 	@4
-				    location   	(1995, 76)
+				    location   	(1979, 72)
 				    fill_color 	13434879
 				    nlines     	1
 				    max_width  	1578
@@ -2365,14 +2365,14 @@
 				quidu      	"3FAB7C360208"
 				compartment 	(object Compartment
 				    Parent_View 	@4
-				    location   	(1995, 136)
+				    location   	(1979, 132)
 				    icon_style 	"Icon"
 				    fill_color 	16777215
 				    anchor     	2
 				    nlines     	17
-				    max_width  	1584)
+				    max_width  	1575)
 				width      	1596
-				height     	992
+				height     	936
 				annotation 	8
 				autoResize 	TRUE)
 			    (object ClassView "Class" "Logical View::sdo::Type" @5

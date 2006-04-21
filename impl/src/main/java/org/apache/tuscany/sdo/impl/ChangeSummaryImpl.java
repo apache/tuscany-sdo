@@ -622,18 +622,6 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     return getEDataGraph();
   }
 
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public List getChangedObjects()
-  {
-    // TODO: implement this method
-    // Ensure that you remove @generated or mark it @generated NOT
-    throw new UnsupportedOperationException();
-  }
-
   protected Set deletedObjects;
 
   protected void preApply(boolean reverse)
@@ -660,7 +648,7 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public EList getChangedDataObjectsGen()
+  public List getChangedDataObjects()
   {
     EList result = new UniqueEList.FastCompare(getDeletedObjects());
     result.addAll(getObjectsToDetach());
@@ -672,21 +660,20 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     return result;
   }
 
-  public List getChangedDataObjects()
-  {
-    return getChangedDataObjectsGen();
-  }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public DataObject getRootObject()
   {
-    // TODO: implement this method
-    // Ensure that you remove @generated or mark it @generated NOT
-    throw new UnsupportedOperationException();
+    DataGraph dataGraph = getDataGraph();
+    if (dataGraph != null)
+    {
+      return dataGraph.getRootObject();
+    }
+    // TODO: handle ChangeSummary-type property
+    return null;
   }
 
 } //EChangeSummaryImpl

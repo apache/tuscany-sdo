@@ -37,5 +37,7 @@ public interface Types
    * @generated
    */
   List getType_();
+  
+  List getTypeList();
 
 } // Types
