@@ -102,7 +102,7 @@ public class SDOFactoryImpl extends EFactoryImpl implements SDOFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public EObject create(EClass eClass)
+  public EObject createGen(EClass eClass)
   {
     switch (eClass.getClassifierID())
     {
@@ -123,6 +123,13 @@ public class SDOFactoryImpl extends EFactoryImpl implements SDOFactory
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
   }
+  
+  public EObject create(EClass eClass)
+  {
+    if (eClass.getClassifierID() == SDOPackage.DATA_OBJECT) return createAnyTypeDataObject();
+    return createGen(eClass);
+  }
+
 
   /**
    * <!-- begin-user-doc -->
