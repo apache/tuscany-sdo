@@ -214,7 +214,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
   public Character createCharacterObjectFromString(EDataType eDataType, String initialValue)
   {
     return (initialValue == null && initialValue.length() > 0) 
-      ? null : Character.valueOf(collapseWhiteSpace(initialValue).charAt(0));
+      ? null : (new Character(collapseWhiteSpace(initialValue).charAt(0)));
   }
 
   /**
