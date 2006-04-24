@@ -138,15 +138,17 @@ public class GeneratorMojo extends AbstractMojo {
 
         for (int i = 0; i < files.length; i++) {
             File file = files[i];
+            if(!file.exists())
+                throw new MojoExecutionException("The following WSDL file not found '" +file.getAbsolutePath()+"'.");
             File marker = new File(targetDirectory, ".gen#" + file.getName());
-            if (file.lastModified() > marker.lastModified()) {
+            if ( file.lastModified() > marker.lastModified()) {
                 getLog().info("Generating SDO interfaces from " + file);
                 JavaGenerator.generateFromXMLSchema(file.toString(), targetDirectory, javaPackage, prefix, genOptions);
             }
             try {
                 marker.createNewFile();
             } catch (IOException e) {
-                throw new MojoExecutionException(e.getMessage(), e);
+                throw new MojoExecutionException(e.getMessage() + "'"+ marker.getAbsolutePath()+ "'", e);
             }
             marker.setLastModified(System.currentTimeMillis());
         }
