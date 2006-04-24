@@ -44,6 +44,7 @@ public class DefineTypeTestCase extends TestCase
   public void testDefineTypeRoundTrip() throws Exception {
     TypeHelper types = SDOUtil.createTypeHelper();
     DataFactory factory = SDOUtil.createDataFactory(types);
+    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
 
     Type intType = types.getType("commonj.sdo", "Int");
     Type stringType = types.getType("commonj.sdo", "String");
@@ -71,10 +72,10 @@ public class DefineTypeTestCase extends TestCase
     lastNameProperty.set("type", stringType);
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    XMLHelper.INSTANCE.save(customerType, "commonj.sdo", "type", baos);
+    xmlHelper.save(customerType, "commonj.sdo", "type", baos);
     
     ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-    XMLDocument xdoc = XMLHelper.INSTANCE.load(bais);
+    XMLDocument xdoc = xmlHelper.load(bais);
 
     customerType = xdoc.getRootObject();
     
@@ -112,7 +113,7 @@ public class DefineTypeTestCase extends TestCase
     assertEquals(type.getProperty("lastName").getType(), stringType);
     
     baos = new ByteArrayOutputStream();
-    XMLHelper.INSTANCE.save(
+    xmlHelper.save(
       customer1, 
       "http://example.com/customer",
       "Customer", baos);
@@ -122,7 +123,7 @@ public class DefineTypeTestCase extends TestCase
         getClass().getResource(CUSTOMER1_XML)));
     
     baos = new ByteArrayOutputStream();
-    XMLHelper.INSTANCE.save(
+    xmlHelper.save(
       customer2, 
       "http://example.com/customer",
       "Customer", baos);
@@ -136,6 +137,7 @@ public class DefineTypeTestCase extends TestCase
   {
     TypeHelper types = SDOUtil.createTypeHelper();
     DataFactory factory = SDOUtil.createDataFactory(types);
+    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
 
     Type intType = types.getType("commonj.sdo", "Int");
     Type stringType = types.getType("commonj.sdo", "String");
@@ -195,7 +197,7 @@ public class DefineTypeTestCase extends TestCase
     assertEquals(type.getProperty("lastName").getType(), stringType);
     
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    XMLHelper.INSTANCE.save(
+    xmlHelper.save(
       customer1, 
       "http://example.com/customer",
       "Customer", baos);
@@ -205,7 +207,7 @@ public class DefineTypeTestCase extends TestCase
         getClass().getResource(CUSTOMER1_XML)));
     
     baos = new ByteArrayOutputStream();
-    XMLHelper.INSTANCE.save(
+    xmlHelper.save(
       customer2, 
       "http://example.com/customer",
       "Customer", baos);
@@ -220,6 +222,8 @@ public class DefineTypeTestCase extends TestCase
     TypeHelper types = SDOUtil.createTypeHelper();
     DataFactory factory = SDOUtil.createDataFactory(types);
     XSDHelper xsdHelper = SDOUtil.createXSDHelper(types);
+    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
+
     Property javaClassProperty = xsdHelper.getGlobalProperty("commonj.sdo/java", "javaClass", false);
     
     // create a data types
@@ -296,7 +300,7 @@ public class DefineTypeTestCase extends TestCase
     assertNotNull(type.getProperty("lastName"));
     
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    XMLHelper.INSTANCE.save(
+    xmlHelper.save(
       customer1, 
       "http://example.com/customer",
       "Customer", baos);
@@ -306,7 +310,7 @@ public class DefineTypeTestCase extends TestCase
         getClass().getResource(CUSTOMER1_XML)));
     
     baos = new ByteArrayOutputStream();
-    XMLHelper.INSTANCE.save(
+    xmlHelper.save(
       customer2, 
       "http://example.com/customer",
       "Customer", baos);
@@ -320,6 +324,7 @@ public class DefineTypeTestCase extends TestCase
   {
     TypeHelper types = SDOUtil.createTypeHelper();
     DataFactory factory = SDOUtil.createDataFactory(types);
+    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
 
     Type intType = types.getType("commonj.sdo", "Int");
     Type stringType = types.getType("commonj.sdo", "String");
@@ -366,7 +371,7 @@ public class DefineTypeTestCase extends TestCase
     assertEquals(type.getProperty("lastName").getType(), stringType);  
     
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    XMLHelper.INSTANCE.save(
+    xmlHelper.save(
       customer1, 
       "http://example.com/customer",
       "Customer", baos);
@@ -376,7 +381,7 @@ public class DefineTypeTestCase extends TestCase
         getClass().getResource(CUSTOMER1_XML)));
     
     baos = new ByteArrayOutputStream();
-    XMLHelper.INSTANCE.save(
+    xmlHelper.save(
       customer2, 
       "http://example.com/customer",
       "Customer", baos);
@@ -391,6 +396,7 @@ public class DefineTypeTestCase extends TestCase
     /*
     TypeHelper types = SDOUtil.createTypeHelper();
     DataFactory factory = SDOUtil.createDataFactory(types);
+    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
     
     Type stringType = types.getType("commonj.sdo", "String");
     Type decimalType = types.getType("commonj.sdo", "Decimal");
@@ -448,7 +454,7 @@ public class DefineTypeTestCase extends TestCase
     sequence.add("\n");
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    XMLHelper.INSTANCE.save(quote, "http://www.example.com/sequenced", "mixedStockQuote", baos);
+    xmlHelper.save(quote, "http://www.example.com/sequenced", "mixedStockQuote", baos);
     assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(MIXED_XML)));
     */
   }
@@ -457,6 +463,7 @@ public class DefineTypeTestCase extends TestCase
   {
     TypeHelper types = SDOUtil.createTypeHelper();
     DataFactory factory = SDOUtil.createDataFactory(types);
+    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
     
     Type stringType = types.getType("commonj.sdo", "String");
     Type decimalType = types.getType("commonj.sdo", "Decimal");
@@ -528,7 +535,7 @@ public class DefineTypeTestCase extends TestCase
     assertEquals(definedPriceProperty.getType(), decimalType);
     
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    XMLHelper.INSTANCE.save(
+    xmlHelper.save(
       openQuote, 
       "http://www.example.com/open",
       "openStockQuote", baos);
