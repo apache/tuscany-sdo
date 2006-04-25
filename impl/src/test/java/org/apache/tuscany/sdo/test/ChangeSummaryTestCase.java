@@ -19,20 +19,19 @@ package org.apache.tuscany.sdo.test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
 
+import junit.framework.TestCase;
+
+import org.apache.tuscany.sdo.util.SDOUtil;
+
 import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.XSDHelper;
-import junit.framework.TestCase;
-
-import org.apache.tuscany.sdo.util.SDOUtil;
 
 
 public class ChangeSummaryTestCase extends TestCase {

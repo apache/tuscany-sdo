@@ -60,6 +60,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
+import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -742,6 +743,17 @@ public final class DataObjectUtil
         return (DataGraphImpl)EcoreUtil.getAdapter(resourceSet.eAdapters(), DataGraph.class);
       }
     }
+    return null;
+  }
+  
+  public static ChangeSummary getChangeSummary(DataObject dataObject)
+  {
+    DataGraph dataGraph = getDataGraph(dataObject);
+    if (dataGraph != null)
+    {
+      return dataGraph.getChangeSummary();
+    }
+    // TODO: handle ChangeSummary-type property
     return null;
   }
   

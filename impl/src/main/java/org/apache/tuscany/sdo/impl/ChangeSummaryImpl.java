@@ -35,6 +35,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -44,6 +45,7 @@ import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.impl.ChangeDescriptionImpl;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.DelegatingFeatureMap;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
@@ -526,13 +528,11 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public boolean isModified(DataObject dataObject)
   {
-    // TODO: implement this method
-    // Ensure that you remove @generated or mark it @generated NOT
-    throw new UnsupportedOperationException();
+    return getObjectChanges().containsKey(dataObject) && !isDeleted(dataObject) && !isCreated(dataObject);
   }
 
   /**
@@ -548,11 +548,6 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     }
     
     changeRecorder.summarize();
-  }
-
-  public boolean isChanged(DataObject dataObject)
-  {
-    return getObjectChanges().containsKey(dataObject) && !isDeleted(dataObject) && !isCreated(dataObject);
   }
 
   public Setting getOldValue(DataObject dataObject, Property property)
@@ -582,25 +577,30 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public Sequence getOldSequence(DataObject dataObject)
   {
-    // TODO: implement this method
-    // Ensure that you remove @generated or mark it @generated NOT
-    throw new UnsupportedOperationException();
+    EAttribute mixedFeature = BasicExtendedMetaData.INSTANCE.getMixedFeature((EClass)dataObject.getType());
+    if (mixedFeature != null)
+    {
+      return (Sequence)getOldValue(dataObject, (Property)mixedFeature).getValue();
+    }
+    return null;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public void undoChanges()
   {
-    // TODO: implement this method
-    // Ensure that you remove @generated or mark it @generated NOT
-    throw new UnsupportedOperationException();
+    if (isLogging())
+    {
+      changeRecorder.summarize();
+    }
+    apply();
   }
 
   public EList getObjectsToDetach()

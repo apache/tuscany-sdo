@@ -16,13 +16,13 @@
  */
 package org.apache.tuscany.sdo.test;
 
-import java.util.List;
-import java.net.URL;
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
 
 import junit.framework.TestCase;
+
 import commonj.sdo.helper.XSDHelper;
-import commonj.sdo.Type;
 
 /**
  * @version $Rev$ $Date$

@@ -1300,8 +1300,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public ChangeSummary getChangeSummary()
   {
-    // TODO: implement this method
-    throw new UnsupportedOperationException();
+    return DataObjectUtil.getChangeSummary(this);
   }
 
   /**

@@ -19,22 +19,19 @@ package org.apache.tuscany.sdo.test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.math.BigDecimal;
 import java.net.URL;
+
+import junit.framework.TestCase;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.TypeHelper;
-import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
-import junit.framework.TestCase;
 
 
 public class SimpleDynamicTestCase extends TestCase {
