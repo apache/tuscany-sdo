@@ -1,7 +1,13 @@
 package org.apache.tuscany.sdo.helper;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.util.SDOUtil;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -27,7 +33,7 @@ import org.w3c.dom.Element;
  * DONE:
  *  - Override the default XSDEcoreBuilder name mangling
  */
-class SDOXSDEcoreBuilder extends XSDEcoreBuilder
+public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
 {
 
   public SDOXSDEcoreBuilder(ExtendedMetaData extendedMetaData)
@@ -174,6 +180,17 @@ class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return super.getEcoreAttribute(element, attribute);
   }
 
+  protected String getEcoreAttribute(XSDConcreteComponent xsdConcreteComponent, String attribute)
+  {
+    String value = super.getEcoreAttribute(xsdConcreteComponent, attribute);
+    if ("package".equals(attribute) && value == null)
+    {
+      XSDSchema xsdSchema = (XSDSchema)xsdConcreteComponent;
+      value = getDefaultPackageName(xsdSchema.getTargetNamespace());
+    }
+    return value;
+  }
+  
   protected XSDTypeDefinition getEcoreTypeQNameAttribute(XSDConcreteComponent xsdConcreteComponent, String attribute)
   {    
     if (xsdConcreteComponent == null) return null;
@@ -230,5 +247,173 @@ class SDOXSDEcoreBuilder extends XSDEcoreBuilder
       typeDef = xsdFeature.getType();
     return typeDef;
   }
+
+  //Code below here to provide common URI to java packagname
+  
+  public static String uncapNameStatic(String name)
+  {
+    if (name.length() == 0)
+    {
+      return name;
+    }
+    else
+    {
+      String lowerName = name.toLowerCase();
+      int i;
+      for (i = 0; i < name.length(); i++)
+      {
+        if (name.charAt(i) == lowerName.charAt(i))
+        {
+          break;
+        }
+      }
+      if (i > 1 && i < name.length() && !Character.isDigit(name.charAt(i)))
+      {
+        --i;
+      }
+      return name.substring(0, i).toLowerCase() + name.substring(i);
+    }
+  }
+
+protected static String validNameStatic(String name, int casing, String prefix)
+  {
+    List parsedName = parseNameStatic(name, '_');
+    StringBuffer result = new StringBuffer();
+    for (Iterator i = parsedName.iterator(); i.hasNext(); )
+    {
+      String nameComponent = (String)i.next();
+      if (nameComponent.length() > 0)
+      {
+        if (result.length() > 0 || casing == UPPER_CASE)
+        {
+          result.append(Character.toUpperCase(nameComponent.charAt(0)));
+          result.append(nameComponent.substring(1));
+        }
+        else
+        {
+          result.append(nameComponent);
+        }
+      }
+    }
+
+    return
+      result.length() == 0 ?
+        prefix :
+        Character.isJavaIdentifierStart(result.charAt(0)) ?
+          casing == LOWER_CASE ?
+            uncapNameStatic(result.toString()) :
+            result.toString() :
+          prefix + result;
+  }
+
+  protected static List parseNameStatic(String sourceName, char separator)
+  {
+    List result = new ArrayList();
+    if (sourceName != null)
+    {
+      StringBuffer currentWord = new StringBuffer();
+      boolean lastIsLower = false;
+      for (int index = 0, length = sourceName.length(); index < length; ++index)
+      {
+        char curChar = sourceName.charAt(index);
+        if (!Character.isJavaIdentifierPart(curChar))
+        {
+          curChar = separator;
+        }
+        if (Character.isUpperCase(curChar) || (!lastIsLower && Character.isDigit(curChar)) || curChar == separator)
+        {
+          if (lastIsLower && currentWord.length() > 1 || curChar == separator && currentWord.length() > 0)
+          {
+            result.add(currentWord.toString());
+            currentWord = new StringBuffer();
+          }
+          lastIsLower = false;
+        }
+        else
+        {
+          if (!lastIsLower)
+          {
+            int currentWordLength = currentWord.length();
+            if (currentWordLength > 1)
+            {
+              char lastChar = currentWord.charAt(--currentWordLength);
+              currentWord.setLength(currentWordLength);
+              result.add(currentWord.toString());
+              currentWord = new StringBuffer();
+              currentWord.append(lastChar);
+            }
+          }
+          lastIsLower = true;
+        }
+
+        if (curChar != separator)
+        {
+          currentWord.append(curChar);
+        }
+      }
+
+      result.add(currentWord.toString());
+    }
+    return result;
+  }
+
+public static String getDefaultPackageName(String targetNamespace)
+  {
+
+      URI uri = URI.createURI(targetNamespace);
+      List parsedName;
+      if (uri.isHierarchical())
+      {
+        String host = uri.host();
+        if (host != null && host.startsWith("www."))
+        {
+          host = host.substring(4);
+        }
+        parsedName = parseNameStatic(host, '.');
+        Collections.reverse(parsedName);
+        if (!parsedName.isEmpty())
+        {
+          parsedName.set(0, ((String)parsedName.get(0)).toLowerCase());
+        }
+  
+        parsedName.addAll(parseNameStatic(uri.trimFileExtension().path(), '/'));
+      }
+      else
+      {
+        String opaquePart = uri.opaquePart();
+        int index = opaquePart.indexOf(":");
+        if (index != -1 && "urn".equalsIgnoreCase(uri.scheme()))
+        {
+          parsedName = parseNameStatic(opaquePart.substring(0, index), '-');
+          if (parsedName.size() > 0 && DOMAINS.contains(parsedName.get(parsedName.size() - 1))) 
+          {
+            Collections.reverse(parsedName);
+            parsedName.set(0, ((String)parsedName.get(0)).toLowerCase());
+          }
+          parsedName.addAll(parseNameStatic(opaquePart.substring(index + 1), '/'));
+        }
+        else
+        {
+          parsedName = parseNameStatic(opaquePart, '/');
+        }
+      }
+
+      StringBuffer qualifiedPackageName = new StringBuffer();
+      for (Iterator i = parsedName.iterator(); i.hasNext(); )
+      {
+        String packageName = (String)i.next();
+        if (packageName.length() > 0)
+        {
+          if (qualifiedPackageName.length() > 0)
+          {
+            qualifiedPackageName.append('.');
+          }
+          qualifiedPackageName.append(validNameStatic(packageName, LOWER_CASE,"_"));
+        }
+      }
+    
+    return qualifiedPackageName.toString().toLowerCase(); //make sure it's lower case .. we can't work with Axis if not.
+  }
+ 
 
 }
