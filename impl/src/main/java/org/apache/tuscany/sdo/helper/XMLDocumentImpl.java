@@ -27,25 +27,33 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
+import org.apache.tuscany.sdo.SimpleAnyTypeDataObject;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xmi.XMLOptions;
 import org.eclipse.emf.ecore.xmi.XMLParserPool;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMLOptionsImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.xml.sax.InputSource;
 
 import commonj.sdo.DataObject;
+import commonj.sdo.Type;
 import commonj.sdo.helper.XMLDocument;
 
 
@@ -189,7 +197,12 @@ public class XMLDocumentImpl implements XMLDocument
         {
           oldContainmentIndex = ((List)oldContainer.eGet(oldContainmentReference)).indexOf(rootObject);
         }
-        documentRoot.eSet(rootElement, rootObject);
+        
+        Object rootValue =
+          rootElement instanceof EAttribute && rootObject instanceof SimpleAnyTypeDataObject ?
+            ((SimpleAnyTypeDataObject)rootObject).getValue() : rootObject;
+            
+        documentRoot.eSet(rootElement, rootValue);
       }
     }
 
@@ -255,12 +268,30 @@ public class XMLDocumentImpl implements XMLDocument
       EClass documentRootClass = documentRoot.eClass();
       if ("".equals(extendedMetaData.getName(documentRootClass))) //TODO efficient way to check this? Maybe DataObject.getContainer should also check this?
       {
-        if (!documentRoot.eContents().isEmpty())
+        FeatureMap featureMap = (FeatureMap)documentRoot.eGet(documentRootClass.getEStructuralFeature(0)); // get mixed feature
+        int size = featureMap.size();
+        for (int index = 0; index < size; index++)
         {
-          rootObject = (EObject)documentRoot.eContents().get(0);
-          rootElement = rootObject.eContainmentFeature();
-          documentRoot.eUnset(rootElement);
-        }
+          EStructuralFeature feature = featureMap.getEStructuralFeature(index);
+          boolean isText = 
+            feature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT ||
+            feature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA ||    
+            feature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT;
+          if (!isText)
+          {
+            if (feature instanceof EReference)
+            {
+              rootObject = (EObject)featureMap.getValue(index);
+              documentRoot.eUnset(feature);
+            }
+            else //EAttribute
+            {
+              rootObject = (EObject)SDOUtil.createDataTypeWrapper((Type)feature.getEType(), featureMap.getValue(index));
+            }
+            rootElement = feature;
+            break;
+          }
+        } //for
       }
       else
       {

@@ -27,6 +27,7 @@ import java.util.Map;
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
+import org.apache.tuscany.sdo.SimpleAnyTypeDataObject;
 import org.apache.tuscany.sdo.helper.DataFactoryImpl;
 import org.apache.tuscany.sdo.helper.SDOExtendedMetaDataImpl;
 import org.apache.tuscany.sdo.helper.TypeHelperImpl;
@@ -54,6 +55,7 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import commonj.sdo.DataGraph;
+import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
@@ -68,55 +70,20 @@ import commonj.sdo.helper.XSDHelper;
  */
 public final class SDOUtil
 {
-  //XSD to SDO Mappings mappings (p.95 of the SDO spec)
-  private static Map xsdToSdoMappings = new HashMap();
-  static {
-    xsdToSdoMappings.put("anySimpleType", "Object");
-    xsdToSdoMappings.put("anyType", "DataObject");
-    xsdToSdoMappings.put("anyURI", "URI");
-    xsdToSdoMappings.put("base64Binary", "Bytes");
-    xsdToSdoMappings.put("boolean", "Boolean");
-    xsdToSdoMappings.put("byte", "Byte");
-    xsdToSdoMappings.put("date", "YearMonthDay");
-    xsdToSdoMappings.put("dateTime", "DateTime");
-    xsdToSdoMappings.put("decimal", "Decimal");
-    xsdToSdoMappings.put("double", "Double");
-    xsdToSdoMappings.put("duration", "Duration");
-    xsdToSdoMappings.put("ENTITIES", "Strings");
-    xsdToSdoMappings.put("ENTITY", "String");
-    xsdToSdoMappings.put("float", "Float");
-    xsdToSdoMappings.put("gDay", "Day");
-    xsdToSdoMappings.put("gMonth", "Month");
-    xsdToSdoMappings.put("gMonthDay", "MonthDay");
-    xsdToSdoMappings.put("gYear", "Year");
-    xsdToSdoMappings.put("gYearMonth", "YearMonth");
-    xsdToSdoMappings.put("hexBinary", "Bytes");
-    xsdToSdoMappings.put("ID","String");
-    xsdToSdoMappings.put("IDREF","String");
-    xsdToSdoMappings.put("IDREFS","Strings");
-    xsdToSdoMappings.put("int","Int");
-    xsdToSdoMappings.put("integer","Integer");
-    xsdToSdoMappings.put("language","String");
-    xsdToSdoMappings.put("long","Long");
-    xsdToSdoMappings.put("Name","String");
-    xsdToSdoMappings.put("NCName","String");
-    xsdToSdoMappings.put("negativeInteger","Integer");
-    xsdToSdoMappings.put("NMTOKEN","String");
-    xsdToSdoMappings.put("NMTOKENS","Strings");
-    xsdToSdoMappings.put("nonNegativeInteger","Integer");
-    xsdToSdoMappings.put("nonPositiveInteger","Integer");
-    xsdToSdoMappings.put("normalizedString","String");
-    xsdToSdoMappings.put("NOTATION","String");
-    xsdToSdoMappings.put("positiveInteger","Integer");
-    xsdToSdoMappings.put("QName","URI");
-    xsdToSdoMappings.put("short","Short");
-    xsdToSdoMappings.put("string","String");
-    xsdToSdoMappings.put("time","Time");
-    xsdToSdoMappings.put("token","String");
-    xsdToSdoMappings.put("unsignedByte","Short");
-    xsdToSdoMappings.put("unsignedInt","Long");
-    xsdToSdoMappings.put("unsignedLong","Integer");
-    xsdToSdoMappings.put("unsignedShort","Int");
+  /**
+   * Create a DataObject wrapper for an instance of the specified dataType.
+   * This method is typically used to create a root object that can be passed to the XMLHelper.save() 
+   * method when the root element to be serialized is an XMLSchema simpleType.
+   * @param dataType a Type for which isDataType() returns true.
+   * @param value the instance value.
+   * @return a DataObject wrapper for the specified value.
+   */
+  public static DataObject createDataTypeWrapper(Type dataType, Object value)
+  {
+    SimpleAnyTypeDataObject simpleAnyType = SDOFactory.eINSTANCE.createSimpleAnyTypeDataObject();
+    simpleAnyType.setInstanceType((EDataType)dataType);
+    simpleAnyType.setValue(value);
+    return simpleAnyType;
   }
   
   /**
@@ -458,6 +425,57 @@ public final class SDOUtil
     }
   }
 
+  //XSD to SDO Mappings mappings (p.95 of the SDO spec)
+  private static Map xsdToSdoMappings = new HashMap();
+  static {
+    xsdToSdoMappings.put("anySimpleType", "Object");
+    xsdToSdoMappings.put("anyType", "DataObject");
+    xsdToSdoMappings.put("anyURI", "URI");
+    xsdToSdoMappings.put("base64Binary", "Bytes");
+    xsdToSdoMappings.put("boolean", "Boolean");
+    xsdToSdoMappings.put("byte", "Byte");
+    xsdToSdoMappings.put("date", "YearMonthDay");
+    xsdToSdoMappings.put("dateTime", "DateTime");
+    xsdToSdoMappings.put("decimal", "Decimal");
+    xsdToSdoMappings.put("double", "Double");
+    xsdToSdoMappings.put("duration", "Duration");
+    xsdToSdoMappings.put("ENTITIES", "Strings");
+    xsdToSdoMappings.put("ENTITY", "String");
+    xsdToSdoMappings.put("float", "Float");
+    xsdToSdoMappings.put("gDay", "Day");
+    xsdToSdoMappings.put("gMonth", "Month");
+    xsdToSdoMappings.put("gMonthDay", "MonthDay");
+    xsdToSdoMappings.put("gYear", "Year");
+    xsdToSdoMappings.put("gYearMonth", "YearMonth");
+    xsdToSdoMappings.put("hexBinary", "Bytes");
+    xsdToSdoMappings.put("ID","String");
+    xsdToSdoMappings.put("IDREF","String");
+    xsdToSdoMappings.put("IDREFS","Strings");
+    xsdToSdoMappings.put("int","Int");
+    xsdToSdoMappings.put("integer","Integer");
+    xsdToSdoMappings.put("language","String");
+    xsdToSdoMappings.put("long","Long");
+    xsdToSdoMappings.put("Name","String");
+    xsdToSdoMappings.put("NCName","String");
+    xsdToSdoMappings.put("negativeInteger","Integer");
+    xsdToSdoMappings.put("NMTOKEN","String");
+    xsdToSdoMappings.put("NMTOKENS","Strings");
+    xsdToSdoMappings.put("nonNegativeInteger","Integer");
+    xsdToSdoMappings.put("nonPositiveInteger","Integer");
+    xsdToSdoMappings.put("normalizedString","String");
+    xsdToSdoMappings.put("NOTATION","String");
+    xsdToSdoMappings.put("positiveInteger","Integer");
+    xsdToSdoMappings.put("QName","URI");
+    xsdToSdoMappings.put("short","Short");
+    xsdToSdoMappings.put("string","String");
+    xsdToSdoMappings.put("time","Time");
+    xsdToSdoMappings.put("token","String");
+    xsdToSdoMappings.put("unsignedByte","Short");
+    xsdToSdoMappings.put("unsignedInt","Long");
+    xsdToSdoMappings.put("unsignedLong","Integer");
+    xsdToSdoMappings.put("unsignedShort","Int");
+  }
+  
   /**
    * Initialize SDO runtime.
    */
