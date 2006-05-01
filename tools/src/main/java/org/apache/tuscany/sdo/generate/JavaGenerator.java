@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -29,7 +30,6 @@ import java.util.StringTokenizer;
 
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.SDOPackageImpl;
-import org.apache.tuscany.sdo.model.ModelPackage;
 import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
@@ -55,7 +55,7 @@ import org.eclipse.xsd.XSDSchema;
 import commonj.sdo.helper.XSDHelper;
 
 
-public class JavaGenerator
+public abstract class JavaGenerator
 {
   public static int OPTION_NO_INTERFACES=0x1;
   public static int OPTION_SPARSE_PATTERN=0x2;
@@ -155,89 +155,119 @@ public class JavaGenerator
    *         implementation to choose to provide this behavior or not. With this option, all generated properties
    *         will not record their unset state. The generated isSet() methods simply returns whether the current
    *         value is equal to the property's "default value".
+   *         
+   * @deprecated replaced by XSD2JavaGenerator
    */
   public static void main(String args[])
   {
-    if (args.length == 0)
+    try
+    {
+      JavaGenerator generator = new XSD2JavaGenerator();
+      generator.processArguments(args);
+      generator.run(args);
+    }
+    catch (IllegalArgumentException e)
     {
       printUsage();
-      return;
     }
-
-    String targetDirectory = null;
-    String javaPackage = null;
-    String prefix = null;
-    
-    int genOptions = 0;
-
-    int index = 0;
-    for (; index < args.length && args[index].startsWith("-"); ++index)
-    {
-      if (args[index].equalsIgnoreCase("-targetDirectory"))
-      {
-        targetDirectory = args[++index];
-      }
-      else if (args[index].equalsIgnoreCase("-javaPackage"))
-      {
-        javaPackage = args[++index];
-      }
-      else if (args[index].equalsIgnoreCase("-prefix"))
-      {
-        prefix = args[++index];
-      }
-      else if (args[index].equalsIgnoreCase("-noInterfaces"))
-      {
-        genOptions |= OPTION_NO_INTERFACES;
-      }
-      else if (args[index].equalsIgnoreCase("-sparsePattern"))
-      {
-        genOptions |= OPTION_SPARSE_PATTERN;
-      }
-      else if (args[index].equalsIgnoreCase("-storePattern"))
-      {
-        genOptions |= OPTION_STORE_PATTERN;
-      }
-      else if (args[index].equalsIgnoreCase("-noContainment"))
-      {
-        genOptions |= OPTION_NO_CONTAINMENT;
-      }
-      else if (args[index].equalsIgnoreCase("-noNotification"))
-      {
-        genOptions |= OPTION_NO_NOTIFICATION;
-      }
-      else if (args[index].equalsIgnoreCase("-arrayAccessors"))
-      {
-        genOptions |= OPTION_ARRAY_ACCESSORS;
-      }
-      else if (args[index].equalsIgnoreCase("-generateLoader"))
-      {
-        genOptions |= OPTION_GENERATE_LOADER;
-      }
-      else if (args[index].equalsIgnoreCase("-noUnsettable"))
-      {
-        genOptions |= OPTION_NO_UNSETTABLE;
-      }
-      //else if (...)
-      else
-      {
-        printUsage();
-        return;
-      }
-    }
-
-    String xsdFileName = args[index];
-    
-    generateFromXMLSchema(xsdFileName, targetDirectory, javaPackage, prefix, genOptions);
   }
 
+  protected void processArguments(String args[])
+  {
+    if (args.length == 0)
+    {
+      throw new IllegalArgumentException();
+    }
+
+    int index = 0;
+    while (args[index].startsWith("-"))
+    {
+      int newIndex = handleArgument(args, index);
+      if (newIndex == index)
+      {
+        throw new IllegalArgumentException();
+      }
+      index = newIndex;
+      if (index == args.length)
+      {
+        throw new IllegalArgumentException();
+      }
+    }
+
+    inputIndex = index;
+  }
+  
+  protected String targetDirectory = null;
+  protected String javaPackage = null;
+  protected String prefix = null;
+  protected int genOptions = 0;
+  protected String xsdFileName;
+  protected int inputIndex;
+
+  protected int handleArgument(String args[], int index)
+  {
+    if (args[index].equalsIgnoreCase("-targetDirectory"))
+    {
+      targetDirectory = args[++index];
+    }
+    else if (args[index].equalsIgnoreCase("-javaPackage"))
+    {
+      javaPackage = args[++index];
+    }
+    else if (args[index].equalsIgnoreCase("-prefix"))
+    {
+      prefix = args[++index];
+    }
+    else if (args[index].equalsIgnoreCase("-noInterfaces"))
+    {
+      genOptions |= OPTION_NO_INTERFACES;
+    }
+    else if (args[index].equalsIgnoreCase("-sparsePattern"))
+    {
+      genOptions |= OPTION_SPARSE_PATTERN;
+    }
+    else if (args[index].equalsIgnoreCase("-storePattern"))
+    {
+      genOptions |= OPTION_STORE_PATTERN;
+    }
+    else if (args[index].equalsIgnoreCase("-noContainment"))
+    {
+      genOptions |= OPTION_NO_CONTAINMENT;
+    }
+    else if (args[index].equalsIgnoreCase("-noNotification"))
+    {
+      genOptions |= OPTION_NO_NOTIFICATION;
+    }
+    else if (args[index].equalsIgnoreCase("-arrayAccessors"))
+    {
+      genOptions |= OPTION_ARRAY_ACCESSORS;
+    }
+    else if (args[index].equalsIgnoreCase("-generateLoader"))
+    {
+      genOptions |= OPTION_GENERATE_LOADER;
+    }
+    else if (args[index].equalsIgnoreCase("-noUnsettable"))
+    {
+      genOptions |= OPTION_NO_UNSETTABLE;
+    }
+    //else if (...)
+    else
+    {
+      return index;
+    }
+    
+    return index + 1;
+  }
+
+  protected abstract void run(String args[]);
+
+  /**
+   * @deprecated moved to XSD2JavaGenerator
+   */
   public static void generateFromXMLSchema(String xsdFileName, String targetDirectory, String javaPackage, String prefix, int genOptions)
   {
     DataObjectUtil.initRuntime();
-    EPackage.Registry packageRegistry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE)
-    {
-      public EPackage firstPackage = null;
-            
-    };
+    EPackage.Registry packageRegistry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE);
     ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(packageRegistry);
     XSDHelper xsdHelper = new XSDHelperImpl(extendedMetaData);
 
@@ -259,33 +289,7 @@ public class JavaGenerator
       if (!packageRegistry.values().isEmpty())
       {
         String packageURI = getSchemaNamespace(xsdFileName);
-        ResourceSet resourceSet = DataObjectUtil.createResourceSet();
-        
-        List usedGenPackages = new ArrayList();
-        GenModel genModel = null;
-        
-        for (Iterator iter = packageRegistry.values().iterator(); iter.hasNext();)
-        {
-          EPackage currentEPackage = (EPackage)iter.next();
-          String currentBasePackage = extractBasePackageName(currentEPackage, javaPackage);
-          String currentPrefix = prefix == null ? CodeGenUtil.capName(currentEPackage.getName()) : prefix;
-          
-          GenPackage currentGenPackage = createGenPackage(currentEPackage, currentBasePackage, currentPrefix, genOptions, resourceSet);
-          if (currentEPackage.getNsURI().equals(packageURI))
-          {
-            genModel = currentGenPackage.getGenModel();
-          }
-          else if (!currentEPackage.getNsURI().equals(ModelPackage.eNS_URI))
-          {
-            usedGenPackages.add(currentGenPackage);
-          }
-        }
-        
-        usedGenPackages.add(createGenPackage(SDOPackageImpl.eINSTANCE, "org.apache.tuscany", "SDO", 0, resourceSet));
-        usedGenPackages.add(createGenPackage(ModelPackageImpl.eINSTANCE, "org.apache.tuscany.sdo", "Model", 0, resourceSet));
-        
-        genModel.getUsedGenPackages().addAll(usedGenPackages);
-        generateFromGenModel(genModel, targetDirectory);
+        generatePackages(packageRegistry.values(), packageURI, null, targetDirectory, javaPackage, prefix, genOptions);
       }
 
       /*
@@ -307,6 +311,42 @@ public class JavaGenerator
     }
   }
   
+  public static void generatePackages(Collection packageList, String packageURI, String shortName, String targetDirectory, String javaPackage, String prefix, int genOptions)
+  {
+    ResourceSet resourceSet = DataObjectUtil.createResourceSet();
+    List usedGenPackages = new ArrayList();
+    GenModel genModel = null;
+    for (Iterator iter = packageList.iterator(); iter.hasNext();)
+    {
+      EPackage currentEPackage = (EPackage)iter.next();
+      String currentBasePackage = extractBasePackageName(currentEPackage, javaPackage);
+      String currentPrefix = prefix == null ? CodeGenUtil.capName(shortName != null ? shortName : currentEPackage.getName()) : prefix;
+      GenPackage currentGenPackage = createGenPackage(currentEPackage, currentBasePackage, currentPrefix, genOptions, resourceSet);
+      if (currentEPackage.getNsURI().equals(packageURI))
+      {
+        genModel = currentGenPackage.getGenModel();
+      }
+      else
+      {
+        usedGenPackages.add(currentGenPackage);
+      }
+    }
+
+    usedGenPackages.add(createGenPackage(SDOPackageImpl.eINSTANCE, "org.apache.tuscany", "SDO", 0, resourceSet));
+    usedGenPackages.add(createGenPackage(ModelPackageImpl.eINSTANCE, "org.apache.tuscany.sdo", "Model", 0, resourceSet));
+    genModel.getUsedGenPackages().addAll(usedGenPackages);
+
+    // Invoke the SDO JavaGenerator to generate the SDO classes
+    try
+    {
+      generateFromGenModel(genModel, new File(targetDirectory).getCanonicalPath());
+    }
+    catch (IOException e)
+    {
+      e.printStackTrace();
+    }
+  }
+ 
   public static String getSchemaNamespace(String xsdFileName)
   {
     ResourceSet resourceSet = DataObjectUtil.createResourceSet();
