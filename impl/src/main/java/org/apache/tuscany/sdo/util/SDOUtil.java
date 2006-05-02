@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -391,28 +393,29 @@ public final class SDOUtil
    */
   public static void registerStaticTypes(Class factoryClass)
   {
-    //TODO this implementation is a temporary kludge until the SDO generated factory pattern is decided
+    //TODO this implementation is temporary, until the SDO generated factory pattern is decided
+    //
     String temp = factoryClass.getName().replaceFirst("Factory$", "PackageImpl");
     int lastDot = temp.lastIndexOf('.');
     String packageName = temp.substring(0, lastDot) + ".impl" + temp.substring(lastDot);
-    try
+    try // this case handles the current default generator pattern
     {
-      Class javaClass = factoryClass.getClassLoader().loadClass(packageName);
+      Class javaClass = getPackageClass(factoryClass, packageName);
       Field field = javaClass.getField("eINSTANCE");
       field.get(null); 
     }
     catch (Exception e1)
     {
       packageName = factoryClass.getName().replaceFirst("Factory$", "Package");
-      try
+      try // this case handles the -noInterfaces generator pattern
       {
-        Class javaClass = factoryClass.getClassLoader().loadClass(packageName);
+        Class javaClass = getPackageClass(factoryClass, packageName);
         Field field = javaClass.getField("eINSTANCE");
         field.get(null); 
       }
       catch (Exception e2)
       {
-        try
+        try // this case handles the -noEMF generator pattern
         {
           Field field = factoryClass.getField("INSTANCE");
           field.get(null); 
@@ -423,6 +426,17 @@ public final class SDOUtil
         }
       }
     }
+  }
+
+  private static Class getPackageClass(Class factoryClass, String packageName) throws Exception
+  {
+    final Class factoryClassTemp = factoryClass;
+    final String packageNameTemp = packageName;
+    return (Class)AccessController.doPrivileged(new PrivilegedExceptionAction() {
+        public Object run() throws Exception {
+          return factoryClassTemp.getClassLoader().loadClass(packageNameTemp);
+        }
+      });
   }
 
   //XSD to SDO Mappings mappings (p.95 of the SDO spec)
