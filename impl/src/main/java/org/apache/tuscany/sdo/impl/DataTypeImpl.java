@@ -16,26 +16,16 @@
  */
 package org.apache.tuscany.sdo.impl;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
-import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EDataTypeImpl;
-import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
-import commonj.sdo.ChangeSummary;
-import commonj.sdo.DataGraph;
-import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
@@ -49,7 +39,7 @@ import commonj.sdo.Type;
  *
  * @generated
  */
-public class DataTypeImpl extends EDataTypeImpl implements Type, DataObject, org.apache.tuscany.sdo.model.Type
+public class DataTypeImpl extends EDataTypeImpl implements Type, org.apache.tuscany.sdo.model.Type/*, DataObject*/
 {
   /**
    * <!-- begin-user-doc -->
@@ -175,11 +165,95 @@ public class DataTypeImpl extends EDataTypeImpl implements Type, DataObject, org
     return null;
   }
 
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // org.apache.tuscany.sdo.model.Type method implementations
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////
+  
+  public List getBaseType() {
+    return this.getBaseTypes();
+  }
+
+  public List getProperty() {
+    return this.getProperties();
+  }
+
+  public List getAliasName() {
+    return this.getAliasNames();
+  }
+
+  public Sequence getAny() {
+    throw new UnsupportedOperationException();
+  }
+  
+  public Sequence getAnyAttribute() {
+    throw new UnsupportedOperationException();
+  }
+  
+  public boolean isAbstract()
+  {
+    return false;
+  }
+
+  public void setAbstract(boolean value) {
+    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
+  }
+
+  public boolean isSetAbstract() {
+    return false;
+  }
+
+  public void unsetAbstract() {
+    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
+  }
+
+  public void setDataType(boolean value) {
+    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
+  }
+
+  public void unsetDataType() {
+    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
+  }
+
+  public boolean isSetDataType() {
+    return true;
+  }
+
+  public void setOpen(boolean value) {
+    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
+  }
+
+  public void unsetOpen() {
+    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
+  }
+
+  public boolean isSetOpen() {
+    return false;
+  }
+
+  public void setSequenced(boolean value) {
+    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
+  }
+
+  public void unsetSequenced() {
+    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
+  }
+
+  public boolean isSetSequenced() {
+    return false;
+  }
+
+  public void setUri(String value) {
+    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
+  }
+  
+  public String getUri() {
+    return getURI();
+  }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
   // DataObject method implementations
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
-  
+  /*
   public Object get(int propertyIndex) {
     Object ret = DataObjectUtil.get(this, propertyIndex);
     return (ret != null) ? 
@@ -228,7 +302,6 @@ public class DataTypeImpl extends EDataTypeImpl implements Type, DataObject, org
     return (Type)ModelPackageImpl.eINSTANCE.getType();
   }
   
-
   // Remaining DataObject methods are (will be) implemented as straight delegation to DataObjectUtil
 
   public Object get(String path) {
@@ -672,91 +745,6 @@ public class DataTypeImpl extends EDataTypeImpl implements Type, DataObject, org
   public void detach() {
     throw new UnsupportedOperationException("Type is frozen and cannot be modified");
   }
-
+  */
   
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // org.apache.tuscany.sdo.model.Type method implementations
-  /////////////////////////////////////////////////////////////////////////////////////////////////////////
-  
-  public List getBaseType() {
-    return this.getBaseTypes();
-  }
-
-  public List getProperty() {
-    return this.getProperties();
-  }
-
-  public List getAliasName() {
-    return this.getAliasNames();
-  }
-
-  public Sequence getAny() {
-    throw new UnsupportedOperationException();
-  }
-  
-  public Sequence getAnyAttribute() {
-    throw new UnsupportedOperationException();
-  }
-  
-  public boolean isAbstract()
-  {
-    return false;
-  }
-
-  public void setAbstract(boolean value) {
-    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
-  }
-
-  public boolean isSetAbstract() {
-    return false;
-  }
-
-  public void unsetAbstract() {
-    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
-  }
-
-  public void setDataType(boolean value) {
-    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
-  }
-
-  public void unsetDataType() {
-    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
-  }
-
-  public boolean isSetDataType() {
-    return true;
-  }
-
-  public void setOpen(boolean value) {
-    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
-  }
-
-  public void unsetOpen() {
-    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
-  }
-
-  public boolean isSetOpen() {
-    return false;
-  }
-
-  public void setSequenced(boolean value) {
-    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
-  }
-
-  public void unsetSequenced() {
-    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
-  }
-
-  public boolean isSetSequenced() {
-    return false;
-  }
-
-  public void setUri(String value) {
-    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
-  }
-  
-  public String getUri() {
-    return getURI();
-  }
-
 } //DataTypeImpl

@@ -31,6 +31,11 @@ import java.util.List;
  * </ul>
  * </p>
  *
+ * Note: The getDefault and getOpposite methods had to be renamed to avoid
+ *       conflict with the commonj.sdo.Property getDefault and getOpposite
+ *       methods in classes that implement both.  Eventually, the two interfaces
+ *       should be brought in-line with one another -- James Snell 
+ *
  * @generated
  */
 public interface Property
@@ -123,9 +128,9 @@ public interface Property
    * <!-- end-user-doc -->
    * @return the value of the '<em>Default</em>' attribute.
    * @see #setDefault(String)
-   * @generated
+   * @generated NOT
    */
-  String getDefault();
+  String getDefault_();
 
   /**
    * Sets the value of the '{@link org.apache.tuscany.sdo.model.Property#getDefault <em>Default</em>}' attribute.
@@ -135,7 +140,7 @@ public interface Property
    * @see #getDefault()
    * @generated
    */
-  void setDefault(String value);
+  void setDefault_(String value);
 
   /**
    * Returns the value of the '<em><b>Many</b></em>' attribute.
@@ -224,7 +229,7 @@ public interface Property
    * @see #setOpposite(Property)
    * @generated
    */
-  Property getOpposite();
+  Property getOpposite_();
 
   /**
    * Sets the value of the '{@link org.apache.tuscany.sdo.model.Property#getOpposite <em>Opposite</em>}' reference.
@@ -234,7 +239,7 @@ public interface Property
    * @see #getOpposite()
    * @generated
    */
-  void setOpposite(Property value);
+  void setOpposite_(Property value);
 
   /**
    * Returns the value of the '<em><b>Read Only</b></em>' attribute.

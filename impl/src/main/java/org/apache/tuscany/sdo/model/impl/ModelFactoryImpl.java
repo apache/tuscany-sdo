@@ -456,8 +456,8 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public Character createCharacterFromString(EDataType eDataType, String initialValue)
   {
-    return (initialValue != null && initialValue.length() > 0) ? 
-           new Character(initialValue.charAt(0)) : null;
+    return (initialValue == null && initialValue.length() > 0) 
+    ? null : (new Character(collapseWhiteSpace(initialValue).charAt(0)));
   }
 
   /**

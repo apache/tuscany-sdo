@@ -110,13 +110,13 @@ public class TypeHelperImpl implements TypeHelper
     
     if (!isDataType)
     {
-      SDOUtil.setOpen(definedType, modeledType.isOpen());
       SDOUtil.setSequenced(definedType, modeledType.isSequenced());
+      SDOUtil.setOpen(definedType, modeledType.isOpen());
       SDOUtil.setAbstract(definedType, modeledType.isAbstract());
       
       for (Iterator iter = modeledType.getBaseType().iterator(); iter.hasNext(); )
       {
-        Type baseType = getDefinedType((DataObject)iter.next());
+        Type baseType = getDefinedType((org.apache.tuscany.sdo.model.Type)iter.next());
         SDOUtil.addBaseType(definedType, baseType);
       }
       
@@ -130,11 +130,11 @@ public class TypeHelperImpl implements TypeHelper
       {
         org.apache.tuscany.sdo.model.Property modeledProperty = (org.apache.tuscany.sdo.model.Property)iter.next();
         
-        Type propertyType = getDefinedType((DataObject)modeledProperty.getType_());
+        Type propertyType = getDefinedType(modeledProperty.getType_());
         Property definedProperty = SDOUtil.createProperty(definedType, modeledProperty.getName(), propertyType);
         
         SDOUtil.setMany(definedProperty, modeledProperty.isMany());
-        SDOUtil.setDefault(definedProperty, modeledProperty.getDefault());
+        SDOUtil.setDefault(definedProperty, modeledProperty.getDefault_());
         SDOUtil.setReadOnly(definedProperty, modeledProperty.isReadOnly());
         
         for (Iterator iter2 = modeledProperty.getAliasName().iterator(); iter2.hasNext(); )
@@ -146,9 +146,9 @@ public class TypeHelperImpl implements TypeHelper
         if (!propertyType.isDataType())
         {
           SDOUtil.setContainment(definedProperty, modeledProperty.isContainment());
-          if (modeledProperty.getOpposite() != null)
+          if (modeledProperty.getOpposite_() != null)
           {
-            SDOUtil.setOpposite(definedProperty, getDefinedProperty((DataObject)modeledProperty.getOpposite()));
+            SDOUtil.setOpposite(definedProperty, getDefinedProperty(modeledProperty.getOpposite_()));
           }
         }
       }
@@ -168,7 +168,7 @@ public class TypeHelperImpl implements TypeHelper
     return definedTypes;
   }
   
-  protected Type getDefinedType(DataObject modeledType)
+  protected Type getDefinedType(org.apache.tuscany.sdo.model.Type modeledType)
   {
     if (modeledType instanceof Type)
     {
@@ -176,25 +176,33 @@ public class TypeHelperImpl implements TypeHelper
     }
     else
     {
-      org.apache.tuscany.sdo.model.Type type = (org.apache.tuscany.sdo.model.Type)modeledType;
-      EClassifier eClassifier = extendedMetaData.getType(type.getUri(), type.getName());
+      EClassifier eClassifier = extendedMetaData.getType(modeledType.getUri(), modeledType.getName());
       if (eClassifier != null)
       {
         return (Type)eClassifier;
       }
       else
       {
-        return define(modeledType);
+        return define((DataObject)modeledType);
       }
     }
   }
   
-  protected Property getDefinedProperty(DataObject modeledProperty)
+  protected Property getDefinedProperty(org.apache.tuscany.sdo.model.Property modeledProperty)
   {
-    Type definedType = getDefinedType(modeledProperty.getContainer());
-    String propertyName = ((org.apache.tuscany.sdo.model.Property)modeledProperty).getName();
+    if (modeledProperty instanceof Property)
+    {
+      return (Property)modeledProperty;
+    }
+    else
+    {
+      DataObject modeledContainingType = ((DataObject)modeledProperty).getContainer();
+      
+      Type definedContainingType = getDefinedType((org.apache.tuscany.sdo.model.Type)modeledContainingType);
+      String propertyName = modeledProperty.getName();
     
-    return definedType.getProperty(propertyName);
+      return definedContainingType.getProperty(propertyName);
+    }
   }
 
 }

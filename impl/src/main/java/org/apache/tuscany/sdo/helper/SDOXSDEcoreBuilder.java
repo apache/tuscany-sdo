@@ -108,10 +108,8 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
   }
 
   protected EEnum computeEEnum(XSDSimpleTypeDefinition xsdSimpleTypeDefinition) {
-    EEnum eenum = super.computeEEnum(xsdSimpleTypeDefinition);
-    return eenum;
+    return null;
   }
-
     
   protected EStructuralFeature createFeature(EClass eClass, String name, EClassifier type, XSDComponent xsdComponent, int minOccurs, int maxOccurs) {
     EStructuralFeature feature = 

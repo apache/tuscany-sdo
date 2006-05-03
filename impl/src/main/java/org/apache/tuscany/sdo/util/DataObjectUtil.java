@@ -32,7 +32,6 @@ import java.util.Set;
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.impl.SDOFactoryImpl;
-import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -71,65 +70,6 @@ import commonj.sdo.helper.TypeHelper;
 
 public final class DataObjectUtil
 {
-  public static Object get(org.apache.tuscany.sdo.model.Type type, int propertyIndex) {
-    switch (propertyIndex)
-    {
-      case ModelPackageImpl.TYPE__BASE_TYPE:
-        return type.getBaseType();
-      case ModelPackageImpl.TYPE__PROPERTY:
-        return type.getProperty();
-      case ModelPackageImpl.TYPE__ALIAS_NAME:
-        return type.getAliasName();
-      case ModelPackageImpl.TYPE__ANY:
-        return type.getAny();
-      case ModelPackageImpl.TYPE__ABSTRACT:
-        return type.isAbstract() ? Boolean.TRUE : Boolean.FALSE;
-      case ModelPackageImpl.TYPE__DATA_TYPE:
-        return type.isDataType() ? Boolean.TRUE : Boolean.FALSE;
-      case ModelPackageImpl.TYPE__NAME:
-        return type.getName();
-      case ModelPackageImpl.TYPE__OPEN:
-        return type.isOpen() ? Boolean.TRUE : Boolean.FALSE;
-      case ModelPackageImpl.TYPE__SEQUENCED:
-        return type.isSequenced() ? Boolean.TRUE : Boolean.FALSE;
-      case ModelPackageImpl.TYPE__URI:
-        return type.getUri();
-      case ModelPackageImpl.TYPE__ANY_ATTRIBUTE:
-        return type.getAnyAttribute();
-    }
-    return null;
-  }
-  
-  public static boolean isSet(org.apache.tuscany.sdo.model.Type type, int propertyIndex) {
-    //FB Note that this implementation has the undesirable effect of invoking lazy creation of feature lists
-    switch (propertyIndex)
-    {
-      case ModelPackageImpl.TYPE__BASE_TYPE:
-        return !type.getBaseType().isEmpty();
-      case ModelPackageImpl.TYPE__PROPERTY:
-        return !type.getProperty().isEmpty();
-      case ModelPackageImpl.TYPE__ALIAS_NAME:
-        return !type.getAliasName().isEmpty();
-      case ModelPackageImpl.TYPE__ANY:
-        return false;
-      case ModelPackageImpl.TYPE__ABSTRACT:
-        return type.isSetAbstract();
-      case ModelPackageImpl.TYPE__DATA_TYPE:
-        return type.isSetDataType();
-      case ModelPackageImpl.TYPE__NAME:
-        return type.getName() != null;
-      case ModelPackageImpl.TYPE__OPEN:
-        return type.isSetOpen();
-      case ModelPackageImpl.TYPE__SEQUENCED:
-        return type.isSetSequenced();
-      case ModelPackageImpl.TYPE__URI:
-        return type.getUri() != null;
-      case ModelPackageImpl.TYPE__ANY_ATTRIBUTE:
-        return false;
-    }
-    return false;
-  }
-  
   public static Object writeReplace(DataObject dataObject) throws ObjectStreamException
   {
     DataGraph dataGraph = dataObject.getDataGraph();
@@ -2505,5 +2445,120 @@ public final class DataObjectUtil
   {
     // NOOP since init is done during static initialization of this class. See above.
   }
+  
+  /*
+  public static Object get(org.apache.tuscany.sdo.model.Property property, int propertyIndex) {
+    switch(propertyIndex)
+    {
+      case ModelPackageImpl.PROPERTY__ALIAS_NAME:
+        return property.getAliasName();
+      case ModelPackageImpl.PROPERTY__ANY:
+        return property.getAny();
+      case ModelPackageImpl.PROPERTY__ANY_ATTRIBUTE:
+        return property.getAnyAttribute();
+      case ModelPackageImpl.PROPERTY__CONTAINMENT:
+        return Boolean.valueOf(property.isContainment());
+      case ModelPackageImpl.PROPERTY__DEFAULT:
+        return property.getDefault_();
+      case ModelPackageImpl.PROPERTY__MANY:
+        return Boolean.valueOf(property.isMany());
+      case ModelPackageImpl.PROPERTY__NAME:
+        return property.getName();
+      case ModelPackageImpl.PROPERTY__OPPOSITE:
+        return property.getOpposite_();
+      case ModelPackageImpl.PROPERTY__READ_ONLY:
+        return Boolean.valueOf(property.isReadOnly());
+      case ModelPackageImpl.PROPERTY__TYPE:
+        return property.getType_();
+    }
+    return null;
+  }
+  
+  public static boolean isSet(org.apache.tuscany.sdo.model.Property property, int propertyIndex) {
+    switch(propertyIndex)
+    {
+      case ModelPackageImpl.PROPERTY__ALIAS_NAME:
+        return !property.getAliasName().isEmpty();
+      case ModelPackageImpl.PROPERTY__ANY:
+        return false;
+      case ModelPackageImpl.PROPERTY__ANY_ATTRIBUTE:
+        return false;
+      case ModelPackageImpl.PROPERTY__CONTAINMENT:
+        return property.isSetContainment();
+      case ModelPackageImpl.PROPERTY__DEFAULT:
+        return property.getDefault_() != null;
+      case ModelPackageImpl.PROPERTY__MANY:
+        return property.isSetMany();
+      case ModelPackageImpl.PROPERTY__NAME:
+        return property.getName() != null;
+      case ModelPackageImpl.PROPERTY__OPPOSITE:
+        return property.getOpposite_() != null;
+      case ModelPackageImpl.PROPERTY__READ_ONLY:
+        return property.isSetReadOnly();
+      case ModelPackageImpl.PROPERTY__TYPE:
+        return property.getType_() != null;
+    }
+    return false;
+  }
+  
+  public static Object get(org.apache.tuscany.sdo.model.Type type, int propertyIndex) {
+    switch (propertyIndex)
+    {
+      case ModelPackageImpl.TYPE__BASE_TYPE:
+        return type.getBaseType();
+      case ModelPackageImpl.TYPE__PROPERTY:
+        return type.getProperty();
+      case ModelPackageImpl.TYPE__ALIAS_NAME:
+        return type.getAliasName();
+      case ModelPackageImpl.TYPE__ANY:
+        return type.getAny();
+      case ModelPackageImpl.TYPE__ABSTRACT:
+        return Boolean.valueOf(type.isAbstract());
+      case ModelPackageImpl.TYPE__DATA_TYPE:
+        return Boolean.valueOf(type.isDataType());
+      case ModelPackageImpl.TYPE__NAME:
+        return type.getName();
+      case ModelPackageImpl.TYPE__OPEN:
+        return Boolean.valueOf(type.isOpen());
+      case ModelPackageImpl.TYPE__SEQUENCED:
+        return Boolean.valueOf(type.isSequenced());
+      case ModelPackageImpl.TYPE__URI:
+        return type.getUri();
+      case ModelPackageImpl.TYPE__ANY_ATTRIBUTE:
+        return type.getAnyAttribute();
+    }
+    return null;
+  }
+  
+  public static boolean isSet(org.apache.tuscany.sdo.model.Type type, int propertyIndex) {
+    //FB Note that this implementation has the undesirable effect of invoking lazy creation of feature lists
+    switch (propertyIndex)
+    {
+      case ModelPackageImpl.TYPE__BASE_TYPE:
+        return !type.getBaseType().isEmpty();
+      case ModelPackageImpl.TYPE__PROPERTY:
+        return !type.getProperty().isEmpty();
+      case ModelPackageImpl.TYPE__ALIAS_NAME:
+        return !type.getAliasName().isEmpty();
+      case ModelPackageImpl.TYPE__ANY:
+        return false;
+      case ModelPackageImpl.TYPE__ABSTRACT:
+        return type.isSetAbstract();
+      case ModelPackageImpl.TYPE__DATA_TYPE:
+        return type.isSetDataType();
+      case ModelPackageImpl.TYPE__NAME:
+        return type.getName() != null;
+      case ModelPackageImpl.TYPE__OPEN:
+        return type.isSetOpen();
+      case ModelPackageImpl.TYPE__SEQUENCED:
+        return type.isSetSequenced();
+      case ModelPackageImpl.TYPE__URI:
+        return type.getUri() != null;
+      case ModelPackageImpl.TYPE__ANY_ATTRIBUTE:
+        return false;
+    }
+    return false;
+  }
+  */
   
 }

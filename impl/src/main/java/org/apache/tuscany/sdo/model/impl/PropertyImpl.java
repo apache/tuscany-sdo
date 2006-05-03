@@ -54,6 +54,11 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </ul>
  * </p>
  *
+ * Note: The getDefault and getOpposite methods had to be renamed to avoid
+ *       conflict with the commonj.sdo.Property getDefault and getOpposite
+ *       methods in classes that implement both.  Eventually, the two interfaces
+ *       should be brought in-line with one another -- James Snell
+ *
  * @generated
  */
 public class PropertyImpl extends DataObjectImpl implements Property
@@ -336,9 +341,9 @@ public class PropertyImpl extends DataObjectImpl implements Property
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
-  public String getDefault()
+  public String getDefault_()
   {
     return default_;
   }
@@ -348,7 +353,7 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setDefault(String newDefault)
+  public void setDefault_(String newDefault)
   {
     String oldDefault = default_;
     default_ = newDefault;
@@ -432,9 +437,9 @@ public class PropertyImpl extends DataObjectImpl implements Property
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
-  public Property getOpposite()
+  public Property getOpposite_()
   {
     if (opposite != null && ((EObject)opposite).eIsProxy())
     {
@@ -462,9 +467,9 @@ public class PropertyImpl extends DataObjectImpl implements Property
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
-  public void setOpposite(Property newOpposite)
+  public void setOpposite_(Property newOpposite)
   {
     Property oldOpposite = opposite;
     opposite = newOpposite;
@@ -613,13 +618,13 @@ public class PropertyImpl extends DataObjectImpl implements Property
       case ModelPackageImpl.PROPERTY__CONTAINMENT:
         return isContainment() ? Boolean.TRUE : Boolean.FALSE;
       case ModelPackageImpl.PROPERTY__DEFAULT:
-        return getDefault();
+        return getDefault_();
       case ModelPackageImpl.PROPERTY__MANY:
         return isMany() ? Boolean.TRUE : Boolean.FALSE;
       case ModelPackageImpl.PROPERTY__NAME:
         return getName();
       case ModelPackageImpl.PROPERTY__OPPOSITE:
-        if (resolve) return getOpposite();
+        if (resolve) return getOpposite_();
         return basicGetOpposite();
       case ModelPackageImpl.PROPERTY__READ_ONLY:
         return isReadOnly() ? Boolean.TRUE : Boolean.FALSE;
@@ -653,7 +658,7 @@ public class PropertyImpl extends DataObjectImpl implements Property
         setContainment(((Boolean)newValue).booleanValue());
         return;
       case ModelPackageImpl.PROPERTY__DEFAULT:
-        setDefault((String)newValue);
+        setDefault_((String)newValue);
         return;
       case ModelPackageImpl.PROPERTY__MANY:
         setMany(((Boolean)newValue).booleanValue());
@@ -662,7 +667,7 @@ public class PropertyImpl extends DataObjectImpl implements Property
         setName((String)newValue);
         return;
       case ModelPackageImpl.PROPERTY__OPPOSITE:
-        setOpposite((Property)newValue);
+        setOpposite_((Property)newValue);
         return;
       case ModelPackageImpl.PROPERTY__READ_ONLY:
         setReadOnly(((Boolean)newValue).booleanValue());
@@ -696,7 +701,7 @@ public class PropertyImpl extends DataObjectImpl implements Property
         unsetContainment();
         return;
       case ModelPackageImpl.PROPERTY__DEFAULT:
-        setDefault(DEFAULT_EDEFAULT);
+        setDefault_(DEFAULT_EDEFAULT);
         return;
       case ModelPackageImpl.PROPERTY__MANY:
         unsetMany();
@@ -705,7 +710,7 @@ public class PropertyImpl extends DataObjectImpl implements Property
         setName(NAME_EDEFAULT);
         return;
       case ModelPackageImpl.PROPERTY__OPPOSITE:
-        setOpposite((Property)null);
+        setOpposite_((Property)null);
         return;
       case ModelPackageImpl.PROPERTY__READ_ONLY:
         unsetReadOnly();

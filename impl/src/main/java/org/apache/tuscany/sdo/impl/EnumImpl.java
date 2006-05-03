@@ -37,6 +37,7 @@ import commonj.sdo.Type;
  * </p>
  *
  * @generated
+ * @deprecated SDO doesn't support Enum types
  */
 public class EnumImpl extends EEnumImpl implements Type
 {
