@@ -262,7 +262,12 @@ public final class SDOUtil
   
   public static void setOpen(Type type, boolean isOpen)
   {
-    if (type.isDataType() || !type.getProperties().isEmpty())
+    boolean hasProperties = 
+      (type.isSequenced()) ? 
+         type.getProperties().size() > 1 : 
+           !type.getProperties().isEmpty();
+    
+    if (type.isDataType() || hasProperties)
     {
       if (type.getName() != null) //FB TEMP ... figure out how to handle document root
         throw new IllegalArgumentException(); // type must a non dataType with no properties yet
@@ -279,55 +284,38 @@ public final class SDOUtil
       ExtendedMetaData.INSTANCE.setFeatureKind(eAttribute, ExtendedMetaData.ELEMENT_WILDCARD_FEATURE);
       ExtendedMetaData.INSTANCE.setProcessingKind(eAttribute, ExtendedMetaData.LAX_PROCESSING);
       ExtendedMetaData.INSTANCE.setWildcards(eAttribute, Collections.singletonList("##any"));
-    }
-  }
-  
-  /*
-  private static boolean hasNonWildcardFeatures(EClass eclass) {
-    boolean answer = false;
-    List features = eclass.getEStructuralFeatures();
-    for (int n = 0; n < features.size(); n++) {
-      EStructuralFeature feature = (EStructuralFeature) features.get(n);
-      int kind = ExtendedMetaData.INSTANCE.getFeatureKind(feature);
-      if (kind != ExtendedMetaData.ELEMENT_WILDCARD_FEATURE && 
-          kind != ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE) {
-        answer = true;
-        break;
+      
+      if (type.isSequenced()) {
+        eAttribute.setDerived(true);
+        eAttribute.setTransient(true);
+        eAttribute.setVolatile(true);
       }
     }
-    return answer;
   }
-  */
   
   public static void setSequenced(Type type, boolean isSequenced)
   {
-    if (!isSequenced) return;
-    throw new UnsupportedOperationException(); // TODO: implement this method properly
-    /*
     if ((isSequenced && type.isSequenced()) || 
         !isSequenced && !type.isSequenced()) return;
-    if (!(type instanceof EClass)) return;
-    EClass eclass = (EClass)type;
-    if (type.isDataType() || hasNonWildcardFeatures(eclass))
+    
+    if (type.isDataType() || !type.getProperties().isEmpty())
     {
-      if (type.getName() != null)
+      if (type.getName() != null) //FB TEMP ... figure out how to handle document root
         throw new IllegalArgumentException();
     }
     if (isSequenced) {
-      ExtendedMetaData.INSTANCE.setContentKind(eclass, ExtendedMetaData.MIXED_CONTENT);
+      EClass eClass = (EClass)type;
+      ExtendedMetaData.INSTANCE.setContentKind(eClass, ExtendedMetaData.MIXED_CONTENT);
       EAttribute mixedFeature = EcoreFactory.eINSTANCE.createEAttribute();
       mixedFeature.setName("mixed");
       mixedFeature.setUnique(false);
       mixedFeature.setEType(EcorePackage.eINSTANCE.getEFeatureMapEntry());
       mixedFeature.setLowerBound(0);
       mixedFeature.setUpperBound(-1);
-      eclass.getEStructuralFeatures().add(mixedFeature);
+      eClass.getEStructuralFeatures().add(mixedFeature);
       ExtendedMetaData.INSTANCE.setFeatureKind(mixedFeature, ExtendedMetaData.ELEMENT_WILDCARD_FEATURE);
       ExtendedMetaData.INSTANCE.setName(mixedFeature, ":mixed");   
-    } else {
-      // do I really need to do anything here?
     }
-    */
   }
   
   public static void setAbstract(Type type, boolean isAbstract)
@@ -350,6 +338,13 @@ public final class SDOUtil
       ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
     }
     ((EClass)containingType).getEStructuralFeatures().add(eStructuralFeature);
+    
+    if (containingType.isSequenced()) {
+      eStructuralFeature.setDerived(true);
+      eStructuralFeature.setTransient(true);
+      eStructuralFeature.setVolatile(true);
+    }
+    
     return (Property)eStructuralFeature;
   }
   

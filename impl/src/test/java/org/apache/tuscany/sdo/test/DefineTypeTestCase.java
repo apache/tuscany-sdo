@@ -40,6 +40,7 @@ public class DefineTypeTestCase extends TestCase
   private static final String CUSTOMER2_XML = "/customer2.xml";
   private static final String OPEN_XML = "/open2.xml";
   private static final String MIXED_XML = "/mixed2.xml";
+  private static final String MIXEDOPEN_XML = "/mixedopen.xml";
   
   public void testDefineTypeRoundTrip() throws Exception {
     TypeHelper types = SDOUtil.createTypeHelper();
@@ -393,7 +394,7 @@ public class DefineTypeTestCase extends TestCase
   
   public void testDefineSequencedType() throws Exception 
   {
-    /*
+    
     TypeHelper types = SDOUtil.createTypeHelper();
     DataFactory factory = SDOUtil.createDataFactory(types);
     XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
@@ -454,10 +455,97 @@ public class DefineTypeTestCase extends TestCase
     sequence.add("\n");
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    xmlHelper.save(quote, "http://www.example.com/sequenced", "mixedStockQuote", baos);
+    xmlHelper.save(quote, "http://www.example.com/mixed", "mixedStockQuote", baos);
     assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(MIXED_XML)));
-    */
+    
   }
+  
+  public void testDefineSequencedOpenType() throws Exception 
+  {
+    
+    TypeHelper types = SDOUtil.createTypeHelper();
+    DataFactory factory = SDOUtil.createDataFactory(types);
+    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
+    
+    Type stringType = types.getType("commonj.sdo", "String");
+    Type decimalType = types.getType("commonj.sdo", "Decimal");
+    
+    // Define a new mixed type - MixedQuote
+    DataObject mixedQuoteType = factory.create("commonj.sdo", "Type");
+    mixedQuoteType.set("uri", "http://www.example.com/mixed");
+    mixedQuoteType.set("name", "MixedOpenQuote");
+    mixedQuoteType.set("sequenced", Boolean.TRUE);
+    mixedQuoteType.set("open", Boolean.TRUE);
+    
+//    DataObject symbolProperty = mixedQuoteType.createDataObject("property");
+//    symbolProperty.set("name", "symbol");
+//    symbolProperty.set("type", stringType);
+    
+    DataObject companyNameProperty = mixedQuoteType.createDataObject("property");
+    companyNameProperty.set("name", "companyName");
+    companyNameProperty.set("type", stringType);
+    
+    DataObject priceProperty = mixedQuoteType.createDataObject("property");
+    priceProperty.set("name", "price");
+    priceProperty.set("type", decimalType);
+    
+    DataObject quotesProperty = mixedQuoteType.createDataObject("property");
+    quotesProperty.set("name", "quotes");
+    quotesProperty.set("type", mixedQuoteType);
+    quotesProperty.set("many", Boolean.TRUE);
+    quotesProperty.set("containment", Boolean.TRUE);
+    
+    types.define(mixedQuoteType);
+    
+    // Define a global type
+    DataObject globalType = factory.create("commonj.sdo", "Type");
+    globalType.set("uri", "http://www.example.com/open");
+    // no need to specify the type's name
+    
+    DataObject symbolProperty = globalType.createDataObject("property");
+    symbolProperty.set("name", "symbol");
+    symbolProperty.set("type", stringType);
+    symbolProperty.set("containment", Boolean.TRUE);
+    
+    types.define(globalType);
+    
+    DataObject quote = factory.create("http://www.example.com/mixed", "MixedOpenQuote");
+
+    assertTrue(quote.getType().isSequenced());
+    
+    Sequence sequence = quote.getSequence();
+
+    sequence.add("\n  ");
+
+    Type definedGlobalType = types.getType("http://www.example.com/open", null);
+    
+    Property definedSymbolProperty = definedGlobalType.getProperty("symbol");
+    //sequence.add(definedSymbolProperty, "fbnt");
+    quote.setString(definedSymbolProperty, "fbnt");
+
+    sequence.add("\n  ");
+
+    quote.setString("companyName", "FlyByNightTechnology");
+
+    sequence.add("\n  some text\n  ");
+
+    DataObject child = quote.createDataObject("quotes");
+    child.setBigDecimal("price", new BigDecimal("2000.0"));
+
+    sequence.add("\n  more text\n  ");
+
+    // quote.setBigDecimal("price", new BigDecimal("1000.0"));
+    sequence.add("price", new BigDecimal("1000.0"));
+
+    sequence.add("\n");
+
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    xmlHelper.save(quote, "http://www.example.com/mixed", "mixedOpenStockQuote", baos);
+    xmlHelper.save(quote, "http://www.example.com/mixed", "mixedOpenStockQuote", System.out);
+    assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(MIXEDOPEN_XML)));
+    
+  }
+
   
   public void testDefineOpenType() throws Exception 
   {
