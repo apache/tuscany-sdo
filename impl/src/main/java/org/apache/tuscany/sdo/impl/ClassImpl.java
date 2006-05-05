@@ -96,6 +96,7 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
       switch (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature))
       {
         case ExtendedMetaData.ELEMENT_WILDCARD_FEATURE:
+          if (eStructuralFeature == ExtendedMetaData.INSTANCE.getMixedFeature(this)) break;
         case ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE:
         case ExtendedMetaData.GROUP_FEATURE:
           return true;

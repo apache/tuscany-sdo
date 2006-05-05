@@ -262,16 +262,8 @@ public final class SDOUtil
   
   public static void setOpen(Type type, boolean isOpen)
   {
-    boolean hasProperties = 
-      (type.isSequenced()) ? 
-         type.getProperties().size() > 1 : 
-           !type.getProperties().isEmpty();
-    
-    if (type.isDataType() || hasProperties)
-    {
-      if (type.getName() != null) //FB TEMP ... figure out how to handle document root
-        throw new IllegalArgumentException(); // type must a non dataType with no properties yet
-    }
+    if (isOpen == type.isOpen()) return;
+
     if (isOpen)
     {
       EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
@@ -291,18 +283,25 @@ public final class SDOUtil
         eAttribute.setVolatile(true);
       }
     }
+    else
+    {
+      EClass eClass = (EClass)type;
+      EAttribute any = (EAttribute)eClass.getEStructuralFeature("any");
+      eClass.getEStructuralFeatures().remove(any);  
+    }
   }
   
   public static void setSequenced(Type type, boolean isSequenced)
   {
-    if ((isSequenced && type.isSequenced()) || 
-        !isSequenced && !type.isSequenced()) return;
+    if (isSequenced == type.isSequenced()) return;
     
+    // currently, we require setSequenced to be called first, before anything else is added to the type.
     if (type.isDataType() || !type.getProperties().isEmpty())
     {
-      if (type.getName() != null) //FB TEMP ... figure out how to handle document root
+      if (type.getName() != null) // document root is a special case
         throw new IllegalArgumentException();
     }
+    
     if (isSequenced) {
       EClass eClass = (EClass)type;
       ExtendedMetaData.INSTANCE.setContentKind(eClass, ExtendedMetaData.MIXED_CONTENT);
@@ -314,7 +313,11 @@ public final class SDOUtil
       mixedFeature.setUpperBound(-1);
       eClass.getEStructuralFeatures().add(mixedFeature);
       ExtendedMetaData.INSTANCE.setFeatureKind(mixedFeature, ExtendedMetaData.ELEMENT_WILDCARD_FEATURE);
-      ExtendedMetaData.INSTANCE.setName(mixedFeature, ":mixed");   
+      ExtendedMetaData.INSTANCE.setName(mixedFeature, ":mixed"); 
+    }
+    else
+    {
+      // nothing to do, because of current restriction that setSequence must be called first.
     }
   }
   

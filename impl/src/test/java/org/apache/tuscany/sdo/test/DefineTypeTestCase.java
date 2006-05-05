@@ -457,7 +457,6 @@ public class DefineTypeTestCase extends TestCase
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     xmlHelper.save(quote, "http://www.example.com/mixed", "mixedStockQuote", baos);
     assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(MIXED_XML)));
-    
   }
   
   public void testDefineSequencedOpenType() throws Exception 
@@ -500,7 +499,7 @@ public class DefineTypeTestCase extends TestCase
     // Define a global type
     DataObject globalType = factory.create("commonj.sdo", "Type");
     globalType.set("uri", "http://www.example.com/open");
-    // no need to specify the type's name
+    // Don't set the type's name - null is used for types containing global properties.
     
     DataObject symbolProperty = globalType.createDataObject("property");
     symbolProperty.set("name", "symbol");
@@ -520,7 +519,6 @@ public class DefineTypeTestCase extends TestCase
     Type definedGlobalType = types.getType("http://www.example.com/open", null);
     
     Property definedSymbolProperty = definedGlobalType.getProperty("symbol");
-    //sequence.add(definedSymbolProperty, "fbnt");
     quote.setString(definedSymbolProperty, "fbnt");
 
     sequence.add("\n  ");
@@ -541,9 +539,7 @@ public class DefineTypeTestCase extends TestCase
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     xmlHelper.save(quote, "http://www.example.com/mixed", "mixedOpenStockQuote", baos);
-    xmlHelper.save(quote, "http://www.example.com/mixed", "mixedOpenStockQuote", System.out);
     assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(MIXEDOPEN_XML)));
-    
   }
 
   
@@ -581,7 +577,7 @@ public class DefineTypeTestCase extends TestCase
     // Define a global type
     DataObject globalType = factory.create("commonj.sdo", "Type");
     globalType.set("uri", "http://www.example.com/open");
-    // no need to specify the type's name
+    // Don't set the type's name - null is used for types containing global properties.
     
     DataObject symbolProperty = globalType.createDataObject("property");
     symbolProperty.set("name", "symbol");
