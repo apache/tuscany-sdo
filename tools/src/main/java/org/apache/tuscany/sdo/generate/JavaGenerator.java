@@ -28,16 +28,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.tuscany.sdo.generate.adapter.SDOGenModelGeneratorAdapterFactory;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.SDOPackageImpl;
 import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.eclipse.emf.codegen.ecore.generator.Generator;
+import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModelFactory;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModelPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
+import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
+import org.eclipse.emf.codegen.ecore.genmodel.generator.GenModelGeneratorAdapterFactory;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -67,6 +73,8 @@ public abstract class JavaGenerator
   public static int OPTION_NO_UNSETTABLE=0x80;
   //FIXME Temporary, I need this option for now to get Switch classes generated for the SCDL models
   public static int OPTION_GENERATE_SWITCH=0x100;
+  public static int OPTION_NO_EMF=0x200;
+  
   
   /**
    * Generate static SDOs from XML Schema
@@ -83,6 +91,7 @@ public abstract class JavaGenerator
    *     [ -arrayAccessors ]
    *     [ -generateLoader ]
    *     [ -noUnsettable ]
+   *     [ -noEMF ]
    *     <xsd-file> | <wsdl-file>
    *
    *   For example:
@@ -110,6 +119,9 @@ public abstract class JavaGenerator
    *         reflective methods (as opposed to the other way around) and changes the DataObject base class
    *         to org.apache.tuscany.sdo.impl.StoreDataObjectImpl. Note that this option generates classes that
    *         require a Store implementation to be provided before they can be run.    
+   *     -noEMF
+   *     	 This option is used to generate static classes that have no references to EMF classes.  This 
+   *     	 feature is currently being implemented and is in a preliminary state.  
    *         
    *   The following options can be used to increase performance, but with some loss of SDO functionality:
    *   
@@ -250,6 +262,10 @@ public abstract class JavaGenerator
     {
       genOptions |= OPTION_NO_UNSETTABLE;
     }
+    else if (args[index].equalsIgnoreCase("-noEMF"))
+    {
+      genOptions |= OPTION_NO_EMF;
+    }
     //else if (...)
     else
     {
@@ -339,7 +355,7 @@ public abstract class JavaGenerator
     // Invoke the SDO JavaGenerator to generate the SDO classes
     try
     {
-      generateFromGenModel(genModel, new File(targetDirectory).getCanonicalPath());
+      generateFromGenModel(genModel, new File(targetDirectory).getCanonicalPath(), genOptions);
     }
     catch (IOException e)
     {
@@ -386,10 +402,10 @@ public abstract class JavaGenerator
     Resource genModelResource = resourceSet.createResource(genModelURI);
     genModelResource.getContents().add(genModel);
 
-    generateFromGenModel(genModel, targetDirectory);
+    generateFromGenModel(genModel, targetDirectory, genOptions);
   }
 
-  public static void generateFromGenModel(GenModel genModel, String targetDirectory)
+  public static void generateFromGenModel(GenModel genModel, String targetDirectory, int genOptions)
   {
     Resource resource = genModel.eResource();
 
@@ -401,7 +417,21 @@ public abstract class JavaGenerator
       genModel.setModelDirectory("/TargetProject");
     }
 
-    genModel.gen(new BasicMonitor.Printing(System.out));
+    //genModel.gen(new BasicMonitor.Printing(System.out));
+    GeneratorAdapterFactory.Descriptor.Registry.INSTANCE.addDescriptor
+    (GenModelPackage.eNS_URI, GenModelGeneratorAdapterFactory.DESCRIPTOR);
+    
+    Generator generator = new Generator();
+
+    if ((genOptions & OPTION_NO_EMF) != 0)
+    {
+    	generator.getAdapterFactoryDescriptorRegistry().addDescriptor
+        (GenModelPackage.eNS_URI, SDOGenModelGeneratorAdapterFactory.DESCRIPTOR);
+    }
+    
+    generator.setInput(genModel);
+    generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor.Printing(System.out));
+
 
     for (Iterator j = resource.getContents().iterator(); j.hasNext();)
     {
@@ -466,6 +496,11 @@ public abstract class JavaGenerator
     if ((genOptions & OPTION_NO_UNSETTABLE) != 0)
     {
       genModel.setSuppressUnsettable(true);
+    }
+    
+    if ((genOptions & OPTION_NO_EMF) != 0)
+    {
+      genModel.setRootExtendsClass("org.apache.tuscany.sdo.impl.DataObjectBase");
     }
     
     GenPackage genPackage = (GenPackage)genModel.getGenPackages().get(0);
@@ -564,6 +599,7 @@ public abstract class JavaGenerator
     System.out.println("  [ -arrayAccessors ]");
     System.out.println("  [ -generateLoader ]");
     System.out.println("  [ -noUnsettable ]");
+    System.out.println("  [ -noEMF ]");
     System.out.println("  <xsd-file> | <wsdl-file>");
     System.out.println("");
     System.out.println("For example:");

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sequences:mrc xmlns:sequences="http://www.example.com/sequences">
+  <b>1</b>
+  <a>foo</a>
+some mixed text  <a>bar</a>
+  <b>2</b>
+</sequences:mrc>

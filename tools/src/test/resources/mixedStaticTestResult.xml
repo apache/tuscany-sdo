@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sequences:mixedStockQuote xmlns:sequences="http://www.example.com/sequences">
+
+    <symbol>fbnt</symbol>
+
+    <companyName>FlyByNightTechnology</companyName>
+
+  some text
+    <quotes>
+    <price>2000.0</price>
+  </quotes>
+
+  more text
+    <price>1000.0</price>
+
+</sequences:mixedStockQuote>

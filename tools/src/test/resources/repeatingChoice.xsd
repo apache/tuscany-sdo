@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:repchoice="http://www.example.com/repchoice" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.com/repchoice"> 
+  
+   <xsd:element name="rc" type="repchoice:RCType"/>
+
+	<xsd:complexType name="RCType">
+	  <xsd:choice maxOccurs="unbounded" minOccurs="0">
+	    <xsd:element name="s" type="xsd:string"/>
+	    <xsd:element name="i" type="xsd:int"/>
+	    <xsd:element name="f" type="xsd:float"/>
+	  </xsd:choice>
+	</xsd:complexType>
+
+</xsd:schema>
