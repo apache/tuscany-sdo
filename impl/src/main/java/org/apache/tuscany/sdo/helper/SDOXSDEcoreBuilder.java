@@ -114,6 +114,7 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
   protected EStructuralFeature createFeature(EClass eClass, String name, EClassifier type, XSDComponent xsdComponent, int minOccurs, int maxOccurs) {
     EStructuralFeature feature = 
       super.createFeature(eClass, name, type, xsdComponent, minOccurs, maxOccurs);
+    feature.setName(name); // this is needed because super.createFeature() does EMF name mangling (toLower)
     if (xsdComponent != null) {
       String aliasNames = getEcoreAttribute(xsdComponent.getElement(), "aliasName");
       if (aliasNames != null) {
