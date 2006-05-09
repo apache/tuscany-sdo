@@ -75,6 +75,10 @@ public abstract class JavaGenerator
   public static int OPTION_GENERATE_SWITCH=0x100;
   public static int OPTION_NO_EMF=0x200;
   
+  static 
+  {
+    System.setProperty("EMF_NO_CONSTRAINTS", "true"); // never generate a validator class
+  }
   
   /**
    * Generate static SDOs from XML Schema
@@ -351,7 +355,7 @@ public abstract class JavaGenerator
     usedGenPackages.add(createGenPackage(SDOPackageImpl.eINSTANCE, "org.apache.tuscany", "SDO", 0, resourceSet));
     usedGenPackages.add(createGenPackage(ModelPackageImpl.eINSTANCE, "org.apache.tuscany.sdo", "Model", 0, resourceSet));
     genModel.getUsedGenPackages().addAll(usedGenPackages);
-
+    
     // Invoke the SDO JavaGenerator to generate the SDO classes
     try
     {
