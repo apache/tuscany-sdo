@@ -23,10 +23,14 @@ import java.io.InputStream;
 
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.xsd.XSDSchema;
 
 import commonj.sdo.helper.XSDHelper;
 
@@ -39,9 +43,19 @@ public class XSD2JavaGenerator extends JavaGenerator
    *   
    *     [ -targetDirectory <target-root-directory> ]
    *     [ -javaPackage <java-package-name> ]
+   *     [ -schemaNamespace <namespace-uri> ]
+   *     [ other options ... ]
    *     <xsd-file> | <wsdl-file>
    *
-   *   For example:
+   *   Options:
+   *   
+   *     -schemaNamespace
+   *         Generate classes for XSD types in the specified targetNamespace. By default, types in the
+   *         targetNamespace of the first schema in the specified xsd or wsdl file are generated.
+   *     
+   *     NOTE: see the base class JavaGenerator for other options.
+   *         
+   *   Example:
    *   
    *     generate somedir/somefile.xsd
    *     
@@ -62,13 +76,29 @@ public class XSD2JavaGenerator extends JavaGenerator
     }
   }
   
+  protected String schemaNamespace = null;
+
+  protected int handleArgument(String args[], int index)
+  {
+    if (args[index].equalsIgnoreCase("-schemaNamespace"))
+    {
+      schemaNamespace = args[++index];
+    }
+    else
+    {
+      return super.handleArgument(args, index);
+    }
+    
+    return index + 1;
+  }
+
   protected void run(String args[])
   {
     String xsdFileName = args[inputIndex];
-    generateFromXMLSchema(xsdFileName, targetDirectory, javaPackage, prefix, genOptions);
+    generateFromXMLSchema(xsdFileName, schemaNamespace, targetDirectory, javaPackage, prefix, genOptions);
   }
 
-  public static void generateFromXMLSchema(String xsdFileName, String targetDirectory, String javaPackage, String prefix, int genOptions)
+  public static void generateFromXMLSchema(String xsdFileName, String namespace, String targetDirectory, String javaPackage, String prefix, int genOptions)
   {
     DataObjectUtil.initRuntime();
     EPackage.Registry packageRegistry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE);
@@ -92,7 +122,7 @@ public class XSD2JavaGenerator extends JavaGenerator
 
       if (!packageRegistry.values().isEmpty())
       {
-        String packageURI = getSchemaNamespace(xsdFileName);
+        String packageURI = namespace != null ? namespace : getSchemaNamespace(xsdFileName);
         generatePackages(packageRegistry.values(), packageURI, null, targetDirectory, javaPackage, prefix, genOptions);
       }
 
@@ -115,11 +145,21 @@ public class XSD2JavaGenerator extends JavaGenerator
     }
   }
   
+  public static String getSchemaNamespace(String xsdFileName)
+  {
+    ResourceSet resourceSet = DataObjectUtil.createResourceSet();
+    File inputFile = new File(xsdFileName).getAbsoluteFile();
+    Resource model = resourceSet.getResource(URI.createURI(inputFile.toURI().toString()), true);
+    XSDSchema schema = (XSDSchema)model.getContents().get(0);
+    return schema.getTargetNamespace();
+  }
+
   protected static void printUsage()
   {
     System.out.println("Usage arguments:");
     System.out.println("  [ -targetDirectory <target-root-directory> ]");
     System.out.println("  [ -javaPackage <java-package-name> ]");
+    System.out.println("  [ -schemaNamespace <namespace-uri> ]");
     System.out.println("  [ -prefix <prefix-string> ]");
     System.out.println("  [ -sparsePattern | -storePattern ]");
     System.out.println("  [ -noInterfaces ]");
@@ -128,6 +168,7 @@ public class XSD2JavaGenerator extends JavaGenerator
     System.out.println("  [ -arrayAccessors ]");
     System.out.println("  [ -generateLoader ]");
     System.out.println("  [ -noUnsettable ]");
+    System.out.println("  [ -noEMF ]");
     System.out.println("  <xsd-file> | <wsdl-file>");
     System.out.println("");
     System.out.println("For example:");

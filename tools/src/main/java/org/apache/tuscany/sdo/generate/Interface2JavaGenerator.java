@@ -46,14 +46,20 @@ public class Interface2JavaGenerator extends JavaGenerator
    *     [ -targetDirectory <target-root-directory> ]
    *     [ -javaPackage <java-package-name> ]
    *     [ -namespace <xsd-namespace> ]
+   *     [ other options ... ]
    *     interface-names
    *
-   *   For example:
+   *   Options:
+   *   
+   *     -namespace
+   *         Set the namespaceURI of the generated SDO Types to the specified value.
+   *     
+   *     NOTE: see the base class JavaGenerator for other options.
+   *         
+   *   Example:
    *   
    *     generate somepackage.InterfaceA somepackage.InterfaceB
    *     
-   *   See the base class JavaGenerator for details and the other options.
-   *   
    */
   public static void main(String args[])
   {
@@ -225,6 +231,7 @@ public class Interface2JavaGenerator extends JavaGenerator
     System.out.println("  [ -arrayAccessors ]");
     System.out.println("  [ -generateLoader ]");
     System.out.println("  [ -noUnsettable ]");
+    System.out.println("  [ -noEMF ]");
     System.out.println("  interface-names");
     System.out.println("");
     System.out.println("For example:");

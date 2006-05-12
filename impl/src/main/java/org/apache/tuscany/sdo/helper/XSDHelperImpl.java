@@ -20,7 +20,9 @@ package org.apache.tuscany.sdo.helper;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -168,31 +170,37 @@ public class XSDHelperImpl implements XSDHelper
       ResourceSet resourceSet = DataObjectUtil.createResourceSet();
       Resource model = resourceSet.createResource(URI.createURI(schemaLocation != null ? schemaLocation : "null.xsd"));
       ((XSDResourceImpl)model).load(inputSource, null);
-      XSDSchema schema = (XSDSchema)model.getContents().get(0);    
-
-      // If define() is called more than once for the same XMLSchema, return the existing defined types
-      //FIXME ... need to rethink this design
-      //if (!ecoreBuilder.getTargetNamespaceToEPackageMap().containsKey(schema.getTargetNamespace()))
-      // also return generated types registered via SDOUtil.registerStaticTypes()
-      EPackage ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
-      if (ePackage == null)
-      {
-        ecoreBuilder.generate(schema);
-        Collection newEPackages = ecoreBuilder.getTargetNamespaceToEPackageMap().values();
       
-        for (Iterator iter = newEPackages.iterator(); iter.hasNext();)
+      List newTypes = new ArrayList();
+      for (Iterator schemaIter = model.getContents().iterator(); schemaIter.hasNext(); )
+      {
+        XSDSchema schema = (XSDSchema)schemaIter.next();    
+
+        EPackage ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
+        if (ePackage == null)
         {
-          EPackage currentPackage = (EPackage)iter.next();
-          currentPackage.setEFactoryInstance(new DynamicDataObjectImpl.FactoryImpl());
-          EcoreUtil.freeze(currentPackage);
+          Collection originalEPackages = new HashSet(ecoreBuilder.getTargetNamespaceToEPackageMap().values());
+          ecoreBuilder.generate(schema);
+          Collection newEPackages = ecoreBuilder.getTargetNamespaceToEPackageMap().values();
+      
+          for (Iterator iter = newEPackages.iterator(); iter.hasNext();)
+          {
+            EPackage currentPackage = (EPackage)iter.next();
+            if (!originalEPackages.contains(currentPackage))
+            {
+              currentPackage.setEFactoryInstance(new DynamicDataObjectImpl.FactoryImpl());
+              EcoreUtil.freeze(currentPackage);
+              newTypes.addAll(currentPackage.getEClassifiers());
+            }
+          }
         }
       }
-      ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
-      return ePackage.getEClassifiers();
+      
+      return newTypes;
     }
     catch (Exception e)
     {
-      e.printStackTrace();
+      //e.printStackTrace();
       throw new IllegalArgumentException(e.getMessage());
     }
   }

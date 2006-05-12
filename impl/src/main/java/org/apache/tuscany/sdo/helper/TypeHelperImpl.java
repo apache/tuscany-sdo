@@ -77,6 +77,12 @@ public class TypeHelperImpl implements TypeHelper
   
   public Type getType(Class interfaceClass)
   {
+    Type type = SDOUtil.getJavaSDOType(interfaceClass);
+    if (type != null)
+    {
+      return type;
+    }
+    
     //TODO more efficient implementation ... this is a really bad one!
     for (Iterator iter = EPackage.Registry.INSTANCE.values().iterator(); iter.hasNext(); )
     {
@@ -94,6 +100,7 @@ public class TypeHelperImpl implements TypeHelper
         }
       }
     }
+    
     return null;
   }
 

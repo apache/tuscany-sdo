@@ -20,9 +20,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -134,6 +137,21 @@ public final class SDOUtil
     return type;
   }
   
+  /**
+   * Get the SDO built-in type corresponding to the specified Java instanceClass.
+   * @param javaClass the Java instanceClass of the type.
+   * @return the SDO built-in Type corresponding to the specified instanceClass.
+   */
+  public static Type getJavaSDOType(Class javaClass)
+  {    
+    String name = (String)javaToSdoMappings.get(javaClass);
+    if (name != null)
+    {
+      return (Type)ModelPackageImpl.eINSTANCE.getEClassifier(name);
+    }
+    return null;
+  }
+
   /**
    * Create an empty data graph.
    * @return the new data graph instance.
@@ -436,8 +454,34 @@ public final class SDOUtil
         }
       });
   }
+  
+  //Java instance class to SDO mappings (p.69 - p.71 of the SDO spec)
+  private static Map javaToSdoMappings = new HashMap();
+  static {
+    javaToSdoMappings.put(boolean.class, "Boolean");
+    javaToSdoMappings.put(byte.class, "Byte");
+    javaToSdoMappings.put(char.class, "Character");
+    javaToSdoMappings.put(Date.class, "Date");
+    javaToSdoMappings.put(BigDecimal.class, "Decimal");
+    javaToSdoMappings.put(double.class, "Double");
+    javaToSdoMappings.put(float.class, "Float");
+    javaToSdoMappings.put(int.class, "Int");
+    javaToSdoMappings.put(BigInteger.class, "Integer");
+    javaToSdoMappings.put(long.class, "Long");
+    javaToSdoMappings.put(Object.class, "Object");
+    javaToSdoMappings.put(short.class, "Short");
+    javaToSdoMappings.put(String.class, "String");
+    javaToSdoMappings.put(Boolean.class, "BooleanObject");
+    javaToSdoMappings.put(Byte.class, "ByteObject");
+    javaToSdoMappings.put(Character.class, "CharacterObject");
+    javaToSdoMappings.put(Double.class, "DoubleObject");
+    javaToSdoMappings.put(Float.class, "FloatObject");
+    javaToSdoMappings.put(Integer.class, "IntObject");
+    javaToSdoMappings.put(Long.class, "LongObject");
+    javaToSdoMappings.put(Short.class, "ShortObject");
+  }
 
-  //XSD to SDO Mappings mappings (p.95 of the SDO spec)
+  //XSD to SDO mappings (p.95 of the SDO spec)
   private static Map xsdToSdoMappings = new HashMap();
   static {
     xsdToSdoMappings.put("anySimpleType", "Object");

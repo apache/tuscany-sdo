@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.tuscany.sdo.util.SDOUtil;
+
 import junit.framework.TestCase;
 
 import commonj.sdo.helper.XSDHelper;
@@ -32,21 +34,24 @@ public class XSDHelperTestCase extends TestCase {
     private URL modelURL;
 
     public void testDefineWithLocation() throws IOException {
-        List types = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
+        XSDHelper xsdHelper = SDOUtil.createXSDHelper(SDOUtil.createTypeHelper());
+        List types = xsdHelper.define(modelURL.openStream(), modelURL.toString());
         assertEquals(2, types.size());
     }
 
     public void testDefineWithNoLocation() {
-        List types = XSDHelper.INSTANCE.define(getClass().getResourceAsStream(TEST_MODEL), null);
+        XSDHelper xsdHelper = SDOUtil.createXSDHelper(SDOUtil.createTypeHelper());
+        List types = xsdHelper.define(getClass().getResourceAsStream(TEST_MODEL), null);
         assertEquals(2, types.size());
     }
 
     public void testDuplicateDefineWithLocation() throws IOException {
-        List types = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
+        XSDHelper xsdHelper = SDOUtil.createXSDHelper(SDOUtil.createTypeHelper());
+        List types = xsdHelper.define(modelURL.openStream(), modelURL.toString());
         assertEquals(2, types.size());
 
-        List types2 = XSDHelper.INSTANCE.define(modelURL.openStream(), modelURL.toString());
-        assertEquals(types, types2);
+        List types2 = xsdHelper.define(modelURL.openStream(), modelURL.toString());
+        assertEquals(0, types2.size());
     }
 
     protected void setUp() throws Exception {
