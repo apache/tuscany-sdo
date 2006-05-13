@@ -23,7 +23,6 @@ import java.util.List;
 
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-
 import org.apache.tuscany.sdo.generate.JavaGenerator;
 
 /**
@@ -139,7 +138,7 @@ public class GeneratorMojo extends AbstractMojo {
             File file = files[i];
             if(!file.exists())
                 throw new MojoExecutionException("The following WSDL file not found '" +file.getAbsolutePath()+"'.");
-            File marker = new File(targetDirectory, ".gen#" + file.getName());
+            File marker = new File(targetDirectory, ".gen#" + file.getName()+".xsd2java");
             if ( file.lastModified() > marker.lastModified()) {
                 getLog().info("Generating SDO interfaces from " + file);
                 JavaGenerator.generateFromXMLSchema(file.toString(), targetDirectory, javaPackage, prefix, genOptions);
