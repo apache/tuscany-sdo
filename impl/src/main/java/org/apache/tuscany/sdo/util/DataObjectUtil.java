@@ -2085,7 +2085,7 @@ public final class DataObjectUtil
         }
         else if ('@' == c)
         {
-          x++; // skip @
+          // skip @
         }
         else
         {
