@@ -102,7 +102,7 @@ public class SDOFactoryImpl extends EFactoryImpl implements SDOFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public EObject createGen(EClass eClass)
+  public EObject create(EClass eClass)
   {
     switch (eClass.getClassifierID())
     {
@@ -124,13 +124,6 @@ public class SDOFactoryImpl extends EFactoryImpl implements SDOFactory
     }
   }
   
-  public EObject create(EClass eClass)
-  {
-    if (eClass.getClassifierID() == SDOPackage.DATA_OBJECT) return createAnyTypeDataObject();
-    return createGen(eClass);
-  }
-
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

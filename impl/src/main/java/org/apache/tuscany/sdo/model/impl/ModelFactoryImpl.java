@@ -22,6 +22,9 @@ import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.tuscany.sdo.SDOFactory;
+import org.apache.tuscany.sdo.SDOPackage;
+import org.apache.tuscany.sdo.impl.SDOFactoryImpl;
 import org.apache.tuscany.sdo.model.*;
 
 import org.eclipse.emf.ecore.EClass;
@@ -90,7 +93,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public EObject create(EClass eClass)
+  public EObject createGen(EClass eClass)
   {
     switch (eClass.getClassifierID())
     {
@@ -105,6 +108,12 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
+  }
+  
+  public EObject create(EClass eClass)
+  {
+    if (eClass.getClassifierID() == ModelPackageImpl.DATA_OBJECT) return SDOFactory.eINSTANCE.createAnyTypeDataObject();
+    return createGen(eClass);
   }
 
   /**

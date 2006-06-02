@@ -31,12 +31,13 @@ import java.util.Map;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.SDOFactory;
-import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.SimpleAnyTypeDataObject;
 import org.apache.tuscany.sdo.helper.DataFactoryImpl;
 import org.apache.tuscany.sdo.helper.SDOExtendedMetaDataImpl;
 import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.helper.XMLHelperImpl;
+import org.apache.tuscany.sdo.helper.XMLStreamHelper;
+import org.apache.tuscany.sdo.helper.XMLStreamHelperImpl;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.impl.DynamicDataObjectImpl;
@@ -124,16 +125,16 @@ public final class SDOUtil
   public static Type getXSDSDOType(String xsdType)
   {    
     Type type = null;
-    if ("anyType".equals(xsdType)) {
-      type = (Type)SDOPackage.eINSTANCE.getDataObject();
-    } else {
+    //if ("anyType".equals(xsdType)) {
+    //  type = (Type)SDOPackage.eINSTANCE.getDataObject();
+    //} else {
       String name = (String)xsdToSdoMappings.get(xsdType);
       if (name != null) {
         type = (Type)ModelPackageImpl.eINSTANCE.getEClassifier(name);
       } else {
         type = (Type)SDOExtendedMetaData.INSTANCE.getType(XMLTypePackage.eINSTANCE, xsdType);
       }
-    }
+    //}
     return type;
   }
   
@@ -220,6 +221,16 @@ public final class SDOUtil
   public static XMLHelper createXMLHelper(TypeHelper scope)
   {
     return new XMLHelperImpl(scope);
+  }
+  
+  /**
+   * Create a new XMLStreamHelper, with visibility to types in the specified TypeHelper scope.
+   * @param scope the TypeHelper to use for locating types.
+   * @return the new XMLStreamHelper.
+   */
+  public static XMLStreamHelper createXMLStreamHelper(TypeHelper scope)
+  {
+    return new XMLStreamHelperImpl(scope);
   }
   
   /**

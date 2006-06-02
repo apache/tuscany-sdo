@@ -14,7 +14,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package org.apache.tuscany.sdo;
+package org.apache.tuscany.sdo.helper;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -24,7 +24,7 @@ import commonj.sdo.DataObject;
 import commonj.sdo.helper.XMLDocument;
 
 /**
- * Helper interface for reading and writing SDO DataObjects from XML streams.
+ * Helper interface for reading and writing SDO DataObjects from XML streams (StAX).
  *
  * @version $Rev$ $Date$
  */

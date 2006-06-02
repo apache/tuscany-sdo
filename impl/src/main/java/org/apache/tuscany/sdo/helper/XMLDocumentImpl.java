@@ -27,16 +27,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tuscany.sdo.SDOFactory;
+import javax.xml.stream.XMLStreamReader;
+
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.SimpleAnyTypeDataObject;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.util.resource.SDOXMLResourceImpl;
 import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -248,19 +249,28 @@ public class XMLDocumentImpl implements XMLDocument
     load(inputSource, locationURI, options);
   }
 
+  protected void load(XMLStreamReader reader) throws IOException
+  {
+    ((SDOXMLResourceImpl)resource).load(reader, null);
+    initLoadedRoot();
+  }
+
   protected void load(InputSource inputSource, String locationURI, Object options) throws IOException
   {
-    rootObject = null;
-    rootElement = null;
-    documentRoot = null;
-
     if (locationURI != null)
     {
       inputSource.setSystemId(locationURI);
       resource.setURI(URI.createURI(locationURI));
     }
-
     resource.load(inputSource, (Map)options);
+    initLoadedRoot();
+  }
+
+  private void initLoadedRoot()
+  {
+    rootObject = null;
+    rootElement = null;
+    documentRoot = null;
 
     if (!resource.getContents().isEmpty())
     {
@@ -300,7 +310,7 @@ public class XMLDocumentImpl implements XMLDocument
       }
     }
   }
-
+  
   public DataObject getRootObject()
   {
     return (DataObject)rootObject;

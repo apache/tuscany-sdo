@@ -95,8 +95,7 @@ public class StAX2SAXAdapter {
                 handler.processingInstruction(reader.getPITarget(), reader.getPIData());
                 break;
             case XMLStreamConstants.CHARACTERS:
-                char[] chars = reader.getTextCharacters();
-                handler.characters(chars, 0, chars.length);
+                handler.characters(reader.getTextCharacters(), reader.getTextStart(), reader.getTextLength());
                 break;
             case XMLStreamConstants.END_ELEMENT:
                 handleEndElement(reader, handler);
