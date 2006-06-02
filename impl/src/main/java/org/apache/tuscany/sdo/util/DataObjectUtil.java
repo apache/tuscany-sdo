@@ -32,6 +32,7 @@ import java.util.Set;
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.impl.SDOFactoryImpl;
+import org.apache.tuscany.sdo.util.resource.SDOXMLResourceFactoryImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -55,7 +56,6 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.impl.EMOFResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
@@ -2367,7 +2367,7 @@ public final class DataObjectUtil
 
       if (Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.*")) == null)
       {
-        result.put("*", new XMLResourceFactoryImpl());
+        result.put("*", new SDOXMLResourceFactoryImpl());
       }
 
       registrations = result;
@@ -2441,6 +2441,44 @@ public final class DataObjectUtil
       });
   }
   
+  protected static StringBuffer getXPath(DataObject dataObject, StringBuffer path)
+  {
+    DataObject container = dataObject.getContainer();
+
+    if (container == null)
+    {
+      //      path.insert(0, "/" + dataObject.getType().getName());
+      return path;
+    }
+
+    Property property = dataObject.getContainmentProperty();
+    //System.out.println("Containment property: " + property);
+
+    if (property.isMany())
+    {
+      List list = container.getList(property);
+      for (int i = 0; i < list.size(); i++)
+      {
+        if (dataObject == list.get(i))
+        {
+          path.insert(0, "/" + property.getName() + "." + i);
+        }
+      } // for
+    }
+    else
+    {
+      path.insert(0, "/" + property.getName());
+    }
+
+    return getXPath(container, path);
+  }
+
+  public static String getXPath(DataObject dataObject)
+  {
+    StringBuffer path = getXPath(dataObject, new StringBuffer());
+    return path.toString();
+  }
+
   public static void initRuntime()
   {
     // NOOP since init is done during static initialization of this class. See above.
