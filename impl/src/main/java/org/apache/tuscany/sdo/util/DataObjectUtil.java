@@ -2444,30 +2444,19 @@ public final class DataObjectUtil
   protected static StringBuffer getXPath(DataObject dataObject, StringBuffer path)
   {
     DataObject container = dataObject.getContainer();
+    if (container == null) return path;
 
-    if (container == null)
-    {
-      //      path.insert(0, "/" + dataObject.getType().getName());
-      return path;
-    }
-
+    boolean first = path.length() == 0;
     Property property = dataObject.getContainmentProperty();
-    //System.out.println("Containment property: " + property);
-
     if (property.isMany())
     {
       List list = container.getList(property);
-      for (int i = 0; i < list.size(); i++)
-      {
-        if (dataObject == list.get(i))
-        {
-          path.insert(0, "/" + property.getName() + "." + i);
-        }
-      } // for
+      int pos = list.indexOf(dataObject);
+      path.insert(0, property.getName() + "." + pos + (first ? "" : "/"));
     }
     else
     {
-      path.insert(0, "/" + property.getName());
+      path.insert(0, property.getName() + (first ? "" : "/"));
     }
 
     return getXPath(container, path);

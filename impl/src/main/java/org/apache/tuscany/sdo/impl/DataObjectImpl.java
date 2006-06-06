@@ -46,6 +46,7 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
+import commonj.sdo.impl.ExternalizableDelegator;
 
 
 /**
@@ -189,9 +190,6 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
     return (Type)eClass();
   }
 
-  
-  // Remaining DataObject methods are (will be) implemented as straight delegation to DataObjectUtil
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -199,8 +197,11 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public Object writeReplace() throws ObjectStreamException
   {
-    return DataObjectUtil.writeReplace(this);
+    return new ExternalizableDelegator(this);
   }
+
+  
+  // Remaining DataObject methods are (will be) implemented as straight delegation to DataObjectUtil
 
   /**
    * <!-- begin-user-doc -->
