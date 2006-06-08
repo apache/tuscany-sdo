@@ -17,6 +17,8 @@
 package org.apache.tuscany.sdo.util;
 
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -25,6 +27,7 @@ import java.util.Map;
 
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
+import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.impl.ChangeSummaryImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.impl.DynamicDataObjectImpl;
@@ -54,9 +57,12 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLSaveImpl;
 import org.eclipse.emf.ecore.xmi.util.DefaultEcoreBuilder;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.InputSource;
 import org.xml.sax.helpers.DefaultHandler;
 
 import commonj.sdo.ChangeSummary;
+import commonj.sdo.helper.TypeHelper;
 
 
 public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
@@ -68,26 +74,19 @@ public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
   {
     super();
   }
-
+  
   public Resource createResource(URI uri)
   {
     XMLResourceImpl result = new DataGraphResourceImpl(uri);
 
-    result.setEncoding("UTF-8");
-
-    result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
-
-    result.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
-    result.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
-
+    ExtendedMetaData extendedMetaData = ((TypeHelperImpl)TypeHelper.INSTANCE).getExtendedMetaData();
+    DataObjectUtil.configureXMLResource(result, extendedMetaData);
+    
     result.getDefaultSaveOptions().put(XMLResource.OPTION_USE_ENCODED_ATTRIBUTE_STYLE, Boolean.TRUE);
-    result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, new Integer(80));
-
-    result.getDefaultLoadOptions().put(XMLResource.OPTION_ANY_TYPE, SDOPackage.eINSTANCE.getAnyTypeDataObject());
-    result.getDefaultSaveOptions().put(XMLResource.OPTION_ANY_TYPE, SDOPackage.eINSTANCE.getAnyTypeDataObject());
-
-    result.getDefaultLoadOptions().put(XMLResource.OPTION_ANY_SIMPLE_TYPE, SDOPackage.eINSTANCE.getSimpleAnyTypeDataObject());
-    result.getDefaultSaveOptions().put(XMLResource.OPTION_ANY_SIMPLE_TYPE, SDOPackage.eINSTANCE.getSimpleAnyTypeDataObject());
+    result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.TRUE);
+    //result.setEncoding("UTF-8");
+    //result.getDefaultLoadOptions().put(XMLResource.OPTION_USE_LEXICAL_HANDLER, Boolean.TRUE);
+    //result.getDefaultSaveOptions().put(XMLResource.OPTION_LINE_WIDTH, new Integer(80));
 
     return result;
   }
@@ -98,7 +97,7 @@ public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
     {
       super(uri);
     }
-
+    
     public static class HelperImpl extends XMLHelperImpl
     {
       protected DataGraphImpl eDataGraph;
@@ -408,10 +407,12 @@ public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
           if (!toDOM)
           {
             doc.addAttribute("xmlns", "");
+            doc.addAttribute("logging", String.valueOf(eDataGraph.getEChangeSummary().isLogging()));
           }
           else
           {
             ((Element)currentNode).setAttributeNS(ExtendedMetaData.XMLNS_URI, ExtendedMetaData.XMLNS_PREFIX, "");
+            ((Element)currentNode).setAttributeNS("", "logging", String.valueOf(eDataGraph.getEChangeSummary().isLogging()));
           }
         }
       }
@@ -429,6 +430,26 @@ public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
 
     public static class LoadImpl extends XMLLoadImpl
     {
+      protected boolean resumeLogging = false;
+      
+      public void load(XMLResource resource, InputSource inputSource, Map options) throws IOException
+      {
+        super.load(resource, inputSource, options);
+        if (resumeLogging) ((ChangeSummaryImpl)((DataGraphImpl)resource.getContents().get(0)).getChangeSummary()).resumeLogging();
+      }
+
+      public void load(XMLResource resource, InputStream inputStream, Map options) throws IOException
+      {
+        super.load(resource, inputStream, options);
+        if (resumeLogging) ((ChangeSummaryImpl)((DataGraphImpl)resource.getContents().get(0)).getChangeSummary()).resumeLogging();
+      }
+
+      public void load(XMLResource resource, Node node, Map options) throws IOException
+      {
+        super.load(resource, node, options);
+        if (resumeLogging) ((ChangeSummaryImpl)((DataGraphImpl)resource.getContents().get(0)).getChangeSummary()).resumeLogging();
+      }
+
       public LoadImpl(XMLHelper xmlHelper)
       {
         super(xmlHelper);
@@ -444,6 +465,23 @@ public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
 
             protected List ePackages = new ArrayList();
 
+            protected EObject createDocumentRoot(String prefix, String uri, String name, EFactory eFactory, boolean top)
+            {
+              return null;
+            }
+
+            protected void setAttribValue(EObject object, String name, String value)
+            {
+              if ("logging".equals(name) && object instanceof ChangeSummaryImpl)
+              {
+                resumeLogging = Boolean.valueOf(value).booleanValue();
+              }
+              else
+              {
+                super.setAttribValue(object, name, value);
+              }
+            }
+            
             protected EMap recordNamespacesSchemaLocations(EObject root)
             {
               EObject dgroot = eDataGraph.getERootObject();
@@ -483,7 +521,7 @@ public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
                 eDataGraph.getResourceSet();
                 if ("".equals(prefix) && "changeSummary".equals(name))
                 {
-                  ChangeSummary eChangeSummary = (ChangeSummary)createObjectFromFactory(SDOFactory.eINSTANCE, "EChangeSummary");
+                  ChangeSummary eChangeSummary = (ChangeSummary)createObjectFromFactory(SDOFactory.eINSTANCE, "ChangeSummary");
                   eDataGraph.setEChangeSummary(eChangeSummary);
                   processObject((EObject)eChangeSummary);
                 }
@@ -584,7 +622,7 @@ public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
               {
                 if ("datagraph".equals(typeName))
                 {
-                  return super.createObjectFromFactory(factory, "EDataGraph");
+                  return super.createObjectFromFactory(factory, "DataGraph");
                 }
               }
               return super.createObjectFromFactory(factory, typeName);

@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="ASCII"?>
 <sdo:datagraph xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sdo="commonj.sdo"
     xmlns:sdo_1="http://www.apache.org/tuscany/2005/SDO" xmlns:simple="http://www.example.com/simple">
-  <changeSummary xmlns="">
+  <changeSummary xmlns=""
+      logging="false">
     <objectChanges key="#//@eRootObject">
       <value xsi:type="sdo_1:ChangeSummarySetting" featureName="symbol" set="false"/>
       <value xsi:type="sdo_1:ChangeSummarySetting" featureName="companyName" set="false"/>

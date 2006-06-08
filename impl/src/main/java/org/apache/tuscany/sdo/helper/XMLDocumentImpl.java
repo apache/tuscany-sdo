@@ -29,7 +29,6 @@ import java.util.Map;
 
 import javax.xml.stream.XMLStreamReader;
 
-import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.SimpleAnyTypeDataObject;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.apache.tuscany.sdo.util.SDOUtil;
@@ -45,11 +44,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.xmi.XMLOptions;
-import org.eclipse.emf.ecore.xmi.XMLParserPool;
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xmi.impl.XMLOptionsImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.xml.sax.InputSource;
 
@@ -104,8 +99,6 @@ public class XMLDocumentImpl implements XMLDocument
   
   protected final static String WHITESPACE_REGEX = "\\s";
   
-  protected static XMLParserPool globalXMLParserPool = new XMLParserPoolImpl();
-  
   //TODO clean up the options thing
   protected XMLDocumentImpl(ExtendedMetaData extendedMetaData, Object options)
   {
@@ -130,30 +123,7 @@ public class XMLDocumentImpl implements XMLDocument
     }
   
     resource = (XMLResource)resourceSet.createResource(URI.createURI("http:///temp.xml"));
-    
-    XMLOptions xmlOptions = new XMLOptionsImpl();
-    xmlOptions.setProcessAnyXML(true);
-    resource.getDefaultLoadOptions().put(XMLResource.OPTION_XML_OPTIONS, xmlOptions);
-
-    resource.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
-    resource.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
-    
-    resource.getDefaultLoadOptions().put(XMLResource.OPTION_USE_PARSER_POOL, globalXMLParserPool);
-    
-    resource.getDefaultLoadOptions().put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
-    
-    resource.getDefaultSaveOptions().put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
-    resource.getDefaultLoadOptions().put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
-    
-    resource.getDefaultLoadOptions().put(XMLResource.OPTION_ANY_TYPE, SDOPackage.eINSTANCE.getAnyTypeDataObject());
-    resource.getDefaultSaveOptions().put(XMLResource.OPTION_ANY_TYPE, SDOPackage.eINSTANCE.getAnyTypeDataObject());
-
-    resource.getDefaultLoadOptions().put(XMLResource.OPTION_ANY_SIMPLE_TYPE, SDOPackage.eINSTANCE.getSimpleAnyTypeDataObject());
-    resource.getDefaultSaveOptions().put(XMLResource.OPTION_ANY_SIMPLE_TYPE, SDOPackage.eINSTANCE.getSimpleAnyTypeDataObject());
-
-    //resource.getDefaultLoadOptions().put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, globalHashMap);
-
-    //resource.getDefaultSaveOptions().put(XMLResource.OPTION_FORMATTED, Boolean.FALSE);
+    DataObjectUtil.configureXMLResource(resource, extendedMetaData);
   }
 
   protected XMLDocumentImpl(ExtendedMetaData extendedMetaData)

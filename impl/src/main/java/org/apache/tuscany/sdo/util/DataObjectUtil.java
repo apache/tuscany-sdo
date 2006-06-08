@@ -17,8 +17,6 @@
 package org.apache.tuscany.sdo.util;
 
 
-import java.io.InvalidObjectException;
-import java.io.ObjectStreamException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -30,6 +28,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
+import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.impl.SDOFactoryImpl;
 import org.apache.tuscany.sdo.util.resource.SDOXMLResourceFactoryImpl;
@@ -54,8 +53,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
+import org.eclipse.emf.ecore.xmi.XMLOptions;
+import org.eclipse.emf.ecore.xmi.XMLParserPool;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.EMOFResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLOptionsImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
@@ -70,19 +74,6 @@ import commonj.sdo.helper.TypeHelper;
 
 public final class DataObjectUtil
 {
-  public static Object writeReplace(DataObject dataObject) throws ObjectStreamException
-  {
-    DataGraph dataGraph = dataObject.getDataGraph();
-    if (dataGraph != null)
-    {
-      return ((DataGraphImpl)dataGraph).getWriteReplacement((EObject)dataObject);
-    }
-    else
-    {
-      throw new InvalidObjectException("The object must be in a datagraph to be serialized " + dataObject);
-    }
-  }
-  
   public static void setString(DataObject dataObject, Property property, String value) {
     dataObject.set(property, getSetValue(property, value));
   }
@@ -2466,6 +2457,35 @@ public final class DataObjectUtil
   {
     StringBuffer path = getXPath(dataObject, new StringBuffer());
     return path.toString();
+  }
+  
+  protected static XMLParserPool globalXMLParserPool = new XMLParserPoolImpl();
+  
+  public static void configureXMLResource(XMLResource resource, ExtendedMetaData extendedMetaData)
+  {
+    XMLOptions xmlOptions = new XMLOptionsImpl();
+    xmlOptions.setProcessAnyXML(true);
+    resource.getDefaultLoadOptions().put(XMLResource.OPTION_XML_OPTIONS, xmlOptions);
+
+    resource.getDefaultSaveOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
+    resource.getDefaultLoadOptions().put(XMLResource.OPTION_EXTENDED_META_DATA, extendedMetaData);
+    
+    resource.getDefaultLoadOptions().put(XMLResource.OPTION_USE_PARSER_POOL, globalXMLParserPool);
+    
+    resource.getDefaultLoadOptions().put(XMLResource.OPTION_USE_DEPRECATED_METHODS, Boolean.FALSE);
+    
+    resource.getDefaultSaveOptions().put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
+    resource.getDefaultLoadOptions().put(XMLResource.OPTION_CONFIGURATION_CACHE, Boolean.TRUE);
+    
+    resource.getDefaultLoadOptions().put(XMLResource.OPTION_ANY_TYPE, SDOPackage.eINSTANCE.getAnyTypeDataObject());
+    resource.getDefaultSaveOptions().put(XMLResource.OPTION_ANY_TYPE, SDOPackage.eINSTANCE.getAnyTypeDataObject());
+
+    resource.getDefaultLoadOptions().put(XMLResource.OPTION_ANY_SIMPLE_TYPE, SDOPackage.eINSTANCE.getSimpleAnyTypeDataObject());
+    resource.getDefaultSaveOptions().put(XMLResource.OPTION_ANY_SIMPLE_TYPE, SDOPackage.eINSTANCE.getSimpleAnyTypeDataObject());
+
+    //resource.getDefaultLoadOptions().put(XMLResource.OPTION_USE_XML_NAME_TO_FEATURE_MAP, globalHashMap);
+
+    //resource.getDefaultSaveOptions().put(XMLResource.OPTION_FORMATTED, Boolean.FALSE);
   }
 
   public static void initRuntime()

@@ -24,10 +24,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
@@ -36,7 +33,6 @@ import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -631,7 +627,7 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
   public static class EDataGraphExternalizable implements Externalizable
   {
     protected DataGraphImpl eDataGraph;
-    protected Map writeReplacements = new HashMap();
+    //protected Map writeReplacements = new HashMap();
 
     public EDataGraphExternalizable()
     {
@@ -675,6 +671,7 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
       return DataObjectUtil.createResourceSet();
     }
 
+    /*
     public Object getWriteReplacement(EObject eObject)
     {
       Object result = writeReplacements.get(eObject);
@@ -685,6 +682,7 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
       }
       return result;
     }
+    */
 
     protected Object readResolve()
     {
@@ -692,6 +690,7 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
     }
   }
 
+  /*
   public static class EDataObjectExternalizable implements Externalizable
   {
     protected EObject eObject;
@@ -727,16 +726,17 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
       return eObject;
     }
   }
-
+  */
   
   protected EDataGraphExternalizable eDataGraphExternalizable;
-  protected Adapter modificationTracker;
+  //protected Adapter modificationTracker;
 
   public Object getWriteReplacement()
   {
     if (eDataGraphExternalizable == null)
     {
       eDataGraphExternalizable = createEDataGraphExternalizable();
+      /*
       getRootResource().setTrackingModification(true);
       modificationTracker = 
         new AdapterImpl()
@@ -752,6 +752,7 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
           }
         };
       getRootResource().eAdapters().add(modificationTracker);
+      */
     }
     return eDataGraphExternalizable;
   }
@@ -761,16 +762,19 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
     return new EDataGraphExternalizable(this);
   }
 
+  /*
   public Object getWriteReplacement(EObject eObject)
   {
     return ((EDataGraphExternalizable)getWriteReplacement()).getWriteReplacement(eObject);
   }
+  */
 
   public Object writeReplace()
   {
     return getWriteReplacement();
   }
 
+  /*
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
   {
     if (uriFragmentSegment.startsWith("@models."))
@@ -796,6 +800,7 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
       return super.eObjectForURIFragmentSegment(uriFragmentSegment);
     }
   }
+  */
 
   /**
    * <!-- begin-user-doc -->

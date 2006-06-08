@@ -30,6 +30,7 @@ import java.util.zip.GZIPOutputStream;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.apache.tuscany.sdo.util.SDOUtil;
 
+import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.CopyHelper;
 import commonj.sdo.helper.DataFactory;
@@ -150,8 +151,20 @@ public class HelperProviderImpl extends HelperProvider
     
     protected void writeDataObject(DataObject dataObject, ObjectOutput objectOutput) throws IOException
     {
-      DataObject container = dataObject.getContainer();
-      if (container == null)
+      DataGraph dataGraph = dataObject.getDataGraph();
+      if (dataGraph != null)
+      {
+        objectOutput.writeByte(0);
+        objectOutput.writeUTF(DataObjectUtil.getXPath(dataObject));
+        objectOutput.writeObject(dataGraph);
+      }
+      else if (dataObject.getContainer() != null)
+      {
+        objectOutput.writeByte(0);
+        objectOutput.writeUTF(DataObjectUtil.getXPath(dataObject));
+        objectOutput.writeObject(dataObject.getRootObject());
+      }
+      else
       {
         // Root object
         objectOutput.writeByte(1);
@@ -165,12 +178,6 @@ public class HelperProviderImpl extends HelperProvider
         byte[] byteArray = compressedByteArrayOutputStream.toByteArray();
         objectOutput.writeInt(byteArray.length);
         objectOutput.write(byteArray);
-      }
-      else
-      {
-        objectOutput.writeByte(0);
-        objectOutput.writeUTF(DataObjectUtil.getXPath(dataObject));
-        objectOutput.writeObject(dataObject.getRootObject());
       }
     }
 
@@ -195,9 +202,10 @@ public class HelperProviderImpl extends HelperProvider
       {
         // Non root object: [path] [root]
         String xpath = objectInput.readUTF();
-        DataObject root = (DataObject)objectInput.readObject();
-
-        return root.getDataObject(xpath);
+        Object object = objectInput.readObject();
+        
+        DataObject root = object instanceof DataGraph ? ((DataGraph)object).getRootObject() : (DataObject)object;
+        return xpath.equals("") ? root : root.getDataObject(xpath);
       }
     }
   }
