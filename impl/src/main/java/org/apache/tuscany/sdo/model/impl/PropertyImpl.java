@@ -639,7 +639,7 @@ public class PropertyImpl extends DataObjectImpl implements Property
       case ModelPackageImpl.PROPERTY__READ_ONLY:
         return isReadOnly() ? Boolean.TRUE : Boolean.FALSE;
       case ModelPackageImpl.PROPERTY__TYPE:
-        if (resolve) return getType();
+        if (resolve) return getType_();
         return basicGetType();
       case ModelPackageImpl.PROPERTY__ANY_ATTRIBUTE:
         if (coreType) return ((FeatureMap.Internal.Wrapper)getAnyAttribute()).featureMap();
