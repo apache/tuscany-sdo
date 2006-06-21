@@ -1,0 +1,9 @@
+<module name="m" xmlns="http://foo" xmlns:bar="http://bar"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://bar foo-ext.xsd http://foo foo.xsd ">
+	<component name="c">
+		<bar:implementation.mock myAttr="helloworld.HelloWorldImpl"
+			listAttr="1 2">1<bar:myElement>Dummy</bar:myElement>2
+		</bar:implementation.mock>	
+	</component>
+</module>

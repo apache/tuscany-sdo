@@ -33,17 +33,77 @@ import org.eclipse.emf.ecore.xmi.XMIException;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.impl.XMLHelperImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 public class SDOXMLResourceImpl extends XMLResourceImpl {
+    private XMLStreamReader reader;
+
+    /**
+     * [rfeng] Override the XMLHelperImpl to replace the NamespaceSupport so that it's aware of the NamespaceContext from the XMLStreamReader
+     */
+    public static class SDOXMLHelperImpl extends XMLHelperImpl {
+
+        private static class StreamNamespaceSupport extends XMLHelperImpl.NamespaceSupport {
+            private XMLStreamReader reader;
+
+            public String getPrefix(String uri) {
+                if (reader == null)
+                    return super.getPrefix(uri);
+                String prefix = null;
+                try {
+                    prefix = uri != null ? reader.getNamespaceContext().getPrefix(uri) : null;
+                } catch (Exception e) {
+                    // HACK:
+                    // java.lang.UnsupportedOperationException
+                    // at org.apache.axiom.om.impl.llom.OMStAXWrapper.getNamespaceContext(OMStAXWrapper.java:984)
+
+                    prefix = null;
+                }
+                return prefix != null ? prefix : super.getPrefix(uri);
+            }
+
+            public String getURI(String prefix) {
+                if (reader == null)
+                    return super.getURI(prefix);
+                String uri;
+                try {
+                    uri = prefix != null ? reader.getNamespaceContext().getNamespaceURI(prefix) : null;
+                } catch (Exception e) {
+                    // HACK:
+                    // java.lang.UnsupportedOperationException
+                    // at org.apache.axiom.om.impl.llom.OMStAXWrapper.getNamespaceContext(OMStAXWrapper.java:984)
+
+                    uri = null;
+                }
+                return uri != null ? uri : super.getURI(prefix);
+            }
+
+            public StreamNamespaceSupport(XMLStreamReader reader) {
+                super();
+                this.reader = reader;
+            }
+
+        }
+
+        public SDOXMLHelperImpl(XMLResource resource, XMLStreamReader reader) {
+            this(reader);
+            setResource(resource);
+        }
+
+        public SDOXMLHelperImpl(XMLStreamReader reader) {
+            super();
+            this.namespaceSupport = new StreamNamespaceSupport(reader);
+        }
+    }
+
     /**
      * An EMF XMLLoad that loads a model from a StAX stream
      */
-    public class SDOXMLLoadImpl extends XMLLoadImpl 
-    {
+    public class SDOXMLLoadImpl extends XMLLoadImpl {
         public SDOXMLLoadImpl(XMLHelper helper) {
             super(helper);
         }
@@ -93,9 +153,13 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
     }
 
     public SDOXMLResourceImpl(URI uri) {
-      super(uri);
+        super(uri);
     }
-    
+
+    protected XMLHelper createXMLHelper() {
+        return new SDOXMLHelperImpl(this, reader);
+    }
+
     /**
      * @see org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl#createXMLLoad()
      */
@@ -107,6 +171,7 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
      * Loads the resource from a StAX XMLStreamReader.
      */
     public void load(XMLStreamReader reader, Map options) throws IOException {
+        this.reader = reader;
         SDOXMLLoadImpl xmlLoad = (SDOXMLLoadImpl) createXMLLoad();
         Map mergedOptions = new HashMap(defaultLoadOptions);
         if (options != null)

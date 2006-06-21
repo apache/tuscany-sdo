@@ -22,6 +22,8 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.tuscany.sdo.util.resource.DataObjectXMLStreamReader;
+import org.apache.tuscany.sdo.util.resource.XMLDocumentStreamReader;
+import org.apache.tuscany.sdo.util.resource.XMLStreamSerializer;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import commonj.sdo.DataObject;
@@ -51,12 +53,16 @@ public class XMLStreamHelperImpl implements XMLStreamHelper
   
   public void save(XMLDocument document, XMLStreamWriter writer) throws XMLStreamException
   {
-    throw new UnsupportedOperationException();
+      XMLStreamReader reader = createXMLStreamReader(document);
+      new XMLStreamSerializer().serialize(reader, writer);
   }
 
   public XMLStreamReader createXMLStreamReader(XMLDocument document) throws XMLStreamException
   {
-    throw new UnsupportedOperationException();
+      XMLStreamReader reader =  new DataObjectXMLStreamReader(document.getRootObject(), document.getRootElementURI(), document.getRootElementName(), typeHelper);
+      // Wrap the reader so that its position will be START_ELEMENT
+      return new XMLDocumentStreamReader(reader);
+      
   }
 
   public DataObject loadObject(XMLStreamReader reader) throws XMLStreamException, IllegalStateException
@@ -64,12 +70,17 @@ public class XMLStreamHelperImpl implements XMLStreamHelper
     if (reader.getEventType() != XMLStreamConstants.START_ELEMENT)
       throw new IllegalStateException();
     
+    // StAX2SAXAdapter won't produce START_DOCUMENT if the reader is posisitioned at START_ELEMENT and the EMF loader will fail
+    // Wrap the reader so it represents a document
+    reader = new XMLDocumentStreamReader(reader);
+    
     return loadDocument(reader).getRootObject();
   }
 
   public void saveObject(DataObject sdo, XMLStreamWriter writer) throws XMLStreamException
   {
-    throw new UnsupportedOperationException();
+      XMLStreamReader reader = createXMLStreamReader(sdo);
+      new XMLStreamSerializer().serialize(new XMLDocumentStreamReader(reader), writer);
   }
 
   public XMLStreamReader createXMLStreamReader(DataObject dataObject)

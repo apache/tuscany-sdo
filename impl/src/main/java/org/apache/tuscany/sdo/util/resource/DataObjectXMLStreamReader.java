@@ -28,7 +28,11 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.Location;
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.tuscany.sdo.impl.AttributeImpl;
+import org.apache.tuscany.sdo.impl.ReferenceImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EReference;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -88,8 +92,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         this(dataObject, rootElmentURI, rootElementName, typeHelper, null);
     }
 
-    public DataObjectXMLStreamReader(DataObject dataObject, String rootElmentURI, String rootElementName, TypeHelper typeHelper,
-            XSDHelper xsdHelper) {
+    public DataObjectXMLStreamReader(DataObject dataObject, String rootElmentURI, String rootElementName, TypeHelper typeHelper, XSDHelper xsdHelper) {
         this.dataObject = dataObject;
         this.rootElementURI = rootElmentURI;
         this.rootElementName = rootElementName;
@@ -119,30 +122,64 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
 
     }
 
-    private void addProperty(List elements, Property property, Object value) {
-
+    private void addProperty(List propertyList, Property property, Object value) {
+        if (isTransient(property))
+            return;
         if (property.isMany() && property.getContainingType().isOpen() && value instanceof Sequence) {
-            // Sequence values have already been added by Instance properties, skip them
-            // addSequenceValue(elements, value);
-        } else if (property.isMany() || value instanceof List) { // HACK for JIRA 116
-            addListValue(elements, property, value);
+            addSequenceValue(propertyList, (Sequence) value);
+        } else if ((property.isMany() || isGlobal(property)) && value instanceof List) {
+            // HACK: The isGlobal() test is a HACK for JIRA 115. Properties for global XSD elements should return
+            // true for isMany()
+            addListValue(propertyList, property, (List) value);
         } else {
             // Complex Type
-            addSingleValue(elements, property, value);
+            addSingleValue(propertyList, property, value);
         }
     }
 
-    /*
-     * private void addSequenceValue(List elements, Object value) { Sequence seq = (Sequence) value; if (seq != null && seq.size() > 0) { for (int j =
-     * 0; j < seq.size(); j++) { Object o = seq.getValue(j); Property p = seq.getProperty(j); addSingleValue(elements, p, o); } } }
-     */
+    private void addSequenceValue(List elements, Sequence seq) {
+        if (seq != null && seq.size() > 0) {
+            for (int j = 0; j < seq.size(); j++) {
+                Object o = seq.getValue(j);
+                Property p = seq.getProperty(j);
+                addSingleValue(elements, p, o);
+            }
+        }
+    }
 
-    private void addListValue(List elements, Property property, Object value) {
-        List objList = (List) value;
+    private boolean isTransient(Property property) {
+        // HACK: We need some SDOUtil extension to understand a property is derived
+        if (property instanceof ReferenceImpl) {
+            ReferenceImpl r = (ReferenceImpl) property;
+            if (r.isTransient())
+                return true;
+            EReference opposite = r.getEOpposite();
+            if (opposite != null && opposite.isContainment()) {
+                return true;
+            }
+        } else if (property instanceof AttributeImpl) {
+            AttributeImpl a = (AttributeImpl) property;
+            if (a.isTransient())
+                return true;
+            EDataType d = (EDataType) a.getEType();
+            if (!d.isSerializable()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isGlobal(Property property) {
+        String ns = xsdHelper.getNamespaceURI(property);
+        String name = xsdHelper.getLocalName(property);
+        return property == xsdHelper.getGlobalProperty(ns, name, true);
+    }
+
+    private void addListValue(List propertyList, Property property, List objList) {
         if (objList != null) {
             for (int j = 0; j < objList.size(); j++) {
                 Object object = objList.get(j);
-                addSingleValue(elements, property, object);
+                addSingleValue(propertyList, property, object);
             }
         }
     }
@@ -153,7 +190,15 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         QName qname = namespaceContext.createQName(uri, name);
         Type propertyType = property.getType();
 
+        if (property.getName().equals("value") && uri == null && name.equals(":0")) {
+            // "value" is special property containing the value of simpleContent
+            Map.Entry entry = new NameValuePair(ELEMENT_TEXT, value);
+            propertyList.add(entry);
+        } else
+
+        // FIXME: We need to deal with non-containment properties
         if (value == null) {
+            // Creating xsi:nil="true" for elements
             Map.Entry entry = new NameValuePair(qname, null);
             propertyList.add(entry);
         } else if (propertyType.isDataType()) {
@@ -182,13 +227,27 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             for (int i = 0; i < sequence.size(); i++) {
                 Property property = sequence.getProperty(i);
                 Object value = sequence.getValue(i);
-                if (xsdHelper.isAttribute(property))
-                    addProperty(attributeList, property, value);
-                else
+                if (property == null) {
+                    // property == null for text in mixed content
+                    elementList.add(new NameValuePair(ELEMENT_TEXT, value));
+                } else {
                     addProperty(elementList, property, value);
+                }
+            }
+            // Attributes are not in the sequence
+            List properties = dataObject.getInstanceProperties();
+            for (Iterator i = properties.iterator(); i.hasNext();) {
+                Property property = (Property) i.next();
+                if (xsdHelper.isAttribute(property)) {
+                    // FIXME: How to handle nilable=true?
+                    if (!dataObject.isSet(property))
+                        continue;
+                    Object value = dataObject.get(property);
+                    addProperty(attributeList, property, value);
+                }
             }
         } else {
-            List properties = type.isOpen() ? dataObject.getInstanceProperties() : type.getProperties();
+            List properties = dataObject.getInstanceProperties();
             for (Iterator i = properties.iterator(); i.hasNext();) {
                 Property property = (Property) i.next();
                 // FIXME: How to handle nilable=true?

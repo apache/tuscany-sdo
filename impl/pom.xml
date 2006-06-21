@@ -53,6 +53,14 @@
         </dependency>
 
         <dependency>
+            <groupId>woodstox</groupId>
+            <artifactId>wstx-asl</artifactId>
+            <version>2.9.3</version>
+            <scope>test</scope>
+        </dependency>
+        
+
+        <dependency>
             <groupId>asm</groupId>
             <artifactId>asm</artifactId>
             <version>2.2</version>
