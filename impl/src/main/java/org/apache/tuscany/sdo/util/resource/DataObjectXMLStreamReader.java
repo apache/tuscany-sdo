@@ -862,7 +862,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
      */
     private void registerNamespace(String prefix, String uri) {
         if (!uri.equals(namespaceContext.getNamespaceURI(prefix))) {
-            namespaceContext.put(prefix, uri);
+            namespaceContext.registerMapping(prefix, uri);
             declaredNamespaceMap.put(prefix, uri);
         }
     }
@@ -1301,7 +1301,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             // namespaces are having no prefixes
             if (!uri.equals(namespaceContext.getNamespaceURI(prefix))) {
                 // this namespace is not there. Need to declare it
-                namespaceContext.put(prefix, uri);
+                namespaceContext.registerMapping(prefix, uri);
             }
         }
 
@@ -1416,19 +1416,22 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
     protected static class DelegatingNamespaceContext implements NamespaceContext {
         private NamespaceContext parent;
 
-        private Map nsMap = new HashMap();
+        private Map prefixToNamespaceMapping = new HashMap();
 
         public DelegatingNamespaceContext(NamespaceContext parent) {
             super();
             this.parent = parent;
 
-            nsMap.put("xml", "http://www.w3.org/XML/1998/namespace");
-            nsMap.put("xmlns", "http://www.w3.org/2000/xmlns/");
-            nsMap.put("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+            prefixToNamespaceMapping.put("xml", "http://www.w3.org/XML/1998/namespace");
+            prefixToNamespaceMapping.put("xmlns", "http://www.w3.org/2000/xmlns/");
+            prefixToNamespaceMapping.put("xsi", "http://www.w3.org/2001/XMLSchema-instance");
         }
 
         public String getNamespaceURI(String prefix) {
-            String ns = (String) nsMap.get(prefix);
+            if (prefix == null)
+                throw new IllegalArgumentException("Prefix is null");
+
+            String ns = (String) prefixToNamespaceMapping.get(prefix);
             if (ns != null)
                 return ns;
             else if (parent != null)
@@ -1440,7 +1443,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         public String getPrefix(String nsURI) {
             if (nsURI == null)
                 throw new IllegalArgumentException("Namespace is null");
-            for (Iterator i = nsMap.entrySet().iterator(); i.hasNext();) {
+            for (Iterator i = prefixToNamespaceMapping.entrySet().iterator(); i.hasNext();) {
                 Map.Entry entry = (Map.Entry) i.next();
                 if (entry.getValue().equals(nsURI)) {
                     return (String) entry.getKey();
@@ -1454,17 +1457,22 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
 
         public Iterator getPrefixes(String nsURI) {
             List prefixList = new ArrayList();
-            for (Iterator i = nsMap.entrySet().iterator(); i.hasNext();) {
+            for (Iterator i = prefixToNamespaceMapping.entrySet().iterator(); i.hasNext();) {
                 Map.Entry entry = (Map.Entry) i.next();
                 if (entry.getValue().equals(nsURI)) {
                     prefixList.add(entry.getKey());
                 }
             }
+            if (parent != null) {
+                for (Iterator i = parent.getPrefixes(nsURI); i.hasNext();) {
+                    prefixList.add(i.next());
+                }
+            }
             return prefixList.iterator();
         }
 
-        public void put(String prefix, String nsURI) {
-            nsMap.put(prefix, nsURI);
+        public void registerMapping(String prefix, String nsURI) {
+            prefixToNamespaceMapping.put(prefix, nsURI);
         }
 
         private int counter = 0;
@@ -1476,12 +1484,12 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             if (prefix == null)
                 prefix = "";
             if (nsURI != null)
-                nsMap.put(prefix, nsURI);
+                prefixToNamespaceMapping.put(prefix, nsURI);
             return new QName(nsURI, name, prefix);
         }
 
-        public void remove(String prefix) {
-            nsMap.remove(prefix);
+        public void removeMapping(String prefix) {
+            prefixToNamespaceMapping.remove(prefix);
         }
 
         public void setParent(NamespaceContext parent) {

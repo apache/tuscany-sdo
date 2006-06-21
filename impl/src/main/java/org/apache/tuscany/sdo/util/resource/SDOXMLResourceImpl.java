@@ -79,7 +79,7 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
 
                     uri = null;
                 }
-                return uri != null ? uri : super.getURI(prefix);
+                return uri != null && uri.length()!=0 ? uri : super.getURI(prefix);
             }
 
             public StreamNamespaceSupport(XMLStreamReader reader) {

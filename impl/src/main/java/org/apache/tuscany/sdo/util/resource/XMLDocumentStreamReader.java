@@ -3,6 +3,8 @@
  */
 package org.apache.tuscany.sdo.util.resource;
 
+import java.util.NoSuchElementException;
+
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 import javax.xml.stream.Location;
@@ -10,22 +12,24 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 /**
- * This class is derived from Apache Axis2 class 
- * <a href="http://svn.apache.org/repos/asf/webservices/axis2/trunk/java/modules/core/src/org/apache/axis2/util/StreamWrapper.java">
- * org.apache.axis2.util.StreamWrapper</a>. It's used wrap a XMLStreamReader to create a XMLStreamReader representing a document and
- * it will produce START_DOCUMENT, END_DOCUMENT events.
- *
+ * This class is derived from Apache Axis2 class <a
+ * href="http://svn.apache.org/repos/asf/webservices/axis2/trunk/java/modules/core/src/org/apache/axis2/util/StreamWrapper.java">
+ * org.apache.axis2.util.StreamWrapper</a>. It's used wrap a XMLStreamReader to create a XMLStreamReader representing a document and it will produce
+ * START_DOCUMENT, END_DOCUMENT events.
+ * 
  */
 public class XMLDocumentStreamReader implements XMLStreamReader {
-    private static final int STATE_SWITCHED = 0;
-    private static final int STATE_INIT = 1;
-    private static final int STATE_SWITCH_AT_NEXT = 2;
-    private static final int STATE_COMPLETE_AT_NEXT = 3;
-    private static final int STATE_COMPLETED = 4;
-    private XMLStreamReader realReader = null;
-    private int state = STATE_INIT;
-    private int prevState = state;
+    private static final int STATE_INIT = 0; // The wrapper will produce START_DOCUMENT
 
+    private static final int STATE_SWITCHED = 1; // The real reader will produce events
+
+    private static final int STATE_COMPLETE_AT_NEXT = 2; // The wrapper will produce END_DOCUMENT
+
+    private static final int STATE_COMPLETED = 3; // Done
+
+    private XMLStreamReader realReader = null;
+
+    private int state = STATE_INIT;
 
     public XMLDocumentStreamReader(XMLStreamReader realReader) {
         if (realReader == null) {
@@ -33,63 +37,52 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
         }
 
         this.realReader = realReader;
+
+        // If the real reader is positioned at START_DOCUMENT, always use the real reader
+        if (realReader.getEventType() == START_DOCUMENT)
+            state = STATE_SWITCHED;
     }
 
     public void close() throws XMLStreamException {
-        if (prevState != STATE_INIT) {
-            realReader.close();
-        } else {
-            throw new XMLStreamException();
-        }
+        realReader.close();
     }
 
     public int next() throws XMLStreamException {
-        prevState = state;
         int returnEvent = -1;
 
         switch (state) {
-            // Commented out by Raymond Feng. It's a bug in the Axis2 code and it will produce START_DOCUMENT twice
-            /*
-            case STATE_INIT:
-                if (realReader.getEventType() == START_DOCUMENT) {
-                    state = STATE_SWITCHED;
-                    returnEvent = realReader.getEventType();
-                } else {
-                    state = STATE_SWITCH_AT_NEXT;
-                    returnEvent = START_DOCUMENT;
-                }
-                break;
-            */    
-            case STATE_SWITCHED:
-                returnEvent = realReader.next();
-                if (returnEvent == END_DOCUMENT) {
-                    state = STATE_COMPLETED;
-                } else if (!realReader.hasNext()) {
-                    state = STATE_COMPLETE_AT_NEXT;
-                }
-                break;
-            case STATE_INIT:
-                prevState = STATE_SWITCH_AT_NEXT;
-            case STATE_SWITCH_AT_NEXT:
-                state = STATE_SWITCHED;
-                returnEvent = realReader.getEventType();
-                break;
-            case STATE_COMPLETE_AT_NEXT:
+        case STATE_SWITCHED:
+            returnEvent = realReader.next();
+            if (returnEvent == END_DOCUMENT) {
                 state = STATE_COMPLETED;
-                returnEvent = END_DOCUMENT;
-                break;
-            case STATE_COMPLETED:
-                //oops - no way we can go beyond this
-                throw new XMLStreamException("end reached!");
-            default:
-                throw new UnsupportedOperationException();
+            } else if (!realReader.hasNext()) {
+                state = STATE_COMPLETE_AT_NEXT;
+            }
+            break;
+        case STATE_INIT:
+            state = STATE_SWITCHED;
+            returnEvent = realReader.getEventType();
+            break;
+        case STATE_COMPLETE_AT_NEXT:
+            state = STATE_COMPLETED;
+            returnEvent = END_DOCUMENT;
+            break;
+        case STATE_COMPLETED:
+            // oops - no way we can go beyond this
+            throw new NoSuchElementException("End of stream has reached.");
+        default:
+            throw new UnsupportedOperationException();
         }
 
         return returnEvent;
     }
 
+    private boolean isDelegating() {
+        return state == STATE_SWITCHED || state == STATE_COMPLETE_AT_NEXT;
+    }
+
     public int nextTag() throws XMLStreamException {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.nextTag();
         } else {
             throw new XMLStreamException();
@@ -97,13 +90,13 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public void require(int i, String s, String s1) throws XMLStreamException {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             realReader.require(i, s, s1);
         }
     }
 
     public boolean standaloneSet() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.standaloneSet();
         } else {
             return false;
@@ -111,79 +104,75 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public int getAttributeCount() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getAttributeCount();
         } else {
-            return 0;
+            throw new IllegalStateException();
         }
     }
 
     public String getAttributeLocalName(int i) {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getAttributeLocalName(i);
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public QName getAttributeName(int i) {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getAttributeName(i);
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public String getAttributeNamespace(int i) {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getAttributeNamespace(i);
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public String getAttributePrefix(int i) {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getAttributePrefix(i);
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public String getAttributeType(int i) {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getAttributeType(i);
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public String getAttributeValue(int i) {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getAttributeValue(i);
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public String getAttributeValue(String s, String s1) {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getAttributeValue(s, s1);
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public String getCharacterEncodingScheme() {
-        if (prevState != STATE_INIT) {
-            return realReader.getCharacterEncodingScheme();
-        } else {
-            return null;
-        }
+        return realReader.getCharacterEncodingScheme();
     }
 
     public String getElementText() throws XMLStreamException {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getElementText();
         } else {
             throw new XMLStreamException();
@@ -191,31 +180,28 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public String getEncoding() {
-        if (prevState != STATE_INIT) {
-            return realReader.getEncoding();
-        } else {
-            return null;
-        }
+        return realReader.getEncoding();
     }
 
     public int getEventType() {
-        if (prevState == STATE_INIT) {
-            return START_DOCUMENT;
-        } else {
-            return realReader.getEventType();
+        int event = -1;
+        switch (state) {
+        case STATE_SWITCHED:
+        case STATE_COMPLETE_AT_NEXT:
+            event = realReader.getEventType();
+            break;
+        case STATE_INIT:
+            event = START_DOCUMENT;
+            break;
+        case STATE_COMPLETED:
+            event = END_DOCUMENT;
+            break;
         }
-    }
-
-    public String getLocalName() {
-        if (prevState != STATE_INIT) {
-            return realReader.getLocalName();
-        } else {
-            return null;
-        }
+        return event;
     }
 
     public Location getLocation() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getLocation();
         } else {
             return null;
@@ -223,87 +209,91 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public QName getName() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getName();
         } else {
-            return null;
+            throw new IllegalStateException();
+        }
+    }
+
+    public String getLocalName() {
+        if (isDelegating()) {
+            return realReader.getLocalName();
+        } else {
+            throw new IllegalStateException();
         }
     }
 
     public NamespaceContext getNamespaceContext() {
-        if (prevState != STATE_INIT) {
-            return realReader.getNamespaceContext();
-        } else {
-            return null;
-        }
+        return realReader.getNamespaceContext();
     }
 
     public int getNamespaceCount() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getNamespaceCount();
         } else {
-            return 0;
+            throw new IllegalStateException();
         }
     }
 
     public String getNamespacePrefix(int i) {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getNamespacePrefix(i);
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public String getNamespaceURI() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getNamespaceURI();
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public String getNamespaceURI(int i) {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getNamespaceURI(i);
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public String getNamespaceURI(String s) {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getNamespaceURI(s);
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public String getPIData() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getPIData();
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public String getPITarget() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getPITarget();
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public String getPrefix() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getPrefix();
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public Object getProperty(String s) throws IllegalArgumentException {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getProperty(s);
         } else {
             throw new IllegalArgumentException();
@@ -311,47 +301,47 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public String getText() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getText();
         } else {
-            return null;
+            throw new IllegalStateException();
         }
     }
 
     public char[] getTextCharacters() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getTextCharacters();
         } else {
-            return new char[0];
+            throw new IllegalStateException();
         }
     }
 
     public int getTextCharacters(int i, char[] chars, int i1, int i2) throws XMLStreamException {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getTextCharacters(i, chars, i1, i2);
         } else {
-            return 0;
+            throw new IllegalStateException();
         }
     }
 
     public int getTextLength() {
-        if (prevState != STATE_INIT) {
-            return realReader.getTextStart();
+        if (isDelegating()) {
+            return realReader.getTextLength();
         } else {
-            return 0;
+            throw new IllegalStateException();
         }
     }
 
     public int getTextStart() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getTextStart();
         } else {
-            return 0;
+            throw new IllegalStateException();
         }
     }
 
     public String getVersion() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.getVersion();
         } else {
             return null;
@@ -359,7 +349,7 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public boolean hasName() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.hasName();
         } else {
             return false;
@@ -371,7 +361,7 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
             return true;
         } else if (state == STATE_COMPLETED) {
             return false;
-        } else if (prevState != STATE_INIT) {
+        } else if (state == STATE_SWITCHED) {
             return realReader.hasNext();
         } else {
             return true;
@@ -379,7 +369,7 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public boolean hasText() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.hasText();
         } else {
             return false;
@@ -387,7 +377,7 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public boolean isAttributeSpecified(int i) {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.isAttributeSpecified(i);
         } else {
             return false;
@@ -395,7 +385,7 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public boolean isCharacters() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.isCharacters();
         } else {
             return false;
@@ -403,7 +393,7 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public boolean isEndElement() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.isEndElement();
         } else {
             return false;
@@ -411,7 +401,7 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public boolean isStandalone() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.isStandalone();
         } else {
             return false;
@@ -419,7 +409,7 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public boolean isStartElement() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.isStartElement();
         } else {
             return false;
@@ -427,7 +417,7 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public boolean isWhiteSpace() {
-        if (prevState != STATE_INIT) {
+        if (isDelegating()) {
             return realReader.isWhiteSpace();
         } else {
             return false;
