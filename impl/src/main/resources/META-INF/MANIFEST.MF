@@ -1,10 +1,16 @@
 Manifest-Version: 1.0
+Extension-Name: tuscany-sdo-impl
+Specification-Title: Tuscany SDO Implementation
+Specification-Vendor: Apache Software Foundation
+Implementation-Vendor: Apache Software Foundation
+Implementation-Vendor-Id: org.apache
+Implementation-Title: tuscany-sdo-impl
+Implementation-Version: incubating-M1
 Bundle-ManifestVersion: 2
-Bundle-Name: SDO Runtime Implementation
+Bundle-Name: Tuscany SDO Implementation
 Bundle-SymbolicName: org.apache.tuscany.sdo.impl
 Bundle-Version: 1.0.0
-Bundle-Localization: plugin
-Bundle-Vendor: Apache
+Bundle-Vendor: Apache Software Foundation
 Require-Bundle: org.eclipse.emf.common,
  org.eclipse.emf.ecore,
  org.eclipse.emf.ecore.change,
