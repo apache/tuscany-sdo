@@ -224,16 +224,6 @@ public final class SDOUtil
   }
   
   /**
-   * Create a new XMLStreamHelper, with visibility to types in the specified TypeHelper scope.
-   * @param scope the TypeHelper to use for locating types.
-   * @return the new XMLStreamHelper.
-   */
-  public static XMLStreamHelper createXMLStreamHelper(TypeHelper scope)
-  {
-    return new XMLStreamHelperImpl(scope);
-  }
-  
-  /**
    * Create a new XSDHelper, with visibility to types in the specified TypeHelper scope.
    * @param scope the TypeHelper to use for locating and populating types.
    * @return the new XSDHelper.
@@ -241,6 +231,16 @@ public final class SDOUtil
   public static XSDHelper createXSDHelper(TypeHelper scope)
   {
     return new XSDHelperImpl(scope);
+  }
+  
+  /**
+   * Create a new XMLStreamHelper, with visibility to types in the specified TypeHelper scope.
+   * @param scope the TypeHelper to use for locating types.
+   * @return the new XMLStreamHelper.
+   */
+  public static XMLStreamHelper createXMLStreamHelper(TypeHelper scope)
+  {
+    return new XMLStreamHelperImpl(scope);
   }
   
   public static Type createType(TypeHelper scope, String uri, String name, boolean isDataType)
@@ -365,7 +365,8 @@ public final class SDOUtil
     EStructuralFeature eStructuralFeature = propertyType.isDataType() ? (EStructuralFeature)SDOFactory.eINSTANCE.createAttribute() : (EStructuralFeature)SDOFactory.eINSTANCE.createReference();
     eStructuralFeature.setName(name);
     eStructuralFeature.setEType((EClassifier)propertyType);
-    if (containingType.getName() == null)
+    //if (containingType.getName() == null)
+    if ("".equals(ExtendedMetaData.INSTANCE.getName((EClass)containingType)))
     {
       ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
     }

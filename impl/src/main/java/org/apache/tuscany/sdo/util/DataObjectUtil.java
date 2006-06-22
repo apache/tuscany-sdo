@@ -70,6 +70,7 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
+import commonj.sdo.helper.DataHelper;
 import commonj.sdo.helper.TypeHelper;
 
 
@@ -1123,6 +1124,10 @@ public final class DataObjectUtil
 
   public static Date getDate(Object value)
   {
+    if (value instanceof String) {
+      return DataHelper.INSTANCE.toDate((String)value);
+    }
+
     if (value instanceof XMLCalendar)
     {
       return ((XMLCalendar)value).getDate();
@@ -1156,28 +1161,54 @@ public final class DataObjectUtil
     }
 
     String name = eType.getInstanceClassName();
-    if (name == "java.lang.Object")
+        
+    if (name == "java.lang.String")
     {
       String typeName = getDateTypeName((EDataType)eType);
-      if ("Date".equals(typeName))
-      {
-        return new XMLCalendar(value, XMLCalendar.DATE);
+      if ("DateTime".equals(typeName)) {
+          return DataHelper.INSTANCE.toDateTime(value);
       }
-      if ("DateTime".equals(typeName))
-      {
-        return new XMLCalendar(value, XMLCalendar.DATETIME);
+      else if ("Day".equals(typeName)) {
+          return DataHelper.INSTANCE.toDay(value);
       }
+      else if ("Duration".equals(typeName)) {
+          return DataHelper.INSTANCE.toDuration(value);
+      }
+      else if ("Month".equals(typeName)) {
+          return DataHelper.INSTANCE.toMonth(value);
+      }
+      else if ("MonthDay".equals(typeName)) {
+          return DataHelper.INSTANCE.toMonthDay(value);
+      }
+      else if ("Time".equals(typeName)) {
+          return DataHelper.INSTANCE.toTime(value);
+      }
+      else if ("Year".equals(typeName)) {
+          return DataHelper.INSTANCE.toYear(value);
+      }
+      else if ("YearMonth".equals(typeName)) {
+          return DataHelper.INSTANCE.toYearMonth(value);
+      }
+      else if ("YearMonthDay".equals(typeName)) {
+          return DataHelper.INSTANCE.toYearMonthDay(value);
+      }
+      else if ("String".equals(typeName))
+      {
+        return DataHelper.INSTANCE.toDateTime(value);
+      }
+      
       // Instead of throwing an IllegalArgumentException we will pass the value to the property
       return value;
     }
 
+    if (name == "java.util.Date")
+    {
+      return new XMLCalendar(value, XMLCalendar.DATE);
+    }
+    
     if (name == "java.lang.Long" || name == "long")
     {
       return new Long(value.getTime());
-    }
-    if (name == "java.lang.String")
-    {
-      return value.toString();
     }
 
     // Instead of throwing an IllegalArgumentException we will pass the value to the property
@@ -1187,7 +1218,16 @@ public final class DataObjectUtil
   protected static String getDateTypeName(EDataType eDataType)
   {
     String name = eDataType.getName();
-    if (("DateTime".equals(name)) || ("Date".equals(name)))
+    if (("DateTime".equals(name)) ||
+            ("Day".equals(name)) ||
+            ("Duration".equals(name)) ||
+            ("Month".equals(name)) ||
+            ("MonthDay".equals(name)) ||
+            ("Time".equals(name)) ||
+            ("Year".equals(name)) ||
+            ("YearMonth".equals(name)) ||
+            ("YearMonthDay".equals(name)) ||
+            ("String".equals(name)))
     {
       return name;
     }
@@ -1205,7 +1245,16 @@ public final class DataObjectUtil
       {
         EDataType memberType = (EDataType)memberTypes.get(i);
         String memberTypeName = getDateTypeName(memberType);
-        if (("DateTime".equals(memberTypeName)) || ("Date".equals(memberTypeName)))
+        if (("DateTime".equals(memberTypeName)) ||
+                ("Day".equals(memberTypeName)) ||
+                ("Duration".equals(memberTypeName)) ||
+                ("Month".equals(memberTypeName)) ||
+                ("MonthDay".equals(memberTypeName)) ||
+                ("Time".equals(memberTypeName)) ||
+                ("Year".equals(memberTypeName)) ||
+                ("YearMonth".equals(memberTypeName)) ||
+                ("YearMonthDay".equals(memberTypeName)) ||
+                ("String".equals(memberTypeName)))
         {
           return memberTypeName;
         }
@@ -2100,6 +2149,10 @@ public final class DataObjectUtil
       {
         EObject eObject = (EObject)eObjects.get(i);
         EStructuralFeature feature = (EStructuralFeature)((Type)eObject.eClass()).getProperty(attributeName);
+        // If feature is null, that means it could be an open feature.
+        if(feature == null){
+        	feature = (EStructuralFeature)DataObjectUtil.getOpenFeature(eObject, attributeName);
+        }
         if (feature != null)
         {
           Object test = eObject.eGet(feature, true);
@@ -2353,19 +2406,17 @@ public final class DataObjectUtil
         result.put("emof", new EMOFResourceFactoryImpl());
       }
 
-      if (Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.xsd")) == null)
+      if (!(Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.xsd")) instanceof XSDResourceFactoryImpl))
       {
         result.put("xsd", new XSDResourceFactoryImpl());
       }
 
-      //FIXME ClassCastException in XSDHelper.define() if you give it a WSDL file
-      // Patch for JIRA TUSCANY-42
-      if (Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.wsdl")) == null)
+      if (!(Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.wsdl")) instanceof XSDResourceFactoryImpl))
       {
         result.put("wsdl", new XSDResourceFactoryImpl());
       }
 
-      if (Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.*")) == null)
+      if (!(Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.*")) instanceof SDOXMLResourceFactoryImpl))
       {
         result.put("*", new SDOXMLResourceFactoryImpl());
       }

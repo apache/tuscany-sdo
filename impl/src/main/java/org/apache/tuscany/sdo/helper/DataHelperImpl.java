@@ -49,7 +49,14 @@ public class DataHelperImpl implements DataHelper
       new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS"),
       new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
       new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"),
-      new SimpleDateFormat("yyyy-MM-dd")
+      new SimpleDateFormat("'P'yyyy'Y' MM'M' dd'D' 'T' HH'H' mm'M' ss'S.'SSS"),
+      new SimpleDateFormat("--MM zz"),
+      new SimpleDateFormat("--MM-dd zz"),
+      new SimpleDateFormat("---dd zz"),
+      new SimpleDateFormat("HH:mm:ss'.'SSS"),
+      new SimpleDateFormat("yyyy-MM-dd"),
+      new SimpleDateFormat("yyyy-MM"),
+      new SimpleDateFormat("yyyy")
     };
     
     for (int i = 0; i < DATE_PATTERNS.length; ++i)

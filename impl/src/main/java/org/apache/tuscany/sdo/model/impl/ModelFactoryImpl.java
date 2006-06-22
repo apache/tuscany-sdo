@@ -537,8 +537,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String createDateTimeFromString(EDataType eDataType, String initialValue)
   {
-    Object obj = XMLTypeFactory.eINSTANCE.createDateTime(initialValue);
-    return (obj != null) ? obj.toString() : null;
+      return initialValue;
   }
 
   /**
@@ -548,7 +547,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertDateTimeToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertDateTime(instanceValue);
+      return (String)instanceValue;
   }
 
   /**
@@ -558,8 +557,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String createDayFromString(EDataType eDataType, String initialValue)
   {
-    Object obj = XMLTypeFactory.eINSTANCE.createGDay(initialValue);
-    return (obj != null) ? obj.toString() : null;
+      return initialValue;
   }
 
   /**
@@ -569,7 +567,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertDayToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertGDay(instanceValue);
+      return (String)instanceValue;
   }
 
   /**
@@ -639,8 +637,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String createDurationFromString(EDataType eDataType, String initialValue)
   {
-    Object obj = XMLTypeFactory.eINSTANCE.createDuration(initialValue);
-    return (obj != null) ? obj.toString() : null;
+      return initialValue;
   }
 
   /**
@@ -650,7 +647,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertDurationToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertDuration(instanceValue);
+      return (String)instanceValue;
   }
 
   /**
@@ -800,8 +797,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String createMonthFromString(EDataType eDataType, String initialValue)
   {
-    Object obj = XMLTypeFactory.eINSTANCE.createGMonth(initialValue);
-    return (obj != null) ? obj.toString() : null;
+      return initialValue;
   }
 
   /**
@@ -811,7 +807,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertMonthToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertGMonth(instanceValue);
+      return (String)instanceValue;
   }
 
   /**
@@ -821,8 +817,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String createMonthDayFromString(EDataType eDataType, String initialValue)
   {
-    Object obj = XMLTypeFactory.eINSTANCE.createGMonthDay(initialValue);
-    return (obj != null) ? obj.toString() : null;
+      return initialValue;
   }
 
   /**
@@ -832,7 +827,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertMonthDayToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertGMonthDay(instanceValue);
+      return (String)instanceValue;
   }
 
   /**
@@ -942,8 +937,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String createTimeFromString(EDataType eDataType, String initialValue)
   {
-    Object obj = XMLTypeFactory.eINSTANCE.createTime(initialValue);
-    return (obj != null) ? obj.toString() : null;
+      return initialValue;
   }
 
   /**
@@ -953,7 +947,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertTimeToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertTime(instanceValue);
+      return (String)instanceValue;
   }
 
   /**
@@ -983,8 +977,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String createYearFromString(EDataType eDataType, String initialValue)
   {
-    Object obj = XMLTypeFactory.eINSTANCE.createGYear(initialValue);
-    return (obj != null) ? obj.toString() : null;
+      return initialValue;
   }
 
   /**
@@ -994,7 +987,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertYearToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertGYear(instanceValue);
+      return (String)instanceValue;
   }
 
   /**
@@ -1004,8 +997,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String createYearMonthFromString(EDataType eDataType, String initialValue)
   {
-    Object obj = XMLTypeFactory.eINSTANCE.createGYearMonth(initialValue);
-    return (obj != null) ? obj.toString() : null;
+      return initialValue;
   }
 
   /**
@@ -1015,7 +1007,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertYearMonthToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertGYearMonth(instanceValue);
+      return (String)instanceValue;
   }
 
   /**
@@ -1025,8 +1017,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String createYearMonthDayFromString(EDataType eDataType, String initialValue)
   {
-    Object obj = XMLTypeFactory.eINSTANCE.createDate(initialValue);
-    return (obj != null) ? obj.toString() : null;
+      return initialValue;
   }
 
   /**
@@ -1036,7 +1027,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertYearMonthDayToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertDate(instanceValue);
+      return (String)instanceValue;
   }
 
   /**
