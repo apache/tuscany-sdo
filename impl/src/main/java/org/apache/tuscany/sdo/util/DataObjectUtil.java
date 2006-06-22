@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1995,8 +1996,16 @@ public final class DataObjectUtil
       return index;
     }
 
+    /*
+     * calling constraint, this method is not to be used for semantic of setting index to NO_INDEX
+     */ 
     protected void setIndex(int index)
     {
+      if(index < 0) {
+        // The index value should be greater than 0.  An index value which is too high will result in
+        // an index out of bounds generated later on accessing the data.
+        throw new IndexOutOfBoundsException("Index value is too low");
+      }
       this.index = index;
       if (!FeatureMapUtil.isMany(eObject, feature))
       {

@@ -59,4 +59,67 @@ public class XPathTestCase extends TestCase {
          
         assertEquals(value, "2000-03-23");
     }
+    
+    public void testListIndexing() throws Exception {
+        TypeHelper typeHelper = SDOUtil.createTypeHelper();
+        XSDHelper xsdHelper = SDOUtil.createXSDHelper(typeHelper);
+        XMLHelper xmlHelper = SDOUtil.createXMLHelper(typeHelper);
+
+        URL url = getClass().getResource(TEST_MODEL);
+        InputStream inputStream = url.openStream();
+        xsdHelper.define(inputStream, url.toString());
+
+        inputStream.close();
+
+        XMLDocument doc = xmlHelper.load(getClass().getResourceAsStream(XPATH_XML));
+
+        DataObject root = doc.getRootObject();
+        DataObject folder1 = root.getDataObject("Folder[1]");
+        assertNotNull(folder1);
+        DataObject folder1a = root.getDataObject("Folder.0");
+        assertEquals(folder1, folder1a);
+        folder1a = root.getDataObject("Folder[FolderName=Folder00000000000]");
+        assertEquals(folder1, folder1a);
+
+        DataObject noFolder = null;
+
+        try {
+            noFolder = root.getDataObject("Folder[3]");
+            assertFalse("bad indexing passed", true);
+        } catch (IndexOutOfBoundsException iobe) {
+            // as expected
+        } catch (Exception e) {
+            assertFalse("bad indexing generated wrong exception" + e, true);
+        }
+
+        try {
+            noFolder = root.getDataObject("Folder[0]");
+            assertFalse("bad indexing passed", true);
+        } catch (IndexOutOfBoundsException iobe) {
+            // as expected
+        } catch (Exception e) {
+            assertFalse("bad indexing generated wrong exception" + e, true);
+        }
+
+        try {
+            noFolder = root.getDataObject("Folder.2");
+            assertFalse("bad indexing passed", true);
+        } catch (IndexOutOfBoundsException iobe) {
+            // as expected
+        } catch (Exception e) {
+            assertFalse("bad indexing generated wrong exception" + e, true);
+        }
+
+        try {
+            noFolder = root.getDataObject("Folder.-1");
+            assertFalse("bad indexing passed", true);
+        } catch (IndexOutOfBoundsException iobe) {
+            // as expected
+        } catch (Exception e) {
+            assertFalse("bad indexing generated wrong exception" + e, true);
+        }
+
+        noFolder = root.getDataObject("Folder[FolderName=foo]");
+        assertNull(noFolder);
+    }
 }
