@@ -18,25 +18,27 @@ package org.apache.tuscany.sdo.model.impl;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
 import java.util.Date;
 import java.util.List;
 
 import org.apache.tuscany.sdo.SDOFactory;
-import org.apache.tuscany.sdo.SDOPackage;
-import org.apache.tuscany.sdo.impl.SDOFactoryImpl;
-import org.apache.tuscany.sdo.model.*;
-
+import org.apache.tuscany.sdo.model.ChangeSummaryType;
+import org.apache.tuscany.sdo.model.DataGraphType;
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.ModelsType;
+import org.apache.tuscany.sdo.model.Property;
+import org.apache.tuscany.sdo.model.Type;
+import org.apache.tuscany.sdo.model.Types;
+import org.apache.tuscany.sdo.model.XSDType;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
-import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
+
+import commonj.sdo.helper.DataHelper;
 
 /**
  * <!-- begin-user-doc -->
@@ -516,8 +518,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public Date createDateFromString(EDataType eDataType, String initialValue)
   {
-    XMLCalendar cal = (XMLCalendar) XMLTypeFactory.eINSTANCE.createDate(initialValue);
-    return (cal != null) ? cal.getDate() : null;
+    // XMLCalendar cal = (XMLCalendar) XMLTypeFactory.eINSTANCE.createDate(initialValue);
+    // return (cal != null) ? cal.getDate() : null;
+    return DataHelper.INSTANCE.toDate(initialValue);
   }
 
   /**
@@ -527,7 +530,8 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertDateToString(EDataType eDataType, Object instanceValue)
   {
-    return XMLTypeFactory.eINSTANCE.convertDate(instanceValue);
+    // return XMLTypeFactory.eINSTANCE.convertDate(instanceValue);
+    return DataHelper.INSTANCE.toDateTime((Date)instanceValue);
   }
 
   /**

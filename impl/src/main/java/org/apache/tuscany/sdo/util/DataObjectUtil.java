@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -61,7 +60,6 @@ import org.eclipse.emf.ecore.xmi.impl.EMOFResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLOptionsImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
-import org.eclipse.emf.ecore.xml.type.internal.XMLCalendar;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
 import commonj.sdo.ChangeSummary;
@@ -1128,10 +1126,10 @@ public final class DataObjectUtil
       return DataHelper.INSTANCE.toDate((String)value);
     }
 
-    if (value instanceof XMLCalendar)
-    {
-      return ((XMLCalendar)value).getDate();
-    }
+    //if (value instanceof XMLCalendar)
+    //{
+      //return ((XMLCalendar)value).getDate();
+    //}
 
     if (value instanceof Date)
     {
@@ -1201,10 +1199,10 @@ public final class DataObjectUtil
       return value;
     }
 
-    if (name == "java.util.Date")
-    {
-      return new XMLCalendar(value, XMLCalendar.DATE);
-    }
+    //if (name == "java.util.Date")
+    //{
+      //return new XMLCalendar(value, XMLCalendar.DATE);
+    //}
     
     if (name == "java.lang.Long" || name == "long")
     {
