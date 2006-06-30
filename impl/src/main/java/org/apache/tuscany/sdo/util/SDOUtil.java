@@ -47,6 +47,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -154,12 +155,32 @@ public final class SDOUtil
   }
 
   /**
+   * Return whether at least one value is required for a valid instance of the specified property.
+   * @param the property in question.
+   * @return true if the property is required.
+   */
+  public static boolean isRequired(Property property)
+  {
+    return ((EStructuralFeature)property).isRequired();
+  }
+
+  /**
    * Create an empty data graph.
    * @return the new data graph instance.
    */
   public static DataGraph createDataGraph()
   {
     return SDOFactory.eINSTANCE.createDataGraph();
+  }
+  
+  /**
+   * Set the root object of a data graph.
+   * @param dataGraph the data graph in which to set the root object.
+   * @param rootObject the root object.
+   */
+  public static void setRootObject(DataGraph dataGraph, DataObject rootObject)
+  {
+    ((DataGraphImpl)dataGraph).setERootObject((EObject)rootObject);
   }
   
   /**
