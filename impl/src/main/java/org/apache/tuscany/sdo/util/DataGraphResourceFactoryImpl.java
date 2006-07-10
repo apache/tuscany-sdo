@@ -155,7 +155,16 @@ public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
 
       public String getIDREF(EObject eObject)
       {
-        return super.getIDREF(eObject);
+        String fragment = super.getIDREF(eObject);
+        if (fragment.startsWith("/"))
+        {
+          int index = resources.indexOf(eObject.eResource());
+          if (index != -1)
+          {
+            fragment = ((String)uris.get(index)).substring(1) + fragment.substring(1);
+          }
+        }
+        return fragment;
       }
 
       public String getHREF(EObject eObject)

@@ -386,12 +386,14 @@ public final class SDOUtil
     EStructuralFeature eStructuralFeature = propertyType.isDataType() ? (EStructuralFeature)SDOFactory.eINSTANCE.createAttribute() : (EStructuralFeature)SDOFactory.eINSTANCE.createReference();
     eStructuralFeature.setName(name);
     eStructuralFeature.setEType((EClassifier)propertyType);
+    ((EClass)containingType).getEStructuralFeatures().add(eStructuralFeature);
+
     //if (containingType.getName() == null)
     if ("".equals(ExtendedMetaData.INSTANCE.getName((EClass)containingType)))
     {
       ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
+      ExtendedMetaData.INSTANCE.setNamespace(eStructuralFeature, containingType.getURI());
     }
-    ((EClass)containingType).getEStructuralFeatures().add(eStructuralFeature);
     
     if (containingType.isSequenced()) {
       eStructuralFeature.setDerived(true);
