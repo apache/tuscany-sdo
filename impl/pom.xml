@@ -18,23 +18,12 @@
     <parent>
         <groupId>org.apache.tuscany</groupId>
         <artifactId>tuscany-sdo</artifactId>
-        <version>incubating-M1</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tuscany-sdo-impl</artifactId>
     <name>Tuscany SDO Implementation</name>
     <description>Tuscany implementation of SDO API.</description>
-    <version>incubating-M1</version>
-
-    <repositories>
-        <repository>
-            <id>eclipse.emf</id>
-            <url>http://download.eclipse.org/tools/emf/maven2</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
 
     <dependencies>
         <dependency>
@@ -50,6 +39,7 @@
             <version>1.0</version>
             <!-- mark as provided to avoid adding this to the classpath for users that are not using StAX --> 
             <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
@@ -70,39 +60,37 @@
         <dependency>
             <groupId>org.eclipse.emf</groupId>
             <artifactId>common</artifactId>
-            <version>2.2.0-RC4</version>
+            <version>${emfVersion}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.emf</groupId>
             <artifactId>ecore</artifactId>
-            <version>2.2.0-RC4</version>
+            <version>${emfVersion}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.emf</groupId>
             <artifactId>ecore-change</artifactId>
-            <version>2.2.0-RC4</version>
+            <version>${emfVersion}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.emf</groupId>
             <artifactId>ecore-xmi</artifactId>
-            <version>2.2.0-RC4</version>
+            <version>${emfVersion}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.eclipse.xsd</groupId>
             <artifactId>xsd</artifactId>
-            <version>2.2.0-RC4</version>
+            <version>${emfVersion}</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>3.8.1</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 
