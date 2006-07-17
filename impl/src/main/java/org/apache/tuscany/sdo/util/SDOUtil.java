@@ -59,12 +59,14 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
+import commonj.sdo.Sequence;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLHelper;
@@ -137,6 +139,21 @@ public final class SDOUtil
       }
     //}
     return type;
+  }
+  
+  /**
+   * Gets the Sequence corresponding to the specified substitutable Property of the specified DataObject.
+   * @param dataObject the data object.
+   * @param head a substitution group head property.
+   * @return the Sequence corresponding to the specified substitutable Property of the specified DataObject or
+   *         null if the specified Property isn't a substitution head.
+   */
+  public static Sequence getSubstitutionValues(DataObject dataObject, Property head)
+  {
+      final EStructuralFeature  group = ExtendedMetaData.INSTANCE.getGroup((EStructuralFeature)head);
+      return null == group
+           ? null
+           : (Sequence)((FeatureMap.Internal)((EObject)dataObject).eGet(group)).getWrapper();
   }
   
   /**

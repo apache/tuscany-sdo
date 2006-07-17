@@ -1,0 +1,12 @@
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        targetNamespace="http://www.apache.org/tuscany/SubstitutionValues" 
+        xmlns:sv="http://www.apache.org/tuscany/SubstitutionValues"> 
+  <element name="groupHead" type="string"/>
+  <complexType name="TestObject">
+    <sequence>
+      <element ref="sv:groupHead"/>
+      <element name="nonGroupHead" type="string"/>
+    </sequence>
+  </complexType>
+  <element name="groupMember" type="string" substitutionGroup="sv:groupHead"/>
+</schema>
