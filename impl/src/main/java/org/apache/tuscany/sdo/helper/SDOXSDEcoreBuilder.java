@@ -51,10 +51,18 @@ import org.w3c.dom.Element;
  */
 public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
 {
-
   public SDOXSDEcoreBuilder(ExtendedMetaData extendedMetaData)
   {
     super(extendedMetaData);
+  }
+
+  /**
+   * Overrides method in EMF. This will cause the SDO Properties to be in the
+   * order in which the Attributes appeared in the XSD.
+   */
+  protected boolean useSortedAttributes()
+  {
+    return false;
   }
 
   public EClassifier getEClassifier(XSDTypeDefinition xsdTypeDefinition) {
@@ -290,7 +298,7 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     }
   }
 
-protected static String validNameStatic(String name, int casing, String prefix)
+  protected static String validNameStatic(String name, int casing, String prefix)
   {
     List parsedName = parseNameStatic(name, '_');
     StringBuffer result = new StringBuffer();
@@ -372,7 +380,7 @@ protected static String validNameStatic(String name, int casing, String prefix)
     return result;
   }
 
-public static String getDefaultPackageName(String targetNamespace)
+  public static String getDefaultPackageName(String targetNamespace)
   {
 
       URI uri = URI.createURI(targetNamespace);
@@ -429,6 +437,5 @@ public static String getDefaultPackageName(String targetNamespace)
     
     return qualifiedPackageName.toString().toLowerCase(); //make sure it's lower case .. we can't work with Axis if not.
   }
- 
 
 }

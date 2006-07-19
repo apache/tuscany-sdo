@@ -37,7 +37,7 @@
     </repositories>
 
     <properties>
-        <emfVersion>2.2.0</emfVersion>
+        <emfVersion>2.2.1-SNAPSHOT</emfVersion>
     </properties>
 
     <modules>
