@@ -1,16 +1,20 @@
 package org.apache.tuscany.sdo.test;
 
+import java.io.IOException;
 import java.net.URL;
+
+import junit.framework.TestCase;
+
+import org.apache.tuscany.sdo.util.SDOUtil;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
-import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.helper.DataFactory;
-import org.apache.tuscany.sdo.util.SDOUtil;
+import commonj.sdo.helper.XSDHelper;
 
-public final class SubstitutionValues extends junit.framework.TestCase
+public final class SubstitutionValuesTestCase extends TestCase
 {
-  public void test() throws java.io.IOException
+  public void test() throws IOException
   {
     URL url = getClass().getResource("/SubstitutionValues.xsd");
     XSDHelper.INSTANCE.define(url.openStream(), url.toString());

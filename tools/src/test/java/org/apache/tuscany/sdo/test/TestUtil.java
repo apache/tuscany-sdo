@@ -232,7 +232,10 @@ public class TestUtil
     Document targetDocument;
     
     try {
-      builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+      DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+      factory.setIgnoringComments(true);
+      builder = factory.newDocumentBuilder();
+      //builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
       sourceDocument = builder.parse(sourceStream);
       targetDocument = builder.parse(targetStream);
     }

@@ -39,7 +39,7 @@ import commonj.sdo.Type;
 import commonj.sdo.helper.XMLHelper;
 
 
-public class StaticSequenceNoEmfTest extends TestCase {
+public class StaticSequenceNoEmfTestCase extends TestCase {
     private final String TEST_NAMESPACE = "http://www.example.com/sequences";
     private final String MQ_TEST_DATA = "/mixedStaticTestResult.xml";
     private final String RC_TEST_DATA = "/repeatingChoiceTestResult.xml";
