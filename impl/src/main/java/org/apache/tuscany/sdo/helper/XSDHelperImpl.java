@@ -23,12 +23,15 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.axiom.om.OMElement;
 import org.apache.tuscany.sdo.impl.DynamicDataObjectImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -43,6 +46,7 @@ import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.util.XSDResourceImpl;
 import org.xml.sax.InputSource;
+
 
 import commonj.sdo.Property;
 import commonj.sdo.Type;
@@ -146,12 +150,10 @@ public class XSDHelperImpl implements XSDHelper
   {
     InputStream inputStream = new ByteArrayInputStream(xsd.getBytes());
     return define(inputStream, "*.xsd");
-
   }
 
   public List /*Type*/define(Reader xsdReader, String schemaLocation)
   {
-
     InputSource inputSource = new InputSource(xsdReader);
     return define(inputSource, schemaLocation);
 
@@ -205,14 +207,64 @@ public class XSDHelperImpl implements XSDHelper
     }
   }
 
-  public String generate(List /*Type*/types)
+  public String generate(List /*Type*/types) throws IllegalArgumentException
   {
-    throw new UnsupportedOperationException(); //TODO
+    return generate(types, new Hashtable());
   }
 
-  public String generate(List /*Type*/types, Map /*String, String*/namespaceToSchemaLocation)
+  public String generate(List /*Type*/types, Map /*String, String*/namespaceToSchemaLocation) throws IllegalArgumentException
   {
-    throw new UnsupportedOperationException(); //TODO
+      if ( types != null && !types.isEmpty() )
+      {
+         Hashtable schemaMap = new Hashtable();
+         Hashtable nsPrefixMap = new Hashtable();
+         TypeTable typeTable = new TypeTable();
+         Hashtable sdoAnnotationsMap = new Hashtable();
+         
+
+         SchemaBuilder schemaBuilder = new SchemaBuilder(new XmlSchemaCollection(),
+                                                          schemaMap,
+                                                          nsPrefixMap,
+                                                          typeTable,
+                                                          sdoAnnotationsMap,
+                                                          namespaceToSchemaLocation);
+          
+         Iterator iterator = types.iterator();
+         Type dataType = null;
+         
+         try
+         {
+             while ( iterator.hasNext() )
+             {
+                 dataType = (Type)iterator.next();
+                 schemaBuilder.buildSchema(dataType);
+             }
+         
+             //add sdo annotations to the generated schema elements
+             SDOAnnotationsDecorator annoDecorator = new SDOAnnotationsDecorator();
+             OMElement allSchemas  = annoDecorator.decorateWithAnnotations(schemaMap, sdoAnnotationsMap);
+             //print the schemas into a StringBuffer
+             StringBuffer sb = new StringBuffer();
+             iterator = allSchemas.getChildElements();
+             while ( iterator.hasNext() )
+             {
+                 sb.append(iterator.next().toString());
+             }
+             return sb.toString();
+             
+         }
+         catch ( Exception e )
+         {
+             System.out.println("Unable to generate schema due to ..." + e);
+             //e.printStackTrace();
+             throw new IllegalArgumentException(e);
+         }
+      }
+      else
+      {
+          System.out.println("No SDO Types to generate schema ...");
+          return "";
+      }
   }
 
 }
