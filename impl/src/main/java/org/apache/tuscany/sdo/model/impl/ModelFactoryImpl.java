@@ -18,8 +18,10 @@ package org.apache.tuscany.sdo.model.impl;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.model.ChangeSummaryType;
@@ -530,8 +532,15 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public String convertDateToString(EDataType eDataType, Object instanceValue)
   {
-    // return XMLTypeFactory.eINSTANCE.convertDate(instanceValue);
-    return DataHelper.INSTANCE.toDateTime((Date)instanceValue);
+    if (instanceValue == null)
+    {
+      return null;
+    }
+    
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'");
+    f.setTimeZone(TimeZone.getTimeZone("GMT"));
+    
+    return f.format((Date)instanceValue);
   }
 
   /**

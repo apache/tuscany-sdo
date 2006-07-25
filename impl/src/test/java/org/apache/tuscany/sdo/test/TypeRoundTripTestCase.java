@@ -16,19 +16,18 @@
  */
 package org.apache.tuscany.sdo.test;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import junit.framework.TestCase;
 
 import org.apache.tuscany.sdo.util.SDOUtil;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-
 import commonj.sdo.Type;
+import commonj.sdo.helper.DataHelper;
 import commonj.sdo.helper.TypeHelper;
 
 public class TypeRoundTripTestCase extends TestCase {
@@ -84,26 +83,10 @@ public class TypeRoundTripTestCase extends TestCase {
     }
   }
   
-  private static class DateComparator implements Comparator {
-    public int compare(Object o1, Object o2) {
-      int answer = 1;
-      try {
-        if (o1 instanceof String && o2 instanceof Date) {
-          SimpleDateFormat sdf = 
-            new SimpleDateFormat("yyyy-MM-dd'Z'");
-          o1 = sdf.parse((String)o1);
-          if (!o1.equals(o2)) answer = 0; 
-        } else {
-          answer = 0;
-        }
-      } catch (Exception e) {}
-      return answer;
-    }
-  }
-  
   public void testTypeRoundTrips() throws Exception {
     String URI = "commonj.sdo";
     TypeHelper types = TypeHelper.INSTANCE;
+    
     List list = new ArrayList();
     list.add("foo");
     list.add("bar");
@@ -113,8 +96,8 @@ public class TypeRoundTripTestCase extends TestCase {
       new Test(types.getType(URI, "Byte"),         "49", new Byte((byte)49)),
       new Test(types.getType(URI, "Bytes"),        "Zm9v", "foo", new BytesComparator()),
       new Test(types.getType(URI, "Character"),    "a", new Character('a')),
-      //FB broken ... new Test(types.getType(URI, "Date"),         "2005-12-12Z", "2005-12-12Z", new DateComparator()),
-      new Test(types.getType(URI, "DateTime"),     "2005-12-12T12:12:12Z", "2005-12-12T12:12:12Z"),
+      new Test(types.getType(URI, "Date"),         "2005-12-12T12:12:12.012Z", DataHelper.INSTANCE.toDate("2005-12-12T12:12:12.012Z")),
+      new Test(types.getType(URI, "DateTime"),     "2005-12-12T12:12:12zz", "2005-12-12T12:12:12zz"),
       new Test(types.getType(URI, "Day"),          "---12", "---12"),
       new Test(types.getType(URI, "Decimal"),      "12.12", new BigDecimal("12.12")),
       new Test(types.getType(URI, "Double"),       "12.12", new Double(12.12)),

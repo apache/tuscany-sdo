@@ -20,6 +20,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.TimeZone;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,7 +34,7 @@ import commonj.sdo.helper.DataHelper;
 public class DataHelperImpl implements DataHelper
 {
   /**
-   * @param dateString - Must comply to the pattern of yyyy-MM-dd'T'HH:mm:ss'.'SSS Z
+   * @param dateString - Must comply to the pattern of yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'
    * @return null if dataString couldn't be parsed
    */
   public synchronized Date toDate(String dateString)
@@ -43,9 +44,17 @@ public class DataHelperImpl implements DataHelper
       return null;
     }
     
+    DateFormat sdoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'");
+    sdoDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+    try {
+      return sdoDateFormat.parse(dateString);
+    }
+    catch (ParseException parseException)
+    {
+    }
+    
     DateFormat [] DATE_PATTERNS =
     {
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS Z"),
       new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS"),
       new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
       new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"),
