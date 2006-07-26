@@ -17,20 +17,16 @@
 package org.apache.tuscany.sdo.test;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.net.URL;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Vector;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
-
-import com.example.simple.Quote;
-import com.example.simple.impl.QuoteImpl;
-import com.example.simple.impl.SimpleFactoryImpl;
-
 import junit.framework.TestCase;
 
+import org.apache.tuscany.sdo.util.SDOUtil;
+
+import com.example.simple.impl.SimpleFactoryImpl;
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
@@ -118,7 +114,7 @@ public class XSDHelperTestCase extends TestCase {
         try
         {
             xsd = xsdHelper.generate(types);
-            System.out.println(xsd);
+            //System.out.println(xsd);
         }
         catch ( IllegalArgumentException e )
         {
@@ -126,7 +122,6 @@ public class XSDHelperTestCase extends TestCase {
         assertNotNull(xsd);
         
     }
-    
     
     public void testXSDGeneration_DynamicWithNestedStaticSDOType() throws IOException 
     {
@@ -177,7 +172,7 @@ public class XSDHelperTestCase extends TestCase {
             Hashtable schemaLocationMap = new Hashtable();
             schemaLocationMap.put("http://www.example.com/simples", "http://www.example.com/simple/xsd");
             xsd = xsdHelper.generate(types, schemaLocationMap);
-            System.out.println(xsd);
+            //System.out.println(xsd);
         }
         catch ( IllegalArgumentException e )
         {

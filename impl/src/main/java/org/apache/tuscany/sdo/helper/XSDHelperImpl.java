@@ -255,14 +255,14 @@ public class XSDHelperImpl implements XSDHelper
          }
          catch ( Exception e )
          {
-             System.out.println("Unable to generate schema due to ..." + e);
+             //System.out.println("Unable to generate schema due to ..." + e);
              //e.printStackTrace();
              throw new IllegalArgumentException(e);
          }
       }
       else
       {
-          System.out.println("No SDO Types to generate schema ...");
+          //System.out.println("No SDO Types to generate schema ...");
           return "";
       }
   }
