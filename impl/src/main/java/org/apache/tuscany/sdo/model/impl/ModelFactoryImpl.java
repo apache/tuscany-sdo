@@ -1100,5 +1100,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
   public commonj.sdo.Type getYear() { return (commonj.sdo.Type)getModelPackageImpl().getYear(); }
   public commonj.sdo.Type getYearMonth() { return (commonj.sdo.Type)getModelPackageImpl().getYearMonth(); }
   public commonj.sdo.Type getYearMonthDay() { return (commonj.sdo.Type)getModelPackageImpl().getYearMonthDay(); }
+  public commonj.sdo.Type getDataObject() { return (commonj.sdo.Type)getModelPackageImpl().getDataObject(); }
 
 } //ModelFactoryImpl

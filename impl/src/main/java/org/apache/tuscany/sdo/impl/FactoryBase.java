@@ -16,14 +16,19 @@
  */
 package org.apache.tuscany.sdo.impl;
 
+import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
+import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
@@ -36,6 +41,9 @@ import commonj.sdo.Type;
  */
 public class FactoryBase extends EPackageImpl
 {
+  
+  public static final boolean IS_ATTRIBUTE = true;
+  
   protected FactoryBase(String namespaceURI, String namespacePrefix)
   {
     super(new SDOEFactoryImpl());
@@ -78,6 +86,11 @@ public class FactoryBase extends EPackageImpl
     initEClass((EClass)type, instanceClass, name, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);   
   }
 
+  protected void initializeType(Type type, Class instanceClass, String name, boolean isSerializable, boolean isGenerated)
+  {
+    initEDataType((EDataType)type, instanceClass, name, isSerializable, isGenerated);   
+  }
+  
   protected void initializeProperty(Property property, Type type, String name, String defaultValue, int lower, int upper, Class containerClass, boolean isReadonly, boolean isUnsettable, boolean isDerived)
   {
     initEAttribute((EAttribute)property, (EClassifier)type, name, defaultValue, lower, upper, containerClass, isDerived, isDerived, !isReadonly, isUnsettable, !IS_ID, !IS_UNIQUE, isDerived, IS_ORDERED);
@@ -88,13 +101,16 @@ public class FactoryBase extends EPackageImpl
     initEReference((EReference)property, (EClassifier)type, (EReference)oppositeProperty, name, defaultValue, lower, upper, containerClass, isDerived, isDerived, !isReadonly, isComposite, !isComposite /*resolve*/, isUnsettable, IS_UNIQUE, isDerived, IS_ORDERED);
   }
 
-
-  
   protected void createXSDMetaData()
   {
     createDocumentRoot();
   }
-  
+
+  protected void addXSDMapping(String[] xsdMappings, String annotationSource)
+  {
+    addAnnotation((ENamedElement)this, annotationSource, xsdMappings);
+  }
+
   protected void addXSDMapping(Type type, String[] xsdMappings)
   {
     addAnnotation((ENamedElement)type, ANNOTATION_SOURCE, xsdMappings);
@@ -105,19 +121,63 @@ public class FactoryBase extends EPackageImpl
     addAnnotation((ENamedElement)property, ANNOTATION_SOURCE, xsdMappings);
   }
   
-  protected void createGlobalProperty(String name, Type type, String[] xsdMappings)
+  protected void setInstanceProperty(Type type, String namespaceURI, String propertyName, String propertyValue)
   {
-    int propertyNumber = documentRootEClass.getEStructuralFeatures().size();
-    createEReference(documentRootEClass, propertyNumber);
-    EReference globalProperty = (EReference)documentRootEClass.getEStructuralFeatures().get(propertyNumber);
-    initEReference(globalProperty, (EClass)type, null, name, null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
-    addAnnotation((ENamedElement)globalProperty, ANNOTATION_SOURCE, xsdMappings);
-  }
-  
-  protected Type getSequence() {
-    return (Type)ecorePackage.getEFeatureMapEntry();
+    setInstanceProperty((ENamedElement)type, namespaceURI, propertyName, propertyValue);
   }
 
+  protected void setInstanceProperty(Property property, String namespaceURI, String propertyName, String propertyValue)
+  {
+    setInstanceProperty((ENamedElement)property, namespaceURI, propertyName, propertyValue); 
+  }
+  
+  private void setInstanceProperty(ENamedElement eNamedElement, String namespaceURI, String propertyName, String propertyValue)
+  {
+    EAnnotation annotation = eNamedElement.getEAnnotation(namespaceURI);
+    if (annotation == null)
+    {
+      addAnnotation(eNamedElement, namespaceURI, new String[]{propertyName, propertyValue});
+	  } else 
+    {
+      annotation.getDetails().put(propertyName, propertyValue);
+    }
+  }
+
+  protected Property createGlobalProperty(String name, Type type, String[] xsdMappings)
+  {
+    return createGlobalProperty(name, type, xsdMappings, false);
+  }
+  
+  protected Property createGlobalProperty(String name, Type type, String[] xsdMappings, boolean asAttribute)
+  {
+    return createGlobalProperty(name, type, xsdMappings, asAttribute, ANNOTATION_SOURCE);
+  }
+
+  protected Property createGlobalProperty(String name, Type type, String[] xsdMappings, boolean asAttribute, String annotationSource)
+  {
+    int propertyNumber = documentRootEClass.getEStructuralFeatures().size();
+
+    EStructuralFeature globalProperty;
+    if(asAttribute) {
+      createEAttribute(documentRootEClass, propertyNumber);
+      EAttribute gatt = (EAttribute)documentRootEClass.getEStructuralFeatures().get(propertyNumber);
+      initEAttribute(gatt, (EDataType)type, name, null, 0, -2, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+      globalProperty = gatt;
+    } else {
+      createEReference(documentRootEClass, propertyNumber);
+      EReference gref = (EReference)documentRootEClass.getEStructuralFeatures().get(propertyNumber);
+      initEReference(gref, (EClass)type, null, name, null, 0, -2, null, IS_TRANSIENT, IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, IS_DERIVED, IS_ORDERED);
+      globalProperty = gref;
+    } 
+    addAnnotation((ENamedElement)globalProperty, annotationSource, xsdMappings);
+    return (Property) globalProperty;
+  }
+
+  protected Type getSequence() 
+  {
+    return (Type)ecorePackage.getEFeatureMapEntry();
+  }
+  
   //public static FactoryBase getStaticFactory(String namespaceURI)
   // temporarily return Object - until everything is gen'd with new codegen pattern
   public static Object getStaticFactory(String namespaceURI)
@@ -125,6 +185,18 @@ public class FactoryBase extends EPackageImpl
     EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(namespaceURI);
     //return (FactoryBase)ePackage;
     return ePackage instanceof FactoryBase ? (Object)ePackage : (Object)ePackage.getEFactoryInstance(); 
+  }
+  
+  // default implementation of createFromString
+  public Object createFromString(Type type, String stringValue, int propertyValue)
+  {
+	return (String)ModelFactoryImpl.eINSTANCE.createFromString(ModelPackageImpl.Literals.STRING, stringValue);
+  }
+  
+  // default implementation of convertToString
+  public String convertToString(Type type, Object objectValue, int propertyValue)
+  {
+	return ModelFactoryImpl.eINSTANCE.convertToString(ModelPackageImpl.Literals.STRING, objectValue);
   }
   
   // private EMF-specific methods
@@ -146,6 +218,16 @@ public class FactoryBase extends EPackageImpl
       }
       return (EObject)result;
     }
+    
+    public Object createFromString(EDataType eDataType, String stringValue)
+    {
+      return sdoFactory.createFromString((Type)eDataType, stringValue, eDataType.getClassifierID());
+    }
+    
+    public String convertToString(EDataType eDataType, Object objectValue)
+    {
+      return sdoFactory.convertToString((Type)eDataType, objectValue, eDataType.getClassifierID());
+    }
   }
   
   private static final int DOCUMENT_ROOT = 0;
@@ -154,7 +236,7 @@ public class FactoryBase extends EPackageImpl
   private static final int DOCUMENT_ROOT__XSI_SCHEMA_LOCATION = 2;
   private static final String ANNOTATION_SOURCE = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";
   private EClass documentRootEClass = null;
-
+  
   private void createDocumentRoot()
   {
     documentRootEClass = ecoreFactory.createEClass();

@@ -1,18 +1,20 @@
-<%@ jet package="org.apache.tuscany.sdo.generate.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SDOFactoryClass" version="$Id: SDOFactoryClass.javajet,v 1.23 2005/12/10 13:31:02 emerks Exp $" %>
+<%@ jet package="org.apache.tuscany.sdo.generate.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals org.eclipse.emf.ecore.util.*" class="SDOFactoryClass" version="$Id: SDOFactoryClass.javajet,v 1.23 2005/12/10 13:31:02 emerks Exp $" %>
 <%
 /**
- * <copyright>
  *
- * Copyright (c) 2002-2005 IBM Corporation and others.
- * All rights reserved.   This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
+ *  Copyright 2005 The Apache Software Foundation or its licensors, as applicable.
  *
- * Contributors:
- *   IBM - Initial API and implementation
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
  *
- * </copyright>
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
  */
 %>
 <%GenPackage genPackage = (GenPackage)((Object[])argument)[0]; GenModel genModel=genPackage.getGenModel();%>
@@ -85,37 +87,29 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 
 <%}%>
 <%if (isImplementation) {%>
-/**
- * The package namespace URI.
- * <!-- begin-user-doc -->
- * <!-- end-user-doc -->
- * @generated
- */
-<%=publicStaticFinalFlag%><%=genModel.getImportedName("java.lang.String")%> NAMESPACE_URI = "<%=genPackage.getNSURI()%>";<%=genModel.getNonNLS()%>
-
-/**
- * The package namespace name.
- * <!-- begin-user-doc -->
- * <!-- end-user-doc -->
- * @generated
- */
-<%=publicStaticFinalFlag%><%=genModel.getImportedName("java.lang.String")%> NAMESPACE_PREFIX = "<%=genPackage.getNSName()%>";<%=genModel.getNonNLS()%>
-
-
-  <%for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();%>
-<%if (!genClassifier.getClassifierID().equals("DOCUMENT_ROOT")) { %>
-<%=publicStaticFinalFlag%>int <%=genPackage.getClassifierID(genClassifier)%> = <%=genPackage.getClassifierValue(genClassifier)%>;
-<%} }%>
-	
-	
 	/**
-	 * Creates the default factory implementation.
+	 * The package namespace URI.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-<%String factoryType = genModel.isSuppressEMFMetaData() ? genPackage.getFactoryClassName() : genPackage.getImportedFactoryInterfaceName();%>
+	<%=publicStaticFinalFlag%><%=genModel.getImportedName("java.lang.String")%> NAMESPACE_URI = "<%=genPackage.getNSURI()%>";<%=genModel.getNonNLS()%>
 
+	/**
+	 * The package namespace name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	<%=publicStaticFinalFlag%><%=genModel.getImportedName("java.lang.String")%> NAMESPACE_PREFIX = "<%=genPackage.getNSName()%>";<%=genModel.getNonNLS()%>
+<%int genIndex = 1;
+for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();%>
+   <%if (!genPackage.getClassifierID(genClassifier).equals("DOCUMENT_ROOT")) { %>	
+	<%=publicStaticFinalFlag%>int <%=genPackage.getClassifierID(genClassifier)%> = <%=genIndex%>;
+<%genIndex++;%>
+<% } }%>
+	
+<%String factoryType = genModel.isSuppressEMFMetaData() ? genPackage.getFactoryClassName() : genPackage.getImportedFactoryInterfaceName();%>
 	/**
 	 * Creates an instance of the factory.
 	 * <!-- begin-user-doc -->
@@ -137,8 +131,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 		switch (typeNumber)
 		{
 <%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
-<%if (!genClass.isAbstract() && !genClass.getClassifierID().equals("DOCUMENT_ROOT")) {%>
-			// TODO make sure we're supposed to ingore DOCUMENT_ROOT
+<%if (!genClass.isAbstract() && !genClass.isDynamic()) {%>
 			case <%=genClass.getClassifierID()%>: return (<%=genModel.getImportedName("commonj.sdo.DataObject")%>)create<%=genClass.getName()%>();
 <%}%>
 <%}%>
@@ -147,25 +140,24 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 		}
 	}
 
-
 <%if (!genPackage.getAllGenDataTypes().isEmpty()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Object createFromString(<%=genModel.getImportedName("org.eclipse.emf.ecore.EDataType")%> eDataType, String initialValue)
+	public Object createFromString(<%=genModel.getImportedName("commonj.sdo.Type")%> type, String initialValue, int propertyValue)
 	{
-		switch (eDataType.getClassifierID())
+		switch (propertyValue)
 		{
 <%for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();%>
   <%if (genDataType.isSerializable()) {%>
-			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genDataType.getClassifierID()%>:
-				return create<%=genDataType.getName()%>FromString(eDataType, initialValue);
+			case <%=genDataType.getClassifierID()%>:
+				return create<%=genDataType.getName()%>FromString(type, initialValue);
   <%}%>
 <%}%>
 			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+				throw new IllegalArgumentException("The datatype '" + type.getName() + "' is not a valid property value");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 		}
 	}
 
@@ -174,24 +166,23 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convertToString(<%=genModel.getImportedName("org.eclipse.emf.ecore.EDataType")%> eDataType, Object instanceValue)
+	public String convertToString(<%=genModel.getImportedName("commonj.sdo.Type")%> type, Object instanceValue, int propertyValue)
 	{
-		switch (eDataType.getClassifierID())
+		switch (propertyValue)
 		{
 <%for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();%>
   <%if (genDataType.isSerializable()) {%>
-			case <%=genPackage.getImportedPackageInterfaceName()%>.<%=genDataType.getClassifierID()%>:
-				return convert<%=genDataType.getName()%>ToString(eDataType, instanceValue);
+			case <%=genDataType.getClassifierID()%>:
+				return convert<%=genDataType.getName()%>ToString(type, instanceValue);
   <%}%>
 <%}%>
 			default:
-				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+				throw new IllegalArgumentException("The datatype '" + type.getName() + "' is not a valid property value");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
 		}
 	}
-
 <%}%>
 <%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
-  <%if (!genClass.isAbstract() && !genClass.getClassifierID().equals("DOCUMENT_ROOT")) {%>
+  <%if (!genClass.isAbstract() && !genClass.isDynamic()) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -206,40 +197,43 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
     <%}%>
 		return <%=genClass.getSafeUncapName()%>;
 	}
-	
-	// Following creates and initializes SDO metadata for the supported types.
-	protected <%=genModel.getImportedName("commonj.sdo.Type")%> <%=genClass.getSafeUncapName()%>Type = null;
-	
-	public <%=genModel.getImportedName("commonj.sdo.Type")%> get<%=genClass.getName()%>()
-	{
-		// TODO - kdk - verify how to generate quoteType...<%=genClass.getSafeUncapName()%>Type?
-		return <%=genClass.getSafeUncapName()%>Type;
-    }
   <%}%>
 <%}%>
+	
+	// Following creates and initializes SDO metadata for the supported types.
+<%for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();%>	
+  <%if (!genPackage.getClassifierID(genClassifier).equals("DOCUMENT_ROOT")) { %>	
+	protected <%=genModel.getImportedName("commonj.sdo.Type")%> <%=genClassifier.getSafeUncapName()%>Type = null;
+
+	public <%=genModel.getImportedName("commonj.sdo.Type")%> get<%=genClassifier.getClassifierAccessorName()%>()
+	{
+		return <%=genClassifier.getSafeUncapName()%>Type;
+	}
+
+<%} }%>	
 
 	private static boolean isInited = false;
-	
+
 	public static <%=factoryType%> init()
 	{
-    	if (isInited) return (<%=factoryType%>)FactoryBase.getStaticFactory(<%=factoryType%>.NAMESPACE_URI);
-    	<%=factoryType%> the<%=factoryType%> = new <%=factoryType%>();
-    	isInited = true;
+		if (isInited) return (<%=factoryType%>)FactoryBase.getStaticFactory(<%=factoryType%>.NAMESPACE_URI);
+		<%=factoryType%> the<%=factoryType%> = new <%=factoryType%>();
+		isInited = true;
 
-    	// Initialize simple dependencies
-    	<%=genModel.getImportedName("org.apache.tuscany.sdo.util.SDOUtil")%>.registerStaticTypes(<%=genModel.getImportedName("org.apache.tuscany.sdo.impl.SDOFactoryImpl")%>.class);
-    	<%=genModel.getImportedName("org.apache.tuscany.sdo.util.SDOUtil")%>.registerStaticTypes(<%=genModel.getImportedName("org.apache.tuscany.sdo.model.impl.ModelPackageImpl")%>.class);
-    	
-    	// Create package meta-data objects
-    	the<%=factoryType%>.createMetaData();
+		// Initialize simple dependencies
+		<%=genModel.getImportedName("org.apache.tuscany.sdo.util.SDOUtil")%>.registerStaticTypes(<%=genModel.getImportedName("org.apache.tuscany.sdo.impl.SDOFactoryImpl")%>.class);
+		<%=genModel.getImportedName("org.apache.tuscany.sdo.util.SDOUtil")%>.registerStaticTypes(<%=genModel.getImportedName("org.apache.tuscany.sdo.model.impl.ModelPackageImpl")%>.class);
 
-    	// Initialize created meta-data
-    	the<%=factoryType%>.initializeMetaData();
+		// Create package meta-data objects
+		the<%=factoryType%>.createMetaData();
 
-    	// Mark meta-data to indicate it can't be changed
-    	//the<%=factoryType%>.freeze(); //FB do we need to freeze / should we freeze ????
+		// Initialize created meta-data
+		the<%=factoryType%>.initializeMetaData();
 
-    	return the<%=factoryType%>;
+		// Mark meta-data to indicate it can't be changed
+		//the<%=factoryType%>.freeze(); //FB do we need to freeze / should we freeze ????
+
+		return the<%=factoryType%>;
 	}
   
 	private boolean isCreated = false;
@@ -248,82 +242,182 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	{
 		if (isCreated) return;
 		isCreated = true;
-<%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
-  
-  <%if (!genClass.isAbstract() && !genClass.getClassifierID().equals("DOCUMENT_ROOT")) {%>
-    <%=genClass.getSafeUncapName()%>Type = createType(false, <%=genPackage.getClassifierID(genClass)%>);
-    <%for (Iterator j=genClass.getAllGenFeatures().iterator(); j.hasNext();) { GenFeature genFeature = (GenFeature)j.next();%>
+      <%if (!genPackage.getGenClasses().isEmpty()) {%>	
+        <%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
+
+        <%if (!genClass.isAbstract() && !genClass.isDynamic()) {%>
+		<%=genClass.getSafeUncapName()%>Type = createType(false, <%=genPackage.getClassifierID(genClass)%>);
+          <%for (Iterator j=genClass.getGenFeatures().iterator(); j.hasNext();) { GenFeature genFeature = (GenFeature)j.next();%>
 		createProperty(<%=!genFeature.isReferenceType()%>, <%=genClass.getSafeUncapName()%>Type, <%=genClass.getClassName()%>.<%=genFeature.getUpperName()%>);
+          <%}%>
+        <%}%>
+      <%}%>
     <%}%>
-  <%}%>
-<%}%>
+    <%if (!genPackage.getGenEnums().isEmpty()) {%>
+		// Create enums
+		// todo
+      <%for (Iterator e=genPackage.getGenEnums().iterator(); e.hasNext();) { GenEnum genEnum = (GenEnum)e.next();%>
+		<%=genEnum.getClassifierInstanceName()%> = createEEnum(<%=genEnum.getClassifierID()%>);
+      <%}%>
+    <%}%>
+    <%if (!genPackage.getGenDataTypes().isEmpty()) {%>
+      <%for (Iterator d=genPackage.getGenDataTypes().iterator(); d.hasNext();) { GenDataType genDataType = (GenDataType)d.next();%>
+		<%=genDataType.getSafeUncapName()%>Type = createType(true, <%=genPackage.getClassifierID(genDataType)%> );
+      <%}%>
+    <%}%>
 	}
+	
 	private boolean isInitialized = false;
 
 	public void initializeMetaData()
 	{
 		if (isInitialized) return;
 		isInitialized = true;
+      <%if (!genPackage.getPackageInitializationDependencies().isEmpty()) {%>
 
 		// Obtain other dependent packages
-		<%=genModel.getImportedName("org.apache.tuscany.sdo.model.impl.ModelFactoryImpl")%> theModelPackageImpl = (<%=genModel.getImportedName("org.apache.tuscany.sdo.model.impl.ModelFactoryImpl")%>)FactoryBase.getStaticFactory(<%=genModel.getImportedName("org.apache.tuscany.sdo.model.impl.ModelFactoryImpl")%>.NAMESPACE_URI);
+        <%for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
+		<%=dep.getImportedFactoryClassName()%> <%=genPackage.getPackageInstanceVariable(dep)%> = (<%=dep.getImportedFactoryClassName()%>)FactoryBase.getStaticFactory(<%=dep.getImportedFactoryClassName()%>.NAMESPACE_URI);
+        <%}%>
+      <%}%>
+      <%List annotationSources = genPackage.getAnnotationSources();%>
+      <%annotationSources.remove(ExtendedMetaData.ANNOTATION_URI);%>
+		<%=genModel.getImportedName("commonj.sdo.Property")%> property = null;
 
 		// Add supertypes to classes
 		// Initialize classes and features; add operations and parameters
-<%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
-  <%if (!genClass.isAbstract() && !genClass.getClassifierID().equals("DOCUMENT_ROOT")) {%>
-		
-		initializeType(<%=genClass.getSafeUncapName()%>Type, <%=genClass.getImportedInterfaceName()%>.class, "<%=genClass.getName()%>");<%for (Iterator j=genClass.getAllGenFeatures().iterator(); j.hasNext();) {GenFeature genFeature = (GenFeature)j.next();%><%String type = genFeature.getImportedType().equals("Sequence") ? "getSequence()" : genPackage.getPackageInstanceVariable(genFeature.getTypeGenPackage()) + ".get" + genFeature.getTypeClassifierAccessorName() + "()";%><%if (genFeature.isReferenceType()) { GenFeature reverseGenFeature = genFeature.getReverse();%><%String reverse = reverseGenFeature == null ? "null" : genPackage.getPackageInstanceVariable(reverseGenFeature.getGenPackage()) + ".get" + reverseGenFeature.getFeatureAccessorName() + "()";%>
-		initializeProperty((<%=genModel.getImportedName("commonj.sdo.Property")%>)<%=genClass.getSafeUncapName()%>Type.getProperties().get(<%=genClass.getClassName()%>.<%=genFeature.getUpperName()%>), <%=type%>, "<%=genFeature.getSafeName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>, <%=genFeature.getContainmentFlag().equals("IS_COMPOSITE")? "true": "false"%> , <%=reverse%>);<%}else{%>
-		initializeProperty((<%=genModel.getImportedName("commonj.sdo.Property")%>)<%=genClass.getSafeUncapName()%>Type.getProperties().get(<%=genClass.getClassName()%>.<%=genFeature.getUpperName()%>), <%=type%>, "<%=genFeature.getSafeName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>);<%}%><%}%><%}%><%}%>createXSDMetaData();
+      <%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
+        <%if (!genClass.isAbstract() && !genClass.isDynamic()) {%>
+		initializeType(<%=genClass.getSafeUncapName()%>Type, <%=genClass.getImportedInterfaceName()%>.class, "<%=genClass.getName()%>");
+          <%for (Iterator sources = annotationSources.iterator(); sources.hasNext();) { String annotationSource = (String)sources.next();%>
+            <%EAnnotation classAnnotation = genClass.getEcoreClassifier().getEAnnotation(annotationSource);%>
+            <%if (classAnnotation != null) { %>
+              <%for (Iterator k = classAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);%>
+		setInstanceProperty (<%=genClass.getSafeUncapName()%>Type, "<%=annotationSource%>", <%=key%>, <%=value%><%=genModel.getNonNLS(key + value)%>);
+              <%}%>
+            <%}%>
+          <%}%>
+
+          <%for (Iterator j=genClass.getGenFeatures().iterator(); j.hasNext();) {GenFeature genFeature = (GenFeature)j.next();%>
+            <%String type = genFeature.getType().equals("commonj.sdo.Sequence") ? "getSequence()" : genPackage.getPackageInstanceVariable(genFeature.getTypeGenPackage()) + ".get" + genFeature.getTypeClassifierAccessorName() + "()";%>
+		property = (<%=genModel.getImportedName("commonj.sdo.Property")%>)<%=genClass.getSafeUncapName()%>Type.getProperties().get(<%=genClass.getClassName()%>.<%=genFeature.getUpperName()%>);
+            <%if (genFeature.isReferenceType()) { GenFeature reverseGenFeature = genFeature.getReverse();%>
+              <%String reverse = reverseGenFeature == null ? "null" : genPackage.getPackageInstanceVariable(reverseGenFeature.getGenPackage()) + ".get" + reverseGenFeature.getFeatureAccessorName() + "()";%>
+		initializeProperty(property, <%=type%>, "<%=genFeature.getSafeName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>, <%=genFeature.getContainmentFlag().equals("IS_COMPOSITE")? "true": "false"%> , <%=reverse%>);
+            <%}else{%>
+		initializeProperty(property, <%=type%>, "<%=genFeature.getSafeName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>);
+            <%}%>
+            <%for (Iterator sources = annotationSources.iterator(); sources.hasNext();) { String annotationSource = (String)sources.next();%>
+              <%EAnnotation featureAnnotation = genFeature.getEcoreFeature().getEAnnotation(annotationSource);%>
+              <%if (featureAnnotation != null) { %>
+                <%for (Iterator k = featureAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);%>
+		setInstanceProperty (property, "<%=annotationSource%>", <%=key%>, <%=value%><%=genModel.getNonNLS(key + value)%>);
+                <%}%>
+              <%}%>
+            <%}%>
+
+          <%}%>
+        <%}%>
+      <%}%>
+      <%if (!genPackage.getGenDataTypes().isEmpty()) {%>
+		// Initialize data types
+        <%for (Iterator d=genPackage.getGenDataTypes().iterator(); d.hasNext();) { GenDataType genDataType = (GenDataType)d.next();%>
+		initializeType(<%=genDataType.getSafeUncapName()%>Type, <%=genDataType.getImportedInstanceClassName()%>.class, "<%=genDataType.getName()%>", <%=genDataType.getSerializableFlag().equals("IS_SERIALIZABLE") ? "true" : "false"%>, <%=genDataType.getGeneratedInstanceClassFlag().equals("IS_GENERATED_INSTANCE_CLASS") ? "true" : "false" %>);<%=genModel.getNonNLS()%>
+          <%for (Iterator sources = annotationSources.iterator(); sources.hasNext();) { String annotationSource = (String)sources.next();%>
+            <%EAnnotation dataTypeAnnotation = genDataType.getEcoreDataType().getEAnnotation(annotationSource);%>
+            <%if (dataTypeAnnotation != null) { %>
+              <%for (Iterator k = dataTypeAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);%>
+		setInstanceProperty (<%=genDataType.getSafeUncapName()%>Type, "<%=annotationSource%>", <%=key%>, <%=value%><%=genModel.getNonNLS(key + value)%>);
+              <%}%>
+            <%}%>
+          <%}%>
+
+        <%}%>
+      <%}%>
+		createXSDMetaData(theModelPackageImpl);
 	}
-  
-	protected void createXSDMetaData()
+	  
+	protected void createXSDMetaData(ModelFactoryImpl theModelPackageImpl)
 	{
 		super.createXSDMetaData();
-<%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
-  <%if (!genClass.isAbstract() && !genClass.getClassifierID().equals("DOCUMENT_ROOT")) {%>
-		// TODO - kdk - is the order right?  should kind, elementOnly be first
+		
+		<%=genModel.getImportedName("commonj.sdo.Property")%> property = null;
+		
+      <%String extendedMetaDataSource = ExtendedMetaData.ANNOTATION_URI;%>
+      <%EAnnotation packageAnnotation = genPackage.getEcorePackage().getEAnnotation(extendedMetaDataSource);%>
+      <%if (packageAnnotation != null){ %>
 		addXSDMapping
-		(<%=genClass.getSafeUncapName()%>Type,
-		new String[] 
-		{
-		"name", "<%=genClass.getName()%>",
-		"kind", "elementOnly"
-		});
-<%for (Iterator j=genClass.getAllGenFeatures().iterator(); j.hasNext();) { GenFeature genFeature = (GenFeature)j.next();%>
-		addXSDMapping
-		((<%=genModel.getImportedName("commonj.sdo.Property")%>)<%=genClass.getSafeUncapName()%>Type.getProperties().get(<%=genClass.getClassName()%>.<%=genFeature.getUpperName()%>),
-		new String[]
-		{
-		"kind", "element",
-		"name", "<%=genFeature.getName()%>"
-		});
-	<%}%>
-  <%}%>
-<%}%>
+		  (new String[]
+			 {
+          <%for (Iterator k = packageAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);%>
+			 <%=key%>, <%=value%><%=k.hasNext() ? "," : ""%><%=genModel.getNonNLS(key + value)%>
+          <%}%>
+			 });
 
-<%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
-  <%if (!genClass.isAbstract() && genClass.getClassifierID().equals("DOCUMENT_ROOT")) {%>
-		// TODO - kdk - how do I filter out mixed, xMLNSPrefixMap, and xSISchemaLocation without hardcoding it
-		// TODO - kdk - can I hardcode ##targetNamespace?
-	<%for (Iterator j=genClass.getAllGenFeatures().iterator(); j.hasNext();) { GenFeature genFeature = (GenFeature)j.next();%>
-    <%if (!genFeature.getName().equals("mixed") && !genFeature.getName().equals("xMLNSPrefixMap") && !genFeature.getName().equals("xSISchemaLocation")){ %>
-		createGlobalProperty
-		("<%=genFeature.getName()%>", 
-		<%=genPackage.getPackageInstanceVariable(genFeature.getTypeGenPackage())%>.get<%=genFeature.getTypeClassifierAccessorName()%>(),
-		new String[] 
-		{
-		"kind", "element",
-		"name", "<%=genFeature.getName()%>",
-		"namespace", "##targetNamespace"
-		});  
-	<%}%>
-    <%}%>
-<%}%>
-<%}%>
+      <%}%>
+      <%for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next(); EAnnotation classAnnotation = genClassifier.getEcoreClassifier().getEAnnotation(extendedMetaDataSource);%>
+        <%if (classAnnotation != null && !genClassifier.getName().equals("DocumentRoot")) {%>
+		addXSDMapping
+		  (<%=genClassifier.getSafeUncapName()%>Type,
+			 new String[] 
+			 {
+          <%for (Iterator k = classAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);%>
+			 <%=key%>, <%=value%><%=k.hasNext() ? "," : ""%><%=genModel.getNonNLS(key + value)%>
+          <%}%>
+			 });
+
+         <%}%>
+         <%if (genClassifier instanceof GenClass) { GenClass genClass = (GenClass) genClassifier;%>
+           <%for (Iterator j=genClass.getGenFeatures().iterator(); j.hasNext();) { GenFeature genFeature = (GenFeature)j.next(); %>
+             <%EAnnotation featureAnnotation = genFeature.getEcoreFeature().getEAnnotation(extendedMetaDataSource);%>
+             <%if (genClass.getName().equals("DocumentRoot")) { %>
+               <%if (!(genFeature.getName().equals("mixed") || genFeature.getName().equals("xMLNSPrefixMap") || genFeature.getName().equals("xSISchemaLocation"))) { %>
+		property = createGlobalProperty
+		  ("<%=genFeature.getName()%>",
+		  <%=genPackage.getPackageInstanceVariable(genFeature.getTypeGenPackage())%>.get<%=genFeature.getTypeClassifierAccessorName()%>(),
+			 new String[]
+			 {
+          <%for (Iterator k = featureAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);%>
+			 <%=key%>, <%=value%><%=k.hasNext() ? "," : ""%><%=genModel.getNonNLS(key + value)%>
+          <%}%>
+              <%if (!genFeature.isReferenceType()) {%>
+			 },
+			 IS_ATTRIBUTE);
+              <%} else {%>
+			 });
+              <%}%>
+              
+              <%for (Iterator sources = genPackage.getAnnotationSources().iterator(); sources.hasNext();) { String annotationSource = (String)sources.next(); %>
+                <%if (!annotationSource.equals(extendedMetaDataSource)) {%>
+                  <%EAnnotation globalAnnotation = genFeature.getEcoreFeature().getEAnnotation(annotationSource);%>
+                  <%if (globalAnnotation != null) {%>
+                    <%for (Iterator k = globalAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);%>
+		setInstanceProperty
+		  (property,
+			 "<%=annotationSource%>",
+			 <%=key%>, <%=value%><%=genModel.getNonNLS(key + value)%>);
+                    <%}%>
+                  
+                  <%}%>
+                <%}%>  
+              <%}%>
+            <%}%>
+          <%} else {%>
+		addXSDMapping
+		  ((<%=genModel.getImportedName("commonj.sdo.Property")%>)<%=genClassifier.getSafeUncapName()%>Type.getProperties().get(<%=genClass.getClassName()%>.<%=genFeature.getUpperName()%>),
+			 new String[]
+			 {
+            <%for (Iterator k = featureAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);%>
+			 <%=key%>, <%=value%><%=k.hasNext() ? "," : ""%><%=genModel.getNonNLS(key + value)%>
+            <%}%>
+			 });
+
+            <%}%>
+          <%}%>
+        <%}%>
+      <%}%>
   }
-
+  
 <%for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();%>
   <%if (genDataType.isSerializable()) {%>
 <%if (genPackage.isDataTypeConverters()) { String eDataType = genDataType.getQualifiedClassifierAccessor();%>
@@ -425,14 +519,14 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public <%=genDataType.getObjectInstanceClassName()%> create<%=genDataType.getName()%>FromString(<%=genModel.getImportedName("org.eclipse.emf.ecore.EDataType")%> eDataType, String initialValue)
+	public <%=genDataType.getObjectInstanceClassName()%> create<%=genDataType.getName()%>FromString(<%=genModel.getImportedName("commonj.sdo.Type")%> type, String initialValue)
 	{
     <%if (genDataType instanceof GenEnum) {%>
       <%if (genPackage.isDataTypeConverters()) {%>
 		return create<%=genDataType.getName()%>(initialValue);
       <%} else {%>
 		<%=((GenEnum)genDataType).getImportedInstanceClassName()%> result = <%=((GenEnum)genDataType).getImportedInstanceClassName()%>.get(initialValue);
-		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + eDataType.getName() + "'");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%=genModel.getNonNLS(3)%>
+		if (result == null) throw new IllegalArgumentException("The value '" + initialValue + "' is not a valid enumerator of '" + type.getName() + "'");<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%><%=genModel.getNonNLS(3)%>
 		return result;
       <%}%>
     <%} else if (genDataType.getBaseType() != null) { GenDataType genBaseType = genDataType.getBaseType(); %>
@@ -477,7 +571,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
       <%} else {%>
 			result = (<%=genDataType.getObjectInstanceClassName()%>)<%=genMemberType.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor()%>.createFromString(<%=genMemberType.getQualifiedClassifierAccessor()%>, initialValue);
       <%}%>
-			if (result != null && <%=genModel.getImportedName("org.eclipse.emf.ecore.util.Diagnostician")%>.INSTANCE.validate(eDataType, result, null, null))
+			if (result != null && <%=genModel.getImportedName("org.eclipse.emf.ecore.util.Diagnostician")%>.INSTANCE.validate(type, result, null, null))
 			{
 				return result;
 			}
@@ -496,7 +590,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new <%=genModel.getImportedName("java.lang.UnsupportedOperationException")%>();
     <%} else {%>
-		return (<%=genDataType.getObjectInstanceClassName()%>)super.createFromString(eDataType, initialValue);
+		return (<%=genDataType.getObjectInstanceClassName()%>)super.createFromString(type, initialValue);
     <%}%>
 	}
 
@@ -614,7 +708,7 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String convert<%=genDataType.getName()%>ToString(<%=genModel.getImportedName("org.eclipse.emf.ecore.EDataType")%> eDataType, Object instanceValue)
+	public String convert<%=genDataType.getName()%>ToString(<%=genModel.getImportedName("commonj.sdo.Type")%> type, Object instanceValue)
 	{
     <%if (genDataType instanceof GenEnum) {%>
 		return instanceValue == null ? null : instanceValue.toString();
@@ -669,14 +763,14 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 			}
 		}
         <%}%>
-		throw new IllegalArgumentException("Invalid value: '"+instanceValue+"' for datatype :"+eDataType.getName());
+		throw new IllegalArgumentException("Invalid value: '"+instanceValue+"' for datatype :"+type.getName());
       <%}%>
     <%} else if (genDataType.isArrayType()) {%>
 		// TODO: implement this method
 		// Ensure that you remove @generated or mark it @generated NOT
 		throw new <%=genModel.getImportedName("java.lang.UnsupportedOperationException")%>();
     <%} else {%>
-		return super.convertToString(eDataType, instanceValue);
+		return super.convertToString(type, instanceValue);
     <%}%>
 	}
 

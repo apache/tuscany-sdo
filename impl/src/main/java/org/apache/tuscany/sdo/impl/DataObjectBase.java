@@ -42,6 +42,8 @@ import commonj.sdo.Type;
  */
 public abstract class DataObjectBase extends DataObjectImpl
 {
+  
+  protected int OPPOSITE_FEATURE_BASE = EOPPOSITE_FEATURE_BASE; 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Following methods should be proposed SPI for generated subclasses to use
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,10 +64,20 @@ public abstract class DataObjectBase extends DataObjectImpl
   {
     eNotify(new ENotificationImpl(this, Notification.SET, property, oldValue, newValue));
   }
+
+  protected void notify(int changeKind, int property, Object oldValue, Object newValue, boolean isSetChange)
+  {
+    eNotify(new ENotificationImpl(this, Notification.SET, property, oldValue, newValue, isSetChange));
+  }
   
   protected void notify(int changeKind, int property, double oldDoubleValue, double newDoubleValue, boolean isSetChange)
   {
     eNotify(new ENotificationImpl(this, Notification.SET, property, oldDoubleValue, newDoubleValue, isSetChange));
+  }
+  
+  protected void notify(int changeKind, int property, boolean oldBooleanValue, boolean newBooleanValue, boolean isSetChange)
+  {
+    eNotify(new ENotificationImpl(this, Notification.SET, property, oldBooleanValue, newBooleanValue, isSetChange));
   }
   
   protected interface ListKind
@@ -84,7 +96,7 @@ public abstract class DataObjectBase extends DataObjectImpl
   }
   
   protected BasicSequence createSequence(int property) {
-	  return new BasicSequence(new BasicFeatureMap(this, property));
+    return new BasicSequence(new BasicFeatureMap(this, property));
   }
   
   protected Sequence createSequence(Sequence sequence, Type type, int propertyIndex) {
@@ -129,32 +141,92 @@ public abstract class DataObjectBase extends DataObjectImpl
   protected void unsetSequence(Sequence seq) {
     ((FeatureMap.Internal.Wrapper)seq).featureMap().clear();
   }
+
+  protected ChangeContext basicAdd(Sequence seq, Type type, int propertyIndex, Object newValue, ChangeContext changeContext) {
+    ChangeContextImpl changeContextImpl = (ChangeContextImpl)changeContext;
+    changeContextImpl.notificationChain = ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)seq).featureMap()).basicAdd(((EClass)type).getEStructuralFeature(propertyIndex), newValue, changeContextImpl.notificationChain);
+    return changeContextImpl;
+  }
   
   protected Object get(int featureID, boolean resolve)
   {
     return null;
   }
   
+  private ChangeContextImpl initializeChangeContext(ChangeContext changeContext)
+  {
+    ChangeContextImpl changeContextImpl;
+    if (changeContext == null) 
+    {
+      changeContextImpl = new ChangeContextImpl(null);
+    } else 
+    {
+      changeContextImpl = (ChangeContextImpl)changeContext;
+    }
+    return changeContextImpl;
+  }
+  
   protected interface ChangeContext {}
   
   protected ChangeContext inverseRemove(Object otherEnd, int propertyIndex, ChangeContext changeContext)
   {
-    ChangeContextImpl changeContextImpl = (ChangeContextImpl)changeContext;
+    ChangeContextImpl changeContextImpl = initializeChangeContext(changeContext);
     changeContextImpl.notificationChain = super.eInverseRemove((InternalEObject)otherEnd, propertyIndex, changeContextImpl.notificationChain);
+    return changeContextImpl;
+  }
+  
+  protected ChangeContext inverseAdd(Object otherEnd, int propertyIndex, ChangeContext changeContext)
+  {
+    ChangeContextImpl changeContextImpl = initializeChangeContext(changeContext);
+    changeContextImpl = (ChangeContextImpl)changeContext;
+    changeContextImpl.notificationChain = super.eInverseAdd((InternalEObject)otherEnd, propertyIndex, changeContextImpl.notificationChain);
+    return changeContextImpl;
+  }
+
+  protected ChangeContext inverseRemove(Object thisEnd, Object otherEnd, int propertyIndex, Class baseClass, ChangeContext changeContext)
+  {
+    ChangeContextImpl changeContextImpl = initializeChangeContext(changeContext);
+    changeContextImpl = (ChangeContextImpl)changeContext;
+    changeContextImpl.notificationChain = ((InternalEObject)thisEnd).eInverseRemove((InternalEObject)otherEnd, propertyIndex, baseClass, changeContextImpl.notificationChain);
+    return changeContextImpl;
+  }
+
+  protected ChangeContext inverseAdd(Object thisEnd, Object otherEnd, int propertyIndex, Class baseClass, ChangeContext changeContext)
+  {
+    ChangeContextImpl changeContextImpl = initializeChangeContext(changeContext);
+    changeContextImpl.notificationChain = ((InternalEObject)thisEnd).eInverseAdd((InternalEObject)otherEnd, propertyIndex, baseClass, changeContextImpl.notificationChain);
+    return changeContextImpl;
+  }
+  
+  protected ChangeContext addNotification(Object notifier, int eventType, int featureID, Object oldValue, Object newValue, ChangeContext changeContext) 
+  {
+    ENotificationImpl notification = new ENotificationImpl((InternalEObject)notifier, eventType, featureID, oldValue, newValue);
+    ChangeContextImpl changeContextImpl = initializeChangeContext(changeContext);
+    if (changeContextImpl.notificationChain == null) changeContextImpl.notificationChain = notification; else changeContextImpl.notificationChain.add(notification);
     return changeContextImpl;
   }
   
   protected ChangeContext removeFromList(List propertyList, Object objectToRemove, ChangeContext changeContext)
   {
-    ChangeContextImpl changeContextImpl = (ChangeContextImpl)changeContext;
+    ChangeContextImpl changeContextImpl = initializeChangeContext(changeContext);
     changeContextImpl.notificationChain = ((InternalEList)propertyList).basicRemove(objectToRemove, changeContextImpl.notificationChain); 
     return changeContextImpl;
   }
   
-  protected ChangeContext removeFromSequence(Sequence sequence, Object otherEnd, ChangeContext changeContext) {
-    ChangeContextImpl changeContextImpl = (ChangeContextImpl)changeContext;
+  protected ChangeContext removeFromSequence(Sequence sequence, Object otherEnd, ChangeContext changeContext) 
+  {
+    ChangeContextImpl changeContextImpl = initializeChangeContext(changeContext);
     changeContextImpl.notificationChain = ((InternalEList)((FeatureMap.Internal.Wrapper)sequence).featureMap()).basicRemove(otherEnd, changeContextImpl.notificationChain);
     return changeContextImpl;
+  }
+  
+  protected void dispatch(ChangeContext changeContext)
+  {
+    ChangeContextImpl changeContextImpl = initializeChangeContext(changeContext);
+    if (changeContextImpl.notificationChain != null)
+    {
+      changeContextImpl.notificationChain.dispatch();
+    }
   }
 
   protected boolean isProxy()
