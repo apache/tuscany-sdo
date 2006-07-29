@@ -112,6 +112,7 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- dependencies for test cases -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
