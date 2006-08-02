@@ -1,8 +1,5 @@
 package org.apache.tuscany.sdo.helper;
 
-import java.lang.reflect.Constructor;
-import java.util.Collection;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -13,25 +10,26 @@ import java.util.Vector;
 import javax.xml.namespace.QName;
 
 import org.apache.tuscany.sdo.util.SDOUtil;
-import org.apache.ws.commons.schema.XmlSchema;
-import org.apache.ws.commons.schema.XmlSchemaAny;
-import org.apache.ws.commons.schema.XmlSchemaAnyAttribute;
-import org.apache.ws.commons.schema.XmlSchemaAttribute;
-import org.apache.ws.commons.schema.XmlSchemaChoice;
-import org.apache.ws.commons.schema.XmlSchemaCollection;
-import org.apache.ws.commons.schema.XmlSchemaComplexContent;
-import org.apache.ws.commons.schema.XmlSchemaComplexContentExtension;
-import org.apache.ws.commons.schema.XmlSchemaComplexType;
-import org.apache.ws.commons.schema.XmlSchemaContentProcessing;
-import org.apache.ws.commons.schema.XmlSchemaElement;
-import org.apache.ws.commons.schema.XmlSchemaGroupBase;
-import org.apache.ws.commons.schema.XmlSchemaImport;
-import org.apache.ws.commons.schema.XmlSchemaInclude;
-import org.apache.ws.commons.schema.XmlSchemaSequence;
-import org.apache.ws.commons.schema.XmlSchemaSimpleType;
-import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
+import org.eclipse.xsd.XSDAttributeDeclaration;
+import org.eclipse.xsd.XSDAttributeUse;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDCompositor;
+import org.eclipse.xsd.XSDConstraint;
+import org.eclipse.xsd.XSDDerivationMethod;
+import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFactory;
+import org.eclipse.xsd.XSDForm;
+import org.eclipse.xsd.XSDImport;
+import org.eclipse.xsd.XSDInclude;
+import org.eclipse.xsd.XSDModelGroup;
+import org.eclipse.xsd.XSDParticle;
+import org.eclipse.xsd.XSDProcessContents;
+import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.XSDSchemaContent;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
+import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.xsd.XSDWildcard;
 
-import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 import commonj.sdo.helper.XSDHelper;
@@ -46,26 +44,21 @@ public class SchemaBuilder extends SDOAnnotations
     //public static final String GROUP = "group";
     public static final String EFEATURE_MAP_ENTRY = "EFeatureMapEntry";
     
-    protected XmlSchemaCollection xmlSchemaCollection = new XmlSchemaCollection();
     private Map schemaMap = null;
     protected Map targetNamespacePrefixMap = new Hashtable();
     protected Map schemaLocationMap = null;
     protected TypeTable typeTable = null;
-    protected Map sdoAnnoMap = new Hashtable();
+    protected XSDFactory xsdFactory = XSDFactory.eINSTANCE;
     
     
-    protected SchemaBuilder(XmlSchemaCollection schemaCollection,
-                                                Map schemaMap,
-                                                Map nsPrefixMap,
-                                                TypeTable typeTable,
-                                                Map annotationMap,
-                                                Map schemaLocMap )
+    protected SchemaBuilder(Map schemaMap,
+                            Map nsPrefixMap,
+                            TypeTable typeTable,
+                            Map schemaLocMap )
     {
         this.schemaMap = schemaMap;
-        this.xmlSchemaCollection = schemaCollection;
         this.targetNamespacePrefixMap = nsPrefixMap;
         this.typeTable = typeTable;
-        this.sdoAnnoMap = annotationMap;
         this.schemaLocationMap = schemaLocMap;
     }
         
@@ -73,10 +66,11 @@ public class SchemaBuilder extends SDOAnnotations
     
     
     private QName addAttribute2ComplexType(String targetNamespace, 
-                                                XmlSchemaComplexType complexType, 
+                                                XSDComplexTypeDefinition complexType, 
                                                 Property aProperty) 
     {
         QName attributeSchemaType = null;
+        String prefix = null;
         
         try
         {
@@ -92,60 +86,76 @@ public class SchemaBuilder extends SDOAnnotations
             if ( aProperty.getType().isDataType() )
             {
                 typeTable.addSimpleSchemaType(aProperty.getType().getName(), attributeSchemaType);
+                
+                XSDSimpleTypeDefinition simpleType = xsdFactory.createXSDSimpleTypeDefinition();
+                simpleType.setName(aProperty.getType().getName());
+                simpleType.setTargetNamespace(aProperty.getType().getURI());
+                typeTable.addXSDTypeDef(attributeSchemaType.getNamespaceURI(), 
+                                        attributeSchemaType.getLocalPart(), 
+                                        simpleType);
             }
             else
             {
                 typeTable.addComplexSchemaType(aProperty.getType().getURI(),
                                                 aProperty.getType().getName(),
                                                 attributeSchemaType);
+                
+                XSDComplexTypeDefinition extComplexType = xsdFactory.createXSDComplexTypeDefinition();
+                extComplexType.setName(aProperty.getType().getName());
+                extComplexType.setTargetNamespace(aProperty.getType().getURI());
+                typeTable.addXSDTypeDef(attributeSchemaType.getNamespaceURI(), 
+                                        attributeSchemaType.getLocalPart(), 
+                                        extComplexType);
             }
-            
             includeExtXSD(aProperty.getType());
         }
+        //ensure than an import is done rightaway so that the right prefixes will be used by the 
+        //attribute whose type is set as 'this type'.  Otherwise when setting the type for the attribute
+        //there will be a duplicate prefix (like Q1 or Q2... ) that will be created
+        prefix = addImports((XSDSchema)schemaMap.get(targetNamespace), attributeSchemaType);
         
-        XmlSchemaAttribute attribute  = new XmlSchemaAttribute();
+        XSDAttributeDeclaration attribute  = xsdFactory.createXSDAttributeDeclaration();
         attribute.setName(aProperty.getName());    
+        XSDAttributeUse orderDateAttributeUse = xsdFactory.createXSDAttributeUse();
+        orderDateAttributeUse.setContent(attribute);
+        complexType.getAttributeContents().add(orderDateAttributeUse);
+        attribute.updateElement();
         
-        if ( !aProperty.getAliasNames().isEmpty() )
+        if ( aProperty.getType().isDataType() )
         {
-            addAliasNamesAnnotation(targetNamespace, aProperty.getAliasNames(), ATTRIBUTE, aProperty.getName());
+            attribute.setTypeDefinition((XSDSimpleTypeDefinition)typeTable.getXSDTypeDef(attributeSchemaType.getNamespaceURI(), 
+                                            attributeSchemaType.getLocalPart()));
+            
         }
-        
-        if ( aProperty.isReadOnly() )
+        else
         {
-            addReadOnlyAnnotation(targetNamespace, aProperty.isReadOnly(), ATTRIBUTE, aProperty.getName());
+            attribute.setTypeDefinition((XSDSimpleTypeDefinition)typeTable.getXSDTypeDef(
+                    typeTable.getSimpleSchemaTypeName("URI").getNamespaceURI(), 
+                    typeTable.getSimpleSchemaTypeName("URI").getLocalPart()));
+            
         }
         
         if ( aProperty.getDefault() != null  )
         {
-            attribute.setDefaultValue(aProperty.getDefault().toString());
+            attribute.setConstraint(XSDConstraint.DEFAULT_LITERAL);
+            attribute.setLexicalValue(aProperty.getDefault().toString());
+        }
+
+        addAnnotations(attribute, aProperty );
+        if ( !aProperty.getType().isDataType() )
+        {
+            String value = prefix + COLON + attributeSchemaType.getLocalPart();
+            attribute.getElement().setAttribute(PROPERTY_TYPE, value);
         }
         
-        if ( aProperty.getType().isDataType() )
-        {
-            attribute.setSchemaTypeName(attributeSchemaType);
-        }
-        else
-        {
-            attribute.setSchemaTypeName(typeTable.getSimpleSchemaTypeName("URI"));
-            //addPropertyTypeAnnotation(targetNamespace, attributeSchemaType, ATTRIBUTE, aProperty.getName());
-        }
-        
-        if ( aProperty.getOpposite() != null )
-        {
-            addOppositePropertyAnnotation(targetNamespace,
-                                            aProperty.getOpposite().getName(),
-                                            ATTRIBUTE,
-                                            aProperty.getName());
-        }
-        complexType.getAttributes().add(attribute);
         return attributeSchemaType;
     }
     
     private QName addElement2ComplexType(String targetNamespace, 
-                                            XmlSchemaComplexType complexType, 
+                                            XSDComplexTypeDefinition complexType, 
                                             Property aProperty) 
     {
+        String prefix = null;
         QName elementSchemaType = null;
         try 
         {
@@ -161,67 +171,99 @@ public class SchemaBuilder extends SDOAnnotations
             if ( aProperty.getType().isDataType() )
             {
                 typeTable.addSimpleSchemaType(aProperty.getType().getName(), elementSchemaType);
+                
+                XSDSimpleTypeDefinition simpleType = xsdFactory.createXSDSimpleTypeDefinition();
+                simpleType.setName(aProperty.getType().getName());
+                simpleType.setTargetNamespace(aProperty.getType().getURI());
+                typeTable.addXSDTypeDef(elementSchemaType.getNamespaceURI(), 
+                                        elementSchemaType.getLocalPart(), 
+                                        simpleType);
             }
             else
             {
                 typeTable.addComplexSchemaType(aProperty.getType().getURI(),
                                                 aProperty.getType().getName(),
                                                 elementSchemaType);
+                XSDComplexTypeDefinition extComplexType = xsdFactory.createXSDComplexTypeDefinition();
+                extComplexType.setName(aProperty.getType().getName());
+                extComplexType.setTargetNamespace(aProperty.getType().getURI());
+                typeTable.addXSDTypeDef(elementSchemaType.getNamespaceURI(), 
+                                        elementSchemaType.getLocalPart(), 
+                                        extComplexType);
             }
             includeExtXSD(aProperty.getType());
         }
         
-        XmlSchemaElement element = new XmlSchemaElement();
+        //ensure than an import is done rightaway so that the right prefixes will be used by the 
+        //element whose type is set as 'this type'.  Otherwise when setting the type for the element
+        //there will be a duplicate prefix (like Q1 or Q2... ) that will be created
+        prefix = addImports((XSDSchema)schemaMap.get(targetNamespace), elementSchemaType);
+        
+        //XmlSchemaElement element = new XmlSchemaElement();
+        XSDElementDeclaration element = xsdFactory.createXSDElementDeclaration();
         element.setName(aProperty.getName());
+         
+        XSDParticle aParticle = xsdFactory.createXSDParticle();
+        aParticle.setContent(element);
         
-        if ( !aProperty.getAliasNames().isEmpty() )
-        {
-            addAliasNamesAnnotation(targetNamespace, aProperty.getAliasNames(), ELEMENT, aProperty.getName());
-        }
+        ((XSDModelGroup)((XSDParticle)complexType.getContent()).getContent()).
+        getContents().add(aParticle);
         
-        if ( aProperty.isReadOnly() )
-        {
-            addReadOnlyAnnotation(targetNamespace, aProperty.isReadOnly(), ELEMENT, aProperty.getName());
-        }
-        
+        element.updateElement();
+
         if ( aProperty.isMany() )
         {
-            element.setMaxOccurs(Long.MAX_VALUE);
-            element.setMinOccurs(0);
+            aParticle.setMaxOccurs(-1);
+            aParticle.setMinOccurs(0);
+            
         }
         
         if ( aProperty.isContainment() )
         {
-            element.setSchemaTypeName(elementSchemaType);
+            element.setTypeDefinition(typeTable.getXSDTypeDef(elementSchemaType.getNamespaceURI(),
+                                                                elementSchemaType.getLocalPart()));
         }
         else
         {
             if ( !aProperty.getType().isDataType() )
             {
-                element.setSchemaTypeName(typeTable.getSimpleSchemaTypeName("URI"));
-                //addPropertyTypeAnnotation(targetNamespace, elementSchemaType, ELEMENT, aProperty.getName());
-                
+                QName qName = typeTable.getSimpleSchemaTypeName("URI");
+                element.setTypeDefinition(typeTable.getXSDTypeDef(qName.getNamespaceURI(),
+                                            qName.getLocalPart())); 
             }
         }
         
-        if ( aProperty.getOpposite() != null )
+        addAnnotations(element, aProperty);
+        if ( !aProperty.isContainment() && !aProperty.getType().isDataType() )
         {
-            addOppositePropertyAnnotation(targetNamespace,
-                                            aProperty.getOpposite().getName(),
-                                            ELEMENT,
-                                            aProperty.getName());
+            String value = prefix + COLON + elementSchemaType.getLocalPart();
+            element.getElement().setAttribute(PROPERTY_TYPE, value);
         }
-        
-        ((XmlSchemaGroupBase)complexType.getParticle()).getItems().add(element);
-        
         return elementSchemaType;
         
     }
     
+    private void addAnnotations(XSDSchemaContent xsdContent, Property aProperty)
+    {
+        if ( !aProperty.getAliasNames().isEmpty() )
+        {
+            addAliasNamesAnnotation(xsdContent, aProperty.getAliasNames());
+        }
+        
+        if ( aProperty.isReadOnly() )
+        {
+            xsdContent.getElement().setAttribute(READ_ONLY, Boolean.toString(aProperty.isReadOnly()));
+        }
+        
+        if ( aProperty.getOpposite() != null )
+        {
+            xsdContent.getElement().setAttribute(OPPOSITE_PROPERTY, aProperty.getOpposite().getName());
+        }
+    }
     
     
     private QName buildComplexSchemaTypeContents(String targetNamespace, 
-                                                        XmlSchemaComplexType complexType, 
+                                                        XSDComplexTypeDefinition complexType, 
                                                         Type dataType)
     {
         //clipProperties(dataType);
@@ -236,34 +278,10 @@ public class SchemaBuilder extends SDOAnnotations
             if ( aProperty.isContainment() || aProperty.isMany() || !aProperty.getType().isDataType() )
             {
                 propertySchemaTypeName = addElement2ComplexType(targetNamespace, complexType, aProperty);
-                String prefix = addImports((XmlSchema)schemaMap.get(targetNamespace), propertySchemaTypeName);
-                
-                //need to do this only after adding imports to ensure the right namespace prefix is used
-                if ( !aProperty.isContainment() && !aProperty.getType().isDataType() )
-                {
-                    addPropertyTypeAnnotation(targetNamespace, 
-                                                prefix,
-                                                aProperty.getType().getName(), 
-                                                ELEMENT, 
-                                                aProperty.getName());
-                    
-                }
-                
             }
             else
             {
                 propertySchemaTypeName = addAttribute2ComplexType(targetNamespace, complexType, aProperty);
-                String prefix = addImports((XmlSchema)schemaMap.get(targetNamespace), propertySchemaTypeName);
-                
-                //need to do this only after adding imports to ensure the right namespace prefix is used
-                if ( !aProperty.getType().isDataType() )
-                {
-                        addPropertyTypeAnnotation(targetNamespace, 
-                                                    prefix,
-                                                    aProperty.getType().getName(), 
-                                                    ATTRIBUTE, 
-                                                    aProperty.getName());
-                }
             }
             
             /*if ( !EFEATURE_MAP_ENTRY.equals(aProperty.getType().getName()) )
@@ -283,50 +301,71 @@ public class SchemaBuilder extends SDOAnnotations
         if ( !dataType.isDataType() && 
                 (complexSchemaTypeName = typeTable.getComplexSchemaTypeName(dataType.getURI(), dataType.getName())) == null )
         {
+            XSDSchema xmlSchema = getXmlSchema(dataType);
             String targetNamespace = dataType.getURI(); 
-            XmlSchema xmlSchema = getXmlSchema(dataType);
-            
             String targetNamespacePrefix = (String)targetNamespacePrefixMap.get(targetNamespace);
+            
             complexSchemaTypeName = new QName(targetNamespace, 
                                                 dataType.getName(), 
                                                 targetNamespacePrefix);
             
-            
-            XmlSchemaComplexType complexType = new XmlSchemaComplexType(xmlSchema);
+            XSDComplexTypeDefinition complexType = xsdFactory.createXSDComplexTypeDefinition();
             complexType.setName(dataType.getName());
+            complexType.setTargetNamespace(targetNamespace);     
             complexType.setAbstract(dataType.isAbstract());
             
-            //add annotations for alias names
-            if ( !dataType.getAliasNames().isEmpty() )
-            {
-                addAliasNamesAnnotation(targetNamespace,
-                                        dataType.getAliasNames(), 
-                                        COMPLEX_TYPE, 
-                                        dataType.getName());
-            }
-            //add annotations for java instance class
-            if ( dataType.getInstanceClass() != null )
-            {
-                addInstanceClassAnnotation(targetNamespace,
-                                    dataType.getInstanceClass().getName(), 
-                                    COMPLEX_TYPE, 
-                                    dataType.getName());
-            }
+            xmlSchema.getTypeDefinitions().add(complexType);
+            xmlSchema.getContents().add(complexType);
+            
+            complexType.updateElement();
+            
+            addAnnotations(complexType, dataType);
             
             handleBaseExtn(xmlSchema, dataType, complexType);
             handleSDOSequence(dataType, complexType);
             handleSDOOpenType(dataType, complexType);
-            createGlobalElement(xmlSchema, complexType, complexSchemaTypeName);
             
-            xmlSchema.getItems().add(complexType);
-            xmlSchema.getSchemaTypes().add(complexSchemaTypeName, complexType);
+            //add before constructing the contents because a content element could
+            //possibly be of type 'complexType'. 
             typeTable.addComplexSchemaType(dataType.getURI(), dataType.getName(), complexSchemaTypeName);
+            typeTable.addXSDTypeDef(dataType.getURI(), dataType.getName(), complexType);
             
+            //now compose the contents for this complex type
             buildComplexSchemaTypeContents(targetNamespace, complexType, dataType);
+            
+            //finally create a global element for this type
+            createGlobalElement(xmlSchema, complexType, complexSchemaTypeName);
         }
         
         return complexSchemaTypeName;
     }
+    
+    private void addAnnotations(XSDTypeDefinition xsdType, Type dataType)
+    {
+        if ( dataType.isAbstract() )
+        {
+            if ( xsdType instanceof XSDComplexTypeDefinition )
+            {
+                ((XSDComplexTypeDefinition)xsdType).setAbstract(dataType.isAbstract());
+            }
+            else
+            {
+                xsdType.getElement().setAttribute(ABSTRACT_TYPE, 
+                                Boolean.toString(dataType.isAbstract()));
+            }
+        }
+        
+        //add alias names if it exists
+        addAliasNamesAnnotation(xsdType, 
+                                    dataType.getAliasNames());
+        
+        //add instanceClass annotation
+        if ( dataType.getInstanceClass() != null )
+        {
+            xsdType.getElement().setAttribute(INSTANCE_CLASS, dataType.getInstanceClass().getName());
+        }
+    }
+    
     
     private QName buildSimpleSchemaType(Type dataType)
     {
@@ -334,41 +373,26 @@ public class SchemaBuilder extends SDOAnnotations
         if ( dataType.isDataType() &&
                 (simpleSchemaTypeName = typeTable.getSimpleSchemaTypeName(dataType.getName()) ) == null )
         {
-            XmlSchema xmlSchema = getXmlSchema(dataType);
-            XmlSchemaSimpleType simpleType = new XmlSchemaSimpleType(xmlSchema);
+            XSDSchema xmlSchema = getXmlSchema(dataType);
+            XSDSimpleTypeDefinition simpleType = xsdFactory.createXSDSimpleTypeDefinition();
             //set the name
             simpleType.setName(dataType.getName());
+            simpleType.setTargetNamespace(dataType.getURI());
             //set abstract=true if abstract
-            if ( dataType.isAbstract() )
-            {
-                addAbstractTypeAnnotation(dataType.getURI(), 
-                                            dataType.isAbstract(),
-                                            SIMPLE_TYPE,
-                                            dataType.getName());
-            }
+            simpleSchemaTypeName = new QName(dataType.getURI(), 
+                                             dataType.getName(), 
+                                             (String)targetNamespacePrefixMap.get(dataType.getURI()));
+            xmlSchema.getContents().add(simpleType);
+            simpleType.updateElement();
             
-            //add alias names if it exists
-            addAliasNamesAnnotation(dataType.getURI(), 
-                                        dataType.getAliasNames(),
-                                        SIMPLE_TYPE,
-                                        dataType.getName());
-            
-            //add instanceClass annotation
-            if ( dataType.getInstanceClass() != null )
-            {
-                addInstanceClassAnnotation(dataType.getURI(), 
-                                                dataType.getInstanceClass().getName(),
-                                                SIMPLE_TYPE,
-                                                dataType.getName());
-            }
+            addAnnotations(simpleType, dataType);
             
             if ( !dataType.getBaseTypes().isEmpty() )
             {
                 Type baseType = (Type)dataType.getBaseTypes().get(0);
-                XmlSchemaSimpleTypeRestriction restriction = new XmlSchemaSimpleTypeRestriction();
-                
                 
                 QName baseSchemaType = null;
+                
                 try
                 {
                     baseSchemaType = buildSchema(baseType);
@@ -379,20 +403,26 @@ public class SchemaBuilder extends SDOAnnotations
                     baseSchemaType = new QName(baseType.getURI(), 
                                                 baseType.getName(),
                                                 generatePrefix());
+                    
+                    typeTable.addSimpleSchemaType(baseType.getName(), baseSchemaType);
+
+                    XSDSimpleTypeDefinition baseTypeDef = xsdFactory.createXSDSimpleTypeDefinition();
+                    baseTypeDef.setName(baseType.getName());
+                    baseTypeDef.setTargetNamespace(baseType.getURI());
+                    typeTable.addXSDTypeDef(baseType.getURI(), baseType.getName(), baseTypeDef);
+                        
                     //include external XSD locations
                     includeExtXSD(baseType);
                 }
                 
-                restriction.setBaseTypeName(baseSchemaType);
-                simpleType.setContent(restriction);
+                simpleType.setBaseTypeDefinition((XSDSimpleTypeDefinition)typeTable.
+                        getXSDTypeDef(baseSchemaType.getNamespaceURI(),baseSchemaType.getLocalPart()));
                 addImports(xmlSchema, baseSchemaType);
             }
             
-            simpleSchemaTypeName = new QName(dataType.getURI(), 
-                                                dataType.getName(), 
-                                                (String)targetNamespacePrefixMap.get(dataType.getURI()));
-            xmlSchema.getSchemaTypes().add(simpleSchemaTypeName, simpleType);
+            
             typeTable.addSimpleSchemaType(dataType.getName(), simpleSchemaTypeName);
+            typeTable.addXSDTypeDef(dataType.getURI(), dataType.getName(), simpleType);
         }
         return simpleSchemaTypeName;
     }
@@ -402,7 +432,7 @@ public class SchemaBuilder extends SDOAnnotations
         //now we know there is a type for which the xsd must come from outside
         //create a schema for the namespace of this type and add an include in it for 
         //the xsd that is defined externally
-        XmlSchema xmlSchema = getXmlSchema(dataType);
+        XSDSchema xmlSchema = getXmlSchema(dataType);
         
         //ideally there could  be more than one external schema defintions for a namespace
         //and hence schemalocations will be a list of locations
@@ -422,7 +452,8 @@ public class SchemaBuilder extends SDOAnnotations
             schemaLocations.add(DEFAULT_SCHEMA_LOCATION);
         }
         
-        Iterator includesIterator = xmlSchema.getIncludes().getIterator();
+        Object schemaContent = null;
+        Iterator includesIterator = xmlSchema.getContents().iterator();
         Iterator schemaLocIterator = schemaLocations.iterator();
         String aSchemaLocation = null;
         boolean includeExists = false;
@@ -432,20 +463,23 @@ public class SchemaBuilder extends SDOAnnotations
             aSchemaLocation = (String)schemaLocIterator.next();
             while ( includesIterator.hasNext() )
             {
-                if ( !includeExists && aSchemaLocation.equals(
-                        ((XmlSchemaInclude)includesIterator.next()).getSchemaLocation() 
-                                           ))
+                schemaContent = includesIterator.next();
+                if ( schemaContent instanceof XSDInclude )
                 {
-                    includeExists = true;
+                    if ( !includeExists && aSchemaLocation.equals(
+                            ((XSDInclude)schemaContent).getSchemaLocation() 
+                                 ))
+                    {
+                        includeExists = true;
+                    }
                 }
             }
             
             if ( !includeExists )
             {
-                XmlSchemaInclude includeElement = new XmlSchemaInclude();
+                XSDInclude includeElement = xsdFactory.createXSDInclude();
                 includeElement.setSchemaLocation(aSchemaLocation);
-                xmlSchema.getIncludes().add(includeElement);
-                xmlSchema.getItems().add(includeElement);
+                xmlSchema.getContents().add(0, includeElement);
             }
         }
     }
@@ -490,34 +524,42 @@ public class SchemaBuilder extends SDOAnnotations
     }
     
     
-    private XmlSchema getXmlSchema(Type dataType) 
+    private XSDSchema getXmlSchema(Type dataType) 
     {
-        XmlSchema xmlSchema; 
+        XSDSchema xmlSchema = null; 
         
-        if ((xmlSchema = (XmlSchema) schemaMap.get(dataType.getURI())) == null) 
+        if ((xmlSchema = (XSDSchema) schemaMap.get(dataType.getURI())) == null) 
         {
             String targetNamespacePrefix = generatePrefix();
             
-            xmlSchema = new XmlSchema(dataType.getURI(), xmlSchemaCollection);
+            xmlSchema = xsdFactory.createXSDSchema();
+            xmlSchema.setTargetNamespace(dataType.getURI());
+            xmlSchema.setAttributeFormDefault(XSDForm.QUALIFIED_LITERAL);
+            xmlSchema.setElementFormDefault(XSDForm.QUALIFIED_LITERAL);
+            
             targetNamespacePrefixMap.put(dataType.getURI(), targetNamespacePrefix);
             schemaMap.put(dataType.getURI(), xmlSchema);
             
-            Hashtable prefixmap = new Hashtable();
-            prefixmap.put(TypeTable.XS_URI_PREFIX, TypeTable.XML_SCHEMA_URI);
-            prefixmap.put(targetNamespacePrefix, dataType.getURI());
-            xmlSchema.setPrefixToNamespaceMap(prefixmap);
+            xmlSchema.getQNamePrefixToNamespaceMap().put(TypeTable.XS_URI_PREFIX, TypeTable.XML_SCHEMA_URI);
+            xmlSchema.setSchemaForSchemaQNamePrefix(TypeTable.XS_URI_PREFIX);
+
+            xmlSchema.getQNamePrefixToNamespaceMap().put(targetNamespacePrefix, dataType.getURI());
+            //xmlSchema.setSchemaForSchemaQNamePrefix(targetNamespacePrefix);
             
             addSDONamespaces(xmlSchema);
-            addPackageAnnotation(dataType);
+            addPackageAnnotation(xmlSchema, dataType);
         }
         return xmlSchema;
     }
 
     
-    private void addSDONamespaces(XmlSchema xmlSchema)
+    private void addSDONamespaces(XSDSchema xmlSchema)
     {
-        xmlSchema.getPrefixToNamespaceMap().put(COMMONJ_SDO_NS_PREFIX, COMMONJ_SDO_NS);
-        xmlSchema.getPrefixToNamespaceMap().put(SDO_JAVA_NS_PREFIX, SDO_JAVA_NS);
+        xmlSchema.getQNamePrefixToNamespaceMap().put(COMMONJ_SDO_NS_PREFIX, COMMONJ_SDO_NS);
+        //xmlSchema.setSchemaForSchemaQNamePrefix(COMMONJ_SDO_NS_PREFIX);
+        
+        xmlSchema.getQNamePrefixToNamespaceMap().put(SDO_JAVA_NS_PREFIX, SDO_JAVA_NS);
+        //xmlSchema.setSchemaForSchemaQNamePrefix(SDO_JAVA_NS_PREFIX);
     }
     
     
@@ -539,15 +581,16 @@ public class SchemaBuilder extends SDOAnnotations
         }
     }
     
-    private String addImports(XmlSchema xmlSchema, QName schemaTypeName)
+    private String addImports(XSDSchema xmlSchema, QName schemaTypeName)
     {
         String prefix = null;
-        Enumeration enumeration = xmlSchema.getPrefixToNamespaceMap().keys();
-        while ( enumeration.hasMoreElements() )
+        Iterator iterator = xmlSchema.getQNamePrefixToNamespaceMap().keySet().iterator();
+        while ( iterator.hasNext() )
         {
-            prefix = (String)enumeration.nextElement();
+            prefix = (String)iterator.next();
+            
             if ( schemaTypeName.getNamespaceURI().equals(
-                    xmlSchema.getPrefixToNamespaceMap().get(prefix)) )
+                    xmlSchema.getQNamePrefixToNamespaceMap().get(prefix)) )
             {
                 return prefix;
             }
@@ -555,24 +598,30 @@ public class SchemaBuilder extends SDOAnnotations
         
         //the following lines are executed only if a prefix was not found which implies that the 
         //schemaTypeName was not imported earlier and also it does not belong to the targetnamespace
-        String schemaLocation = null;
-        XmlSchemaImport importElement = new XmlSchemaImport();
+        XSDImport importElement = xsdFactory.createXSDImport();
         importElement.setNamespace(schemaTypeName.getNamespaceURI());
-        xmlSchema.getItems().add(importElement);
-        prefix = generatePrefix();
-        xmlSchema.getPrefixToNamespaceMap().put(prefix, schemaTypeName.getNamespaceURI());
+        xmlSchema.getContents().add(0, importElement);
+        prefix = schemaTypeName.getPrefix();
+        if ( prefix == null || prefix.length() <= 0 )
+        {
+            prefix = generatePrefix();
+        }
+        xmlSchema.getQNamePrefixToNamespaceMap().put(prefix, schemaTypeName.getNamespaceURI());
 
         return prefix;
     }
     
-    private void handleSDOSequence(Type datatype, XmlSchemaComplexType complexType)
+    private void handleSDOSequence(Type datatype, XSDComplexTypeDefinition complexType)
     {
         if ( datatype.isSequenced()     )
         {
             complexType.setMixed(true);
-            XmlSchemaChoice choice = new XmlSchemaChoice();
-            choice.setMaxOccurs(Long.MAX_VALUE);
-            complexType.setParticle(choice);
+            XSDModelGroup choice = xsdFactory.createXSDModelGroup();
+            choice.setCompositor(XSDCompositor.CHOICE_LITERAL);
+            XSDParticle aParticle = xsdFactory.createXSDParticle();
+            aParticle.setContent(choice);
+            aParticle.setMaxOccurs(-1);
+            complexType.setContent(aParticle);
         }
         else
         {
@@ -585,32 +634,40 @@ public class SchemaBuilder extends SDOAnnotations
             }
             else*/
             {
-                XmlSchemaSequence sequence = new XmlSchemaSequence(); 
-                complexType.setParticle(sequence);
+                XSDModelGroup sequence = xsdFactory.createXSDModelGroup();
+                sequence.setCompositor(XSDCompositor.SEQUENCE_LITERAL);
+                XSDParticle aParticle = xsdFactory.createXSDParticle();
+                aParticle.setContent(sequence);
+                complexType.setContent(aParticle);
             }
         }
     }
     
-    private void handleSDOOpenType(Type datatype, XmlSchemaComplexType complexType)
+    private void handleSDOOpenType(Type datatype, XSDComplexTypeDefinition complexType)
     {
         if ( datatype.isOpen() /*&& 
                 getPropertyStartsWithName(datatype.getDeclaredProperties(), GROUP).size() <= 0 */)
         {
-            XmlSchemaAny anyType = new XmlSchemaAny();
-            XmlSchemaContentProcessing cp = new XmlSchemaContentProcessing("lax");
-            anyType.setProcessContent(new XmlSchemaContentProcessing("lax"));
-            anyType.setMaxOccurs(Long.MAX_VALUE);
-            ((XmlSchemaGroupBase)complexType.getParticle()).getItems().add(anyType);
-            
-            XmlSchemaAnyAttribute anyAttr = new XmlSchemaAnyAttribute();
-            anyAttr.setProcessContent(new XmlSchemaContentProcessing("lax"));
-            complexType.setAnyAttribute(anyAttr);
+            XSDWildcard elementWildcard = xsdFactory.createXSDWildcard();
+            elementWildcard.getLexicalNamespaceConstraint().add("##other");
+            elementWildcard.setProcessContents(XSDProcessContents.LAX_LITERAL);
+            // Create a particle to hold the wildcard.
+            XSDParticle wildcardParticle = xsdFactory.createXSDParticle();
+            wildcardParticle.setContent(elementWildcard);
+            wildcardParticle.setMaxOccurs(-1);
+            ((XSDModelGroup)((XSDParticle)complexType.getContent()).getContent()).
+                getContents().add(wildcardParticle);
+               
+            XSDWildcard attributeWildcard = xsdFactory.createXSDWildcard();
+            attributeWildcard.getLexicalNamespaceConstraint().add("##other");
+            attributeWildcard.setProcessContents(XSDProcessContents.LAX_LITERAL);
+            complexType.setAttributeWildcard(attributeWildcard);
         }
     }
     
-    private void handleBaseExtn(XmlSchema xmlSchema, 
+    private void handleBaseExtn(XSDSchema xmlSchema, 
                                     Type datatype, 
-                                    XmlSchemaComplexType complexType) 
+                                    XSDComplexTypeDefinition complexType) 
     {
         if ( datatype.getBaseTypes().size() > 0 )
         {
@@ -628,14 +685,32 @@ public class SchemaBuilder extends SDOAnnotations
                 baseSchemaType = new QName(baseType.getURI(), 
                                             baseType.getName(),
                                             generatePrefix());
+                
+                XSDSimpleTypeDefinition baseTypeDef = xsdFactory.createXSDSimpleTypeDefinition();
+                baseTypeDef.setName(baseType.getName());
+                baseTypeDef.setTargetNamespace(baseType.getURI());
+                typeTable.addXSDTypeDef(baseType.getURI(), baseType.getName(), baseTypeDef);
+                
                 includeExtXSD(baseType);
             }
+            
+            complexType.setDerivationMethod(XSDDerivationMethod.EXTENSION_LITERAL);
+            
+            if ( baseType.isDataType() )
+            {
+                XSDSimpleTypeDefinition anonymousSimpleTypeDefinition 
+                    = xsdFactory.createXSDSimpleTypeDefinition();
+                anonymousSimpleTypeDefinition.setBaseTypeDefinition((XSDSimpleTypeDefinition)typeTable.
+                        getXSDTypeDef(baseSchemaType.getNamespaceURI(),baseSchemaType.getLocalPart()));
+                complexType.setContent(anonymousSimpleTypeDefinition);
+            }
+            else
+            {
+                complexType.setBaseTypeDefinition((XSDSimpleTypeDefinition)typeTable.
+                    getXSDTypeDef(baseSchemaType.getNamespaceURI(),baseSchemaType.getLocalPart()));
                 
-            XmlSchemaComplexContent complexContent = new XmlSchemaComplexContent();
-            XmlSchemaComplexContentExtension compContExtn = new XmlSchemaComplexContentExtension();
-            compContExtn.setBaseTypeName(baseSchemaType);
-            complexContent.setContent(compContExtn);
-            complexType.setContentModel(complexContent);
+            }    
+                
             addImports(xmlSchema, baseSchemaType);
         }
     }
@@ -646,30 +721,22 @@ public class SchemaBuilder extends SDOAnnotations
         return typeName.replaceFirst(firstChar, firstChar.toLowerCase());
     }
     
-    private void createGlobalElement(XmlSchema xmlSchema, XmlSchemaComplexType complexType, QName elementName )
+    private void createGlobalElement(XSDSchema xmlSchema, 
+                                         XSDComplexTypeDefinition complexType, 
+                                         QName schemaElementName )
     {
-        XmlSchemaElement globalElement = new XmlSchemaElement();
-        globalElement.setSchemaTypeName(complexType.getQName());
+        XSDElementDeclaration globalElement = xsdFactory.createXSDElementDeclaration();
+        globalElement.setTargetNamespace(xmlSchema.getTargetNamespace());
         globalElement.setName(formGlobalElementName(complexType.getName()));
-        globalElement.setQName(elementName);
-        
-        xmlSchema.getItems().add(globalElement);
-        xmlSchema.getElements().add(elementName, globalElement);
+        globalElement.setTypeDefinition
+            (typeTable.getXSDTypeDef(schemaElementName.getNamespaceURI(), 
+                                                    schemaElementName.getLocalPart()));
+        xmlSchema.getContents().add(globalElement);
+        xmlSchema.getElementDeclarations().add(globalElement);
     }
     
-    private Map getAnnoMapForElement(String elementKey)
-    {
-        if ( sdoAnnoMap.get(elementKey) == null )
-        {
-            sdoAnnoMap.put(elementKey, new Hashtable());
-        }
-        return (Map)sdoAnnoMap.get(elementKey);
-    }
-    
-    private void addAliasNamesAnnotation(String targetNamespace, 
-                                            List aliasNames,    
-                                            String schemeElement, 
-                                            String schemeElementNameAttr)
+    private void addAliasNamesAnnotation(XSDSchemaContent typeDef, 
+                                            List aliasNames)
     {
         if ( !aliasNames.isEmpty() )
         {
@@ -677,139 +744,20 @@ public class SchemaBuilder extends SDOAnnotations
             Iterator iterator = aliasNames.iterator();
             while ( iterator.hasNext() )
             {
-            sb.append(iterator.next());
+                sb.append(iterator.next());
             }
-            getAnnoMapForElement(makeAnnotationMapKey(targetNamespace, 
-                                        schemeElement, 
-                                        schemeElementNameAttr)).
-                                            put(ALIAS_NAMES, sb.toString());
+            typeDef.getElement().setAttribute(ALIAS_NAMES, sb.toString());
         }
     }
     
-    private void addAbstractTypeAnnotation(String targetNamespace,            
-                                                boolean isAbstract,
-                                                String schemeElement, 
-                                                String schemeElementNameAttr)
-    {
-        getAnnoMapForElement(makeAnnotationMapKey(targetNamespace, 
-                                                    schemeElement, 
-                                                    schemeElementNameAttr)).
-                                                        put(ABSTRACT_TYPE, new Boolean(isAbstract).toString()); 
-    }
-    
-    
-    private void addPackageAnnotation(Type dataType)
+    private void addPackageAnnotation(XSDSchema xmlSchema, Type dataType)
     {
         if ( dataType.getInstanceClass() != null )
         {
-            getAnnoMapForElement(makeAnnotationMapKey(dataType.getURI(),
-                                                   SCHEMA,
-                                                   "")).put(JAVA_PACKAGE, 
-                                                             dataType.getInstanceClass().getPackage().getName());
+            xmlSchema.updateElement();
+            xmlSchema.getElement().setAttribute(JAVA_PACKAGE, 
+                                                dataType.getInstanceClass().getPackage().getName());
         }
-    }
-    
-    
-    private void addReadOnlyAnnotation(String targetNamespace,            
-                                        boolean isReadOnly,
-                                        String schemeElement, 
-                                        String schemeElementNameAttr)
-    {
-        getAnnoMapForElement(makeAnnotationMapKey(targetNamespace, 
-                                            schemeElement, 
-                                            schemeElementNameAttr)).
-                                                put(READ_ONLY, new Boolean(isReadOnly).toString()); 
-    }
-    
-    
-    
-    private void addPropertyTypeAnnotation(String targetNamespace,  
-                                            String prefix,
-                                            String propertyTypeName,
-                                            String schemeElement, 
-                                            String schemeElementNameAttr)
-    {
-        String value = prefix + COLON + propertyTypeName;
-        getAnnoMapForElement(makeAnnotationMapKey(targetNamespace, 
-                                                    schemeElement, 
-                                                    schemeElementNameAttr)).
-                                                    put(PROPERTY_TYPE, value); 
-    }
-    
-    
-    
-    private void addOppositePropertyAnnotation(String targetNamespace,            
-                                            String oppositePropName,
-                                            String schemeElement, 
-                                            String schemeElementNameAttr)
-    {
-        getAnnoMapForElement(makeAnnotationMapKey(targetNamespace, 
-                                                    schemeElement, 
-                                                    schemeElementNameAttr)).
-                                                    put(OPPOSITE_PROPERTY, oppositePropName); 
-    }
-    
-    
-    
-    private void addInstanceClassAnnotation(String targetNamespace,            
-                                                String className,
-                                                String schemeElement, 
-                                                String schemeElementNameAttr)
-    {
-        getAnnoMapForElement(makeAnnotationMapKey(targetNamespace, 
-                                    schemeElement, 
-                                    schemeElementNameAttr)).
-                                        put(INSTANCE_CLASS, className); 
-    }    
-    
-    private DataObject createDataObject(Class sdoType) throws Exception
-    {
-        Constructor constructor = sdoType.getDeclaredConstructor(new Class[0]);
-        constructor.setAccessible(true);
-        Object instance = constructor.newInstance(new Object[0]);
-        return (DataObject)instance;
-    }
-    
-    public void clipProperties(Type dataType)
-    {
-        Property aProperty = null; 
-        //clip properties with name 'mixed' when parent data type is sequenced
-        /*if ( dataType.isSequenced() && 
-                (aProperty = getPropertyByName(dataType.getDeclaredProperties(), MIXED)) != null )
-        {
-            dataType.getDeclaredProperties().remove(aProperty);
-        }*/
-    }
-    
-    private Property getPropertyByName(List propertiesList, String propertyName)
-    {
-        Iterator iterator = propertiesList.iterator();
-        Property aProperty = null;
-        while ( iterator.hasNext())
-        {
-            aProperty = (Property)iterator.next();
-            if ( aProperty.getName().equals(propertyName) )
-            {
-                return aProperty;
-            }
-        }
-        return null;
-    }
-    
-    private Collection getPropertyStartsWithName(List propertiesList, String propertyName)
-    {
-        Iterator iterator = propertiesList.iterator();
-        Property aProperty = null;
-        Vector matchingProperties = new Vector();
-        while ( iterator.hasNext())
-        {
-            aProperty = (Property)iterator.next();
-            if ( aProperty.getName().startsWith(propertyName) )
-            {
-                matchingProperties.addElement(aProperty);
-            }
-        }
-        return matchingProperties;
     }
     
     private String generatePrefix() 

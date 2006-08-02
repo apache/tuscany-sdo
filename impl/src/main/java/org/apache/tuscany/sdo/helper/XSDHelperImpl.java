@@ -20,6 +20,7 @@ package org.apache.tuscany.sdo.helper;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Reader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -28,10 +29,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.axiom.om.OMElement;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.apache.tuscany.sdo.impl.DynamicDataObjectImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
-import org.apache.ws.commons.schema.XmlSchemaCollection;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -46,7 +51,6 @@ import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.eclipse.xsd.util.XSDResourceImpl;
 import org.xml.sax.InputSource;
-
 
 import commonj.sdo.Property;
 import commonj.sdo.Type;
@@ -219,14 +223,10 @@ public class XSDHelperImpl implements XSDHelper
          Hashtable schemaMap = new Hashtable();
          Hashtable nsPrefixMap = new Hashtable();
          TypeTable typeTable = new TypeTable();
-         Hashtable sdoAnnotationsMap = new Hashtable();
          
-
-         SchemaBuilder schemaBuilder = new SchemaBuilder(new XmlSchemaCollection(),
-                                                          schemaMap,
+         SchemaBuilder schemaBuilder = new SchemaBuilder( schemaMap,
                                                           nsPrefixMap,
                                                           typeTable,
-                                                          sdoAnnotationsMap,
                                                           namespaceToSchemaLocation);
           
          Iterator iterator = types.iterator();
@@ -239,25 +239,37 @@ public class XSDHelperImpl implements XSDHelper
                  dataType = (Type)iterator.next();
                  schemaBuilder.buildSchema(dataType);
              }
-         
-             //add sdo annotations to the generated schema elements
-             SDOAnnotationsDecorator annoDecorator = new SDOAnnotationsDecorator();
-             OMElement allSchemas  = annoDecorator.decorateWithAnnotations(schemaMap, sdoAnnotationsMap);
-             //print the schemas into a StringBuffer
-             StringBuffer sb = new StringBuffer();
-             iterator = allSchemas.getChildElements();
+             
+             XSDSchema xmlSchema = null;
+             iterator = schemaMap.values().iterator();
+             StringWriter writer = new StringWriter();
+             
+             TransformerFactory transformerFactory = TransformerFactory.newInstance();
+             Transformer transformer = transformerFactory.newTransformer();
+             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+             
              while ( iterator.hasNext() )
              {
-                 sb.append(iterator.next().toString());
+                 xmlSchema = (XSDSchema)iterator.next();
+
+                 if(xmlSchema.getElement() == null)
+                 {
+                     xmlSchema.updateElement();
+                 }
+
+                 transformer.transform(new DOMSource(xmlSchema.getElement().getOwnerDocument()), 
+                         new StreamResult(writer));
              }
-             return sb.toString();
-             
+             writer.close();
+             return writer.getBuffer().toString();
          }
          catch ( Exception e )
          {
              //System.out.println("Unable to generate schema due to ..." + e);
              //e.printStackTrace();
-             throw new IllegalArgumentException(e);
+             throw new IllegalArgumentException(e.getMessage());
          }
       }
       else

@@ -61,7 +61,7 @@ public class XSDHelperTestCase extends TestCase {
         assertEquals(0, types2.size());
     }
     
-    public void testXSDGeneration_staicSDOType() throws IOException 
+    public void testXSDGeneration_staticSDOType() throws IOException 
     {
         //test for static sdo type.  The test succeeds if the IllegalArgumentException is thrown
         //by XSDHelper.generate method in which case the string xsd must be null;
@@ -107,6 +107,7 @@ public class XSDHelperTestCase extends TestCase {
         
         Type dynamicQuoteType = 
             TypeHelper.INSTANCE.getType("http://www.example.com/dynamic", "DynamicQuote");
+        
         Vector types = new Vector();
         types.add(dynamicQuoteType);
         String xsd = null;
@@ -170,7 +171,7 @@ public class XSDHelperTestCase extends TestCase {
         try
         {
             Hashtable schemaLocationMap = new Hashtable();
-            schemaLocationMap.put("http://www.example.com/simples", "http://www.example.com/simple/xsd");
+            schemaLocationMap.put("http://www.example.com/simple", "http://www.example.com/simple/xsd");
             xsd = xsdHelper.generate(types, schemaLocationMap);
             //System.out.println(xsd);
         }

@@ -8,7 +8,10 @@ import java.util.Vector;
 
 import javax.xml.namespace.QName;
 
-import org.apache.axiom.om.OMElement;
+//import org.apache.axiom.om.OMElement;
+import org.eclipse.xsd.XSDFactory;
+import org.eclipse.xsd.XSDTypeDefinition;
+import org.w3c.dom.Element;
 
 
 
@@ -21,6 +24,7 @@ public class TypeTable
     
     private Hashtable simpleXSDTypes;
     private Hashtable complexXSDTypes;
+    private Hashtable xsdTypeDefs; 
     
     public static String asQualifiedName(String uri, String typeName)
     {
@@ -32,6 +36,7 @@ public class TypeTable
     {
         simpleXSDTypes = new Hashtable();
         complexXSDTypes = new Hashtable();
+        xsdTypeDefs = new Hashtable();
         populateSimpleXSDTypes();
         populateStdSDOTypes();
     }
@@ -136,7 +141,7 @@ public class TypeTable
                 new QName(XML_SCHEMA_URI, "decimal", XS_URI_PREFIX));
 
         // Any types
-        simpleXSDTypes.put(OMElement.class.getName(),
+        simpleXSDTypes.put(Element.class.getName(),
                 new QName(XML_SCHEMA_URI, "anyType", XS_URI_PREFIX));
         simpleXSDTypes.put(ArrayList.class.getName(),
                 new QName(XML_SCHEMA_URI, "anyType", XS_URI_PREFIX));
@@ -196,5 +201,35 @@ public class TypeTable
             return getComplexSchemaTypeName(namespaceURI, typeName);
         }
     }
+    
+    public void addXSDTypeDef(String namespaceURI, String typeName, XSDTypeDefinition aTypeDef)
+    {
+        if ( namespaceURI != null && typeName != null && aTypeDef != null )
+        {
+            xsdTypeDefs.put(asQualifiedName(namespaceURI, typeName), aTypeDef);
+        }
+    }
+    
+    public XSDTypeDefinition getXSDTypeDef(String namespaceURI, String typeName) 
+    {
+        XSDTypeDefinition typeDef = null;
+        if ( namespaceURI != null && typeName != null  )
+        {
+            if ( XML_SCHEMA_URI.equals(namespaceURI) )
+            {
+                if ( ( typeDef = (XSDTypeDefinition)xsdTypeDefs.get(asQualifiedName(namespaceURI, typeName)) ) == null )
+                {
+                    typeDef = XSDFactory.eINSTANCE.createXSDSimpleTypeDefinition();
+                    typeDef.setName(typeName);
+                    typeDef.setTargetNamespace(namespaceURI);
+                    addXSDTypeDef(namespaceURI, typeName, typeDef);
+                }
+            }
+            else
+            {
+                typeDef = (XSDTypeDefinition)xsdTypeDefs.get(asQualifiedName(namespaceURI, typeName));
+            }
+        }
+      return typeDef;
+    }
 }
-

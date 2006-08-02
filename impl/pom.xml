@@ -82,37 +82,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- dependencies for optional AXIOM functions -->
-        <dependency>
-            <groupId>org.apache.ws.commons</groupId>
-            <artifactId>XmlSchema</artifactId>
-            <version>1.0.2</version>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>ws-commons</groupId>
-            <artifactId>axiom-api</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>ws-commons</groupId>
-            <artifactId>axiom-impl</artifactId>
-            <version>1.0</version>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.0.4</version>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
-
-        <!-- dependencies for test cases -->
+       <!-- dependencies for test cases -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
