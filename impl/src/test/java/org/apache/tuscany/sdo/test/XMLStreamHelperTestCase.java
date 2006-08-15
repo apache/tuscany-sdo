@@ -103,7 +103,7 @@ public class XMLStreamHelperTestCase extends TestCase {
         streamWriter.flush();
         String xmlStr = writer.toString();
         // System.out.println(xmlStr);
-         Assert.assertTrue(xmlStr.contains("myAttr=\"helloworld.HelloWorldImpl\""));
+         Assert.assertTrue(xmlStr.indexOf("myAttr=\"helloworld.HelloWorldImpl\"")!=-1);
     }
 
     public void testSaveObject() throws XMLStreamException {
@@ -115,7 +115,7 @@ public class XMLStreamHelperTestCase extends TestCase {
         XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
         streamHelper.saveObject(componentObject, streamWriter);
         streamWriter.flush();
-        Assert.assertTrue(writer.toString().contains("myAttr=\"helloworld.HelloWorldImpl\""));
+        Assert.assertTrue(writer.toString().indexOf("myAttr=\"helloworld.HelloWorldImpl\"")!=-1);
     }
 
     protected void tearDown() throws Exception {
