@@ -28,6 +28,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.SDOFactory;
@@ -279,6 +281,31 @@ public final class SDOUtil
   public static XMLStreamHelper createXMLStreamHelper(TypeHelper scope)
   {
     return new XMLStreamHelperImpl(scope);
+  }
+  
+  /**
+   * Gets all of the types associated with a uri.
+   * 
+   * @param scope
+   *            the TypeHelper to use for locating types.
+   * @param uri.
+   *            Uri of the Types
+   * @return List. List containing instances of Type, null if uri is not found.
+   */
+  public static List getTypes(TypeHelper scope, String uri) {
+
+      EPackage ePackage = ((TypeHelperImpl) scope).getExtendedMetaData().getPackage(uri);
+      if (ePackage != null) {
+          /**
+           * ePackage.getEclassifiers will return an EList ( simple extension of List ).
+           * 
+           * When a Type is generated from XML EMF will create a DocumentRoot type As this is EMF specific it should be removed
+           */
+          List result = new ArrayList(ePackage.getEClassifiers());
+          result.remove(((TypeHelperImpl) scope).getExtendedMetaData().getDocumentRoot(ePackage));
+          return result;
+      }
+      return null;
   }
   
   public static Type createType(TypeHelper scope, String uri, String name, boolean isDataType)
