@@ -100,8 +100,10 @@ import commonj.sdo.helper.XSDHelper;
  *         to org.apache.tuscany.sdo.impl.StoreDataObjectImpl. Note that this option generates classes that
  *         require a Store implementation to be provided before they can be run.    
  *     -noEMF
- *       This option is used to generate static classes that have no references to EMF classes.  This 
- *       feature is currently being implemented and is in a preliminary state.  
+ *         This option is used to generate static classes that have no references to EMF classes.  This 
+ *         feature is currently being implemented and is in a preliminary state.  
+ *     -interfaceDataObject
+ *         This option is used to generate static interfaces that extend commonj.sdo.DataObject  
  *         
  *   The following options can be used to increase performance, but with some loss of SDO functionality:
  *   
@@ -162,6 +164,7 @@ public abstract class JavaGenerator
   //FIXME Temporary, I need this option for now to get Switch classes generated for the SCDL models
   public static int OPTION_GENERATE_SWITCH=0x100;
   public static int OPTION_NO_EMF=0x200;
+  public static int OPTION_INTERFACE_DO=0x400;
   
   static 
   {
@@ -266,6 +269,10 @@ public abstract class JavaGenerator
     else if (args[index].equalsIgnoreCase("-noEMF"))
     {
       genOptions |= OPTION_NO_EMF;
+    }
+    else if (args[index].equalsIgnoreCase("-interfaceDataObject"))
+    {
+      genOptions |= OPTION_INTERFACE_DO;
     }
     //else if (...)
     else
@@ -507,6 +514,11 @@ public abstract class JavaGenerator
     if ((genOptions & OPTION_NO_EMF) != 0)
     {
       genModel.setRootExtendsClass("org.apache.tuscany.sdo.impl.DataObjectBase");
+    }
+    
+    if ((genOptions & OPTION_INTERFACE_DO) != 0)
+    {
+      genModel.setRootExtendsInterface("commonj.sdo.DataObject");
     }
     
     GenPackage genPackage = (GenPackage)genModel.getGenPackages().get(0);

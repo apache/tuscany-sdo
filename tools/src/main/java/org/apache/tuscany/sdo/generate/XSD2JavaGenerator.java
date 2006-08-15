@@ -169,6 +169,7 @@ public class XSD2JavaGenerator extends JavaGenerator
     System.out.println("  [ -generateLoader ]");
     System.out.println("  [ -noUnsettable ]");
     System.out.println("  [ -noEMF ]");
+    System.out.println("  [ -interfaceDataObject ]");
     System.out.println("  <xsd-file> | <wsdl-file>");
     System.out.println("");
     System.out.println("For example:");

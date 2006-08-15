@@ -86,6 +86,13 @@ public class SchemaFileOption {
      * @parameter
      */
     private Boolean noEMF;
+    
+    /**
+     * With this option, generated interfaces will extend commonj.sdo.DataObject.
+     * 
+     * @parameter
+     */
+    private Boolean interfaceDataObject;
 
     public SchemaFileOption() {
     }
@@ -137,7 +144,7 @@ public class SchemaFileOption {
     public void setNoEMF(Boolean noEMF) {
         this.noEMF = noEMF;
     }
-
+    
     public Boolean isNoInterfaces() {
         return noInterfaces;
     }
@@ -185,5 +192,13 @@ public class SchemaFileOption {
     public void setFileName(File fileName) {
         this.fileName = fileName;
     }
+
+	public Boolean isInterfaceDataObject() {
+		return interfaceDataObject;
+	}
+
+	public void setInterfaceDataObject(Boolean interfaceDataObject) {
+		this.interfaceDataObject = interfaceDataObject;
+	}
 
 }

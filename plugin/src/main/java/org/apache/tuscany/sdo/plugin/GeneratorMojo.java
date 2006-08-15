@@ -123,6 +123,13 @@ public class GeneratorMojo extends AbstractMojo {
      * @parameter
      */
     private Boolean noEMF;
+    
+    /**
+     * With this option, generated interfaces will extend commonj.sdo.DataObject.
+     * 
+     * @parameter
+     */
+    private Boolean interfaceDataObject;
 
     /**
      * Support for generating multiple schema files.
@@ -168,6 +175,9 @@ public class GeneratorMojo extends AbstractMojo {
                 if (null == sf.isNoEMF()) {
                     sf.setNoEMF(noEMF);
                 }
+                if (null == sf.isInterfaceDataObject()) {
+                    sf.setInterfaceDataObject(interfaceDataObject);
+                }
                 if (sf.getFileName() == null || sf.getFileName().length() == 0) {
                     throw new MojoExecutionException("no fileName specfied for schema.");
                 }
@@ -190,6 +200,7 @@ public class GeneratorMojo extends AbstractMojo {
                     schemaFiles[i].setGenerateSwitch(generateSwitch);
                     schemaFiles[i].setNoContainment(noContainment);
                     schemaFiles[i].setNoEMF(noEMF);
+                    schemaFiles[i].setInterfaceDataObject(interfaceDataObject);
                     schemaFiles[i].setNoInterfaces(noInterfaces);
                     schemaFiles[i].setNoNotification(noNotification);
                     schemaFiles[i].setNoUnsettable(noUnsettable);
@@ -205,6 +216,7 @@ public class GeneratorMojo extends AbstractMojo {
                 schemaFiles[0].setGenerateSwitch(generateSwitch);
                 schemaFiles[0].setNoContainment(noContainment);
                 schemaFiles[0].setNoEMF(noEMF);
+                schemaFiles[0].setInterfaceDataObject(interfaceDataObject);
                 schemaFiles[0].setNoInterfaces(noInterfaces);
                 schemaFiles[0].setNoNotification(noNotification);
                 schemaFiles[0].setNoUnsettable(noUnsettable);
@@ -242,8 +254,11 @@ public class GeneratorMojo extends AbstractMojo {
                 if (schemaFiles[i].isNoEMF() != null && schemaFiles[i].isNoEMF().booleanValue()) {
                     genOptions |= JavaGenerator.OPTION_NO_EMF;
                 }
+                if (schemaFiles[i].isInterfaceDataObject() != null && schemaFiles[i].isInterfaceDataObject().booleanValue()) {
+                    genOptions |= JavaGenerator.OPTION_INTERFACE_DO;
+                }
                 
-                XSD2JavaGenerator.generateFromXMLSchema(file.toString(), targetDirectory, javaPackage, prefix, genOptions);
+                XSD2JavaGenerator.generateFromXMLSchema(file.toString(), null, targetDirectory, javaPackage, prefix, genOptions);
             }
             try {
                 marker.createNewFile();
