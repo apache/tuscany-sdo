@@ -382,7 +382,9 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
 
   public static String getDefaultPackageName(String targetNamespace)
   {
-
+      if (targetNamespace == null)
+          return null;
+     
       URI uri = URI.createURI(targetNamespace);
       List parsedName;
       if (uri.isHierarchical())
