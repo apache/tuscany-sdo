@@ -19,6 +19,7 @@ package org.apache.tuscany.sdo.util;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.SDOPackage;
@@ -1648,6 +1650,13 @@ public final class DataObjectUtil
     {
       return String.valueOf(value);
     }
+    
+    if (value instanceof Date)
+    {
+      SimpleDateFormat sdf = new SimpleDateFormat("yyyy'-'MM'-'dd'T'H':'mm':'ss.S'Z'");
+      sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+      return sdf.format((Date) value);
+    }
 
     if (value == null)
     {
@@ -1677,6 +1686,11 @@ public final class DataObjectUtil
       return Byte.valueOf(value);
     }
 
+    if (name == "java.util.Date")
+    {
+      return DataHelper.INSTANCE.toDate(value);
+    }
+    
     if (name == "java.lang.Double" || name == "double" || name == "java.lang.Number")
     {
       return Double.valueOf(value);
@@ -2148,8 +2162,9 @@ public final class DataObjectUtil
         EObject eObject = (EObject)eObjects.get(i);
         EStructuralFeature feature = (EStructuralFeature)((Type)eObject.eClass()).getProperty(attributeName);
         // If feature is null, that means it could be an open feature.
-        if(feature == null){
-        	feature = (EStructuralFeature)DataObjectUtil.getOpenFeature(eObject, attributeName);
+        if (feature == null)
+        {
+          feature = (EStructuralFeature)DataObjectUtil.getOpenFeature(eObject, attributeName);
         }
         if (feature != null)
         {

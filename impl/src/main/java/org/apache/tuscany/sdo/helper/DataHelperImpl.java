@@ -21,7 +21,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -39,47 +38,195 @@ public class DataHelperImpl implements DataHelper
    */
   public synchronized Date toDate(String dateString)
   {
+    Date result = null;
+    dateString = dateString.trim();
+    boolean negative = false;
+    
     if (dateString == null)
     {
       return null;
     }
     
-    DateFormat sdoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'");
-    sdoDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-    try {
-      return sdoDateFormat.parse(dateString);
-    }
-    catch (ParseException parseException)
+    // Determine if it is a negative Date, DateTime, or Duration
+    if (dateString.length() > 2 && dateString.charAt(0) == '-' && dateString.charAt(1) != '-')
     {
+      negative = true;
+      dateString = dateString.substring(1);
     }
     
-    DateFormat [] DATE_PATTERNS =
+    // SDO Date Format ends with a Z
+    
+    if (dateString.endsWith("Z"))
     {
+      SimpleDateFormat[] SDO_DATE_FORMATS = 
+      {
+        new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'"),
+        new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+      };
+    
+      for (int i = 0; i < SDO_DATE_FORMATS.length; i++)
+      {
+        SDO_DATE_FORMATS[i].setTimeZone(TimeZone.getTimeZone("GMT"));
+      }
+      
+      result = checkFormats(dateString, SDO_DATE_FORMATS);
+      
+      // If no match, continue to try further possibilities
+      
+      if (result != null)
+      {
+        if (negative)
+          return handleBCE(result);
+        else
+          return result;
+      }
+      
+    }
+    
+    // Duration format begins with a P
+    
+    if (dateString.startsWith("P"))
+    {
+      // Remove any spaces in the dateString
+        
+      String durationString = dateString.replaceAll(" ", "");
+
+      // For Duration format, there are so many possibilities due to so many optional
+      // inclusions, that we will build the format string rather than create
+      // a potential SimpleDateFormat for each possibility.   
+        
+      SimpleDateFormat[] DURATION_FORMATS = obtainDurationFormats(durationString);
+      result = checkFormats(durationString, DURATION_FORMATS);
+      if (result != null)
+      {
+        if (negative)
+          return handleNegative(result); 
+        else
+          return result;
+      }
+    }
+    
+    // Check the remaining possibilities.  Note that time zone is optional for each.
+    
+    SimpleDateFormat [] DATE_PATTERNS =
+    {
+      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS z"),
+      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss z"),
+      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm z"), 
+      new SimpleDateFormat("'--'MM'-'dd z"),
+      new SimpleDateFormat("'--'MM z"),
+      new SimpleDateFormat("'---'dd zzzz"),
+      new SimpleDateFormat("HH:mm:ss'.'SSS z"),
+      new SimpleDateFormat("HH:mm:ss z"),
+      new SimpleDateFormat("yyyy-MM-dd z"),
+      new SimpleDateFormat("yyyy-MM z"),
+      new SimpleDateFormat("yyyy z"),
       new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS"),
       new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
       new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"),
-      new SimpleDateFormat("'P'yyyy'Y' MM'M' dd'D' 'T' HH'H' mm'M' ss'S.'SSS"),
-      new SimpleDateFormat("--MM zz"),
-      new SimpleDateFormat("--MM-dd zz"),
-      new SimpleDateFormat("---dd zz"),
+      new SimpleDateFormat("'--'MM'-'dd"),
+      new SimpleDateFormat("'--'MM"),
+      new SimpleDateFormat("'---'dd"),
       new SimpleDateFormat("HH:mm:ss'.'SSS"),
+      new SimpleDateFormat("HH:mm:ss"),
       new SimpleDateFormat("yyyy-MM-dd"),
       new SimpleDateFormat("yyyy-MM"),
-      new SimpleDateFormat("yyyy")
+      new SimpleDateFormat("yyyy")      
     };
     
-    for (int i = 0; i < DATE_PATTERNS.length; ++i)
+    result = checkFormats(dateString, DATE_PATTERNS);
+    if (result != null)
     {
-      try
-      {
-        return DATE_PATTERNS[i].parse(dateString);
-      }
-      catch (ParseException parseException)
-      {
-      }
+      if (negative)
+        return handleBCE(result);   
+      else
+        return result;
     }
     
     return null;
+  }
+  
+  private synchronized Date checkFormats (String dateString, SimpleDateFormat[] format_array)
+  {
+    for (int i = 0; i < format_array.length; ++i)
+    {      
+      try
+      {
+        format_array[i].setLenient(false);
+        return format_array[i].parse(dateString);
+      }
+      catch (ParseException parseException)
+      {
+      }    
+    }
+      
+    return null;
+  }
+  
+  public synchronized SimpleDateFormat[] obtainDurationFormats(String dateString)
+  {
+    String first_part, second_part;
+    StringBuffer format_buffer = new StringBuffer("'P'");
+
+    // Must divide it into two parts to distinguish between Months and Minutes
+      
+    int time_index = dateString.indexOf("T");
+    if (time_index != -1)
+    {
+      first_part = dateString.substring(0, time_index + 1);    
+      second_part = dateString.substring(time_index);
+    }
+    else
+    {
+      first_part = dateString;
+      second_part = null;
+    }
+      
+    if (first_part.indexOf("Y") != -1)
+      format_buffer.append("yyyy'Y'");
+    if (first_part.indexOf("M") != -1)
+      format_buffer.append("MM'M'");
+    if (first_part.indexOf("D") != -1)
+      format_buffer.append("dd'D'");
+    if (time_index != -1)
+    {
+      format_buffer.append("'T'");
+       
+      if (second_part.indexOf("H") != -1)
+        format_buffer.append("HH'H'");
+      if (second_part.indexOf("M") != -1)
+        format_buffer.append("mm'M'");
+      if (second_part.indexOf("S.") != -1)
+        format_buffer.append("ss'S'.S");
+      else if (second_part.indexOf("S") != -1)
+        format_buffer.append("ss'S'");
+    }
+
+    String format_string = format_buffer.toString().replaceAll("''", "");
+     
+    SimpleDateFormat [] DURATION_FORMATS = 
+    {
+      new SimpleDateFormat(format_string)
+    };
+
+    return DURATION_FORMATS;
+  }
+  
+  // Return a negative Duration if a negative sign existed in dateString
+  public synchronized Date handleNegative(Date output)
+  {
+    return new Date(0 - output.getTime());
+  }
+  
+  // Return the date in BCE if a negative sign existed in dateString
+  
+  public synchronized Date handleBCE(Date output)
+  {
+    GregorianCalendar temp = new GregorianCalendar();
+    temp.setTime(output);
+    temp.set(GregorianCalendar.ERA, GregorianCalendar.BC);
+        
+    return temp.getTime();
   }
   
   public synchronized Calendar toCalendar(String dateString)
