@@ -191,6 +191,7 @@ public class DateConversionTestCase extends TestCase
         
     }
 
+    /*
     public void testConversionsFromDay() throws Exception
     {
         Test FromDay = new Test();
@@ -312,6 +313,7 @@ public class DateConversionTestCase extends TestCase
         FromYearMonthDay.attemptConversion(TO_MONTH);
         FromYearMonthDay.attemptConversion(TO_DAY);      
     } 
+    */
 
     // Ensure that strings that should be recognized by toDate do not 
     // result in a null Date value.
