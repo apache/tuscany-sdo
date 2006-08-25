@@ -77,6 +77,7 @@ import commonj.sdo.helper.XSDHelper;
  *     [ -generateLoader ]
  *     [ -noUnsettable ]
  *     [ -noEMF ]
+ *     [ -interfaceDataObject ]
  *     
  *   Basic options:
  *   
@@ -519,6 +520,10 @@ public abstract class JavaGenerator
     if ((genOptions & OPTION_INTERFACE_DO) != 0)
     {
       genModel.setRootExtendsInterface("commonj.sdo.DataObject");
+    }
+    else
+    {
+      genModel.setRootExtendsInterface("java.io.Serializable");
     }
     
     GenPackage genPackage = (GenPackage)genModel.getGenPackages().get(0);
