@@ -22,6 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
+import org.apache.tuscany.sdo.model.ModelPackage;
 import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -54,6 +55,7 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
   public SDOXSDEcoreBuilder(ExtendedMetaData extendedMetaData)
   {
     super(extendedMetaData);
+    populateTypeToTypeObjectMap(ModelPackage.eINSTANCE);
   }
 
   /**
