@@ -163,24 +163,21 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
   }
 
   private void initAliasNames() {
-    if (propertyNameToPropertyMap == null) //FB use eNameToFeatureMap for this?
+    Map result = new HashMap();
+    for (Iterator i = getProperties().iterator(); i.hasNext();)
     {
-      Map result = new HashMap();
-      for (Iterator i = getProperties().iterator(); i.hasNext(); )
-      {
-        Property property = (Property)i.next();
-        result.put(property.getName(), property);
+      Property property = (Property)i.next();
+      result.put(property.getName(), property);
 
-        List aliasNames = property.getAliasNames();
-        for (int count = aliasNames.size(); count > 0; )
-        {
-          result.put(aliasNames.get(--count), property);
-        }
+      List aliasNames = property.getAliasNames();
+      for (int count = aliasNames.size(); count > 0;)
+      {
+        result.put(aliasNames.get(--count), property);
       }
-      propertyNameToPropertyMap = result;
     }
+    propertyNameToPropertyMap = result;
   }
-  
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -188,10 +185,9 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
    */
   public Property getProperty(String propertyName)
   {
-    initAliasNames();
+    if (propertyNameToPropertyMap == null) initAliasNames();
     Property property = (Property)propertyNameToPropertyMap.get(propertyName);
     if (property == null && !isOpen()) {
-      propertyNameToPropertyMap = null;
       initAliasNames();
       property = (Property)propertyNameToPropertyMap.get(propertyName);
     }
