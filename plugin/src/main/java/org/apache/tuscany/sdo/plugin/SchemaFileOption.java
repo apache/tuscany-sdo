@@ -1,7 +1,6 @@
 package org.apache.tuscany.sdo.plugin;
 
 import java.io.File;
-import java.util.List;
 
 public class SchemaFileOption {
     
@@ -75,12 +74,6 @@ public class SchemaFileOption {
     private Boolean generateSwitch;
 
     /**
-     * @parameter expression="${project.compileSourceRoots}"
-     * @readonly
-     */
-    private List compilerSourceRoots;
-
-    /**
      * With this option, generated code will not have EMF references.
      * 
      * @parameter
@@ -95,14 +88,6 @@ public class SchemaFileOption {
     private Boolean interfaceDataObject;
 
     public SchemaFileOption() {
-    }
-
-    public List getCompilerSourceRoots() {
-        return compilerSourceRoots;
-    }
-
-    public void setCompilerSourceRoots(List compilerSourceRoots) {
-        this.compilerSourceRoots = compilerSourceRoots;
     }
 
     public Boolean isGenerateLoader() {

@@ -19,11 +19,17 @@ package org.apache.tuscany.sdo.plugin;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.maven.model.Plugin;
+import org.apache.maven.model.PluginExecution;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-
+import org.apache.maven.plugin.descriptor.MojoDescriptor;
+import org.apache.maven.plugin.descriptor.PluginDescriptor;
+import org.apache.maven.project.MavenProject;
 import org.apache.tuscany.sdo.generate.JavaGenerator;
 import org.apache.tuscany.sdo.generate.XSD2JavaGenerator;
 
@@ -112,10 +118,16 @@ public class GeneratorMojo extends AbstractMojo {
     private Boolean generateSwitch;
 
     /**
-     * @parameter expression="${project.compileSourceRoots}"
-     * @readonly
+     * @parameter expression="${project}"
+     * 
+     * @required
      */
-    private List compilerSourceRoots;
+    private MavenProject project;
+
+    /**
+     * @parameter expression="${plugin.mojos}"
+     */
+    private List mojos;
 
     /**
      * With this option, generated code will not have EMF references.
@@ -123,7 +135,7 @@ public class GeneratorMojo extends AbstractMojo {
      * @parameter
      */
     private Boolean noEMF;
-    
+
     /**
      * With this option, generated interfaces will extend commonj.sdo.DataObject.
      * 
@@ -139,7 +151,7 @@ public class GeneratorMojo extends AbstractMojo {
     private SchemaFileOption[] schemaFiles;
 
     public void execute() throws MojoExecutionException {
-        
+
         // check for schemaFiles parameter first, if properties are not set, use global property
         if (null != schemaFiles) {
             for (int i = 0; i < schemaFiles.length; ++i) {
@@ -169,9 +181,9 @@ public class GeneratorMojo extends AbstractMojo {
                 if (null == sf.isGenerateSwitch()) {
                     sf.setGenerateSwitch(generateSwitch);
                 }
-                if (null == sf.getCompilerSourceRoots()) {
-                    sf.setCompilerSourceRoots(compilerSourceRoots);
-                }
+                // if (null == sf.getCompilerSourceRoots()) {
+                // sf.setCompilerSourceRoots(compileSourceRoots);
+                // }
                 if (null == sf.isNoEMF()) {
                     sf.setNoEMF(noEMF);
                 }
@@ -187,7 +199,7 @@ public class GeneratorMojo extends AbstractMojo {
                 }
             }
         } else {
-            
+
             if (schemaFile == null) {
                 File[] files = new File(schemaDir).listFiles(FILTER);
                 schemaFiles = new SchemaFileOption[files.length];
@@ -195,7 +207,7 @@ public class GeneratorMojo extends AbstractMojo {
                     schemaFiles[i] = new SchemaFileOption();
                     schemaFiles[i].setFileName(files[i]);
                     schemaFiles[i].setJavaPackage(javaPackage);
-                    schemaFiles[i].setCompilerSourceRoots(compilerSourceRoots);
+                    // schemaFiles[i].setCompilerSourceRoots(compileSourceRoots);
                     schemaFiles[i].setGenerateLoader(generateLoader);
                     schemaFiles[i].setGenerateSwitch(generateSwitch);
                     schemaFiles[i].setNoContainment(noContainment);
@@ -211,7 +223,7 @@ public class GeneratorMojo extends AbstractMojo {
                 schemaFiles = new SchemaFileOption[] { new SchemaFileOption() };
                 schemaFiles[0].setFileName(schemaFile);
                 schemaFiles[0].setJavaPackage(javaPackage);
-                schemaFiles[0].setCompilerSourceRoots(compilerSourceRoots);
+                // schemaFiles[0].setCompilerSourceRoots(compileSourceRoots);
                 schemaFiles[0].setGenerateLoader(generateLoader);
                 schemaFiles[0].setGenerateSwitch(generateSwitch);
                 schemaFiles[0].setNoContainment(noContainment);
@@ -230,7 +242,7 @@ public class GeneratorMojo extends AbstractMojo {
             File marker = new File(targetDirectory, ".gen#" + file.getName());
             if (file.lastModified() > marker.lastModified()) {
                 getLog().info("Generating SDO interfaces from " + file);
-                
+
                 int genOptions = 0;
 
                 if (schemaFiles[i].isNoInterfaces() != null && schemaFiles[i].isNoInterfaces().booleanValue()) {
@@ -254,11 +266,13 @@ public class GeneratorMojo extends AbstractMojo {
                 if (schemaFiles[i].isNoEMF() != null && schemaFiles[i].isNoEMF().booleanValue()) {
                     genOptions |= JavaGenerator.OPTION_NO_EMF;
                 }
-                if (schemaFiles[i].isInterfaceDataObject() != null && schemaFiles[i].isInterfaceDataObject().booleanValue()) {
+                if (schemaFiles[i].isInterfaceDataObject() != null
+                        && schemaFiles[i].isInterfaceDataObject().booleanValue()) {
                     genOptions |= JavaGenerator.OPTION_INTERFACE_DO;
                 }
-                
-                XSD2JavaGenerator.generateFromXMLSchema(file.toString(), null, targetDirectory, javaPackage, prefix, genOptions);
+
+                XSD2JavaGenerator.generateFromXMLSchema(file.toString(), null, targetDirectory, javaPackage, prefix,
+                        genOptions);
             }
             try {
                 marker.createNewFile();
@@ -268,7 +282,23 @@ public class GeneratorMojo extends AbstractMojo {
             marker.setLastModified(System.currentTimeMillis());
         }
 
-        compilerSourceRoots.add(targetDirectory);
+        targetDirectory = targetDirectory.replace('/', File.separatorChar);
+
+        // FIXME: [rfeng] Workaround to figure out the current execution phase
+        MojoDescriptor descriptor = (MojoDescriptor) mojos.get(0);
+        PluginDescriptor pluginDescriptor = descriptor.getPluginDescriptor();
+        Map pluginMap = project.getBuild().getPluginsAsMap();
+        Plugin plugin = (Plugin) pluginMap.get(pluginDescriptor.getGroupId() + ":" + pluginDescriptor.getArtifactId());
+        // How to get the current execution id?
+        for (Iterator i = plugin.getExecutions().iterator(); i.hasNext();) {
+            PluginExecution execution = (PluginExecution) i.next();
+            String phase = execution.getPhase();
+            if (phase != null && phase.indexOf("-test-") != -1) {
+                project.addTestCompileSourceRoot(targetDirectory);
+            } else {
+                project.addCompileSourceRoot(targetDirectory);
+            }
+        }
     }
 
     private static final FileFilter FILTER = new FileFilter() {
