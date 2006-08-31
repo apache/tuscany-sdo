@@ -28,7 +28,7 @@
     <dependencies>
         <dependency>
             <groupId>commonj</groupId>
-            <artifactId>sdo-api</artifactId>
+            <artifactId>sdo-api-r${specVersion}</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>

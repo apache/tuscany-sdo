@@ -37,6 +37,7 @@
     </repositories>
 
     <properties>
+        <specVersion>2.0.1</specVersion>
         <emfVersion>2.2.1-SNAPSHOT</emfVersion>
     </properties>
 
@@ -72,6 +73,12 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>commonj</groupId>
+                <artifactId>sdo-api-r${specVersion}</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>compile</scope>
+            </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
