@@ -16,7 +16,7 @@
  -->
 <project>
     <parent>
-        <groupId>org.apache.tuscany</groupId>
+        <groupId>org.apache.tuscany.sdo</groupId>
         <artifactId>tuscany-sdo</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>

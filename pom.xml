@@ -16,7 +16,12 @@
  -->
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>org.apache.tuscany</groupId>
+    <parent>
+        <groupId>org.apache.tuscany</groupId>
+        <artifactId>parent</artifactId>
+        <version>1-SNAPSHOT</version>
+    </parent>
+    <groupId>org.apache.tuscany.sdo</groupId>
     <artifactId>tuscany-sdo</artifactId>
     <packaging>pom</packaging>
     <name>Tuscany SDO Implementation Project</name>
@@ -29,10 +34,6 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
-        </repository>
-        <repository>
-            <id>jsdelfino</id>
-            <url>http://people.apache.org/~jsdelfino/maven2</url>
         </repository>
     </repositories>
 
