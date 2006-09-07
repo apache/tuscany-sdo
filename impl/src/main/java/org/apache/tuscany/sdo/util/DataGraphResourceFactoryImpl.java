@@ -543,6 +543,11 @@ public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
                 }
                 else if (eDataGraph.getERootObject() == null)
                 {
+                  if (useNewMethods)
+                  {
+                    handleSchemaLocation();
+                  }
+                  processSchemaLocations(prefix, name);
                   if (processAnyXML)
                   {
                     // Ensure that anything can be handled, even if it's not recognized.

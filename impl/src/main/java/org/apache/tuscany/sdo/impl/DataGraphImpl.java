@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.tuscany.sdo.SDOFactory;
@@ -774,7 +775,6 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
     return getWriteReplacement();
   }
 
-  /*
   public EObject eObjectForURIFragmentSegment(String uriFragmentSegment)
   {
     if (uriFragmentSegment.startsWith("@models."))
@@ -800,7 +800,6 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
       return super.eObjectForURIFragmentSegment(uriFragmentSegment);
     }
   }
-  */
 
   /**
    * <!-- begin-user-doc -->

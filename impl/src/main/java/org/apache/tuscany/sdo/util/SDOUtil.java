@@ -24,12 +24,15 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.SDOFactory;
@@ -67,8 +70,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
-import commonj.sdo.Type;
 import commonj.sdo.Sequence;
+import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLHelper;
@@ -229,6 +232,36 @@ public final class SDOUtil
     ((DataGraphImpl)dataGraph).getDataGraphResource().save(outputStream, options);
   }
   
+  /**
+   * Registers the specified {@link Type type}(s) to be serialized along with
+   * the {@link DataObject data object}(s) in the graph.
+   * @param dataGraph The DataGraph in which to register the specified type(s)
+   * @param types A list containing the type(s) to be registered or null to automatically register all 
+   * types used by the objects in the DataGraph.
+   */
+  public static void registerDataGraphTypes(DataGraph dataGraph, List/*Type*/ types)
+  {
+    ResourceSet resourceSet = ((DataGraphImpl)dataGraph).getResourceSet();
+  
+    Set/*EPackage*/ packages = new HashSet(); 
+    for (final Iterator iterator = types.iterator(); iterator.hasNext(); ) {
+      EClassifier type = (EClassifier)iterator.next();  
+      packages.add(type.getEPackage());
+    }
+
+    for (Iterator iterator = packages.iterator(); iterator.hasNext(); ) {
+      EPackage typePackage = (EPackage)iterator.next();
+      Resource resource = typePackage.eResource();
+      if (resource == null) {
+        resource = resourceSet.createResource(URI.createURI(".ecore"));
+        resource.setURI(URI.createURI(typePackage.getNsURI()));
+        resource.getContents().add(typePackage);
+      }
+      else if (resource.getResourceSet() != resourceSet)
+        resourceSet.getResources().add(resource);
+    }
+  }
+
   /**
    * Create a new TypeHelper instance. The returned type helper will have visibility of types registered
    *  directly by calling a define method on it or by calling define on an associated XSDHelper. It will
