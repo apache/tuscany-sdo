@@ -234,20 +234,25 @@ public final class SDOUtil
   
   /**
    * Registers the specified {@link Type type}(s) to be serialized along with
-   * the {@link DataObject data object}(s) in the graph.
-   * @param dataGraph The DataGraph in which to register the specified type(s)
-   * @param types A list containing the type(s) to be registered or null to automatically register all 
-   * types used by the objects in the DataGraph.
+   * the {@link DataObject data object}(s) in the graph. For example, the list of types returned from 
+   * {@link TypeHelper#define} can be registered with this method, allowing deserialization of
+   * instances of a dynamically defined model.
+   * @param dataGraph the DataGraph in which to register the specified type(s).
+   * @param types a list containing the type(s) to be registered (TBD or null to automatically register all 
+   * types used by the objects in the DataGraph).
    */
   public static void registerDataGraphTypes(DataGraph dataGraph, List/*Type*/ types)
   {
-    ResourceSet resourceSet = ((DataGraphImpl)dataGraph).getResourceSet();
-  
+    //if (types == null)
+    //  types = SDOUtil.getDataGraphTypes(dataGraph);
+    
     Set/*EPackage*/ packages = new HashSet(); 
     for (final Iterator iterator = types.iterator(); iterator.hasNext(); ) {
       EClassifier type = (EClassifier)iterator.next();  
       packages.add(type.getEPackage());
     }
+
+    ResourceSet resourceSet = ((DataGraphImpl)dataGraph).getResourceSet();
 
     for (Iterator iterator = packages.iterator(); iterator.hasNext(); ) {
       EPackage typePackage = (EPackage)iterator.next();
