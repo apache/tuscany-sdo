@@ -604,7 +604,9 @@ public final class SDOUtil
     xsdToSdoMappings.put("anySimpleType", "Object");
     xsdToSdoMappings.put("anyType", "DataObject");
     xsdToSdoMappings.put("anyURI", "URI");
-    xsdToSdoMappings.put("base64Binary", "Bytes");
+    // SDO Spec issue: both base64Binary and hexBinary are mapped to Bytes. Workaround is to let base64Binary
+    // fall through to use EMF's default: XMLTypePackage.base64Binary
+    // xsdToSdoMappings.put("base64Binary", "Bytes");
     xsdToSdoMappings.put("boolean", "Boolean");
     xsdToSdoMappings.put("byte", "Byte");
     xsdToSdoMappings.put("date", "YearMonthDay");

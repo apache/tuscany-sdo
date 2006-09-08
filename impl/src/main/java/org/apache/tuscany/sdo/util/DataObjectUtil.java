@@ -62,6 +62,7 @@ import org.eclipse.emf.ecore.xmi.impl.EMOFResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLOptionsImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
 import commonj.sdo.ChangeSummary;
@@ -1658,6 +1659,10 @@ public final class DataObjectUtil
       return sdf.format((Date) value);
     }
 
+    if (value instanceof byte[]) {
+        return XMLTypeFactory.eINSTANCE.convertHexBinary((byte[])value);
+    }
+    
     if (value == null)
     {
       return null;

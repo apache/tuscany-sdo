@@ -94,7 +94,7 @@ public class TypeRoundTripTestCase extends TestCase {
     Test[] tests = {
       new Test(types.getType(URI, "Boolean"),      "true", new Boolean(true)),
       new Test(types.getType(URI, "Byte"),         "49", new Byte((byte)49)),
-      new Test(types.getType(URI, "Bytes"),        "Zm9v", "foo", new BytesComparator()),
+      new Test(types.getType(URI, "Bytes"),        "666F6F", "foo", new BytesComparator()),
       new Test(types.getType(URI, "Character"),    "a", new Character('a')),
       new Test(types.getType(URI, "Date"),         "2005-12-12T12:12:12.012Z", DataHelper.INSTANCE.toDate("2005-12-12T12:12:12.012Z")),
       new Test(types.getType(URI, "DateTime"),     "2005-12-12T12:12:12zz", "2005-12-12T12:12:12zz"),

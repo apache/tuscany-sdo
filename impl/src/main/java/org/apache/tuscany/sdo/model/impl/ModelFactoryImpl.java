@@ -455,7 +455,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public byte[] createBytesFromString(EDataType eDataType, String initialValue)
   {
-    return XMLTypeFactory.eINSTANCE.createBase64Binary(initialValue);
+    return XMLTypeFactory.eINSTANCE.createHexBinary(initialValue);
   }
 
   /**
@@ -466,9 +466,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
   public String convertBytesToString(EDataType eDataType, Object instanceValue)
   {
     if (instanceValue instanceof byte[]) {
-      return XMLTypeFactory.eINSTANCE.convertBase64Binary((byte[])instanceValue);
+      return XMLTypeFactory.eINSTANCE.convertHexBinary((byte[])instanceValue);
     } else {
-      return XMLTypeFactory.eINSTANCE.convertBase64Binary(instanceValue.toString().getBytes());
+      return XMLTypeFactory.eINSTANCE.convertHexBinary(instanceValue.toString().getBytes());
     }
   }
 
