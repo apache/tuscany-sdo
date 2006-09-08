@@ -165,7 +165,7 @@ public class TypeConversionTestCase extends TestCase
         Test(String path, int index)
         {
             this.test_obj = DataFactory.INSTANCE.create(API_TEST_TYPE);
-            this.index_parm = new Object[] {Integer.valueOf(index)};
+            this.index_parm = new Object[] {new Integer(index)};
             this.property_parm = new Object[] {API_TEST_TYPE.getProperty(path)};
             this.path_parm = new Object[] {path};
             this.expected_value = null;
@@ -303,7 +303,7 @@ public class TypeConversionTestCase extends TestCase
                 {
                     Date temp = (Date) obj1;
                     
-                    return compare(Long.valueOf(temp.getTime()), obj2);
+                    return compare(new Long(temp.getTime()), obj2);
                 }                                      
                 
             }
@@ -362,7 +362,7 @@ public class TypeConversionTestCase extends TestCase
                     multiplier *= 256;
                 }
 
-                return compare(obj2, Long.valueOf(result));
+                return compare(obj2, new Long(result));
             }
             
             else if (obj2.getClass().toString().charAt(6) == '[')
@@ -527,7 +527,7 @@ public class TypeConversionTestCase extends TestCase
     {
         Test FromChar = new Test("charVal", CHAR_VAL_INDEX);
         
-        FromChar.initialize(char.class, "Char", Character.valueOf('?'));
+        FromChar.initialize(char.class, "Char", new Character('?'));
         
         FromChar.attemptConversion(TO_CHAR);
         FromChar.attemptConversion(TO_STRING);
@@ -537,7 +537,7 @@ public class TypeConversionTestCase extends TestCase
     {
         Test FromChar = new Test("charVal", CHAR_VAL_INDEX);
         
-        FromChar.initialize(char.class, "Char", Character.valueOf('?'));
+        FromChar.initialize(char.class, "Char", new Character('?'));
 
 //        FromChar.checkConversionException(TO_BOOLEAN, ClassCastException.class);        
 //        FromChar.checkConversionException(TO_BYTE, ClassCastException.class);
@@ -559,7 +559,7 @@ public class TypeConversionTestCase extends TestCase
     {
         Test FromDouble = new Test("doubleVal", DOUBLE_VAL_INDEX);
         
-        FromDouble.initialize(double.class, "Double", Double.valueOf(Double.MAX_VALUE));
+        FromDouble.initialize(double.class, "Double", new Double(Double.MAX_VALUE));
         
         FromDouble.attemptConversion(TO_BYTE);
         FromDouble.attemptConversion(TO_DOUBLE);
@@ -576,7 +576,7 @@ public class TypeConversionTestCase extends TestCase
     {
         Test FromDouble = new Test("doubleVal", DOUBLE_VAL_INDEX);
         
-        FromDouble.initialize(double.class, "Double", Double.valueOf(Double.MAX_VALUE));
+        FromDouble.initialize(double.class, "Double", new Double(Double.MAX_VALUE));
 
 //        FromDouble.checkConversionException(TO_BOOLEAN, ClassCastException.class);
 //        FromDouble.checkConversionException(TO_CHAR, ClassCastException.class);
@@ -591,7 +591,7 @@ public class TypeConversionTestCase extends TestCase
     {
         Test FromFloat = new Test("floatVal", FLOAT_VAL_INDEX);
         
-        FromFloat.initialize(float.class, "Float", Float.valueOf(Float.MIN_VALUE));
+        FromFloat.initialize(float.class, "Float", new Float(Float.MIN_VALUE));
         
         FromFloat.attemptConversion(TO_BYTE);
         FromFloat.attemptConversion(TO_DOUBLE);
@@ -608,7 +608,7 @@ public class TypeConversionTestCase extends TestCase
     {
         Test FromFloat = new Test("floatVal", FLOAT_VAL_INDEX);
         
-        FromFloat.initialize(float.class, "Float", Float.valueOf(Float.MIN_VALUE));
+        FromFloat.initialize(float.class, "Float", new Float(Float.MIN_VALUE));
 
 //        FromFloat.checkConversionException(TO_BOOLEAN, ClassCastException.class);
 //        FromFloat.checkConversionException(TO_CHAR, ClassCastException.class);
@@ -623,7 +623,7 @@ public class TypeConversionTestCase extends TestCase
     {
         Test FromInt = new Test("intVal", INT_VAL_INDEX);
         
-        FromInt.initialize(int.class, "Int", Integer.valueOf(5));
+        FromInt.initialize(int.class, "Int", new Integer(5));
         
         FromInt.attemptConversion(TO_BYTE);
         FromInt.attemptConversion(TO_DOUBLE);
@@ -640,7 +640,7 @@ public class TypeConversionTestCase extends TestCase
     {
         Test FromInt = new Test("intVal", INT_VAL_INDEX);
         
-        FromInt.initialize(int.class, "Int", Integer.valueOf(5));
+        FromInt.initialize(int.class, "Int", new Integer(5));
 
 //        FromInt.checkConversionException(TO_BOOLEAN, ClassCastException.class);
 //        FromInt.checkConversionException(TO_CHAR, ClassCastException.class);
@@ -655,7 +655,7 @@ public class TypeConversionTestCase extends TestCase
     {
         Test FromLong = new Test("longVal", LONG_VAL_INDEX);
         
-        FromLong.initialize(long.class, "Long", Long.valueOf(7000));
+        FromLong.initialize(long.class, "Long", new Long(7000L));
         
         FromLong.attemptConversion(TO_BYTE);
         FromLong.attemptConversion(TO_DOUBLE);
@@ -673,7 +673,7 @@ public class TypeConversionTestCase extends TestCase
     {
         Test FromLong = new Test("longVal", LONG_VAL_INDEX);
         
-        FromLong.initialize(long.class, "Long", Long.valueOf(7000));
+        FromLong.initialize(long.class, "Long", new Long(7000L));
 
 //        FromLong.checkConversionException(TO_BOOLEAN, ClassCastException.class);
 //        FromLong.checkConversionException(TO_CHAR, ClassCastException.class);
