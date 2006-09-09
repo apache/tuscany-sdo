@@ -43,6 +43,8 @@ import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XSDHelper;
 
 public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
+    private static final QName XSI_TYPE_QNAME = new QName("http://www.w3.org/2001/XMLSchema-instance", "type", "xsi");
+    private Property rootElement = null;
     private DataObject dataObject;
 
     private String rootElementURI;
@@ -98,9 +100,20 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         this.rootElementName = rootElementName;
         this.typeHelper = typeHelper == null ? TypeHelper.INSTANCE : typeHelper;
         this.xsdHelper = (xsdHelper != null) ? xsdHelper : ((typeHelper == null) ? XSDHelper.INSTANCE : SDOUtil.createXSDHelper(typeHelper));
+        rootElement = this.xsdHelper.getGlobalProperty(rootElmentURI, rootElementName, true);
         populateProperties();
     }
 
+    protected DataObjectXMLStreamReader(Property rootElement, DataObject dataObject, TypeHelper typeHelper, XSDHelper xsdHelper) {
+        this.typeHelper = typeHelper == null ? TypeHelper.INSTANCE : typeHelper;
+        this.xsdHelper = (xsdHelper != null) ? xsdHelper : ((typeHelper == null) ? XSDHelper.INSTANCE : SDOUtil.createXSDHelper(typeHelper));
+        this.rootElement = rootElement;
+        this.dataObject = dataObject;
+        this.rootElementURI = xsdHelper.getNamespaceURI(rootElement);
+        this.rootElementName = xsdHelper.getLocalName(rootElement);
+        populateProperties();
+    }
+    
     public DataObjectXMLStreamReader(XMLDocument document, TypeHelper typeHelper) {
         this.dataObject = document.getRootObject();
         this.rootElementName = document.getRootElementName();
@@ -205,7 +218,8 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             Map.Entry entry = new NameValuePair(qname, SDOUtil.convertToString(propertyType, value));
             propertyList.add(entry);
         } else {
-            DataObjectXMLStreamReader childReader = new DataObjectXMLStreamReader((DataObject) value, uri, name, typeHelper, xsdHelper);
+            DataObjectXMLStreamReader childReader = new DataObjectXMLStreamReader(property, (DataObject) value, typeHelper, xsdHelper);
+            childReader.rootElement = property;
             Map.Entry entry = new NameValuePair(qname, childReader);
             propertyList.add(entry);
         }
@@ -222,6 +236,16 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         List elementList = new ArrayList();
         List attributeList = new ArrayList();
         Type type = dataObject.getType();
+        if (rootElement != null) {
+            Type modelType = rootElement.getType();
+            if (type.getBaseTypes().contains(modelType)) {
+                QName realTypeName = namespaceContext.createQName(type.getURI(), xsdHelper.getLocalName(type));
+                String typeName = realTypeName.getPrefix() + ":" + realTypeName.getLocalPart();
+                NameValuePair pair = new NameValuePair(XSI_TYPE_QNAME, typeName);
+                attributeList.add(pair);
+            }
+        }
+        
         if (type.isSequenced()) {
             Sequence sequence = dataObject.getSequence();
             for (int i = 0; i < sequence.size(); i++) {
