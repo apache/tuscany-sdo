@@ -363,8 +363,11 @@ public final class SDOUtil
     }
 
     EClassifier eClassifier = ePackage.getEClassifier(name);
-    if (eClassifier != null)
-      throw new IllegalArgumentException(); // already defined
+    if (eClassifier != null) // already defined?
+    {
+      //throw new IllegalArgumentException();
+      return null;
+    }
     
     if (name != null)
     { 
@@ -408,6 +411,8 @@ public final class SDOUtil
       ExtendedMetaData.INSTANCE.setFeatureKind(eAttribute, ExtendedMetaData.ELEMENT_WILDCARD_FEATURE);
       ExtendedMetaData.INSTANCE.setProcessingKind(eAttribute, ExtendedMetaData.LAX_PROCESSING);
       ExtendedMetaData.INSTANCE.setWildcards(eAttribute, Collections.singletonList("##any"));
+      
+      //FB TBD Add an "anyAttribute" EAttribute as well.
       
       if (type.isSequenced()) {
         eAttribute.setDerived(true);
@@ -465,16 +470,24 @@ public final class SDOUtil
   
   public static Property createProperty(Type containingType, String name, Type propertyType)
   {
-    EStructuralFeature eStructuralFeature = propertyType.isDataType() ? (EStructuralFeature)SDOFactory.eINSTANCE.createAttribute() : (EStructuralFeature)SDOFactory.eINSTANCE.createReference();
+  	EStructuralFeature eStructuralFeature = 
+      propertyType.isDataType() ? 
+        (EStructuralFeature)SDOFactory.eINSTANCE.createAttribute() :
+        (EStructuralFeature)SDOFactory.eINSTANCE.createReference();
+
     eStructuralFeature.setName(name);
     eStructuralFeature.setEType((EClassifier)propertyType);
     ((EClass)containingType).getEStructuralFeatures().add(eStructuralFeature);
 
     //if (containingType.getName() == null)
-    if ("".equals(ExtendedMetaData.INSTANCE.getName((EClass)containingType)))
+    if ("".equals(ExtendedMetaData.INSTANCE.getName((EClass)containingType))) // DocumentRoot containingType?
     {
+      //FB TBD ... figure out how to decide whether to use ELEMENT_FEATURE or ATTRIBUTE_FEATURE
       ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
+      
       ExtendedMetaData.INSTANCE.setNamespace(eStructuralFeature, containingType.getURI());
+      //FB???eStructuralFeature.setUnique(false);
+      //FB???eStructuralFeature.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
     }
     
     if (containingType.isSequenced()) {

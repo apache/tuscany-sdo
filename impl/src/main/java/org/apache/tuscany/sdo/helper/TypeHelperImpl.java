@@ -112,6 +112,11 @@ public class TypeHelperImpl implements TypeHelper
     
     boolean isDataType = modeledType.isDataType();
     Type definedType = SDOUtil.createType(this, modeledType.getUri(), modeledType.getName(), isDataType);  
+    if (definedType == null)
+    {
+      // If type already defined, return the existing Type.
+      return getType(modeledType.getUri(), modeledType.getName());
+    }
     
     SDOUtil.setJavaClassName(definedType, modeledType.getInstanceClassName()); 
     
@@ -211,5 +216,68 @@ public class TypeHelperImpl implements TypeHelper
       return definedContainingType.getProperty(propertyName);
     }
   }
+  
+  public static final String TUSCANY_NO_URI="http://tuscany-no-uri";
+  
+  public Property defineOpenContentProperty(String uri, DataObject property)
+  {
+    // validate property and get type
+    if (!(property instanceof org.apache.tuscany.sdo.model.impl.PropertyImpl))
+      throw new IllegalArgumentException();
+    org.apache.tuscany.sdo.model.Property modeledProperty = (org.apache.tuscany.sdo.model.Property)property;
+    Type propertyType = getDefinedType(modeledProperty.getType_());
 
+    if (uri == null) uri = TUSCANY_NO_URI;
+
+    // get/create document root
+    EPackage ePackage = extendedMetaData.getPackage(uri);
+    Type documentRoot = 
+      ePackage != null ? (Type)extendedMetaData.getType(extendedMetaData.getPackage(uri), "") : null;
+    if (documentRoot == null) 
+    {
+      documentRoot = SDOUtil.createType(this, uri, null, false);
+    }
+
+    // Determine if property already exists
+    Property newProperty = documentRoot.getProperty(modeledProperty.getName());
+    if (newProperty == null)
+    {
+      //FB TBD ... is this code really supposed to be the same as in define()? If so, factor it out and reuse
+       
+      // Create the new property 'under' the document root.....
+      newProperty = SDOUtil.createProperty(documentRoot, modeledProperty.getName(), propertyType);
+
+      // Propagate the modeled property's attributes
+      SDOUtil.setMany(newProperty, modeledProperty.isMany());
+      SDOUtil.setDefault(newProperty, modeledProperty.getDefault_());
+      SDOUtil.setReadOnly(newProperty, modeledProperty.isReadOnly());
+      for (Iterator iter = modeledProperty.getAliasName().iterator(); iter.hasNext();)
+      {
+        String aliasName = (String)iter.next();
+        SDOUtil.addAliasName(newProperty, aliasName);
+      }
+      if (!propertyType.isDataType())
+      {
+        SDOUtil.setContainment(newProperty, modeledProperty.isContainment());
+        if (modeledProperty.getOpposite_() != null)
+        {
+          SDOUtil.setOpposite(newProperty, getDefinedProperty(modeledProperty.getOpposite_()));
+        }
+      }
+    }
+    else
+    {
+      // if property already exists, validate the expected type
+      if (!newProperty.getType().equals(propertyType))
+        throw new IllegalArgumentException();
+    }
+
+    return newProperty;
+  }
+
+  public Property getOpenContentProperty(String uri, String propertyName)
+  {
+    //FB TBD ... in the future we will allow elements or attributes - see SDOUtil.createProperty()
+    return (Property)extendedMetaData.getElement(uri, propertyName);
+  }  
 }

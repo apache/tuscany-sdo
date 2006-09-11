@@ -558,7 +558,7 @@ public class DefineTypeTestCase extends TestCase
     openQuoteType.set("name", "OpenQuote");
     openQuoteType.set("open", Boolean.TRUE);
     openQuoteType.setBoolean("open", true);
-    
+
     types.define(openQuoteType);
     
     // Define new type - CompanyType
@@ -574,46 +574,37 @@ public class DefineTypeTestCase extends TestCase
     
     types.define(companyType);
     
-    // Define a global type
-    DataObject globalType = factory.create("commonj.sdo", "Type");
-    globalType.set("uri", "http://www.example.com/open");
-    // Don't set the type's name - null is used for types containing global properties.
-    
-    DataObject symbolProperty = globalType.createDataObject("property");
+    // Define open content property - company
+    DataObject symbolProperty = factory.create("commonj.sdo", "Property");
     symbolProperty.set("name", "symbol");
     symbolProperty.set("type", stringType);
-    symbolProperty.set("containment", Boolean.TRUE);
-    
-    // Define a global property - company
-    DataObject companyProperty = globalType.createDataObject("property");
+    types.defineOpenContentProperty("http://www.example.com/open", symbolProperty);
+
+    // Define open content property - company
+    DataObject companyProperty = factory.create("commonj.sdo", "Property");
     companyProperty.set("name", "company");
     companyProperty.set("type", companyType);
     companyProperty.set("containment", Boolean.TRUE);
+    types.defineOpenContentProperty("http://www.example.com/open", companyProperty);
     
-    // Define a global property - price
-    DataObject priceProperty = globalType.createDataObject("property");
+    // Define open content property - price
+    DataObject priceProperty = factory.create("commonj.sdo", "Property");
     priceProperty.set("name", "price");
     priceProperty.set("type", decimalType);
-    
-    types.define(globalType);
+    types.defineOpenContentProperty("http://www.example.com/open", priceProperty);
     
     // Create DataObject instances
     DataObject openQuote = factory.create("http://www.example.com/open", "OpenQuote");
-    
     assertTrue(openQuote.getType().isOpen());
     
-    // Get global type
-    Type definedGlobalType = types.getType("http://www.example.com/open", null);
-    
-    Property definedSymbolProperty = definedGlobalType.getProperty("symbol");
+    Property definedSymbolProperty = types.getOpenContentProperty("http://www.example.com/open", "symbol");
     openQuote.set(definedSymbolProperty, "s1");
     
-    Property definedCompanyProperty = definedGlobalType.getProperty("company");
-    
+    Property definedCompanyProperty = types.getOpenContentProperty("http://www.example.com/open", "company");
     DataObject company = openQuote.createDataObject(definedCompanyProperty);
     company.setString("name", "FlyByNightTechnology");
       
-    Property definedPriceProperty = definedGlobalType.getProperty("price");
+    Property definedPriceProperty = types.getOpenContentProperty("http://www.example.com/open", "price");
     openQuote.setBigDecimal(definedPriceProperty, new BigDecimal("1000.0"));
     
     assertEquals(definedPriceProperty.getType(), decimalType);
