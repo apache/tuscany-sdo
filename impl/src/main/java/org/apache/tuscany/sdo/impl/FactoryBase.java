@@ -178,6 +178,11 @@ public class FactoryBase extends EPackageImpl
     return (Type)ecorePackage.getEFeatureMapEntry();
   }
   
+  protected void addSuperType(Type subType, Type superType) 
+  {
+	((EClass)subType).getESuperTypes().add((EClass)superType);
+  }
+  
   //public static FactoryBase getStaticFactory(String namespaceURI)
   // temporarily return Object - until everything is gen'd with new codegen pattern
   public static Object getStaticFactory(String namespaceURI)

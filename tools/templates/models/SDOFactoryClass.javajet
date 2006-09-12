@@ -1,4 +1,4 @@
-<%@ jet package="org.apache.tuscany.sdo.generate.templates.model" imports="java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals org.eclipse.emf.ecore.util.*" class="SDOFactoryClass" version="$Id: SDOFactoryClass.javajet,v 1.23 2005/12/10 13:31:02 emerks Exp $" %>
+<%@ jet package="org.apache.tuscany.sdo.generate.templates.model" imports="org.apache.tuscany.sdo.generate.util.* java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals org.eclipse.emf.ecore.util.*" class="SDOFactoryClass" version="$Id: SDOFactoryClass.javajet,v 1.23 2005/12/10 13:31:02 emerks Exp $" %>
 <%
 /**
  *
@@ -285,6 +285,12 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 		<%=genModel.getImportedName("commonj.sdo.Property")%> property = null;
 
 		// Add supertypes to classes
+      <%for (Iterator c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = (GenClass)c.next();%>
+        <%for (Iterator b=genClass.getBaseGenClasses().iterator(); b.hasNext();) { GenClass baseGenClass = (GenClass)b.next();%>
+		addSuperType(<%=genClass.getSafeUncapName()%>Type, <%=baseGenClass.getSafeUncapName()%>Type);
+        <%}%>
+      <%}%>
+
 		// Initialize classes and features; add operations and parameters
       <%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
         <%if (!genClass.isAbstract() && !genClass.isDynamic()) {%>
@@ -531,7 +537,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
       <%}%>
     <%} else if (genDataType.getBaseType() != null) { GenDataType genBaseType = genDataType.getBaseType(); %>
       <%if (genBaseType.getGenPackage() == genPackage) {%>
-		return (<%=genDataType.getObjectInstanceClassName()%>)create<%=genBaseType.getName()%>FromString(<%=genBaseType.getQualifiedClassifierAccessor()%>, initialValue);
+		return (<%=genDataType.getObjectInstanceClassName()%>)create<%=genBaseType.getName()%>FromString(<%=SDOGenUtil.getQualifiedTypeAccessor(genDataType)%>, initialValue);
       <%} else {%>
 		return (<%=genDataType.getObjectInstanceClassName()%>)<%=genBaseType.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor()%>.createFromString(<%=genBaseType.getQualifiedClassifierAccessor()%>, initialValue);
       <%}%>
@@ -714,7 +720,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 		return instanceValue == null ? null : instanceValue.toString();
     <%} else if (genDataType.getBaseType() != null) { GenDataType genBaseType = genDataType.getBaseType(); %>
       <%if (genBaseType.getGenPackage() == genPackage) {%>
-		return convert<%=genBaseType.getName()%>ToString(<%=genBaseType.getQualifiedClassifierAccessor()%>, instanceValue);
+		return convert<%=genBaseType.getName()%>ToString(<%=SDOGenUtil.getQualifiedTypeAccessor(genBaseType)%>, instanceValue);
       <%} else {%>
 		return <%=genBaseType.getGenPackage().getQualifiedEFactoryInternalInstanceAccessor()%>.convertToString(<%=genBaseType.getQualifiedClassifierAccessor()%>, instanceValue);
       <%}%>
