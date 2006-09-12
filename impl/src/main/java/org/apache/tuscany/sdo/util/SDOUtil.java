@@ -37,6 +37,7 @@ import java.util.Set;
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SimpleAnyTypeDataObject;
+import org.apache.tuscany.sdo.helper.CrossScopeCopyHelperImpl;
 import org.apache.tuscany.sdo.helper.DataFactoryImpl;
 import org.apache.tuscany.sdo.helper.SDOExtendedMetaDataImpl;
 import org.apache.tuscany.sdo.helper.TypeHelperImpl;
@@ -72,6 +73,7 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
+import commonj.sdo.helper.CopyHelper;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLHelper;
@@ -319,6 +321,16 @@ public final class SDOUtil
   public static XMLStreamHelper createXMLStreamHelper(TypeHelper scope)
   {
     return new XMLStreamHelperImpl(scope);
+  }
+  
+  /**
+   * Create a new cross scope CopyHelper.
+   * @param targetScope the TypeHelper containing the Types to use to create the copy objects.
+   * @return the new CopyHelper.
+   */
+  public static CopyHelper createCrossScopeCopyHelper(TypeHelper targetScope) 
+  {
+    return new CrossScopeCopyHelperImpl(targetScope); 
   }
   
   /**
