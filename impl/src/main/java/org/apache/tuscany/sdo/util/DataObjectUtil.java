@@ -2409,36 +2409,25 @@ public final class DataObjectUtil
     if (registrations == null)
     {
       Map result = new HashMap();
+      
+      Resource.Factory factory = Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.datagraph"));
+      result.put("datagraph", factory instanceof DataGraphResourceFactoryImpl ? factory : new DataGraphResourceFactoryImpl());
 
-      if (!(Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.datagraph")) instanceof DataGraphResourceFactoryImpl))
-      {
-        result.put("datagraph", new DataGraphResourceFactoryImpl());
-      }
-      if (!(Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.ecore")) instanceof EcoreResourceFactoryImpl))
-      {
-        result.put("ecore", new EcoreResourceFactoryImpl());
-      }
+      factory = Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.ecore"));
+      result.put("ecore", factory instanceof EcoreResourceFactoryImpl ? factory : new EcoreResourceFactoryImpl());
+      
+      factory = Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.emof"));
+      result.put("emof", factory instanceof EMOFResourceFactoryImpl ? factory : new EMOFResourceFactoryImpl());
 
-      if (!(Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.emof")) instanceof EMOFResourceFactoryImpl))
-      {
-        result.put("emof", new EMOFResourceFactoryImpl());
-      }
+      factory = Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.xsd"));
+      result.put("xsd", factory instanceof XSDResourceFactoryImpl ? factory : new XSDResourceFactoryImpl());
 
-      if (!(Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.xsd")) instanceof XSDResourceFactoryImpl))
-      {
-        result.put("xsd", new XSDResourceFactoryImpl());
-      }
-
-      if (!(Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.wsdl")) instanceof XSDResourceFactoryImpl))
-      {
-        result.put("wsdl", new XSDResourceFactoryImpl());
-      }
-
-      if (!(Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.*")) instanceof SDOXMLResourceFactoryImpl))
-      {
-        result.put("*", new SDOXMLResourceFactoryImpl());
-      }
-
+      factory = Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.wsdl"));
+      result.put("wsdl", factory instanceof XSDResourceFactoryImpl ? factory : new XSDResourceFactoryImpl());
+      
+      factory = Resource.Factory.Registry.INSTANCE.getFactory(URI.createURI("*.*"));
+      result.put("*", factory instanceof SDOXMLResourceFactoryImpl ? factory : new SDOXMLResourceFactoryImpl());
+      
       registrations = result;
     }
 
