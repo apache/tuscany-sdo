@@ -205,6 +205,7 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return super.getEcoreAttribute(element, attribute);
   }
 
+  /*
   protected String getEcoreAttribute(XSDConcreteComponent xsdConcreteComponent, String attribute)
   {
     String value = super.getEcoreAttribute(xsdConcreteComponent, attribute);
@@ -215,6 +216,7 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     }
     return value;
   }
+  */
   
   protected XSDTypeDefinition getEcoreTypeQNameAttribute(XSDConcreteComponent xsdConcreteComponent, String attribute)
   {    
@@ -271,6 +273,14 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     if (typeDef == null)
       typeDef = xsdFeature.getType();
     return typeDef;
+  }
+
+  /**
+   * Override EMF algorithm.
+   */
+  public String qualifiedPackageName(String namespace)
+  {
+    return getDefaultPackageName(namespace);
   }
 
   //Code below here to provide common URI to java packagname
@@ -381,7 +391,7 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     }
     return result;
   }
-
+  
   public static String getDefaultPackageName(String targetNamespace)
   {
       if (targetNamespace == null)
