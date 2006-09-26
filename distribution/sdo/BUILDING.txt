@@ -1,0 +1,103 @@
+SDO Java Build Environment Setup
+
+
+1. Set up your environment using the instructions for building the whole of Tuscany
+(http://incubator.apache.org/tuscany/java-projects.html),
+but only download and install Java 5, Maven and Svn
+(note that only one file, Interface2JavaGenerator.java, has a Java 5 dependency, if you want to work with Java 1.4 then just delete this file before building).
+
+2. Make sure 'mvn' and 'svn' commands are in your PATH environment variable.
+
+3. Check out the SDO open source projects from Apache.
+
+   Commands:
+
+      md <local tuscany dir>
+      cd <local tuscany dir>
+      svn co -N https://svn.apache.org/repos/asf/incubator/tuscany/java
+      cd java
+      svn up sdo
+      svn up -N spec
+      cd spec
+      svn up sdo
+
+4. Run "mvn" under <local tuscany dir>/java directory to install POM files from the root project to the local repository
+
+   Commands:
+
+      cd <local tuscany dir>/java
+      mvn -N
+      cd spec
+      mvn -N
+      cd ../sdo
+      mvn -N (alternatively, run without the -N option - see Note below)
+
+5. Build, or rebuild, the individual SDO projects
+
+   sdo.spec project
+
+   Commands:
+
+      cd <local tuscany dir>/java/spec/sdo
+      mvn
+      mvn eclipse:eclipse (optional: Run this command if you are using Eclipse for development.)
+
+   sdo.impl project
+
+   Commands:
+
+      cd <local tuscany dir>/java/sdo/impl
+      mvn
+      mvn eclipse:eclipse (optional: Run this command if you are using Eclipse for development.)
+
+   sdo.tools project
+
+   Commands:
+
+      cd <local tuscany dir>/java/sdo/tools
+      mvn
+      mvn eclipse:eclipse (optional: Run this command if you are using Eclipse for development.)
+
+   Notes:
+
+   1. You can build both sdo.impl and sdo.tools in one step by running mvn in <local tuscany dir>/java/sdo.
+
+   2. If the mvn command completed successfully, you will see BUILD SUCCESSFUL in the output and sdo-api-SNAPSHOP.jar is created under <local tuscany dir>/java/spec/sdo/target directory.
+
+   3. External resources are at times unavailable. It may be necessary to run "mvn" again at a later time.
+
+   4. If you are taking time to reply to firewall prompts, this can cause some requests to time out. Set up the firewall to permit the action without prompting.
+
+
+Dependency Jars
+
+
+1. The sdo.impl project requires the following EMF (Eclipse Modeling Framework - www.eclipse.org/emf) runtime jars to build:
+
+   emf-common-2.2.0-SNAPSHOT.jar - some common framework utility and base classes
+
+   emf-ecore-2.2.0-SNAPSHOT.jar - the EMF core runtime implementation classes (the Ecore metamodel)
+
+   emf-ecore-change-2.2.0-SNAPSHOT.jar - the EMF change recorder and framework
+
+   emf-ecore-xmi-2.2.0-SNAPSHOT.jar - EMF's default XML (and XMI) serializer and loader
+
+   xsd-2.2.0-SNAPSHOT.jar - the XML Schema model
+
+2. The sdo.tools project also requires the EMF code generator framework jars:
+
+   emf-codegen-2.2.0-SNAPSHOT.jar - template-based codegen framework (JET - Java Emitter Templates)
+
+   emf-codegen-ecore-2.2.0-SNAPSHOT.jar - the EMF code generator
+
+   emf-common-2.2.0-SNAPSHOT.jar - some common framework utility and base classes
+
+   emf-ecore-2.2.0-SNAPSHOT.jar - the EMF core runtime implementation classes (the Ecore metamodel)
+
+   emf-ecore-change-2.2.0-SNAPSHOT.jar - the EMF change recorder and framework
+
+   emf-ecore-xmi-2.2.0-SNAPSHOT.jar - EMF's default XML (and XMI) serializer and loader
+
+   xsd-2.2.0-SNAPSHOT.jar - the XML Schema model
+
+These are simply Maven-friendly versions of corresponding jar files/plugins obtained from Eclipse. SNAPSHOT maps to an EMF weekly integration build (for example, I200602160000).
