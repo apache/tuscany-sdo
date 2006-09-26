@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ASCII"?>
+<mixed:mixedOpenStockQuote 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:mixed="http://www.example.com/mixed" 
+  xmlns:open="http://www.example.com/open"
+  xsi:type="mixed:MixedOpenQuote">
+  <open:symbol>fbnt</open:symbol>
+  <companyName>FlyByNightTechnology</companyName>
+  some text
+  <quotes><price>2000.0</price></quotes>
+  more text
+  <price>1000.0</price>
+</mixed:mixedOpenStockQuote>

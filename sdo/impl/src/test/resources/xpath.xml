@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xpath:drive xmlns:xpath="http://www.example.com/xpath" id="0">
+  <Folder creation_date="1999-10-20" creator="Hasan" type="FolderType">
+    <FolderName>Folder00000000000</FolderName>
+    <description>marries inflamed apprehended beseeming bustle</description>
+    <SecurityObject name="secure1">
+      <Allows>
+        <Allow>
+          <User>Brian</User>
+          <Permissions>rw</Permissions>
+        </Allow>
+        <Allow>
+          <User>Fuhwei</User>
+          <Permissions>r</Permissions>
+        </Allow>
+      </Allows>
+      <Denies>
+        <Deny>
+          <User>Hasan</User>
+        </Deny>
+        <Deny>
+          <User>Frank</User>
+        </Deny>
+      </Denies>
+    </SecurityObject>
+  </Folder>
+  <Folder creation_date="2000-03-23" creator="Kapil" type="FileType">
+    <FolderName>Folder00000000011</FolderName>
+    <description>Mumbling Jumblin Pink Panther goofs it up</description>
+    <SecurityObject name="secure2">
+      <Allows>
+        <Allow>
+          <User>Imad</User>
+          <Permissions>x</Permissions>
+        </Allow>
+        <Allow>
+          <User>Robbie</User>
+          <Permissions>rwx</Permissions>
+        </Allow>
+      </Allows>
+      <Denies>
+        <Deny>
+          <User>Yang</User>
+        </Deny>
+        <Deny>
+          <User>Art</User>
+        </Deny>
+      </Denies>
+    </SecurityObject>
+  </Folder>
+</xpath:drive>
