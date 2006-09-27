@@ -241,7 +241,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         Type type = dataObject.getType();
         if (rootElement != null) {
             Type modelType = rootElement.getType();
-            if (type.getBaseTypes().contains(modelType)) {
+            if (type != modelType) {
                 QName realTypeName = namespaceContext.createQName(type.getURI(), xsdHelper.getLocalName(type));
                 String typeName = realTypeName.getPrefix() + ":" + realTypeName.getLocalPart();
                 NameValuePair pair = new NameValuePair(XSI_TYPE_QNAME, typeName);
