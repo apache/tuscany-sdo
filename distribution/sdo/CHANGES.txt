@@ -69,3 +69,4 @@ M2
     * fixed generation of invalid prefixes in XML serialization (TUSCANY-711)
     * sometimes SDOXMLResourceImpl (instead of XSDResourceImp) was incorrectly used when loading .xsd files (TUSCANY-714)
     * roundtripping an xsd:anyType via XML using XMLStreamHelper gave wrong kind of DataObject (TUSCANY-755)
+    * cardinality of global elements should be adaptive according to usage context (TUSCANY-115)

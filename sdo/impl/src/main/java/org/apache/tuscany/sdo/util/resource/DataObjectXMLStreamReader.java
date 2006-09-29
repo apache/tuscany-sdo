@@ -143,9 +143,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             return;
         if (property.isMany() && property.getContainingType().isOpen() && value instanceof Sequence) {
             addSequenceValue(propertyList, (Sequence) value);
-        } else if ((property.isMany() || isGlobal(property)) && value instanceof List) {
-            // HACK: The isGlobal() test is a HACK for JIRA 115. Properties for global XSD elements should return
-            // true for isMany()
+        } else if (SDOUtil.isMany(property, dataObject) && value instanceof List) {
             addListValue(propertyList, property, (List) value);
         } else {
             // Complex Type
@@ -183,12 +181,6 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             }
         }
         return false;
-    }
-
-    private boolean isGlobal(Property property) {
-        String ns = xsdHelper.getNamespaceURI(property);
-        String name = xsdHelper.getLocalName(property);
-        return property == xsdHelper.getGlobalProperty(ns, name, true);
     }
 
     private void addListValue(List propertyList, Property property, List objList) {
