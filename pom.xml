@@ -64,7 +64,7 @@
 
     <properties>
         <specVersion>2.0.1</specVersion>
-        <emfVersion>2.2.1-SNAPSHOT</emfVersion>
+        <emfVersion>2.2.1</emfVersion>
     </properties>
 
     <modules>
