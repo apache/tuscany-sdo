@@ -1,0 +1,16 @@
+Building the SDO Java Implementation Project from the source distribution 
+=========================================================================
+
+Building
+--------
+1) Download the corresponding SDO specification source distribution from http://incubator.apache.org/tuscany
+2) Execute the instructions in that archive for building the SDO specification component
+3) Change to the top level directory of the Tuscany SDO Java Implementation project (sdo) of this source distribution.
+4) Execute: mvn
+   This will first place build artefacts in your local maven repository that your SDO programs can depend upon. It
+   will then build the Tuscany binary distribution artefacts in the sdo/distribution/target directory.
+
+Note: Depending on the load being experienced by remote Maven 2.0 repositories you may have to execute mvn several
+    times until required dependencies are all located in your local maven repository.  After you have completed a
+    full successful build you can use "mvn -o" which is much faster.
+
