@@ -5,8 +5,13 @@ Building
 --------
 1) Download the corresponding SDO specification source distribution from http://incubator.apache.org/tuscany
 2) Execute the instructions in that archive for building the SDO specification component
-3) Change to the top level directory of the Tuscany SDO Java Implementation project (sdo) of this source distribution.
-4) Execute: mvn
+Note: following this step you will have maven installed, and a Java JDK at level 1.4.2 or above installed.
+3) If you have chosen to install a JDK at level 5 then all will be fine,  but there is one value add component in the
+   Tuscany SDO implementation which relies on new JDK 5.0 features.  If you do not wish to use JDK 5 for the following
+   build step, then you will need to delete the file
+   sdo/tools/src/main/java/org/apache/tuscany/sdo/generate/Interface2JavaGenerator.java before proceding
+4) Change to the top level directory of the Tuscany SDO Java Implementation project (sdo) of this source distribution.
+5) Execute: mvn
    This will first place build artefacts in your local maven repository that your SDO programs can depend upon. It
    will then build the Tuscany binary distribution artefacts in the sdo/distribution/target directory.
 
