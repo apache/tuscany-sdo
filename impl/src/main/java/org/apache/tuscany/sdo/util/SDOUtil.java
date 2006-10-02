@@ -69,6 +69,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import commonj.sdo.DataGraph;
@@ -189,6 +190,17 @@ public final class SDOUtil
   public static boolean isRequired(Property property)
   {
     return ((EStructuralFeature)property).isRequired();
+  }
+
+  /**
+   * Returns whether the Property is many-valued given the specified context.
+   * @param property The Property in question
+   * @param context The context to check whether the specified Property is many-valued
+   * @return true if the Property is many-valued given the specified context.
+   */
+  public static boolean isMany(Property property, DataObject context) 
+  {
+    return FeatureMapUtil.isMany((EObject) context, (EStructuralFeature) property);
   }
 
   /**

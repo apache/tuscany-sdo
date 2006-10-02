@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdo:datagraph xmlns:company="company.xsd" xmlns:sdo="commonj.sdo">
+  <company:CompanyType employeeOfTheMonth="E0002"
+      name="ACME">
+    <departments location="NY" name="Advanced Technologies" number="123">
+      <employees name="John Jones" SN="E0001"/>
+      <employees name="Jane Doe" SN="E0003"/>
+      <employees manager="true" name="Al Smith" SN="E0004"/>
+    </departments>
+  </company:CompanyType>
+</sdo:datagraph>

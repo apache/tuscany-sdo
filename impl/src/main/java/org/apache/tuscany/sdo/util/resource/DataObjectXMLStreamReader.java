@@ -143,9 +143,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             return;
         if (property.isMany() && property.getContainingType().isOpen() && value instanceof Sequence) {
             addSequenceValue(propertyList, (Sequence) value);
-        } else if ((property.isMany() || isGlobal(property)) && value instanceof List) {
-            // HACK: The isGlobal() test is a HACK for JIRA 115. Properties for global XSD elements should return
-            // true for isMany()
+        } else if (SDOUtil.isMany(property, dataObject) && value instanceof List) {
             addListValue(propertyList, property, (List) value);
         } else {
             // Complex Type
@@ -183,12 +181,6 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             }
         }
         return false;
-    }
-
-    private boolean isGlobal(Property property) {
-        String ns = xsdHelper.getNamespaceURI(property);
-        String name = xsdHelper.getLocalName(property);
-        return property == xsdHelper.getGlobalProperty(ns, name, true);
     }
 
     private void addListValue(List propertyList, Property property, List objList) {
@@ -241,11 +233,17 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         Type type = dataObject.getType();
         if (rootElement != null) {
             Type modelType = rootElement.getType();
-            if (type.getBaseTypes().contains(modelType)) {
-                QName realTypeName = namespaceContext.createQName(type.getURI(), xsdHelper.getLocalName(type));
-                String typeName = realTypeName.getPrefix() + ":" + realTypeName.getLocalPart();
-                NameValuePair pair = new NameValuePair(XSI_TYPE_QNAME, typeName);
-                attributeList.add(pair);
+            if (type != modelType) {
+                // FIXME: XSDHelper.getLocalName() for annoymous type returns null?
+                String typeName = xsdHelper.getLocalName(type);
+                if (typeName != null) {
+                    QName realTypeName = namespaceContext.createQName(type.getURI(), typeName);
+                    String typeQName = realTypeName.getPrefix() + ":" + realTypeName.getLocalPart();
+                    QName xmlns =
+                        new QName("http://www.w3.org/2000/xmlns/", realTypeName.getPrefix(), "xmlns");
+                    attributeList.add(new NameValuePair(xmlns, realTypeName.getNamespaceURI()));
+                    attributeList.add(new NameValuePair(XSI_TYPE_QNAME, typeQName));
+                }
             }
         }
         
