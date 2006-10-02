@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xsd:schema	xmlns:letter="letter.xsd" targetNamespace="letter.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	
+	<xsd:element name="letters" type="letter:FormLetter"/>
+	<xsd:complexType name="FormLetter" mixed="true">
+		<xsd:sequence>
+			<xsd:element name="date" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="firstName" minOccurs="0" type="xsd:string"/>
+			<xsd:element name="lastName" minOccurs="0" type="xsd:string"/>
+		</xsd:sequence>
+	</xsd:complexType>	
+</xsd:schema>
+

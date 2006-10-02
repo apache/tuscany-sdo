@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="ASCII"?>
+<open:openStockQuote 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:open="http://www.example.com/open" 
+  xsi:type="open:OpenQuote">
+  <open:symbol>s1</open:symbol>
+  <open:company name="FlyByNightTechnology"/>
+  <open:price>1000.0</open:price>
+</open:openStockQuote>
