@@ -1,6 +1,4 @@
-﻿M2
-(from M1)
-
+M2 Changes Relative to M1
 
   1. `java.io.Serializable` support for `DataObject`s including objects not in a `DataGraph` (TUSCANY-22)
     * implemented `ExternalizableDelegator` and `ExternalizableDelegator.Resolvable`
@@ -68,3 +66,5 @@
     * support base64Binary and hexBinary XSD types correctly (TUSCANY-685)
     * fixed generation of invalid prefixes in XML serialization (TUSCANY-711)
     * sometimes SDOXMLResourceImpl (instead of XSDResourceImp) was incorrectly used when loading .xsd files (TUSCANY-714)
+    * roundtripping an xsd:anyType via XML using XMLStreamHelper gave wrong kind of DataObject (TUSCANY-755)
+    * cardinality of global elements should be adaptive according to usage context (TUSCANY-115)
