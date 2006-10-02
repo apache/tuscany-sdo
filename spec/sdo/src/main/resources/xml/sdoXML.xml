@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+/**
+ * <copyright>
+ *
+ * Service Data Objects
+ * Version 2.0
+ * Licensed Materials - Property of BEA and IBM
+ *
+ * (c) Copyright BEA Systems, Inc. and International Business Machines Corp 2005.  All rights reserved.
+ *
+ * </copyright>
+ * 
+ */
+-->
+
+<types xmlns="commonj.sdo"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:sdoXML="commonj.sdo/xml"
+  xsi:schemaLocation="commonj.sdo sdoModel.xsd commonj.sdo/java sdoJava.xsd commonj.sdo/xml sdoXML.xsd">
+
+<!--
+   XMLInfo declares properties used in open content for 
+   the XML binding of SDO Types and Properties.
+-->
+
+  <type name="XMLInfo" uri="commonj.sdo/xml">
+    <property name="xmlElement" type="commonj.sdo#Boolean"/>
+  </type>
+
+</types>
