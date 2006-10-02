@@ -1,0 +1,22 @@
+Building the SDO Java Specification Project from the source distribution 
+=========================================================================
+
+Initial Setup
+-------------
+
+1) Install J2SE JDK 1.4.2 or above
+2) Install Maven:
+Download Maven 2.0.4 (download from http://maven.apache.org/download.html).
+
+
+
+Building
+--------
+
+1) Change to the top level directory of the Tuscany SDO Java Spec project (spec/sdo) of this source distribution.
+2) Execute: mvn
+This will build an artefact in your local maven repository that the SDO implementation can use. 
+
+Note: Depending on the load being experienced by remote Maven 2.0 repositories you may have to execute mvn several times
+    until required dependencies are all located in your local maven repository.  After you have completed a full successful
+    build you can use "mvn -o" which is much faster.

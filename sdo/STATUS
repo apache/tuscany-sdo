@@ -1,0 +1,73 @@
+Apache Tuscany Status
+
+Tuscany provides multiple language implementations of the Service Component Architecture (SCA) specifications and related technologies such as SDO.
+
+PROJECT STATUS
+==============
+
+  Tuscany is being incubated at the request of the Apache Web Services PMC.
+  For information on incubation please visit the project page at
+  http://incubator.apache.org/projects/tuscany.html
+
+PENDING ISSUES
+==============
+XXXX-XX-XX CCLA received for IBM's contribution of a C++ implementation
+XXXX-XX-XX CCLA received for BEA and IBM joint contribution of a Java implementation
+
+RESOLVED ISSUES SINCE LAST STATUS
+=================================
+None
+
+OTHER NEWS
+==========
+
+2006-09-29 Vote to add Ignacio Silva-Lepe as a new committer
+2006-09-18 Vote to add Venkata Krishnan as a new committer
+2006-08-10 Vote to add Andrew Borley as a new committer
+2006-08-07 Vote to add Meeraj Kunnumpurath as a new committer
+2006-08-07 Vote to add Kelvin Goodson as a new committer
+2006-08-06 Vote to add Brent Daniel as a new committer
+2006-08-04 Vote to add Raymond Feng as a new committer
+2006-08-01 C++ Milestone 1 release
+2006-06-07 Java Milestone 1 release
+2006-05-02 Vote to add Dan Kulp as a new committer
+
+2006-01-05 Contribution of Java implementation by BEA and IBM committed
+2006-01-05 Contribution of C+ implementation by IBM committed
+
+RELEASE STATUS
+==============
+None
+
+REFERENCES
+==========
+Status file     http://svn.apache.org/repos/asf/incubator/tuscany/STATUS
+User List       tuscany-user@ws.apache.org
+Developer List  tuscany-dev@ws.apache.org
+Commits List    tuscany-commits@ws.apache.org
+Source Code     http://svn.apache.org/repos/asf/incubator/tuscany/
+Issue Tracking  http://issues.apache.org/jira/browse/TUSCANY
+
+Committers
+    ajborley        Andrew Borley
+    antelder        Ant Elder
+    bdaniel         Brent Daniel
+    dkulp           Dan Kulp
+    dims            Davanum Srinivas
+    edslattery      Ed Slattery
+    ekoneil         Eddie O'Neil
+    frankb          Frank Budinsky
+    geirm           Geir Magnusson Jr
+    isilval         Ignacio Silva-Lepe
+    jsdelfino       Jean-Sebastien Delfino
+    jboynes         Jeremy Boynes
+    jmarino         Jim Marino
+    kelvingoodson   Kelvin Goodson
+    kentam          Ken Tam
+    kwilliams       Kevin Williams
+    edwardsmj       Mike Edwards
+    meerajk         Meeraj Kunnumpurath
+    rfeng           Raymond Feng
+    robbinspg       Pete Robbins
+    rineholt        Rick Rineholt
+    svkrish         Venkata Krishnan
