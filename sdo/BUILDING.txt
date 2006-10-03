@@ -1,5 +1,9 @@
 Building the SDO Java Implementation Project from the source distribution 
 =========================================================================
+(note,  these instructions are for building the SDO binary release from
+source, not for establishing a development environment.  If you wish to
+participate in sdo development, follow the instructions at 
+http://incubator.apache.org/tuscany/java_sdo_overview.html
 
 Building
 --------

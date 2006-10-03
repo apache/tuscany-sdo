@@ -1,5 +1,9 @@
 Building the SDO Java Specification Project from the source distribution 
 =========================================================================
+(note,  these instructions are for building the SDO binary release from
+source, not for establishing a development environment.  If you wish to
+participate in sdo development, follow the instructions at 
+http://incubator.apache.org/tuscany/java_sdo_overview.html)
 
 Initial Setup
 -------------
@@ -13,7 +17,7 @@ Download Maven 2.0.4 (download from http://maven.apache.org/download.html).
 Building
 --------
 
-1) Change to the top level directory of the Tuscany SDO Java Spec project (spec/sdo) of this source distribution.
+1) Change to the top level directory of the Tuscany SDO Java Spec project (sdo-api) of this source distribution.
 2) Execute: mvn
 This will build an artefact in your local maven repository that the SDO implementation can use. 
 
