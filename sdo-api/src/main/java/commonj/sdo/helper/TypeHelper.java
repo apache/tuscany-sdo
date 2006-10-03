@@ -63,34 +63,8 @@ public interface TypeHelper
    * @throws IllegalArgumentException if the Types could not be defined.
    */
   List /*Type*/ define(List /*DataObject*/ types);
-
-  /**
-   * Define the DataObject as a Property for setting open content.
-   * The containing Type of the open content property is not specified by SDO.
-   * If the specified uri is not null the defined property is accessible through
-   * TypeHelper.getOpenContentProperty(uri, propertyName).
-   * If a null uri is specified, the location and management of the open content property
-   * is not specified by SDO.
-   * @param uri the namespace URI of the open content Property or null.
-   * @return the defined open content Property.
-   * @throws IllegalArgumentException if the Property could not be defined.
-   * 
-   * NOTE: this is an early addition of an SDO 2.1 feature.
-   */
-  public Property defineOpenContentProperty(String uri, DataObject property);
   
   /**
-   * Get the open content Property with the specified uri and name, or null if 
-   * not found.
-   * @param uri the namespace URI of the open content Property.
-   * @param propertyName the name of the open content Property.
-   * @return the global Property.
-   * 
-   * NOTE: this is an early addition of an SDO 2.1 feature.
-   */
-  public Property getOpenContentProperty(String uri, String propertyName);
-  
-    /**
    * The default TypeHelper.
    */
   TypeHelper INSTANCE = HelperProvider.getTypeHelper();
