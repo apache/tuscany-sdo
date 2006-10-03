@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
 
+import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
 
 import commonj.sdo.DataObject;
@@ -44,7 +45,7 @@ public class DefineOpenContentPropertyTestCase extends TestCase {
     private final String TEST_NAMESPACE = "http://www.example.com/open";
     private final String TEST_DATA = "/openContentProperty.xml";
 
-    private TypeHelper typeHelper;
+    private TypeHelperImpl typeHelper;
     private XSDHelper xsdHelper;
     private XMLHelper xmlHelper;
     private DataFactory dataFactory;
@@ -108,7 +109,7 @@ public class DefineOpenContentPropertyTestCase extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        typeHelper = SDOUtil.createTypeHelper();
+        typeHelper = (TypeHelperImpl)SDOUtil.createTypeHelper();
         xsdHelper = SDOUtil.createXSDHelper(typeHelper);
         xmlHelper = SDOUtil.createXMLHelper(typeHelper);
         dataFactory = SDOUtil.createDataFactory(typeHelper);

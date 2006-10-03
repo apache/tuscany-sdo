@@ -25,6 +25,7 @@ import java.math.BigDecimal;
 
 import junit.framework.TestCase;
 
+import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
 
 import commonj.sdo.DataObject;
@@ -548,7 +549,7 @@ public class DefineTypeTestCase extends TestCase
   
   public void testDefineOpenType() throws Exception 
   {
-    TypeHelper types = SDOUtil.createTypeHelper();
+    TypeHelperImpl types = (TypeHelperImpl)SDOUtil.createTypeHelper();
     DataFactory factory = SDOUtil.createDataFactory(types);
     XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
     
