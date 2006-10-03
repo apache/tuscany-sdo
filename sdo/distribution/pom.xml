@@ -42,7 +42,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.tuscany.sdo</groupId>
-            <artifactId>tuscany-sdo-plugin</artifactId>
+            <artifactId>sample-sdo</artifactId>
             <version>${pom.version}</version>
         </dependency>
     </dependencies>
