@@ -184,7 +184,8 @@ public class XMLStreamSerializer implements XMLStreamConstants {
      * @param writer
      * @throws XMLStreamException
      */
-    protected void serializeAttributes(XMLStreamReader reader, XMLStreamWriter writer) throws XMLStreamException {
+    protected void serializeAttributes(XMLStreamReader reader, XMLStreamWriter writer)
+        throws XMLStreamException {
         int count = reader.getAttributeCount();
         String prefix = null;
         String namespaceName = null;
@@ -192,29 +193,42 @@ public class XMLStreamSerializer implements XMLStreamConstants {
         for (int i = 0; i < count; i++) {
             prefix = reader.getAttributePrefix(i);
             namespaceName = reader.getAttributeNamespace(i);
-            if (namespaceName != null)
+            if (namespaceName != null) {
                 writerPrefix = writer.getNamespaceContext().getPrefix(namespaceName);
+            }
 
             if (!"".equals(namespaceName)) {
-                // prefix has already being declared but this particular attrib has a
+                // prefix has already being declared but this particular attrib
+                // has a
                 // no prefix attached. So use the prefix provided by the writer
                 if (writerPrefix != null && (prefix == null || prefix.equals(""))) {
-                    writer.writeAttribute(writerPrefix, namespaceName, reader.getAttributeLocalName(i), reader.getAttributeValue(i));
+                    writer.writeAttribute(writerPrefix,
+                                          namespaceName,
+                                          reader.getAttributeLocalName(i),
+                                          reader.getAttributeValue(i));
 
                     // writer prefix is available but different from the current
-                    // prefix of the attrib. We should be decalring the new prefix
+                    // prefix of the attrib. We should be decalring the new
+                    // prefix
                     // as a namespace declaration
                 } else if (prefix != null && !"".equals(prefix) && !prefix.equals(writerPrefix)) {
                     writer.writeNamespace(prefix, namespaceName);
-                    writer.writeAttribute(prefix, namespaceName, reader.getAttributeLocalName(i), reader.getAttributeValue(i));
+                    writer.writeAttribute(prefix, namespaceName, reader.getAttributeLocalName(i), reader
+                        .getAttributeValue(i));
 
-                    // prefix is null (or empty), but the namespace name is valid! it has not
-                    // being written previously also. So we need to generate a prefix
+                    // prefix is null (or empty), but the namespace name is
+                    // valid! it has not
+                    // being written previously also. So we need to generate a
+                    // prefix
                     // here
-                } else {
+                } else if (prefix == null || prefix.equals("")) {
                     prefix = generateUniquePrefix(writer.getNamespaceContext());
                     writer.writeNamespace(prefix, namespaceName);
-                    writer.writeAttribute(prefix, namespaceName, reader.getAttributeLocalName(i), reader.getAttributeValue(i));
+                    writer.writeAttribute(prefix, namespaceName, reader.getAttributeLocalName(i), reader
+                        .getAttributeValue(i));
+                } else {
+                    writer.writeAttribute(prefix, namespaceName, reader.getAttributeLocalName(i), reader
+                        .getAttributeValue(i));
                 }
             } else {
                 // empty namespace is equal to no namespace!

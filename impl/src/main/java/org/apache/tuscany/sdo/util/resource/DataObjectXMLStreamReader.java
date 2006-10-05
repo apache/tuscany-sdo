@@ -221,6 +221,11 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
     }
 
     public void populateProperties() {
+        declaredNamespaceMap.put("xml", "http://www.w3.org/XML/1998/namespace");
+        declaredNamespaceMap.put("xmlns", "http://www.w3.org/2000/xmlns/");
+        declaredNamespaceMap.put("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+        
+        
         if (properties != null)
             return;
         if (elementQName == null)
