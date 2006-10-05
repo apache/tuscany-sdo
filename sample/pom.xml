@@ -44,4 +44,64 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <overview>${basedir}/src/main/java/org/apache/tuscany/samples/sdo/overview.html</overview> 
+                    <version>2.0</version>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                          <mainClass>org.apache.tuscany.samples.sdo.ExecuteSamples</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+    
+                <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>assembly</goal>
+                            </goals>
+                        </execution>
+                </executions>
+    
+                <configuration>
+                    <descriptors>
+                        <descriptor>distribution/assembly/sdoSamples.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

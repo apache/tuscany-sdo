@@ -40,11 +40,6 @@
             <artifactId>tuscany-sdo-tools</artifactId>
             <version>${pom.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.tuscany.sdo</groupId>
-            <artifactId>tuscany-sdo-plugin</artifactId>
-            <version>${pom.version}</version>
-        </dependency>
     </dependencies>
 
     <build>
