@@ -27,3 +27,7 @@ include (but are not limited to):
 It is your obligation to read and accept all such terms and conditions prior to use of the
 distribution. If term or condition is provided, please contact the Apache Software Foundation
 to determine what terms and conditions govern that particular distribution.
+
+This product also includes software developed by the Open Service Oriented Architecture organisation
+(http://osoa.org). The license for this software may be found in the LICENSE.txt file contained in this
+distribution.

@@ -200,3 +200,39 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+===============================================================================================================
+
+
+License for the Service Data Objects JavaDoc and Interface Definition files.
+
+Permission to copy, make derivative works of, and distribute the Service Data Objects 
+JavaDoc and Interface Definition Files files in any medium without fee or royalty as part 
+of a compliant implementation of the Service Data Objects Specification is hereby granted.  
+The Service Data Objects Specification may be found at any of the following locations:
+
+http://dev2dev.bea.com/technologies/commonj/index.jsp
+http://www.ibm.com/developerworks/library/specification/ws-sdo/
+http://oracle.com/technology/webservices/sca
+https://www.sdn.sap.com/
+http://www.xcalia/xdn/specs/sdo
+
+THE SERVICE DATA OBJECTS SPECIFICATION AND THE JAVADOC AND INTERFACE DEFINITION FILES 
+ARE PROVIDED "AS IS," AND THE AUTHORS MAKE NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED, REGARDING THIS 
+SPECIFICATION OR THE JAVADOC AND INTERFACE DEFINITION FILES AND THE IMPLEMENTATION OF THEIR CONTENTS, 
+INCLUDING, BUT NOT LIMITED TO, WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, 
+NON-INFRINGEMENT OR TITLE.  THE AUTHORS WILL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, SPECIAL, 
+INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF OR RELATING TO ANY USE OR DISTRIBUTION OF THE 
+SERVICE DATA OBJECTS SPECIFICATION OR THE JAVADOC OR INTERFACE DEFINTION FILES.
+
+The name and trademarks of the Authors may NOT be used in any manner, including advertising or 
+publicity pertaining to the Service Component Architecture Specification or its contents without specific, 
+written prior permission. Title to copyright in the Service Data Objects Specification and the 
+JavaDoc and Interface Definition Files will at all times remain with the Authors.
+
+No other rights are granted by implication, estoppel or otherwise.
+
+
+
+
+
