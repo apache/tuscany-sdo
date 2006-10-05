@@ -1,0 +1,57 @@
+<html>
+<head>
+	<title>SDO Sample Overview</title>
+</head>
+<BODY>
+<h1>Tuscany Service Data Object (SDO) Samples Programs</h1>  
+<h2>Overview</h2>
+This sample code is from the <a href="http://incubator.apache.org/tuscany"
+ target="_blank"> Apache Tuscany</a> project. The samples were written to help users
+understand and experiment with SDO. They are grouped into three packages according to the source of the example material. Some are based upon example code contained
+within the <a
+ href="http://download.boulder.ibm.com/ibmdl/pub/software/dw/specs/ws-sdo/SDO_Specification_Java_V2.01.pdf"
+ target="_bank">SDO Specification</a>, and are intended to be read alongside the specification. Others are based upon papers and published material (see the documentation for each sample for the reference to the publication),
+<BR>
+and the third category were simply written 
+	specifically for these samples.<H2>Experimentation</H2>
+The SDO samples are written to be used in conjunction with the specification and other documents.  However, 
+the most important function that these samples provide is a place to begin experimenting with the SDO API
+and programming model.  Developers are encouraged to extend and experiment with the current set of samples.  
+If a sample is unclear, is missing documentation or a tutorial, or does not cover a desired area ,
+please send feedback to the tuscany mailing lists,
+or better still send us a patch or <BR> join the Tuscany team and contribute back to the
+<A href="http://incubator.apache.org/tuscany">project</A>.
+  
+
+<h3>Getting Ready to run the Samples</h3>
+The samples depend of the following libraries<UL>
+		<LI>The SDO API and the Tuscany SDO Implementation
+		<UL>
+			<LI>sdo-api-{version}.jar - SDO API</LI>
+			<LI>tuscany-sdo-impl-{version}.jar - Tuscany SDO implementation</LI>
+		</UL>
+		</LI>
+		<LI>EMF dependencies.
+		<UL>
+			<LI>emf-common-{version}.jar - some common framework utility and base
+			classes</LI>
+			<LI>emf-ecore-{version}.jar - the EMF core runtime implementation
+			classes (the Ecore metamodel)</LI>
+			<LI>emf-ecore-change-{version}.jar - the EMF change recorder and
+			framework</LI>
+			<LI>emf-ecore-xmi-{version}.jar - EMF's default XML (and XMI)
+			serializer and loader</LI>
+			<LI>xsd-{version}.jar - the XML Schema model</LI></UL></LI></UL>
+<P>If you are running these samples from a Tuscany samples distribution you can resolve these dependencies by ensuring that all the jar files in the lib directory of the extracted distribution are on your classpath.<BR>
+<BR>
+If you are running these samples as a result of building Tuscany SDO for Java from a Tuscany source distribution using maven then these dependencies will be resolved by having followed the build insrtuctions.<BR>
+<BR>To run these samples against the current Tuscany codebase, follow the instructions at <A
+	href="http://incubator.apache.org/tuscany/java_sdo_overview.html">Tuscany SDO Java Overview</A>, which describes how to build Tuscany SDO for Java in an Eclipse SDK environment.</P>
+<H3>Running the Samples</H3>
+<P>In order to get an overview of the samples the user may wish to run
+{@link org.apache.tuscany.samples.sdo.ExecuteSamples} which will execute
+all the command line examples.<BR>
+<FONT face="Courier">java org.apache.tuscany.samples.sdo.ExecuteSamples</FONT></P><P>Alternatively, browse the JavaDoc for the sample program classes and run an
+individual example of your choice in the same way. Another suggestion is to read the
+SDO specifciaton in conjunction with the examples in {@link
+org.apache.tuscany.samples.sdo.specExampleSection}.</P></BODY></html>

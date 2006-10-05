@@ -42,8 +42,7 @@
             <outputDirectory>lib</outputDirectory>
             <includes>
                 <include>org.apache.tuscany.sdo:tuscany-sdo-impl</include>
-                <include>org.apache.tuscany.sdo:tuscany-sdo-tools</include>
-                <include>org.apache.tuscany.sdo:sample-sdo</include>
+                <include>org.apache.tuscany.sdo:tuscany-sdo-tools</include> 
             </includes>
             <fileMode>644</fileMode>
         </dependencySet>
