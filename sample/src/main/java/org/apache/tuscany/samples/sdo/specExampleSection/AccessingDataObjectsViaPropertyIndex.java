@@ -34,7 +34,7 @@ import commonj.sdo.DataObject;
  * 
  * The following sample is from the <a href="http://incubator.apache.org/tuscany"
  * target="_blank"> Apache Tuscany</a> project. It was written to help users
- * understand and experiement with SDO. It is based upon example code contained
+ * understand and experiment with SDO. It is based upon example code contained
  * within, and is meant for use with, and reference to the <a
  * href="http://www.osoa.org/download/attachments/791/SDO_Specification_Java_V2.01.pdf?version=1"
  * target="_bank">SDO Specification</a>. In general this sample attempts to use the
@@ -99,6 +99,18 @@ import commonj.sdo.DataObject;
  * java org.apache.tuscany.samples.sdo.specExampleSection.AccessingDataObjectsViaPropertyIndex </LI>
  * </UL>
  * 
+ * Note: when reading this source code in conjunction with the specification there is scope for confusion
+ * over what the values of the numeric indices ought to be,  depending on your understanding of the
+ * word "lexical" in the context of sequencing.  So the SDO specification at the 2.0.1 level (and before) says
+ * <i>The order of Properties in Type.getDeclaredProperties() is the lexical order of declarations in the
+ * XML Schema ComplexType.</i>.  So if your background is in computing and in particular in lexical parsing  
+ * then you would understand this to mean "the sequence of tokens produced by the lexical analyis (first) phase of a compiler"
+ * and if you ran a lexical parser against the complex type then you would see the elements emerege in the order they were
+ * written down.   If however you think more in terms of lexical in the context of lexicons or dictionaries, you may
+ * expect the indices to correspond to the lexically sorted (essentially alphabetically sorted) list of element names.
+ * After some investigation it is understood that the intention of the spec is to convey the first of these meanings.
+ * A clarification in the SDO 2.1 spec is being sought, but may not make it into that document in time.
+ * 
  * @author Robbie Minshall
  */
 
@@ -107,13 +119,7 @@ public class AccessingDataObjectsViaPropertyIndex {
     /**
      * Predefine the property indexes.
      * 
-     * Please note that these indices differ from those in the Examples section of
-     * the SDO 2.0 specification.
-     * 
-     * Properties from Type.getDeclaredProperties() and therefore the properties
-     * obtained from a data object are in alphanumerical ordering of the xml schema
-     * complex type.
-     * 
+
      */
 
     private static final int COMPANY_DEPARTMENT = 0;
@@ -124,11 +130,10 @@ public class AccessingDataObjectsViaPropertyIndex {
 
     private static final int DEPARTMENT_EMPLOYEES = 0;
 
-    private static final int EMPLOYEE_MANAGER = 0;
+    private static final int EMPLOYEE_NAME = 0;
+    private static final int EMPLOYEE_SN = 1;
+    private static final int EMPLOYEE_MANAGER = 2;
 
-    private static final int EMPLOYEE_NAME = 1;
-
-    private static final int EMPLOYEE_SN = 2;
 
     /**
      * Execute this method in order to run the sample.
