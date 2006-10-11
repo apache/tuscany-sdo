@@ -28,8 +28,7 @@
             <includes>
                 <include>LICENSE.txt</include>
                 <include>NOTICE.txt</include>
-                <include>STATUS</include>
-                <include>BUILDING.txt</include>
+                <include>STATUS.txt</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -51,20 +50,12 @@
             <includes>
                 <include>org.apache.tuscany.sdo:tuscany-sdo-impl</include>
                 <include>org.apache.tuscany.sdo:tuscany-sdo-tools</include>
-                <include>org.apache.tuscany.sdo:sample-sdo</include>
             </includes>
             <binaries>
                 <outputDirectory>lib</outputDirectory>
                 <unpack>false</unpack>
                 <includeDependencies>true</includeDependencies>
             </binaries>
-        </moduleSet>
-        <moduleSet>
-            <includes>
-                <include>org.apache.tuscany.sdo:sample-sdo</include>
-            </includes>
-            <sources>
-            </sources>
         </moduleSet>
     </moduleSets>
 </assembly>
