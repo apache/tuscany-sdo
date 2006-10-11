@@ -71,7 +71,7 @@
         <module>impl</module>
         <module>tools</module>
         <module>plugin</module>
-        <module>sample</module>
+        <!-- <module>sample</module>   -->
         <!-- <module>distribution</module>  -->
     </modules>
 
