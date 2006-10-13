@@ -24,9 +24,10 @@ Note: following this step you will have maven installed, and a Java JDK at level
    build step, then you will need to delete the file
    sdo/tools/src/main/java/org/apache/tuscany/sdo/generate/Interface2JavaGenerator.java before proceding
 4) Change to the top level directory of the Tuscany SDO Java Implementation project (sdo) of this source distribution.
+6) Execute: mvn
+   This will install the sdo implementation jar in you local repository
 5) Execute: mvn package javadoc:javadoc assembly:assembly
-   This will first place build artefacts in your local maven repository that your SDO programs can depend upon. It
-   will then build the Tuscany SDO for Java binary distribution artefacts in the sdo/distribution/target
+   This will build the Tuscany SDO for Java binary distribution artefacts in the sdo/distribution/target
    directory.
 
 Note: Depending on the load being experienced by remote Maven 2.0 repositories you may have to execute mvn several
