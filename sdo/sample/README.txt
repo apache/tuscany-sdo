@@ -6,7 +6,7 @@ This is a distribution of the sample programs for the Tuscany SDO Java implement
 Building the SDO Java Samples Project from this source distribution 
 -------------------------------------------------------------------
 
-Note: If you have already build the SDO for Java Implementation source distribution
+Note: If you have already built the SDO for Java Implementation source distribution
 then these sample programs are included in that distribution and are built as part
 of that process.  This distribution archive is provided for building against a
 binary distribution of SDO for Java. 

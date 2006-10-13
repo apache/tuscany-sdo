@@ -1,3 +1,8 @@
+
+Please note that this file acts as a place for logging changes to Tuscany SDO for Java and will be used to
+form the core part of the release notes for a Tuscany SDO for Java release.  For a fuller description of
+a particular release please see the RELEASE_NOTES.txt file in the release distribution.
+
 M2 Changes Relative to M1
 
   1. `java.io.Serializable` support for `DataObject`s including objects not in a `DataGraph` (TUSCANY-22)
