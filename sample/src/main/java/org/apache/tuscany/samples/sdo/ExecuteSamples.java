@@ -172,7 +172,7 @@ public class ExecuteSamples {
                     .println("--------------------------------------------------------------------------------------------------------------------------");
 
             System.out
-                    .println("The next two samples are based upon Fuhwei Lo's paper http://www-128.ibm.com/developerworks/webservices/library/ws-sdoxmlschema/");
+                    .println("The next two samples are based upon Fuhwei Lwo's paper http://www-128.ibm.com/developerworks/webservices/library/ws-sdoxmlschema/");
             System.out.println(">>>Press Enter to continue");
             in.readLine();
             CreatePurchaseOrder.main(args);
