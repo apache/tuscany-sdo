@@ -107,6 +107,24 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <overview>${basedir}/src/main/java/org/apache/tuscany/sdo/overview.html</overview> 
+                    <version>2.0</version>
+                </configuration>
+                <!-- <executions>
+                    <execution>
+                        <id>package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions> -->
+            </plugin>
+
         </plugins>
     </build>
 </project>

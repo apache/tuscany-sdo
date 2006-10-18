@@ -71,8 +71,8 @@
         <module>impl</module>
         <module>tools</module>
         <module>plugin</module>
-        <module>sample</module>
-        <module>distribution</module>
+        <!-- <module>sample</module>   -->
+        <!-- <module>distribution</module>  -->
     </modules>
 
     <build>
@@ -96,7 +96,57 @@
                     </includes>
                 </configuration>
             </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <!-- <version>${dependency.plugin.version}</version>  -->
+                <executions>
+                    <execution>
+                        <id>unpack-javadoc</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>commonj</groupId>
+                                    <artifactId>sdo-api-r${specVersion}</artifactId>
+                                    <classifier>javadoc</classifier>
+                                    <version>${pom.version}</version>
+                                    <outputDirectory>${project.build.directory}/javadoc/api</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>               
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2-SNAPSHOT</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>sdo.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
         </plugins>
+
+        <pluginManagement>
+            <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <version>2.0</version>
+                </configuration>
+            </plugin>
+        </plugins>
+        </pluginManagement>
+
     </build>
 
     <dependencyManagement>

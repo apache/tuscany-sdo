@@ -80,12 +80,12 @@ public class UsingXPath {
      * @param purchaseOrder.
      *            DataObject defined by Types in {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XSD_RESOURCE}
      */
-    public static void accessDataObjectUsingXPath(DataObject purchaseOrder) {
+    public static void accessDataObjectUsingXPath(DataObject purchaseOrder) throws Exception {
         // TODO: use variety of xpath expressions such as items/item[1]
         // TODO: add to junit test cases for test cases above
 
         // xpath expressions for obtaining various items
-        String[] xPathExpressions = { "items/item[1]","items/item[productName=Baby Monitor]" };
+        String[] xPathExpressions = { "items/item[1]","items/item[productName=\"Baby Monitor\"]" };
 
         for (int i = 0; i < xPathExpressions.length; i++) {
             try {
@@ -98,6 +98,7 @@ public class UsingXPath {
                 System.out.println("    Part num: " + item.get("partNum"));
             } catch (Exception e) {
                 System.out.println("    Sorry there was an error executing expression " + xPathExpressions[i]);
+                throw e; 
             }
         }
         

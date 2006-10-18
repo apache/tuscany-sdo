@@ -27,7 +27,7 @@ import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
 /**
- * Demonstrats accessing a created DataObject's properties using xPath.
+ * Demonstrates accessing a created DataObject's properties using xPath.
  * 
  * This sample is from the <a href="http://incubator.apache.org/tuscany"
  * target="_blank"> Apache Tuscany</a> project. It was written to help users
@@ -41,10 +41,37 @@ import commonj.sdo.helper.XSDHelper;
  * use unpure xpath expression. This sample attempts to demonstrate a more appropiate
  * subset of xPath operations.<br>
  * <br>
- * <b>Usage:</b> <br>
- * Include the following on your classpath :
- * codegen-2.2.0-SNAPSHOT.jar,codegen-ecore-2.2.0-SNAPSHOT.jar,common-2.2.0-SNAPSHOT.jar,ecore-2.2.0-SNAPSHOT.jar,ecore-change-2.2.0-SNAPSHOT.jar,ecore-xmi-2.2.0-SNAPSHOT.jar,sdo-api-SNAPSHOT.jar,tuscany-sdo-impl-SNAPSHOT.jar,xsd-2.2.0-SNAPSHOT.jar,sdo-samples-standAlone-1.0-SNAPSHOT.jar
  * <br>
+ * <br>
+ * <b>Usage:</b> <br>
+ * This sample can easily be run from within Eclipse as a Java Application if tuscany or 
+ * the sample-sdo project is imported into Eclipse as an existing project.
+ * <br><br>
+ * If executing as a standalone application please do the following: 
+ * <br>
+ * <UL>
+ * <LI>Include the following jar files on your classpath :
+ * <UL>
+ * <LI>SDO API and Tuscany Implementation
+ * <UL>
+ * <LI>sdo-api-{version}.jar - SDO API
+ * <LI>tuscany-sdo-impl-{version}.jar - Tuscany SDO implementation
+ * </UL>
+ * </LI>
+ * <LI>EMF dependencies. 
+ * <UL>
+ * <LI>emf-common-{version}.jar - some common framework utility and base classes
+ * <LI>emf-ecore-{version}.jar - the EMF core runtime implementation classes (the Ecore metamodel)
+ * <LI>emf-ecore-change-{version}.jar - the EMF change recorder and framework
+ * <LI>emf-ecore-xmi-{version}.jar - EMF's default XML (and XMI) serializer and loader
+ * <LI>xsd-{version}.jar - the XML Schema model
+ * </UL>
+ * </LI>
+ * </UL>
+ * 
+ * These jar files can be obtained from directly from Tuscany and EMF projects or from <a
+ * href="http://wiki.apache.org/ws-data/attachments/Tuscany(2f)TuscanyJava(2f)SDO_Java_Overview/attachments/SDO%20Execution%20Dependencies"
+ * target="_bank">SDO Execution Dependencies </a> </LI>
  * Execute: java
  * org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectUsingValidXPath
  * 

@@ -37,7 +37,7 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
  * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XSD_RESOURCE} to
  * define types then generates a purchase order DataObject and persists to
  * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XML_GENERATED}. This
- * sample was used to generate valid XML for Fuhwei Lo's paper <A
+ * sample was used to generate valid XML for Fuhwei Lwo's paper <A
  * HREF="http://www-128.ibm.com/developerworks/webservices/library/ws-sdoxmlschema/"
  * title="Me" onClick="checkLinks(this)">Create and read an XML document based on XML
  * Schema</A>
@@ -113,7 +113,7 @@ public class CreatePurchaseOrder {
             System.out.println("***************************************");
             System.out.println("SDO Sample CreatePurchaseOrder");
             System.out.println("***************************************");
-            System.out.println("This sample is based upon Fuhwei Lo's paper "
+            System.out.println("This sample is based upon Fuhwei Lwo's paper "
                     + "http://www-128.ibm.com/developerworks/webservices/library/ws-sdoxmlschema/"
                     + " and demonstrates creating a purchaseOrder DataObject from an "
                     + " existing XSD and then persisting to disk. Uses previously defined model");
