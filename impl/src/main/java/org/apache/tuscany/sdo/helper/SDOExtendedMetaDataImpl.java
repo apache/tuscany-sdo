@@ -27,6 +27,7 @@ import java.util.StringTokenizer;
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EModelElement;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 
@@ -50,6 +51,12 @@ public class SDOExtendedMetaDataImpl
 
   public SDOExtendedMetaDataImpl(String annotationURI, Registry registry) {
     super(annotationURI, registry);
+  }
+  
+  public EPackage getPackage(String namespace)
+  {
+    if ("".equals(namespace)) namespace = null; //FB
+    return super.getPackage(namespace);
   }
 
   /**

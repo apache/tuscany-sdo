@@ -376,6 +376,7 @@ public final class SDOUtil
   public static Type createType(TypeHelper scope, String uri, String name, boolean isDataType)
   {
     ExtendedMetaData extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
+    if ("".equals(uri)) uri = null; //FB
     
     EPackage ePackage = extendedMetaData.getPackage(uri);
     if (ePackage == null)
@@ -383,7 +384,7 @@ public final class SDOUtil
       ePackage = EcoreFactory.eINSTANCE.createEPackage();
       ePackage.setEFactoryInstance(new DynamicDataObjectImpl.FactoryImpl());
       ePackage.setNsURI(uri);
-      String packagePrefix = URI.createURI(uri).trimFileExtension().lastSegment();
+      String packagePrefix = uri != null ? URI.createURI(uri).trimFileExtension().lastSegment() : ""; //FB
       ePackage.setName(packagePrefix);
       ePackage.setNsPrefix(packagePrefix);
       extendedMetaData.putPackage(uri, ePackage);
