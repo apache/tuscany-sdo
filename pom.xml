@@ -22,13 +22,13 @@
     <parent>
         <groupId>org.apache.tuscany</groupId>
         <artifactId>parent</artifactId>
-        <version>1-incubator-SNAPSHOT</version>
+        <version>2-incubator-SNAPSHOT</version>
     </parent>
     <groupId>org.apache.tuscany.sdo</groupId>
     <artifactId>tuscany-sdo</artifactId>
     <packaging>pom</packaging>
     <name>Tuscany SDO Implementation Project</name>
-    <version>1.0-incubator-M2-SNAPSHOT</version>
+    <version>1.0-incubator-SNAPSHOT</version>
 
     <repositories>
         <repository>
@@ -154,7 +154,7 @@
             <dependency>
                 <groupId>commonj</groupId>
                 <artifactId>sdo-api-r${specVersion}</artifactId>
-                <version>1.0-incubator-M2-SNAPSHOT</version>
+                <version>1.0-incubator-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
