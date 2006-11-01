@@ -9,18 +9,20 @@ PROJECT STATUS
   For information on incubation please visit the project page at
   http://incubator.apache.org/projects/tuscany.html
 
-PENDING ISSUES
+
+Pending Issues
 ==============
-XXXX-XX-XX CCLA received for IBM's contribution of a C++ implementation
-XXXX-XX-XX CCLA received for BEA and IBM joint contribution of a Java implementation
+none
 
 RESOLVED ISSUES SINCE LAST STATUS
 =================================
-None
+2005-12-28 CCLA received for IBM's contribution of a C++ implementation
+2005-12-28 CCLA received for BEA and IBM joint contribution of a Java implementation
 
 OTHER NEWS
 ==========
 
+2006-10-19 Voted to release pom and buildtools for Java M2 release
 2006-09-29 Vote to add Ignacio Silva-Lepe as a new committer
 2006-09-18 Vote to add Venkata Krishnan as a new committer
 2006-08-10 Vote to add Andrew Borley as a new committer
