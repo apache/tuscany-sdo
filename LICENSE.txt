@@ -203,8 +203,17 @@
 
 ===============================================================================================================
 
+Apache Tuscany SDO for Java Subcomponents
+=========================================: 
 
-License for the Service Data Objects JavaDoc and Interface Definition files.
+The Tuscany SDO for Java release includes a number of subcomponents with
+separate copyright notices and license terms. Your use of the source
+code for the these subcomponents is subject to the terms and
+conditions of the following licenses.
+
+
+
+License for the Service Data Objects JavaDoc and Interface Definition files. (sdo-api-r2.0.1-1.0-incubator-M2.jar)
 
 Permission to copy, make derivative works of, and distribute the Service Data Objects 
 JavaDoc and Interface Definition Files files in any medium without fee or royalty as part 
@@ -233,6 +242,17 @@ JavaDoc and Interface Definition Files will at all times remain with the Authors
 No other rights are granted by implication, estoppel or otherwise.
 
 =================================================================================================================
+
+For the Eclipse EMF components
+(codegen-2.2.1.jar
+codegen-ecore-2.2.1.jar
+common-2.2.1.jar
+ecore-2.2.1.jar
+ecore-change-2.2.1.jar
+ecore-xmi-2.2.1.jar
+xsd-2.2.1.jar)
+
+
 Eclipse Public License - v 1.0
 
 THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
@@ -321,6 +341,12 @@ Everyone is permitted to copy and distribute copies of this Agreement, but in or
 This Agreement is governed by the laws of the State of New York and the intellectual property laws of the United States of America. No party to this Agreement will bring a legal action under this Agreement more than one year after the cause of action arose. Each party waives its rights to a jury trial in any resulting litigation.
 
 ===================================================================================================
+
+
+Tuscany JIRA http://issues.apache.org/jira/browse/TUSCANY-894 has been raised to confirm, or otherwise, the assertion that the CPL
+is no longer a relevant license for this distribution.
+Historically the emf artifacts listed above which are covered by the EPL were covered by the CPL.  This note (and conditionally the license
+text) should be removed when TUSCANY-984 is resolved. 
 
 Common Public License - v 1.0
 
