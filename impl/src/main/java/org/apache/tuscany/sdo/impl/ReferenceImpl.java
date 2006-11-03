@@ -131,7 +131,27 @@ public class ReferenceImpl extends EReferenceImpl implements Property,/* DataObj
   {
     return (Property)getEOpposite();
   }
+  
+  public boolean isNullable()
+  {
+    throw new UnsupportedOperationException();
+  }
 
+  public boolean isOpenContent()
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  public List getInstanceProperties()
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  public Object get(Property property)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
   // org.apache.tuscany.sdo.model.Property methods
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -203,7 +223,7 @@ public class ReferenceImpl extends EReferenceImpl implements Property,/* DataObj
   public boolean isSetContainment() {
     return isContainment();
   }
-
+  
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
   // DataObject method implementations
   /////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -28,6 +28,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 
+import commonj.sdo.Property;
+import commonj.sdo.Type;
 import commonj.sdo.helper.DataHelper;
 
 /**
@@ -466,4 +468,15 @@ public class DataHelperImpl implements DataHelper
     
     return toYearMonthDay(calendar.getTime());
   }
+  
+  public Object convert(Type type, Object value)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public Object convert(Property property, Object value)
+  {
+    throw new UnsupportedOperationException();
+  }
+
 }

@@ -1282,6 +1282,14 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    * <!-- end-user-doc -->
    * @generated NOT
    */
+  public Property getInstanceProperty(String propertyName)
+  {
+    return DataObjectUtil.getProperty(this, propertyName);
+  }
+
+  /**
+   * @deprecated
+   */
   public Property getProperty(String propertyName)
   {
     return DataObjectUtil.getProperty(this, propertyName);

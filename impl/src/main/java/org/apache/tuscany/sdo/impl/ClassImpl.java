@@ -198,7 +198,17 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
   }
   
   protected Map propertyNameToPropertyMap;
+  
+  public List getInstanceProperties()
+  {
+    throw new UnsupportedOperationException();
+  }
 
+  public Object get(Property property)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
   // org.apache.tuscany.sdo.model.Type method implementations
   /////////////////////////////////////////////////////////////////////////////////////////////////////////

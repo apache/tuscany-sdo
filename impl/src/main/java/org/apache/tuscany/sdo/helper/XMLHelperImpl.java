@@ -27,6 +27,9 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import commonj.sdo.DataObject;
@@ -83,6 +86,11 @@ public class XMLHelperImpl implements XMLHelper
     return document;
   }
   
+  public XMLDocument load(Source inputSource, String locationURI, Object options) throws IOException
+  {
+    throw new UnsupportedOperationException();
+  }
+  
   public String save(DataObject dataObject, String rootElementURI, String rootElementName)
   {
     StringWriter stringWriter = new StringWriter();
@@ -110,7 +118,12 @@ public class XMLHelperImpl implements XMLHelper
   public void save(XMLDocument xmlDocument, Writer outputWriter, Object options) throws IOException
   {
     ((XMLDocumentImpl)xmlDocument).save(outputWriter, options);
-   }
+  }
+  
+  public void save(XMLDocument xmlDocument, Result outputResult, Object options) throws IOException
+  {
+    throw new UnsupportedOperationException();
+  }
 
   public XMLDocument createDocument(DataObject dataObject, String rootElementURI, String rootElementName)
   {

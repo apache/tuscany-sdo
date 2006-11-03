@@ -167,7 +167,17 @@ public class DataTypeImpl extends EDataTypeImpl implements Type, org.apache.tusc
   {
     return null;
   }
+  
+  public List getInstanceProperties()
+  {
+    throw new UnsupportedOperationException();
+  }
 
+  public Object get(Property property)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
   // org.apache.tuscany.sdo.model.Type method implementations
   /////////////////////////////////////////////////////////////////////////////////////////////////////////

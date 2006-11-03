@@ -161,6 +161,26 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
       return featureMap;
     }
   }
+  
+  public boolean isNullable()
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  public boolean isOpenContent()
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  public List getInstanceProperties()
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  public Object get(Property property)
+  {
+    throw new UnsupportedOperationException();
+  }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
   // org.apache.tuscany.sdo.model.Property methods

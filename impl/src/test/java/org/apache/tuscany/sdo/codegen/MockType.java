@@ -93,4 +93,12 @@ class MockType implements Type {
     public List /*String*/ getAliasNames() {
         throw new UnsupportedOperationException();
     }
+    
+    public List getInstanceProperties() {
+        throw new UnsupportedOperationException();
+    }
+
+    public Object get(Property property) {
+        throw new UnsupportedOperationException();
+    }
 }

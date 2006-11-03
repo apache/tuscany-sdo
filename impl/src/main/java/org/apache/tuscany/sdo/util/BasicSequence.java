@@ -110,12 +110,28 @@ public class BasicSequence implements Sequence, FeatureMap.Internal.Wrapper
     featureMap.add(index, (EStructuralFeature)property, value);
   }
 
+  /**
+   * @deprecated
+   */
   public void add(String text)
   {
     FeatureMapUtil.addText(featureMap, text);
   }
 
+  /**
+   * @deprecated
+   */
   public void add(int index, String text)
+  {
+    FeatureMapUtil.addText(featureMap, index, text);
+  }
+ 
+  public void addText(String text)
+  {
+    FeatureMapUtil.addText(featureMap, text);
+  }
+
+  public void addText(int index, String text)
   {
     FeatureMapUtil.addText(featureMap, index, text);
   }

@@ -169,5 +169,15 @@ public class EnumImpl extends EEnumImpl implements Type
   {
     return false;
   }
+  
+  public List getInstanceProperties()
+  {
+    throw new UnsupportedOperationException();
+  }
 
+  public Object get(Property property)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
 } //EnumTypeImpl
