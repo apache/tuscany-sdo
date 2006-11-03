@@ -35,6 +35,7 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
+import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.TypeHelper;
 
 
@@ -168,6 +169,23 @@ public class TypeHelperImpl implements TypeHelper
         }
       }
     } // if (!isDataType)
+    
+    
+    // define a global property to accompany the type definition
+    if(definedType.getName() != null) { // null type name => type is global property holder,
+    	                                // so we don't need a global property for null named type
+        DataObject globalProperty = DataFactory.INSTANCE.create("commonj.sdo", "Property");
+        String propertyName = definedType.getName();
+	    if(!Character.isLowerCase(propertyName.charAt(0))) {
+	    	char[] pca = propertyName.toCharArray();
+	    	pca[0] = Character.toLowerCase(pca[0]);
+	    	propertyName = new String(pca);
+	    }    
+	    globalProperty.set("name", propertyName);
+	    globalProperty.set("type", definedType);
+	    globalProperty.set("containment", Boolean.TRUE);
+	    defineOpenContentProperty(definedType.getURI(), globalProperty);
+    }
 
     return definedType;
   }

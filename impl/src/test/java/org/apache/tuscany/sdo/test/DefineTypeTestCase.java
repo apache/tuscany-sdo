@@ -192,6 +192,8 @@ public class DefineTypeTestCase extends TestCase
     assertEquals(type.getProperty("lastName").getType(), stringType);
     
     assertNotNull(customer2);
+    assertNotNull(types.getOpenContentProperty("http://example.com/customer", "customer"));
+
     type = customer2.getType();
     assertNotNull(type.getProperty("custNum"));
     assertNotNull(type.getProperty("firstName"));
@@ -295,6 +297,8 @@ public class DefineTypeTestCase extends TestCase
     assertTrue(type.isDataType());
     
     assertNotNull(customer2);
+    assertNotNull(types.getOpenContentProperty("http://example.com/customer", "customer"));
+    
     type = customer2.getType();
     assertNotNull(type.getProperty("custNum"));
     assertNotNull(type.getProperty("firstName"));
