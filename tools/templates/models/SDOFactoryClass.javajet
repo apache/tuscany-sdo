@@ -224,8 +224,9 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 		isInited = true;
 
 		// Initialize simple dependencies
-		<%=genModel.getImportedName("org.apache.tuscany.sdo.util.SDOUtil")%>.registerStaticTypes(<%=genModel.getImportedName("org.apache.tuscany.sdo.impl.SDOFactoryImpl")%>.class);
-		<%=genModel.getImportedName("org.apache.tuscany.sdo.util.SDOUtil")%>.registerStaticTypes(<%=genModel.getImportedName("org.apache.tuscany.sdo.model.impl.ModelPackageImpl")%>.class);
+  <%for (Iterator p=genPackage.getPackageSimpleDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
+		<%=genModel.getImportedName("org.apache.tuscany.sdo.util.SDOUtil")%>.registerStaticTypes(<%=dep.getImportedFactoryInterfaceName()%>.class);
+  <%}%>
 
 		// Create package meta-data objects
 		the<%=factoryType%>.createMetaData();
@@ -312,9 +313,9 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 		property = (<%=genModel.getImportedName("commonj.sdo.Property")%>)<%=genClass.getSafeUncapName()%>Type.getProperties().get(<%=genClass.getClassName()%>.<%=genFeature.getUpperName()%>);
             <%if (genFeature.isReferenceType()) { GenFeature reverseGenFeature = genFeature.getReverse();%>
               <%String reverse = reverseGenFeature == null ? "null" : genPackage.getPackageInstanceVariable(reverseGenFeature.getGenPackage()) + ".get" + reverseGenFeature.getFeatureAccessorName() + "()";%>
-		initializeProperty(property, <%=type%>, "<%=genFeature.getSafeName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>, <%=genFeature.getContainmentFlag().equals("IS_COMPOSITE")? "true": "false"%> , <%=reverse%>);
+		initializeProperty(property, <%=type%>, "<%=genFeature.getName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>, <%=genFeature.getContainmentFlag().equals("IS_COMPOSITE")? "true": "false"%> , <%=reverse%>);
             <%}else{%>
-		initializeProperty(property, <%=type%>, "<%=genFeature.getSafeName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>);
+		initializeProperty(property, <%=type%>, "<%=genFeature.getName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>);
             <%}%>
             <%for (Iterator sources = annotationSources.iterator(); sources.hasNext();) { String annotationSource = (String)sources.next();%>
               <%EAnnotation featureAnnotation = genFeature.getEcoreFeature().getEAnnotation(annotationSource);%>

@@ -137,7 +137,7 @@ public class GeneratorMojo extends AbstractMojo {
      * 
      * @parameter
      */
-    private Boolean noEMF;
+    private Boolean useEMFPatterns;
 
     /**
      * With this option, generated interfaces will extend commonj.sdo.DataObject.
@@ -187,8 +187,8 @@ public class GeneratorMojo extends AbstractMojo {
                 // if (null == sf.getCompilerSourceRoots()) {
                 // sf.setCompilerSourceRoots(compileSourceRoots);
                 // }
-                if (null == sf.isNoEMF()) {
-                    sf.setNoEMF(noEMF);
+                if (null == sf.isUseEMFPatterns()) {
+                    sf.setUseEMFPatterns(useEMFPatterns);
                 }
                 if (null == sf.isInterfaceDataObject()) {
                     sf.setInterfaceDataObject(interfaceDataObject);
@@ -214,7 +214,7 @@ public class GeneratorMojo extends AbstractMojo {
                     schemaFiles[i].setGenerateLoader(generateLoader);
                     schemaFiles[i].setGenerateSwitch(generateSwitch);
                     schemaFiles[i].setNoContainment(noContainment);
-                    schemaFiles[i].setNoEMF(noEMF);
+                    schemaFiles[i].setUseEMFPatterns(useEMFPatterns);
                     schemaFiles[i].setInterfaceDataObject(interfaceDataObject);
                     schemaFiles[i].setNoInterfaces(noInterfaces);
                     schemaFiles[i].setNoNotification(noNotification);
@@ -230,7 +230,7 @@ public class GeneratorMojo extends AbstractMojo {
                 schemaFiles[0].setGenerateLoader(generateLoader);
                 schemaFiles[0].setGenerateSwitch(generateSwitch);
                 schemaFiles[0].setNoContainment(noContainment);
-                schemaFiles[0].setNoEMF(noEMF);
+                schemaFiles[0].setUseEMFPatterns(useEMFPatterns);
                 schemaFiles[0].setInterfaceDataObject(interfaceDataObject);
                 schemaFiles[0].setNoInterfaces(noInterfaces);
                 schemaFiles[0].setNoNotification(noNotification);
@@ -266,8 +266,8 @@ public class GeneratorMojo extends AbstractMojo {
                 if (schemaFiles[i].isGenerateSwitch() != null && schemaFiles[i].isGenerateSwitch().booleanValue()) {
                     genOptions |= JavaGenerator.OPTION_GENERATE_SWITCH;
                 }
-                if (schemaFiles[i].isNoEMF() != null && schemaFiles[i].isNoEMF().booleanValue()) {
-                    genOptions |= JavaGenerator.OPTION_NO_EMF;
+                if (schemaFiles[i].isUseEMFPatterns() != null && schemaFiles[i].isUseEMFPatterns().booleanValue()) {
+                    genOptions |= JavaGenerator.OPTION_USE_EMF_PATTERNS;
                 }
                 if (schemaFiles[i].isInterfaceDataObject() != null
                         && schemaFiles[i].isInterfaceDataObject().booleanValue()) {

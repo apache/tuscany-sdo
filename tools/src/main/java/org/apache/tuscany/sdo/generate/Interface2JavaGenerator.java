@@ -234,7 +234,7 @@ public class Interface2JavaGenerator extends JavaGenerator
     System.out.println("  [ -arrayAccessors ]");
     System.out.println("  [ -generateLoader ]");
     System.out.println("  [ -noUnsettable ]");
-    System.out.println("  [ -noEMF ]");
+    System.out.println("  [ -useEMFPatterns ]");
     System.out.println("  interface-names");
     System.out.println("");
     System.out.println("For example:");

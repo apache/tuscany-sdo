@@ -97,7 +97,7 @@ public class SchemaFileOption {
      * 
      * @parameter
      */
-    private Boolean noEMF;
+    private Boolean useEMFPatterns;
     
     /**
      * With this option, generated interfaces will extend commonj.sdo.DataObject.
@@ -141,12 +141,12 @@ public class SchemaFileOption {
         this.noContainment = noContainment;
     }
 
-    public Boolean isNoEMF() {
-        return noEMF;
+    public Boolean isUseEMFPatterns() {
+        return useEMFPatterns;
     }
 
-    public void setNoEMF(Boolean noEMF) {
-        this.noEMF = noEMF;
+    public void setUseEMFPatterns(Boolean useEMFPatterns) {
+        this.useEMFPatterns = useEMFPatterns;
     }
     
     public Boolean isNoInterfaces() {

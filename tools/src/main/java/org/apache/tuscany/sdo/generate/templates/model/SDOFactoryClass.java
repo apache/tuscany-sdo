@@ -1,23 +1,3 @@
-/**
- *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
- */
-
 package org.apache.tuscany.sdo.generate.templates.model;
 
 import org.apache.tuscany.sdo.generate.util.*;
@@ -132,11 +112,11 @@ public class SDOFactoryClass
   protected final String TEXT_91 = ".NAMESPACE_URI);" + NL + "\t\t";
   protected final String TEXT_92 = " the";
   protected final String TEXT_93 = " = new ";
-  protected final String TEXT_94 = "();" + NL + "\t\tisInited = true;" + NL + "" + NL + "\t\t// Initialize simple dependencies" + NL + "\t\t";
-  protected final String TEXT_95 = ".registerStaticTypes(";
-  protected final String TEXT_96 = ".class);" + NL + "\t\t";
-  protected final String TEXT_97 = ".registerStaticTypes(";
-  protected final String TEXT_98 = ".class);" + NL + "" + NL + "\t\t// Create package meta-data objects" + NL + "\t\tthe";
+  protected final String TEXT_94 = "();" + NL + "\t\tisInited = true;" + NL + "" + NL + "\t\t// Initialize simple dependencies";
+  protected final String TEXT_95 = NL + "\t\t";
+  protected final String TEXT_96 = ".registerStaticTypes(";
+  protected final String TEXT_97 = ".class);";
+  protected final String TEXT_98 = NL + NL + "\t\t// Create package meta-data objects" + NL + "\t\tthe";
   protected final String TEXT_99 = ".createMetaData();" + NL + "" + NL + "\t\t// Initialize created meta-data" + NL + "\t\tthe";
   protected final String TEXT_100 = ".initializeMetaData();" + NL + "" + NL + "\t\t// Mark meta-data to indicate it can't be changed" + NL + "\t\t//the";
   protected final String TEXT_101 = ".freeze(); //FB do we need to freeze / should we freeze ????" + NL + "" + NL + "\t\treturn the";
@@ -536,7 +516,26 @@ public class SDOFactoryClass
   public String generate(Object argument)
   {
     final StringBuffer stringBuffer = new StringBuffer();
-   
+    
+/**
+ *
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
 
     GenPackage genPackage = (GenPackage)((Object[])argument)[0]; GenModel genModel=genPackage.getGenModel();
     boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);
@@ -759,13 +758,13 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
     stringBuffer.append(TEXT_93);
     stringBuffer.append(factoryType);
     stringBuffer.append(TEXT_94);
-    stringBuffer.append(genModel.getImportedName("org.apache.tuscany.sdo.util.SDOUtil"));
+    for (Iterator p=genPackage.getPackageSimpleDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();
     stringBuffer.append(TEXT_95);
-    stringBuffer.append(genModel.getImportedName("org.apache.tuscany.sdo.impl.SDOFactoryImpl"));
-    stringBuffer.append(TEXT_96);
     stringBuffer.append(genModel.getImportedName("org.apache.tuscany.sdo.util.SDOUtil"));
+    stringBuffer.append(TEXT_96);
+    stringBuffer.append(dep.getImportedFactoryInterfaceName());
     stringBuffer.append(TEXT_97);
-    stringBuffer.append(genModel.getImportedName("org.apache.tuscany.sdo.model.impl.ModelPackageImpl"));
+    }
     stringBuffer.append(TEXT_98);
     stringBuffer.append(factoryType);
     stringBuffer.append(TEXT_99);
@@ -891,7 +890,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
     stringBuffer.append(TEXT_148);
     stringBuffer.append(type);
     stringBuffer.append(TEXT_149);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(genFeature.getName());
     stringBuffer.append(TEXT_150);
     stringBuffer.append(genFeature.getDefaultValue());
     stringBuffer.append(TEXT_151);
@@ -915,7 +914,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
     stringBuffer.append(TEXT_160);
     stringBuffer.append(type);
     stringBuffer.append(TEXT_161);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(genFeature.getName());
     stringBuffer.append(TEXT_162);
     stringBuffer.append(genFeature.getDefaultValue());
     stringBuffer.append(TEXT_163);
