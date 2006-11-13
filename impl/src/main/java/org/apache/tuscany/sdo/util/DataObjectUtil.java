@@ -1801,7 +1801,8 @@ public final class DataObjectUtil
         }
       }
     }
-    throw new IllegalArgumentException("Class '" + eObject.eClass().getName() + "' does not have a feature named '" + featureName + "'");
+
+	return null;
   }
   
   public static List getAliasNames(EStructuralFeature eStructuralFeature)
