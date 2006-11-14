@@ -213,6 +213,14 @@ conditions of the following licenses.
 
 For the Eclipse Modeling Framework component:
 
+applicable to the jar files
+
+  common-2.2.1.jar
+  ecore-2.2.1.jar
+  ecore-change-2.2.1.jar
+  ecore-xmi-2.2.1.jar
+  xsd-2.2.1.jar
+
 Eclipse Public License - v 1.0
 
 THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE

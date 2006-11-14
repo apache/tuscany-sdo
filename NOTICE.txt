@@ -22,7 +22,6 @@ agreements, notices or terms and conditions. Some of these other license agreeme
 include (but are not limited to):
 
   . Eclipse Public License Version 1.0 (available at http://www.eclipse.org/legal/epl-v10.html)
-  . Common Public License Version 1.0 (available at http://www.eclipse.org/legal/cpl-v10.html)
 
 It is your obligation to read and accept all such terms and conditions prior to use of the
 distribution. If term or condition is provided, please contact the Apache Software Foundation
