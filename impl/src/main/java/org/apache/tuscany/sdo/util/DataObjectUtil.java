@@ -772,7 +772,7 @@ public final class DataObjectUtil
       return null;
     }
 
-    throw new IllegalArgumentException("The value of type '" + value.getClass().getName() + "' cannot be converted to BigDecimal");
+    throw new ClassCastException("The value of type '" + value.getClass().getName() + "' cannot be converted to BigDecimal");
   }
 
   public static Object getSetValue(Property property, BigDecimal value)
@@ -830,7 +830,7 @@ public final class DataObjectUtil
       return String.valueOf(value);
     }
 
-    //Instead of throwing an IllegalArgumentException we will pass the value to the property
+    //Instead of throwing an ClassCastException we will pass the value to the property
     return value;
   }
 
@@ -866,7 +866,7 @@ public final class DataObjectUtil
       return null;
     }
 
-    throw new IllegalArgumentException("The value of type '" + value.getClass().getName() + "' cannot be converted to BigInteger");
+    throw new ClassCastException("The value of type '" + value.getClass().getName() + "' cannot be converted to BigInteger");
   }
 
   public static Object getSetValue(Property property, BigInteger value)
@@ -929,7 +929,7 @@ public final class DataObjectUtil
       return value.toByteArray();
     }
 
-    //Instead of throwing an IllegalArgumentException we will pass the value to the property
+    //Instead of throwing an ClassCastException we will pass the value to the property
     return value;
   }
 
@@ -950,7 +950,7 @@ public final class DataObjectUtil
       return false;
     }
 
-    throw new IllegalArgumentException("The value of type '" + value.getClass().getName() + "' cannot be converted to boolean");
+    throw new ClassCastException("The value of type '" + value.getClass().getName() + "' cannot be converted to boolean");
   }
 
   public static Object getSetValue(Property property, boolean value)
@@ -967,7 +967,7 @@ public final class DataObjectUtil
       return String.valueOf(value);
     }
 
-    //Instead of throwing an IllegalArgumentException we will pass the value to the property
+    //Instead of throwing an ClassCastException we will pass the value to the property
     return value ? Boolean.TRUE : Boolean.FALSE;
   }
 
@@ -988,7 +988,7 @@ public final class DataObjectUtil
       return 0;
     }
 
-    throw new IllegalArgumentException("The value of type '" + value.getClass().getName() + "' cannot be converted to byte");
+    throw new ClassCastException("The value of type '" + value.getClass().getName() + "' cannot be converted to byte");
   }
 
   public static Object getSetValue(Property property, byte value)
@@ -1040,7 +1040,7 @@ public final class DataObjectUtil
       return String.valueOf(value);
     }
 
-    //Instead of throwing an IllegalArgumentException we will pass the value to the property
+    //Instead of throwing an ClassCastException we will pass the value to the property
     return new Byte(value);
   }
 
@@ -1061,7 +1061,7 @@ public final class DataObjectUtil
       return null;
     }
 
-    throw new IllegalArgumentException("The value of type '" + value.getClass().getName() + "' cannot be converted to byte array");
+    throw new ClassCastException("The value of type '" + value.getClass().getName() + "' cannot be converted to byte array");
   }
 
   public static Object getSetValue(Property property, byte[] value)
@@ -1084,7 +1084,7 @@ public final class DataObjectUtil
       return new BigInteger(value);
     }
 
-    //Instead of throwing an IllegalArgumentException we will pass the value to the property
+    //Instead of throwing an ClassCastException we will pass the value to the property
     return value;
   }
 
@@ -1105,7 +1105,7 @@ public final class DataObjectUtil
       return 0;
     }
 
-    throw new IllegalArgumentException("The value of type '" + value.getClass().getName() + "' cannot be converted to char");
+    throw new ClassCastException("The value of type '" + value.getClass().getName() + "' cannot be converted to char");
   }
 
   public static Object getSetValue(Property property, char value)
@@ -1122,7 +1122,7 @@ public final class DataObjectUtil
       return String.valueOf(value);
     }
 
-    //Instead of throwing an IllegalArgumentException we will pass the value to the property
+    //Instead of throwing an ClassCastException we will pass the value to the property
     return new Character(value);
   }
 
@@ -1152,7 +1152,7 @@ public final class DataObjectUtil
       return null;
     }
 
-    throw new IllegalArgumentException("The value of type '" + value.getClass().getName() + "' cannot be converted to Date");
+    throw new ClassCastException("The value of type '" + value.getClass().getName() + "' cannot be converted to Date");
   }
 
   public static Object getSetValue(Property property, Date value)
@@ -1201,7 +1201,7 @@ public final class DataObjectUtil
         return DataHelper.INSTANCE.toDateTime(value);
       }
       
-      // Instead of throwing an IllegalArgumentException we will pass the value to the property
+      // Instead of throwing an ClassCastException we will pass the value to the property
       return value;
     }
 
@@ -1215,7 +1215,7 @@ public final class DataObjectUtil
       return new Long(value.getTime());
     }
 
-    // Instead of throwing an IllegalArgumentException we will pass the value to the property
+    // Instead of throwing an ClassCastException we will pass the value to the property
     return value;
   }
 
@@ -1285,7 +1285,7 @@ public final class DataObjectUtil
       return 0;
     }
 
-    throw new IllegalArgumentException("The value of type '" + value.getClass().getName() + "' cannot be converted to double");
+    throw new ClassCastException("The value of type '" + value.getClass().getName() + "' cannot be converted to double");
   }
 
   public static Object getSetValue(Property property, double value)
@@ -1337,7 +1337,7 @@ public final class DataObjectUtil
       return String.valueOf(value);
     }
 
-    //Instead of throwing an IllegalArgumentException we will pass the value to the property
+    //Instead of throwing an ClassCastException we will pass the value to the property
     return new Double(value);
   }
 
@@ -1358,7 +1358,7 @@ public final class DataObjectUtil
       return 0;
     }
 
-    throw new IllegalArgumentException("The value of type '" + value.getClass().getName() + "' cannot be converted to float");
+    throw new ClassCastException("The value of type '" + value.getClass().getName() + "' cannot be converted to float");
   }
 
   public static Object getSetValue(Property property, float value)
@@ -1410,7 +1410,7 @@ public final class DataObjectUtil
       return String.valueOf(value);
     }
 
-    // Instead of throwing an IllegalArgumentException we will pass the value to the property
+    // Instead of throwing an ClassCastException we will pass the value to the property
     return new Float(value);
   }
 
@@ -1431,7 +1431,7 @@ public final class DataObjectUtil
       return 0;
     }
 
-    throw new IllegalArgumentException("The value of type '" + value.getClass().getName() + "' cannot be converted to int");
+    throw new ClassCastException("The value of type '" + value.getClass().getName() + "' cannot be converted to int");
   }
 
   public static Object getSetValue(Property property, int value)
@@ -1483,7 +1483,7 @@ public final class DataObjectUtil
       return String.valueOf(value);
     }
 
-    // Instead of throwing an IllegalArgumentException we will pass the value to the property
+    // Instead of throwing an ClassCastException we will pass the value to the property
     return new Integer(value);
   }
 
@@ -1509,7 +1509,7 @@ public final class DataObjectUtil
       return 0;
     }
 
-    throw new IllegalArgumentException("The value of type '" + value.getClass().getName() + "' cannot be converted to long");
+    throw new ClassCastException("The value of type '" + value.getClass().getName() + "' cannot be converted to long");
   }
 
   public static Object getSetValue(Property property, long value)
@@ -1566,7 +1566,7 @@ public final class DataObjectUtil
       return new Date(value);
     }
 
-    // Instead of throwing an IllegalArgumentException we will pass the value to the property
+    // Instead of throwing an ClassCastException we will pass the value to the property
     return new Long(value);
   }
 
@@ -1587,7 +1587,7 @@ public final class DataObjectUtil
       return 0;
     }
 
-    throw new IllegalArgumentException("The value of type '" + value.getClass().getName() + "' cannot be converted to short");
+    throw new ClassCastException("The value of type '" + value.getClass().getName() + "' cannot be converted to short");
   }
 
   public static Object getSetValue(Property property, short value)
@@ -1639,7 +1639,7 @@ public final class DataObjectUtil
       return String.valueOf(value);
     }
 
-    // Instead of throwing an IllegalArgumentException we will pass the value to the property
+    // Instead of throwing an ClassCastException we will pass the value to the property
     return new Short(value);
   }
 
@@ -1671,7 +1671,7 @@ public final class DataObjectUtil
       return null;
     }
 
-    throw new IllegalArgumentException("The value of type '" + value.getClass().getName() + "' cannot be converted to String");
+    throw new ClassCastException("The value of type '" + value.getClass().getName() + "' cannot be converted to String");
   }
 
   public static Object getSetValue(Property property, String value)
@@ -1744,7 +1744,7 @@ public final class DataObjectUtil
       return Boolean.valueOf(value);
     }
 
-    // Instead of throwing an IllegalArgumentException we will pass the value to the property
+    // Instead of throwing an ClassCastException we will pass the value to the property
     return value;
   }
   
