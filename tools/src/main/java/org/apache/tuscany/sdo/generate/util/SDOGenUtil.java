@@ -19,15 +19,41 @@
  */
 package org.apache.tuscany.sdo.generate.util;
 
+import java.util.Iterator;
+
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 
 public class SDOGenUtil {
 	
-	public static String getQualifiedTypeAccessor(GenClassifier genClassifier){
-		GenPackage genPackage = genClassifier.getGenPackage();
-		return "((" + genPackage.getImportedFactoryClassName() + ")" 
-		+ genPackage.getImportedFactoryInterfaceName() + ".INSTANCE).get" + genClassifier.getClassifierAccessorName() + "()";
+	public static String getQualifiedTypeAccessor(GenClassifier genClassifier)
+    {
+	  GenPackage genPackage = genClassifier.getGenPackage();
+	  return getFactoryImpl(genPackage) + ".get" + genClassifier.getClassifierAccessorName() + "()";
 	}
+    
+    public static String getDependentFactoryArgumentList(GenPackage genPackage, boolean isFormalArguments)
+    {
+      StringBuffer result = new StringBuffer();
+      for (Iterator iter = genPackage.getPackageInitializationDependencies().iterator(); iter.hasNext(); )
+      {
+        GenPackage dep = (GenPackage)iter.next();
+        if (isFormalArguments)
+        {
+          result.append(dep.getImportedFactoryClassName());
+          result.append(" ");
+        }
+        result.append(genPackage.getPackageInstanceVariable(dep));
+        if (iter.hasNext()) result.append(", ");
+      }
+      return result.toString();
+    }
+
+    public static String getFactoryImpl(GenPackage genPackage)
+    {
+      return "((" + genPackage.getImportedFactoryClassName() + ")" 
+        + genPackage.getImportedFactoryInterfaceName() + ".INSTANCE)";
+    }
+ 
 
 }

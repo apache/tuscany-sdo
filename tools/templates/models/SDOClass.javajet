@@ -549,10 +549,10 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
           <%if (genModel.isVirtualDelegation()) {%>
 		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genFeature.getUpperName()%><%if (!genFeature.isReferenceType()) {%>, <%=genFeature.getUpperName()%>_DEFAULT_<%}%>);
           <%}%>
-		if (<%=genFeature.getSafeName()%> != null && <%=genFeature.getSafeNameAsEObject()%>.isProxy())
+		if (<%=genFeature.getSafeName()%> != null && isProxy(<%=genFeature.getSafeName()%>))
 		{
-			<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%> old<%=genFeature.getCapName()%> = (<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>;
-			<%=genFeature.getSafeName()%> = <%=genFeature.getNonEObjectInternalTypeCast()%>eResolveProxy(old<%=genFeature.getCapName()%>);
+			Object old<%=genFeature.getCapName()%> = <%=genFeature.getSafeName()%>;
+			<%=genFeature.getSafeName()%> = <%=genFeature.getNonEObjectInternalTypeCast()%>resolveProxy(old<%=genFeature.getCapName()%>);
 			if (<%=genFeature.getSafeName()%> != old<%=genFeature.getCapName()%>)
 			{
           <%if (genFeature.isEffectiveContains()) {%>
@@ -1693,7 +1693,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	 */
 	public String toString()
 	{
-		if (isProxy()) return super.toString();
+		if (isProxy(this)) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
   <%{ boolean first = true;%>

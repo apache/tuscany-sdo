@@ -19,8 +19,6 @@
  */
 package org.apache.tuscany.sdo.impl;
 
-import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
-import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -66,6 +64,16 @@ public class FactoryBase extends EPackageImpl
   public DataObject create(int typeNumber)
   {
     return null;
+  }
+  
+  public Object createFromString(int typeNumber, String stringValue)
+  {
+    return ((SDOEFactoryImpl)getEFactoryInstance()).createFromString(typeNumber, stringValue);
+  }
+  
+  public String convertToString(int typeNumber, Object objectValue)
+  {
+    return ((SDOEFactoryImpl)getEFactoryInstance()).convertToString(typeNumber, objectValue);
   }
   
   protected Type createType(boolean isDataType, int typeNumber)
@@ -195,18 +203,6 @@ public class FactoryBase extends EPackageImpl
     return ePackage instanceof FactoryBase ? (Object)ePackage : (Object)ePackage.getEFactoryInstance(); 
   }
   
-  // default implementation of createFromString
-  public Object createFromString(Type type, String stringValue, int propertyValue)
-  {
-	return (String)ModelFactoryImpl.eINSTANCE.createFromString(ModelPackageImpl.Literals.STRING, stringValue);
-  }
-  
-  // default implementation of convertToString
-  public String convertToString(Type type, Object objectValue, int propertyValue)
-  {
-	return ModelFactoryImpl.eINSTANCE.convertToString(ModelPackageImpl.Literals.STRING, objectValue);
-  }
-  
   // private EMF-specific methods
 
   private static class SDOEFactoryImpl extends EFactoryImpl
@@ -229,12 +225,22 @@ public class FactoryBase extends EPackageImpl
     
     public Object createFromString(EDataType eDataType, String stringValue)
     {
-      return sdoFactory.createFromString((Type)eDataType, stringValue, eDataType.getClassifierID());
+      return sdoFactory.createFromString(eDataType.getClassifierID(), stringValue);
     }
     
     public String convertToString(EDataType eDataType, Object objectValue)
     {
-      return sdoFactory.convertToString((Type)eDataType, objectValue, eDataType.getClassifierID());
+      return sdoFactory.convertToString(eDataType.getClassifierID(), objectValue);
+    }
+    
+    protected Object createFromString(int typeNumber, String stringValue)
+    {
+      return super.createFromString((EDataType)sdoFactory.getEClassifiers().get(typeNumber), stringValue);
+    }
+    
+    protected String convertToString(int typeNumber, Object objectValue)
+    {
+      return super.convertToString((EDataType)sdoFactory.getEClassifiers().get(typeNumber), objectValue);
     }
   }
   

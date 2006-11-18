@@ -186,7 +186,7 @@ public class XSDHelperImpl implements XSDHelper
         XSDSchema schema = (XSDSchema)schemaIter.next();    
 
         EPackage ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
-        if (ePackage == null)
+        if (ePackage == null) //FB Comment out this line to regenerate sdoModel.xsd
         {
           Collection originalEPackages = new HashSet(ecoreBuilder.getTargetNamespaceToEPackageMap().values());
           ecoreBuilder.generate(schema);

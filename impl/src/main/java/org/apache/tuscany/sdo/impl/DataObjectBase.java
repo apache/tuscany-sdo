@@ -232,9 +232,14 @@ public abstract class DataObjectBase extends DataObjectImpl
     }
   }
 
-  protected boolean isProxy()
+  protected boolean isProxy() // FB TODO : regen models and then remove this method
   {
     return eIsProxy();
+  }
+  
+  protected boolean isProxy(Object object)
+  {
+    return ((EObject)object).eIsProxy();
   }
   
   protected Object resolveProxy(Object proxy)
