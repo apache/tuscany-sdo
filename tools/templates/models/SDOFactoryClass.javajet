@@ -121,7 +121,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 	 */
 	public <%=genPackage.getFactoryClassName()%>()
 	{
-		super(NAMESPACE_URI, NAMESPACE_PREFIX);
+		super(NAMESPACE_URI, NAMESPACE_PREFIX, "<%=genPackage.getReflectionPackageName()%>");
 	}
 	
 	/**
@@ -246,25 +246,24 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 	{
 		if (isCreated) return;
 		isCreated = true;
-      <%if (!genPackage.getGenClasses().isEmpty()) {%>	
-        <%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
+    <%if (!genPackage.getGenClasses().isEmpty()) {%>	
 
-        <%if (!genClass.isAbstract() && !genClass.isDynamic()) {%>
+		// Create types and their properties
+      <%for (Iterator c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = (GenClass)c.next();%>
+        <%if (!genClass.isDynamic()) {%>
 		<%=genClass.getSafeUncapName()%>Type = createType(false, <%=genPackage.getClassifierID(genClass)%>);
           <%for (Iterator j=genClass.getGenFeatures().iterator(); j.hasNext();) { GenFeature genFeature = (GenFeature)j.next();%>
 		createProperty(<%=!genFeature.isReferenceType()%>, <%=genClass.getSafeUncapName()%>Type, <%=genClass.getClassName()%>.<%=genFeature.getUpperName()%>);
           <%}%>
+          <%if (c.hasNext()) {%>
+
+          <%}%>
         <%}%>
       <%}%>
     <%}%>
-    <%if (!genPackage.getGenEnums().isEmpty()) {%>
-		// Create enums
-		// todo
-      <%for (Iterator e=genPackage.getGenEnums().iterator(); e.hasNext();) { GenEnum genEnum = (GenEnum)e.next();%>
-		<%=genEnum.getClassifierInstanceName()%> = createEEnum(<%=genEnum.getClassifierID()%>);
-      <%}%>
-    <%}%>
     <%if (!genPackage.getGenDataTypes().isEmpty()) {%>
+
+		// Create data types
       <%for (Iterator d=genPackage.getGenDataTypes().iterator(); d.hasNext();) { GenDataType genDataType = (GenDataType)d.next();%>
 		<%=genDataType.getSafeUncapName()%>Type = createType(true, <%=genPackage.getClassifierID(genDataType)%> );
       <%}%>
@@ -288,17 +287,17 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
       <%annotationSources.remove(ExtendedMetaData.ANNOTATION_URI);%>
 		<%=genModel.getImportedName("commonj.sdo.Property")%> property = null;
 
-		// Add supertypes to classes
+		// Add supertypes to types
       <%for (Iterator c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = (GenClass)c.next();%>
         <%for (Iterator b=genClass.getBaseGenClasses().iterator(); b.hasNext();) { GenClass baseGenClass = (GenClass)b.next();%>
 		addSuperType(<%=genClass.getSafeUncapName()%>Type, <%=baseGenClass.getSafeUncapName()%>Type);
         <%}%>
       <%}%>
 
-		// Initialize classes and features; add operations and parameters
+		// Initialize types and properties
       <%for (Iterator i=genPackage.getGenClasses().iterator(); i.hasNext();) { GenClass genClass = (GenClass)i.next();%>
-        <%if (!genClass.isAbstract() && !genClass.isDynamic()) {%>
-		initializeType(<%=genClass.getSafeUncapName()%>Type, <%=genClass.getImportedInterfaceName()%>.class, "<%=genClass.getName()%>");
+        <%if (!genClass.isDynamic()) {%>
+		initializeType(<%=genClass.getSafeUncapName()%>Type, <%=genClass.getImportedInterfaceName()%>.class, "<%=genClass.getName()%>", <%=genClass.isAbstract()%>);
           <%for (Iterator sources = annotationSources.iterator(); sources.hasNext();) { String annotationSource = (String)sources.next();%>
             <%EAnnotation classAnnotation = genClass.getEcoreClassifier().getEAnnotation(annotationSource);%>
             <%if (classAnnotation != null) { %>
@@ -307,13 +306,12 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
               <%}%>
             <%}%>
           <%}%>
-
           <%for (Iterator j=genClass.getGenFeatures().iterator(); j.hasNext();) {GenFeature genFeature = (GenFeature)j.next();%>
             <%String type = genFeature.getType().equals("commonj.sdo.Sequence") ? "getSequence()" : genPackage.getPackageInstanceVariable(genFeature.getTypeGenPackage()) + ".get" + genFeature.getTypeClassifierAccessorName() + "()";%>
 		property = (<%=genModel.getImportedName("commonj.sdo.Property")%>)<%=genClass.getSafeUncapName()%>Type.getProperties().get(<%=genClass.getClassName()%>.<%=genFeature.getUpperName()%>);
             <%if (genFeature.isReferenceType()) { GenFeature reverseGenFeature = genFeature.getReverse();%>
               <%String reverse = reverseGenFeature == null ? "null" : genPackage.getPackageInstanceVariable(reverseGenFeature.getGenPackage()) + ".get" + reverseGenFeature.getFeatureAccessorName() + "()";%>
-		initializeProperty(property, <%=type%>, "<%=genFeature.getName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>, <%=genFeature.getContainmentFlag().equals("IS_COMPOSITE")? "true": "false"%> , <%=reverse%>);
+		initializeProperty(property, <%=type%>, "<%=genFeature.getName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>, <%=genFeature.getContainmentFlag().equals("IS_COMPOSITE")? "true": "false"%>, <%=reverse%>);
             <%}else{%>
 		initializeProperty(property, <%=type%>, "<%=genFeature.getName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>);
             <%}%>
@@ -325,8 +323,8 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
                 <%}%>
               <%}%>
             <%}%>
-
           <%}%>
+
         <%}%>
       <%}%>
       <%if (!genPackage.getGenDataTypes().isEmpty()) {%>
@@ -349,7 +347,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 	  
 	protected void createXSDMetaData(<%=SDOGenUtil.getDependentFactoryArgumentList(genPackage, true)%>)
 	{
-		super.createXSDMetaData();
+		super.initXSD();
 		
 		<%=genModel.getImportedName("commonj.sdo.Property")%> property = null;
 		

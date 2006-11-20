@@ -25,13 +25,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
-import org.apache.tuscany.sdo.model.ModelPackage;
+import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
@@ -39,7 +40,6 @@ import org.eclipse.xsd.XSDComponent;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDFeature;
 import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
@@ -58,7 +58,7 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
   public SDOXSDEcoreBuilder(ExtendedMetaData extendedMetaData)
   {
     super(extendedMetaData);
-    populateTypeToTypeObjectMap(ModelPackage.eINSTANCE);
+    populateTypeToTypeObjectMap((EPackage)ModelFactory.INSTANCE);
   }
 
   /**

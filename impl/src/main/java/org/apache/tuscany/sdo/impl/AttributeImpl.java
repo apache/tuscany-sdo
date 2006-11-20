@@ -257,6 +257,19 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
   public void setContainment(boolean value) {
     throw new UnsupportedOperationException();
   }
+  
+  public void setNullable(boolean value) {
+    throw new UnsupportedOperationException("Property is frozen and cannot be modified");
+  }
+
+  public void unsetNullable() {
+    throw new UnsupportedOperationException("Property is frozen and cannot be modified");
+  }
+
+  public boolean isSetNullable() {
+    return isReadOnly();
+  }
+
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
   // DataObject method implementations

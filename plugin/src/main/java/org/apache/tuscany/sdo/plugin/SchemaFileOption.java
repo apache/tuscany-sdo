@@ -93,13 +93,6 @@ public class SchemaFileOption {
     private Boolean generateSwitch;
 
     /**
-     * With this option, generated code will not have EMF references.
-     * 
-     * @parameter
-     */
-    private Boolean useEMFPatterns;
-    
-    /**
      * With this option, generated interfaces will extend commonj.sdo.DataObject.
      * 
      * @parameter
@@ -141,14 +134,6 @@ public class SchemaFileOption {
         this.noContainment = noContainment;
     }
 
-    public Boolean isUseEMFPatterns() {
-        return useEMFPatterns;
-    }
-
-    public void setUseEMFPatterns(Boolean useEMFPatterns) {
-        this.useEMFPatterns = useEMFPatterns;
-    }
-    
     public Boolean isNoInterfaces() {
         return noInterfaces;
     }

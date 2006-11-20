@@ -1,21 +1,8 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.model.impl;
 
@@ -24,31 +11,13 @@ import commonj.sdo.Sequence;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase;
 
-import org.apache.tuscany.sdo.impl.DataObjectImpl;
+import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.Property;
 import org.apache.tuscany.sdo.model.Type;
-import org.apache.tuscany.sdo.model.java.impl.JavaPackageImpl;
-
-import org.apache.tuscany.sdo.util.BasicSequence;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.BasicFeatureMap;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 
 /**
  * <!-- begin-user-doc -->
@@ -61,20 +30,129 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link org.apache.tuscany.sdo.model.impl.TypeImpl#getProperty <em>Property</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.TypeImpl#getAliasName <em>Alias Name</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.TypeImpl#getAny <em>Any</em>}</li>
- *   <li>{@link org.apache.tuscany.sdo.model.impl.TypeImpl#isAbstract <em>Abstract</em>}</li>
- *   <li>{@link org.apache.tuscany.sdo.model.impl.TypeImpl#isDataType <em>Data Type</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.TypeImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.impl.TypeImpl#getUri <em>Uri</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.impl.TypeImpl#isDataType <em>Data Type</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.TypeImpl#isOpen <em>Open</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.TypeImpl#isSequenced <em>Sequenced</em>}</li>
- *   <li>{@link org.apache.tuscany.sdo.model.impl.TypeImpl#getUri <em>Uri</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.impl.TypeImpl#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.TypeImpl#getAnyAttribute <em>Any Attribute</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class TypeImpl extends DataObjectImpl implements Type
+public class TypeImpl extends DataObjectBase implements Type
 {
+  /**
+   * The feature id for the '<em><b>Base Type</b></em>' reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int BASE_TYPE = 0;
+
+  /**
+   * The feature id for the '<em><b>Property</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int PROPERTY = 1;
+
+  /**
+   * The feature id for the '<em><b>Alias Name</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int ALIAS_NAME = 2;
+
+  /**
+   * The feature id for the '<em><b>Any</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int ANY = 3;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int NAME = 4;
+
+  /**
+   * The feature id for the '<em><b>Uri</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int URI = 5;
+
+  /**
+   * The feature id for the '<em><b>Data Type</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int DATA_TYPE = 6;
+
+  /**
+   * The feature id for the '<em><b>Open</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int OPEN = 7;
+
+  /**
+   * The feature id for the '<em><b>Sequenced</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int SEQUENCED = 8;
+
+  /**
+   * The feature id for the '<em><b>Abstract</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int ABSTRACT = 9;
+
+  /**
+   * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int ANY_ATTRIBUTE = 10;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 11;
+
   /**
    * The cached value of the '{@link #getBaseType() <em>Base Type</em>}' reference list.
    * <!-- begin-user-doc -->
@@ -83,8 +161,9 @@ public class TypeImpl extends DataObjectImpl implements Type
    * @generated
    * @ordered
    */
-  protected EList baseType = null;
-
+  
+  protected List baseType = null;
+  
   /**
    * The cached value of the '{@link #getProperty() <em>Property</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -93,8 +172,9 @@ public class TypeImpl extends DataObjectImpl implements Type
    * @generated
    * @ordered
    */
-  protected EList property = null;
-
+  
+  protected List property = null;
+  
   /**
    * The cached value of the '{@link #getAliasName() <em>Alias Name</em>}' attribute list.
    * <!-- begin-user-doc -->
@@ -103,8 +183,9 @@ public class TypeImpl extends DataObjectImpl implements Type
    * @generated
    * @ordered
    */
-  protected EList aliasName = null;
-
+  
+  protected List aliasName = null;
+  
   /**
    * The cached value of the '{@link #getAny() <em>Any</em>}' attribute list.
    * <!-- begin-user-doc -->
@@ -113,66 +194,9 @@ public class TypeImpl extends DataObjectImpl implements Type
    * @generated
    * @ordered
    */
-  protected BasicSequence any = null;
-
-  /**
-   * The default value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isAbstract()
-   * @generated
-   * @ordered
-   */
-  protected static final boolean ABSTRACT_EDEFAULT = false;
-
-  /**
-   * The cached value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isAbstract()
-   * @generated
-   * @ordered
-   */
-  protected boolean abstract_ = ABSTRACT_EDEFAULT;
-
-  /**
-   * This is true if the Abstract attribute has been set.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  protected boolean abstractESet = false;
-
-  /**
-   * The default value of the '{@link #isDataType() <em>Data Type</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isDataType()
-   * @generated
-   * @ordered
-   */
-  protected static final boolean DATA_TYPE_EDEFAULT = false;
-
-  /**
-   * The cached value of the '{@link #isDataType() <em>Data Type</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isDataType()
-   * @generated
-   * @ordered
-   */
-  protected boolean dataType = DATA_TYPE_EDEFAULT;
-
-  /**
-   * This is true if the Data Type attribute has been set.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  protected boolean dataTypeESet = false;
-
+  
+  protected Sequence any = null;
+  
   /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -181,7 +205,7 @@ public class TypeImpl extends DataObjectImpl implements Type
    * @generated
    * @ordered
    */
-  protected static final String NAME_EDEFAULT = null;
+  protected static final String NAME_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -191,65 +215,7 @@ public class TypeImpl extends DataObjectImpl implements Type
    * @generated
    * @ordered
    */
-  protected String name = NAME_EDEFAULT;
-
-  /**
-   * The default value of the '{@link #isOpen() <em>Open</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isOpen()
-   * @generated
-   * @ordered
-   */
-  protected static final boolean OPEN_EDEFAULT = false;
-
-  /**
-   * The cached value of the '{@link #isOpen() <em>Open</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isOpen()
-   * @generated
-   * @ordered
-   */
-  protected boolean open = OPEN_EDEFAULT;
-
-  /**
-   * This is true if the Open attribute has been set.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  protected boolean openESet = false;
-
-  /**
-   * The default value of the '{@link #isSequenced() <em>Sequenced</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isSequenced()
-   * @generated
-   * @ordered
-   */
-  protected static final boolean SEQUENCED_EDEFAULT = false;
-
-  /**
-   * The cached value of the '{@link #isSequenced() <em>Sequenced</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isSequenced()
-   * @generated
-   * @ordered
-   */
-  protected boolean sequenced = SEQUENCED_EDEFAULT;
-
-  /**
-   * This is true if the Sequenced attribute has been set.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  protected boolean sequencedESet = false;
+  protected String name = NAME_DEFAULT_;
 
   /**
    * The default value of the '{@link #getUri() <em>Uri</em>}' attribute.
@@ -259,7 +225,7 @@ public class TypeImpl extends DataObjectImpl implements Type
    * @generated
    * @ordered
    */
-  protected static final String URI_EDEFAULT = null;
+  protected static final String URI_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getUri() <em>Uri</em>}' attribute.
@@ -269,7 +235,123 @@ public class TypeImpl extends DataObjectImpl implements Type
    * @generated
    * @ordered
    */
-  protected String uri = URI_EDEFAULT;
+  protected String uri = URI_DEFAULT_;
+
+  /**
+   * The default value of the '{@link #isDataType() <em>Data Type</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isDataType()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean DATA_TYPE_DEFAULT_ = false;
+
+  /**
+   * The cached value of the '{@link #isDataType() <em>Data Type</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isDataType()
+   * @generated
+   * @ordered
+   */
+  protected boolean dataType = DATA_TYPE_DEFAULT_;
+
+  /**
+   * This is true if the Data Type attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean dataType_set_ = false;
+
+  /**
+   * The default value of the '{@link #isOpen() <em>Open</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isOpen()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean OPEN_DEFAULT_ = false;
+
+  /**
+   * The cached value of the '{@link #isOpen() <em>Open</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isOpen()
+   * @generated
+   * @ordered
+   */
+  protected boolean open = OPEN_DEFAULT_;
+
+  /**
+   * This is true if the Open attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean open_set_ = false;
+
+  /**
+   * The default value of the '{@link #isSequenced() <em>Sequenced</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSequenced()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean SEQUENCED_DEFAULT_ = false;
+
+  /**
+   * The cached value of the '{@link #isSequenced() <em>Sequenced</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSequenced()
+   * @generated
+   * @ordered
+   */
+  protected boolean sequenced = SEQUENCED_DEFAULT_;
+
+  /**
+   * This is true if the Sequenced attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean sequenced_set_ = false;
+
+  /**
+   * The default value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isAbstract()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean ABSTRACT_DEFAULT_ = false;
+
+  /**
+   * The cached value of the '{@link #isAbstract() <em>Abstract</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isAbstract()
+   * @generated
+   * @ordered
+   */
+  protected boolean abstract_ = ABSTRACT_DEFAULT_;
+
+  /**
+   * This is true if the Abstract attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean abstract_set_ = false;
 
   /**
    * The cached value of the '{@link #getAnyAttribute() <em>Any Attribute</em>}' attribute list.
@@ -279,8 +361,9 @@ public class TypeImpl extends DataObjectImpl implements Type
    * @generated
    * @ordered
    */
-  protected BasicSequence anyAttribute = null;
-
+  
+  protected Sequence anyAttribute = null;
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -296,9 +379,9 @@ public class TypeImpl extends DataObjectImpl implements Type
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EClass eStaticClass()
+  public commonj.sdo.Type getType()
   {
-    return ModelPackageImpl.Literals.TYPE;
+    return ((ModelFactoryImpl)ModelFactory.INSTANCE).getType();
   }
 
   /**
@@ -310,11 +393,10 @@ public class TypeImpl extends DataObjectImpl implements Type
   {
     if (baseType == null)
     {
-      baseType = new EObjectResolvingEList(Type.class, this, ModelPackageImpl.TYPE__BASE_TYPE);
+      baseType = createPropertyList(ListKind.CONTAINMENT, Type.class, BASE_TYPE);
     }
     return baseType;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -324,11 +406,10 @@ public class TypeImpl extends DataObjectImpl implements Type
   {
     if (property == null)
     {
-      property = new EObjectContainmentEList(Property.class, this, ModelPackageImpl.TYPE__PROPERTY);
+      property = createPropertyList(ListKind.CONTAINMENT, Property.class, PROPERTY);
     }
     return property;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -338,11 +419,10 @@ public class TypeImpl extends DataObjectImpl implements Type
   {
     if (aliasName == null)
     {
-      aliasName = new EDataTypeEList(String.class, this, ModelPackageImpl.TYPE__ALIAS_NAME);
+      aliasName = createPropertyList(ListKind.CONTAINMENT, String.class, ALIAS_NAME);
     }
     return aliasName;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -352,111 +432,10 @@ public class TypeImpl extends DataObjectImpl implements Type
   {
     if (any == null)
     {
-      any = new BasicSequence(new BasicFeatureMap(this, ModelPackageImpl.TYPE__ANY));
+      any = createSequence(ANY);
     }
     return any;
   }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isAbstract()
-  {
-    return abstract_;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setAbstract(boolean newAbstract)
-  {
-    boolean oldAbstract = abstract_;
-    abstract_ = newAbstract;
-    boolean oldAbstractESet = abstractESet;
-    abstractESet = true;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.TYPE__ABSTRACT, oldAbstract, abstract_, !oldAbstractESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void unsetAbstract()
-  {
-    boolean oldAbstract = abstract_;
-    boolean oldAbstractESet = abstractESet;
-    abstract_ = ABSTRACT_EDEFAULT;
-    abstractESet = false;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackageImpl.TYPE__ABSTRACT, oldAbstract, ABSTRACT_EDEFAULT, oldAbstractESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isSetAbstract()
-  {
-    return abstractESet;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isDataType()
-  {
-    return dataType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setDataType(boolean newDataType)
-  {
-    boolean oldDataType = dataType;
-    dataType = newDataType;
-    boolean oldDataTypeESet = dataTypeESet;
-    dataTypeESet = true;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.TYPE__DATA_TYPE, oldDataType, dataType, !oldDataTypeESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void unsetDataType()
-  {
-    boolean oldDataType = dataType;
-    boolean oldDataTypeESet = dataTypeESet;
-    dataType = DATA_TYPE_EDEFAULT;
-    dataTypeESet = false;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackageImpl.TYPE__DATA_TYPE, oldDataType, DATA_TYPE_EDEFAULT, oldDataTypeESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isSetDataType()
-  {
-    return dataTypeESet;
-  }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -466,7 +445,6 @@ public class TypeImpl extends DataObjectImpl implements Type
   {
     return name;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -476,108 +454,8 @@ public class TypeImpl extends DataObjectImpl implements Type
   {
     String oldName = name;
     name = newName;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.TYPE__NAME, oldName, name));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isOpen()
-  {
-    return open;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setOpen(boolean newOpen)
-  {
-    boolean oldOpen = open;
-    open = newOpen;
-    boolean oldOpenESet = openESet;
-    openESet = true;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.TYPE__OPEN, oldOpen, open, !oldOpenESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void unsetOpen()
-  {
-    boolean oldOpen = open;
-    boolean oldOpenESet = openESet;
-    open = OPEN_EDEFAULT;
-    openESet = false;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackageImpl.TYPE__OPEN, oldOpen, OPEN_EDEFAULT, oldOpenESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isSetOpen()
-  {
-    return openESet;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isSequenced()
-  {
-    return sequenced;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setSequenced(boolean newSequenced)
-  {
-    boolean oldSequenced = sequenced;
-    sequenced = newSequenced;
-    boolean oldSequencedESet = sequencedESet;
-    sequencedESet = true;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.TYPE__SEQUENCED, oldSequenced, sequenced, !oldSequencedESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void unsetSequenced()
-  {
-    boolean oldSequenced = sequenced;
-    boolean oldSequencedESet = sequencedESet;
-    sequenced = SEQUENCED_EDEFAULT;
-    sequencedESet = false;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackageImpl.TYPE__SEQUENCED, oldSequenced, SEQUENCED_EDEFAULT, oldSequencedESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isSetSequenced()
-  {
-    return sequencedESet;
+    if (isNotifying())
+      notify(ChangeKind.SET, NAME, oldName, name);
   }
 
   /**
@@ -589,7 +467,6 @@ public class TypeImpl extends DataObjectImpl implements Type
   {
     return uri;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -599,8 +476,204 @@ public class TypeImpl extends DataObjectImpl implements Type
   {
     String oldUri = uri;
     uri = newUri;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.TYPE__URI, oldUri, uri));
+    if (isNotifying())
+      notify(ChangeKind.SET, URI, oldUri, uri);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isDataType()
+  {
+    return dataType;
+  }
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setDataType(boolean newDataType)
+  {
+    boolean oldDataType = dataType;
+    dataType = newDataType;
+    boolean oldDataType_set_ = dataType_set_;
+    dataType_set_ = true;
+    if (isNotifying())
+      notify(ChangeKind.SET, DATA_TYPE, oldDataType, dataType, !oldDataType_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetDataType()
+  {
+    boolean oldDataType = dataType;
+    boolean oldDataType_set_ = dataType_set_;
+    dataType = DATA_TYPE_DEFAULT_;
+    dataType_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, DATA_TYPE, oldDataType, DATA_TYPE_DEFAULT_, oldDataType_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetDataType()
+  {
+    return dataType_set_;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isOpen()
+  {
+    return open;
+  }
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setOpen(boolean newOpen)
+  {
+    boolean oldOpen = open;
+    open = newOpen;
+    boolean oldOpen_set_ = open_set_;
+    open_set_ = true;
+    if (isNotifying())
+      notify(ChangeKind.SET, OPEN, oldOpen, open, !oldOpen_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetOpen()
+  {
+    boolean oldOpen = open;
+    boolean oldOpen_set_ = open_set_;
+    open = OPEN_DEFAULT_;
+    open_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, OPEN, oldOpen, OPEN_DEFAULT_, oldOpen_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetOpen()
+  {
+    return open_set_;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSequenced()
+  {
+    return sequenced;
+  }
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setSequenced(boolean newSequenced)
+  {
+    boolean oldSequenced = sequenced;
+    sequenced = newSequenced;
+    boolean oldSequenced_set_ = sequenced_set_;
+    sequenced_set_ = true;
+    if (isNotifying())
+      notify(ChangeKind.SET, SEQUENCED, oldSequenced, sequenced, !oldSequenced_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetSequenced()
+  {
+    boolean oldSequenced = sequenced;
+    boolean oldSequenced_set_ = sequenced_set_;
+    sequenced = SEQUENCED_DEFAULT_;
+    sequenced_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, SEQUENCED, oldSequenced, SEQUENCED_DEFAULT_, oldSequenced_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetSequenced()
+  {
+    return sequenced_set_;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isAbstract()
+  {
+    return abstract_;
+  }
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setAbstract(boolean newAbstract)
+  {
+    boolean oldAbstract = abstract_;
+    abstract_ = newAbstract;
+    boolean oldAbstract_set_ = abstract_set_;
+    abstract_set_ = true;
+    if (isNotifying())
+      notify(ChangeKind.SET, ABSTRACT, oldAbstract, abstract_, !oldAbstract_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetAbstract()
+  {
+    boolean oldAbstract = abstract_;
+    boolean oldAbstract_set_ = abstract_set_;
+    abstract_ = ABSTRACT_DEFAULT_;
+    abstract_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, ABSTRACT, oldAbstract, ABSTRACT_DEFAULT_, oldAbstract_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetAbstract()
+  {
+    return abstract_set_;
   }
 
   /**
@@ -612,28 +685,27 @@ public class TypeImpl extends DataObjectImpl implements Type
   {
     if (anyAttribute == null)
     {
-      anyAttribute = new BasicSequence(new BasicFeatureMap(this, ModelPackageImpl.TYPE__ANY_ATTRIBUTE));
+      anyAttribute = createSequence(ANY_ATTRIBUTE);
     }
     return anyAttribute;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  public ChangeContext inverseRemove(Object otherEnd, int propertyIndex, ChangeContext changeContext)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TYPE__PROPERTY:
-        return ((InternalEList)getProperty()).basicRemove(otherEnd, msgs);
-      case ModelPackageImpl.TYPE__ANY:
-        return ((InternalEList)((FeatureMap.Internal.Wrapper)getAny()).featureMap()).basicRemove(otherEnd, msgs);
-      case ModelPackageImpl.TYPE__ANY_ATTRIBUTE:
-        return ((InternalEList)((FeatureMap.Internal.Wrapper)getAnyAttribute()).featureMap()).basicRemove(otherEnd, msgs);
+      case PROPERTY:
+        return removeFromList(getProperty(), otherEnd, changeContext);
+      case ANY:
+        return removeFromSequence(getAny(), otherEnd, changeContext);
+      case ANY_ATTRIBUTE:
+        return removeFromSequence(getAnyAttribute(), otherEnd, changeContext);
     }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
+    return super.inverseRemove(otherEnd, propertyIndex, changeContext);
   }
 
   /**
@@ -641,36 +713,38 @@ public class TypeImpl extends DataObjectImpl implements Type
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  public Object get(int propertyIndex, boolean resolve)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TYPE__BASE_TYPE:
+      case BASE_TYPE:
         return getBaseType();
-      case ModelPackageImpl.TYPE__PROPERTY:
+      case PROPERTY:
         return getProperty();
-      case ModelPackageImpl.TYPE__ALIAS_NAME:
+      case ALIAS_NAME:
         return getAliasName();
-      case ModelPackageImpl.TYPE__ANY:
-        if (coreType) return ((FeatureMap.Internal.Wrapper)getAny()).featureMap();
+      case ANY:
+        // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
+        //if (coreType) 
         return getAny();
-      case ModelPackageImpl.TYPE__ABSTRACT:
-        return isAbstract() ? Boolean.TRUE : Boolean.FALSE;
-      case ModelPackageImpl.TYPE__DATA_TYPE:
-        return isDataType() ? Boolean.TRUE : Boolean.FALSE;
-      case ModelPackageImpl.TYPE__NAME:
+      case NAME:
         return getName();
-      case ModelPackageImpl.TYPE__OPEN:
-        return isOpen() ? Boolean.TRUE : Boolean.FALSE;
-      case ModelPackageImpl.TYPE__SEQUENCED:
-        return isSequenced() ? Boolean.TRUE : Boolean.FALSE;
-      case ModelPackageImpl.TYPE__URI:
+      case URI:
         return getUri();
-      case ModelPackageImpl.TYPE__ANY_ATTRIBUTE:
-        if (coreType) return ((FeatureMap.Internal.Wrapper)getAnyAttribute()).featureMap();
+      case DATA_TYPE:
+        return isDataType() ? Boolean.TRUE : Boolean.FALSE;
+      case OPEN:
+        return isOpen() ? Boolean.TRUE : Boolean.FALSE;
+      case SEQUENCED:
+        return isSequenced() ? Boolean.TRUE : Boolean.FALSE;
+      case ABSTRACT:
+        return isAbstract() ? Boolean.TRUE : Boolean.FALSE;
+      case ANY_ATTRIBUTE:
+        // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
+        //if (coreType) 
         return getAnyAttribute();
     }
-    return super.eGet(featureID, resolve, coreType);
+    return super.get(propertyIndex, resolve);
   }
 
   /**
@@ -678,48 +752,48 @@ public class TypeImpl extends DataObjectImpl implements Type
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(int featureID, Object newValue)
+  public void set(int propertyIndex, Object newValue)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TYPE__BASE_TYPE:
+      case BASE_TYPE:
         getBaseType().clear();
         getBaseType().addAll((Collection)newValue);
         return;
-      case ModelPackageImpl.TYPE__PROPERTY:
+      case PROPERTY:
         getProperty().clear();
         getProperty().addAll((Collection)newValue);
         return;
-      case ModelPackageImpl.TYPE__ALIAS_NAME:
+      case ALIAS_NAME:
         getAliasName().clear();
         getAliasName().addAll((Collection)newValue);
         return;
-      case ModelPackageImpl.TYPE__ANY:
-        ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getAny()).featureMap()).set(newValue);
+      case ANY:
+      	setSequence(getAny(), newValue);
         return;
-      case ModelPackageImpl.TYPE__ABSTRACT:
-        setAbstract(((Boolean)newValue).booleanValue());
-        return;
-      case ModelPackageImpl.TYPE__DATA_TYPE:
-        setDataType(((Boolean)newValue).booleanValue());
-        return;
-      case ModelPackageImpl.TYPE__NAME:
+      case NAME:
         setName((String)newValue);
         return;
-      case ModelPackageImpl.TYPE__OPEN:
-        setOpen(((Boolean)newValue).booleanValue());
-        return;
-      case ModelPackageImpl.TYPE__SEQUENCED:
-        setSequenced(((Boolean)newValue).booleanValue());
-        return;
-      case ModelPackageImpl.TYPE__URI:
+      case URI:
         setUri((String)newValue);
         return;
-      case ModelPackageImpl.TYPE__ANY_ATTRIBUTE:
-        ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getAnyAttribute()).featureMap()).set(newValue);
+      case DATA_TYPE:
+        setDataType(((Boolean)newValue).booleanValue());
+        return;
+      case OPEN:
+        setOpen(((Boolean)newValue).booleanValue());
+        return;
+      case SEQUENCED:
+        setSequenced(((Boolean)newValue).booleanValue());
+        return;
+      case ABSTRACT:
+        setAbstract(((Boolean)newValue).booleanValue());
+        return;
+      case ANY_ATTRIBUTE:
+      	setSequence(getAnyAttribute(), newValue);
         return;
     }
-    super.eSet(featureID, newValue);
+    super.set(propertyIndex, newValue);
   }
 
   /**
@@ -727,45 +801,45 @@ public class TypeImpl extends DataObjectImpl implements Type
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(int featureID)
+  public void unset(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TYPE__BASE_TYPE:
+      case BASE_TYPE:
         getBaseType().clear();
         return;
-      case ModelPackageImpl.TYPE__PROPERTY:
+      case PROPERTY:
         getProperty().clear();
         return;
-      case ModelPackageImpl.TYPE__ALIAS_NAME:
+      case ALIAS_NAME:
         getAliasName().clear();
         return;
-      case ModelPackageImpl.TYPE__ANY:
-        ((FeatureMap.Internal.Wrapper)getAny()).featureMap().clear();
+      case ANY:
+        unsetSequence(getAny());
         return;
-      case ModelPackageImpl.TYPE__ABSTRACT:
-        unsetAbstract();
+      case NAME:
+        setName(NAME_DEFAULT_);
         return;
-      case ModelPackageImpl.TYPE__DATA_TYPE:
+      case URI:
+        setUri(URI_DEFAULT_);
+        return;
+      case DATA_TYPE:
         unsetDataType();
         return;
-      case ModelPackageImpl.TYPE__NAME:
-        setName(NAME_EDEFAULT);
-        return;
-      case ModelPackageImpl.TYPE__OPEN:
+      case OPEN:
         unsetOpen();
         return;
-      case ModelPackageImpl.TYPE__SEQUENCED:
+      case SEQUENCED:
         unsetSequenced();
         return;
-      case ModelPackageImpl.TYPE__URI:
-        setUri(URI_EDEFAULT);
+      case ABSTRACT:
+        unsetAbstract();
         return;
-      case ModelPackageImpl.TYPE__ANY_ATTRIBUTE:
-        ((FeatureMap.Internal.Wrapper)getAnyAttribute()).featureMap().clear();
+      case ANY_ATTRIBUTE:
+        unsetSequence(getAnyAttribute());
         return;
     }
-    super.eUnset(featureID);
+    super.unset(propertyIndex);
   }
 
   /**
@@ -773,34 +847,34 @@ public class TypeImpl extends DataObjectImpl implements Type
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(int featureID)
+  public boolean isSet(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TYPE__BASE_TYPE:
+      case BASE_TYPE:
         return baseType != null && !baseType.isEmpty();
-      case ModelPackageImpl.TYPE__PROPERTY:
+      case PROPERTY:
         return property != null && !property.isEmpty();
-      case ModelPackageImpl.TYPE__ALIAS_NAME:
+      case ALIAS_NAME:
         return aliasName != null && !aliasName.isEmpty();
-      case ModelPackageImpl.TYPE__ANY:
-        return any != null && !any.featureMap().isEmpty();
-      case ModelPackageImpl.TYPE__ABSTRACT:
-        return isSetAbstract();
-      case ModelPackageImpl.TYPE__DATA_TYPE:
+      case ANY:
+        return any != null && !isSequenceEmpty(getAny());
+      case NAME:
+        return NAME_DEFAULT_ == null ? name != null : !NAME_DEFAULT_.equals(name);
+      case URI:
+        return URI_DEFAULT_ == null ? uri != null : !URI_DEFAULT_.equals(uri);
+      case DATA_TYPE:
         return isSetDataType();
-      case ModelPackageImpl.TYPE__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case ModelPackageImpl.TYPE__OPEN:
+      case OPEN:
         return isSetOpen();
-      case ModelPackageImpl.TYPE__SEQUENCED:
+      case SEQUENCED:
         return isSetSequenced();
-      case ModelPackageImpl.TYPE__URI:
-        return URI_EDEFAULT == null ? uri != null : !URI_EDEFAULT.equals(uri);
-      case ModelPackageImpl.TYPE__ANY_ATTRIBUTE:
-        return anyAttribute != null && !anyAttribute.featureMap().isEmpty();
+      case ABSTRACT:
+        return isSetAbstract();
+      case ANY_ATTRIBUTE:
+        return anyAttribute != null && !isSequenceEmpty(getAnyAttribute());
     }
-    return super.eIsSet(featureID);
+    return super.isSet(propertyIndex);
   }
 
   /**
@@ -810,34 +884,42 @@ public class TypeImpl extends DataObjectImpl implements Type
    */
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (aliasName: ");
     result.append(aliasName);
     result.append(", any: ");
     result.append(any);
-    result.append(", abstract: ");
-    if (abstractESet) result.append(abstract_); else result.append("<unset>");
-    result.append(", dataType: ");
-    if (dataTypeESet) result.append(dataType); else result.append("<unset>");
     result.append(", name: ");
     result.append(name);
-    result.append(", open: ");
-    if (openESet) result.append(open); else result.append("<unset>");
-    result.append(", sequenced: ");
-    if (sequencedESet) result.append(sequenced); else result.append("<unset>");
     result.append(", uri: ");
     result.append(uri);
+    result.append(", dataType: ");
+    if (dataType_set_) result.append(dataType); else result.append("<unset>");
+    result.append(", open: ");
+    if (open_set_) result.append(open); else result.append("<unset>");
+    result.append(", sequenced: ");
+    if (sequenced_set_) result.append(sequenced); else result.append("<unset>");
+    result.append(", abstract: ");
+    if (abstract_set_) result.append(abstract_); else result.append("<unset>");
     result.append(", anyAttribute: ");
     result.append(anyAttribute);
     result.append(')');
     return result.toString();
   }
-  
+
+  EStructuralFeature javaClassFeature = null;
+
   public String getInstanceClassName()
   {
-    EStructuralFeature javaClassFeature = JavaPackageImpl.eINSTANCE.getDocumentRoot_JavaClass();
+    //FB EStructuralFeature javaClassFeature = JavaFactory.getGlobal_JavaClass();
+    //FB TODO figure out proper way to access global properties
+    if (javaClassFeature == null)
+    {
+      javaClassFeature = BasicExtendedMetaData.INSTANCE.getAttribute("commonj.sdo/java", "javaClass");
+    }
+
     Sequence anyAttribute = getAnyAttribute();
     int count = anyAttribute.size();
     for (int i = 0; i < count; i++)
@@ -850,5 +932,5 @@ public class TypeImpl extends DataObjectImpl implements Type
     }
     return null;
   }
-  
+
 } //TypeImpl

@@ -1,33 +1,17 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.util.metadata.impl;
 
-import org.apache.tuscany.sdo.impl.DataObjectImpl;
+import commonj.sdo.Type;
+
+import org.apache.tuscany.sdo.impl.DataObjectBase;
 
 import org.apache.tuscany.sdo.util.metadata.JavaMetaData;
-
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.apache.tuscany.sdo.util.metadata.MetadataFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -43,8 +27,36 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
+public class JavaMetaDataImpl extends DataObjectBase implements JavaMetaData
 {
+  /**
+   * The feature id for the '<em><b>Factory Interface</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int FACTORY_INTERFACE = 0;
+
+  /**
+   * The feature id for the '<em><b>Type Interface</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int TYPE_INTERFACE = 1;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 2;
+
   /**
    * The default value of the '{@link #getFactoryInterface() <em>Factory Interface</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -53,7 +65,7 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
    * @generated
    * @ordered
    */
-  protected static final String FACTORY_INTERFACE_EDEFAULT = null;
+  protected static final String FACTORY_INTERFACE_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getFactoryInterface() <em>Factory Interface</em>}' attribute.
@@ -63,7 +75,7 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
    * @generated
    * @ordered
    */
-  protected String factoryInterface = FACTORY_INTERFACE_EDEFAULT;
+  protected String factoryInterface = FACTORY_INTERFACE_DEFAULT_;
 
   /**
    * The default value of the '{@link #getTypeInterface() <em>Type Interface</em>}' attribute.
@@ -73,7 +85,7 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
    * @generated
    * @ordered
    */
-  protected static final String TYPE_INTERFACE_EDEFAULT = null;
+  protected static final String TYPE_INTERFACE_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getTypeInterface() <em>Type Interface</em>}' attribute.
@@ -83,7 +95,7 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
    * @generated
    * @ordered
    */
-  protected String typeInterface = TYPE_INTERFACE_EDEFAULT;
+  protected String typeInterface = TYPE_INTERFACE_DEFAULT_;
 
   /**
    * <!-- begin-user-doc -->
@@ -100,9 +112,9 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EClass eStaticClass()
+  public Type getType()
   {
-    return MetadataPackageImpl.Literals.JAVA_META_DATA;
+    return ((MetadataFactoryImpl)MetadataFactory.INSTANCE).getJavaMetaData();
   }
 
   /**
@@ -114,7 +126,6 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
   {
     return factoryInterface;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -124,8 +135,8 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
   {
     String oldFactoryInterface = factoryInterface;
     factoryInterface = newFactoryInterface;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, MetadataPackageImpl.JAVA_META_DATA__FACTORY_INTERFACE, oldFactoryInterface, factoryInterface));
+    if (isNotifying())
+      notify(ChangeKind.SET, FACTORY_INTERFACE, oldFactoryInterface, factoryInterface);
   }
 
   /**
@@ -137,7 +148,6 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
   {
     return typeInterface;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -147,8 +157,8 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
   {
     String oldTypeInterface = typeInterface;
     typeInterface = newTypeInterface;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, MetadataPackageImpl.JAVA_META_DATA__TYPE_INTERFACE, oldTypeInterface, typeInterface));
+    if (isNotifying())
+      notify(ChangeKind.SET, TYPE_INTERFACE, oldTypeInterface, typeInterface);
   }
 
   /**
@@ -156,16 +166,16 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  public Object get(int propertyIndex, boolean resolve)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case MetadataPackageImpl.JAVA_META_DATA__FACTORY_INTERFACE:
+      case FACTORY_INTERFACE:
         return getFactoryInterface();
-      case MetadataPackageImpl.JAVA_META_DATA__TYPE_INTERFACE:
+      case TYPE_INTERFACE:
         return getTypeInterface();
     }
-    return super.eGet(featureID, resolve, coreType);
+    return super.get(propertyIndex, resolve);
   }
 
   /**
@@ -173,18 +183,18 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(int featureID, Object newValue)
+  public void set(int propertyIndex, Object newValue)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case MetadataPackageImpl.JAVA_META_DATA__FACTORY_INTERFACE:
+      case FACTORY_INTERFACE:
         setFactoryInterface((String)newValue);
         return;
-      case MetadataPackageImpl.JAVA_META_DATA__TYPE_INTERFACE:
+      case TYPE_INTERFACE:
         setTypeInterface((String)newValue);
         return;
     }
-    super.eSet(featureID, newValue);
+    super.set(propertyIndex, newValue);
   }
 
   /**
@@ -192,18 +202,18 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(int featureID)
+  public void unset(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case MetadataPackageImpl.JAVA_META_DATA__FACTORY_INTERFACE:
-        setFactoryInterface(FACTORY_INTERFACE_EDEFAULT);
+      case FACTORY_INTERFACE:
+        setFactoryInterface(FACTORY_INTERFACE_DEFAULT_);
         return;
-      case MetadataPackageImpl.JAVA_META_DATA__TYPE_INTERFACE:
-        setTypeInterface(TYPE_INTERFACE_EDEFAULT);
+      case TYPE_INTERFACE:
+        setTypeInterface(TYPE_INTERFACE_DEFAULT_);
         return;
     }
-    super.eUnset(featureID);
+    super.unset(propertyIndex);
   }
 
   /**
@@ -211,16 +221,16 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(int featureID)
+  public boolean isSet(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case MetadataPackageImpl.JAVA_META_DATA__FACTORY_INTERFACE:
-        return FACTORY_INTERFACE_EDEFAULT == null ? factoryInterface != null : !FACTORY_INTERFACE_EDEFAULT.equals(factoryInterface);
-      case MetadataPackageImpl.JAVA_META_DATA__TYPE_INTERFACE:
-        return TYPE_INTERFACE_EDEFAULT == null ? typeInterface != null : !TYPE_INTERFACE_EDEFAULT.equals(typeInterface);
+      case FACTORY_INTERFACE:
+        return FACTORY_INTERFACE_DEFAULT_ == null ? factoryInterface != null : !FACTORY_INTERFACE_DEFAULT_.equals(factoryInterface);
+      case TYPE_INTERFACE:
+        return TYPE_INTERFACE_DEFAULT_ == null ? typeInterface != null : !TYPE_INTERFACE_DEFAULT_.equals(typeInterface);
     }
-    return super.eIsSet(featureID);
+    return super.isSet(propertyIndex);
   }
 
   /**
@@ -230,7 +240,7 @@ public class JavaMetaDataImpl extends DataObjectImpl implements JavaMetaData
    */
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (factoryInterface: ");

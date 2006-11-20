@@ -1,46 +1,21 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.model.impl;
 
 import commonj.sdo.Sequence;
+import commonj.sdo.Type;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase;
 
-import org.apache.tuscany.sdo.impl.DataObjectImpl;
 import org.apache.tuscany.sdo.model.BaseDataGraphType;
 import org.apache.tuscany.sdo.model.ChangeSummaryType;
+import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.ModelsType;
 import org.apache.tuscany.sdo.model.XSDType;
-
-import org.apache.tuscany.sdo.util.BasicSequence;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.BasicFeatureMap;
-import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -51,15 +26,61 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.BaseDataGraphTypeImpl#getModels <em>Models</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.BaseDataGraphTypeImpl#getXsd <em>Xsd</em>}</li>
- *   <li>{@link org.apache.tuscany.sdo.model.impl.BaseDataGraphTypeImpl#getChangeSummary <em>Change Summary</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.impl.BaseDataGraphTypeImpl#getChangeSummary_ <em>Change Summary</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.BaseDataGraphTypeImpl#getAnyAttribute <em>Any Attribute</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements BaseDataGraphType
+public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements BaseDataGraphType
 {
+  /**
+   * The feature id for the '<em><b>Models</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int MODELS = 0;
+
+  /**
+   * The feature id for the '<em><b>Xsd</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int XSD = 1;
+
+  /**
+   * The feature id for the '<em><b>Change Summary</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int CHANGE_SUMMARY = 2;
+
+  /**
+   * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int ANY_ATTRIBUTE = 3;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 4;
+
   /**
    * The cached value of the '{@link #getModels() <em>Models</em>}' containment reference.
    * <!-- begin-user-doc -->
@@ -68,8 +89,9 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
    * @generated
    * @ordered
    */
+  
   protected ModelsType models = null;
-
+  
   /**
    * The cached value of the '{@link #getXsd() <em>Xsd</em>}' containment reference.
    * <!-- begin-user-doc -->
@@ -78,18 +100,20 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
    * @generated
    * @ordered
    */
+  
   protected XSDType xsd = null;
-
+  
   /**
-   * The cached value of the '{@link #getChangeSummary() <em>Change Summary</em>}' containment reference.
+   * The cached value of the '{@link #getChangeSummary_() <em>Change Summary</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getChangeSummary()
+   * @see #getChangeSummary_()
    * @generated
    * @ordered
    */
+  
   protected ChangeSummaryType changeSummary = null;
-
+  
   /**
    * The cached value of the '{@link #getAnyAttribute() <em>Any Attribute</em>}' attribute list.
    * <!-- begin-user-doc -->
@@ -98,8 +122,9 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
    * @generated
    * @ordered
    */
-  protected BasicSequence anyAttribute = null;
-
+  
+  protected Sequence anyAttribute = null;
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -115,9 +140,9 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EClass eStaticClass()
+  public Type getType()
   {
-    return ModelPackageImpl.Literals.BASE_DATA_GRAPH_TYPE;
+    return ((ModelFactoryImpl)ModelFactory.INSTANCE).getBaseDataGraphType();
   }
 
   /**
@@ -129,22 +154,20 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
   {
     return models;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetModels(ModelsType newModels, NotificationChain msgs)
+  public ChangeContext basicSetModels(ModelsType newModels, ChangeContext changeContext)
   {
     ModelsType oldModels = models;
     models = newModels;
-    if (eNotificationRequired())
+    if (isNotifying())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackageImpl.BASE_DATA_GRAPH_TYPE__MODELS, oldModels, newModels);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+      addNotification(this, ChangeKind.SET, MODELS, oldModels, newModels, changeContext);
     }
-    return msgs;
+    return changeContext;
   }
 
   /**
@@ -156,16 +179,16 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
   {
     if (newModels != models)
     {
-      NotificationChain msgs = null;
+      ChangeContext changeContext = null;
       if (models != null)
-        msgs = ((InternalEObject)models).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackageImpl.BASE_DATA_GRAPH_TYPE__MODELS, null, msgs);
+        changeContext = inverseRemove(models, this, OPPOSITE_FEATURE_BASE - MODELS, null, changeContext);
       if (newModels != null)
-        msgs = ((InternalEObject)newModels).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackageImpl.BASE_DATA_GRAPH_TYPE__MODELS, null, msgs);
-      msgs = basicSetModels(newModels, msgs);
-      if (msgs != null) msgs.dispatch();
+        changeContext = inverseAdd(newModels, this, OPPOSITE_FEATURE_BASE - MODELS, null, changeContext);
+      changeContext = basicSetModels(newModels, changeContext);
+      if (changeContext != null) dispatch(changeContext);
     }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.BASE_DATA_GRAPH_TYPE__MODELS, newModels, newModels));
+    else if (isNotifying())
+      notify(ChangeKind.SET, MODELS, newModels, newModels);
   }
 
   /**
@@ -177,22 +200,20 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
   {
     return xsd;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetXsd(XSDType newXsd, NotificationChain msgs)
+  public ChangeContext basicSetXsd(XSDType newXsd, ChangeContext changeContext)
   {
     XSDType oldXsd = xsd;
     xsd = newXsd;
-    if (eNotificationRequired())
+    if (isNotifying())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackageImpl.BASE_DATA_GRAPH_TYPE__XSD, oldXsd, newXsd);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+      addNotification(this, ChangeKind.SET, XSD, oldXsd, newXsd, changeContext);
     }
-    return msgs;
+    return changeContext;
   }
 
   /**
@@ -204,16 +225,16 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
   {
     if (newXsd != xsd)
     {
-      NotificationChain msgs = null;
+      ChangeContext changeContext = null;
       if (xsd != null)
-        msgs = ((InternalEObject)xsd).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackageImpl.BASE_DATA_GRAPH_TYPE__XSD, null, msgs);
+        changeContext = inverseRemove(xsd, this, OPPOSITE_FEATURE_BASE - XSD, null, changeContext);
       if (newXsd != null)
-        msgs = ((InternalEObject)newXsd).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackageImpl.BASE_DATA_GRAPH_TYPE__XSD, null, msgs);
-      msgs = basicSetXsd(newXsd, msgs);
-      if (msgs != null) msgs.dispatch();
+        changeContext = inverseAdd(newXsd, this, OPPOSITE_FEATURE_BASE - XSD, null, changeContext);
+      changeContext = basicSetXsd(newXsd, changeContext);
+      if (changeContext != null) dispatch(changeContext);
     }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.BASE_DATA_GRAPH_TYPE__XSD, newXsd, newXsd));
+    else if (isNotifying())
+      notify(ChangeKind.SET, XSD, newXsd, newXsd);
   }
 
   /**
@@ -225,22 +246,20 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
   {
     return changeSummary;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain basicSetChangeSummary(ChangeSummaryType newChangeSummary, NotificationChain msgs)
+  public ChangeContext basicSetChangeSummary(ChangeSummaryType newChangeSummary, ChangeContext changeContext)
   {
     ChangeSummaryType oldChangeSummary = changeSummary;
     changeSummary = newChangeSummary;
-    if (eNotificationRequired())
+    if (isNotifying())
     {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackageImpl.BASE_DATA_GRAPH_TYPE__CHANGE_SUMMARY, oldChangeSummary, newChangeSummary);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
+      addNotification(this, ChangeKind.SET, CHANGE_SUMMARY, oldChangeSummary, newChangeSummary, changeContext);
     }
-    return msgs;
+    return changeContext;
   }
 
   /**
@@ -252,16 +271,16 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
   {
     if (newChangeSummary != changeSummary)
     {
-      NotificationChain msgs = null;
+      ChangeContext changeContext = null;
       if (changeSummary != null)
-        msgs = ((InternalEObject)changeSummary).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackageImpl.BASE_DATA_GRAPH_TYPE__CHANGE_SUMMARY, null, msgs);
+        changeContext = inverseRemove(changeSummary, this, OPPOSITE_FEATURE_BASE - CHANGE_SUMMARY, null, changeContext);
       if (newChangeSummary != null)
-        msgs = ((InternalEObject)newChangeSummary).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackageImpl.BASE_DATA_GRAPH_TYPE__CHANGE_SUMMARY, null, msgs);
-      msgs = basicSetChangeSummary(newChangeSummary, msgs);
-      if (msgs != null) msgs.dispatch();
+        changeContext = inverseAdd(newChangeSummary, this, OPPOSITE_FEATURE_BASE - CHANGE_SUMMARY, null, changeContext);
+      changeContext = basicSetChangeSummary(newChangeSummary, changeContext);
+      if (changeContext != null) dispatch(changeContext);
     }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.BASE_DATA_GRAPH_TYPE__CHANGE_SUMMARY, newChangeSummary, newChangeSummary));
+    else if (isNotifying())
+      notify(ChangeKind.SET, CHANGE_SUMMARY, newChangeSummary, newChangeSummary);
   }
 
   /**
@@ -273,30 +292,29 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
   {
     if (anyAttribute == null)
     {
-      anyAttribute = new BasicSequence(new BasicFeatureMap(this, ModelPackageImpl.BASE_DATA_GRAPH_TYPE__ANY_ATTRIBUTE));
+      anyAttribute = createSequence(ANY_ATTRIBUTE);
     }
     return anyAttribute;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  public ChangeContext inverseRemove(Object otherEnd, int propertyIndex, ChangeContext changeContext)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__MODELS:
-        return basicSetModels(null, msgs);
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__XSD:
-        return basicSetXsd(null, msgs);
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__CHANGE_SUMMARY:
-        return basicSetChangeSummary(null, msgs);
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__ANY_ATTRIBUTE:
-        return ((InternalEList)((FeatureMap.Internal.Wrapper)getAnyAttribute()).featureMap()).basicRemove(otherEnd, msgs);
+      case MODELS:
+        return basicSetModels(null, changeContext);
+      case XSD:
+        return basicSetXsd(null, changeContext);
+      case CHANGE_SUMMARY:
+        return basicSetChangeSummary(null, changeContext);
+      case ANY_ATTRIBUTE:
+        return removeFromSequence(getAnyAttribute(), otherEnd, changeContext);
     }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
+    return super.inverseRemove(otherEnd, propertyIndex, changeContext);
   }
 
   /**
@@ -304,21 +322,22 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  public Object get(int propertyIndex, boolean resolve)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__MODELS:
+      case MODELS:
         return getModels();
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__XSD:
+      case XSD:
         return getXsd();
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__CHANGE_SUMMARY:
-        return getChangeSummary();
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__ANY_ATTRIBUTE:
-        if (coreType) return ((FeatureMap.Internal.Wrapper)getAnyAttribute()).featureMap();
+      case CHANGE_SUMMARY:
+        return getChangeSummary_();
+      case ANY_ATTRIBUTE:
+        // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
+        //if (coreType) 
         return getAnyAttribute();
     }
-    return super.eGet(featureID, resolve, coreType);
+    return super.get(propertyIndex, resolve);
   }
 
   /**
@@ -326,24 +345,24 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(int featureID, Object newValue)
+  public void set(int propertyIndex, Object newValue)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__MODELS:
+      case MODELS:
         setModels((ModelsType)newValue);
         return;
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__XSD:
+      case XSD:
         setXsd((XSDType)newValue);
         return;
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__CHANGE_SUMMARY:
+      case CHANGE_SUMMARY:
         setChangeSummary((ChangeSummaryType)newValue);
         return;
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__ANY_ATTRIBUTE:
-        ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getAnyAttribute()).featureMap()).set(newValue);
+      case ANY_ATTRIBUTE:
+      	setSequence(getAnyAttribute(), newValue);
         return;
     }
-    super.eSet(featureID, newValue);
+    super.set(propertyIndex, newValue);
   }
 
   /**
@@ -351,24 +370,24 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(int featureID)
+  public void unset(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__MODELS:
+      case MODELS:
         setModels((ModelsType)null);
         return;
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__XSD:
+      case XSD:
         setXsd((XSDType)null);
         return;
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__CHANGE_SUMMARY:
+      case CHANGE_SUMMARY:
         setChangeSummary((ChangeSummaryType)null);
         return;
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__ANY_ATTRIBUTE:
-        ((FeatureMap.Internal.Wrapper)getAnyAttribute()).featureMap().clear();
+      case ANY_ATTRIBUTE:
+        unsetSequence(getAnyAttribute());
         return;
     }
-    super.eUnset(featureID);
+    super.unset(propertyIndex);
   }
 
   /**
@@ -376,20 +395,20 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(int featureID)
+  public boolean isSet(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__MODELS:
+      case MODELS:
         return models != null;
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__XSD:
+      case XSD:
         return xsd != null;
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__CHANGE_SUMMARY:
+      case CHANGE_SUMMARY:
         return changeSummary != null;
-      case ModelPackageImpl.BASE_DATA_GRAPH_TYPE__ANY_ATTRIBUTE:
-        return anyAttribute != null && !anyAttribute.featureMap().isEmpty();
+      case ANY_ATTRIBUTE:
+        return anyAttribute != null && !isSequenceEmpty(getAnyAttribute());
     }
-    return super.eIsSet(featureID);
+    return super.isSet(propertyIndex);
   }
 
   /**
@@ -399,7 +418,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectImpl implements Ba
    */
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (anyAttribute: ");

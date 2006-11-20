@@ -24,10 +24,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
-import org.apache.tuscany.sdo.model.java.impl.JavaPackageImpl;
+import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
+import org.apache.tuscany.sdo.model.java.impl.JavaFactoryImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
-import org.apache.tuscany.sdo.util.metadata.impl.MetadataPackageImpl;
+import org.apache.tuscany.sdo.util.metadata.impl.MetadataFactoryImpl;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -59,9 +59,9 @@ public class TypeHelperImpl implements TypeHelper
     this.extendedMetaData = extendedMetaData;
     
     // Register the standard (predefined) SDO types
-    ModelPackageImpl.init();
-    JavaPackageImpl.init();
-    MetadataPackageImpl.init();
+    ModelFactoryImpl.init(); //FB
+    JavaFactoryImpl.init(); //FB
+    MetadataFactoryImpl.init(); //FB
   }
   
   public Type getType(String uri, String typeName)

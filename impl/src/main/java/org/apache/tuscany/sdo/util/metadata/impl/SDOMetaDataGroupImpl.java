@@ -1,50 +1,23 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.util.metadata.impl;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import commonj.sdo.Type;
+
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
-import org.apache.tuscany.sdo.impl.DataObjectImpl;
-import org.apache.tuscany.sdo.model.Types;
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.impl.DataObjectBase;
+
 import org.apache.tuscany.sdo.util.metadata.JavaMetaData;
+import org.apache.tuscany.sdo.util.metadata.MetadataFactory;
 import org.apache.tuscany.sdo.util.metadata.SDOMetaDataGroup;
 import org.apache.tuscany.sdo.util.metadata.TypeMetaData;
 import org.apache.tuscany.sdo.util.metadata.XSDMetaData;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
-
-import commonj.sdo.helper.TypeHelper;
-import commonj.sdo.helper.XMLDocument;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
 
 /**
  * <!-- begin-user-doc -->
@@ -61,72 +34,45 @@ import commonj.sdo.helper.XSDHelper;
  *
  * @generated
  */
-public class SDOMetaDataGroupImpl extends DataObjectImpl implements SDOMetaDataGroup
+public class SDOMetaDataGroupImpl extends DataObjectBase implements SDOMetaDataGroup
 {
-  public void register(TypeHelper typeHelper)
-  {
-    try
-    {
-      ClassLoader classLoader = (ClassLoader)AccessController.doPrivileged(new PrivilegedAction()
-        {
-          public Object run()
-          {
-            return Thread.currentThread().getContextClassLoader();
-          }
-        });
-      register(typeHelper, classLoader);
-    }
-    catch (SecurityException e)
-    {
-    }
-  }
+  /**
+   * The feature id for the '<em><b>Java Meta Data</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int JAVA_META_DATA = 0;
 
-  public void register(TypeHelper typeHelper, ClassLoader classLoader)
-  {
-    try
-    {
-      for (Iterator iter = getJavaMetaData().iterator(); iter.hasNext();)
-      {
-        JavaMetaData metadata = (JavaMetaData)iter.next();
-        String factoryInterface = metadata.getFactoryInterface();
-        if (factoryInterface != null)
-        {
-          Class factoryInterfaceClass = classLoader.loadClass(factoryInterface);
-          SDOUtil.registerStaticTypes(factoryInterfaceClass);
-        }
-        else
-        {
-          String typeInterface = metadata.getTypeInterface();
-          Class typeInterfaceClass = classLoader.loadClass(typeInterface);
-          // TODO: introspect and register the type
-        }
-      }
+  /**
+   * The feature id for the '<em><b>Xsd Meta Data</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int XSD_META_DATA = 1;
 
-      XSDHelper xsdHelper = SDOUtil.createXSDHelper(typeHelper);
-      for (Iterator iter = getXsdMetaData().iterator(); iter.hasNext();)
-      {
-        XSDMetaData metadata = (XSDMetaData)iter.next();
-        URL url = getClass().getResource(metadata.getLocation());
-        InputStream inputStream = url.openStream();
-        xsdHelper.define(inputStream, url.toString());
-      }
+  /**
+   * The feature id for the '<em><b>Type Meta Data</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int TYPE_META_DATA = 2;
 
-      XMLHelper xmlHelper = SDOUtil.createXMLHelper(typeHelper);
-      for (Iterator iter = getTypeMetaData().iterator(); iter.hasNext();)
-      {
-        TypeMetaData metadata = (TypeMetaData)iter.next();
-        URL url = getClass().getResource(metadata.getLocation());
-        InputStream inputStream = url.openStream();
-        XMLDocument xmlDocument = xmlHelper.load(inputStream);
-        Types types = (Types)xmlDocument.getRootObject();
-        typeHelper.define(types.getTypeList());
-      }
-    }
-    catch (Exception e)
-    {
-    }
-  }
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
   
+  public final static int SDO_PROPERTY_COUNT = 3;
+
   /**
    * The cached value of the '{@link #getJavaMetaData() <em>Java Meta Data</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -135,8 +81,9 @@ public class SDOMetaDataGroupImpl extends DataObjectImpl implements SDOMetaDataG
    * @generated
    * @ordered
    */
-  protected EList javaMetaData = null;
-
+  
+  protected List javaMetaData = null;
+  
   /**
    * The cached value of the '{@link #getXsdMetaData() <em>Xsd Meta Data</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -145,8 +92,9 @@ public class SDOMetaDataGroupImpl extends DataObjectImpl implements SDOMetaDataG
    * @generated
    * @ordered
    */
-  protected EList xsdMetaData = null;
-
+  
+  protected List xsdMetaData = null;
+  
   /**
    * The cached value of the '{@link #getTypeMetaData() <em>Type Meta Data</em>}' containment reference list.
    * <!-- begin-user-doc -->
@@ -155,8 +103,9 @@ public class SDOMetaDataGroupImpl extends DataObjectImpl implements SDOMetaDataG
    * @generated
    * @ordered
    */
-  protected EList typeMetaData = null;
-
+  
+  protected List typeMetaData = null;
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -172,9 +121,9 @@ public class SDOMetaDataGroupImpl extends DataObjectImpl implements SDOMetaDataG
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EClass eStaticClass()
+  public Type getType()
   {
-    return MetadataPackageImpl.Literals.SDO_META_DATA_GROUP;
+    return ((MetadataFactoryImpl)MetadataFactory.INSTANCE).getSDOMetaDataGroup();
   }
 
   /**
@@ -186,11 +135,10 @@ public class SDOMetaDataGroupImpl extends DataObjectImpl implements SDOMetaDataG
   {
     if (javaMetaData == null)
     {
-      javaMetaData = new EObjectContainmentEList(JavaMetaData.class, this, MetadataPackageImpl.SDO_META_DATA_GROUP__JAVA_META_DATA);
+      javaMetaData = createPropertyList(ListKind.CONTAINMENT, JavaMetaData.class, JAVA_META_DATA);
     }
     return javaMetaData;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -200,11 +148,10 @@ public class SDOMetaDataGroupImpl extends DataObjectImpl implements SDOMetaDataG
   {
     if (xsdMetaData == null)
     {
-      xsdMetaData = new EObjectContainmentEList(XSDMetaData.class, this, MetadataPackageImpl.SDO_META_DATA_GROUP__XSD_META_DATA);
+      xsdMetaData = createPropertyList(ListKind.CONTAINMENT, XSDMetaData.class, XSD_META_DATA);
     }
     return xsdMetaData;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -214,28 +161,27 @@ public class SDOMetaDataGroupImpl extends DataObjectImpl implements SDOMetaDataG
   {
     if (typeMetaData == null)
     {
-      typeMetaData = new EObjectContainmentEList(TypeMetaData.class, this, MetadataPackageImpl.SDO_META_DATA_GROUP__TYPE_META_DATA);
+      typeMetaData = createPropertyList(ListKind.CONTAINMENT, TypeMetaData.class, TYPE_META_DATA);
     }
     return typeMetaData;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  public ChangeContext inverseRemove(Object otherEnd, int propertyIndex, ChangeContext changeContext)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__JAVA_META_DATA:
-        return ((InternalEList)getJavaMetaData()).basicRemove(otherEnd, msgs);
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__XSD_META_DATA:
-        return ((InternalEList)getXsdMetaData()).basicRemove(otherEnd, msgs);
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__TYPE_META_DATA:
-        return ((InternalEList)getTypeMetaData()).basicRemove(otherEnd, msgs);
+      case JAVA_META_DATA:
+        return removeFromList(getJavaMetaData(), otherEnd, changeContext);
+      case XSD_META_DATA:
+        return removeFromList(getXsdMetaData(), otherEnd, changeContext);
+      case TYPE_META_DATA:
+        return removeFromList(getTypeMetaData(), otherEnd, changeContext);
     }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
+    return super.inverseRemove(otherEnd, propertyIndex, changeContext);
   }
 
   /**
@@ -243,18 +189,18 @@ public class SDOMetaDataGroupImpl extends DataObjectImpl implements SDOMetaDataG
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  public Object get(int propertyIndex, boolean resolve)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__JAVA_META_DATA:
+      case JAVA_META_DATA:
         return getJavaMetaData();
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__XSD_META_DATA:
+      case XSD_META_DATA:
         return getXsdMetaData();
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__TYPE_META_DATA:
+      case TYPE_META_DATA:
         return getTypeMetaData();
     }
-    return super.eGet(featureID, resolve, coreType);
+    return super.get(propertyIndex, resolve);
   }
 
   /**
@@ -262,24 +208,24 @@ public class SDOMetaDataGroupImpl extends DataObjectImpl implements SDOMetaDataG
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(int featureID, Object newValue)
+  public void set(int propertyIndex, Object newValue)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__JAVA_META_DATA:
+      case JAVA_META_DATA:
         getJavaMetaData().clear();
         getJavaMetaData().addAll((Collection)newValue);
         return;
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__XSD_META_DATA:
+      case XSD_META_DATA:
         getXsdMetaData().clear();
         getXsdMetaData().addAll((Collection)newValue);
         return;
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__TYPE_META_DATA:
+      case TYPE_META_DATA:
         getTypeMetaData().clear();
         getTypeMetaData().addAll((Collection)newValue);
         return;
     }
-    super.eSet(featureID, newValue);
+    super.set(propertyIndex, newValue);
   }
 
   /**
@@ -287,21 +233,21 @@ public class SDOMetaDataGroupImpl extends DataObjectImpl implements SDOMetaDataG
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(int featureID)
+  public void unset(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__JAVA_META_DATA:
+      case JAVA_META_DATA:
         getJavaMetaData().clear();
         return;
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__XSD_META_DATA:
+      case XSD_META_DATA:
         getXsdMetaData().clear();
         return;
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__TYPE_META_DATA:
+      case TYPE_META_DATA:
         getTypeMetaData().clear();
         return;
     }
-    super.eUnset(featureID);
+    super.unset(propertyIndex);
   }
 
   /**
@@ -309,18 +255,18 @@ public class SDOMetaDataGroupImpl extends DataObjectImpl implements SDOMetaDataG
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(int featureID)
+  public boolean isSet(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__JAVA_META_DATA:
+      case JAVA_META_DATA:
         return javaMetaData != null && !javaMetaData.isEmpty();
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__XSD_META_DATA:
+      case XSD_META_DATA:
         return xsdMetaData != null && !xsdMetaData.isEmpty();
-      case MetadataPackageImpl.SDO_META_DATA_GROUP__TYPE_META_DATA:
+      case TYPE_META_DATA:
         return typeMetaData != null && !typeMetaData.isEmpty();
     }
-    return super.eIsSet(featureID);
+    return super.isSet(propertyIndex);
   }
 
 } //SDOMetaDataGroupImpl

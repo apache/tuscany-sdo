@@ -332,7 +332,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected <%=genClass.getClassName()%>()
+	public <%=genClass.getClassName()%>()
 	{
 		super();
   <%for (Iterator i=genClass.getFlagGenFeatures("true").iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>

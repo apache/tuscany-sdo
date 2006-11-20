@@ -61,6 +61,23 @@ public class FactoryBase extends EPackageImpl
     ((SDOEFactoryImpl)getEFactoryInstance()).sdoFactory = this;
   }
   
+  protected FactoryBase(String namespaceURI, String namespacePrefix, String interfacePackage)
+  {
+    super(new SDOEFactoryImpl());
+    
+    int index = interfacePackage.lastIndexOf(".");
+    setName(index != -1 ? interfacePackage.substring(index + 1) : interfacePackage);
+    setNsPrefix(namespacePrefix);
+
+    createResource(namespaceURI);
+    setNsURI(namespaceURI);
+    //FIXME ... figure out proper (scoped) way to register static packages
+    EPackage.Registry.INSTANCE.put(namespaceURI, this);
+    
+    ((SDOEFactoryImpl)getEFactoryInstance()).sdoFactory = this;
+  }
+
+  
   public DataObject create(int typeNumber)
   {
     return null;
@@ -92,9 +109,14 @@ public class FactoryBase extends EPackageImpl
       createEReference((EClass)containingType, propertyNumber);
   }
   
-  protected void initializeType(Type type, Class instanceClass, String name)
+  protected void initializeType(Type type, Class instanceClass, String name) //FB TODO regenerate models and then delete this method
   {
     initEClass((EClass)type, instanceClass, name, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);   
+  }
+
+  protected void initializeType(Type type, Class instanceClass, String name, boolean isAbstract)
+  {
+    initEClass((EClass)type, instanceClass, name, isAbstract, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);   
   }
 
   protected void initializeType(Type type, Class instanceClass, String name, boolean isSerializable, boolean isGenerated)
@@ -112,7 +134,7 @@ public class FactoryBase extends EPackageImpl
     initEReference((EReference)property, (EClassifier)type, (EReference)oppositeProperty, name, defaultValue, lower, upper, containerClass, isDerived, isDerived, !isReadonly, isComposite, !isComposite /*resolve*/, isUnsettable, IS_UNIQUE, isDerived, IS_ORDERED);
   }
 
-  protected void createXSDMetaData()
+  protected void initXSD()
   {
     createDocumentRoot();
   }

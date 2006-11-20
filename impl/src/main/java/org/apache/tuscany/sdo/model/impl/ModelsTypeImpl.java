@@ -1,40 +1,18 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.model.impl;
 
 import commonj.sdo.Sequence;
+import commonj.sdo.Type;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase;
 
-import org.apache.tuscany.sdo.impl.DataObjectImpl;
+import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.ModelsType;
-
-import org.apache.tuscany.sdo.util.BasicSequence;
-
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.util.BasicFeatureMap;
-import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,8 +27,27 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ModelsTypeImpl extends DataObjectImpl implements ModelsType
+public class ModelsTypeImpl extends DataObjectBase implements ModelsType
 {
+  /**
+   * The feature id for the '<em><b>Any</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int ANY = 0;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 1;
+
   /**
    * The cached value of the '{@link #getAny() <em>Any</em>}' attribute list.
    * <!-- begin-user-doc -->
@@ -59,8 +56,9 @@ public class ModelsTypeImpl extends DataObjectImpl implements ModelsType
    * @generated
    * @ordered
    */
-  protected BasicSequence any = null;
-
+  
+  protected Sequence any = null;
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -76,9 +74,9 @@ public class ModelsTypeImpl extends DataObjectImpl implements ModelsType
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EClass eStaticClass()
+  public Type getType()
   {
-    return ModelPackageImpl.Literals.MODELS_TYPE;
+    return ((ModelFactoryImpl)ModelFactory.INSTANCE).getModelsType();
   }
 
   /**
@@ -90,24 +88,23 @@ public class ModelsTypeImpl extends DataObjectImpl implements ModelsType
   {
     if (any == null)
     {
-      any = new BasicSequence(new BasicFeatureMap(this, ModelPackageImpl.MODELS_TYPE__ANY));
+      any = createSequence(ANY);
     }
     return any;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  public ChangeContext inverseRemove(Object otherEnd, int propertyIndex, ChangeContext changeContext)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.MODELS_TYPE__ANY:
-        return ((InternalEList)((FeatureMap.Internal.Wrapper)getAny()).featureMap()).basicRemove(otherEnd, msgs);
+      case ANY:
+        return removeFromSequence(getAny(), otherEnd, changeContext);
     }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
+    return super.inverseRemove(otherEnd, propertyIndex, changeContext);
   }
 
   /**
@@ -115,15 +112,16 @@ public class ModelsTypeImpl extends DataObjectImpl implements ModelsType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  public Object get(int propertyIndex, boolean resolve)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.MODELS_TYPE__ANY:
-        if (coreType) return ((FeatureMap.Internal.Wrapper)getAny()).featureMap();
+      case ANY:
+        // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
+        //if (coreType) 
         return getAny();
     }
-    return super.eGet(featureID, resolve, coreType);
+    return super.get(propertyIndex, resolve);
   }
 
   /**
@@ -131,15 +129,15 @@ public class ModelsTypeImpl extends DataObjectImpl implements ModelsType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(int featureID, Object newValue)
+  public void set(int propertyIndex, Object newValue)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.MODELS_TYPE__ANY:
-        ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getAny()).featureMap()).set(newValue);
+      case ANY:
+      	setSequence(getAny(), newValue);
         return;
     }
-    super.eSet(featureID, newValue);
+    super.set(propertyIndex, newValue);
   }
 
   /**
@@ -147,15 +145,15 @@ public class ModelsTypeImpl extends DataObjectImpl implements ModelsType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(int featureID)
+  public void unset(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.MODELS_TYPE__ANY:
-        ((FeatureMap.Internal.Wrapper)getAny()).featureMap().clear();
+      case ANY:
+        unsetSequence(getAny());
         return;
     }
-    super.eUnset(featureID);
+    super.unset(propertyIndex);
   }
 
   /**
@@ -163,14 +161,14 @@ public class ModelsTypeImpl extends DataObjectImpl implements ModelsType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(int featureID)
+  public boolean isSet(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.MODELS_TYPE__ANY:
-        return any != null && !any.featureMap().isEmpty();
+      case ANY:
+        return any != null && !isSequenceEmpty(getAny());
     }
-    return super.eIsSet(featureID);
+    return super.isSet(propertyIndex);
   }
 
   /**
@@ -180,7 +178,7 @@ public class ModelsTypeImpl extends DataObjectImpl implements ModelsType
    */
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (any: ");

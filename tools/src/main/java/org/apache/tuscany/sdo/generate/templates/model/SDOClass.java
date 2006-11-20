@@ -135,7 +135,7 @@ public class SDOClass
   protected final String TEXT_117 = " ";
   protected final String TEXT_118 = " has been set." + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t * @ordered" + NL + "\t */" + NL + "\tprotected boolean ";
   protected final String TEXT_119 = "_set_ = false;" + NL;
-  protected final String TEXT_120 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected ";
+  protected final String TEXT_120 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
   protected final String TEXT_121 = "()" + NL + "\t{" + NL + "\t\tsuper();";
   protected final String TEXT_122 = NL + "\t\t";
   protected final String TEXT_123 = " |= ";

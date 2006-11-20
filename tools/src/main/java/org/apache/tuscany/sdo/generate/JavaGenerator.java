@@ -34,7 +34,7 @@ import java.util.StringTokenizer;
 import org.apache.tuscany.sdo.generate.adapter.SDOGenModelGeneratorAdapterFactory;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.SDOPackageImpl;
-import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
+import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
@@ -79,7 +79,6 @@ import commonj.sdo.helper.XSDHelper;
  *     [ -arrayAccessors ]
  *     [ -generateLoader ]
  *     [ -noUnsettable ]
- *     [ -useEMFPatterns ]
  *     [ -interfaceDataObject ]
  *     
  *   Basic options:
@@ -104,11 +103,7 @@ import commonj.sdo.helper.XSDHelper;
  *         to org.apache.tuscany.sdo.impl.StoreDataObjectImpl. Note that this option generates classes that
  *         require a Store implementation to be provided before they can be run. 
  *     -noEMF
- *         Deprecated option. It is the default now. Use -useEMFPatterns to turn off.
- *     -useEMFPatterns
- *         This option is used to generate static classes that use the old style EMF generator patterns. Using
- *         this option introduces EMF dependencies in the generated code, but is likely to be less buggy and
- *         have somewhat better performance than the new EMF-less default generator patterns.
+ *         Deprecated option. It is the default now.
  *     -interfaceDataObject
  *         This option is used to generate static interfaces that extend commonj.sdo.DataObject  
  *         
@@ -170,7 +165,6 @@ public abstract class JavaGenerator
   public static int OPTION_NO_UNSETTABLE=0x80;
   //FIXME Temporary, I need this option for now to get Switch classes generated for the SCDL models
   public static int OPTION_GENERATE_SWITCH=0x100;
-  public static int OPTION_USE_EMF_PATTERNS=0x200;
   public static int OPTION_INTERFACE_DO=0x400;
   
   static 
@@ -275,12 +269,8 @@ public abstract class JavaGenerator
     }
     else if (args[index].equalsIgnoreCase("-noEMF"))
     {
-      System.out.println("Warning: -noEMF is deprecated. It is the default now. Use -useEMFPatterns to turn off.");
+      System.out.println("Warning: -noEMF is deprecated. It is the default now.");
       //genOptions |= OPTION_NO_EMF;
-    }
-    else if (args[index].equalsIgnoreCase("-useEMFPatterns"))
-    {
-      genOptions |= OPTION_USE_EMF_PATTERNS;
     }
     else if (args[index].equalsIgnoreCase("-interfaceDataObject"))
     {
@@ -371,7 +361,7 @@ public abstract class JavaGenerator
     if (genModel == null) return; // nothing to generate
 
     usedGenPackages.add(createGenPackage(SDOPackageImpl.eINSTANCE, "org.apache.tuscany", "SDO", 0, resourceSet));
-    usedGenPackages.add(createGenPackage(ModelPackageImpl.eINSTANCE, "org.apache.tuscany.sdo", "Model", 0, resourceSet));
+    usedGenPackages.add(createGenPackage((EPackage)ModelFactory.INSTANCE, "org.apache.tuscany.sdo", "Model", 0, resourceSet));
     genModel.getUsedGenPackages().addAll(usedGenPackages);
     
     // Invoke the SDO JavaGenerator to generate the SDO classes
@@ -448,7 +438,7 @@ public abstract class JavaGenerator
     
     Generator generator = new Generator();
 
-    if ((genOptions & OPTION_USE_EMF_PATTERNS) == 0)
+    //if ((genOptions & OPTION_USE_EMF_PATTERNS) == 0)
     {
     	generator.getAdapterFactoryDescriptorRegistry().addDescriptor
         (GenModelPackage.eNS_URI, SDOGenModelGeneratorAdapterFactory.DESCRIPTOR);
@@ -523,7 +513,7 @@ public abstract class JavaGenerator
       genModel.setSuppressUnsettable(true);
     }
     
-    if ((genOptions & OPTION_USE_EMF_PATTERNS) == 0)
+    //if ((genOptions & OPTION_USE_EMF_PATTERNS) == 0)
     {
       genModel.setRootExtendsClass("org.apache.tuscany.sdo.impl.DataObjectBase");
     }
@@ -633,7 +623,6 @@ public abstract class JavaGenerator
     System.out.println("  [ -arrayAccessors ]");
     System.out.println("  [ -generateLoader ]");
     System.out.println("  [ -noUnsettable ]");
-    System.out.println("  [ -useEMFPatterns ]");
     System.out.println("  [ -interfaceDataObject ]");
     System.out.println("  <xsd-file> | <wsdl-file>");
     System.out.println("");

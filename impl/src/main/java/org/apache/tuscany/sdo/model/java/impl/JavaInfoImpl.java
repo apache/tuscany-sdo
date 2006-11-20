@@ -1,33 +1,17 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.model.java.impl;
 
-import org.apache.tuscany.sdo.impl.DataObjectImpl;
+import commonj.sdo.Type;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase;
+
+import org.apache.tuscany.sdo.model.java.JavaFactory;
 import org.apache.tuscany.sdo.model.java.JavaInfo;
-
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,8 +26,27 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class JavaInfoImpl extends DataObjectImpl implements JavaInfo
+public class JavaInfoImpl extends DataObjectBase implements JavaInfo
 {
+  /**
+   * The feature id for the '<em><b>Java Class</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int JAVA_CLASS = 0;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 1;
+
   /**
    * The default value of the '{@link #getJavaClass() <em>Java Class</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -52,7 +55,7 @@ public class JavaInfoImpl extends DataObjectImpl implements JavaInfo
    * @generated
    * @ordered
    */
-  protected static final String JAVA_CLASS_EDEFAULT = null;
+  protected static final String JAVA_CLASS_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getJavaClass() <em>Java Class</em>}' attribute.
@@ -62,7 +65,7 @@ public class JavaInfoImpl extends DataObjectImpl implements JavaInfo
    * @generated
    * @ordered
    */
-  protected String javaClass = JAVA_CLASS_EDEFAULT;
+  protected String javaClass = JAVA_CLASS_DEFAULT_;
 
   /**
    * <!-- begin-user-doc -->
@@ -79,9 +82,9 @@ public class JavaInfoImpl extends DataObjectImpl implements JavaInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EClass eStaticClass()
+  public Type getType()
   {
-    return JavaPackageImpl.Literals.JAVA_INFO;
+    return ((JavaFactoryImpl)JavaFactory.INSTANCE).getJavaInfo();
   }
 
   /**
@@ -93,7 +96,6 @@ public class JavaInfoImpl extends DataObjectImpl implements JavaInfo
   {
     return javaClass;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -103,8 +105,8 @@ public class JavaInfoImpl extends DataObjectImpl implements JavaInfo
   {
     String oldJavaClass = javaClass;
     javaClass = newJavaClass;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, JavaPackageImpl.JAVA_INFO__JAVA_CLASS, oldJavaClass, javaClass));
+    if (isNotifying())
+      notify(ChangeKind.SET, JAVA_CLASS, oldJavaClass, javaClass);
   }
 
   /**
@@ -112,14 +114,14 @@ public class JavaInfoImpl extends DataObjectImpl implements JavaInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  public Object get(int propertyIndex, boolean resolve)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case JavaPackageImpl.JAVA_INFO__JAVA_CLASS:
+      case JAVA_CLASS:
         return getJavaClass();
     }
-    return super.eGet(featureID, resolve, coreType);
+    return super.get(propertyIndex, resolve);
   }
 
   /**
@@ -127,15 +129,15 @@ public class JavaInfoImpl extends DataObjectImpl implements JavaInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(int featureID, Object newValue)
+  public void set(int propertyIndex, Object newValue)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case JavaPackageImpl.JAVA_INFO__JAVA_CLASS:
+      case JAVA_CLASS:
         setJavaClass((String)newValue);
         return;
     }
-    super.eSet(featureID, newValue);
+    super.set(propertyIndex, newValue);
   }
 
   /**
@@ -143,15 +145,15 @@ public class JavaInfoImpl extends DataObjectImpl implements JavaInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(int featureID)
+  public void unset(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case JavaPackageImpl.JAVA_INFO__JAVA_CLASS:
-        setJavaClass(JAVA_CLASS_EDEFAULT);
+      case JAVA_CLASS:
+        setJavaClass(JAVA_CLASS_DEFAULT_);
         return;
     }
-    super.eUnset(featureID);
+    super.unset(propertyIndex);
   }
 
   /**
@@ -159,14 +161,14 @@ public class JavaInfoImpl extends DataObjectImpl implements JavaInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(int featureID)
+  public boolean isSet(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case JavaPackageImpl.JAVA_INFO__JAVA_CLASS:
-        return JAVA_CLASS_EDEFAULT == null ? javaClass != null : !JAVA_CLASS_EDEFAULT.equals(javaClass);
+      case JAVA_CLASS:
+        return JAVA_CLASS_DEFAULT_ == null ? javaClass != null : !JAVA_CLASS_DEFAULT_.equals(javaClass);
     }
-    return super.eIsSet(featureID);
+    return super.isSet(propertyIndex);
   }
 
   /**
@@ -176,7 +178,7 @@ public class JavaInfoImpl extends DataObjectImpl implements JavaInfo
    */
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (javaClass: ");

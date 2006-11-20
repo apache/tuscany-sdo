@@ -50,7 +50,8 @@ import org.apache.tuscany.sdo.helper.XMLStreamHelperImpl;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.impl.DynamicDataObjectImpl;
-import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -144,7 +145,7 @@ public final class SDOUtil
     //} else {
       String name = (String)xsdToSdoMappings.get(xsdType);
       if (name != null) {
-        type = (Type)ModelPackageImpl.eINSTANCE.getEClassifier(name);
+        type = (Type)((ModelFactoryImpl)ModelFactory.INSTANCE).getEClassifier(name);
       } else {
         type = (Type)SDOExtendedMetaData.INSTANCE.getType(XMLTypePackage.eINSTANCE, xsdType);
       }
@@ -177,7 +178,7 @@ public final class SDOUtil
     String name = (String)javaToSdoMappings.get(javaClass);
     if (name != null)
     {
-      return (Type)ModelPackageImpl.eINSTANCE.getEClassifier(name);
+      return (Type)((ModelFactoryImpl)ModelFactory.INSTANCE).getEClassifier(name);
     }
     return null;
   }

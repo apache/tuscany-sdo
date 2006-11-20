@@ -1,75 +1,68 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.model.java.impl;
 
-import org.apache.tuscany.sdo.model.java.*;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-
-import org.eclipse.emf.ecore.impl.EFactoryImpl;
-
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
+import org.apache.tuscany.sdo.SDOFactory;
+import org.apache.tuscany.sdo.impl.FactoryBase;
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
+import org.apache.tuscany.sdo.model.java.JavaFactory;
+import org.apache.tuscany.sdo.model.java.JavaInfo;
+import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
+
+import commonj.sdo.DataObject;
+import commonj.sdo.Property;
+import commonj.sdo.Type;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model <b>Factory</b>.
+ * An implementation of the commonj.sdo/java model factory.
+ * This model is generated from sdoJava.xsd, in the sdo-api project.
+ * Until the SDO code generator supports name conflicts and regen/merge, follow the following steps to regenerate this model:
+ *   1. Regenerate the model into a temporary directory:
+ *         XSD2JavaGenerator -targetDirectory <temp-dir> -javaPackage org.apache.tuscany.sdo.model.java <sdo-api-dir>/src/main/resources/xml/sdoJava.xsd
+ *   3. Change the value of the NAMESPACE_PREFIX to "sdoJava"
+ *           public static final String NAMESPACE_PREFIX = "sdoJava"; //FB generated as "java"
+ *   4. Delete all the createXXXFromString() and convertXXXToString() methods in the newly generated JavaFactoryImpl and
+ *      replace them with the ones from this file.
+ *   5. Move this JavaDoc comment into the newly generated JavaFactoryImpl class.
  * <!-- end-user-doc -->
  * @generated
  */
-public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
+public class JavaFactoryImpl extends FactoryBase implements JavaFactory
 {
+
   /**
-   * The singleton instance of the factory.
+   * The package namespace URI.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final JavaFactoryImpl eINSTANCE = init();
+  public static final String NAMESPACE_URI = "commonj.sdo/java";
 
   /**
-   * Creates the default factory implementation.
+   * The package namespace name.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static JavaFactoryImpl init()
-  {
-    try
-    {
-      JavaFactoryImpl theJavaFactory = (JavaFactoryImpl)EPackage.Registry.INSTANCE.getEFactory("commonj.sdo/java"); 
-      if (theJavaFactory != null)
-      {
-        return theJavaFactory;
-      }
-    }
-    catch (Exception exception)
-    {
-      EcorePlugin.INSTANCE.log(exception);
-    }
-    return new JavaFactoryImpl();
-  }
-
+  public static final String NAMESPACE_PREFIX = "sdoJava"; //FB generated as "java"
+  public static final int JAVA_INFO = 1;	
+  public static final int BOOLEAN_OBJECT = 2;	
+  public static final int BYTE_OBJECT = 3;	
+  public static final int CHARACTER_OBJECT = 4;	
+  public static final int DOUBLE_OBJECT = 5;	
+  public static final int FLOAT_OBJECT = 6;	
+  public static final int INT_OBJECT = 7;	
+  public static final int LONG_OBJECT = 8;	
+  public static final int SHORT_OBJECT = 9;
+  
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -78,22 +71,21 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    */
   public JavaFactoryImpl()
   {
-    super();
+    super(NAMESPACE_URI, NAMESPACE_PREFIX, "org.apache.tuscany.sdo.model.java");
   }
-
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public EObject create(EClass eClass)
+  public DataObject create(int typeNumber)
   {
-    switch (eClass.getClassifierID())
+    switch (typeNumber)
     {
-      case JavaPackageImpl.DOCUMENT_ROOT: return (EObject)createDocumentRoot();
-      case JavaPackageImpl.JAVA_INFO: return (EObject)createJavaInfo();
+      case JAVA_INFO: return (DataObject)createJavaInfo();
       default:
-        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+        return super.create(typeNumber);
     }
   }
 
@@ -102,28 +94,28 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object createFromString(EDataType eDataType, String initialValue)
+  public Object createFromString(int typeNumber, String initialValue)
   {
-    switch (eDataType.getClassifierID())
+    switch (typeNumber)
     {
-      case JavaPackageImpl.BOOLEAN_OBJECT:
-        return createBooleanObjectFromString(eDataType, initialValue);
-      case JavaPackageImpl.BYTE_OBJECT:
-        return createByteObjectFromString(eDataType, initialValue);
-      case JavaPackageImpl.CHARACTER_OBJECT:
-        return createCharacterObjectFromString(eDataType, initialValue);
-      case JavaPackageImpl.DOUBLE_OBJECT:
-        return createDoubleObjectFromString(eDataType, initialValue);
-      case JavaPackageImpl.FLOAT_OBJECT:
-        return createFloatObjectFromString(eDataType, initialValue);
-      case JavaPackageImpl.INT_OBJECT:
-        return createIntObjectFromString(eDataType, initialValue);
-      case JavaPackageImpl.LONG_OBJECT:
-        return createLongObjectFromString(eDataType, initialValue);
-      case JavaPackageImpl.SHORT_OBJECT:
-        return createShortObjectFromString(eDataType, initialValue);
+      case BOOLEAN_OBJECT:
+        return createBooleanObjectFromString(initialValue);
+      case BYTE_OBJECT:
+        return createByteObjectFromString(initialValue);
+      case CHARACTER_OBJECT:
+        return createCharacterObjectFromString(initialValue);
+      case DOUBLE_OBJECT:
+        return createDoubleObjectFromString(initialValue);
+      case FLOAT_OBJECT:
+        return createFloatObjectFromString(initialValue);
+      case INT_OBJECT:
+        return createIntObjectFromString(initialValue);
+      case LONG_OBJECT:
+        return createLongObjectFromString(initialValue);
+      case SHORT_OBJECT:
+        return createShortObjectFromString(initialValue);
       default:
-        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The type number '" + typeNumber + "' is not a valid datatype");
     }
   }
 
@@ -132,42 +124,30 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public String convertToString(EDataType eDataType, Object instanceValue)
+  public String convertToString(int typeNumber, Object instanceValue)
   {
-    switch (eDataType.getClassifierID())
+    switch (typeNumber)
     {
-      case JavaPackageImpl.BOOLEAN_OBJECT:
-        return convertBooleanObjectToString(eDataType, instanceValue);
-      case JavaPackageImpl.BYTE_OBJECT:
-        return convertByteObjectToString(eDataType, instanceValue);
-      case JavaPackageImpl.CHARACTER_OBJECT:
-        return convertCharacterObjectToString(eDataType, instanceValue);
-      case JavaPackageImpl.DOUBLE_OBJECT:
-        return convertDoubleObjectToString(eDataType, instanceValue);
-      case JavaPackageImpl.FLOAT_OBJECT:
-        return convertFloatObjectToString(eDataType, instanceValue);
-      case JavaPackageImpl.INT_OBJECT:
-        return convertIntObjectToString(eDataType, instanceValue);
-      case JavaPackageImpl.LONG_OBJECT:
-        return convertLongObjectToString(eDataType, instanceValue);
-      case JavaPackageImpl.SHORT_OBJECT:
-        return convertShortObjectToString(eDataType, instanceValue);
+      case BOOLEAN_OBJECT:
+        return convertBooleanObjectToString(instanceValue);
+      case BYTE_OBJECT:
+        return convertByteObjectToString(instanceValue);
+      case CHARACTER_OBJECT:
+        return convertCharacterObjectToString(instanceValue);
+      case DOUBLE_OBJECT:
+        return convertDoubleObjectToString(instanceValue);
+      case FLOAT_OBJECT:
+        return convertFloatObjectToString(instanceValue);
+      case INT_OBJECT:
+        return convertIntObjectToString(instanceValue);
+      case LONG_OBJECT:
+        return convertLongObjectToString(instanceValue);
+      case SHORT_OBJECT:
+        return convertShortObjectToString(instanceValue);
       default:
-        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The type number '" + typeNumber + "' is not a valid datatype");
     }
   }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EObject createDocumentRoot()
-  {
-    EObject documentRoot = super.create(JavaPackageImpl.Literals.DOCUMENT_ROOT);
-    return documentRoot;
-  }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -178,13 +158,304 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
     JavaInfoImpl javaInfo = new JavaInfoImpl();
     return javaInfo;
   }
+  
+  // Following creates and initializes SDO metadata for the supported types.			
+  protected Type javaInfoType = null;
 
+  public Type getJavaInfo()
+  {
+    return javaInfoType;
+  }
+    
+  protected Type booleanObjectType = null;
+
+  public Type getBooleanObject()
+  {
+    return booleanObjectType;
+  }
+    
+  protected Type byteObjectType = null;
+
+  public Type getByteObject()
+  {
+    return byteObjectType;
+  }
+    
+  protected Type characterObjectType = null;
+
+  public Type getCharacterObject()
+  {
+    return characterObjectType;
+  }
+    
+  protected Type doubleObjectType = null;
+
+  public Type getDoubleObject()
+  {
+    return doubleObjectType;
+  }
+    
+  protected Type floatObjectType = null;
+
+  public Type getFloatObject()
+  {
+    return floatObjectType;
+  }
+    
+  protected Type intObjectType = null;
+
+  public Type getIntObject()
+  {
+    return intObjectType;
+  }
+    
+  protected Type longObjectType = null;
+
+  public Type getLongObject()
+  {
+    return longObjectType;
+  }
+    
+  protected Type shortObjectType = null;
+
+  public Type getShortObject()
+  {
+    return shortObjectType;
+  }
+  
+
+  private static boolean isInited = false;
+
+  public static JavaFactoryImpl init()
+  {
+    if (isInited) return (JavaFactoryImpl)FactoryBase.getStaticFactory(JavaFactoryImpl.NAMESPACE_URI);
+    JavaFactoryImpl theJavaFactoryImpl = new JavaFactoryImpl();
+    isInited = true;
+
+    // Initialize simple dependencies
+    SDOUtil.registerStaticTypes(SDOFactory.class);
+    SDOUtil.registerStaticTypes(ModelFactory.class);
+
+    // Create package meta-data objects
+    theJavaFactoryImpl.createMetaData();
+
+    // Initialize created meta-data
+    theJavaFactoryImpl.initializeMetaData();
+
+    // Mark meta-data to indicate it can't be changed
+    //theJavaFactoryImpl.freeze(); //FB do we need to freeze / should we freeze ????
+
+    return theJavaFactoryImpl;
+  }
+  
+  private boolean isCreated = false;
+
+  public void createMetaData()
+  {
+    if (isCreated) return;
+    isCreated = true;	
+
+
+    javaInfoType = createType(false, JAVA_INFO);
+    createProperty(true, javaInfoType, JavaInfoImpl.JAVA_CLASS);
+    booleanObjectType = createType(true, BOOLEAN_OBJECT );
+    byteObjectType = createType(true, BYTE_OBJECT );
+    characterObjectType = createType(true, CHARACTER_OBJECT );
+    doubleObjectType = createType(true, DOUBLE_OBJECT );
+    floatObjectType = createType(true, FLOAT_OBJECT );
+    intObjectType = createType(true, INT_OBJECT );
+    longObjectType = createType(true, LONG_OBJECT );
+    shortObjectType = createType(true, SHORT_OBJECT );
+  }
+  
+  private boolean isInitialized = false;
+
+  public void initializeMetaData()
+  {
+    if (isInitialized) return;
+    isInitialized = true;
+
+    // Obtain other dependent packages
+    ModelFactoryImpl theModelPackageImpl = (ModelFactoryImpl)FactoryBase.getStaticFactory(ModelFactoryImpl.NAMESPACE_URI);
+    Property property = null;
+
+    // Add supertypes to classes
+
+    // Initialize classes and features; add operations and parameters
+    initializeType(javaInfoType, JavaInfo.class, "JavaInfo");
+
+    property = (Property)javaInfoType.getProperties().get(JavaInfoImpl.JAVA_CLASS);
+    initializeProperty(property, theModelPackageImpl.getString(), "javaClass", null, 0, 1, JavaInfo.class, false, false, false);
+
+    // Initialize data types
+    initializeType(booleanObjectType, Boolean.class, "BooleanObject", true, false);
+    setInstanceProperty (booleanObjectType, "commonj.sdo/java", "instanceClass", "java.lang.Boolean");
+
+    initializeType(byteObjectType, Byte.class, "ByteObject", true, false);
+    setInstanceProperty (byteObjectType, "commonj.sdo/java", "instanceClass", "java.lang.Byte");
+
+    initializeType(characterObjectType, Character.class, "CharacterObject", true, false);
+    setInstanceProperty (characterObjectType, "commonj.sdo/java", "instanceClass", "java.lang.Character");
+
+    initializeType(doubleObjectType, Double.class, "DoubleObject", true, false);
+    setInstanceProperty (doubleObjectType, "commonj.sdo/java", "instanceClass", "java.lang.Double");
+
+    initializeType(floatObjectType, Float.class, "FloatObject", true, false);
+    setInstanceProperty (floatObjectType, "commonj.sdo/java", "instanceClass", "java.lang.Float");
+
+    initializeType(intObjectType, Integer.class, "IntObject", true, false);
+    setInstanceProperty (intObjectType, "commonj.sdo/java", "instanceClass", "java.lang.Integer");
+
+    initializeType(longObjectType, Long.class, "LongObject", true, false);
+    setInstanceProperty (longObjectType, "commonj.sdo/java", "instanceClass", "java.lang.Long");
+
+    initializeType(shortObjectType, Short.class, "ShortObject", true, false);
+    setInstanceProperty (shortObjectType, "commonj.sdo/java", "instanceClass", "java.lang.Short");
+
+    createXSDMetaData(theModelPackageImpl);
+  }
+    
+  protected void createXSDMetaData(ModelFactoryImpl theModelPackageImpl)
+  {
+    super.initXSD();
+    
+    Property property = null;
+    
+    property = createGlobalProperty
+      ("extendedInstanceClass",
+      theModelPackageImpl.getString(),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "extendedInstanceClass",
+       "namespace", "##targetNamespace"
+       },
+       IS_ATTRIBUTE);
+                  
+    property = createGlobalProperty
+      ("instanceClass",
+      theModelPackageImpl.getString(),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "instanceClass",
+       "namespace", "##targetNamespace"
+       },
+       IS_ATTRIBUTE);
+                  
+    property = createGlobalProperty
+      ("javaClass",
+      theModelPackageImpl.getString(),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "javaClass",
+       "namespace", "##targetNamespace"
+       },
+       IS_ATTRIBUTE);
+                  
+    property = createGlobalProperty
+      ("nestedInterfaces",
+      theModelPackageImpl.getBoolean(),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "nestedInterfaces",
+       "namespace", "##targetNamespace"
+       },
+       IS_ATTRIBUTE);
+                  
+    property = createGlobalProperty
+      ("package",
+      theModelPackageImpl.getString(),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "package",
+       "namespace", "##targetNamespace"
+       },
+       IS_ATTRIBUTE);
+                  
+    addXSDMapping
+      (javaInfoType,
+       new String[] 
+       {
+       "name", "JavaInfo",
+       "kind", "empty"
+       });
+
+    addXSDMapping
+      ((Property)javaInfoType.getProperties().get(JavaInfoImpl.JAVA_CLASS),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "javaClass"
+       });
+
+    addXSDMapping
+      (booleanObjectType,
+       new String[] 
+       {
+       "name", "BooleanObject"
+       });
+
+    addXSDMapping
+      (byteObjectType,
+       new String[] 
+       {
+       "name", "ByteObject"
+       });
+
+    addXSDMapping
+      (characterObjectType,
+       new String[] 
+       {
+       "name", "CharacterObject"
+       });
+
+    addXSDMapping
+      (doubleObjectType,
+       new String[] 
+       {
+       "name", "DoubleObject"
+       });
+
+    addXSDMapping
+      (floatObjectType,
+       new String[] 
+       {
+       "name", "FloatObject"
+       });
+
+    addXSDMapping
+      (intObjectType,
+       new String[] 
+       {
+       "name", "IntObject"
+       });
+
+    addXSDMapping
+      (longObjectType,
+       new String[] 
+       {
+       "name", "LongObject"
+       });
+
+    addXSDMapping
+      (shortObjectType,
+       new String[] 
+       {
+       "name", "ShortObject"
+       });
+
+  }
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Boolean createBooleanObjectFromString(EDataType eDataType, String initialValue)
+  public Boolean createBooleanObjectFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createBooleanObject(initialValue);
   }
@@ -194,7 +465,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertBooleanObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertBooleanObjectToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertBooleanObject((Boolean)instanceValue);
   }
@@ -204,7 +475,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Byte createByteObjectFromString(EDataType eDataType, String initialValue)
+  public Byte createByteObjectFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createByteObject(initialValue);
   }
@@ -214,7 +485,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertByteObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertByteObjectToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertByteObject((Byte)instanceValue);
   }
@@ -224,10 +495,10 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Character createCharacterObjectFromString(EDataType eDataType, String initialValue)
+  public Character createCharacterObjectFromString(String initialValue)
   {
     return (initialValue == null && initialValue.length() > 0) 
-      ? null : (new Character(collapseWhiteSpace(initialValue).charAt(0)));
+      ? null : (new Character(XMLTypeUtil.normalize(initialValue, true).charAt(0)));
   }
 
   /**
@@ -235,7 +506,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertCharacterObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertCharacterObjectToString(Object instanceValue)
   {
     return instanceValue == null ? null : instanceValue.toString();
   }
@@ -245,7 +516,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Double createDoubleObjectFromString(EDataType eDataType, String initialValue)
+  public Double createDoubleObjectFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createDoubleObject(initialValue);
   }
@@ -255,7 +526,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertDoubleObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertDoubleObjectToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertDoubleObject((Double)instanceValue);
   }
@@ -265,7 +536,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Float createFloatObjectFromString(EDataType eDataType, String initialValue)
+  public Float createFloatObjectFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createFloatObject(initialValue);
   }
@@ -275,7 +546,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertFloatObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertFloatObjectToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertFloatObject((Float)instanceValue);
   }
@@ -285,7 +556,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Integer createIntObjectFromString(EDataType eDataType, String initialValue)
+  public Integer createIntObjectFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createIntObject(initialValue);
   }
@@ -295,7 +566,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertIntObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertIntObjectToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertIntObject((Integer)instanceValue);
   }
@@ -305,7 +576,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Long createLongObjectFromString(EDataType eDataType, String initialValue)
+  public Long createLongObjectFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createLongObject(initialValue);
   }
@@ -315,7 +586,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertLongObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertLongObjectToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertLongObject((Long)instanceValue);
   }
@@ -325,7 +596,7 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Short createShortObjectFromString(EDataType eDataType, String initialValue)
+  public Short createShortObjectFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createShortObject(initialValue);
   }
@@ -335,30 +606,9 @@ public class JavaFactoryImpl extends EFactoryImpl implements JavaFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertShortObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertShortObjectToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertShortObject((Short)instanceValue);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public JavaPackageImpl getJavaPackageImpl()
-  {
-    return (JavaPackageImpl)getEPackage();
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @deprecated
-   * @generated
-   */
-  public static JavaPackageImpl getPackage()
-  {
-    return JavaPackageImpl.eINSTANCE;
   }
 
 } //JavaFactoryImpl

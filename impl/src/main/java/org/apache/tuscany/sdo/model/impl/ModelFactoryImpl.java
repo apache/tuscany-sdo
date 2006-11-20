@@ -1,89 +1,120 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.model.impl;
 
+import commonj.sdo.DataObject;
+import commonj.sdo.helper.DataHelper;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
 import org.apache.tuscany.sdo.SDOFactory;
-import org.apache.tuscany.sdo.model.ChangeSummaryType;
-import org.apache.tuscany.sdo.model.DataGraphType;
-import org.apache.tuscany.sdo.model.ModelFactory;
-import org.apache.tuscany.sdo.model.ModelsType;
-import org.apache.tuscany.sdo.model.Property;
-import org.apache.tuscany.sdo.model.Type;
-import org.apache.tuscany.sdo.model.Types;
-import org.apache.tuscany.sdo.model.XSDType;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
-import commonj.sdo.helper.DataHelper;
+import org.apache.tuscany.sdo.impl.FactoryBase;
+
+import org.apache.tuscany.sdo.model.*;
+
+import org.apache.tuscany.sdo.util.SDOUtil;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model <b>Factory</b>.
+ * An implementation of the commonj.sdo model factory.
+ * This model is generated from sdoModel.xsd, in the sdo-api project.
+ * Until the SDO code generator supports name conflicts and regen/merge, follow the following steps to regenerate this model:
+ *   0. TEMPORARY Kludge: comment out the following line in the XSDHelperImpl.define() method:
+ *         //if (ePackage == null) //FB Comment out this line to regenerate sdoModel.xsd
+ *   1. Regenerate the model into a temporary directory:
+ *         XSD2JavaGenerator -targetDirectory <temp-dir> -javaPackage org.apache.tuscany.sdo.model <sdo-api-dir>/src/main/resources/xml/sdoModel.xsd
+ *   2. Rename the following methods in the generated Property/PropertyImpl interface and implementation class:
+ *         getDefault() to getDefault_();
+ *         setDefault() to setDefault_();
+ *         getOpposite() to getOpposite_();
+ *         setOpposite() to setOpposite_();
+ *   3. Change the value of the NAMESPACE_PREFIX to "sdo"
+ *           public static final String NAMESPACE_PREFIX = "sdo"; //FB generated as "commonj"
+ *   4. Copy the following method from the old to new generated Type/TypeImpl interface anc implemention class:
+ *         String getInstanceClassName();
+ *   5. Cthe following method from the old to new generated Types/TypesImpl interface anc implemention class:
+ *         List getTypeList();
+ *   6. Delete all the createXXXFromString() and convertXXXToString() methods in the newly generated ModelFactoryImpl and
+ *      replace them with the ones from this file.
+ *   7. Move this JavaDoc comment into the newly generated ModelFactoryImpl class.
  * <!-- end-user-doc -->
  * @generated
  */
-public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
+public class ModelFactoryImpl extends FactoryBase implements ModelFactory
 {
+
   /**
-   * The singleton instance of the factory.
+   * The package namespace URI.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final ModelFactoryImpl eINSTANCE = init();
+  public static final String NAMESPACE_URI = "commonj.sdo";
 
   /**
-   * Creates the default factory implementation.
+   * The package namespace name.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public static ModelFactoryImpl init()
-  {
-    try
-    {
-      ModelFactoryImpl theModelFactory = (ModelFactoryImpl)EPackage.Registry.INSTANCE.getEFactory("commonj.sdo"); 
-      if (theModelFactory != null)
-      {
-        return theModelFactory;
-      }
-    }
-    catch (Exception exception)
-    {
-      EcorePlugin.INSTANCE.log(exception);
-    }
-    return new ModelFactoryImpl();
-  }
-
+  public static final String NAMESPACE_PREFIX = "sdo"; //FB generated as "commonj"
+  public static final int BASE_DATA_GRAPH_TYPE = 1;	
+  public static final int CHANGE_SUMMARY_TYPE = 2;	
+  public static final int DATA_GRAPH_TYPE = 3;	
+  public static final int DATA_OBJECT = 4;	
+  public static final int MODELS_TYPE = 5;	
+  public static final int PROPERTY = 6;	
+  public static final int TEXT_TYPE = 7;	
+  public static final int TYPE = 8;	
+  public static final int TYPES = 9;	
+  public static final int XSD_TYPE = 10;	
+  public static final int BOOLEAN = 11;	
+  public static final int BOOLEAN_OBJECT = 12;	
+  public static final int BYTE = 13;	
+  public static final int BYTE_OBJECT = 14;	
+  public static final int BYTES = 15;	
+  public static final int CHARACTER = 16;	
+  public static final int CHARACTER_OBJECT = 17;	
+  public static final int DATE = 18;	
+  public static final int DATE_TIME = 19;	
+  public static final int DAY = 20;	
+  public static final int DECIMAL = 21;	
+  public static final int DOUBLE = 22;	
+  public static final int DOUBLE_OBJECT = 23;	
+  public static final int DURATION = 24;	
+  public static final int FLOAT = 25;	
+  public static final int FLOAT_OBJECT = 26;	
+  public static final int INT = 27;	
+  public static final int INTEGER = 28;	
+  public static final int INT_OBJECT = 29;	
+  public static final int LONG = 30;	
+  public static final int LONG_OBJECT = 31;	
+  public static final int MONTH = 32;	
+  public static final int MONTH_DAY = 33;	
+  public static final int OBJECT = 34;	
+  public static final int SHORT = 35;	
+  public static final int SHORT_OBJECT = 36;	
+  public static final int STRING = 37;	
+  public static final int STRINGS = 38;	
+  public static final int TIME = 39;	
+  public static final int URI = 40;	
+  public static final int YEAR = 41;	
+  public static final int YEAR_MONTH = 42;	
+  public static final int YEAR_MONTH_DAY = 43;
+  
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -92,114 +123,27 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    */
   public ModelFactoryImpl()
   {
-    super();
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EObject createGen(EClass eClass)
-  {
-    switch (eClass.getClassifierID())
-    {
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE: return (EObject)createChangeSummaryType();
-      case ModelPackageImpl.DATA_GRAPH_TYPE: return (EObject)createDataGraphType();
-      case ModelPackageImpl.DOCUMENT_ROOT: return (EObject)createDocumentRoot();
-      case ModelPackageImpl.MODELS_TYPE: return (EObject)createModelsType();
-      case ModelPackageImpl.PROPERTY: return (EObject)createProperty();
-      case ModelPackageImpl.TYPE: return (EObject)createType();
-      case ModelPackageImpl.TYPES: return (EObject)createTypes();
-      case ModelPackageImpl.XSD_TYPE: return (EObject)createXSDType();
-      default:
-        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-    }
+    super(NAMESPACE_URI, NAMESPACE_PREFIX, "org.apache.tuscany.sdo.model");
   }
   
-  public EObject create(EClass eClass)
-  {
-    if (eClass.getClassifierID() == ModelPackageImpl.DATA_OBJECT) return SDOFactory.eINSTANCE.createAnyTypeDataObject();
-    return createGen(eClass);
-  }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object createFromString(EDataType eDataType, String initialValue)
+  public DataObject create(int typeNumber)
   {
-    switch (eDataType.getClassifierID())
+    switch (typeNumber)
     {
-      case ModelPackageImpl.BOOLEAN:
-        return createBooleanFromString(eDataType, initialValue);
-      case ModelPackageImpl.BOOLEAN_OBJECT:
-        return createBooleanObjectFromString(eDataType, initialValue);
-      case ModelPackageImpl.BYTE:
-        return createByteFromString(eDataType, initialValue);
-      case ModelPackageImpl.BYTE_OBJECT:
-        return createByteObjectFromString(eDataType, initialValue);
-      case ModelPackageImpl.BYTES:
-        return createBytesFromString(eDataType, initialValue);
-      case ModelPackageImpl.CHARACTER:
-        return createCharacterFromString(eDataType, initialValue);
-      case ModelPackageImpl.CHARACTER_OBJECT:
-        return createCharacterObjectFromString(eDataType, initialValue);
-      case ModelPackageImpl.DATE:
-        return createDateFromString(eDataType, initialValue);
-      case ModelPackageImpl.DATE_TIME:
-        return createDateTimeFromString(eDataType, initialValue);
-      case ModelPackageImpl.DAY:
-        return createDayFromString(eDataType, initialValue);
-      case ModelPackageImpl.DECIMAL:
-        return createDecimalFromString(eDataType, initialValue);
-      case ModelPackageImpl.DOUBLE:
-        return createDoubleFromString(eDataType, initialValue);
-      case ModelPackageImpl.DOUBLE_OBJECT:
-        return createDoubleObjectFromString(eDataType, initialValue);
-      case ModelPackageImpl.DURATION:
-        return createDurationFromString(eDataType, initialValue);
-      case ModelPackageImpl.FLOAT:
-        return createFloatFromString(eDataType, initialValue);
-      case ModelPackageImpl.FLOAT_OBJECT:
-        return createFloatObjectFromString(eDataType, initialValue);
-      case ModelPackageImpl.INT:
-        return createIntFromString(eDataType, initialValue);
-      case ModelPackageImpl.INTEGER:
-        return createIntegerFromString(eDataType, initialValue);
-      case ModelPackageImpl.INT_OBJECT:
-        return createIntObjectFromString(eDataType, initialValue);
-      case ModelPackageImpl.LONG:
-        return createLongFromString(eDataType, initialValue);
-      case ModelPackageImpl.LONG_OBJECT:
-        return createLongObjectFromString(eDataType, initialValue);
-      case ModelPackageImpl.MONTH:
-        return createMonthFromString(eDataType, initialValue);
-      case ModelPackageImpl.MONTH_DAY:
-        return createMonthDayFromString(eDataType, initialValue);
-      case ModelPackageImpl.OBJECT:
-        return createObjectFromString(eDataType, initialValue);
-      case ModelPackageImpl.SHORT:
-        return createShortFromString(eDataType, initialValue);
-      case ModelPackageImpl.SHORT_OBJECT:
-        return createShortObjectFromString(eDataType, initialValue);
-      case ModelPackageImpl.STRING:
-        return createStringFromString(eDataType, initialValue);
-      case ModelPackageImpl.STRINGS:
-        return createStringsFromString(eDataType, initialValue);
-      case ModelPackageImpl.TIME:
-        return createTimeFromString(eDataType, initialValue);
-      case ModelPackageImpl.URI:
-        return createURIFromString(eDataType, initialValue);
-      case ModelPackageImpl.YEAR:
-        return createYearFromString(eDataType, initialValue);
-      case ModelPackageImpl.YEAR_MONTH:
-        return createYearMonthFromString(eDataType, initialValue);
-      case ModelPackageImpl.YEAR_MONTH_DAY:
-        return createYearMonthDayFromString(eDataType, initialValue);
+      case CHANGE_SUMMARY_TYPE: return (DataObject)createChangeSummaryType();
+      case DATA_GRAPH_TYPE: return (DataObject)createDataGraphType();
+      case MODELS_TYPE: return (DataObject)createModelsType();
+      case PROPERTY: return (DataObject)createProperty();
+      case TYPE: return (DataObject)createType();
+      case TYPES: return (DataObject)createTypes();
+      case XSD_TYPE: return (DataObject)createXSDType();
       default:
-        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        return super.create(typeNumber);
     }
   }
 
@@ -208,81 +152,160 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public String convertToString(EDataType eDataType, Object instanceValue)
+  public Object createFromString(int typeNumber, String initialValue)
   {
-    switch (eDataType.getClassifierID())
+    switch (typeNumber)
     {
-      case ModelPackageImpl.BOOLEAN:
-        return convertBooleanToString(eDataType, instanceValue);
-      case ModelPackageImpl.BOOLEAN_OBJECT:
-        return convertBooleanObjectToString(eDataType, instanceValue);
-      case ModelPackageImpl.BYTE:
-        return convertByteToString(eDataType, instanceValue);
-      case ModelPackageImpl.BYTE_OBJECT:
-        return convertByteObjectToString(eDataType, instanceValue);
-      case ModelPackageImpl.BYTES:
-        return convertBytesToString(eDataType, instanceValue);
-      case ModelPackageImpl.CHARACTER:
-        return convertCharacterToString(eDataType, instanceValue);
-      case ModelPackageImpl.CHARACTER_OBJECT:
-        return convertCharacterObjectToString(eDataType, instanceValue);
-      case ModelPackageImpl.DATE:
-        return convertDateToString(eDataType, instanceValue);
-      case ModelPackageImpl.DATE_TIME:
-        return convertDateTimeToString(eDataType, instanceValue);
-      case ModelPackageImpl.DAY:
-        return convertDayToString(eDataType, instanceValue);
-      case ModelPackageImpl.DECIMAL:
-        return convertDecimalToString(eDataType, instanceValue);
-      case ModelPackageImpl.DOUBLE:
-        return convertDoubleToString(eDataType, instanceValue);
-      case ModelPackageImpl.DOUBLE_OBJECT:
-        return convertDoubleObjectToString(eDataType, instanceValue);
-      case ModelPackageImpl.DURATION:
-        return convertDurationToString(eDataType, instanceValue);
-      case ModelPackageImpl.FLOAT:
-        return convertFloatToString(eDataType, instanceValue);
-      case ModelPackageImpl.FLOAT_OBJECT:
-        return convertFloatObjectToString(eDataType, instanceValue);
-      case ModelPackageImpl.INT:
-        return convertIntToString(eDataType, instanceValue);
-      case ModelPackageImpl.INTEGER:
-        return convertIntegerToString(eDataType, instanceValue);
-      case ModelPackageImpl.INT_OBJECT:
-        return convertIntObjectToString(eDataType, instanceValue);
-      case ModelPackageImpl.LONG:
-        return convertLongToString(eDataType, instanceValue);
-      case ModelPackageImpl.LONG_OBJECT:
-        return convertLongObjectToString(eDataType, instanceValue);
-      case ModelPackageImpl.MONTH:
-        return convertMonthToString(eDataType, instanceValue);
-      case ModelPackageImpl.MONTH_DAY:
-        return convertMonthDayToString(eDataType, instanceValue);
-      case ModelPackageImpl.OBJECT:
-        return convertObjectToString(eDataType, instanceValue);
-      case ModelPackageImpl.SHORT:
-        return convertShortToString(eDataType, instanceValue);
-      case ModelPackageImpl.SHORT_OBJECT:
-        return convertShortObjectToString(eDataType, instanceValue);
-      case ModelPackageImpl.STRING:
-        return convertStringToString(eDataType, instanceValue);
-      case ModelPackageImpl.STRINGS:
-        return convertStringsToString(eDataType, instanceValue);
-      case ModelPackageImpl.TIME:
-        return convertTimeToString(eDataType, instanceValue);
-      case ModelPackageImpl.URI:
-        return convertURIToString(eDataType, instanceValue);
-      case ModelPackageImpl.YEAR:
-        return convertYearToString(eDataType, instanceValue);
-      case ModelPackageImpl.YEAR_MONTH:
-        return convertYearMonthToString(eDataType, instanceValue);
-      case ModelPackageImpl.YEAR_MONTH_DAY:
-        return convertYearMonthDayToString(eDataType, instanceValue);
+      case BOOLEAN:
+        return createBooleanFromString(initialValue);
+      case BOOLEAN_OBJECT:
+        return createBooleanObjectFromString(initialValue);
+      case BYTE:
+        return createByteFromString(initialValue);
+      case BYTE_OBJECT:
+        return createByteObjectFromString(initialValue);
+      case BYTES:
+        return createBytesFromString(initialValue);
+      case CHARACTER:
+        return createCharacterFromString(initialValue);
+      case CHARACTER_OBJECT:
+        return createCharacterObjectFromString(initialValue);
+      case DATE:
+        return createDateFromString(initialValue);
+      case DATE_TIME:
+        return createDateTimeFromString(initialValue);
+      case DAY:
+        return createDayFromString(initialValue);
+      case DECIMAL:
+        return createDecimalFromString(initialValue);
+      case DOUBLE:
+        return createDoubleFromString(initialValue);
+      case DOUBLE_OBJECT:
+        return createDoubleObjectFromString(initialValue);
+      case DURATION:
+        return createDurationFromString(initialValue);
+      case FLOAT:
+        return createFloatFromString(initialValue);
+      case FLOAT_OBJECT:
+        return createFloatObjectFromString(initialValue);
+      case INT:
+        return createIntFromString(initialValue);
+      case INTEGER:
+        return createIntegerFromString(initialValue);
+      case INT_OBJECT:
+        return createIntObjectFromString(initialValue);
+      case LONG:
+        return createLongFromString(initialValue);
+      case LONG_OBJECT:
+        return createLongObjectFromString(initialValue);
+      case MONTH:
+        return createMonthFromString(initialValue);
+      case MONTH_DAY:
+        return createMonthDayFromString(initialValue);
+      case OBJECT:
+        return createObjectFromString(initialValue);
+      case SHORT:
+        return createShortFromString(initialValue);
+      case SHORT_OBJECT:
+        return createShortObjectFromString(initialValue);
+      case STRING:
+        return createStringFromString(initialValue);
+      case STRINGS:
+        return createStringsFromString(initialValue);
+      case TIME:
+        return createTimeFromString(initialValue);
+      case URI:
+        return createURIFromString(initialValue);
+      case YEAR:
+        return createYearFromString(initialValue);
+      case YEAR_MONTH:
+        return createYearMonthFromString(initialValue);
+      case YEAR_MONTH_DAY:
+        return createYearMonthDayFromString(initialValue);
       default:
-        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+        throw new IllegalArgumentException("The type number '" + typeNumber + "' is not a valid datatype");
     }
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertToString(int typeNumber, Object instanceValue)
+  {
+    switch (typeNumber)
+    {
+      case BOOLEAN:
+        return convertBooleanToString(instanceValue);
+      case BOOLEAN_OBJECT:
+        return convertBooleanObjectToString(instanceValue);
+      case BYTE:
+        return convertByteToString(instanceValue);
+      case BYTE_OBJECT:
+        return convertByteObjectToString(instanceValue);
+      case BYTES:
+        return convertBytesToString(instanceValue);
+      case CHARACTER:
+        return convertCharacterToString(instanceValue);
+      case CHARACTER_OBJECT:
+        return convertCharacterObjectToString(instanceValue);
+      case DATE:
+        return convertDateToString(instanceValue);
+      case DATE_TIME:
+        return convertDateTimeToString(instanceValue);
+      case DAY:
+        return convertDayToString(instanceValue);
+      case DECIMAL:
+        return convertDecimalToString(instanceValue);
+      case DOUBLE:
+        return convertDoubleToString(instanceValue);
+      case DOUBLE_OBJECT:
+        return convertDoubleObjectToString(instanceValue);
+      case DURATION:
+        return convertDurationToString(instanceValue);
+      case FLOAT:
+        return convertFloatToString(instanceValue);
+      case FLOAT_OBJECT:
+        return convertFloatObjectToString(instanceValue);
+      case INT:
+        return convertIntToString(instanceValue);
+      case INTEGER:
+        return convertIntegerToString(instanceValue);
+      case INT_OBJECT:
+        return convertIntObjectToString(instanceValue);
+      case LONG:
+        return convertLongToString(instanceValue);
+      case LONG_OBJECT:
+        return convertLongObjectToString(instanceValue);
+      case MONTH:
+        return convertMonthToString(instanceValue);
+      case MONTH_DAY:
+        return convertMonthDayToString(instanceValue);
+      case OBJECT:
+        return convertObjectToString(instanceValue);
+      case SHORT:
+        return convertShortToString(instanceValue);
+      case SHORT_OBJECT:
+        return convertShortObjectToString(instanceValue);
+      case STRING:
+        return convertStringToString(instanceValue);
+      case STRINGS:
+        return convertStringsToString(instanceValue);
+      case TIME:
+        return convertTimeToString(instanceValue);
+      case URI:
+        return convertURIToString(instanceValue);
+      case YEAR:
+        return convertYearToString(instanceValue);
+      case YEAR_MONTH:
+        return convertYearMonthToString(instanceValue);
+      case YEAR_MONTH_DAY:
+        return convertYearMonthDayToString(instanceValue);
+      default:
+        throw new IllegalArgumentException("The type number '" + typeNumber + "' is not a valid datatype");
+    }
+  }
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -293,7 +316,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
     ChangeSummaryTypeImpl changeSummaryType = new ChangeSummaryTypeImpl();
     return changeSummaryType;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -304,18 +326,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
     DataGraphTypeImpl dataGraphType = new DataGraphTypeImpl();
     return dataGraphType;
   }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public EObject createDocumentRoot()
-  {
-    EObject documentRoot = super.create(ModelPackageImpl.Literals.DOCUMENT_ROOT);
-    return documentRoot;
-  }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -326,7 +336,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
     ModelsTypeImpl modelsType = new ModelsTypeImpl();
     return modelsType;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -337,7 +346,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
     PropertyImpl property = new PropertyImpl();
     return property;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -348,7 +356,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
     TypeImpl type = new TypeImpl();
     return type;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -359,7 +366,6 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
     TypesImpl types = new TypesImpl();
     return types;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -370,13 +376,1366 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
     XSDTypeImpl xsdType = new XSDTypeImpl();
     return xsdType;
   }
+  
+  // Following creates and initializes SDO metadata for the supported types.		
+  protected commonj.sdo.Type baseDataGraphTypeType = null;
 
+  public commonj.sdo.Type getBaseDataGraphType()
+  {
+    return baseDataGraphTypeType;
+  }
+    
+  protected commonj.sdo.Type changeSummaryTypeType = null;
+
+  public commonj.sdo.Type getChangeSummaryType()
+  {
+    return changeSummaryTypeType;
+  }
+    
+  protected commonj.sdo.Type dataGraphTypeType = null;
+
+  public commonj.sdo.Type getDataGraphType()
+  {
+    return dataGraphTypeType;
+  }
+    
+  protected commonj.sdo.Type dataObjectType = null;
+
+  public commonj.sdo.Type getDataObject()
+  {
+    return dataObjectType;
+  }
+      
+  protected commonj.sdo.Type modelsTypeType = null;
+
+  public commonj.sdo.Type getModelsType()
+  {
+    return modelsTypeType;
+  }
+    
+  protected commonj.sdo.Type propertyType = null;
+
+  public commonj.sdo.Type getProperty()
+  {
+    return propertyType;
+  }
+    
+  protected commonj.sdo.Type textTypeType = null;
+
+  public commonj.sdo.Type getTextType()
+  {
+    return textTypeType;
+  }
+    
+  protected commonj.sdo.Type typeType = null;
+
+  public commonj.sdo.Type getType()
+  {
+    return typeType;
+  }
+    
+  protected commonj.sdo.Type typesType = null;
+
+  public commonj.sdo.Type getTypes()
+  {
+    return typesType;
+  }
+    
+  protected commonj.sdo.Type xsdTypeType = null;
+
+  public commonj.sdo.Type getXSDType()
+  {
+    return xsdTypeType;
+  }
+    
+  protected commonj.sdo.Type boolean_Type = null;
+
+  public commonj.sdo.Type getBoolean()
+  {
+    return boolean_Type;
+  }
+    
+  protected commonj.sdo.Type booleanObjectType = null;
+
+  public commonj.sdo.Type getBooleanObject()
+  {
+    return booleanObjectType;
+  }
+    
+  protected commonj.sdo.Type byte_Type = null;
+
+  public commonj.sdo.Type getByte()
+  {
+    return byte_Type;
+  }
+    
+  protected commonj.sdo.Type byteObjectType = null;
+
+  public commonj.sdo.Type getByteObject()
+  {
+    return byteObjectType;
+  }
+    
+  protected commonj.sdo.Type bytesType = null;
+
+  public commonj.sdo.Type getBytes()
+  {
+    return bytesType;
+  }
+    
+  protected commonj.sdo.Type characterType = null;
+
+  public commonj.sdo.Type getCharacter()
+  {
+    return characterType;
+  }
+    
+  protected commonj.sdo.Type characterObjectType = null;
+
+  public commonj.sdo.Type getCharacterObject()
+  {
+    return characterObjectType;
+  }
+    
+  protected commonj.sdo.Type dateType = null;
+
+  public commonj.sdo.Type getDate()
+  {
+    return dateType;
+  }
+    
+  protected commonj.sdo.Type dateTimeType = null;
+
+  public commonj.sdo.Type getDateTime()
+  {
+    return dateTimeType;
+  }
+    
+  protected commonj.sdo.Type dayType = null;
+
+  public commonj.sdo.Type getDay()
+  {
+    return dayType;
+  }
+    
+  protected commonj.sdo.Type decimalType = null;
+
+  public commonj.sdo.Type getDecimal()
+  {
+    return decimalType;
+  }
+    
+  protected commonj.sdo.Type double_Type = null;
+
+  public commonj.sdo.Type getDouble()
+  {
+    return double_Type;
+  }
+    
+  protected commonj.sdo.Type doubleObjectType = null;
+
+  public commonj.sdo.Type getDoubleObject()
+  {
+    return doubleObjectType;
+  }
+    
+  protected commonj.sdo.Type durationType = null;
+
+  public commonj.sdo.Type getDuration()
+  {
+    return durationType;
+  }
+    
+  protected commonj.sdo.Type float_Type = null;
+
+  public commonj.sdo.Type getFloat()
+  {
+    return float_Type;
+  }
+    
+  protected commonj.sdo.Type floatObjectType = null;
+
+  public commonj.sdo.Type getFloatObject()
+  {
+    return floatObjectType;
+  }
+    
+  protected commonj.sdo.Type int_Type = null;
+
+  public commonj.sdo.Type getInt()
+  {
+    return int_Type;
+  }
+    
+  protected commonj.sdo.Type integerType = null;
+
+  public commonj.sdo.Type getInteger()
+  {
+    return integerType;
+  }
+    
+  protected commonj.sdo.Type intObjectType = null;
+
+  public commonj.sdo.Type getIntObject()
+  {
+    return intObjectType;
+  }
+    
+  protected commonj.sdo.Type long_Type = null;
+
+  public commonj.sdo.Type getLong()
+  {
+    return long_Type;
+  }
+    
+  protected commonj.sdo.Type longObjectType = null;
+
+  public commonj.sdo.Type getLongObject()
+  {
+    return longObjectType;
+  }
+    
+  protected commonj.sdo.Type monthType = null;
+
+  public commonj.sdo.Type getMonth()
+  {
+    return monthType;
+  }
+    
+  protected commonj.sdo.Type monthDayType = null;
+
+  public commonj.sdo.Type getMonthDay()
+  {
+    return monthDayType;
+  }
+    
+  protected commonj.sdo.Type objectType = null;
+
+  public commonj.sdo.Type getObject()
+  {
+    return objectType;
+  }
+    
+  protected commonj.sdo.Type short_Type = null;
+
+  public commonj.sdo.Type getShort()
+  {
+    return short_Type;
+  }
+    
+  protected commonj.sdo.Type shortObjectType = null;
+
+  public commonj.sdo.Type getShortObject()
+  {
+    return shortObjectType;
+  }
+    
+  protected commonj.sdo.Type stringType = null;
+
+  public commonj.sdo.Type getString()
+  {
+    return stringType;
+  }
+    
+  protected commonj.sdo.Type stringsType = null;
+
+  public commonj.sdo.Type getStrings()
+  {
+    return stringsType;
+  }
+    
+  protected commonj.sdo.Type timeType = null;
+
+  public commonj.sdo.Type getTime()
+  {
+    return timeType;
+  }
+    
+  protected commonj.sdo.Type uriType = null;
+
+  public commonj.sdo.Type getURI()
+  {
+    return uriType;
+  }
+    
+  protected commonj.sdo.Type yearType = null;
+
+  public commonj.sdo.Type getYear()
+  {
+    return yearType;
+  }
+    
+  protected commonj.sdo.Type yearMonthType = null;
+
+  public commonj.sdo.Type getYearMonth()
+  {
+    return yearMonthType;
+  }
+    
+  protected commonj.sdo.Type yearMonthDayType = null;
+
+  public commonj.sdo.Type getYearMonthDay()
+  {
+    return yearMonthDayType;
+  }
+  
+
+  private static boolean isInited = false;
+
+  public static ModelFactoryImpl init()
+  {
+    if (isInited) return (ModelFactoryImpl)FactoryBase.getStaticFactory(ModelFactoryImpl.NAMESPACE_URI);
+    ModelFactoryImpl theModelFactoryImpl = new ModelFactoryImpl();
+    isInited = true;
+
+    // Initialize simple dependencies
+    SDOUtil.registerStaticTypes(SDOFactory.class);
+    SDOUtil.registerStaticTypes(ModelFactory.class);
+
+    // Create package meta-data objects
+    theModelFactoryImpl.createMetaData();
+
+    // Initialize created meta-data
+    theModelFactoryImpl.initializeMetaData();
+
+    // Mark meta-data to indicate it can't be changed
+    //theModelFactoryImpl.freeze(); //FB do we need to freeze / should we freeze ????
+
+    return theModelFactoryImpl;
+  }
+  
+  private boolean isCreated = false;
+
+  public void createMetaData()
+  {
+    if (isCreated) return;
+    isCreated = true;	
+
+    baseDataGraphTypeType = createType(false, BASE_DATA_GRAPH_TYPE);
+    createProperty(false, baseDataGraphTypeType, BaseDataGraphTypeImpl.MODELS);
+    createProperty(false, baseDataGraphTypeType, BaseDataGraphTypeImpl.XSD);
+    createProperty(false, baseDataGraphTypeType, BaseDataGraphTypeImpl.CHANGE_SUMMARY);
+    createProperty(true, baseDataGraphTypeType, BaseDataGraphTypeImpl.ANY_ATTRIBUTE);
+
+    changeSummaryTypeType = createType(false, CHANGE_SUMMARY_TYPE);
+    createProperty(true, changeSummaryTypeType, ChangeSummaryTypeImpl.ANY);
+    createProperty(true, changeSummaryTypeType, ChangeSummaryTypeImpl.CREATE);
+    createProperty(true, changeSummaryTypeType, ChangeSummaryTypeImpl.DELETE);
+    createProperty(true, changeSummaryTypeType, ChangeSummaryTypeImpl.LOGGING);
+
+    dataGraphTypeType = createType(false, DATA_GRAPH_TYPE);
+    createProperty(true, dataGraphTypeType, DataGraphTypeImpl.ANY);
+
+    dataObjectType = createType(false, DATA_OBJECT);
+
+
+    modelsTypeType = createType(false, MODELS_TYPE);
+    createProperty(true, modelsTypeType, ModelsTypeImpl.ANY);
+
+    propertyType = createType(false, PROPERTY);
+    createProperty(true, propertyType, PropertyImpl.ALIAS_NAME);
+    createProperty(true, propertyType, PropertyImpl.ANY);
+    createProperty(true, propertyType, PropertyImpl.NAME);
+    createProperty(true, propertyType, PropertyImpl.MANY);
+    createProperty(true, propertyType, PropertyImpl.CONTAINMENT);
+    createProperty(true, propertyType, PropertyImpl.DEFAULT);
+    createProperty(true, propertyType, PropertyImpl.READ_ONLY);
+    createProperty(false, propertyType, PropertyImpl.TYPE);
+    createProperty(false, propertyType, PropertyImpl.OPPOSITE);
+    createProperty(true, propertyType, PropertyImpl.NULLABLE);
+    createProperty(true, propertyType, PropertyImpl.ANY_ATTRIBUTE);
+
+    textTypeType = createType(false, TEXT_TYPE);
+    createProperty(true, textTypeType, TextTypeImpl.TEXT);
+
+    typeType = createType(false, TYPE);
+    createProperty(false, typeType, TypeImpl.BASE_TYPE);
+    createProperty(false, typeType, TypeImpl.PROPERTY);
+    createProperty(true, typeType, TypeImpl.ALIAS_NAME);
+    createProperty(true, typeType, TypeImpl.ANY);
+    createProperty(true, typeType, TypeImpl.NAME);
+    createProperty(true, typeType, TypeImpl.URI);
+    createProperty(true, typeType, TypeImpl.DATA_TYPE);
+    createProperty(true, typeType, TypeImpl.OPEN);
+    createProperty(true, typeType, TypeImpl.SEQUENCED);
+    createProperty(true, typeType, TypeImpl.ABSTRACT);
+    createProperty(true, typeType, TypeImpl.ANY_ATTRIBUTE);
+
+    typesType = createType(false, TYPES);
+    createProperty(false, typesType, TypesImpl.TYPE);
+
+    xsdTypeType = createType(false, XSD_TYPE);
+    createProperty(true, xsdTypeType, XSDTypeImpl.ANY);
+    boolean_Type = createType(true, BOOLEAN );
+    booleanObjectType = createType(true, BOOLEAN_OBJECT );
+    byte_Type = createType(true, BYTE );
+    byteObjectType = createType(true, BYTE_OBJECT );
+    bytesType = createType(true, BYTES );
+    characterType = createType(true, CHARACTER );
+    characterObjectType = createType(true, CHARACTER_OBJECT );
+    dateType = createType(true, DATE );
+    dateTimeType = createType(true, DATE_TIME );
+    dayType = createType(true, DAY );
+    decimalType = createType(true, DECIMAL );
+    double_Type = createType(true, DOUBLE );
+    doubleObjectType = createType(true, DOUBLE_OBJECT );
+    durationType = createType(true, DURATION );
+    float_Type = createType(true, FLOAT );
+    floatObjectType = createType(true, FLOAT_OBJECT );
+    int_Type = createType(true, INT );
+    integerType = createType(true, INTEGER );
+    intObjectType = createType(true, INT_OBJECT );
+    long_Type = createType(true, LONG );
+    longObjectType = createType(true, LONG_OBJECT );
+    monthType = createType(true, MONTH );
+    monthDayType = createType(true, MONTH_DAY );
+    objectType = createType(true, OBJECT );
+    short_Type = createType(true, SHORT );
+    shortObjectType = createType(true, SHORT_OBJECT );
+    stringType = createType(true, STRING );
+    stringsType = createType(true, STRINGS );
+    timeType = createType(true, TIME );
+    uriType = createType(true, URI );
+    yearType = createType(true, YEAR );
+    yearMonthType = createType(true, YEAR_MONTH );
+    yearMonthDayType = createType(true, YEAR_MONTH_DAY );
+  }
+  
+  private boolean isInitialized = false;
+
+  public void initializeMetaData()
+  {
+    if (isInitialized) return;
+    isInitialized = true;
+    commonj.sdo.Property property = null;
+
+    // Add supertypes to classes
+    addSuperType(dataGraphTypeType, baseDataGraphTypeType);
+
+    // Initialize classes and features; add operations and parameters
+    initializeType(baseDataGraphTypeType, BaseDataGraphType.class, "BaseDataGraphType", true);
+    
+    property = (commonj.sdo.Property)baseDataGraphTypeType.getProperties().get(BaseDataGraphTypeImpl.MODELS);
+    initializeProperty(property, getModelsType(), "models", null, 0, 1, BaseDataGraphType.class, false, false, false, true, null);
+    
+    property = (commonj.sdo.Property)baseDataGraphTypeType.getProperties().get(BaseDataGraphTypeImpl.XSD);
+    initializeProperty(property, getXSDType(), "xsd", null, 0, 1, BaseDataGraphType.class, false, false, false, true, null);
+    
+    property = (commonj.sdo.Property)baseDataGraphTypeType.getProperties().get(BaseDataGraphTypeImpl.CHANGE_SUMMARY);
+    initializeProperty(property, this.getChangeSummaryType(), "changeSummary", null, 0, 1, BaseDataGraphType.class, false, false, false, true, null);
+    
+    property = (commonj.sdo.Property)baseDataGraphTypeType.getProperties().get(BaseDataGraphTypeImpl.ANY_ATTRIBUTE);
+    initializeProperty(property, getSequence(), "anyAttribute", null, 0, -1, BaseDataGraphType.class, false, false, false);
+
+    initializeType(changeSummaryTypeType, ChangeSummaryType.class, "ChangeSummaryType");
+
+    property = (commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.ANY);
+    initializeProperty(property, getSequence(), "any", null, 0, -1, ChangeSummaryType.class, false, false, false);
+
+    property = (commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.CREATE);
+    initializeProperty(property, this.getString(), "create", null, 0, 1, ChangeSummaryType.class, false, false, false);
+
+    property = (commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.DELETE);
+    initializeProperty(property, this.getString(), "delete", null, 0, 1, ChangeSummaryType.class, false, false, false);
+
+    property = (commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.LOGGING);
+    initializeProperty(property, this.getBoolean(), "logging", null, 0, 1, ChangeSummaryType.class, false, true, false);
+
+    initializeType(dataGraphTypeType, DataGraphType.class, "DataGraphType");
+
+    property = (commonj.sdo.Property)dataGraphTypeType.getProperties().get(DataGraphTypeImpl.ANY);
+    initializeProperty(property, getSequence(), "any", null, 0, 1, DataGraphType.class, false, false, false);
+
+    initializeType(dataObjectType, DataObject.class, "DataObject", true);
+    
+    initializeType(modelsTypeType, ModelsType.class, "ModelsType");
+
+    property = (commonj.sdo.Property)modelsTypeType.getProperties().get(ModelsTypeImpl.ANY);
+    initializeProperty(property, getSequence(), "any", null, 0, -1, ModelsType.class, false, false, false);
+
+    initializeType(propertyType, Property.class, "Property");
+
+    property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.ALIAS_NAME);
+    initializeProperty(property, this.getString(), "aliasName", null, 0, -1, Property.class, false, false, false);
+
+    property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.ANY);
+    initializeProperty(property, getSequence(), "any", null, 0, -1, Property.class, false, false, false);
+
+    property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.NAME);
+    initializeProperty(property, this.getString(), "name", null, 0, 1, Property.class, false, false, false);
+
+    property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.MANY);
+    initializeProperty(property, this.getBoolean(), "many", null, 0, 1, Property.class, false, true, false);
+
+    property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.CONTAINMENT);
+    initializeProperty(property, this.getBoolean(), "containment", null, 0, 1, Property.class, false, true, false);
+
+    property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.DEFAULT);
+    initializeProperty(property, this.getString(), "default", null, 0, 1, Property.class, false, false, false);
+
+    property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.READ_ONLY);
+    initializeProperty(property, this.getBoolean(), "readOnly", null, 0, 1, Property.class, false, true, false);
+
+    property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.TYPE);
+    initializeProperty(property, this.getType(), "type", null, 0, 1, Property.class, false, false, false, false , null);
+    setInstanceProperty (property, "commonj.sdo/xml", "propertyType", "sdo:Type");
+
+    property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.OPPOSITE);
+    initializeProperty(property, this.getProperty(), "opposite", null, 0, 1, Property.class, false, false, false, false , null);
+    setInstanceProperty (property, "commonj.sdo/xml", "propertyType", "sdo:Property");
+
+    property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.NULLABLE);
+    initializeProperty(property, this.getBoolean(), "nullable", null, 0, 1, Property.class, false, true, false);
+
+    property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.ANY_ATTRIBUTE);
+    initializeProperty(property, getSequence(), "anyAttribute", null, 0, -1, Property.class, false, false, false);
+
+    initializeType(textTypeType, TextType.class, "TextType", true);
+
+    property = (commonj.sdo.Property)textTypeType.getProperties().get(TextTypeImpl.TEXT);
+    initializeProperty(property, this.getString(), "text", null, 0, -1, TextType.class, false, false, false);
+
+    initializeType(typeType, Type.class, "Type");
+
+    property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.BASE_TYPE);
+    initializeProperty(property, this.getType(), "baseType", null, 0, -1, Type.class, false, false, false, false , null);
+    setInstanceProperty (property, "commonj.sdo/xml", "propertyType", "sdo:Type");
+
+    property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.PROPERTY);
+    initializeProperty(property, this.getProperty(), "property", null, 0, -1, Type.class, false, false, false, true , null);
+
+    property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.ALIAS_NAME);
+    initializeProperty(property, this.getString(), "aliasName", null, 0, -1, Type.class, false, false, false);
+
+    property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.ANY);
+    initializeProperty(property, getSequence(), "any", null, 0, -1, Type.class, false, false, false);
+
+    property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.NAME);
+    initializeProperty(property, this.getString(), "name", null, 0, 1, Type.class, false, false, false);
+    setInstanceProperty (property, "commonj.sdo/xml", "dataType", "sdo:String");
+
+    property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.URI);
+    initializeProperty(property, this.getURI(), "uri", null, 0, 1, Type.class, false, false, false);
+
+    property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.DATA_TYPE);
+    initializeProperty(property, this.getBoolean(), "dataType", null, 0, 1, Type.class, false, true, false);
+
+    property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.OPEN);
+    initializeProperty(property, this.getBoolean(), "open", null, 0, 1, Type.class, false, true, false);
+
+    property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.SEQUENCED);
+    initializeProperty(property, this.getBoolean(), "sequenced", null, 0, 1, Type.class, false, true, false);
+
+    property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.ABSTRACT);
+    initializeProperty(property, this.getBoolean(), "abstract", null, 0, 1, Type.class, false, true, false);
+
+    property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.ANY_ATTRIBUTE);
+    initializeProperty(property, getSequence(), "anyAttribute", null, 0, -1, Type.class, false, false, false);
+
+    initializeType(typesType, Types.class, "Types");
+
+    property = (commonj.sdo.Property)typesType.getProperties().get(TypesImpl.TYPE);
+    initializeProperty(property, this.getType(), "type", null, 0, -1, Types.class, false, false, false, true , null);
+
+    initializeType(xsdTypeType, XSDType.class, "XSDType");
+
+    property = (commonj.sdo.Property)xsdTypeType.getProperties().get(XSDTypeImpl.ANY);
+    initializeProperty(property, getSequence(), "any", null, 0, -1, XSDType.class, false, false, false);
+
+    // Initialize data types
+    initializeType(boolean_Type, boolean.class, "Boolean", true, false);
+    setInstanceProperty (boolean_Type, "commonj.sdo/java", "instanceClass", "boolean");
+
+    initializeType(booleanObjectType, Boolean.class, "BooleanObject", true, false);
+
+    initializeType(byte_Type, byte.class, "Byte", true, false);
+    setInstanceProperty (byte_Type, "commonj.sdo/java", "instanceClass", "byte");
+
+    initializeType(byteObjectType, Byte.class, "ByteObject", true, false);
+
+    initializeType(bytesType, byte[].class, "Bytes", true, false);
+    setInstanceProperty (bytesType, "commonj.sdo/java", "instanceClass", "byte[]");
+
+    initializeType(characterType, char.class, "Character", true, false);
+    setInstanceProperty (characterType, "commonj.sdo/java", "instanceClass", "char");
+
+    initializeType(characterObjectType, Character.class, "CharacterObject", true, false);
+
+    initializeType(dateType, Date.class, "Date", true, false);
+    setInstanceProperty (dateType, "commonj.sdo/java", "instanceClass", "java.util.Date");
+
+    initializeType(dateTimeType, String.class, "DateTime", true, false);
+    setInstanceProperty (dateTimeType, "commonj.sdo/java", "instanceClass", "java.lang.String");
+
+    initializeType(dayType, String.class, "Day", true, false);
+    setInstanceProperty (dayType, "commonj.sdo/java", "instanceClass", "java.lang.String");
+
+    initializeType(decimalType, BigDecimal.class, "Decimal", true, false);
+    setInstanceProperty (decimalType, "commonj.sdo/java", "instanceClass", "java.math.BigDecimal");
+
+    initializeType(double_Type, double.class, "Double", true, false);
+    setInstanceProperty (double_Type, "commonj.sdo/java", "instanceClass", "double");
+
+    initializeType(doubleObjectType, Double.class, "DoubleObject", true, false);
+
+    initializeType(durationType, String.class, "Duration", true, false);
+    setInstanceProperty (durationType, "commonj.sdo/java", "instanceClass", "java.lang.String");
+
+    initializeType(float_Type, float.class, "Float", true, false);
+    setInstanceProperty (float_Type, "commonj.sdo/java", "instanceClass", "float");
+
+    initializeType(floatObjectType, Float.class, "FloatObject", true, false);
+
+    initializeType(int_Type, int.class, "Int", true, false);
+    setInstanceProperty (int_Type, "commonj.sdo/java", "instanceClass", "int");
+
+    initializeType(integerType, BigInteger.class, "Integer", true, false);
+    setInstanceProperty (integerType, "commonj.sdo/java", "instanceClass", "java.math.BigInteger");
+
+    initializeType(intObjectType, Integer.class, "IntObject", true, false);
+
+    initializeType(long_Type, long.class, "Long", true, false);
+    setInstanceProperty (long_Type, "commonj.sdo/java", "instanceClass", "long");
+
+    initializeType(longObjectType, Long.class, "LongObject", true, false);
+
+    initializeType(monthType, String.class, "Month", true, false);
+    setInstanceProperty (monthType, "commonj.sdo/java", "instanceClass", "java.lang.String");
+
+    initializeType(monthDayType, String.class, "MonthDay", true, false);
+    setInstanceProperty (monthDayType, "commonj.sdo/java", "instanceClass", "java.lang.String");
+
+    initializeType(objectType, Object.class, "Object", true, false);
+    setInstanceProperty (objectType, "commonj.sdo/java", "instanceClass", "java.lang.Object");
+
+    initializeType(short_Type, short.class, "Short", true, false);
+    setInstanceProperty (short_Type, "commonj.sdo/java", "instanceClass", "short");
+
+    initializeType(shortObjectType, Short.class, "ShortObject", true, false);
+
+    initializeType(stringType, String.class, "String", true, false);
+    setInstanceProperty (stringType, "commonj.sdo/java", "instanceClass", "java.lang.String");
+
+    initializeType(stringsType, List.class, "Strings", true, false);
+    setInstanceProperty (stringsType, "commonj.sdo/java", "instanceClass", "java.util.List");
+
+    initializeType(timeType, String.class, "Time", true, false);
+    setInstanceProperty (timeType, "commonj.sdo/java", "instanceClass", "java.lang.String");
+
+    initializeType(uriType, String.class, "URI", true, false);
+    setInstanceProperty (uriType, "commonj.sdo/java", "instanceClass", "java.lang.String");
+
+    initializeType(yearType, String.class, "Year", true, false);
+    setInstanceProperty (yearType, "commonj.sdo/java", "instanceClass", "java.lang.String");
+
+    initializeType(yearMonthType, String.class, "YearMonth", true, false);
+    setInstanceProperty (yearMonthType, "commonj.sdo/java", "instanceClass", "java.lang.String");
+
+    initializeType(yearMonthDayType, String.class, "YearMonthDay", true, false);
+    setInstanceProperty (yearMonthDayType, "commonj.sdo/java", "instanceClass", "java.lang.String");
+
+    initXSD();
+  }
+    
+  protected void initXSD()
+  {
+    super.initXSD();
+    
+    commonj.sdo.Property property = null;
+    
+    addXSDMapping
+      (baseDataGraphTypeType,
+       new String[] 
+       {
+       "name", "BaseDataGraphType",
+       "kind", "elementOnly"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)baseDataGraphTypeType.getProperties().get(BaseDataGraphTypeImpl.MODELS),
+       new String[]
+       {
+       "kind", "element",
+       "name", "models"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)baseDataGraphTypeType.getProperties().get(BaseDataGraphTypeImpl.XSD),
+       new String[]
+       {
+       "kind", "element",
+       "name", "xsd"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)baseDataGraphTypeType.getProperties().get(BaseDataGraphTypeImpl.CHANGE_SUMMARY),
+       new String[]
+       {
+       "kind", "element",
+       "name", "changeSummary"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)baseDataGraphTypeType.getProperties().get(BaseDataGraphTypeImpl.ANY_ATTRIBUTE),
+       new String[]
+       {
+       "kind", "attributeWildcard",
+       "wildcards", "##other",
+       "name", ":3",
+       "processing", "lax"
+       });
+
+    addXSDMapping
+      (changeSummaryTypeType,
+       new String[] 
+       {
+       "name", "ChangeSummaryType",
+       "kind", "elementOnly"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.ANY),
+       new String[]
+       {
+       "kind", "elementWildcard",
+       "wildcards", "##any",
+       "name", ":0",
+       "processing", "lax"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.CREATE),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "create"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.DELETE),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "delete"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.LOGGING),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "logging"
+       });
+
+    addXSDMapping
+      (dataGraphTypeType,
+       new String[] 
+       {
+       "name", "DataGraphType",
+       "kind", "elementOnly"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)dataGraphTypeType.getProperties().get(DataGraphTypeImpl.ANY),
+       new String[]
+       {
+       "kind", "elementWildcard",
+       "wildcards", "##other",
+       "name", ":4",
+       "processing", "lax"
+       });
+
+    addXSDMapping
+      (dataObjectType,
+       new String[] 
+       {
+       "name", "DataObject",
+       "kind", "empty"
+       });
+
+    property = createGlobalProperty
+      ("datagraph",
+      this.getDataGraphType(),
+       new String[]
+       {
+       "kind", "element",
+       "name", "datagraph",
+       "namespace", "##targetNamespace"
+       });
+                    
+    property = createGlobalProperty
+      ("dataObject",
+      this.getDataObject(),
+       new String[]
+       {
+       "kind", "element",
+       "name", "dataObject",
+       "namespace", "##targetNamespace"
+       });
+                    
+    property = createGlobalProperty
+      ("type",
+      this.getType(),
+       new String[]
+       {
+       "kind", "element",
+       "name", "type",
+       "namespace", "##targetNamespace"
+       });
+                    
+    property = createGlobalProperty
+      ("types",
+      this.getTypes(),
+       new String[]
+       {
+       "kind", "element",
+       "name", "types",
+       "namespace", "##targetNamespace"
+       });
+                    
+    property = createGlobalProperty
+      ("ref",
+      this.getString(),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "ref",
+       "namespace", "##targetNamespace"
+       },
+       IS_ATTRIBUTE);
+                    
+    property = createGlobalProperty
+      ("unset",
+      this.getString(),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "unset",
+       "namespace", "##targetNamespace"
+       },
+       IS_ATTRIBUTE);
+                    
+    addXSDMapping
+      (modelsTypeType,
+       new String[] 
+       {
+       "name", "ModelsType",
+       "kind", "elementOnly"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)modelsTypeType.getProperties().get(ModelsTypeImpl.ANY),
+       new String[]
+       {
+       "kind", "elementWildcard",
+       "wildcards", "##other",
+       "name", ":0",
+       "processing", "lax"
+       });
+
+    addXSDMapping
+      (propertyType,
+       new String[] 
+       {
+       "name", "Property",
+       "kind", "elementOnly"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.ALIAS_NAME),
+       new String[]
+       {
+       "kind", "element",
+       "name", "aliasName",
+       "namespace", "##targetNamespace"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.ANY),
+       new String[]
+       {
+       "kind", "elementWildcard",
+       "wildcards", "##other",
+       "name", ":1",
+       "processing", "lax"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.NAME),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "name"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.MANY),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "many"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.CONTAINMENT),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "containment"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.DEFAULT),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "default"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.READ_ONLY),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "readOnly"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.TYPE),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "type"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.OPPOSITE),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "opposite"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.NULLABLE),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "nullable"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.ANY_ATTRIBUTE),
+       new String[]
+       {
+       "kind", "attributeWildcard",
+       "wildcards", "##any",
+       "name", ":10",
+       "processing", "lax"
+       });
+
+    addXSDMapping
+      (textTypeType,
+       new String[] 
+       {
+       "name", "TextType",
+       "kind", "elementOnly"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)textTypeType.getProperties().get(TextTypeImpl.TEXT),
+       new String[]
+       {
+       "kind", "element",
+       "name", "text",
+       "namespace", "##targetNamespace"
+       });
+
+    addXSDMapping
+      (typeType,
+       new String[] 
+       {
+       "name", "Type",
+       "kind", "elementOnly"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)typeType.getProperties().get(TypeImpl.BASE_TYPE),
+       new String[]
+       {
+       "kind", "element",
+       "name", "baseType",
+       "namespace", "##targetNamespace"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)typeType.getProperties().get(TypeImpl.PROPERTY),
+       new String[]
+       {
+       "kind", "element",
+       "name", "property",
+       "namespace", "##targetNamespace"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)typeType.getProperties().get(TypeImpl.ALIAS_NAME),
+       new String[]
+       {
+       "kind", "element",
+       "name", "aliasName",
+       "namespace", "##targetNamespace"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)typeType.getProperties().get(TypeImpl.ANY),
+       new String[]
+       {
+       "kind", "elementWildcard",
+       "wildcards", "##other",
+       "name", ":3",
+       "processing", "lax"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)typeType.getProperties().get(TypeImpl.NAME),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "name"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)typeType.getProperties().get(TypeImpl.URI),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "uri"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)typeType.getProperties().get(TypeImpl.DATA_TYPE),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "dataType"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)typeType.getProperties().get(TypeImpl.OPEN),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "open"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)typeType.getProperties().get(TypeImpl.SEQUENCED),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "sequenced"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)typeType.getProperties().get(TypeImpl.ABSTRACT),
+       new String[]
+       {
+       "kind", "attribute",
+       "name", "abstract"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)typeType.getProperties().get(TypeImpl.ANY_ATTRIBUTE),
+       new String[]
+       {
+       "kind", "attributeWildcard",
+       "wildcards", "##any",
+       "name", ":10",
+       "processing", "lax"
+       });
+
+    addXSDMapping
+      (typesType,
+       new String[] 
+       {
+       "name", "Types",
+       "kind", "elementOnly"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)typesType.getProperties().get(TypesImpl.TYPE),
+       new String[]
+       {
+       "kind", "element",
+       "name", "type",
+       "namespace", "##targetNamespace"
+       });
+
+    addXSDMapping
+      (xsdTypeType,
+       new String[] 
+       {
+       "name", "XSDType",
+       "kind", "elementOnly"
+       });
+
+    addXSDMapping
+      ((commonj.sdo.Property)xsdTypeType.getProperties().get(XSDTypeImpl.ANY),
+       new String[]
+       {
+       "kind", "elementWildcard",
+       "wildcards", "http://www.w3.org/2001/XMLSchema",
+       "name", ":0",
+       "processing", "lax"
+       });
+
+    addXSDMapping
+      (boolean_Type,
+       new String[] 
+       {
+       "name", "Boolean"
+       });
+
+    addXSDMapping
+      (booleanObjectType,
+       new String[] 
+       {
+       "name", "Boolean:Object",
+       "baseType", "Boolean"
+       });
+
+    addXSDMapping
+      (byte_Type,
+       new String[] 
+       {
+       "name", "Byte"
+       });
+
+    addXSDMapping
+      (byteObjectType,
+       new String[] 
+       {
+       "name", "Byte:Object",
+       "baseType", "Byte"
+       });
+
+    addXSDMapping
+      (bytesType,
+       new String[] 
+       {
+       "name", "Bytes"
+       });
+
+    addXSDMapping
+      (characterType,
+       new String[] 
+       {
+       "name", "Character"
+       });
+
+    addXSDMapping
+      (characterObjectType,
+       new String[] 
+       {
+       "name", "Character:Object",
+       "baseType", "Character"
+       });
+
+    addXSDMapping
+      (dateType,
+       new String[] 
+       {
+       "name", "Date"
+       });
+
+    addXSDMapping
+      (dateTimeType,
+       new String[] 
+       {
+       "name", "DateTime"
+       });
+
+    addXSDMapping
+      (dayType,
+       new String[] 
+       {
+       "name", "Day"
+       });
+
+    addXSDMapping
+      (decimalType,
+       new String[] 
+       {
+       "name", "Decimal"
+       });
+
+    addXSDMapping
+      (double_Type,
+       new String[] 
+       {
+       "name", "Double"
+       });
+
+    addXSDMapping
+      (doubleObjectType,
+       new String[] 
+       {
+       "name", "Double:Object",
+       "baseType", "Double"
+       });
+
+    addXSDMapping
+      (durationType,
+       new String[] 
+       {
+       "name", "Duration"
+       });
+
+    addXSDMapping
+      (float_Type,
+       new String[] 
+       {
+       "name", "Float"
+       });
+
+    addXSDMapping
+      (floatObjectType,
+       new String[] 
+       {
+       "name", "Float:Object",
+       "baseType", "Float"
+       });
+
+    addXSDMapping
+      (int_Type,
+       new String[] 
+       {
+       "name", "Int"
+       });
+
+    addXSDMapping
+      (integerType,
+       new String[] 
+       {
+       "name", "Integer"
+       });
+
+    addXSDMapping
+      (intObjectType,
+       new String[] 
+       {
+       "name", "Int:Object",
+       "baseType", "Int"
+       });
+
+    addXSDMapping
+      (long_Type,
+       new String[] 
+       {
+       "name", "Long"
+       });
+
+    addXSDMapping
+      (longObjectType,
+       new String[] 
+       {
+       "name", "Long:Object",
+       "baseType", "Long"
+       });
+
+    addXSDMapping
+      (monthType,
+       new String[] 
+       {
+       "name", "Month"
+       });
+
+    addXSDMapping
+      (monthDayType,
+       new String[] 
+       {
+       "name", "MonthDay"
+       });
+
+    addXSDMapping
+      (objectType,
+       new String[] 
+       {
+       "name", "Object"
+       });
+
+    addXSDMapping
+      (short_Type,
+       new String[] 
+       {
+       "name", "Short"
+       });
+
+    addXSDMapping
+      (shortObjectType,
+       new String[] 
+       {
+       "name", "Short:Object",
+       "baseType", "Short"
+       });
+
+    addXSDMapping
+      (stringType,
+       new String[] 
+       {
+       "name", "String"
+       });
+
+    addXSDMapping
+      (stringsType,
+       new String[] 
+       {
+       "name", "Strings"
+       });
+
+    addXSDMapping
+      (timeType,
+       new String[] 
+       {
+       "name", "Time"
+       });
+
+    addXSDMapping
+      (uriType,
+       new String[] 
+       {
+       "name", "URI"
+       });
+
+    addXSDMapping
+      (yearType,
+       new String[] 
+       {
+       "name", "Year"
+       });
+
+    addXSDMapping
+      (yearMonthType,
+       new String[] 
+       {
+       "name", "YearMonth"
+       });
+
+    addXSDMapping
+      (yearMonthDayType,
+       new String[] 
+       {
+       "name", "YearMonthDay"
+       });
+
+  }
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Boolean createBooleanFromString(EDataType eDataType, String initialValue)
+  public Boolean createBooleanFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createBooleanObject(initialValue);
   }
@@ -386,7 +1745,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertBooleanToString(EDataType eDataType, Object instanceValue)
+  public String convertBooleanToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertBooleanObject((Boolean)instanceValue);
   }
@@ -396,9 +1755,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Boolean createBooleanObjectFromString(EDataType eDataType, String initialValue)
+  public Boolean createBooleanObjectFromString(String initialValue)
   {
-    return (Boolean)createBooleanFromString(ModelPackageImpl.Literals.BOOLEAN, initialValue);
+    return (Boolean)createBooleanFromString(initialValue);
   }
 
   /**
@@ -406,9 +1765,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertBooleanObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertBooleanObjectToString(Object instanceValue)
   {
-    return convertBooleanToString(ModelPackageImpl.Literals.BOOLEAN, instanceValue);
+    return convertBooleanToString(instanceValue);
   }
 
   /**
@@ -416,7 +1775,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Byte createByteFromString(EDataType eDataType, String initialValue)
+  public Byte createByteFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createByteObject(initialValue);
   }
@@ -426,7 +1785,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertByteToString(EDataType eDataType, Object instanceValue)
+  public String convertByteToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertByteObject((Byte)instanceValue);
   }
@@ -436,9 +1795,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Byte createByteObjectFromString(EDataType eDataType, String initialValue)
+  public Byte createByteObjectFromString(String initialValue)
   {
-    return (Byte)createByteFromString(ModelPackageImpl.Literals.BYTE, initialValue);
+    return (Byte)createByteFromString(initialValue);
   }
 
   /**
@@ -446,9 +1805,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertByteObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertByteObjectToString(Object instanceValue)
   {
-    return convertByteToString(ModelPackageImpl.Literals.BYTE, instanceValue);
+    return convertByteToString(instanceValue);
   }
 
   /**
@@ -456,7 +1815,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public byte[] createBytesFromString(EDataType eDataType, String initialValue)
+  public byte[] createBytesFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createHexBinary(initialValue);
   }
@@ -466,7 +1825,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertBytesToString(EDataType eDataType, Object instanceValue)
+  public String convertBytesToString(Object instanceValue)
   {
     if (instanceValue instanceof byte[]) {
       return XMLTypeFactory.eINSTANCE.convertHexBinary((byte[])instanceValue);
@@ -480,10 +1839,10 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Character createCharacterFromString(EDataType eDataType, String initialValue)
+  public Character createCharacterFromString(String initialValue)
   {
     return (initialValue == null && initialValue.length() > 0) 
-    ? null : (new Character(collapseWhiteSpace(initialValue).charAt(0)));
+    ? null : (new Character(XMLTypeUtil.normalize(initialValue, true).charAt(0)));
   }
 
   /**
@@ -491,7 +1850,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertCharacterToString(EDataType eDataType, Object instanceValue)
+  public String convertCharacterToString(Object instanceValue)
   {
     return String.valueOf(((Character)instanceValue).charValue());
   }
@@ -501,9 +1860,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Character createCharacterObjectFromString(EDataType eDataType, String initialValue)
+  public Character createCharacterObjectFromString(String initialValue)
   {
-    return (Character)createCharacterFromString(ModelPackageImpl.Literals.CHARACTER, initialValue);
+    return (Character)createCharacterFromString(initialValue);
   }
 
   /**
@@ -511,9 +1870,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertCharacterObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertCharacterObjectToString(Object instanceValue)
   {
-    return convertCharacterToString(ModelPackageImpl.Literals.CHARACTER, instanceValue);
+    return convertCharacterToString(instanceValue);
   }
 
   /**
@@ -521,7 +1880,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Date createDateFromString(EDataType eDataType, String initialValue)
+  public Date createDateFromString(String initialValue)
   {
     // XMLCalendar cal = (XMLCalendar) XMLTypeFactory.eINSTANCE.createDate(initialValue);
     // return (cal != null) ? cal.getDate() : null;
@@ -533,7 +1892,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertDateToString(EDataType eDataType, Object instanceValue)
+  public String convertDateToString(Object instanceValue)
   {
     if (instanceValue == null)
     {
@@ -551,7 +1910,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String createDateTimeFromString(EDataType eDataType, String initialValue)
+  public String createDateTimeFromString(String initialValue)
   {
       return initialValue;
   }
@@ -561,7 +1920,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertDateTimeToString(EDataType eDataType, Object instanceValue)
+  public String convertDateTimeToString(Object instanceValue)
   {
       return (String)instanceValue;
   }
@@ -571,7 +1930,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String createDayFromString(EDataType eDataType, String initialValue)
+  public String createDayFromString(String initialValue)
   {
       return initialValue;
   }
@@ -581,7 +1940,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertDayToString(EDataType eDataType, Object instanceValue)
+  public String convertDayToString(Object instanceValue)
   {
       return (String)instanceValue;
   }
@@ -591,7 +1950,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public BigDecimal createDecimalFromString(EDataType eDataType, String initialValue)
+  public BigDecimal createDecimalFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createDecimal(initialValue);
   }
@@ -601,7 +1960,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertDecimalToString(EDataType eDataType, Object instanceValue)
+  public String convertDecimalToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertDecimal((BigDecimal)instanceValue);
   }
@@ -611,7 +1970,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Double createDoubleFromString(EDataType eDataType, String initialValue)
+  public Double createDoubleFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createDoubleObject(initialValue);
   }
@@ -621,7 +1980,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertDoubleToString(EDataType eDataType, Object instanceValue)
+  public String convertDoubleToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertDoubleObject((Double)instanceValue);
   }
@@ -631,9 +1990,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Double createDoubleObjectFromString(EDataType eDataType, String initialValue)
+  public Double createDoubleObjectFromString(String initialValue)
   {
-    return (Double)createDoubleFromString(ModelPackageImpl.Literals.DOUBLE, initialValue);
+    return (Double)createDoubleFromString(initialValue);
   }
 
   /**
@@ -641,9 +2000,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertDoubleObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertDoubleObjectToString(Object instanceValue)
   {
-    return convertDoubleToString(ModelPackageImpl.Literals.DOUBLE, instanceValue);
+    return convertDoubleToString(instanceValue);
   }
 
   /**
@@ -651,7 +2010,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String createDurationFromString(EDataType eDataType, String initialValue)
+  public String createDurationFromString(String initialValue)
   {
       return initialValue;
   }
@@ -661,7 +2020,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertDurationToString(EDataType eDataType, Object instanceValue)
+  public String convertDurationToString(Object instanceValue)
   {
       return (String)instanceValue;
   }
@@ -671,7 +2030,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Float createFloatFromString(EDataType eDataType, String initialValue)
+  public Float createFloatFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createFloatObject(initialValue);
   }
@@ -681,7 +2040,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertFloatToString(EDataType eDataType, Object instanceValue)
+  public String convertFloatToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertFloatObject((Float)instanceValue);
   }
@@ -691,9 +2050,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Float createFloatObjectFromString(EDataType eDataType, String initialValue)
+  public Float createFloatObjectFromString(String initialValue)
   {
-    return (Float)createFloatFromString(ModelPackageImpl.Literals.FLOAT, initialValue);
+    return (Float)createFloatFromString(initialValue);
   }
 
   /**
@@ -701,9 +2060,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertFloatObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertFloatObjectToString(Object instanceValue)
   {
-    return convertFloatToString(ModelPackageImpl.Literals.FLOAT, instanceValue);
+    return convertFloatToString(instanceValue);
   }
 
   /**
@@ -711,7 +2070,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Integer createIntFromString(EDataType eDataType, String initialValue)
+  public Integer createIntFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createIntObject(initialValue);
   }
@@ -721,7 +2080,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertIntToString(EDataType eDataType, Object instanceValue)
+  public String convertIntToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertIntObject((Integer)instanceValue);
   }
@@ -731,7 +2090,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public BigInteger createIntegerFromString(EDataType eDataType, String initialValue)
+  public BigInteger createIntegerFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createInteger(initialValue);
   }
@@ -741,7 +2100,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertIntegerToString(EDataType eDataType, Object instanceValue)
+  public String convertIntegerToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertInteger((BigInteger)instanceValue);
   }
@@ -751,9 +2110,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Integer createIntObjectFromString(EDataType eDataType, String initialValue)
+  public Integer createIntObjectFromString(String initialValue)
   {
-    return (Integer)createIntFromString(ModelPackageImpl.Literals.INT, initialValue);
+    return (Integer)createIntFromString(initialValue);
   }
 
   /**
@@ -761,9 +2120,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertIntObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertIntObjectToString(Object instanceValue)
   {
-    return convertIntToString(ModelPackageImpl.Literals.INT, instanceValue);
+    return convertIntToString(instanceValue);
   }
 
   /**
@@ -771,7 +2130,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Long createLongFromString(EDataType eDataType, String initialValue)
+  public Long createLongFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createLongObject(initialValue);
   }
@@ -781,7 +2140,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertLongToString(EDataType eDataType, Object instanceValue)
+  public String convertLongToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertLongObject((Long)instanceValue);
   }
@@ -791,9 +2150,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Long createLongObjectFromString(EDataType eDataType, String initialValue)
+  public Long createLongObjectFromString(String initialValue)
   {
-    return (Long)createLongFromString(ModelPackageImpl.Literals.LONG, initialValue);
+    return (Long)createLongFromString(initialValue);
   }
 
   /**
@@ -801,9 +2160,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertLongObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertLongObjectToString(Object instanceValue)
   {
-    return convertLongToString(ModelPackageImpl.Literals.LONG, instanceValue);
+    return convertLongToString(instanceValue);
   }
 
   /**
@@ -811,27 +2170,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String createMonthFromString(EDataType eDataType, String initialValue)
-  {
-      return initialValue;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
-  public String convertMonthToString(EDataType eDataType, Object instanceValue)
-  {
-      return (String)instanceValue;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
-  public String createMonthDayFromString(EDataType eDataType, String initialValue)
+  public String createMonthFromString(String initialValue)
   {
       return initialValue;
   }
@@ -841,7 +2180,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertMonthDayToString(EDataType eDataType, Object instanceValue)
+  public String convertMonthToString(Object instanceValue)
   {
       return (String)instanceValue;
   }
@@ -851,7 +2190,27 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Object createObjectFromString(EDataType eDataType, String initialValue)
+  public String createMonthDayFromString(String initialValue)
+  {
+      return initialValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertMonthDayToString(Object instanceValue)
+  {
+      return (String)instanceValue;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public Object createObjectFromString(String initialValue)
   {
     return initialValue;
   }
@@ -861,7 +2220,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertObjectToString(Object instanceValue)
   {
     return (instanceValue != null) ? instanceValue.toString() : null;
   }
@@ -871,7 +2230,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Short createShortFromString(EDataType eDataType, String initialValue)
+  public Short createShortFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createShortObject(initialValue);
   }
@@ -881,7 +2240,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertShortToString(EDataType eDataType, Object instanceValue)
+  public String convertShortToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertShortObject((Short)instanceValue);
   }
@@ -891,9 +2250,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public Short createShortObjectFromString(EDataType eDataType, String initialValue)
+  public Short createShortObjectFromString(String initialValue)
   {
-    return (Short)createShortFromString(ModelPackageImpl.Literals.SHORT, initialValue);
+    return (Short)createShortFromString(initialValue);
   }
 
   /**
@@ -901,9 +2260,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertShortObjectToString(EDataType eDataType, Object instanceValue)
+  public String convertShortObjectToString(Object instanceValue)
   {
-    return convertShortToString(ModelPackageImpl.Literals.SHORT, instanceValue);
+    return convertShortToString(instanceValue);
   }
 
   /**
@@ -911,7 +2270,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String createStringFromString(EDataType eDataType, String initialValue)
+  public String createStringFromString(String initialValue)
   {
     return initialValue;
   }
@@ -921,7 +2280,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertStringToString(EDataType eDataType, Object instanceValue)
+  public String convertStringToString(Object instanceValue)
   {
     return (instanceValue != null) ? instanceValue.toString() : null;
   }
@@ -931,7 +2290,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public List createStringsFromString(EDataType eDataType, String initialValue)
+  public List createStringsFromString(String initialValue)
   {
     return XMLTypeFactory.eINSTANCE.createENTITIES(initialValue);
   }
@@ -941,7 +2300,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertStringsToString(EDataType eDataType, Object instanceValue)
+  public String convertStringsToString(Object instanceValue)
   {
     return XMLTypeFactory.eINSTANCE.convertENTITIES((List)instanceValue);
   }
@@ -951,7 +2310,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String createTimeFromString(EDataType eDataType, String initialValue)
+  public String createTimeFromString(String initialValue)
   {
       return initialValue;
   }
@@ -961,7 +2320,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertTimeToString(EDataType eDataType, Object instanceValue)
+  public String convertTimeToString(Object instanceValue)
   {
       return (String)instanceValue;
   }
@@ -971,7 +2330,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String createURIFromString(EDataType eDataType, String initialValue)
+  public String createURIFromString(String initialValue)
   {
     return initialValue;
   }
@@ -981,7 +2340,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertURIToString(EDataType eDataType, Object instanceValue)
+  public String convertURIToString(Object instanceValue)
   {
     return (instanceValue != null) ? instanceValue.toString() : null;
   }
@@ -991,7 +2350,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String createYearFromString(EDataType eDataType, String initialValue)
+  public String createYearFromString(String initialValue)
   {
       return initialValue;
   }
@@ -1001,7 +2360,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertYearToString(EDataType eDataType, Object instanceValue)
+  public String convertYearToString(Object instanceValue)
   {
       return (String)instanceValue;
   }
@@ -1011,7 +2370,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String createYearMonthFromString(EDataType eDataType, String initialValue)
+  public String createYearMonthFromString(String initialValue)
   {
       return initialValue;
   }
@@ -1021,7 +2380,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertYearMonthToString(EDataType eDataType, Object instanceValue)
+  public String convertYearMonthToString(Object instanceValue)
   {
       return (String)instanceValue;
   }
@@ -1031,7 +2390,7 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String createYearMonthDayFromString(EDataType eDataType, String initialValue)
+  public String createYearMonthDayFromString(String initialValue)
   {
       return initialValue;
   }
@@ -1041,68 +2400,9 @@ public class ModelFactoryImpl extends EFactoryImpl implements ModelFactory
    * <!-- end-user-doc -->
    * @generated NOT
    */
-  public String convertYearMonthDayToString(EDataType eDataType, Object instanceValue)
+  public String convertYearMonthDayToString(Object instanceValue)
   {
       return (String)instanceValue;
   }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ModelPackageImpl getModelPackageImpl()
-  {
-    return (ModelPackageImpl)getEPackage();
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @deprecated
-   * @generated
-   */
-  public static ModelPackageImpl getPackage()
-  {
-    return ModelPackageImpl.eINSTANCE;
-  }
-  
-  // Following methods are temporary ... for interop with new factory codegen pattern
-  //
-  public static final String NAMESPACE_URI = ModelPackageImpl.eNS_URI;
-  public commonj.sdo.Type getBoolean() { return (commonj.sdo.Type)getModelPackageImpl().getBoolean(); }
-  public commonj.sdo.Type getBooleanObject() { return (commonj.sdo.Type)getModelPackageImpl().getBooleanObject(); }
-  public commonj.sdo.Type getByte() { return (commonj.sdo.Type)getModelPackageImpl().getByte(); }
-  public commonj.sdo.Type getByteObject() { return (commonj.sdo.Type)getModelPackageImpl().getByteObject(); }
-  public commonj.sdo.Type getBytes() { return (commonj.sdo.Type)getModelPackageImpl().getBytes(); }
-  public commonj.sdo.Type getCharacter() { return (commonj.sdo.Type)getModelPackageImpl().getCharacter(); }
-  public commonj.sdo.Type getCharacterObject() { return (commonj.sdo.Type)getModelPackageImpl().getCharacterObject(); }
-  public commonj.sdo.Type getDate() { return (commonj.sdo.Type)getModelPackageImpl().getDate(); }
-  public commonj.sdo.Type getDateTime() { return (commonj.sdo.Type)getModelPackageImpl().getDateTime(); }
-  public commonj.sdo.Type getDay() { return (commonj.sdo.Type)getModelPackageImpl().getDay(); }
-  public commonj.sdo.Type getDecimal() { return (commonj.sdo.Type)getModelPackageImpl().getDecimal(); }
-  public commonj.sdo.Type getDouble() { return (commonj.sdo.Type)getModelPackageImpl().getDouble(); }
-  public commonj.sdo.Type getDoubleObject() { return (commonj.sdo.Type)getModelPackageImpl().getDoubleObject(); }
-  public commonj.sdo.Type getDuration() { return (commonj.sdo.Type)getModelPackageImpl().getDuration(); }
-  public commonj.sdo.Type getFloat() { return (commonj.sdo.Type)getModelPackageImpl().getFloat(); }
-  public commonj.sdo.Type getFloatObject() { return (commonj.sdo.Type)getModelPackageImpl().getFloatObject(); }
-  public commonj.sdo.Type getInt() { return (commonj.sdo.Type)getModelPackageImpl().getInt(); }
-  public commonj.sdo.Type getInteger() { return (commonj.sdo.Type)getModelPackageImpl().getInteger(); }
-  public commonj.sdo.Type getIntObject() { return (commonj.sdo.Type)getModelPackageImpl().getIntObject(); }
-  public commonj.sdo.Type getLong() { return (commonj.sdo.Type)getModelPackageImpl().getLong(); }
-  public commonj.sdo.Type getLongObject() { return (commonj.sdo.Type)getModelPackageImpl().getLongObject(); }
-  public commonj.sdo.Type getMonth() { return (commonj.sdo.Type)getModelPackageImpl().getMonth(); }
-  public commonj.sdo.Type getMonthDay() { return (commonj.sdo.Type)getModelPackageImpl().getMonthDay(); }
-  public commonj.sdo.Type getObject() { return (commonj.sdo.Type)getModelPackageImpl().getObject(); }
-  public commonj.sdo.Type getShort() { return (commonj.sdo.Type)getModelPackageImpl().getShort(); }
-  public commonj.sdo.Type getShortObject() { return (commonj.sdo.Type)getModelPackageImpl().getShortObject(); }
-  public commonj.sdo.Type getString() { return (commonj.sdo.Type)getModelPackageImpl().getString(); }
-  public commonj.sdo.Type getStrings() { return (commonj.sdo.Type)getModelPackageImpl().getStrings(); }
-  public commonj.sdo.Type getTime() { return (commonj.sdo.Type)getModelPackageImpl().getTime(); }
-  public commonj.sdo.Type getURI() { return (commonj.sdo.Type)getModelPackageImpl().getURI(); }
-  public commonj.sdo.Type getYear() { return (commonj.sdo.Type)getModelPackageImpl().getYear(); }
-  public commonj.sdo.Type getYearMonth() { return (commonj.sdo.Type)getModelPackageImpl().getYearMonth(); }
-  public commonj.sdo.Type getYearMonthDay() { return (commonj.sdo.Type)getModelPackageImpl().getYearMonthDay(); }
-  public commonj.sdo.Type getDataObject() { return (commonj.sdo.Type)getModelPackageImpl().getDataObject(); }
 
 } //ModelFactoryImpl

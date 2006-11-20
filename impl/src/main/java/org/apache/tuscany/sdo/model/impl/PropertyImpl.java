@@ -1,21 +1,8 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.model.impl;
 
@@ -24,28 +11,11 @@ import commonj.sdo.Sequence;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase;
 
-import org.apache.tuscany.sdo.impl.DataObjectImpl;
+import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.Property;
 import org.apache.tuscany.sdo.model.Type;
-
-import org.apache.tuscany.sdo.util.BasicSequence;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.BasicFeatureMap;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
-import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -56,26 +26,131 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#getAliasName <em>Alias Name</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#getAny <em>Any</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#getName <em>Name</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#isMany <em>Many</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#isContainment <em>Containment</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#getDefault <em>Default</em>}</li>
- *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#isMany <em>Many</em>}</li>
- *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#getName <em>Name</em>}</li>
- *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#getOpposite <em>Opposite</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#isReadOnly <em>Read Only</em>}</li>
- *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#getType_ <em>Type</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#getOpposite <em>Opposite</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#isNullable <em>Nullable</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.PropertyImpl#getAnyAttribute <em>Any Attribute</em>}</li>
  * </ul>
  * </p>
  *
- * Note: The getDefault and getOpposite methods had to be renamed to avoid
- *       conflict with the commonj.sdo.Property getDefault and getOpposite
- *       methods in classes that implement both.  Eventually, the two interfaces
- *       should be brought in-line with one another -- James Snell
- *
  * @generated
  */
-public class PropertyImpl extends DataObjectImpl implements Property
+public class PropertyImpl extends DataObjectBase implements Property
 {
+  /**
+   * The feature id for the '<em><b>Alias Name</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int ALIAS_NAME = 0;
+
+  /**
+   * The feature id for the '<em><b>Any</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int ANY = 1;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int NAME = 2;
+
+  /**
+   * The feature id for the '<em><b>Many</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int MANY = 3;
+
+  /**
+   * The feature id for the '<em><b>Containment</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int CONTAINMENT = 4;
+
+  /**
+   * The feature id for the '<em><b>Default</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int DEFAULT = 5;
+
+  /**
+   * The feature id for the '<em><b>Read Only</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int READ_ONLY = 6;
+
+  /**
+   * The feature id for the '<em><b>Type</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int TYPE = 7;
+
+  /**
+   * The feature id for the '<em><b>Opposite</b></em>' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int OPPOSITE = 8;
+
+  /**
+   * The feature id for the '<em><b>Nullable</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int NULLABLE = 9;
+
+  /**
+   * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int ANY_ATTRIBUTE = 10;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 11;
+
   /**
    * The cached value of the '{@link #getAliasName() <em>Alias Name</em>}' attribute list.
    * <!-- begin-user-doc -->
@@ -84,8 +159,9 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * @generated
    * @ordered
    */
-  protected EList aliasName = null;
-
+  
+  protected List aliasName = null;
+  
   /**
    * The cached value of the '{@link #getAny() <em>Any</em>}' attribute list.
    * <!-- begin-user-doc -->
@@ -94,86 +170,9 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * @generated
    * @ordered
    */
-  protected BasicSequence any = null;
-
-  /**
-   * The default value of the '{@link #isContainment() <em>Containment</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isContainment()
-   * @generated
-   * @ordered
-   */
-  protected static final boolean CONTAINMENT_EDEFAULT = false;
-
-  /**
-   * The cached value of the '{@link #isContainment() <em>Containment</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isContainment()
-   * @generated
-   * @ordered
-   */
-  protected boolean containment = CONTAINMENT_EDEFAULT;
-
-  /**
-   * This is true if the Containment attribute has been set.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  protected boolean containmentESet = false;
-
-  /**
-   * The default value of the '{@link #getDefault() <em>Default</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getDefault()
-   * @generated
-   * @ordered
-   */
-  protected static final String DEFAULT_EDEFAULT = null;
-
-  /**
-   * The cached value of the '{@link #getDefault() <em>Default</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getDefault()
-   * @generated
-   * @ordered
-   */
-  protected String default_ = DEFAULT_EDEFAULT;
-
-  /**
-   * The default value of the '{@link #isMany() <em>Many</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isMany()
-   * @generated
-   * @ordered
-   */
-  protected static final boolean MANY_EDEFAULT = false;
-
-  /**
-   * The cached value of the '{@link #isMany() <em>Many</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #isMany()
-   * @generated
-   * @ordered
-   */
-  protected boolean many = MANY_EDEFAULT;
-
-  /**
-   * This is true if the Many attribute has been set.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  protected boolean manyESet = false;
-
+  
+  protected Sequence any = null;
+  
   /**
    * The default value of the '{@link #getName() <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -182,7 +181,7 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * @generated
    * @ordered
    */
-  protected static final String NAME_EDEFAULT = null;
+  protected static final String NAME_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
@@ -192,17 +191,85 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * @generated
    * @ordered
    */
-  protected String name = NAME_EDEFAULT;
+  protected String name = NAME_DEFAULT_;
 
   /**
-   * The cached value of the '{@link #getOpposite() <em>Opposite</em>}' reference.
+   * The default value of the '{@link #isMany() <em>Many</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getOpposite()
+   * @see #isMany()
    * @generated
    * @ordered
    */
-  protected Property opposite = null;
+  protected static final boolean MANY_DEFAULT_ = false;
+
+  /**
+   * The cached value of the '{@link #isMany() <em>Many</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isMany()
+   * @generated
+   * @ordered
+   */
+  protected boolean many = MANY_DEFAULT_;
+
+  /**
+   * This is true if the Many attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean many_set_ = false;
+
+  /**
+   * The default value of the '{@link #isContainment() <em>Containment</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isContainment()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean CONTAINMENT_DEFAULT_ = false;
+
+  /**
+   * The cached value of the '{@link #isContainment() <em>Containment</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isContainment()
+   * @generated
+   * @ordered
+   */
+  protected boolean containment = CONTAINMENT_DEFAULT_;
+
+  /**
+   * This is true if the Containment attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean containment_set_ = false;
+
+  /**
+   * The default value of the '{@link #getDefault_() <em>Default</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDefault_()
+   * @generated
+   * @ordered
+   */
+  protected static final String DEFAULT_DEFAULT_ = null;
+
+  /**
+   * The cached value of the '{@link #getDefault_() <em>Default</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getDefault_()
+   * @generated
+   * @ordered
+   */
+  protected String default_ = DEFAULT_DEFAULT_;
 
   /**
    * The default value of the '{@link #isReadOnly() <em>Read Only</em>}' attribute.
@@ -212,7 +279,7 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * @generated
    * @ordered
    */
-  protected static final boolean READ_ONLY_EDEFAULT = false;
+  protected static final boolean READ_ONLY_DEFAULT_ = false;
 
   /**
    * The cached value of the '{@link #isReadOnly() <em>Read Only</em>}' attribute.
@@ -222,7 +289,7 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * @generated
    * @ordered
    */
-  protected boolean readOnly = READ_ONLY_EDEFAULT;
+  protected boolean readOnly = READ_ONLY_DEFAULT_;
 
   /**
    * This is true if the Read Only attribute has been set.
@@ -231,17 +298,58 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * @generated
    * @ordered
    */
-  protected boolean readOnlyESet = false;
+  protected boolean readOnly_set_ = false;
 
   /**
-   * The cached value of the '{@link #getType() <em>Type</em>}' reference.
+   * The cached value of the '{@link #getType_() <em>Type</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getType()
+   * @see #getType_()
    * @generated
    * @ordered
    */
+  
   protected Type type = null;
+  
+  /**
+   * The cached value of the '{@link #getOpposite_() <em>Opposite</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getOpposite_()
+   * @generated
+   * @ordered
+   */
+  
+  protected Property opposite = null;
+  
+  /**
+   * The default value of the '{@link #isNullable() <em>Nullable</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isNullable()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean NULLABLE_DEFAULT_ = false;
+
+  /**
+   * The cached value of the '{@link #isNullable() <em>Nullable</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isNullable()
+   * @generated
+   * @ordered
+   */
+  protected boolean nullable = NULLABLE_DEFAULT_;
+
+  /**
+   * This is true if the Nullable attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean nullable_set_ = false;
 
   /**
    * The cached value of the '{@link #getAnyAttribute() <em>Any Attribute</em>}' attribute list.
@@ -251,8 +359,9 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * @generated
    * @ordered
    */
-  protected BasicSequence anyAttribute = null;
-
+  
+  protected Sequence anyAttribute = null;
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -268,9 +377,9 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EClass eStaticClass()
+  public commonj.sdo.Type getType()
   {
-    return ModelPackageImpl.Literals.PROPERTY;
+    return ((ModelFactoryImpl)ModelFactory.INSTANCE).getProperty();
   }
 
   /**
@@ -282,11 +391,10 @@ public class PropertyImpl extends DataObjectImpl implements Property
   {
     if (aliasName == null)
     {
-      aliasName = new EDataTypeEList(String.class, this, ModelPackageImpl.PROPERTY__ALIAS_NAME);
+      aliasName = createPropertyList(ListKind.CONTAINMENT, String.class, ALIAS_NAME);
     }
     return aliasName;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -296,82 +404,30 @@ public class PropertyImpl extends DataObjectImpl implements Property
   {
     if (any == null)
     {
-      any = new BasicSequence(new BasicFeatureMap(this, ModelPackageImpl.PROPERTY__ANY));
+      any = createSequence(ANY);
     }
     return any;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean isContainment()
+  public String getName()
   {
-    return containment;
+    return name;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setContainment(boolean newContainment)
+  public void setName(String newName)
   {
-    boolean oldContainment = containment;
-    containment = newContainment;
-    boolean oldContainmentESet = containmentESet;
-    containmentESet = true;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.PROPERTY__CONTAINMENT, oldContainment, containment, !oldContainmentESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void unsetContainment()
-  {
-    boolean oldContainment = containment;
-    boolean oldContainmentESet = containmentESet;
-    containment = CONTAINMENT_EDEFAULT;
-    containmentESet = false;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackageImpl.PROPERTY__CONTAINMENT, oldContainment, CONTAINMENT_EDEFAULT, oldContainmentESet));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public boolean isSetContainment()
-  {
-    return containmentESet;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
-  public String getDefault_()
-  {
-    return default_;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setDefault_(String newDefault)
-  {
-    String oldDefault = default_;
-    default_ = newDefault;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.PROPERTY__DEFAULT, oldDefault, default_));
+    String oldName = name;
+    name = newName;
+    if (isNotifying())
+      notify(ChangeKind.SET, NAME, oldName, name);
   }
 
   /**
@@ -383,7 +439,6 @@ public class PropertyImpl extends DataObjectImpl implements Property
   {
     return many;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -393,10 +448,10 @@ public class PropertyImpl extends DataObjectImpl implements Property
   {
     boolean oldMany = many;
     many = newMany;
-    boolean oldManyESet = manyESet;
-    manyESet = true;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.PROPERTY__MANY, oldMany, many, !oldManyESet));
+    boolean oldMany_set_ = many_set_;
+    many_set_ = true;
+    if (isNotifying())
+      notify(ChangeKind.SET, MANY, oldMany, many, !oldMany_set_);
   }
 
   /**
@@ -407,11 +462,11 @@ public class PropertyImpl extends DataObjectImpl implements Property
   public void unsetMany()
   {
     boolean oldMany = many;
-    boolean oldManyESet = manyESet;
-    many = MANY_EDEFAULT;
-    manyESet = false;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackageImpl.PROPERTY__MANY, oldMany, MANY_EDEFAULT, oldManyESet));
+    boolean oldMany_set_ = many_set_;
+    many = MANY_DEFAULT_;
+    many_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, MANY, oldMany, MANY_DEFAULT_, oldMany_set_);
   }
 
   /**
@@ -421,7 +476,7 @@ public class PropertyImpl extends DataObjectImpl implements Property
    */
   public boolean isSetMany()
   {
-    return manyESet;
+    return many_set_;
   }
 
   /**
@@ -429,9 +484,23 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * <!-- end-user-doc -->
    * @generated
    */
-  public String getName()
+  public boolean isContainment()
   {
-    return name;
+    return containment;
+  }
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setContainment(boolean newContainment)
+  {
+    boolean oldContainment = containment;
+    containment = newContainment;
+    boolean oldContainment_set_ = containment_set_;
+    containment_set_ = true;
+    if (isNotifying())
+      notify(ChangeKind.SET, CONTAINMENT, oldContainment, containment, !oldContainment_set_);
   }
 
   /**
@@ -439,32 +508,14 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setName(String newName)
+  public void unsetContainment()
   {
-    String oldName = name;
-    name = newName;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.PROPERTY__NAME, oldName, name));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
-  public Property getOpposite_()
-  {
-    if (opposite != null && ((EObject)opposite).eIsProxy())
-    {
-      InternalEObject oldOpposite = (InternalEObject)opposite;
-      opposite = (Property)eResolveProxy(oldOpposite);
-      if (opposite != oldOpposite)
-      {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackageImpl.PROPERTY__OPPOSITE, oldOpposite, opposite));
-      }
-    }
-    return opposite;
+    boolean oldContainment = containment;
+    boolean oldContainment_set_ = containment_set_;
+    containment = CONTAINMENT_DEFAULT_;
+    containment_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, CONTAINMENT, oldContainment, CONTAINMENT_DEFAULT_, oldContainment_set_);
   }
 
   /**
@@ -472,22 +523,31 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * <!-- end-user-doc -->
    * @generated
    */
-  public Property basicGetOpposite()
+  public boolean isSetContainment()
   {
-    return opposite;
+    return containment_set_;
   }
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated NOT
+   * @generated
    */
-  public void setOpposite_(Property newOpposite)
+  public String getDefault_()
   {
-    Property oldOpposite = opposite;
-    opposite = newOpposite;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.PROPERTY__OPPOSITE, oldOpposite, opposite));
+    return default_;
+  }
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setDefault_(String newDefault)
+  {
+    String oldDefault = default_;
+    default_ = newDefault;
+    if (isNotifying())
+      notify(ChangeKind.SET, DEFAULT, oldDefault, default_);
   }
 
   /**
@@ -499,7 +559,6 @@ public class PropertyImpl extends DataObjectImpl implements Property
   {
     return readOnly;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -509,10 +568,10 @@ public class PropertyImpl extends DataObjectImpl implements Property
   {
     boolean oldReadOnly = readOnly;
     readOnly = newReadOnly;
-    boolean oldReadOnlyESet = readOnlyESet;
-    readOnlyESet = true;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.PROPERTY__READ_ONLY, oldReadOnly, readOnly, !oldReadOnlyESet));
+    boolean oldReadOnly_set_ = readOnly_set_;
+    readOnly_set_ = true;
+    if (isNotifying())
+      notify(ChangeKind.SET, READ_ONLY, oldReadOnly, readOnly, !oldReadOnly_set_);
   }
 
   /**
@@ -523,11 +582,11 @@ public class PropertyImpl extends DataObjectImpl implements Property
   public void unsetReadOnly()
   {
     boolean oldReadOnly = readOnly;
-    boolean oldReadOnlyESet = readOnlyESet;
-    readOnly = READ_ONLY_EDEFAULT;
-    readOnlyESet = false;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackageImpl.PROPERTY__READ_ONLY, oldReadOnly, READ_ONLY_EDEFAULT, oldReadOnlyESet));
+    boolean oldReadOnly_set_ = readOnly_set_;
+    readOnly = READ_ONLY_DEFAULT_;
+    readOnly_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, READ_ONLY, oldReadOnly, READ_ONLY_DEFAULT_, oldReadOnly_set_);
   }
 
   /**
@@ -537,7 +596,7 @@ public class PropertyImpl extends DataObjectImpl implements Property
    */
   public boolean isSetReadOnly()
   {
-    return readOnlyESet;
+    return readOnly_set_;
   }
 
   /**
@@ -547,19 +606,18 @@ public class PropertyImpl extends DataObjectImpl implements Property
    */
   public Type getType_()
   {
-    if (type != null && ((EObject)type).eIsProxy())
+    if (type != null && isProxy(type))
     {
-      InternalEObject oldType = (InternalEObject)type;
-      type = (Type)eResolveProxy(oldType);
+      Object oldType = type;
+      type = (Type)resolveProxy(oldType);
       if (type != oldType)
       {
-        if (eNotificationRequired())
-          eNotify(new ENotificationImpl(this, Notification.RESOLVE, ModelPackageImpl.PROPERTY__TYPE, oldType, type));
+        if (isNotifying())
+          notify(ChangeKind.RESOLVE, TYPE, oldType, type);
       }
     }
     return type;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -579,8 +637,99 @@ public class PropertyImpl extends DataObjectImpl implements Property
   {
     Type oldType = type;
     type = newType;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.PROPERTY__TYPE, oldType, type));
+    if (isNotifying())
+      notify(ChangeKind.SET, TYPE, oldType, type);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Property getOpposite_()
+  {
+    if (opposite != null && isProxy(opposite))
+    {
+      Object oldOpposite = opposite;
+      opposite = (Property)resolveProxy(oldOpposite);
+      if (opposite != oldOpposite)
+      {
+        if (isNotifying())
+          notify(ChangeKind.RESOLVE, OPPOSITE, oldOpposite, opposite);
+      }
+    }
+    return opposite;
+  }
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public Property basicGetOpposite()
+  {
+    return opposite;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setOpposite_(Property newOpposite)
+  {
+    Property oldOpposite = opposite;
+    opposite = newOpposite;
+    if (isNotifying())
+      notify(ChangeKind.SET, OPPOSITE, oldOpposite, opposite);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isNullable()
+  {
+    return nullable;
+  }
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void setNullable(boolean newNullable)
+  {
+    boolean oldNullable = nullable;
+    nullable = newNullable;
+    boolean oldNullable_set_ = nullable_set_;
+    nullable_set_ = true;
+    if (isNotifying())
+      notify(ChangeKind.SET, NULLABLE, oldNullable, nullable, !oldNullable_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetNullable()
+  {
+    boolean oldNullable = nullable;
+    boolean oldNullable_set_ = nullable_set_;
+    nullable = NULLABLE_DEFAULT_;
+    nullable_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, NULLABLE, oldNullable, NULLABLE_DEFAULT_, oldNullable_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetNullable()
+  {
+    return nullable_set_;
   }
 
   /**
@@ -592,26 +741,25 @@ public class PropertyImpl extends DataObjectImpl implements Property
   {
     if (anyAttribute == null)
     {
-      anyAttribute = new BasicSequence(new BasicFeatureMap(this, ModelPackageImpl.PROPERTY__ANY_ATTRIBUTE));
+      anyAttribute = createSequence(ANY_ATTRIBUTE);
     }
     return anyAttribute;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  public ChangeContext inverseRemove(Object otherEnd, int propertyIndex, ChangeContext changeContext)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.PROPERTY__ANY:
-        return ((InternalEList)((FeatureMap.Internal.Wrapper)getAny()).featureMap()).basicRemove(otherEnd, msgs);
-      case ModelPackageImpl.PROPERTY__ANY_ATTRIBUTE:
-        return ((InternalEList)((FeatureMap.Internal.Wrapper)getAnyAttribute()).featureMap()).basicRemove(otherEnd, msgs);
+      case ANY:
+        return removeFromSequence(getAny(), otherEnd, changeContext);
+      case ANY_ATTRIBUTE:
+        return removeFromSequence(getAnyAttribute(), otherEnd, changeContext);
     }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
+    return super.inverseRemove(otherEnd, propertyIndex, changeContext);
   }
 
   /**
@@ -619,36 +767,40 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  public Object get(int propertyIndex, boolean resolve)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.PROPERTY__ALIAS_NAME:
+      case ALIAS_NAME:
         return getAliasName();
-      case ModelPackageImpl.PROPERTY__ANY:
-        if (coreType) return ((FeatureMap.Internal.Wrapper)getAny()).featureMap();
+      case ANY:
+        // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
+        //if (coreType) 
         return getAny();
-      case ModelPackageImpl.PROPERTY__CONTAINMENT:
-        return isContainment() ? Boolean.TRUE : Boolean.FALSE;
-      case ModelPackageImpl.PROPERTY__DEFAULT:
-        return getDefault_();
-      case ModelPackageImpl.PROPERTY__MANY:
-        return isMany() ? Boolean.TRUE : Boolean.FALSE;
-      case ModelPackageImpl.PROPERTY__NAME:
+      case NAME:
         return getName();
-      case ModelPackageImpl.PROPERTY__OPPOSITE:
-        if (resolve) return getOpposite_();
-        return basicGetOpposite();
-      case ModelPackageImpl.PROPERTY__READ_ONLY:
+      case MANY:
+        return isMany() ? Boolean.TRUE : Boolean.FALSE;
+      case CONTAINMENT:
+        return isContainment() ? Boolean.TRUE : Boolean.FALSE;
+      case DEFAULT:
+        return getDefault_();
+      case READ_ONLY:
         return isReadOnly() ? Boolean.TRUE : Boolean.FALSE;
-      case ModelPackageImpl.PROPERTY__TYPE:
+      case TYPE:
         if (resolve) return getType_();
         return basicGetType();
-      case ModelPackageImpl.PROPERTY__ANY_ATTRIBUTE:
-        if (coreType) return ((FeatureMap.Internal.Wrapper)getAnyAttribute()).featureMap();
+      case OPPOSITE:
+        if (resolve) return getOpposite_();
+        return basicGetOpposite();
+      case NULLABLE:
+        return isNullable() ? Boolean.TRUE : Boolean.FALSE;
+      case ANY_ATTRIBUTE:
+        // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
+        //if (coreType) 
         return getAnyAttribute();
     }
-    return super.eGet(featureID, resolve, coreType);
+    return super.get(propertyIndex, resolve);
   }
 
   /**
@@ -656,43 +808,46 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(int featureID, Object newValue)
+  public void set(int propertyIndex, Object newValue)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.PROPERTY__ALIAS_NAME:
+      case ALIAS_NAME:
         getAliasName().clear();
         getAliasName().addAll((Collection)newValue);
         return;
-      case ModelPackageImpl.PROPERTY__ANY:
-        ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getAny()).featureMap()).set(newValue);
+      case ANY:
+      	setSequence(getAny(), newValue);
         return;
-      case ModelPackageImpl.PROPERTY__CONTAINMENT:
-        setContainment(((Boolean)newValue).booleanValue());
-        return;
-      case ModelPackageImpl.PROPERTY__DEFAULT:
-        setDefault_((String)newValue);
-        return;
-      case ModelPackageImpl.PROPERTY__MANY:
-        setMany(((Boolean)newValue).booleanValue());
-        return;
-      case ModelPackageImpl.PROPERTY__NAME:
+      case NAME:
         setName((String)newValue);
         return;
-      case ModelPackageImpl.PROPERTY__OPPOSITE:
-        setOpposite_((Property)newValue);
+      case MANY:
+        setMany(((Boolean)newValue).booleanValue());
         return;
-      case ModelPackageImpl.PROPERTY__READ_ONLY:
+      case CONTAINMENT:
+        setContainment(((Boolean)newValue).booleanValue());
+        return;
+      case DEFAULT:
+        setDefault_((String)newValue);
+        return;
+      case READ_ONLY:
         setReadOnly(((Boolean)newValue).booleanValue());
         return;
-      case ModelPackageImpl.PROPERTY__TYPE:
+      case TYPE:
         setType((Type)newValue);
         return;
-      case ModelPackageImpl.PROPERTY__ANY_ATTRIBUTE:
-        ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getAnyAttribute()).featureMap()).set(newValue);
+      case OPPOSITE:
+        setOpposite_((Property)newValue);
+        return;
+      case NULLABLE:
+        setNullable(((Boolean)newValue).booleanValue());
+        return;
+      case ANY_ATTRIBUTE:
+      	setSequence(getAnyAttribute(), newValue);
         return;
     }
-    super.eSet(featureID, newValue);
+    super.set(propertyIndex, newValue);
   }
 
   /**
@@ -700,42 +855,45 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(int featureID)
+  public void unset(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.PROPERTY__ALIAS_NAME:
+      case ALIAS_NAME:
         getAliasName().clear();
         return;
-      case ModelPackageImpl.PROPERTY__ANY:
-        ((FeatureMap.Internal.Wrapper)getAny()).featureMap().clear();
+      case ANY:
+        unsetSequence(getAny());
         return;
-      case ModelPackageImpl.PROPERTY__CONTAINMENT:
-        unsetContainment();
+      case NAME:
+        setName(NAME_DEFAULT_);
         return;
-      case ModelPackageImpl.PROPERTY__DEFAULT:
-        setDefault_(DEFAULT_EDEFAULT);
-        return;
-      case ModelPackageImpl.PROPERTY__MANY:
+      case MANY:
         unsetMany();
         return;
-      case ModelPackageImpl.PROPERTY__NAME:
-        setName(NAME_EDEFAULT);
+      case CONTAINMENT:
+        unsetContainment();
         return;
-      case ModelPackageImpl.PROPERTY__OPPOSITE:
-        setOpposite_((Property)null);
+      case DEFAULT:
+        setDefault_(DEFAULT_DEFAULT_);
         return;
-      case ModelPackageImpl.PROPERTY__READ_ONLY:
+      case READ_ONLY:
         unsetReadOnly();
         return;
-      case ModelPackageImpl.PROPERTY__TYPE:
+      case TYPE:
         setType((Type)null);
         return;
-      case ModelPackageImpl.PROPERTY__ANY_ATTRIBUTE:
-        ((FeatureMap.Internal.Wrapper)getAnyAttribute()).featureMap().clear();
+      case OPPOSITE:
+        setOpposite_((Property)null);
+        return;
+      case NULLABLE:
+        unsetNullable();
+        return;
+      case ANY_ATTRIBUTE:
+        unsetSequence(getAnyAttribute());
         return;
     }
-    super.eUnset(featureID);
+    super.unset(propertyIndex);
   }
 
   /**
@@ -743,32 +901,34 @@ public class PropertyImpl extends DataObjectImpl implements Property
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(int featureID)
+  public boolean isSet(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.PROPERTY__ALIAS_NAME:
+      case ALIAS_NAME:
         return aliasName != null && !aliasName.isEmpty();
-      case ModelPackageImpl.PROPERTY__ANY:
-        return any != null && !any.featureMap().isEmpty();
-      case ModelPackageImpl.PROPERTY__CONTAINMENT:
-        return isSetContainment();
-      case ModelPackageImpl.PROPERTY__DEFAULT:
-        return DEFAULT_EDEFAULT == null ? default_ != null : !DEFAULT_EDEFAULT.equals(default_);
-      case ModelPackageImpl.PROPERTY__MANY:
+      case ANY:
+        return any != null && !isSequenceEmpty(getAny());
+      case NAME:
+        return NAME_DEFAULT_ == null ? name != null : !NAME_DEFAULT_.equals(name);
+      case MANY:
         return isSetMany();
-      case ModelPackageImpl.PROPERTY__NAME:
-        return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case ModelPackageImpl.PROPERTY__OPPOSITE:
-        return opposite != null;
-      case ModelPackageImpl.PROPERTY__READ_ONLY:
+      case CONTAINMENT:
+        return isSetContainment();
+      case DEFAULT:
+        return DEFAULT_DEFAULT_ == null ? default_ != null : !DEFAULT_DEFAULT_.equals(default_);
+      case READ_ONLY:
         return isSetReadOnly();
-      case ModelPackageImpl.PROPERTY__TYPE:
+      case TYPE:
         return type != null;
-      case ModelPackageImpl.PROPERTY__ANY_ATTRIBUTE:
-        return anyAttribute != null && !anyAttribute.featureMap().isEmpty();
+      case OPPOSITE:
+        return opposite != null;
+      case NULLABLE:
+        return isSetNullable();
+      case ANY_ATTRIBUTE:
+        return anyAttribute != null && !isSequenceEmpty(getAnyAttribute());
     }
-    return super.eIsSet(featureID);
+    return super.isSet(propertyIndex);
   }
 
   /**
@@ -778,23 +938,25 @@ public class PropertyImpl extends DataObjectImpl implements Property
    */
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (aliasName: ");
     result.append(aliasName);
     result.append(", any: ");
     result.append(any);
-    result.append(", containment: ");
-    if (containmentESet) result.append(containment); else result.append("<unset>");
-    result.append(", default: ");
-    result.append(default_);
-    result.append(", many: ");
-    if (manyESet) result.append(many); else result.append("<unset>");
     result.append(", name: ");
     result.append(name);
+    result.append(", many: ");
+    if (many_set_) result.append(many); else result.append("<unset>");
+    result.append(", containment: ");
+    if (containment_set_) result.append(containment); else result.append("<unset>");
+    result.append(", default: ");
+    result.append(default_);
     result.append(", readOnly: ");
-    if (readOnlyESet) result.append(readOnly); else result.append("<unset>");
+    if (readOnly_set_) result.append(readOnly); else result.append("<unset>");
+    result.append(", nullable: ");
+    if (nullable_set_) result.append(nullable); else result.append("<unset>");
     result.append(", anyAttribute: ");
     result.append(anyAttribute);
     result.append(')');

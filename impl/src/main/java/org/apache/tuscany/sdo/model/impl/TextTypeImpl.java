@@ -1,36 +1,20 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.model.impl;
+
+import commonj.sdo.Type;
 
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase;
 
-import org.apache.tuscany.sdo.impl.DataObjectImpl;
+import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.TextType;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,8 +29,27 @@ import org.eclipse.emf.ecore.util.EDataTypeEList;
  *
  * @generated
  */
-public abstract class TextTypeImpl extends DataObjectImpl implements TextType
+public abstract class TextTypeImpl extends DataObjectBase implements TextType
 {
+  /**
+   * The feature id for the '<em><b>Text</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int TEXT = 0;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 1;
+
   /**
    * The cached value of the '{@link #getText() <em>Text</em>}' attribute list.
    * <!-- begin-user-doc -->
@@ -55,8 +58,9 @@ public abstract class TextTypeImpl extends DataObjectImpl implements TextType
    * @generated
    * @ordered
    */
-  protected EList text = null;
-
+  
+  protected List text = null;
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -72,9 +76,9 @@ public abstract class TextTypeImpl extends DataObjectImpl implements TextType
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EClass eStaticClass()
+  public Type getType()
   {
-    return ModelPackageImpl.Literals.TEXT_TYPE;
+    return ((ModelFactoryImpl)ModelFactory.INSTANCE).getTextType();
   }
 
   /**
@@ -86,24 +90,23 @@ public abstract class TextTypeImpl extends DataObjectImpl implements TextType
   {
     if (text == null)
     {
-      text = new EDataTypeEList(String.class, this, ModelPackageImpl.TEXT_TYPE__TEXT);
+      text = createPropertyList(ListKind.CONTAINMENT, String.class, TEXT);
     }
     return text;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  public Object get(int propertyIndex, boolean resolve)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TEXT_TYPE__TEXT:
+      case TEXT:
         return getText();
     }
-    return super.eGet(featureID, resolve, coreType);
+    return super.get(propertyIndex, resolve);
   }
 
   /**
@@ -111,16 +114,16 @@ public abstract class TextTypeImpl extends DataObjectImpl implements TextType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(int featureID, Object newValue)
+  public void set(int propertyIndex, Object newValue)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TEXT_TYPE__TEXT:
+      case TEXT:
         getText().clear();
         getText().addAll((Collection)newValue);
         return;
     }
-    super.eSet(featureID, newValue);
+    super.set(propertyIndex, newValue);
   }
 
   /**
@@ -128,15 +131,15 @@ public abstract class TextTypeImpl extends DataObjectImpl implements TextType
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(int featureID)
+  public void unset(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TEXT_TYPE__TEXT:
+      case TEXT:
         getText().clear();
         return;
     }
-    super.eUnset(featureID);
+    super.unset(propertyIndex);
   }
 
   /**
@@ -144,14 +147,14 @@ public abstract class TextTypeImpl extends DataObjectImpl implements TextType
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(int featureID)
+  public boolean isSet(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TEXT_TYPE__TEXT:
+      case TEXT:
         return text != null && !text.isEmpty();
     }
-    return super.eIsSet(featureID);
+    return super.isSet(propertyIndex);
   }
 
   /**
@@ -161,7 +164,7 @@ public abstract class TextTypeImpl extends DataObjectImpl implements TextType
    */
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (text: ");

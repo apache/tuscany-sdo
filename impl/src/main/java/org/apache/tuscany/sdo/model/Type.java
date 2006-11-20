@@ -1,25 +1,14 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.model;
 
 import commonj.sdo.Sequence;
+
+import java.io.Serializable;
 
 import java.util.List;
 
@@ -35,19 +24,20 @@ import java.util.List;
  *   <li>{@link org.apache.tuscany.sdo.model.Type#getProperty <em>Property</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.Type#getAliasName <em>Alias Name</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.Type#getAny <em>Any</em>}</li>
- *   <li>{@link org.apache.tuscany.sdo.model.Type#isAbstract <em>Abstract</em>}</li>
- *   <li>{@link org.apache.tuscany.sdo.model.Type#isDataType <em>Data Type</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.Type#getName <em>Name</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.Type#getUri <em>Uri</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.Type#isDataType <em>Data Type</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.Type#isOpen <em>Open</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.Type#isSequenced <em>Sequenced</em>}</li>
- *   <li>{@link org.apache.tuscany.sdo.model.Type#getUri <em>Uri</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.Type#isAbstract <em>Abstract</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.Type#getAnyAttribute <em>Any Attribute</em>}</li>
  * </ul>
  * </p>
  *
+ * @extends Serializable
  * @generated
  */
-public interface Type
+public interface Type extends Serializable
 {
   /**
    * Returns the value of the '<em><b>Base Type</b></em>' reference list.
@@ -105,55 +95,52 @@ public interface Type
   Sequence getAny();
 
   /**
-   * Returns the value of the '<em><b>Abstract</b></em>' attribute.
+   * Returns the value of the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Abstract</em>' attribute isn't clear,
+   * If the meaning of the '<em>Name</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Abstract</em>' attribute.
-   * @see #isSetAbstract()
-   * @see #unsetAbstract()
-   * @see #setAbstract(boolean)
+   * @return the value of the '<em>Name</em>' attribute.
+   * @see #setName(String)
    * @generated
    */
-  boolean isAbstract();
+  String getName();
 
   /**
-   * Sets the value of the '{@link org.apache.tuscany.sdo.model.Type#isAbstract <em>Abstract</em>}' attribute.
+   * Sets the value of the '{@link org.apache.tuscany.sdo.model.Type#getName <em>Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Abstract</em>' attribute.
-   * @see #isSetAbstract()
-   * @see #unsetAbstract()
-   * @see #isAbstract()
+   * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #getName()
    * @generated
    */
-  void setAbstract(boolean value);
+  void setName(String value);
 
   /**
-   * Unsets the value of the '{@link org.apache.tuscany.sdo.model.Type#isAbstract <em>Abstract</em>}' attribute.
+   * Returns the value of the '<em><b>Uri</b></em>' attribute.
    * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Uri</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
    * <!-- end-user-doc -->
-   * @see #isSetAbstract()
-   * @see #isAbstract()
-   * @see #setAbstract(boolean)
+   * @return the value of the '<em>Uri</em>' attribute.
+   * @see #setUri(String)
    * @generated
    */
-  void unsetAbstract();
+  String getUri();
 
   /**
-   * Returns whether the value of the '{@link org.apache.tuscany.sdo.model.Type#isAbstract <em>Abstract</em>}' attribute is set.
+   * Sets the value of the '{@link org.apache.tuscany.sdo.model.Type#getUri <em>Uri</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return whether the value of the '<em>Abstract</em>' attribute is set.
-   * @see #unsetAbstract()
-   * @see #isAbstract()
-   * @see #setAbstract(boolean)
+   * @param value the new value of the '<em>Uri</em>' attribute.
+   * @see #getUri()
    * @generated
    */
-  boolean isSetAbstract();
+  void setUri(String value);
 
   /**
    * Returns the value of the '<em><b>Data Type</b></em>' attribute.
@@ -205,30 +192,6 @@ public interface Type
    * @generated
    */
   boolean isSetDataType();
-
-  /**
-   * Returns the value of the '<em><b>Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <p>
-   * If the meaning of the '<em>Name</em>' attribute isn't clear,
-   * there really should be more of a description here...
-   * </p>
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Name</em>' attribute.
-   * @see #setName(String)
-   * @generated
-   */
-  String getName();
-
-  /**
-   * Sets the value of the '{@link org.apache.tuscany.sdo.model.Type#getName <em>Name</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Name</em>' attribute.
-   * @see #getName()
-   * @generated
-   */
-  void setName(String value);
 
   /**
    * Returns the value of the '<em><b>Open</b></em>' attribute.
@@ -333,28 +296,55 @@ public interface Type
   boolean isSetSequenced();
 
   /**
-   * Returns the value of the '<em><b>Uri</b></em>' attribute.
+   * Returns the value of the '<em><b>Abstract</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Uri</em>' attribute isn't clear,
+   * If the meaning of the '<em>Abstract</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Uri</em>' attribute.
-   * @see #setUri(String)
+   * @return the value of the '<em>Abstract</em>' attribute.
+   * @see #isSetAbstract()
+   * @see #unsetAbstract()
+   * @see #setAbstract(boolean)
    * @generated
    */
-  String getUri();
+  boolean isAbstract();
 
   /**
-   * Sets the value of the '{@link org.apache.tuscany.sdo.model.Type#getUri <em>Uri</em>}' attribute.
+   * Sets the value of the '{@link org.apache.tuscany.sdo.model.Type#isAbstract <em>Abstract</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Uri</em>' attribute.
-   * @see #getUri()
+   * @param value the new value of the '<em>Abstract</em>' attribute.
+   * @see #isSetAbstract()
+   * @see #unsetAbstract()
+   * @see #isAbstract()
    * @generated
    */
-  void setUri(String value);
+  void setAbstract(boolean value);
+
+  /**
+   * Unsets the value of the '{@link org.apache.tuscany.sdo.model.Type#isAbstract <em>Abstract</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetAbstract()
+   * @see #isAbstract()
+   * @see #setAbstract(boolean)
+   * @generated
+   */
+  void unsetAbstract();
+
+  /**
+   * Returns whether the value of the '{@link org.apache.tuscany.sdo.model.Type#isAbstract <em>Abstract</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Abstract</em>' attribute is set.
+   * @see #unsetAbstract()
+   * @see #isAbstract()
+   * @see #setAbstract(boolean)
+   * @generated
+   */
+  boolean isSetAbstract();
 
   /**
    * Returns the value of the '<em><b>Any Attribute</b></em>' attribute list.
@@ -370,5 +360,5 @@ public interface Type
   Sequence getAnyAttribute();
   
   String getInstanceClassName();
-  
+
 } // Type

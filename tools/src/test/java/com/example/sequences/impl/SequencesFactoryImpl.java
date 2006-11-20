@@ -19,10 +19,10 @@
  */
 package com.example.sequences.impl;
 
+import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.impl.FactoryBase;
-import org.apache.tuscany.sdo.impl.SDOFactoryImpl;
+import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
-import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
 
 import com.example.sequences.MixedQuote;
@@ -216,8 +216,8 @@ public static final int TWO_RCS_MIXED = 5;
     	isInited = true;
 
     	// Initialize simple dependencies
-    	SDOUtil.registerStaticTypes(SDOFactoryImpl.class);
-    	SDOUtil.registerStaticTypes(ModelPackageImpl.class);
+    	SDOUtil.registerStaticTypes(SDOFactory.class);
+    	SDOUtil.registerStaticTypes(ModelFactory.class);
     	
     	// Create package meta-data objects
     	theSequencesFactoryImpl.createMetaData();
@@ -334,12 +334,12 @@ public static final int TWO_RCS_MIXED = 5;
     initializeProperty((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.SPLIT), theModelPackageImpl.getString(), "split", null, 1, 1, TwoRCsMixed.class, false, false, true);
     initializeProperty((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.GROUP1), getSequence(), "group1", null, 0, -1, TwoRCsMixed.class, false, false, true);
     initializeProperty((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.Y), theModelPackageImpl.getString(), "y", null, 0, -1, TwoRCsMixed.class, false, false, true);
-    initializeProperty((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.Z), theModelPackageImpl.getInt(), "z", null, 0, -1, TwoRCsMixed.class, false, false, true);createXSDMetaData();
+    initializeProperty((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.Z), theModelPackageImpl.getInt(), "z", null, 0, -1, TwoRCsMixed.class, false, false, true);initXSD();
   }
   
-  protected void createXSDMetaData()
+  protected void initXSD()
   {
-    super.createXSDMetaData();
+    super.initXSD();
     // TODO - kdk - is the order right?  should kind, elementOnly be first
     addXSDMapping
     (mixedQuoteType,

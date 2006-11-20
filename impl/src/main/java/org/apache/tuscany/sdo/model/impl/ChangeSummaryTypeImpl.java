@@ -1,43 +1,18 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.model.impl;
 
 import commonj.sdo.Sequence;
+import commonj.sdo.Type;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase;
 
-import org.apache.tuscany.sdo.impl.DataObjectImpl;
 import org.apache.tuscany.sdo.model.ChangeSummaryType;
-
-import org.apache.tuscany.sdo.util.BasicSequence;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.BasicFeatureMap;
-import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.util.InternalEList;
+import org.apache.tuscany.sdo.model.ModelFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -55,8 +30,54 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *
  * @generated
  */
-public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSummaryType
+public class ChangeSummaryTypeImpl extends DataObjectBase implements ChangeSummaryType
 {
+  /**
+   * The feature id for the '<em><b>Any</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int ANY = 0;
+
+  /**
+   * The feature id for the '<em><b>Create</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int CREATE = 1;
+
+  /**
+   * The feature id for the '<em><b>Delete</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int DELETE = 2;
+
+  /**
+   * The feature id for the '<em><b>Logging</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int LOGGING = 3;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 4;
+
   /**
    * The cached value of the '{@link #getAny() <em>Any</em>}' attribute list.
    * <!-- begin-user-doc -->
@@ -65,8 +86,9 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * @generated
    * @ordered
    */
-  protected BasicSequence any = null;
-
+  
+  protected Sequence any = null;
+  
   /**
    * The default value of the '{@link #getCreate() <em>Create</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -75,7 +97,7 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * @generated
    * @ordered
    */
-  protected static final String CREATE_EDEFAULT = null;
+  protected static final String CREATE_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getCreate() <em>Create</em>}' attribute.
@@ -85,7 +107,7 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * @generated
    * @ordered
    */
-  protected String create = CREATE_EDEFAULT;
+  protected String create = CREATE_DEFAULT_;
 
   /**
    * The default value of the '{@link #getDelete() <em>Delete</em>}' attribute.
@@ -95,7 +117,7 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * @generated
    * @ordered
    */
-  protected static final String DELETE_EDEFAULT = null;
+  protected static final String DELETE_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getDelete() <em>Delete</em>}' attribute.
@@ -105,7 +127,7 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * @generated
    * @ordered
    */
-  protected String delete = DELETE_EDEFAULT;
+  protected String delete = DELETE_DEFAULT_;
 
   /**
    * The default value of the '{@link #isLogging() <em>Logging</em>}' attribute.
@@ -115,7 +137,7 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * @generated
    * @ordered
    */
-  protected static final boolean LOGGING_EDEFAULT = false;
+  protected static final boolean LOGGING_DEFAULT_ = false;
 
   /**
    * The cached value of the '{@link #isLogging() <em>Logging</em>}' attribute.
@@ -125,7 +147,7 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * @generated
    * @ordered
    */
-  protected boolean logging = LOGGING_EDEFAULT;
+  protected boolean logging = LOGGING_DEFAULT_;
 
   /**
    * This is true if the Logging attribute has been set.
@@ -134,7 +156,7 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * @generated
    * @ordered
    */
-  protected boolean loggingESet = false;
+  protected boolean logging_set_ = false;
 
   /**
    * <!-- begin-user-doc -->
@@ -151,9 +173,9 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EClass eStaticClass()
+  public Type getType()
   {
-    return ModelPackageImpl.Literals.CHANGE_SUMMARY_TYPE;
+    return ((ModelFactoryImpl)ModelFactory.INSTANCE).getChangeSummaryType();
   }
 
   /**
@@ -165,11 +187,10 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
   {
     if (any == null)
     {
-      any = new BasicSequence(new BasicFeatureMap(this, ModelPackageImpl.CHANGE_SUMMARY_TYPE__ANY));
+      any = createSequence(ANY);
     }
     return any;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -179,7 +200,6 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
   {
     return create;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -189,8 +209,8 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
   {
     String oldCreate = create;
     create = newCreate;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.CHANGE_SUMMARY_TYPE__CREATE, oldCreate, create));
+    if (isNotifying())
+      notify(ChangeKind.SET, CREATE, oldCreate, create);
   }
 
   /**
@@ -202,7 +222,6 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
   {
     return delete;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -212,8 +231,8 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
   {
     String oldDelete = delete;
     delete = newDelete;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.CHANGE_SUMMARY_TYPE__DELETE, oldDelete, delete));
+    if (isNotifying())
+      notify(ChangeKind.SET, DELETE, oldDelete, delete);
   }
 
   /**
@@ -225,7 +244,6 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
   {
     return logging;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -235,10 +253,10 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
   {
     boolean oldLogging = logging;
     logging = newLogging;
-    boolean oldLoggingESet = loggingESet;
-    loggingESet = true;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, ModelPackageImpl.CHANGE_SUMMARY_TYPE__LOGGING, oldLogging, logging, !oldLoggingESet));
+    boolean oldLogging_set_ = logging_set_;
+    logging_set_ = true;
+    if (isNotifying())
+      notify(ChangeKind.SET, LOGGING, oldLogging, logging, !oldLogging_set_);
   }
 
   /**
@@ -249,11 +267,11 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
   public void unsetLogging()
   {
     boolean oldLogging = logging;
-    boolean oldLoggingESet = loggingESet;
-    logging = LOGGING_EDEFAULT;
-    loggingESet = false;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.UNSET, ModelPackageImpl.CHANGE_SUMMARY_TYPE__LOGGING, oldLogging, LOGGING_EDEFAULT, oldLoggingESet));
+    boolean oldLogging_set_ = logging_set_;
+    logging = LOGGING_DEFAULT_;
+    logging_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, LOGGING, oldLogging, LOGGING_DEFAULT_, oldLogging_set_);
   }
 
   /**
@@ -263,7 +281,7 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    */
   public boolean isSetLogging()
   {
-    return loggingESet;
+    return logging_set_;
   }
 
   /**
@@ -271,14 +289,14 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  public ChangeContext inverseRemove(Object otherEnd, int propertyIndex, ChangeContext changeContext)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__ANY:
-        return ((InternalEList)((FeatureMap.Internal.Wrapper)getAny()).featureMap()).basicRemove(otherEnd, msgs);
+      case ANY:
+        return removeFromSequence(getAny(), otherEnd, changeContext);
     }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
+    return super.inverseRemove(otherEnd, propertyIndex, changeContext);
   }
 
   /**
@@ -286,21 +304,22 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  public Object get(int propertyIndex, boolean resolve)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__ANY:
-        if (coreType) return ((FeatureMap.Internal.Wrapper)getAny()).featureMap();
+      case ANY:
+        // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
+        //if (coreType) 
         return getAny();
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__CREATE:
+      case CREATE:
         return getCreate();
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__DELETE:
+      case DELETE:
         return getDelete();
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__LOGGING:
+      case LOGGING:
         return isLogging() ? Boolean.TRUE : Boolean.FALSE;
     }
-    return super.eGet(featureID, resolve, coreType);
+    return super.get(propertyIndex, resolve);
   }
 
   /**
@@ -308,24 +327,24 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(int featureID, Object newValue)
+  public void set(int propertyIndex, Object newValue)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__ANY:
-        ((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)getAny()).featureMap()).set(newValue);
+      case ANY:
+      	setSequence(getAny(), newValue);
         return;
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__CREATE:
+      case CREATE:
         setCreate((String)newValue);
         return;
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__DELETE:
+      case DELETE:
         setDelete((String)newValue);
         return;
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__LOGGING:
+      case LOGGING:
         setLogging(((Boolean)newValue).booleanValue());
         return;
     }
-    super.eSet(featureID, newValue);
+    super.set(propertyIndex, newValue);
   }
 
   /**
@@ -333,24 +352,24 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(int featureID)
+  public void unset(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__ANY:
-        ((FeatureMap.Internal.Wrapper)getAny()).featureMap().clear();
+      case ANY:
+        unsetSequence(getAny());
         return;
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__CREATE:
-        setCreate(CREATE_EDEFAULT);
+      case CREATE:
+        setCreate(CREATE_DEFAULT_);
         return;
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__DELETE:
-        setDelete(DELETE_EDEFAULT);
+      case DELETE:
+        setDelete(DELETE_DEFAULT_);
         return;
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__LOGGING:
+      case LOGGING:
         unsetLogging();
         return;
     }
-    super.eUnset(featureID);
+    super.unset(propertyIndex);
   }
 
   /**
@@ -358,20 +377,20 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(int featureID)
+  public boolean isSet(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__ANY:
-        return any != null && !any.featureMap().isEmpty();
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__CREATE:
-        return CREATE_EDEFAULT == null ? create != null : !CREATE_EDEFAULT.equals(create);
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__DELETE:
-        return DELETE_EDEFAULT == null ? delete != null : !DELETE_EDEFAULT.equals(delete);
-      case ModelPackageImpl.CHANGE_SUMMARY_TYPE__LOGGING:
+      case ANY:
+        return any != null && !isSequenceEmpty(getAny());
+      case CREATE:
+        return CREATE_DEFAULT_ == null ? create != null : !CREATE_DEFAULT_.equals(create);
+      case DELETE:
+        return DELETE_DEFAULT_ == null ? delete != null : !DELETE_DEFAULT_.equals(delete);
+      case LOGGING:
         return isSetLogging();
     }
-    return super.eIsSet(featureID);
+    return super.isSet(propertyIndex);
   }
 
   /**
@@ -381,7 +400,7 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
    */
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (any: ");
@@ -391,7 +410,7 @@ public class ChangeSummaryTypeImpl extends DataObjectImpl implements ChangeSumma
     result.append(", delete: ");
     result.append(delete);
     result.append(", logging: ");
-    if (loggingESet) result.append(logging); else result.append("<unset>");
+    if (logging_set_) result.append(logging); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }

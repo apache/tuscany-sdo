@@ -1,41 +1,20 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.model.impl;
+
+import commonj.sdo.Type;
 
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase;
 
-import org.apache.tuscany.sdo.impl.DataObjectImpl;
-import org.apache.tuscany.sdo.model.Type;
+import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.Types;
-
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,24 +23,44 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.apache.tuscany.sdo.model.impl.TypesImpl#getType <em>Type</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.impl.TypesImpl#getType_ <em>Type</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class TypesImpl extends DataObjectImpl implements Types
+public class TypesImpl extends DataObjectBase implements Types
 {
   /**
-   * The cached value of the '{@link #getType() <em>Type</em>}' containment reference list.
+   * The feature id for the '<em><b>Type</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getType()
+   * @generated
+   * @ordered
+   */	 
+  public final static int TYPE = 0;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected EList type = null;
+  
+  public final static int SDO_PROPERTY_COUNT = 1;
 
+  /**
+   * The cached value of the '{@link #getType_() <em>Type</em>}' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getType_()
+   * @generated
+   * @ordered
+   */
+  
+  protected List type = null;
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -77,9 +76,9 @@ public class TypesImpl extends DataObjectImpl implements Types
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EClass eStaticClass()
+  public Type getType()
   {
-    return ModelPackageImpl.Literals.TYPES;
+    return ((ModelFactoryImpl)ModelFactory.INSTANCE).getTypes();
   }
 
   /**
@@ -91,24 +90,23 @@ public class TypesImpl extends DataObjectImpl implements Types
   {
     if (type == null)
     {
-      type = new EObjectContainmentEList(Type.class, this, ModelPackageImpl.TYPES__TYPE);
+      type = createPropertyList(ListKind.CONTAINMENT, org.apache.tuscany.sdo.model.Type.class, TYPE);
     }
     return type;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  public ChangeContext inverseRemove(Object otherEnd, int propertyIndex, ChangeContext changeContext)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TYPES__TYPE:
-        return ((InternalEList)getType()).basicRemove(otherEnd, msgs);
+      case TYPE:
+        return removeFromList(getType_(), otherEnd, changeContext);
     }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
+    return super.inverseRemove(otherEnd, propertyIndex, changeContext);
   }
 
   /**
@@ -116,14 +114,14 @@ public class TypesImpl extends DataObjectImpl implements Types
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  public Object get(int propertyIndex, boolean resolve)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TYPES__TYPE:
-        return getType();
+      case TYPE:
+        return getType_();
     }
-    return super.eGet(featureID, resolve, coreType);
+    return super.get(propertyIndex, resolve);
   }
 
   /**
@@ -131,16 +129,16 @@ public class TypesImpl extends DataObjectImpl implements Types
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(int featureID, Object newValue)
+  public void set(int propertyIndex, Object newValue)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TYPES__TYPE:
+      case TYPE:
         getType_().clear();
         getType_().addAll((Collection)newValue);
         return;
     }
-    super.eSet(featureID, newValue);
+    super.set(propertyIndex, newValue);
   }
 
   /**
@@ -148,15 +146,15 @@ public class TypesImpl extends DataObjectImpl implements Types
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(int featureID)
+  public void unset(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TYPES__TYPE:
+      case TYPE:
         getType_().clear();
         return;
     }
-    super.eUnset(featureID);
+    super.unset(propertyIndex);
   }
 
   /**
@@ -164,16 +162,16 @@ public class TypesImpl extends DataObjectImpl implements Types
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(int featureID)
+  public boolean isSet(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case ModelPackageImpl.TYPES__TYPE:
+      case TYPE:
         return type != null && !type.isEmpty();
     }
-    return super.eIsSet(featureID);
+    return super.isSet(propertyIndex);
   }
-  
+
   public List getTypeList()
   {
     return getType_();

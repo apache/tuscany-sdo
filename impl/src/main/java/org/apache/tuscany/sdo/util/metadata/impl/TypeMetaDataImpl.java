@@ -1,33 +1,17 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package org.apache.tuscany.sdo.util.metadata.impl;
 
-import org.apache.tuscany.sdo.impl.DataObjectImpl;
+import commonj.sdo.Type;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase;
+
+import org.apache.tuscany.sdo.util.metadata.MetadataFactory;
 import org.apache.tuscany.sdo.util.metadata.TypeMetaData;
-
-import org.eclipse.emf.common.notify.Notification;
-
-import org.eclipse.emf.ecore.EClass;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,8 +26,27 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class TypeMetaDataImpl extends DataObjectImpl implements TypeMetaData
+public class TypeMetaDataImpl extends DataObjectBase implements TypeMetaData
 {
+  /**
+   * The feature id for the '<em><b>Location</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int LOCATION = 0;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 1;
+
   /**
    * The default value of the '{@link #getLocation() <em>Location</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -52,7 +55,7 @@ public class TypeMetaDataImpl extends DataObjectImpl implements TypeMetaData
    * @generated
    * @ordered
    */
-  protected static final String LOCATION_EDEFAULT = null;
+  protected static final String LOCATION_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getLocation() <em>Location</em>}' attribute.
@@ -62,7 +65,7 @@ public class TypeMetaDataImpl extends DataObjectImpl implements TypeMetaData
    * @generated
    * @ordered
    */
-  protected String location = LOCATION_EDEFAULT;
+  protected String location = LOCATION_DEFAULT_;
 
   /**
    * <!-- begin-user-doc -->
@@ -79,9 +82,9 @@ public class TypeMetaDataImpl extends DataObjectImpl implements TypeMetaData
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EClass eStaticClass()
+  public Type getType()
   {
-    return MetadataPackageImpl.Literals.TYPE_META_DATA;
+    return ((MetadataFactoryImpl)MetadataFactory.INSTANCE).getTypeMetaData();
   }
 
   /**
@@ -93,7 +96,6 @@ public class TypeMetaDataImpl extends DataObjectImpl implements TypeMetaData
   {
     return location;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -103,8 +105,8 @@ public class TypeMetaDataImpl extends DataObjectImpl implements TypeMetaData
   {
     String oldLocation = location;
     location = newLocation;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, MetadataPackageImpl.TYPE_META_DATA__LOCATION, oldLocation, location));
+    if (isNotifying())
+      notify(ChangeKind.SET, LOCATION, oldLocation, location);
   }
 
   /**
@@ -112,14 +114,14 @@ public class TypeMetaDataImpl extends DataObjectImpl implements TypeMetaData
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  public Object get(int propertyIndex, boolean resolve)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case MetadataPackageImpl.TYPE_META_DATA__LOCATION:
+      case LOCATION:
         return getLocation();
     }
-    return super.eGet(featureID, resolve, coreType);
+    return super.get(propertyIndex, resolve);
   }
 
   /**
@@ -127,15 +129,15 @@ public class TypeMetaDataImpl extends DataObjectImpl implements TypeMetaData
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(int featureID, Object newValue)
+  public void set(int propertyIndex, Object newValue)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case MetadataPackageImpl.TYPE_META_DATA__LOCATION:
+      case LOCATION:
         setLocation((String)newValue);
         return;
     }
-    super.eSet(featureID, newValue);
+    super.set(propertyIndex, newValue);
   }
 
   /**
@@ -143,15 +145,15 @@ public class TypeMetaDataImpl extends DataObjectImpl implements TypeMetaData
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(int featureID)
+  public void unset(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case MetadataPackageImpl.TYPE_META_DATA__LOCATION:
-        setLocation(LOCATION_EDEFAULT);
+      case LOCATION:
+        setLocation(LOCATION_DEFAULT_);
         return;
     }
-    super.eUnset(featureID);
+    super.unset(propertyIndex);
   }
 
   /**
@@ -159,14 +161,14 @@ public class TypeMetaDataImpl extends DataObjectImpl implements TypeMetaData
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(int featureID)
+  public boolean isSet(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case MetadataPackageImpl.TYPE_META_DATA__LOCATION:
-        return LOCATION_EDEFAULT == null ? location != null : !LOCATION_EDEFAULT.equals(location);
+      case LOCATION:
+        return LOCATION_DEFAULT_ == null ? location != null : !LOCATION_DEFAULT_.equals(location);
     }
-    return super.eIsSet(featureID);
+    return super.isSet(propertyIndex);
   }
 
   /**
@@ -176,7 +178,7 @@ public class TypeMetaDataImpl extends DataObjectImpl implements TypeMetaData
    */
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (location: ");
