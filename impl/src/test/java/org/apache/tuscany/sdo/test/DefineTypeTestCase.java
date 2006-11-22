@@ -22,6 +22,8 @@ package org.apache.tuscany.sdo.test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -625,6 +627,47 @@ public class DefineTypeTestCase extends TestCase
       TestUtil.equalXmlFiles(
         new ByteArrayInputStream(baos.toByteArray()), 
         getClass().getResource(OPEN_XML)));
+  }
+  
+/**
+ * Type T1 has property t1p of type T2, type T2 has property t2p of type T1.
+ * Ensure that the typehelper can handle this circularity
+ */
+public void testInterdependentTypes()
+  {
+	    DataObject t1 = DataFactory.INSTANCE.create("commonj.sdo", "Type");
+	    DataObject t1p = DataFactory.INSTANCE.create("commonj.sdo", "Property");
+	    DataObject t2 = DataFactory.INSTANCE.create("commonj.sdo", "Type");
+	    DataObject t2p = DataFactory.INSTANCE.create("commonj.sdo", "Property");
+
+	    t1.set("name", "T1");
+	    t1.set("uri", "foo");
+	    t2.set("name", "T2");
+	    t2.set("uri", "foo");
+	    
+	    t1.getList("property").add(t1p);
+	    t2.getList("property").add(t2p);
+	    t1p.set("name", "t1p");
+	    t1p.set("type", t2);
+	    t2p.set("name", "t2p");
+	    t2p.set("type", t1);
+
+	    List ts = new ArrayList();
+	    ts.add(t1);
+	    ts.add(t2);
+	    List types = TypeHelper.INSTANCE.define(ts);
+	    
+	    Type first = (Type)types.get(0);
+	    Type second = (Type)types.get(1);
+	    
+	    Type firstsPropsType = ((Property)first.getProperties().get(0)).getType();
+	    Type secondPropsType = ((Property)second.getProperties().get(0)).getType();
+	    
+	    assertNotNull(first);
+	    assertNotNull(second);
+	    assertEquals(first, secondPropsType);
+	    assertEquals(second, firstsPropsType);
+	    
   }
   
 }
