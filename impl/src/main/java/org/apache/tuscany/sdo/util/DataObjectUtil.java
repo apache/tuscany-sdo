@@ -1801,7 +1801,7 @@ public final class DataObjectUtil
         }
       }
     }
-    throw new IllegalArgumentException("Class '" + eObject.eClass().getName() + "' does not have a feature named '" + featureName + "'");
+    return null;
   }
   
   public static List getAliasNames(EStructuralFeature eStructuralFeature)
@@ -1999,7 +1999,7 @@ public final class DataObjectUtil
 
     public boolean isSet()
     {
-      return eObject.eIsSet(feature);
+      return feature != null && eObject.eIsSet(feature);
     }
 
     public boolean isSetAndRecyle()
@@ -2052,6 +2052,7 @@ public final class DataObjectUtil
       if (name != null)
       {
         feature = (EStructuralFeature)((DataObject)eObject).getProperty(name);
+        if (feature == null) setEObject(null);
       }
       else
       {
@@ -2102,15 +2103,12 @@ public final class DataObjectUtil
         if ('/' == c)
         {
           setEObject((EObject)get());
+          if (eObject == null) break;
         }
         else if ("..".equals(token))
         {
-          EObject container = eObject.eContainer();
-          if (container == null)
-          {
-            throw new IllegalArgumentException("No containing object for " + eObject);
-          }
-          setEObject(container);
+          setEObject(eObject.eContainer());
+          if (eObject == null) break;
         }
         else if ('.' == c)
         {
@@ -2145,6 +2143,7 @@ public final class DataObjectUtil
             if (index < 0)
             {
               setEObject(null);
+              break;
             }
             else
             {
@@ -2159,6 +2158,7 @@ public final class DataObjectUtil
         else
         {
           setFeatureName(token);
+          if (eObject == null) break;
         }
       }
     }

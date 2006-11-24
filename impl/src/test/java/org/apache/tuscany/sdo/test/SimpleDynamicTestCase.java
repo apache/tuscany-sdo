@@ -64,6 +64,9 @@ public class SimpleDynamicTestCase extends TestCase {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "stockQuote", baos);
         
+        assertFalse(quote.isSet("undefined"));
+        assertSame(quote.get("undefined"), null);
+        
         assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(QUOTE_XML)));
     }
 
