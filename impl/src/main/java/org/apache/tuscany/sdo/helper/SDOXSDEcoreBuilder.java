@@ -20,12 +20,14 @@
 package org.apache.tuscany.sdo.helper;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.impl.ModelPackageImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -39,6 +41,7 @@ import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDComponent;
 import org.eclipse.xsd.XSDConcreteComponent;
 import org.eclipse.xsd.XSDFeature;
+import org.eclipse.xsd.XSDImport;
 import org.eclipse.xsd.XSDNamedComponent;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTypeDefinition;
@@ -55,6 +58,7 @@ import org.w3c.dom.Element;
  */
 public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
 {
+  
   public SDOXSDEcoreBuilder(ExtendedMetaData extendedMetaData)
   {
     super(extendedMetaData);
@@ -77,6 +81,8 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
         getBuiltInEClassifier(
           xsdTypeDefinition.getURI(), 
           xsdTypeDefinition.getName());
+    } else if (ModelPackageImpl.eNS_URI.equals(xsdTypeDefinition.getTargetNamespace())) {
+      eClassifier = ModelPackageImpl.eINSTANCE.getEClassifier(xsdTypeDefinition.getName());
     } else {
       eClassifier = super.getEClassifier(xsdTypeDefinition);
     }
@@ -455,4 +461,26 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return qualifiedPackageName.toString().toLowerCase(); //make sure it's lower case .. we can't work with Axis if not.
   }
 
+
+  public void generate(XSDSchema xsdSchema) {
+    // permits schemas to be valid by having an import of sdoModel.xsd without
+    // that import causing masking of the singleton instance of the generated model
+    if(!ModelPackageImpl.eNS_URI.equals(xsdSchema.getTargetNamespace())) {
+      List contents = xsdSchema.getContents();
+      List commonjImports = new ArrayList();
+      for (Iterator i = contents.iterator(); i.hasNext(); )
+      {
+        Object content = i.next();
+        if (content instanceof XSDImport)
+        {
+          XSDImport xsdImport = (XSDImport)content;
+          if (ModelPackageImpl.eNS_URI.equals(xsdImport.getNamespace())) {
+            commonjImports.add(xsdImport);
+          }
+        }
+      }
+      contents.removeAll(commonjImports);
+      super.generate(xsdSchema);
+    }
+  }
 }
