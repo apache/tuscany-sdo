@@ -30,6 +30,7 @@ import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.impl.ChangeSummaryImpl.SDOChangeRecorder;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -38,6 +39,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.EStructuralFeature.Internal.DynamicValueHolder;
 import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EContentsEList;
@@ -1314,6 +1316,45 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
   {
     return DataObjectUtil.getChangeSummary(this);
   }
+
+//TODO T-153 
+//  public ChangeSummary getEChangeSummary() {
+//    Property p = DataObjectUtil.getChangeSummaryProperty(this);
+//    return (ChangeSummary)eGet((EStructuralFeature)p);
+//  }
+//  
+//  public NotificationChain basicSetEChangeSummary(ChangeSummary newEChangeSummary, NotificationChain msgs)
+//  {
+//    ChangeSummary oldEChangeSummary = getEChangeSummary();
+//    Property p = DataObjectUtil.getChangeSummaryProperty(this);
+//    eSet((EStructuralFeature)p, newEChangeSummary);
+//    if (eNotificationRequired())
+//    {
+//      // FBCHECK Do I need any of this notification stuff - I think FB said "no"
+//      // FIXME how would I do this when there isnt a SDOPackage.DATA_OBJECT__ECHANGE_SUMMARY
+//      // ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SDOPackage.DATA_OBJECT__ECHANGE_SUMMARY, oldEChangeSummary, newEChangeSummary);
+//      // if (msgs == null) msgs = notification; else msgs.add(notification);
+//    }
+//    return msgs;
+//  }
+//  
+//  public void setEChangeSummary(ChangeSummary newEChangeSummary) {
+//    ChangeSummary eChangeSummary = getEChangeSummary();
+//    if (newEChangeSummary != eChangeSummary)
+//    {
+//      NotificationChain msgs = null;
+//      if (eChangeSummary != null)
+//        msgs = ((InternalEObject)eChangeSummary).eInverseRemove(this, SDOPackage.CHANGE_SUMMARY__EDATA_OBJECT, ChangeSummary.class, msgs);
+//      if (newEChangeSummary != null)
+//        msgs = ((InternalEObject)newEChangeSummary).eInverseAdd(this, SDOPackage.CHANGE_SUMMARY__EDATA_OBJECT, ChangeSummary.class, msgs);
+//      msgs = basicSetEChangeSummary(newEChangeSummary, msgs);
+//      if (msgs != null) msgs.dispatch();
+//    }
+//    else if (eNotificationRequired()) {
+//      // FIXME - define SDOPackage.DATA_OBJECT__ECHANGE_SUMMARY or fix logic
+//      // eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.DATA_OBJECT__ECHANGE_SUMMARY, newEChangeSummary, newEChangeSummary));
+//    }
+//  }
 
   /**
    * <!-- begin-user-doc -->

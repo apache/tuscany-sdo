@@ -42,6 +42,7 @@ import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SimpleAnyTypeDataObject;
 import org.apache.tuscany.sdo.helper.CrossScopeCopyHelperImpl;
 import org.apache.tuscany.sdo.helper.DataFactoryImpl;
+import org.apache.tuscany.sdo.helper.HelperContextImpl;
 import org.apache.tuscany.sdo.helper.SDOExtendedMetaDataImpl;
 import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.helper.XMLHelperImpl;
@@ -80,6 +81,7 @@ import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 import commonj.sdo.helper.CopyHelper;
 import commonj.sdo.helper.DataFactory;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
@@ -285,12 +287,36 @@ public final class SDOUtil
     }
   }
 
+ /**
+  * @param scope an instance of TypeHelper which is used to provide scope for types.
+  * Create a HelperContext to provide access to a consistent set of
+  * Helpers which make use of the supplied TypeHelper instance to provide
+  * scope for type definitions.
+  * @return the new HelperContext
+  */
+public static HelperContext createHelperContext(TypeHelper scope)
+  {
+    return new HelperContextImpl(scope);
+  }
+  
+  /**
+   * Create a HelperContext to provide access to a consistent set of
+   * Helpers which make use of a new TypeHelper instance to provide
+   * scope for type definitions.
+   * @return the new HelperContext
+   */
+  public static HelperContext createHelperContext()
+  {
+    return new HelperContextImpl(null);
+  }
+
   /**
    * Create a new TypeHelper instance. The returned type helper will have visibility of types registered
    *  directly by calling a define method on it or by calling define on an associated XSDHelper. It will
    *  also have visibility of static types registered by calling SDOUtil.registerStaticTypes in the 
    *  same classLoader scope.
    * @return the new TypeHelper.
+   * @deprecated see {@link #createHelperContext(TypeHelper)}
    */
   public static TypeHelper createTypeHelper()
   {
@@ -313,6 +339,7 @@ public final class SDOUtil
    * Create a new XMLHelper, with visibility to types in the specified TypeHelper scope.
    * @param scope the TypeHelper to use for locating types.
    * @return the new XMLHelper.
+   * @deprecated see {@link #createHelperContext(TypeHelper)}
    */
   public static XMLHelper createXMLHelper(TypeHelper scope)
   {
@@ -323,6 +350,7 @@ public final class SDOUtil
    * Create a new XSDHelper, with visibility to types in the specified TypeHelper scope.
    * @param scope the TypeHelper to use for locating and populating types.
    * @return the new XSDHelper.
+   * @deprecated see {@link #createHelperContext(TypeHelper)}
    */
   public static XSDHelper createXSDHelper(TypeHelper scope)
   {
@@ -333,6 +361,7 @@ public final class SDOUtil
    * Create a new XMLStreamHelper, with visibility to types in the specified TypeHelper scope.
    * @param scope the TypeHelper to use for locating types.
    * @return the new XMLStreamHelper.
+   * @deprecated see {@link #createHelperContext(TypeHelper)}
    */
   public static XMLStreamHelper createXMLStreamHelper(TypeHelper scope)
   {

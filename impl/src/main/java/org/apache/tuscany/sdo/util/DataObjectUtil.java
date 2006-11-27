@@ -33,8 +33,11 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
+import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
+import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
+import org.apache.tuscany.sdo.impl.DataObjectImpl;
 import org.apache.tuscany.sdo.impl.SDOFactoryImpl;
 import org.apache.tuscany.sdo.util.resource.SDOXMLResourceFactoryImpl;
 import org.eclipse.emf.common.util.BasicEList;
@@ -690,10 +693,43 @@ public final class DataObjectUtil
     {
       return dataGraph.getChangeSummary();
     }
-    // TODO: handle ChangeSummary-type property
+//  TODO T-153
+//    return getDataObjectsChangeSummary(dataObject);
     return null;
   }
-  
+
+//TODO T-153
+//  public static Property getChangeSummaryProperty(DataObject dataObject)
+//  {
+//    return ((ClassImpl)dataObject.getType()).getChangeSummaryProperty();
+//  }
+//  
+//  /**
+//   * @param dataObject
+//   * @return
+//   */
+//  private static ChangeSummary getDataObjectsChangeSummary(DataObject dataObject) {
+//    
+//    if(dataObject == null) {
+//      // terminate the recursion up the containment path
+//      return null;
+//    }
+//
+//    Property csp = getChangeSummaryProperty(dataObject);
+//    
+//    if(csp != null) {
+//        ChangeSummary cs = (ChangeSummary)dataObject.get(csp);
+//        if(cs == null) {
+//          cs = SDOFactory.eINSTANCE.createChangeSummary();
+//          ((DataObjectImpl)dataObject).setEChangeSummary(cs);
+//        }
+//        return cs;
+//    }
+//    
+//    // if it fails to find a CS then continue the search up the containment path
+//    return getDataObjectsChangeSummary(dataObject.getContainer());
+//  }
+
   public static void unset(DataObject dataObject, String path)
   {
     Property property = dataObject.getType().getProperty(path);

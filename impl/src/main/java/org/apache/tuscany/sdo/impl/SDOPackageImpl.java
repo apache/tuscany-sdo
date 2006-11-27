@@ -283,6 +283,16 @@ public class SDOPackageImpl extends EPackageImpl implements SDOPackage
     return (EReference)changeSummaryEClass.getEStructuralFeatures().get(0);
   }
 
+//  /**
+//   * <!-- begin-user-doc -->
+//   * <!-- end-user-doc -->
+//   * <hand coded but could be generated>
+//   */
+//  public EReference getChangeSummary_EDataObject()
+//  {
+//    return (EReference)changeSummaryEClass.getEStructuralFeatures().get(1);
+//  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

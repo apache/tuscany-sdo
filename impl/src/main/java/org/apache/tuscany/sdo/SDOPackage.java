@@ -140,14 +140,26 @@ public interface SDOPackage extends EPackage{
    */
   int CHANGE_SUMMARY__EDATA_GRAPH = ChangePackage.CHANGE_DESCRIPTION_FEATURE_COUNT + 0;
 
+//TODO T-153 
+//  /**
+//   * The feature id for the '<em><b>EData Graph</b></em>' reference.
+//   * <!-- begin-user-doc -->
+//   * <!-- end-user-doc -->
+//   * *handcrafted but could be generated
+//   * @ordered
+//   */
+//  int CHANGE_SUMMARY__EDATA_OBJECT = ChangePackage.CHANGE_DESCRIPTION_FEATURE_COUNT + 1;
+
   /**
    * The number of structural features of the '<em>Change Summary</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    * @ordered
    */
+//TODO T-153 
   int CHANGE_SUMMARY_FEATURE_COUNT = ChangePackage.CHANGE_DESCRIPTION_FEATURE_COUNT + 1;
+  //int CHANGE_SUMMARY_FEATURE_COUNT = ChangePackage.CHANGE_DESCRIPTION_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link org.apache.tuscany.sdo.impl.ChangeSummarySettingImpl <em>Change Summary Setting</em>}' class.
@@ -1350,6 +1362,19 @@ public interface SDOPackage extends EPackage{
    */
   EReference getChangeSummary_EDataGraph();
 
+// TODO T-153
+//  /**
+//   * Returns the meta object for the reference '{@link commonj.sdo.ChangeSummary#getEDataGraph <em>EData Graph</em>}'.
+//   * <!-- begin-user-doc -->
+//   * <!-- end-user-doc -->
+//   * @return the meta object for the reference '<em>EData Graph</em>'.
+//   * @see commonj.sdo.ChangeSummary#getEDataGraph()
+//   * @see #getChangeSummary()
+//   * *handcrafted but could be generated
+//   */
+//  EReference getChangeSummary_EDataObject();
+
+  
   /**
    * Returns the meta object for class '{@link commonj.sdo.ChangeSummary.Setting <em>Change Summary Setting</em>}'.
    * <!-- begin-user-doc -->

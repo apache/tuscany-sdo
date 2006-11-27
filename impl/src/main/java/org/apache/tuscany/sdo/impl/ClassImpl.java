@@ -24,6 +24,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tuscany.sdo.SDOFactory;
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -46,6 +49,10 @@ import commonj.sdo.Type;
  */
 public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sdo.model.Type/*, DataObject*/
 {
+    private static final Property cspCacheUnitialized = SDOFactory.eINSTANCE.createAttribute();
+    private Property changeSummaryPropertyCache = cspCacheUnitialized;
+
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -283,6 +290,36 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
   
   public String getUri() {
     return getURI();
+  }
+
+//TODO T-153 
+  /**
+   * 
+   */
+  public Property getChangeSummaryProperty() {
+
+   
+    // TODO make sure to take account of dynamic types, where the state might go from
+    // not having a cs to having a cs
+    if(changeSummaryPropertyCache == cspCacheUnitialized) {
+      // check for a property of type ChangeSummaryType and give special treatment
+      changeSummaryPropertyCache = null;
+      Iterator props = getProperties().iterator();
+      
+      Type csType = (Type)((ModelFactoryImpl)ModelFactory.INSTANCE).getChangeSummaryType();
+      while(props.hasNext()) {
+        Property p = (Property)props.next();
+        if(csType == p.getType()) {
+          if(changeSummaryPropertyCache == null) {
+            changeSummaryPropertyCache = p;
+          } else {
+            throw new IllegalStateException("Only one Property of type ChangeSummaryType is permitted in a Type");
+          }
+        }
+      }
+    }
+    
+    return changeSummaryPropertyCache;
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -19,6 +19,7 @@
  */
 package org.apache.tuscany.sdo.impl;
 
+import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -26,6 +27,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 
 import commonj.sdo.DataObject;
+import commonj.sdo.Property;
 
 /**
  * <!-- begin-user-doc -->
@@ -192,7 +194,17 @@ public class DynamicDataObjectImpl extends DataObjectImpl implements DataObject,
 
     public EObject basicCreate(EClass eClass)
     {
-      return new DynamicDataObjectImpl(eClass);
+//    TODO T-153 
+// TODO TUSCANY-153 decide if i need this eager initialization
+//      Property csp = ((ClassImpl)eClass).getChangeSummaryProperty();
+//      if(csp == null) {
+          return new DynamicDataObjectImpl(eClass);
+//      } else {
+//        DynamicDataObjectImpl result = new DynamicDataObjectImpl(eClass);
+//        result.set(csp, SDOFactory.eINSTANCE.createChangeSummary());
+//        return result;
+//      }
+
     }
   }
 

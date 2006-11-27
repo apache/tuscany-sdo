@@ -87,6 +87,7 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
    * @ordered
    */
   protected DataGraph eDataGraph = null;
+  // TODO T-153 protected DataObject eDataObject = null;
 
   protected ChangeRecorder changeRecorder = null;
   protected EList cachedObjectsToDetach = null;
@@ -131,6 +132,16 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
   {
     return eDataGraph;
   }
+  
+// TODO T-153   /**
+//   * <!-- begin-user-doc -->
+//   * <!-- end-user-doc -->
+//   * handcrafted but could be generated
+//   */
+//  public DataObject getEDataObject()
+//  {
+//    return eDataObject;
+//  }
 
   /**
    * <!-- begin-user-doc -->
@@ -148,6 +159,23 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     }
     return msgs;
   }
+//TODO T-153 
+//  /**
+//   * <!-- begin-user-doc -->
+//   * <!-- end-user-doc -->
+//   * handcrafted but could be genereated
+//   */
+//  public NotificationChain basicSetEDataObject(DataObject newEDataObject, NotificationChain msgs)
+//  {
+//    DataObject oldEDataObject = eDataObject;
+//    eDataObject = newEDataObject;
+//    if (eNotificationRequired())
+//    {
+//      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SDOPackage.CHANGE_SUMMARY__EDATA_OBJECT, oldEDataObject, newEDataObject);
+//      if (msgs == null) msgs = notification; else msgs.add(notification);
+//    }
+//    return msgs;
+//  }
 
   /**
    * <!-- begin-user-doc -->
@@ -170,6 +198,31 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
       eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH, newEDataGraph, newEDataGraph));
   }
 
+//TODO T-153 
+//  /**
+//   * <!-- begin-user-doc -->
+//   * <!-- end-user-doc -->
+//   * handcrafted but could be generated
+//   */
+//  public void setEDataObject(DataObject newEDataObject)
+//  {
+//    if (newEDataObject != eDataObject)
+//    {
+//      NotificationChain msgs = null;
+//      // TODO kg - not sure if we need this if the DataObject carries the CS in a setting?
+//      // if not then perhaps the inverse remove should still be carried out somehow
+//      //if (eDataObject != null)
+//      //  msgs = ((InternalEObject)eDataObject).eInverseRemove(this, SDOPackage.DATA_OBJECT__ECHANGE_SUMMARY, DataObject.class, msgs);
+//      //if (newEDataObject != null)
+//      //  msgs = ((InternalEObject)newEDataObject).eInverseAdd(this, SDOPackage.DATA_OBJECT__ECHANGE_SUMMARY, DataObject.class, msgs);
+//      msgs = basicSetEDataObject(newEDataObject, msgs);
+//      if (msgs != null) msgs.dispatch();
+//    }
+//    else if (eNotificationRequired())
+//      eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.CHANGE_SUMMARY__EDATA_OBJECT, newEDataObject, newEDataObject));
+//  }
+
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -187,12 +240,27 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     getResourceChanges().clear();
 
     oldContainmentInformation = null;
-    changeRecorder = new SDOChangeRecorder();
-    changeRecorder.beginRecording(Collections.singleton(((DataGraphImpl)getEDataGraph()).getRootResource()));
+    beginRecording();
 //    if (eNotificationRequired())
 //      eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.ECHANGE_SUMMARY__LOGGING, false, true));
   }
   
+  /**
+   * 
+   */
+  private void beginRecording() {
+    changeRecorder = new SDOChangeRecorder();
+//  TODO T-153 
+//  if(getEDataGraph() != null) {
+      changeRecorder.beginRecording(Collections.singleton(((DataGraphImpl)getEDataGraph()).getRootResource()));
+//  } else if (getEDataObject() != null) {
+//    changeRecorder.beginRecording(Collections.singleton(getEDataObject()));
+//  } else {
+//    // TODO kg - work out if this can ever occur, and if so then handle better
+//    throw new IllegalStateException("Change Summary not attached to a DataObject or DataGraph");
+//  }
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -207,9 +275,8 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
 
     oldContainmentInformation = null;
     
-    changeRecorder = new SDOChangeRecorder();
-    changeRecorder.beginRecording(this, Collections.singleton(((DataGraphImpl)getEDataGraph()).getRootResource()));
-
+    beginRecording();
+    
 //    if (eNotificationRequired())
 //      eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.ECHANGE_SUMMARY__LOGGING, false, true));
   }  
@@ -229,6 +296,12 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
           if (eDataGraph != null)
             msgs = ((InternalEObject)eDataGraph).eInverseRemove(this, SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY, DataGraph.class, msgs);
           return basicSetEDataGraph((DataGraph)otherEnd, msgs);
+//        TODO T-153 
+//        case SDOPackage.CHANGE_SUMMARY__EDATA_OBJECT:
+//          // FIXME how does this inverse remove work? We don't have a SDOPackage.DATA_OBJECT__ECHANGE_SUMMARY
+//          //if (eDataObject != null)
+//          //  msgs = ((InternalEObject)eDataObject).eInverseRemove(this, SDOPackage.DATA_OBJECT__ECHANGE_SUMMARY, DataGraph.class, msgs);
+//          return basicSetEDataObject((DataObject)otherEnd, msgs);
         default:
           return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
       }
@@ -257,6 +330,9 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
           return ((InternalEList)getResourceChanges()).basicRemove(otherEnd, msgs);
         case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
           return basicSetEDataGraph(null, msgs);
+//        TODO T-153 
+//        case SDOPackage.CHANGE_SUMMARY__EDATA_OBJECT:
+//          return basicSetEDataObject(null, msgs);
         default:
           return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
       }
@@ -284,6 +360,8 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
         return getResourceChanges();
       case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
         return getEDataGraph();
+//      case SDOPackage.CHANGE_SUMMARY__EDATA_OBJECT:
+//        return getEDataObject();
     }
     return eDynamicGet(featureID, resolve, coreType);
   }
@@ -315,6 +393,10 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
       case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
         setEDataGraph((DataGraph)newValue);
         return;
+//      TODO T-153 
+//      case SDOPackage.CHANGE_SUMMARY__EDATA_OBJECT:
+//        setEDataObject((DataObject)newValue);
+//        return;
     }
     eDynamicSet(featureID, newValue);
   }
@@ -343,6 +425,10 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
       case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
         setEDataGraph((DataGraph)null);
         return;
+//      TODO T-153 
+//      case SDOPackage.CHANGE_SUMMARY__EDATA_OBJECT:
+//        setEDataObject((DataObject)null);
+//        return;
     }
     eDynamicUnset(featureID);
   }
@@ -366,6 +452,9 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
         return resourceChanges != null && !resourceChanges.isEmpty();
       case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
         return eDataGraph != null;
+//      TODO T-153 
+//      case SDOPackage.CHANGE_SUMMARY__EDATA_OBJECT:
+//        return eDataObject != null;
     }
     return eDynamicIsSet(featureID);
   }
@@ -624,7 +713,19 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
   {
     return getEDataGraph();
   }
+  
 
+//TODO T-153 
+//  /**
+//   * <!-- begin-user-doc -->
+//   * <!-- end-user-doc -->
+//   * handcrafted but could be generated
+//   */
+//  public DataObject getDataObject()
+//  {
+//    return getEDataObject();
+//  }
+  
   protected Set deletedObjects;
 
   protected void preApply(boolean reverse)
@@ -675,7 +776,12 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     {
       return dataGraph.getRootObject();
     }
-    // TODO: handle ChangeSummary-type property
+//  TODO T-153
+//    // TODO: create a test to exercise this path
+//    DataObject dataObject = getDataObject();
+//    if(dataObject != null) {
+//      return dataObject;
+//    }
     return null;
   }
 
