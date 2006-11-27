@@ -36,13 +36,21 @@ import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 
 public class SerializeTypesTestCase extends TestCase {
 
+    HelperContext hc;
+  
+    protected void setUp() throws Exception {
+        super.setUp();
+        hc = SDOUtil.createHelperContext();
+    }
+    
     public void testSerializeTypesRoundTrip() throws Exception {
-        TypeHelper types = SDOUtil.createTypeHelper();
-        DataFactory factory = SDOUtil.createDataFactory(types);
+        TypeHelper types = hc.getTypeHelper();
+        DataFactory factory = hc.getDataFactory();
 
         Type intType = types.getType("commonj.sdo", "Int");
         Type stringType = types.getType("commonj.sdo", "String");
@@ -108,7 +116,7 @@ public class SerializeTypesTestCase extends TestCase {
         SDOUtil.saveDataGraph(dataGraph, baos, null);
         //SDOUtil.saveDataGraph(dataGraph, System.out, null);
 
-        TypeHelper deserializingTypeHelper = SDOUtil.createTypeHelper();
+        TypeHelper deserializingTypeHelper = SDOUtil.createHelperContext().getTypeHelper();
         
         // The following is a kludge to force deserialization of metadata into a different TypeHelper (scope)
         // TBD figure out a proper non-EMF way to do this.

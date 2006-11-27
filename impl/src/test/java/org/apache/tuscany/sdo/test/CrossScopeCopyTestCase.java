@@ -35,6 +35,7 @@ import commonj.sdo.Property;
 import commonj.sdo.Type;
 import commonj.sdo.helper.CopyHelper;
 import commonj.sdo.helper.DataFactory;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 
 public class CrossScopeCopyTestCase extends TestCase 
@@ -51,6 +52,8 @@ public class CrossScopeCopyTestCase extends TestCase
    private static final String DYNAMIC_TYPE    = "dynamicType";
     
    // SDO model objects
+   private HelperContext hca;
+   private HelperContext hcb;
    private TypeHelper scopeA;
    private TypeHelper scopeB;
 
@@ -86,7 +89,7 @@ public class CrossScopeCopyTestCase extends TestCase
        assertTrue(prop==null);
        
        // Perform invalid namespace test
-       DataObject sdo = SDOUtil.createDataFactory(scopeA).create(TEST_NAMESPACE, DYNAMIC_TYPE );
+       DataObject sdo = hca.getDataFactory().create(TEST_NAMESPACE, DYNAMIC_TYPE );
        sdo.set("custNum", "099" );
        sdo.set("firstName", "John");
        sdo.set("lastName", "Doe");
@@ -111,23 +114,25 @@ public class CrossScopeCopyTestCase extends TestCase
        super.setUp();
 
        // Create Two Scopes
-       scopeA = SDOUtil.createTypeHelper();
-       scopeB = SDOUtil.createTypeHelper();
+       hca = SDOUtil.createHelperContext();
+       hcb = SDOUtil.createHelperContext();
+       scopeA = hca.getTypeHelper();
+       scopeB = hcb.getTypeHelper();
           
        // Populate scopes with bank model now
        URL url = getClass().getResource(BANK_MODEL);
        InputStream inputStream = url.openStream();
-       SDOUtil.createXSDHelper(scopeA).define(inputStream, url.toString());
+       hca.getXSDHelper().define(inputStream, url.toString());
        inputStream.close();
        inputStream = url.openStream();
-       SDOUtil.createXSDHelper(scopeB).define(inputStream, url.toString());
+       hcb.getXSDHelper().define(inputStream, url.toString());
        inputStream.close();
 
        // Now Populate scopeA with some dynamic models
        populateScopeWithDynamicTypes(scopeA);
        
        // Construct Source Tree
-       constructSourceTree(SDOUtil.createDataFactory(scopeA));
+       constructSourceTree(hca.getDataFactory());
    }   
 
    private void shallowCopyAssertions(DataObject sdo, DataObject copiedSdo)

@@ -34,6 +34,7 @@ import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
@@ -47,10 +48,17 @@ public class DefineTypeTestCase extends TestCase
   private static final String MIXED_XML = "/mixed2.xml";
   private static final String MIXEDOPEN_XML = "/mixedopen.xml";
   
+  HelperContext hc;
+  
+  protected void setUp() throws Exception {
+    super.setUp();
+    hc = SDOUtil.createHelperContext();
+  }
+
   public void testDefineTypeRoundTrip() throws Exception {
-    TypeHelper types = SDOUtil.createTypeHelper();
-    DataFactory factory = SDOUtil.createDataFactory(types);
-    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
+    TypeHelper types = hc.getTypeHelper();
+    DataFactory factory = hc.getDataFactory();
+    XMLHelper xmlHelper = hc.getXMLHelper();
 
     Type intType = types.getType("commonj.sdo", "Int");
     Type stringType = types.getType("commonj.sdo", "String");
@@ -141,9 +149,9 @@ public class DefineTypeTestCase extends TestCase
   
   public void testDefineType() throws Exception 
   {
-    TypeHelper types = SDOUtil.createTypeHelper();
-    DataFactory factory = SDOUtil.createDataFactory(types);
-    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
+    TypeHelper types = hc.getTypeHelper();
+    DataFactory factory = hc.getDataFactory();
+    XMLHelper xmlHelper = hc.getXMLHelper();
 
     Type intType = types.getType("commonj.sdo", "Int");
     Type stringType = types.getType("commonj.sdo", "String");
@@ -227,10 +235,10 @@ public class DefineTypeTestCase extends TestCase
   
   public void testDefineDataType() throws Exception 
   {
-    TypeHelper types = SDOUtil.createTypeHelper();
-    DataFactory factory = SDOUtil.createDataFactory(types);
-    XSDHelper xsdHelper = SDOUtil.createXSDHelper(types);
-    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
+    TypeHelper types = hc.getTypeHelper();
+    DataFactory factory = hc.getDataFactory();
+    XMLHelper xmlHelper = hc.getXMLHelper();
+    XSDHelper xsdHelper = hc.getXSDHelper();
 
     Property javaClassProperty = xsdHelper.getGlobalProperty("commonj.sdo/java", "javaClass", false);
     
@@ -332,9 +340,9 @@ public class DefineTypeTestCase extends TestCase
   
   public void testFastDefineType() throws Exception 
   {
-    TypeHelper types = SDOUtil.createTypeHelper();
-    DataFactory factory = SDOUtil.createDataFactory(types);
-    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
+    TypeHelper types = hc.getTypeHelper();
+    DataFactory factory = hc.getDataFactory();
+    XMLHelper xmlHelper = hc.getXMLHelper();
 
     Type intType = types.getType("commonj.sdo", "Int");
     Type stringType = types.getType("commonj.sdo", "String");
@@ -403,10 +411,10 @@ public class DefineTypeTestCase extends TestCase
   
   public void testDefineSequencedType() throws Exception 
   {
-    
-    TypeHelper types = SDOUtil.createTypeHelper();
-    DataFactory factory = SDOUtil.createDataFactory(types);
-    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
+
+    TypeHelper types = hc.getTypeHelper();
+    DataFactory factory = hc.getDataFactory();
+    XMLHelper xmlHelper = hc.getXMLHelper();
     
     Type stringType = types.getType("commonj.sdo", "String");
     Type decimalType = types.getType("commonj.sdo", "Decimal");
@@ -443,25 +451,25 @@ public class DefineTypeTestCase extends TestCase
     
     Sequence sequence = quote.getSequence();
 
-    sequence.add("\n  ");
+    sequence.addText("\n  ");
 
     quote.setString("symbol", "fbnt");
 
-    sequence.add("\n  ");
+    sequence.addText("\n  ");
 
     quote.setString("companyName", "FlyByNightTechnology");
 
-    sequence.add("\n  some text\n  ");
+    sequence.addText("\n  some text\n  ");
 
     DataObject child = quote.createDataObject("quotes");
     child.setBigDecimal("price", new BigDecimal("2000.0"));
 
-    sequence.add("\n  more text\n  ");
+    sequence.addText("\n  more text\n  ");
 
     // quote.setBigDecimal("price", new BigDecimal("1000.0"));
     sequence.add("price", new BigDecimal("1000.0"));
 
-    sequence.add("\n");
+    sequence.addText("\n");
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     xmlHelper.save(quote, "http://www.example.com/mixed", "mixedStockQuote", baos);
@@ -470,10 +478,9 @@ public class DefineTypeTestCase extends TestCase
   
   public void testDefineSequencedOpenType() throws Exception 
   {
-    
-    TypeHelper types = SDOUtil.createTypeHelper();
-    DataFactory factory = SDOUtil.createDataFactory(types);
-    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
+    TypeHelper types = hc.getTypeHelper();
+    DataFactory factory = hc.getDataFactory();
+    XMLHelper xmlHelper = hc.getXMLHelper();
     
     Type stringType = types.getType("commonj.sdo", "String");
     Type decimalType = types.getType("commonj.sdo", "Decimal");
@@ -523,28 +530,28 @@ public class DefineTypeTestCase extends TestCase
     
     Sequence sequence = quote.getSequence();
 
-    sequence.add("\n  ");
+    sequence.addText("\n  ");
 
     Type definedGlobalType = types.getType("http://www.example.com/open", null);
     
     Property definedSymbolProperty = definedGlobalType.getProperty("symbol");
     quote.setString(definedSymbolProperty, "fbnt");
 
-    sequence.add("\n  ");
+    sequence.addText("\n  ");
 
     quote.setString("companyName", "FlyByNightTechnology");
 
-    sequence.add("\n  some text\n  ");
+    sequence.addText("\n  some text\n  ");
 
     DataObject child = quote.createDataObject("quotes");
     child.setBigDecimal("price", new BigDecimal("2000.0"));
 
-    sequence.add("\n  more text\n  ");
+    sequence.addText("\n  more text\n  ");
 
     // quote.setBigDecimal("price", new BigDecimal("1000.0"));
     sequence.add("price", new BigDecimal("1000.0"));
 
-    sequence.add("\n");
+    sequence.addText("\n");
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     xmlHelper.save(quote, "http://www.example.com/mixed", "mixedOpenStockQuote", baos);
@@ -554,10 +561,10 @@ public class DefineTypeTestCase extends TestCase
   
   public void testDefineOpenType() throws Exception 
   {
-    TypeHelper types = SDOUtil.createTypeHelper();
-    DataFactory factory = SDOUtil.createDataFactory(types);
-    XMLHelper xmlHelper = SDOUtil.createXMLHelper(types);
-    
+    TypeHelper types = hc.getTypeHelper();
+    DataFactory factory = hc.getDataFactory();
+    XMLHelper xmlHelper = hc.getXMLHelper();
+
     Type stringType = types.getType("commonj.sdo", "String");
     Type decimalType = types.getType("commonj.sdo", "Decimal");
     

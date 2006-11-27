@@ -329,6 +329,7 @@ public static HelperContext createHelperContext(TypeHelper scope)
    * Create a new DataFactory, with visibility to types in the specified TypeHelper scope.
    * @param scope the TypeHelper to use for locating types.
    * @return the new DataFactory.
+   * @deprecated  see {@link #createHelperContext(TypeHelper)}
    */
   public static DataFactory createDataFactory(TypeHelper scope)
   {
@@ -361,7 +362,6 @@ public static HelperContext createHelperContext(TypeHelper scope)
    * Create a new XMLStreamHelper, with visibility to types in the specified TypeHelper scope.
    * @param scope the TypeHelper to use for locating types.
    * @return the new XMLStreamHelper.
-   * @deprecated see {@link #createHelperContext(TypeHelper)}
    */
   public static XMLStreamHelper createXMLStreamHelper(TypeHelper scope)
   {

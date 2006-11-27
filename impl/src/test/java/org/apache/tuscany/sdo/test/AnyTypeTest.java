@@ -19,6 +19,7 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XSDHelper;
@@ -66,10 +67,11 @@ public class AnyTypeTest extends TestCase {
     }
 
     protected void setUp() throws Exception {
-        typeHelper = SDOUtil.createTypeHelper();
-        dataFactory = SDOUtil.createDataFactory(typeHelper);
+        HelperContext hc = SDOUtil.createHelperContext();
+        typeHelper = hc.getTypeHelper();
+        dataFactory = hc.getDataFactory();
+        xsdHelper = hc.getXSDHelper();
         streamHelper = SDOUtil.createXMLStreamHelper(typeHelper);
-        xsdHelper = SDOUtil.createXSDHelper(typeHelper);
 
         // Populate the meta data for the test (Stock Quote) model
         URL url = getClass().getResource(TEST_MODEL);

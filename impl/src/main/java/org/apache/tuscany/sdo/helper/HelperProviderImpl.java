@@ -39,6 +39,7 @@ import commonj.sdo.helper.CopyHelper;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.DataHelper;
 import commonj.sdo.helper.EqualityHelper;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
@@ -68,10 +69,11 @@ public class HelperProviderImpl extends HelperProvider
 
   public HelperProviderImpl()
   {
-    typeHelper = SDOUtil.createTypeHelper();
-    dataFactory = SDOUtil.createDataFactory(typeHelper);
-    xmlHelper = SDOUtil.createXMLHelper(typeHelper);
-    xsdHelper = SDOUtil.createXSDHelper(typeHelper);
+    HelperContext hc = SDOUtil.createHelperContext();
+    typeHelper = hc.getTypeHelper();
+    dataFactory = hc.getDataFactory();
+    xmlHelper = hc.getXMLHelper();
+    xsdHelper = hc.getXSDHelper();
     copyHelper = new CopyHelperImpl();
     equalityHelper = new EqualityHelperImpl();
     dataHelper = new DataHelperImpl();

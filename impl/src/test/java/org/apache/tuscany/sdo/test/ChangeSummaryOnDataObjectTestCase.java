@@ -37,6 +37,7 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.helper.XMLHelper;
@@ -58,7 +59,6 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
     Type cst = TypeHelper.INSTANCE.getType("commonj.sdo","ChangeSummaryType");
     Type strt = TypeHelper.INSTANCE.getType("commonj.sdo", "String");
     
-    TypeHelper th = SDOUtil.createTypeHelper();
     Type newt = SDOUtil.createType(th, "testcases.changesummary", "simpleCS", false);
     Property strProp = SDOUtil.createProperty(newt, "strElem", strt);
     SDOUtil.createProperty(newt, "changeSummary", cst);
@@ -72,7 +72,7 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
 
     Type strt = TypeHelper.INSTANCE.getType("commonj.sdo", "String");
     
-    TypeHelper th = SDOUtil.createTypeHelper();
+
     Type newt = SDOUtil.createType(th, "testcases.changesummary", "simpleNOCS", false);
     Property strProp = SDOUtil.createProperty(newt, "strElem", strt);
 
@@ -203,14 +203,15 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
     // Populate the meta data for the test (Stock Quote) model
     URL url = getClass().getResource("/simple.xsd");
     InputStream inputStream = url.openStream();
-    th = SDOUtil.createTypeHelper();
-    xh = SDOUtil.createXSDHelper(th);
+    HelperContext hc = SDOUtil.createHelperContext();
+    th = hc.getTypeHelper();
+    xh = hc.getXSDHelper();
     xh.define(inputStream, url.toString());
     inputStream.close();
 
     URL url2 = getClass().getResource("/simpleWithChangeSummary.xsd");
     InputStream inputStream2 = url2.openStream();
-    List types = xh.define(inputStream2, url2.toString());
+    xh.define(inputStream2, url2.toString());
     inputStream.close();
     
     

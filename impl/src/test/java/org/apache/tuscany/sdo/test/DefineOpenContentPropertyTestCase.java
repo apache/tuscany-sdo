@@ -33,6 +33,7 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
@@ -108,10 +109,11 @@ public class DefineOpenContentPropertyTestCase extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
-        typeHelper = SDOUtil.createTypeHelper();
-        xsdHelper = SDOUtil.createXSDHelper(typeHelper);
-        xmlHelper = SDOUtil.createXMLHelper(typeHelper);
-        dataFactory = SDOUtil.createDataFactory(typeHelper);
+        HelperContext hc = SDOUtil.createHelperContext();
+        typeHelper = hc.getTypeHelper();
+        dataFactory = hc.getDataFactory();
+        xsdHelper = hc.getXSDHelper();
+        xmlHelper = hc.getXMLHelper();
         
         // Populate the meta data for the test (Stock Quote) model
         URL url = getClass().getResource(TEST_MODEL);

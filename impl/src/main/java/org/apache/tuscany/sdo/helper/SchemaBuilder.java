@@ -520,7 +520,7 @@ public class SchemaBuilder extends SDOAnnotations
         //not found in the typetable
         if ( schemaTypeName == null )
         {
-            XSDHelper xsdHelper = SDOUtil.createXSDHelper(SDOUtil.createTypeHelper());
+            XSDHelper xsdHelper = SDOUtil.createHelperContext().getXSDHelper();
         
             if ( !xsdHelper.isXSD( dataType ) )
             {

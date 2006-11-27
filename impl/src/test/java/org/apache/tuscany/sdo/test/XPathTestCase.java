@@ -28,12 +28,20 @@ import org.apache.tuscany.sdo.util.SDOUtil;
 import junit.framework.TestCase;
 
 import commonj.sdo.DataObject;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
 public class XPathTestCase extends TestCase {
+  
+    HelperContext hc;
+  
+    protected void setUp() throws Exception {
+        super.setUp();
+        hc = SDOUtil.createHelperContext();
+    }
 
     private final String TEST_MODEL = "/xpath.xsd";
     private final String XPATH_XML = "/xpath.xml";
@@ -44,9 +52,8 @@ public class XPathTestCase extends TestCase {
      * @throws IOException
      */
     public void testAtSignProperty() throws IOException {
-        TypeHelper typeHelper = SDOUtil.createTypeHelper();
-        XSDHelper xsdHelper = SDOUtil.createXSDHelper(typeHelper);
-        XMLHelper xmlHelper = SDOUtil.createXMLHelper(typeHelper);
+        XSDHelper xsdHelper = hc.getXSDHelper();
+        XMLHelper xmlHelper = hc.getXMLHelper();
         
         URL url = getClass().getResource(TEST_MODEL);
         InputStream inputStream = url.openStream();
@@ -64,9 +71,8 @@ public class XPathTestCase extends TestCase {
     }
     
     public void testListIndexing() throws Exception {
-        TypeHelper typeHelper = SDOUtil.createTypeHelper();
-        XSDHelper xsdHelper = SDOUtil.createXSDHelper(typeHelper);
-        XMLHelper xmlHelper = SDOUtil.createXMLHelper(typeHelper);
+        XSDHelper xsdHelper = hc.getXSDHelper();
+        XMLHelper xmlHelper = hc.getXMLHelper();
 
         URL url = getClass().getResource(TEST_MODEL);
         InputStream inputStream = url.openStream();
