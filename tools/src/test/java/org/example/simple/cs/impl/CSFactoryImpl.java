@@ -214,7 +214,8 @@ public class CSFactoryImpl extends FactoryBase implements CSFactory
     
   protected void createXSDMetaData(ModelFactoryImpl theModelPackageImpl)
   {
-    super.createXSDMetaData();
+//  TODO T-153 regenerate this code when issue with isProxy is fixed createXSDMetaData()
+//    super.createXSDMetaData();
     
     Property property = null;
     

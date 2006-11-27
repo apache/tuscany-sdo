@@ -169,16 +169,17 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    */
   public ChangeSummaryType getChanges()
   {
-    if (changes != null && ((EObject)changes).isProxy())
-    {
-      InternalEObject oldChanges = (InternalEObject)changes;
-      changes = (ChangeSummaryType)eResolveProxy(oldChanges);
-      if (changes != oldChanges)
-      {
-        if (isNotifying())
-          notify(ChangeKind.RESOLVE, CHANGES, oldChanges, changes);
-      }
-    }
+// TODO T-153 regenerate this code when issue with isProxy is fixed
+//    if (changes != null && ((EObject)changes).isProxy())
+//    {
+//      InternalEObject oldChanges = (InternalEObject)changes;
+//      changes = (ChangeSummaryType)eResolveProxy(oldChanges);
+//      if (changes != oldChanges)
+//      {
+//        if (isNotifying())
+//          notify(ChangeKind.RESOLVE, CHANGES, oldChanges, changes);
+//      }
+//    }
     return changes;
   }
   /**
