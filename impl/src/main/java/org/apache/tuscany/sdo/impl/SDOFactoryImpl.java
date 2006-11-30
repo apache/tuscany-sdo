@@ -55,13 +55,13 @@ public class SDOFactoryImpl extends EFactoryImpl implements SDOFactory
    * Creates the default factory implementation.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public static SDOFactory init()
   {
     try
     {
-      SDOFactory theSDOFactory = (SDOFactory)EPackage.Registry.INSTANCE.getEFactory("http://www.eclipse.org/emf/2003/SDO"); 
+      SDOFactory theSDOFactory = (SDOFactory)EPackage.Registry.INSTANCE.getEFactory(SDOPackage.eNS_URI); 
       if (theSDOFactory != null)
       {
         return theSDOFactory;
