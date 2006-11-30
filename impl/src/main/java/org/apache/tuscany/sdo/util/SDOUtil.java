@@ -286,18 +286,6 @@ public final class SDOUtil
         resourceSet.getResources().add(resource);
     }
   }
-
- /**
-  * @param scope an instance of TypeHelper which is used to provide scope for types.
-  * Create a HelperContext to provide access to a consistent set of
-  * Helpers which make use of the supplied TypeHelper instance to provide
-  * scope for type definitions.
-  * @return the new HelperContext
-  */
-public static HelperContext createHelperContext(TypeHelper scope)
-  {
-    return new HelperContextImpl(scope);
-  }
   
   /**
    * Create a HelperContext to provide access to a consistent set of
