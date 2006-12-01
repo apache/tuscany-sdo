@@ -81,33 +81,17 @@ public class OpenTypeTestCase extends TestCase {
         assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA)));
     }
     
-    // TODO introduce this test once the EMF issue behind TUSCANY-396 has been fixed
-    public void dont_testOpenType_Tuscany_396() throws IOException {
-      Type quoteType = th.getType(TEST_NAMESPACE, "OpenQuote");
+
+    public void testOpenType_Tuscany_396() throws IOException {
+      Type quoteType = th.getType(TEST_NAMESPACE, "OpenQuote2");
       DataObject quote = df.create(quoteType);
 
-      quote.setString("symbol", "s1");
-
-      for (Iterator iter = quote.getInstanceProperties().iterator(); iter.hasNext();) {
-          Property property = (Property) iter.next();
-      }
-
-      Property companyProperty = xsdh.getGlobalProperty(TEST_NAMESPACE, "company", true);
-      DataObject company = quote.createDataObject(companyProperty);
-      company.setString("name", "FlyByNightTechnology");
-
       Property priceProperty = xsdh.getGlobalProperty(TEST_NAMESPACE, "price", true);
+      // the importance of this is that the maxOccurs=1 attribute on the xsd:any
+      // allows is to use the !isMany getters and setters for open content
       quote.set(priceProperty, new BigDecimal("1000.0"));
-
-      for (Iterator iter = quote.getInstanceProperties().iterator(); iter.hasNext();) {
-          Property property = (Property) iter.next();
-      }
-
-      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-      xmlh.save(quote, TEST_NAMESPACE, "openStockQuote", baos);
       
-      assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA)));
-  }
+   }
 
     protected void setUp() throws Exception {
         super.setUp();

@@ -40,5 +40,12 @@
           <xsd:any maxOccurs="unbounded" namespace="##any"/>
        </xsd:sequence>
    </xsd:complexType>
+   
+   <xsd:complexType name="OpenQuote2">
+       <xsd:sequence>
+          <xsd:element name="symbol" type="xsd:string"/>
+          <xsd:any maxOccurs="1" namespace="##any"/>
+       </xsd:sequence>
+   </xsd:complexType>
 
 </xsd:schema>
