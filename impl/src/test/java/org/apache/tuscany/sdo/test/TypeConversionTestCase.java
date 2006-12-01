@@ -33,6 +33,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.TimeZone;
 
+import org.apache.tuscany.sdo.util.DataObjectUtil;
+
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
@@ -879,5 +881,9 @@ public class TypeConversionTestCase extends TestCase
         FromDate.checkConversionException(TO_DATAOBJECT, ClassCastException.class);
         FromDate.checkConversionException(TO_LIST, ClassCastException.class);
         FromDate.checkConversionException(TO_SEQUENCE, ClassCastException.class);
+    }
+    
+    public void testTuscany_836() {
+        assertEquals(DataObjectUtil.getBigDecimal(new Long(Long.MAX_VALUE)).longValue(), Long.MAX_VALUE);
     }
 }

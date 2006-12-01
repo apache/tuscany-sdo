@@ -792,6 +792,11 @@ public final class DataObjectUtil
     {
       return new BigDecimal((BigInteger)value);
     }
+    
+    if (value instanceof Long)
+    {
+      return new BigDecimal(((Long)value).longValue());
+    } 
 
     if (value instanceof Number)
     {
