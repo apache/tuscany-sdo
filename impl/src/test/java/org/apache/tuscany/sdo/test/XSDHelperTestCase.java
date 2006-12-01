@@ -27,6 +27,7 @@ import java.util.Vector;
 
 import junit.framework.TestCase;
 
+import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
 
 import com.example.simple.impl.SimpleFactoryImpl;
@@ -35,6 +36,7 @@ import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
+import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XSDHelper;
 
 /**
@@ -42,7 +44,9 @@ import commonj.sdo.helper.XSDHelper;
  */
 public class XSDHelperTestCase extends TestCase {
     private static final String TEST_MODEL = "/simple.xsd";
+    private static final String TEST_MODEL2 = "/xsdCorners.xsd";
     private URL modelURL;
+    private URL xsdCornersURL;
     
     HelperContext hc;
     
@@ -50,6 +54,7 @@ public class XSDHelperTestCase extends TestCase {
         super.setUp();
         hc = SDOUtil.createHelperContext();
         modelURL = getClass().getResource(TEST_MODEL);
+        xsdCornersURL = getClass().getResource(TEST_MODEL2);
     }
 
     public void testDefineWithLocation() throws IOException {
@@ -192,6 +197,20 @@ public class XSDHelperTestCase extends TestCase {
         }
         assertNotNull(xsd);
         
+    }
+    
+    public void testXSDCorners() throws IOException {
+        XSDHelper xsdHelper = hc.getXSDHelper();
+        xsdHelper.define(xsdCornersURL.openStream(), xsdCornersURL.toString());
+        DataFactory df = hc.getDataFactory();
+        DataObject root = df.create("http://www.example.com/simple-1", "A");
+        root.setString("a1", "a1s");
+        root.setString("a2", "a2s");
+        
+        String doc = hc.getXMLHelper().save(root, "http://www.example.com/simple-1", "a");
+        String prefix = ((ClassImpl) root.getType()).getEPackage().getNsPrefix(); // what if there isnt one
+        assertEquals("_1", prefix);
+        XMLDocument root2 = hc.getXMLHelper().load(doc);
     }
 
 }
