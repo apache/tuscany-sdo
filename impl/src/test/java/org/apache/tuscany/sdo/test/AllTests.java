@@ -1,7 +1,8 @@
 package org.apache.tuscany.sdo.test;
+import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-public class AllTests {
+public class AllTests extends TestCase {
 	
 	
   public static TestSuite suite() {
@@ -9,6 +10,8 @@ public class AllTests {
         TestSuite suite = new TestSuite();
       
         // suite.addTestSuite(ChangeSummaryOnDataObjectTestCase.class);
+        suite.addTestSuite(DotNameTest.class);
+
         suite.addTestSuite(ChangeSummaryTestCase.class);
         suite.addTestSuite(CrossScopeCopyTestCase.class);
         suite.addTestSuite(DataTypeBaseTypeTestCase.class);
@@ -28,6 +31,9 @@ public class AllTests {
         suite.addTestSuite(XMLStreamHelperTestCase.class);
         suite.addTestSuite(XPathTestCase.class);
         suite.addTestSuite(XSDHelperTestCase.class);
+        
+        suite.addTestSuite(DotNameTest.class);
+
 
         return suite;
     }
