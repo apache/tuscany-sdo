@@ -43,9 +43,9 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
  *         setOpposite() to setOpposite_();
  *   3. Change the value of the NAMESPACE_PREFIX to "sdo"
  *           public static final String NAMESPACE_PREFIX = "sdo"; //FB generated as "commonj"
- *   4. Copy the following method from the old to new generated Type/TypeImpl interface anc implemention class:
+ *   4. Copy the following method from the old to new generated Type/TypeImpl interface and implemention class:
  *         String getInstanceClassName();
- *   5. Cthe following method from the old to new generated Types/TypesImpl interface anc implemention class:
+ *   5. Copy the following method from the old to new generated Types/TypesImpl interface and implemention class:
  *         List getTypeList();
  *   6. Delete all the createXXXFromString() and convertXXXToString() methods in the newly generated ModelFactoryImpl and
  *      replace them with the ones from this file.
