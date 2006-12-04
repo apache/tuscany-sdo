@@ -33,11 +33,8 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
-import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
-import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
-import org.apache.tuscany.sdo.impl.DataObjectImpl;
 import org.apache.tuscany.sdo.impl.SDOFactoryImpl;
 import org.apache.tuscany.sdo.util.resource.SDOXMLResourceFactoryImpl;
 import org.eclipse.emf.common.util.BasicEList;
@@ -1959,6 +1956,8 @@ public final class DataObjectUtil
     protected EStructuralFeature feature;
 
     protected int index;
+    
+    RuntimeException runtimeException;
 
     protected Accessor()
     {
@@ -1972,6 +1971,7 @@ public final class DataObjectUtil
     protected void init(EObject eObject, String path)
     {
       this.eObject = eObject;
+      runtimeException = null;
 
       // This should only be called with a path right now.
       //
@@ -2017,9 +2017,16 @@ public final class DataObjectUtil
       pool.recycle(this);
       return result;
     }
+    
+    protected final void assertSuccessfulProcess()
+    {
+      if (runtimeException != null)  
+        throw runtimeException;
+    }
 
     public void set(Object newValue)
     {
+      assertSuccessfulProcess();
       if (index >= 0)
       {
         List list = (List)eObject.eGet(feature, true);
@@ -2052,6 +2059,7 @@ public final class DataObjectUtil
 
     public void unset()
     {
+      assertSuccessfulProcess();
       eObject.eUnset(feature);
     }
 
@@ -2085,6 +2093,7 @@ public final class DataObjectUtil
 
     public Property getProperty()
     {
+      assertSuccessfulProcess();
       return (Property)feature;
     }
 
@@ -2093,7 +2102,34 @@ public final class DataObjectUtil
       if (name != null)
       {
         feature = (EStructuralFeature)((DataObject)eObject).getProperty(name);
-        if (feature == null) setEObject(null);
+        if (feature == null)
+        {
+          int index = name.lastIndexOf('.');
+          if (index == -1)
+            runtimeException = new IllegalArgumentException("Class '" + eObject.eClass().getName() + "' does not have a feature named '" + name + '\'');
+          else
+          {
+            int propertyNameEnd = index;
+            try
+            {
+              index = Integer.parseInt(name.substring(++index));
+                //  NumberFormatException may be thrown
+              String propertyName = name.substring(0, propertyNameEnd);
+              feature = (EStructuralFeature)((DataObject)eObject).getProperty(propertyName);
+              if (feature != null)
+              {
+                setIndex(index);
+                return;
+              }
+              runtimeException = new IllegalArgumentException("Class '" + eObject.eClass().getName() + "' does not have a feature named '" + name + "' or '" + propertyName + '\'');
+            }
+            catch(NumberFormatException eNumberFormat)
+            {
+              runtimeException = eNumberFormat;
+            }
+          }
+          setEObject(null);
+        }
       }
       else
       {
@@ -2115,12 +2151,16 @@ public final class DataObjectUtil
       if(index < 0) {
         // The index value should be greater than 0.  An index value which is too high will result in
         // an index out of bounds generated later on accessing the data.
-        throw new IndexOutOfBoundsException("Index value is too low");
+        runtimeException = new IndexOutOfBoundsException("Index value is too low");
+        setEObject(null);
+        return;
       }
       this.index = index;
       if (!FeatureMapUtil.isMany(eObject, feature))
       {
-        throw new IndexOutOfBoundsException("Index applies only to multi-valued features.");
+        runtimeException = new IndexOutOfBoundsException("Index applies only to multi-valued features.");
+        setEObject(null);
+        return;
       }
     }
 
@@ -2151,13 +2191,6 @@ public final class DataObjectUtil
           setEObject(eObject.eContainer());
           if (eObject == null) break;
         }
-        else if ('.' == c)
-        {
-          x++; // skip .
-          token = tokens.peek(x);
-          int index = Integer.parseInt(token);
-          setIndex(index);
-        }
         else if ('[' == c)
         {
           x++; // skip [
@@ -2165,8 +2198,19 @@ public final class DataObjectUtil
           char following = tokens.peek(x + 1).charAt(0);
           if ('=' != following)
           {
-            int index = Integer.parseInt(token) - 1;
-            setIndex(index);
+            try
+            {
+              setIndex(Integer.parseInt(token) - 1);
+                //  runtimeException may be recorded
+            }
+            catch(NumberFormatException eNumberFormat)
+            {
+              runtimeException = eNumberFormat;
+              setEObject(null);
+              break;
+            }
+            if (runtimeException != null)
+              break;
             x++; // skip ]
           }
           else
@@ -2285,7 +2329,6 @@ public final class DataObjectUtil
               // double or single tokens
               case '/':
               case ':':
-              case '.':
                 if (cPrev != c)
                 {
                   endToken(token, false);
@@ -2295,6 +2338,15 @@ public final class DataObjectUtil
                 {
                   endToken(token, false);
                 }
+                break;
+
+              // double token (..)
+              case '.':
+                if (cNext == '.')
+                  endToken(token, false);
+                token.append(c);
+                if (cPrev == '.')
+                  endToken(token, false);
                 break;
 
               // single tokens
