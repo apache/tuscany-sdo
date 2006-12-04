@@ -10,8 +10,6 @@ public class AllTests extends TestCase {
         TestSuite suite = new TestSuite();
       
         // suite.addTestSuite(ChangeSummaryOnDataObjectTestCase.class);
-        suite.addTestSuite(DotNameTest.class);
-
         suite.addTestSuite(ChangeSummaryTestCase.class);
         suite.addTestSuite(CrossScopeCopyTestCase.class);
         suite.addTestSuite(DataTypeBaseTypeTestCase.class);
@@ -31,9 +29,7 @@ public class AllTests extends TestCase {
         suite.addTestSuite(XMLStreamHelperTestCase.class);
         suite.addTestSuite(XPathTestCase.class);
         suite.addTestSuite(XSDHelperTestCase.class);
-        
         suite.addTestSuite(DotNameTest.class);
-
 
         return suite;
     }

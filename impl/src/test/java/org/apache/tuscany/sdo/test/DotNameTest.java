@@ -38,7 +38,7 @@ import commonj.sdo.helper.XSDHelper;
 
 public class DotNameTest extends TestCase {
     private final String TEST_MODEL = "/dotNames.xsd";
-    private final String TEST_NAMESPACE = "http://www.example.com/simple";
+    private final String TEST_NAMESPACE = "http://www.example.com/dotNames";
     private HelperContext hc;
     private TypeHelper th;
     private DataFactory df;
@@ -47,7 +47,7 @@ public class DotNameTest extends TestCase {
      * Simple Dynamic SDO 2 test.
      */
     public void testDynamic() throws IOException {
-        Type quoteType = th.getType(TEST_NAMESPACE, "Quote");
+        Type quoteType = th.getType(TEST_NAMESPACE, "DotNameType");
         DataObject quote = df.create(quoteType);
 
 
