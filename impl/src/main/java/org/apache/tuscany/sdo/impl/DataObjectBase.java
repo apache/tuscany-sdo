@@ -181,7 +181,6 @@ public abstract class DataObjectBase extends DataObjectImpl
   protected ChangeContext inverseAdd(Object otherEnd, int propertyIndex, ChangeContext changeContext)
   {
     ChangeContextImpl changeContextImpl = initializeChangeContext(changeContext);
-    changeContextImpl = (ChangeContextImpl)changeContext;
     changeContextImpl.notificationChain = super.eInverseAdd((InternalEObject)otherEnd, propertyIndex, changeContextImpl.notificationChain);
     return changeContextImpl;
   }
@@ -189,7 +188,6 @@ public abstract class DataObjectBase extends DataObjectImpl
   protected ChangeContext inverseRemove(Object thisEnd, Object otherEnd, int propertyIndex, Class baseClass, ChangeContext changeContext)
   {
     ChangeContextImpl changeContextImpl = initializeChangeContext(changeContext);
-    changeContextImpl = (ChangeContextImpl)changeContext;
     changeContextImpl.notificationChain = ((InternalEObject)thisEnd).eInverseRemove((InternalEObject)otherEnd, propertyIndex, baseClass, changeContextImpl.notificationChain);
     return changeContextImpl;
   }
