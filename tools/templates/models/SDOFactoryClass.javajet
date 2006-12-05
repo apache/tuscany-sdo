@@ -1,4 +1,4 @@
-<%@ jet package="org.apache.tuscany.sdo.generate.templates.model" imports="org.apache.tuscany.sdo.generate.util.* java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals org.eclipse.emf.ecore.util.*" class="SDOFactoryClass" version="$Id: SDOFactoryClass.javajet,v 1.23 2005/12/10 13:31:02 emerks Exp $" %>
+<%@ jet package="org.apache.tuscany.sdo.generate.templates.model" skeleton="generator.skeleton" imports="org.apache.tuscany.sdo.generate.util.* java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals org.eclipse.emf.ecore.util.*" class="SDOFactoryClass" version="$Id: SDOFactoryClass.javajet,v 1.23 2005/12/10 13:31:02 emerks Exp $" %>
 <%
 /**
  *
