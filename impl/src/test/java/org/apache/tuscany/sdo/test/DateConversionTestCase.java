@@ -125,6 +125,7 @@ public class DateConversionTestCase extends TestCase
             try
             {    
                 String date_string = (String) from_type.getDateMethod().invoke(data_helper, new Object[] {test_date});
+                
                 this.from_date = data_helper.toDate(date_string);
                 date_string = (String) from_type.getCalendarMethod().invoke(data_helper, new Object[] {test_calendar});
                 this.from_calendar = data_helper.toCalendar(date_string);
@@ -187,14 +188,16 @@ public class DateConversionTestCase extends TestCase
             for (int i = 0; i < compare_fields.length; i++)
             {
                 if (expected.get(compare_fields[i]) != result.get(compare_fields[i]))
+                {
+                   System.err.println("Failed: - expected '" + expected.get(compare_fields[i]) + "' got '" + result.get(compare_fields[i]) + "' for output: " + output);
                    return false;
+                }
             }
             return true;
         }
         
     }
 
-    /*
     public void testConversionsFromDay() throws Exception
     {
         Test FromDay = new Test();
@@ -282,7 +285,7 @@ public class DateConversionTestCase extends TestCase
 
         FromTime.attemptConversion(TO_TIME);     
     } 
-    
+
     public void testConversionsFromYear() throws Exception
     {
         Test FromYear = new Test();
@@ -316,7 +319,6 @@ public class DateConversionTestCase extends TestCase
         FromYearMonthDay.attemptConversion(TO_MONTH);
         FromYearMonthDay.attemptConversion(TO_DAY);      
     } 
-    */
 
     // Ensure that strings that should be recognized by toDate do not 
     // result in a null Date value.
@@ -361,6 +363,6 @@ public class DateConversionTestCase extends TestCase
         }
 
     }
-    
+
 }
 

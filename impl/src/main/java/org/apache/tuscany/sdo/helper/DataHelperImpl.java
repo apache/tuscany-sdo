@@ -26,8 +26,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
-
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataHelper;
@@ -43,9 +41,11 @@ public class DataHelperImpl implements DataHelper
    */
   public synchronized Date toDate(String dateString)
   {
+    SimpleDateFormat format;
     Date result = null;
-    dateString = dateString.trim();
     boolean negative = false;
+    String formatString;
+    dateString = dateString.trim();
     
     if (dateString == null)
     {
@@ -53,28 +53,26 @@ public class DataHelperImpl implements DataHelper
     }
     
     // Determine if it is a negative Date, DateTime, or Duration
+    
     if (dateString.length() > 2 && dateString.charAt(0) == '-' && dateString.charAt(1) != '-')
     {
       negative = true;
       dateString = dateString.substring(1);
     }
     
-    // SDO Date Format ends with a Z
+    //  SDO Date Format ends with a Z
     
     if (dateString.endsWith("Z"))
     {
-      SimpleDateFormat[] SDO_DATE_FORMATS = 
-      {
-        new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'"),
-        new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-      };
-    
-      for (int i = 0; i < SDO_DATE_FORMATS.length; i++)
-      {
-        SDO_DATE_FORMATS[i].setTimeZone(TimeZone.getTimeZone("GMT"));
-      }
+      if (dateString.indexOf('.') != -1)
+        formatString = new String("yyyy-MM-dd'T'HH:mm:ss'.'S'Z'");
+      else
+        formatString = new String ("yyyy-MM-dd'T'HH:mm:ss'Z'");
+        
+      format = new SimpleDateFormat(formatString);
+      format.setTimeZone(TimeZone.getTimeZone("UTC"));
       
-      result = checkFormats(dateString, SDO_DATE_FORMATS);
+      result = checkFormat(dateString, format);
       
       // If no match, continue to try further possibilities
       
@@ -96,14 +94,13 @@ public class DataHelperImpl implements DataHelper
         
       String durationString = dateString.replaceAll(" ", "");
 
-      // For Duration format, there are so many possibilities due to so many optional
-      // inclusions, that we will build the format string rather than create
-      // a potential SimpleDateFormat for each possibility.   
+      // Build the formatString based on the contents of dateString
         
-      SimpleDateFormat[] DURATION_FORMATS = obtainDurationFormats(durationString);
-      result = checkFormats(durationString, DURATION_FORMATS);
+      formatString = obtainDurationFormats(durationString);
+      format = new SimpleDateFormat(formatString);
+      result = checkFormat(durationString, format);
       if (result != null)
-      {
+      {     
         if (negative)
           return handleNegative(result); 
         else
@@ -111,112 +108,197 @@ public class DataHelperImpl implements DataHelper
       }
     }
     
-    // Check the remaining possibilities.  Note that time zone is optional for each.
-    
-    SimpleDateFormat [] DATE_PATTERNS =
+    formatString = obtainSpecificFormat(dateString);
+
+    if (formatString != null)
     {
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS z"),
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss z"),
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm z"), 
-      new SimpleDateFormat("'--'MM'-'dd z"),
-      new SimpleDateFormat("'--'MM z"),
-      new SimpleDateFormat("'---'dd zzzz"),
-      new SimpleDateFormat("HH:mm:ss'.'SSS z"),
-      new SimpleDateFormat("HH:mm:ss z"),
-      new SimpleDateFormat("yyyy-MM-dd z"),
-      new SimpleDateFormat("yyyy-MM z"),
-      new SimpleDateFormat("yyyy z"),
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS"),
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm"),
-      new SimpleDateFormat("'--'MM'-'dd"),
-      new SimpleDateFormat("'--'MM"),
-      new SimpleDateFormat("'---'dd"),
-      new SimpleDateFormat("HH:mm:ss'.'SSS"),
-      new SimpleDateFormat("HH:mm:ss"),
-      new SimpleDateFormat("yyyy-MM-dd"),
-      new SimpleDateFormat("yyyy-MM"),
-      new SimpleDateFormat("yyyy")      
-    };
-    
-    result = checkFormats(dateString, DATE_PATTERNS);
-    if (result != null)
-    {
-      if (negative)
-        return handleBCE(result);   
-      else
-        return result;
+      format = new SimpleDateFormat(formatString);
+      result = checkFormat(dateString, format); 
+
+      if (result != null)
+      {
+        if (negative)
+          return handleBCE(result);   
+        else
+          return result;
+      }
     }
     
     return null;
   }
   
-  private synchronized Date checkFormats (String dateString, SimpleDateFormat[] format_array)
+  private synchronized Date checkFormat(String dateString, SimpleDateFormat format)
   {
-    for (int i = 0; i < format_array.length; ++i)
-    {      
-      try
-      {
-        format_array[i].setLenient(false);
-        return format_array[i].parse(dateString);
-      }
-      catch (ParseException parseException)
-      {
-      }    
+    String formatPattern = format.toPattern();
+    StringBuffer addedFields = new StringBuffer();
+    String fieldsString, parseString;
+    SimpleDateFormat compositeFormat;
+    Date dateValue;
+
+    // For certain permissable input strings (e.g. those resulting from toYear
+    // toDay, toTime), there are fields missing which when converted to Date have
+    // default values.  (e.g. Year -> 1970).  Because of this, there can be great 
+    // variation in how daylight savings time is accounted for.  (e.g. In 1970 Britain
+    // was on DST year round, and during the summer of 1944 was on double daylight time.)
+    // Because these possible variations exist, it is assumed that the user would prefer
+    // the current handling of daylight savings time.  As such, the year, month and day 
+    // will default to their current values when absent.  (The user should not be checking
+    // for Year=1970 (etc.) as evidence of taking the default, as explicitly setting a 
+    // year to 1970 is valid and would then not be an instance of a default taken.)
+    
+    if (!(formatPattern.startsWith("P")))
+    {
+      if (formatPattern.indexOf('y') == -1)
+        addedFields.append("yyyy ");
+    
+      if (formatPattern.indexOf('M') == -1)
+        addedFields.append("MM ");
+    
+      if (formatPattern.indexOf('d') == -1)
+        addedFields.append("dd ");
     }
+    
+    fieldsString = addedFields.toString();
+    
+    if (fieldsString.length() == 0)
+    {
+      parseString = dateString;
+      compositeFormat = format;
+    }
+    
+    else
+    {
+      compositeFormat = new SimpleDateFormat(fieldsString);
+      dateValue = new Date(System.currentTimeMillis());
+      parseString = compositeFormat.format(dateValue) + dateString;    
+      compositeFormat.applyPattern(fieldsString + formatPattern);
+    }
+
+    try
+    {
+      return compositeFormat.parse(parseString);      
+    }
+    
+    catch (ParseException parseException)
+    {
+    }    
       
     return null;
   }
   
-  public synchronized SimpleDateFormat[] obtainDurationFormats(String dateString)
+  public synchronized String obtainSpecificFormat(String dateString)
   {
-    String first_part, second_part;
-    StringBuffer format_buffer = new StringBuffer("'P'");
+    StringBuffer formatBuffer = new StringBuffer();
+    int colonIndex = dateString.indexOf(':');
+    int hyphenIndex = dateString.indexOf('-');
+      
+    if (dateString.startsWith("--"))
+    {
+      if (dateString.charAt(2) == '-') // starts with ---
+        formatBuffer.append("'---'dd"); 
+      else if (dateString.substring(2).indexOf('-') == -1)
+        formatBuffer.append("'--'MM");
+      else
+        formatBuffer.append("'--'MM'-'dd");     
+    }
+    
+    else if (colonIndex == 1 || colonIndex == 2)
+    {
+      if (dateString.indexOf('.') != -1)
+        formatBuffer.append("HH:mm:ss'.'S");
+      else if (dateString.substring(colonIndex + 1).indexOf(':') != -1)
+        formatBuffer.append("HH:mm:ss");
+      else
+        formatBuffer.append("HH:mm");  
+    }
+    
+    else if (hyphenIndex != -1)
+    {
+      if (dateString.substring(hyphenIndex + 1).indexOf('-') == -1)    
+        formatBuffer.append("yyyy-MM");
+      else if (colonIndex != -1)
+      {
+        if (dateString.indexOf('.') != -1)
+          formatBuffer.append("yyyy-MM-dd'T'HH:mm:ss'.'S");
+        else if (dateString.substring(colonIndex + 1).indexOf(':') != -1)
+          formatBuffer.append("yyyy-MM-dd'T'HH:mm:ss");
+        else
+          formatBuffer.append("yyyy-MM-dd'T'HH:mm"); 
+      }
+      else
+        formatBuffer.append ("yyyy-MM-dd");
+    }
+    else if (colonIndex == -1)  // indexOf('-') == -1
+    {
+      formatBuffer.append("yyyy");
+    }
+    else
+      return null;
+    
+    // Determine if a Time Zone is included and needs to be parsed.
+    // ---------------------------------
+    // The only letter allowed in the above formats is 'T'.
+    // All times zones include at least one letter other than 'T'.
+
+    int i = 0;
+    boolean letterFound = false;
+    char currentChar;
+    while (i < dateString.length() && !letterFound)
+    {
+      currentChar = dateString.charAt(i);
+      if (Character.isLetter(currentChar) && currentChar != 'T')
+        letterFound = true;;  
+      i++;
+    }
+    
+    if (letterFound)
+      formatBuffer.append(" z");
+        
+    return formatBuffer.toString();
+  }
+  
+  public synchronized String obtainDurationFormats(String dateString)
+  {
+    String firstPart, secondPart;
+    StringBuffer formatBuffer = new StringBuffer("'P'");
 
     // Must divide it into two parts to distinguish between Months and Minutes
       
-    int time_index = dateString.indexOf("T");
+    int time_index = dateString.indexOf('T');
     if (time_index != -1)
     {
-      first_part = dateString.substring(0, time_index + 1);    
-      second_part = dateString.substring(time_index);
+      firstPart = dateString.substring(0, time_index + 1);    
+      secondPart = dateString.substring(time_index);
     }
     else
     {
-      first_part = dateString;
-      second_part = null;
+      firstPart = dateString;
+      secondPart = null;
     }
       
-    if (first_part.indexOf("Y") != -1)
-      format_buffer.append("yyyy'Y'");
-    if (first_part.indexOf("M") != -1)
-      format_buffer.append("MM'M'");
-    if (first_part.indexOf("D") != -1)
-      format_buffer.append("dd'D'");
+    if (firstPart.indexOf('Y') != -1)
+      formatBuffer.append("yyyy'Y'");
+    if (firstPart.indexOf('M') != -1)
+      formatBuffer.append("MM'M'");
+    if (firstPart.indexOf('D') != -1)
+      formatBuffer.append("dd'D'");
     if (time_index != -1)
     {
-      format_buffer.append("'T'");
+      formatBuffer.append("'T'");
        
-      if (second_part.indexOf("H") != -1)
-        format_buffer.append("HH'H'");
-      if (second_part.indexOf("M") != -1)
-        format_buffer.append("mm'M'");
-      if (second_part.indexOf("S.") != -1)
-        format_buffer.append("ss'S'.S");
-      else if (second_part.indexOf("S") != -1)
-        format_buffer.append("ss'S'");
+      if (secondPart.indexOf('H') != -1)
+        formatBuffer.append("HH'H'");
+      if (secondPart.indexOf('M') != -1)
+        formatBuffer.append("mm'M'");
+      if (secondPart.indexOf("S.") != -1)
+        formatBuffer.append("ss'S'.S");
+      else if (secondPart.indexOf('S') != -1)
+        formatBuffer.append("ss'S'");
     }
 
-    String format_string = format_buffer.toString().replaceAll("''", "");
-     
-    SimpleDateFormat [] DURATION_FORMATS = 
-    {
-      new SimpleDateFormat(format_string)
-    };
-
-    return DURATION_FORMATS;
+    return formatBuffer.toString().replaceAll("''", "");
   }
-  
+
   // Return a negative Duration if a negative sign existed in dateString
   public synchronized Date handleNegative(Date output)
   {
