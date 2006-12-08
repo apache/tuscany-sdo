@@ -525,12 +525,8 @@ public final class SDOUtil
     eStructuralFeature.setEType((EClassifier)propertyType);
     ((EClass)containingType).getEStructuralFeatures().add(eStructuralFeature);
 
-    //if (containingType.getName() == null)
     if ("".equals(ExtendedMetaData.INSTANCE.getName((EClass)containingType))) // DocumentRoot containingType?
     {
-      //FB TBD ... figure out how to decide whether to use ELEMENT_FEATURE or ATTRIBUTE_FEATURE
-      ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
-      
       ExtendedMetaData.INSTANCE.setNamespace(eStructuralFeature, containingType.getURI());
       //FB???eStructuralFeature.setUnique(false);
       //FB???eStructuralFeature.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
@@ -540,6 +536,12 @@ public final class SDOUtil
       eStructuralFeature.setDerived(true);
       eStructuralFeature.setTransient(true);
       eStructuralFeature.setVolatile(true);
+      ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
+    }
+    else
+    {
+      //FB TBD ... figure out how to decide whether to use ELEMENT_FEATURE or ATTRIBUTE_FEATURE
+      //ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
     }
     
     return (Property)eStructuralFeature;
