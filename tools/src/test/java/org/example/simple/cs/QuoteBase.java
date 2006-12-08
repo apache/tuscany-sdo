@@ -6,7 +6,7 @@
  */
 package org.example.simple.cs;
 
-import org.apache.tuscany.sdo.model.ChangeSummaryType;
+import commonj.sdo.ChangeSummary;
 
 /**
  * <!-- begin-user-doc -->
@@ -25,27 +25,27 @@ import org.apache.tuscany.sdo.model.ChangeSummaryType;
 public interface QuoteBase extends Quote
 {
   /**
-   * Returns the value of the '<em><b>Changes</b></em>' reference.
+   * Returns the value of the '<em><b>Changes</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Changes</em>' reference isn't clear,
+   * If the meaning of the '<em>Changes</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Changes</em>' reference.
-   * @see #setChanges(ChangeSummaryType)
+   * @return the value of the '<em>Changes</em>' attribute.
+   * @see #setChanges(ChangeSummary)
    * @generated
    */
-  ChangeSummaryType getChanges();
+  ChangeSummary getChanges();
 
   /**
-   * Sets the value of the '{@link org.example.simple.cs.QuoteBase#getChanges <em>Changes</em>}' reference.
+   * Sets the value of the '{@link org.example.simple.cs.QuoteBase#getChanges <em>Changes</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Changes</em>' reference.
+   * @param value the new value of the '<em>Changes</em>' attribute.
    * @see #getChanges()
    * @generated
    */
-  void setChanges(ChangeSummaryType value);
+  void setChanges(ChangeSummary value);
 
 } // QuoteBase

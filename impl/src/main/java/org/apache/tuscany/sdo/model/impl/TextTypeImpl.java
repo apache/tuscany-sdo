@@ -66,7 +66,7 @@ public abstract class TextTypeImpl extends DataObjectBase implements TextType
    * <!-- end-user-doc -->
    * @generated
    */
-  protected TextTypeImpl()
+  public TextTypeImpl()
   {
     super();
   }

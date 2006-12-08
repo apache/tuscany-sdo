@@ -21,8 +21,14 @@ package org.apache.tuscany.sdo.generate.util;
 
 import java.util.Iterator;
 
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+
+import commonj.sdo.Type;
 
 public class SDOGenUtil {
 	
@@ -55,5 +61,25 @@ public class SDOGenUtil {
         + genPackage.getImportedFactoryInterfaceName() + ".INSTANCE)";
     }
  
+    public static boolean hasChangeSummaryProperty(GenClass genClass)
+    {
+      return getChangeSummaryProperty(genClass) != null;
+    }
+    
+    public static String getChangeSummaryProperty(GenClass genClass)
+    {
+      Type csType = ((ModelFactoryImpl)ModelFactory.INSTANCE).getChangeSummaryType();
+      for (Iterator i = genClass.getGenFeatures().iterator(); i.hasNext(); )
+      {
+        GenFeature genFeature = (GenFeature)i.next();
+        Type type = (Type)genFeature.getEcoreFeature().getEType();
+        //if (csType == type)// this doesn't work when generating sdoModel.xsd
+        if (csType.getName().equals(type.getName()) && csType.getURI().equals(type.getURI()))
+        {            
+          return genFeature.getUpperName();
+        }
+      }
+      return null;
+    }
 
 }

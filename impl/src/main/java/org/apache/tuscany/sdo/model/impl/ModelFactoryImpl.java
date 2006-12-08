@@ -6,6 +6,7 @@
  */
 package org.apache.tuscany.sdo.model.impl;
 
+import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.DataHelper;
 
@@ -32,10 +33,8 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
  * An implementation of the commonj.sdo model factory.
  * This model is generated from sdoModel.xsd, in the sdo-api project.
  * Until the SDO code generator supports name conflicts and regen/merge, follow the following steps to regenerate this model:
- *   0. TEMPORARY Kludge: comment out the following line in the XSDHelperImpl.define() method:
- *         //if (ePackage == null) //FB Comment out this line to regenerate sdoModel.xsd
  *   1. Regenerate the model into a temporary directory:
- *         XSD2JavaGenerator -targetDirectory <temp-dir> -javaPackage org.apache.tuscany.sdo.model <sdo-api-dir>/src/main/resources/xml/sdoModel.xsd
+ *         XSD2JavaGenerator -generateBuiltIn commonj.sdo -targetDirectory <temp-dir> -javaPackage org.apache.tuscany.sdo.model <sdo-api-dir>/src/main/resources/xml/sdoModel.xsd
  *   2. Rename the following methods in the generated Property/PropertyImpl interface and implementation class:
  *         getDefault() to getDefault_();
  *         setDefault() to setDefault_();
@@ -70,22 +69,22 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String NAMESPACE_PREFIX = "sdo"; //FB generated as "commonj"
+  public static final String NAMESPACE_PREFIX = "sdo"; //FB generated as "commonj"	
   public static final int BASE_DATA_GRAPH_TYPE = 1;	
-  public static final int CHANGE_SUMMARY_TYPE = 2;	
-  public static final int DATA_GRAPH_TYPE = 3;	
-  public static final int DATA_OBJECT = 4;	
-  public static final int MODELS_TYPE = 5;	
-  public static final int PROPERTY = 6;	
-  public static final int TEXT_TYPE = 7;	
-  public static final int TYPE = 8;	
-  public static final int TYPES = 9;	
-  public static final int XSD_TYPE = 10;	
-  public static final int BOOLEAN = 11;	
-  public static final int BOOLEAN_OBJECT = 12;	
-  public static final int BYTE = 13;	
-  public static final int BYTE_OBJECT = 14;	
-  public static final int BYTES = 15;	
+  public static final int DATA_GRAPH_TYPE = 2;	
+  public static final int DATA_OBJECT = 3;	
+  public static final int MODELS_TYPE = 4;	
+  public static final int PROPERTY = 5;	
+  public static final int TEXT_TYPE = 6;	
+  public static final int TYPE = 7;	
+  public static final int TYPES = 8;	
+  public static final int XSD_TYPE = 9;	
+  public static final int BOOLEAN = 10;	
+  public static final int BOOLEAN_OBJECT = 11;	
+  public static final int BYTE = 12;	
+  public static final int BYTE_OBJECT = 13;	
+  public static final int BYTES = 14;	
+  public static final int CHANGE_SUMMARY_TYPE = 15;	
   public static final int CHARACTER = 16;	
   public static final int CHARACTER_OBJECT = 17;	
   public static final int DATE = 18;	
@@ -135,7 +134,6 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
   {
     switch (typeNumber)
     {
-      case CHANGE_SUMMARY_TYPE: return (DataObject)createChangeSummaryType();
       case DATA_GRAPH_TYPE: return (DataObject)createDataGraphType();
       case MODELS_TYPE: return (DataObject)createModelsType();
       case PROPERTY: return (DataObject)createProperty();
@@ -166,6 +164,8 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
         return createByteObjectFromString(initialValue);
       case BYTES:
         return createBytesFromString(initialValue);
+      case CHANGE_SUMMARY_TYPE:
+        return createChangeSummaryTypeFromString(initialValue);
       case CHARACTER:
         return createCharacterFromString(initialValue);
       case CHARACTER_OBJECT:
@@ -246,6 +246,8 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
         return convertByteObjectToString(instanceValue);
       case BYTES:
         return convertBytesToString(instanceValue);
+      case CHANGE_SUMMARY_TYPE:
+        return convertChangeSummaryTypeToString(instanceValue);
       case CHARACTER:
         return convertCharacterToString(instanceValue);
       case CHARACTER_OBJECT:
@@ -305,16 +307,6 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
       default:
         throw new IllegalArgumentException("The type number '" + typeNumber + "' is not a valid datatype");
     }
-  }
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public ChangeSummaryType createChangeSummaryType()
-  {
-    ChangeSummaryTypeImpl changeSummaryType = new ChangeSummaryTypeImpl();
-    return changeSummaryType;
   }
   /**
    * <!-- begin-user-doc -->
@@ -383,13 +375,6 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
   public commonj.sdo.Type getBaseDataGraphType()
   {
     return baseDataGraphTypeType;
-  }
-    
-  protected commonj.sdo.Type changeSummaryTypeType = null;
-
-  public commonj.sdo.Type getChangeSummaryType()
-  {
-    return changeSummaryTypeType;
   }
     
   protected commonj.sdo.Type dataGraphTypeType = null;
@@ -481,6 +466,13 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
   public commonj.sdo.Type getBytes()
   {
     return bytesType;
+  }
+    
+  protected commonj.sdo.Type changeSummaryTypeType = null;
+
+  public commonj.sdo.Type getChangeSummaryType()
+  {
+    return changeSummaryTypeType;
   }
     
   protected commonj.sdo.Type characterType = null;
@@ -711,23 +703,17 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
     if (isCreated) return;
     isCreated = true;	
 
+    // Create types and their properties
     baseDataGraphTypeType = createType(false, BASE_DATA_GRAPH_TYPE);
     createProperty(false, baseDataGraphTypeType, BaseDataGraphTypeImpl.MODELS);
     createProperty(false, baseDataGraphTypeType, BaseDataGraphTypeImpl.XSD);
-    createProperty(false, baseDataGraphTypeType, BaseDataGraphTypeImpl.CHANGE_SUMMARY);
+    createProperty(true, baseDataGraphTypeType, BaseDataGraphTypeImpl.CHANGE_SUMMARY);
     createProperty(true, baseDataGraphTypeType, BaseDataGraphTypeImpl.ANY_ATTRIBUTE);
-
-    changeSummaryTypeType = createType(false, CHANGE_SUMMARY_TYPE);
-    createProperty(true, changeSummaryTypeType, ChangeSummaryTypeImpl.ANY);
-    createProperty(true, changeSummaryTypeType, ChangeSummaryTypeImpl.CREATE);
-    createProperty(true, changeSummaryTypeType, ChangeSummaryTypeImpl.DELETE);
-    createProperty(true, changeSummaryTypeType, ChangeSummaryTypeImpl.LOGGING);
 
     dataGraphTypeType = createType(false, DATA_GRAPH_TYPE);
     createProperty(true, dataGraphTypeType, DataGraphTypeImpl.ANY);
 
     dataObjectType = createType(false, DATA_OBJECT);
-
 
     modelsTypeType = createType(false, MODELS_TYPE);
     createProperty(true, modelsTypeType, ModelsTypeImpl.ANY);
@@ -766,11 +752,14 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
 
     xsdTypeType = createType(false, XSD_TYPE);
     createProperty(true, xsdTypeType, XSDTypeImpl.ANY);
+
+    // Create data types
     boolean_Type = createType(true, BOOLEAN );
     booleanObjectType = createType(true, BOOLEAN_OBJECT );
     byte_Type = createType(true, BYTE );
     byteObjectType = createType(true, BYTE_OBJECT );
     bytesType = createType(true, BYTES );
+    changeSummaryTypeType = createType(true, CHANGE_SUMMARY_TYPE );
     characterType = createType(true, CHARACTER );
     characterObjectType = createType(true, CHARACTER_OBJECT );
     dateType = createType(true, DATE );
@@ -809,136 +798,91 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
     isInitialized = true;
     commonj.sdo.Property property = null;
 
-    // Add supertypes to classes
+    // Add supertypes to types
     addSuperType(dataGraphTypeType, baseDataGraphTypeType);
 
-    // Initialize classes and features; add operations and parameters
+    // Initialize types and properties
     initializeType(baseDataGraphTypeType, BaseDataGraphType.class, "BaseDataGraphType", true);
-    
     property = (commonj.sdo.Property)baseDataGraphTypeType.getProperties().get(BaseDataGraphTypeImpl.MODELS);
-    initializeProperty(property, getModelsType(), "models", null, 0, 1, BaseDataGraphType.class, false, false, false, true, null);
-    
+    initializeProperty(property, this.getModelsType(), "models", null, 0, 1, BaseDataGraphType.class, false, false, false, true, null);
     property = (commonj.sdo.Property)baseDataGraphTypeType.getProperties().get(BaseDataGraphTypeImpl.XSD);
-    initializeProperty(property, getXSDType(), "xsd", null, 0, 1, BaseDataGraphType.class, false, false, false, true, null);
-    
+    initializeProperty(property, this.getXSDType(), "xsd", null, 0, 1, BaseDataGraphType.class, false, false, false, true, null);
     property = (commonj.sdo.Property)baseDataGraphTypeType.getProperties().get(BaseDataGraphTypeImpl.CHANGE_SUMMARY);
-    initializeProperty(property, this.getChangeSummaryType(), "changeSummary", null, 0, 1, BaseDataGraphType.class, false, false, false, true, null);
-    
+    initializeProperty(property, this.getChangeSummaryType(), "changeSummary", null, 0, 1, BaseDataGraphType.class, false, false, false);
     property = (commonj.sdo.Property)baseDataGraphTypeType.getProperties().get(BaseDataGraphTypeImpl.ANY_ATTRIBUTE);
     initializeProperty(property, getSequence(), "anyAttribute", null, 0, -1, BaseDataGraphType.class, false, false, false);
 
-    initializeType(changeSummaryTypeType, ChangeSummaryType.class, "ChangeSummaryType");
-
-    property = (commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.ANY);
-    initializeProperty(property, getSequence(), "any", null, 0, -1, ChangeSummaryType.class, false, false, false);
-
-    property = (commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.CREATE);
-    initializeProperty(property, this.getString(), "create", null, 0, 1, ChangeSummaryType.class, false, false, false);
-
-    property = (commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.DELETE);
-    initializeProperty(property, this.getString(), "delete", null, 0, 1, ChangeSummaryType.class, false, false, false);
-
-    property = (commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.LOGGING);
-    initializeProperty(property, this.getBoolean(), "logging", null, 0, 1, ChangeSummaryType.class, false, true, false);
-
-    initializeType(dataGraphTypeType, DataGraphType.class, "DataGraphType");
-
+    initializeType(dataGraphTypeType, DataGraphType.class, "DataGraphType", false);
     property = (commonj.sdo.Property)dataGraphTypeType.getProperties().get(DataGraphTypeImpl.ANY);
     initializeProperty(property, getSequence(), "any", null, 0, 1, DataGraphType.class, false, false, false);
 
-    initializeType(dataObjectType, DataObject.class, "DataObject", true);
-    
-    initializeType(modelsTypeType, ModelsType.class, "ModelsType");
+    initializeType(dataObjectType, org.apache.tuscany.sdo.model.DataObject.class, "DataObject", true);
 
+    initializeType(modelsTypeType, ModelsType.class, "ModelsType", false);
     property = (commonj.sdo.Property)modelsTypeType.getProperties().get(ModelsTypeImpl.ANY);
     initializeProperty(property, getSequence(), "any", null, 0, -1, ModelsType.class, false, false, false);
 
-    initializeType(propertyType, Property.class, "Property");
-
+    initializeType(propertyType, Property.class, "Property", false);
     property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.ALIAS_NAME);
     initializeProperty(property, this.getString(), "aliasName", null, 0, -1, Property.class, false, false, false);
-
     property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.ANY);
     initializeProperty(property, getSequence(), "any", null, 0, -1, Property.class, false, false, false);
-
     property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.NAME);
     initializeProperty(property, this.getString(), "name", null, 0, 1, Property.class, false, false, false);
-
     property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.MANY);
     initializeProperty(property, this.getBoolean(), "many", null, 0, 1, Property.class, false, true, false);
-
     property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.CONTAINMENT);
     initializeProperty(property, this.getBoolean(), "containment", null, 0, 1, Property.class, false, true, false);
-
     property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.DEFAULT);
     initializeProperty(property, this.getString(), "default", null, 0, 1, Property.class, false, false, false);
-
     property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.READ_ONLY);
     initializeProperty(property, this.getBoolean(), "readOnly", null, 0, 1, Property.class, false, true, false);
-
     property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.TYPE);
-    initializeProperty(property, this.getType(), "type", null, 0, 1, Property.class, false, false, false, false , null);
+    initializeProperty(property, this.getType(), "type", null, 0, 1, Property.class, false, false, false, false, null);
     setInstanceProperty (property, "commonj.sdo/xml", "propertyType", "sdo:Type");
-
     property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.OPPOSITE);
-    initializeProperty(property, this.getProperty(), "opposite", null, 0, 1, Property.class, false, false, false, false , null);
+    initializeProperty(property, this.getProperty(), "opposite", null, 0, 1, Property.class, false, false, false, false, null);
     setInstanceProperty (property, "commonj.sdo/xml", "propertyType", "sdo:Property");
-
     property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.NULLABLE);
     initializeProperty(property, this.getBoolean(), "nullable", null, 0, 1, Property.class, false, true, false);
-
     property = (commonj.sdo.Property)propertyType.getProperties().get(PropertyImpl.ANY_ATTRIBUTE);
     initializeProperty(property, getSequence(), "anyAttribute", null, 0, -1, Property.class, false, false, false);
 
     initializeType(textTypeType, TextType.class, "TextType", true);
-
     property = (commonj.sdo.Property)textTypeType.getProperties().get(TextTypeImpl.TEXT);
     initializeProperty(property, this.getString(), "text", null, 0, -1, TextType.class, false, false, false);
 
-    initializeType(typeType, Type.class, "Type");
-
+    initializeType(typeType, Type.class, "Type", false);
     property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.BASE_TYPE);
-    initializeProperty(property, this.getType(), "baseType", null, 0, -1, Type.class, false, false, false, false , null);
+    initializeProperty(property, this.getType(), "baseType", null, 0, -1, Type.class, false, false, false, false, null);
     setInstanceProperty (property, "commonj.sdo/xml", "propertyType", "sdo:Type");
-
     property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.PROPERTY);
-    initializeProperty(property, this.getProperty(), "property", null, 0, -1, Type.class, false, false, false, true , null);
-
+    initializeProperty(property, this.getProperty(), "property", null, 0, -1, Type.class, false, false, false, true, null);
     property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.ALIAS_NAME);
     initializeProperty(property, this.getString(), "aliasName", null, 0, -1, Type.class, false, false, false);
-
     property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.ANY);
     initializeProperty(property, getSequence(), "any", null, 0, -1, Type.class, false, false, false);
-
     property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.NAME);
     initializeProperty(property, this.getString(), "name", null, 0, 1, Type.class, false, false, false);
     setInstanceProperty (property, "commonj.sdo/xml", "dataType", "sdo:String");
-
     property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.URI);
     initializeProperty(property, this.getURI(), "uri", null, 0, 1, Type.class, false, false, false);
-
     property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.DATA_TYPE);
     initializeProperty(property, this.getBoolean(), "dataType", null, 0, 1, Type.class, false, true, false);
-
     property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.OPEN);
     initializeProperty(property, this.getBoolean(), "open", null, 0, 1, Type.class, false, true, false);
-
     property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.SEQUENCED);
     initializeProperty(property, this.getBoolean(), "sequenced", null, 0, 1, Type.class, false, true, false);
-
     property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.ABSTRACT);
     initializeProperty(property, this.getBoolean(), "abstract", null, 0, 1, Type.class, false, true, false);
-
     property = (commonj.sdo.Property)typeType.getProperties().get(TypeImpl.ANY_ATTRIBUTE);
     initializeProperty(property, getSequence(), "anyAttribute", null, 0, -1, Type.class, false, false, false);
 
-    initializeType(typesType, Types.class, "Types");
-
+    initializeType(typesType, Types.class, "Types", false);
     property = (commonj.sdo.Property)typesType.getProperties().get(TypesImpl.TYPE);
-    initializeProperty(property, this.getType(), "type", null, 0, -1, Types.class, false, false, false, true , null);
+    initializeProperty(property, this.getType(), "type", null, 0, -1, Types.class, false, false, false, true, null);
 
-    initializeType(xsdTypeType, XSDType.class, "XSDType");
-
+    initializeType(xsdTypeType, XSDType.class, "XSDType", false);
     property = (commonj.sdo.Property)xsdTypeType.getProperties().get(XSDTypeImpl.ANY);
     initializeProperty(property, getSequence(), "any", null, 0, -1, XSDType.class, false, false, false);
 
@@ -955,6 +899,9 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
 
     initializeType(bytesType, byte[].class, "Bytes", true, false);
     setInstanceProperty (bytesType, "commonj.sdo/java", "instanceClass", "byte[]");
+
+    initializeType(changeSummaryTypeType, ChangeSummary.class, "ChangeSummaryType", true, false);
+    setInstanceProperty (changeSummaryTypeType, "commonj.sdo/java", "instanceClass", "commonj.sdo.ChangeSummary");
 
     initializeType(characterType, char.class, "Character", true, false);
     setInstanceProperty (characterType, "commonj.sdo/java", "instanceClass", "char");
@@ -1034,10 +981,10 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
     initializeType(yearMonthDayType, String.class, "YearMonthDay", true, false);
     setInstanceProperty (yearMonthDayType, "commonj.sdo/java", "instanceClass", "java.lang.String");
 
-    initXSD();
+    createXSDMetaData();
   }
     
-  protected void initXSD()
+  protected void createXSDMetaData()
   {
     super.initXSD();
     
@@ -1083,48 +1030,6 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
        "wildcards", "##other",
        "name", ":3",
        "processing", "lax"
-       });
-
-    addXSDMapping
-      (changeSummaryTypeType,
-       new String[] 
-       {
-       "name", "ChangeSummaryType",
-       "kind", "elementOnly"
-       });
-
-    addXSDMapping
-      ((commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.ANY),
-       new String[]
-       {
-       "kind", "elementWildcard",
-       "wildcards", "##any",
-       "name", ":0",
-       "processing", "lax"
-       });
-
-    addXSDMapping
-      ((commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.CREATE),
-       new String[]
-       {
-       "kind", "attribute",
-       "name", "create"
-       });
-
-    addXSDMapping
-      ((commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.DELETE),
-       new String[]
-       {
-       "kind", "attribute",
-       "name", "delete"
-       });
-
-    addXSDMapping
-      ((commonj.sdo.Property)changeSummaryTypeType.getProperties().get(ChangeSummaryTypeImpl.LOGGING),
-       new String[]
-       {
-       "kind", "attribute",
-       "name", "logging"
        });
 
     addXSDMapping
@@ -1527,6 +1432,13 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
        });
 
     addXSDMapping
+      (changeSummaryTypeType,
+       new String[] 
+       {
+       "name", "ChangeSummaryType"
+       });
+
+    addXSDMapping
       (characterType,
        new String[] 
        {
@@ -1832,6 +1744,26 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
     } else {
       return XMLTypeFactory.eINSTANCE.convertHexBinary(instanceValue.toString().getBytes());
     }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public ChangeSummary createChangeSummaryTypeFromString(String initialValue)
+  {
+    return null;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertChangeSummaryTypeToString(Object instanceValue)
+  {
+    return "change summary serialization goes here ...";
   }
 
   /**

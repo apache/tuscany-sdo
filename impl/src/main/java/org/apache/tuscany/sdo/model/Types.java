@@ -40,7 +40,7 @@ public interface Types extends Serializable
    * @generated
    */
   List getType_();
-  
+
   List getTypeList();
 
 } // Types

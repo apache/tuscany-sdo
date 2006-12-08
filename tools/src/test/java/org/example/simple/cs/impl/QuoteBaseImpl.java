@@ -6,12 +6,8 @@
  */
 package org.example.simple.cs.impl;
 
+import commonj.sdo.ChangeSummary;
 import commonj.sdo.Type;
-
-import org.apache.tuscany.sdo.model.ChangeSummaryType;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.example.simple.cs.CSFactory;
 import org.example.simple.cs.QuoteBase;
@@ -113,7 +109,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
   public final static int QUOTES = QuoteImpl.QUOTES;
 
   /**
-   * The feature id for the '<em><b>Changes</b></em>' reference.
+   * The feature id for the '<em><b>Changes</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -132,24 +128,34 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
   public final static int SDO_PROPERTY_COUNT = QuoteImpl.SDO_PROPERTY_COUNT + 1;
 
   /**
-   * The cached value of the '{@link #getChanges() <em>Changes</em>}' reference.
+   * The default value of the '{@link #getChanges() <em>Changes</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #getChanges()
    * @generated
    * @ordered
    */
-  
-  protected ChangeSummaryType changes = null;
-  
+  protected static final ChangeSummary CHANGES_DEFAULT_ = null;
+
+  /**
+   * The cached value of the '{@link #getChanges() <em>Changes</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getChanges()
+   * @generated
+   * @ordered
+   */
+  protected ChangeSummary changes = CHANGES_DEFAULT_;
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected QuoteBaseImpl()
+  public QuoteBaseImpl()
   {
     super();
+    createChangeSummary(CHANGES);
   }
 
   /**
@@ -167,19 +173,8 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * <!-- end-user-doc -->
    * @generated
    */
-  public ChangeSummaryType getChanges()
+  public ChangeSummary getChanges()
   {
-// TODO T-153 regenerate this code when issue with isProxy is fixed
-//    if (changes != null && ((EObject)changes).isProxy())
-//    {
-//      InternalEObject oldChanges = (InternalEObject)changes;
-//      changes = (ChangeSummaryType)eResolveProxy(oldChanges);
-//      if (changes != oldChanges)
-//      {
-//        if (isNotifying())
-//          notify(ChangeKind.RESOLVE, CHANGES, oldChanges, changes);
-//      }
-//    }
     return changes;
   }
   /**
@@ -187,19 +182,9 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * <!-- end-user-doc -->
    * @generated
    */
-  public ChangeSummaryType basicGetChanges()
+  public void setChanges(ChangeSummary newChanges)
   {
-    return changes;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setChanges(ChangeSummaryType newChanges)
-  {
-    ChangeSummaryType oldChanges = changes;
+    ChangeSummary oldChanges = changes;
     changes = newChanges;
     if (isNotifying())
       notify(ChangeKind.SET, CHANGES, oldChanges, changes);
@@ -215,8 +200,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
     switch (propertyIndex)
     {
       case CHANGES:
-        if (resolve) return getChanges();
-        return basicGetChanges();
+        return getChanges();
     }
     return super.get(propertyIndex, resolve);
   }
@@ -231,7 +215,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
     switch (propertyIndex)
     {
       case CHANGES:
-        setChanges((ChangeSummaryType)newValue);
+        setChanges((ChangeSummary)newValue);
         return;
     }
     super.set(propertyIndex, newValue);
@@ -247,7 +231,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
     switch (propertyIndex)
     {
       case CHANGES:
-        setChanges((ChangeSummaryType)null);
+        setChanges(CHANGES_DEFAULT_);
         return;
     }
     super.unset(propertyIndex);
@@ -263,9 +247,25 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
     switch (propertyIndex)
     {
       case CHANGES:
-        return changes != null;
+        return CHANGES_DEFAULT_ == null ? changes != null : !CHANGES_DEFAULT_.equals(changes);
     }
     return super.isSet(propertyIndex);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String toString()
+  {
+    if (isProxy(this)) return super.toString();
+
+    StringBuffer result = new StringBuffer(super.toString());
+    result.append(" (changes: ");
+    result.append(changes);
+    result.append(')');
+    return result.toString();
   }
 
 } //QuoteBaseImpl

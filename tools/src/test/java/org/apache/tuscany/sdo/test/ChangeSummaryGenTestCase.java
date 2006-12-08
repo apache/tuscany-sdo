@@ -35,46 +35,39 @@ import commonj.sdo.helper.XMLHelper;
 public class ChangeSummaryGenTestCase extends TestCase {
 
     public void testMixedQuoteType() throws IOException {
-// TODO T-153 reintroduce once generator special cases the change summary type property
-//       QuoteBase quote = CSFactory.INSTANCE.createQuoteBase();
-//        DataObject dQuote = (DataObject)quote;
-//        // FBCHECK should generated method trigger creation of C/S
-//        // also gen method returns Impl class -- change to interface?
-//        // ChangeSummary csp = quote.getChanges();
-//        ChangeSummary cs = dQuote.getChangeSummary();
-//        ChangeSummary csp = quote.getChanges();
-//        cs.beginLogging();
-//
-//        assertSame(cs, csp);
-//        
-//        quote.setSymbol("fbnt");
-//        quote.setCompanyName("FlyByNightTechnology");
-//        quote.setPrice(new BigDecimal("1000.0"));
-//        quote.setOpen1(new BigDecimal("1000.0"));
-//        quote.setHigh(new BigDecimal("1000.0"));
-//        quote.setLow(new BigDecimal("1000.0"));
-//        quote.setVolume(1000);
-//        quote.setChange1(1000);
-//        
-//        List quotes = quote.getQuotes();
-//        Quote innerQuote = CSFactory.INSTANCE.createQuote();
-//        
-//        quotes.add(innerQuote);
-//        innerQuote.setPrice(new BigDecimal("2000.0"));
-//        
-//        cs.endLogging();
-//        
-//        XMLHelper.INSTANCE.save(dQuote, "http://www.example.com/simpleCS", "quoteBase", System.out);
-//               
-//        cs.undoChanges();
-//        System.out.println("\nAfter Undo Changes:");
-//        XMLHelper.INSTANCE.save(dQuote, "http://www.example.com/simpleCS", "quoteBase", System.out);
+        QuoteBase quote = CSFactory.INSTANCE.createQuoteBase();
+        DataObject dQuote = (DataObject)quote;
+
+        // ChangeSummary csp = quote.getChanges();
+        ChangeSummary cs = dQuote.getChangeSummary();
+        ChangeSummary csp = quote.getChanges();
+        cs.beginLogging();
+
+        assertSame(cs, csp);
         
+        quote.setSymbol("fbnt");
+        quote.setCompanyName("FlyByNightTechnology");
+        quote.setPrice(new BigDecimal("1000.0"));
+        quote.setOpen1(new BigDecimal("1000.0"));
+        quote.setHigh(new BigDecimal("1000.0"));
+        quote.setLow(new BigDecimal("1000.0"));
+        quote.setVolume(1000);
+        quote.setChange1(1000);
         
+        List quotes = quote.getQuotes();
+        Quote innerQuote = CSFactory.INSTANCE.createQuote();
         
+        quotes.add(innerQuote);
+        innerQuote.setPrice(new BigDecimal("2000.0"));
+        
+        cs.endLogging();
+       
+        //XMLHelper.INSTANCE.save(dQuote, "http://www.example.com/simpleCS", "quoteBase", System.out);
+               
+        cs.undoChanges();
+        
+        //System.out.println("\nAfter Undo Changes:");
+        //XMLHelper.INSTANCE.save(dQuote, "http://www.example.com/simpleCS", "quoteBase", System.out);
     }
-    
- 
-    
-    
+
 }

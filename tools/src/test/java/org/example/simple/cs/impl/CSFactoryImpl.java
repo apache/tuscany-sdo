@@ -57,7 +57,7 @@ public class CSFactoryImpl extends FactoryBase implements CSFactory
    */
   public CSFactoryImpl()
   {
-    super(NAMESPACE_URI, NAMESPACE_PREFIX);
+    super(NAMESPACE_URI, NAMESPACE_PREFIX, "org.example.simple.cs");
   }
   
   /**
@@ -144,7 +144,7 @@ public class CSFactoryImpl extends FactoryBase implements CSFactory
     if (isCreated) return;
     isCreated = true;	
 
-
+    // Create types and their properties
     quoteType = createType(false, QUOTE);
     createProperty(true, quoteType, QuoteImpl.SYMBOL);
     createProperty(true, quoteType, QuoteImpl.COMPANY_NAME);
@@ -157,7 +157,7 @@ public class CSFactoryImpl extends FactoryBase implements CSFactory
     createProperty(false, quoteType, QuoteImpl.QUOTES);
 
     quoteBaseType = createType(false, QUOTE_BASE);
-    createProperty(false, quoteBaseType, QuoteBaseImpl.CHANGES);
+    createProperty(true, quoteBaseType, QuoteBaseImpl.CHANGES);
   }
   
   private boolean isInitialized = false;
@@ -171,51 +171,40 @@ public class CSFactoryImpl extends FactoryBase implements CSFactory
     ModelFactoryImpl theModelPackageImpl = (ModelFactoryImpl)FactoryBase.getStaticFactory(ModelFactoryImpl.NAMESPACE_URI);
     Property property = null;
 
-    // Add supertypes to classes
+    // Add supertypes to types
     addSuperType(quoteBaseType, quoteType);
 
-    // Initialize classes and features; add operations and parameters
-    initializeType(quoteType, Quote.class, "Quote");
-
+    // Initialize types and properties
+    initializeType(quoteType, Quote.class, "Quote", false);
     property = (Property)quoteType.getProperties().get(QuoteImpl.SYMBOL);
     initializeProperty(property, theModelPackageImpl.getString(), "symbol", null, 1, 1, Quote.class, false, false, false);
-
     property = (Property)quoteType.getProperties().get(QuoteImpl.COMPANY_NAME);
     initializeProperty(property, theModelPackageImpl.getString(), "companyName", null, 1, 1, Quote.class, false, false, false);
-
     property = (Property)quoteType.getProperties().get(QuoteImpl.PRICE);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "price", null, 1, 1, Quote.class, false, false, false);
-
     property = (Property)quoteType.getProperties().get(QuoteImpl.OPEN1);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "open1", null, 1, 1, Quote.class, false, false, false);
-
     property = (Property)quoteType.getProperties().get(QuoteImpl.HIGH);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "high", null, 1, 1, Quote.class, false, false, false);
-
     property = (Property)quoteType.getProperties().get(QuoteImpl.LOW);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "low", null, 1, 1, Quote.class, false, false, false);
-
     property = (Property)quoteType.getProperties().get(QuoteImpl.VOLUME);
     initializeProperty(property, theModelPackageImpl.getDouble(), "volume", null, 1, 1, Quote.class, false, true, false);
-
     property = (Property)quoteType.getProperties().get(QuoteImpl.CHANGE1);
     initializeProperty(property, theModelPackageImpl.getDouble(), "change1", null, 1, 1, Quote.class, false, true, false);
-
     property = (Property)quoteType.getProperties().get(QuoteImpl.QUOTES);
-    initializeProperty(property, this.getQuote(), "quotes", null, 0, -1, Quote.class, false, false, false, true , null);
+    initializeProperty(property, this.getQuote(), "quotes", null, 0, -1, Quote.class, false, false, false, true, null);
 
-    initializeType(quoteBaseType, QuoteBase.class, "QuoteBase");
-
+    initializeType(quoteBaseType, QuoteBase.class, "QuoteBase", false);
     property = (Property)quoteBaseType.getProperties().get(QuoteBaseImpl.CHANGES);
-    initializeProperty(property, theModelPackageImpl.getChangeSummaryType(), "changes", null, 1, 1, QuoteBase.class, false, false, false, false , null);
+    initializeProperty(property, theModelPackageImpl.getChangeSummaryType(), "changes", null, 1, 1, QuoteBase.class, false, false, false);
 
     createXSDMetaData(theModelPackageImpl);
   }
     
   protected void createXSDMetaData(ModelFactoryImpl theModelPackageImpl)
   {
-//  TODO T-153 regenerate this code when issue with isProxy is fixed createXSDMetaData()
-//    super.createXSDMetaData();
+    super.initXSD();
     
     Property property = null;
     

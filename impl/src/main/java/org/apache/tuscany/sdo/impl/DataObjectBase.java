@@ -22,6 +22,7 @@ package org.apache.tuscany.sdo.impl;
 
 import java.util.List;
 
+import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.util.BasicSequence;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -106,13 +107,19 @@ public abstract class DataObjectBase extends DataObjectImpl
     return new BasicSequence((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)sequence).featureMap().list(((EClass)type).getEStructuralFeature(propertyIndex)));
   }
   
- /*
-  * get the value of the type's property at propertyIndex via the sequence  
-  * @param seq
-  * @param type
-  * @param propertyIndex
-  * @return
-  */
+  protected void createChangeSummary(int property) {
+    ChangeSummaryImpl changeSummary = (ChangeSummaryImpl)SDOFactory.eINSTANCE.createChangeSummary();
+    set(property, changeSummary);
+    changeSummary.setDataObject(this);
+  }
+  
+  /*
+   * get the value of the type's property at propertyIndex via the sequence  
+   * @param seq
+   * @param type
+   * @param propertyIndex
+   * @return
+   */
   protected Object get(Sequence seq, Type type, int propertyIndex) {
     return ((FeatureMap.Internal.Wrapper)seq).featureMap().get(((EClass)type).getEStructuralFeature(propertyIndex), true);
   }

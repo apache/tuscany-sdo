@@ -369,7 +369,7 @@ public class TypeImpl extends DataObjectBase implements Type
    * <!-- end-user-doc -->
    * @generated
    */
-  protected TypeImpl()
+  public TypeImpl()
   {
     super();
   }

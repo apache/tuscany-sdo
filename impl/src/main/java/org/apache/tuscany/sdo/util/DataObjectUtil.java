@@ -690,42 +690,16 @@ public final class DataObjectUtil
     {
       return dataGraph.getChangeSummary();
     }
-//  TODO T-153
-//    return getDataObjectsChangeSummary(dataObject);
+    else
+    {
+      for (DataObject csDataObject = dataObject; csDataObject != null; csDataObject = csDataObject.getContainer())
+      {
+        Property csp = ((ClassImpl)csDataObject.getType()).getChangeSummaryProperty();
+        if (csp != null) return (ChangeSummary)csDataObject.get(csp);
+      }
+    }
     return null;
   }
-
-//TODO T-153
-//  public static Property getChangeSummaryProperty(DataObject dataObject)
-//  {
-//    return ((ClassImpl)dataObject.getType()).getChangeSummaryProperty();
-//  }
-//  
-//  /**
-//   * @param dataObject
-//   * @return
-//   */
-//  private static ChangeSummary getDataObjectsChangeSummary(DataObject dataObject) {
-//    
-//    if(dataObject == null) {
-//      // terminate the recursion up the containment path
-//      return null;
-//    }
-//
-//    Property csp = getChangeSummaryProperty(dataObject);
-//    
-//    if(csp != null) {
-//        ChangeSummary cs = (ChangeSummary)dataObject.get(csp);
-//        if(cs == null) {
-//          cs = SDOFactory.eINSTANCE.createChangeSummary();
-//          ((DataObjectImpl)dataObject).setEChangeSummary(cs);
-//        }
-//        return cs;
-//    }
-//    
-//    // if it fails to find a CS then continue the search up the containment path
-//    return getDataObjectsChangeSummary(dataObject.getContainer());
-//  }
 
   public static void unset(DataObject dataObject, String path)
   {

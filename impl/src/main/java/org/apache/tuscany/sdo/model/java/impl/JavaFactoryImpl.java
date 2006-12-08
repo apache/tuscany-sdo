@@ -26,7 +26,7 @@ import commonj.sdo.Type;
  * This model is generated from sdoJava.xsd, in the sdo-api project.
  * Until the SDO code generator supports name conflicts and regen/merge, follow the following steps to regenerate this model:
  *   1. Regenerate the model into a temporary directory:
- *         XSD2JavaGenerator -targetDirectory <temp-dir> -javaPackage org.apache.tuscany.sdo.model.java <sdo-api-dir>/src/main/resources/xml/sdoJava.xsd
+ *         XSD2JavaGenerator -generateBuiltIn commonj.sdo/java -targetDirectory <temp-dir> -javaPackage org.apache.tuscany.sdo.model.java <sdo-api-dir>/src/main/resources/xml/sdoJava.xsd
  *   3. Change the value of the NAMESPACE_PREFIX to "sdoJava"
  *           public static final String NAMESPACE_PREFIX = "sdoJava"; //FB generated as "java"
  *   4. Delete all the createXXXFromString() and convertXXXToString() methods in the newly generated JavaFactoryImpl and

@@ -39,7 +39,7 @@ public abstract class DataObjectImpl extends DataObjectBase implements DataObjec
    * <!-- end-user-doc -->
    * @generated
    */
-  protected DataObjectImpl()
+  public DataObjectImpl()
   {
     super();
   }

@@ -1,4 +1,4 @@
-<%@ jet package="org.apache.tuscany.sdo.generate.templates.model" skeleton="generator.skeleton" imports="org.eclipse.emf.codegen.util.* java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SDOClass" version="$Id: Class.javajet,v 1.41 2006/02/15 19:58:39 emerks Exp $" %>
+<%@ jet package="org.apache.tuscany.sdo.generate.templates.model" skeleton="generator.skeleton" imports="org.apache.tuscany.sdo.generate.util.* java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SDOClass" version="$Id: Class.javajet,v 1.41 2006/02/15 19:58:39 emerks Exp $" %>
 <%
 /**
  *
@@ -337,6 +337,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 		super();
   <%for (Iterator i=genClass.getFlagGenFeatures("true").iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
 		<%=genClass.getFlagsField(genFeature)%> |= <%=genFeature.getUpperName()%>_EFLAG;
+  <%}%>
+  <%if (SDOGenUtil.hasChangeSummaryProperty(genClass)) {%>
+		createChangeSummary(<%=SDOGenUtil.getChangeSummaryProperty(genClass)%>);
   <%}%>
 	}
 

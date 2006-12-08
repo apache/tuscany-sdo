@@ -46,7 +46,7 @@ public class DataGraphTypeImpl extends BaseDataGraphTypeImpl implements DataGrap
   public final static int XSD = BaseDataGraphTypeImpl.XSD;
 
   /**
-   * The feature id for the '<em><b>Change Summary</b></em>' containment reference.
+   * The feature id for the '<em><b>Change Summary</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -98,7 +98,7 @@ public class DataGraphTypeImpl extends BaseDataGraphTypeImpl implements DataGrap
    * <!-- end-user-doc -->
    * @generated
    */
-  protected DataGraphTypeImpl()
+  public DataGraphTypeImpl()
   {
     super();
   }

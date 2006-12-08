@@ -64,7 +64,7 @@ public class ModelsTypeImpl extends DataObjectBase implements ModelsType
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ModelsTypeImpl()
+  public ModelsTypeImpl()
   {
     super();
   }

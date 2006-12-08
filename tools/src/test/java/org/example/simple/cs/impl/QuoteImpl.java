@@ -326,7 +326,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
    * <!-- end-user-doc -->
    * @generated
    */
-  protected QuoteImpl()
+  public QuoteImpl()
   {
     super();
   }
@@ -749,7 +749,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
    */
   public String toString()
   {
-    if (isProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (symbol: ");

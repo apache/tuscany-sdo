@@ -367,7 +367,7 @@ public class PropertyImpl extends DataObjectBase implements Property
    * <!-- end-user-doc -->
    * @generated
    */
-  protected PropertyImpl()
+  public PropertyImpl()
   {
     super();
   }

@@ -63,6 +63,13 @@ public class DynamicDataObjectImpl extends DataObjectImpl implements DataObject,
   {
     super();
     eSetClass(eClass);
+    Property csp = ((ClassImpl)eClass).getChangeSummaryProperty();
+    if (csp != null)
+    {
+      ChangeSummaryImpl changeSummary = (ChangeSummaryImpl)SDOFactory.eINSTANCE.createChangeSummary();
+      set(csp, changeSummary);
+      changeSummary.setDataObject(this);
+    }
   }
 
   /**
@@ -194,17 +201,7 @@ public class DynamicDataObjectImpl extends DataObjectImpl implements DataObject,
 
     public EObject basicCreate(EClass eClass)
     {
-//    TODO T-153 
-// TODO TUSCANY-153 decide if i need this eager initialization
-//      Property csp = ((ClassImpl)eClass).getChangeSummaryProperty();
-//      if(csp == null) {
-          return new DynamicDataObjectImpl(eClass);
-//      } else {
-//        DynamicDataObjectImpl result = new DynamicDataObjectImpl(eClass);
-//        result.set(csp, SDOFactory.eINSTANCE.createChangeSummary());
-//        return result;
-//      }
-
+      return new DynamicDataObjectImpl(eClass);
     }
   }
 

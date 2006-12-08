@@ -66,7 +66,7 @@ public class TypesImpl extends DataObjectBase implements Types
    * <!-- end-user-doc -->
    * @generated
    */
-  protected TypesImpl()
+  public TypesImpl()
   {
     super();
   }

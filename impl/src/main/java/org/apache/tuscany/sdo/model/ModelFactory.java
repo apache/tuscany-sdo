@@ -26,15 +26,6 @@ public interface ModelFactory
   ModelFactory INSTANCE = org.apache.tuscany.sdo.model.impl.ModelFactoryImpl.init();
 
   /**
-   * Returns a new object of class '<em>Change Summary Type</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Change Summary Type</em>'.
-   * @generated
-   */
-  ChangeSummaryType createChangeSummaryType();
-
-  /**
    * Returns a new object of class '<em>Data Graph Type</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

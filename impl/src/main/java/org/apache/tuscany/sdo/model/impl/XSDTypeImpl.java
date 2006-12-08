@@ -64,7 +64,7 @@ public class XSDTypeImpl extends DataObjectBase implements XSDType
    * <!-- end-user-doc -->
    * @generated
    */
-  protected XSDTypeImpl()
+  public XSDTypeImpl()
   {
     super();
   }

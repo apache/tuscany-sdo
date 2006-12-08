@@ -73,15 +73,25 @@ public class XSDHelperImpl implements XSDHelper
 
   private ExtendedMetaData extendedMetaData;
 
-  public XSDHelperImpl(ExtendedMetaData extendedMetaData)
+  public XSDHelperImpl(ExtendedMetaData extendedMetaData, String redefineBuiltIn)
   {
     this.extendedMetaData = extendedMetaData;
     ecoreBuilder = new SDOXSDEcoreBuilder(extendedMetaData);
+    
+    // Add the built-in models to the targetNamespaceToEPackageMap so they can't be (re)defined/overridden
+    for (Iterator iter = TypeHelperImpl.getBuiltInModels().iterator(); iter.hasNext(); ) {
+      EPackage ePackage = (EPackage)iter.next();
+      ecoreBuilder.getTargetNamespaceToEPackageMap().put(ePackage.getNsURI(), ePackage);
+    }
+    
+    if (redefineBuiltIn != null) { // Redefining/regenerating this built-in model
+      ecoreBuilder.getTargetNamespaceToEPackageMap().remove(redefineBuiltIn);
+    }
   }
-
+  
   public XSDHelperImpl(TypeHelper typeHelper)
   {
-    this(((TypeHelperImpl)typeHelper).extendedMetaData);
+    this(((TypeHelperImpl)typeHelper).extendedMetaData, null);
   }
   
   public String getLocalName(Type type)
@@ -186,7 +196,7 @@ public class XSDHelperImpl implements XSDHelper
         XSDSchema schema = (XSDSchema)schemaIter.next();    
 
         EPackage ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
-        if (ePackage == null) //FB Comment out this line to regenerate sdoModel.xsd
+        if (ePackage == null || TypeHelperImpl.getBuiltInModels().contains(ePackage))
         {
           Collection originalEPackages = new HashSet(ecoreBuilder.getTargetNamespaceToEPackageMap().values());
           ecoreBuilder.generate(schema);
@@ -209,7 +219,7 @@ public class XSDHelperImpl implements XSDHelper
     }
     catch (Exception e)
     {
-      //e.printStackTrace();
+      e.printStackTrace();
       throw new IllegalArgumentException(e.getMessage());
     }
   }

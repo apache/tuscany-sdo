@@ -21,13 +21,14 @@ package org.apache.tuscany.sdo.helper;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
-import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
-import org.apache.tuscany.sdo.model.java.impl.JavaFactoryImpl;
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.java.JavaFactory;
 import org.apache.tuscany.sdo.util.SDOUtil;
-import org.apache.tuscany.sdo.util.metadata.impl.MetadataFactoryImpl;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -49,6 +50,19 @@ public class TypeHelperImpl implements TypeHelper
 {
   protected ExtendedMetaData extendedMetaData;
   
+  static protected Set builtInModels = null;
+  
+  static public Set getBuiltInModels()
+  {
+    if (builtInModels == null) {
+      builtInModels = new HashSet();
+      builtInModels.add(ModelFactory.INSTANCE);
+      builtInModels.add(JavaFactory.INSTANCE);
+      //TODO builtInModels.add(XMLFactory.INSTANCE);
+    }
+    return TypeHelperImpl.builtInModels;
+  }  
+
   public ExtendedMetaData getExtendedMetaData()
   {
     return extendedMetaData;
@@ -59,9 +73,9 @@ public class TypeHelperImpl implements TypeHelper
     this.extendedMetaData = extendedMetaData;
     
     // Register the standard (predefined) SDO types
-    ModelFactoryImpl.init(); //FB
-    JavaFactoryImpl.init(); //FB
-    MetadataFactoryImpl.init(); //FB
+    getBuiltInModels(); // Simply accessing EMF packages causes auto registration in global registry
+    
+    //MetadataFactoryImpl.init(); //FB do we want to preregister this?
   }
   
   public Type getType(String uri, String typeName)
@@ -300,5 +314,6 @@ public class TypeHelperImpl implements TypeHelper
   {
     //FB TBD ... in the future we will allow elements or attributes - see SDOUtil.createProperty()
     return (Property)extendedMetaData.getElement(uri, propertyName);
-  }  
+  }
+
 }

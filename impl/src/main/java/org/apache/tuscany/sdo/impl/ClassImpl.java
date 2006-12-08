@@ -49,9 +49,8 @@ import commonj.sdo.Type;
  */
 public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sdo.model.Type/*, DataObject*/
 {
-    private static final Property cspCacheUnitialized = SDOFactory.eINSTANCE.createAttribute();
-    private Property changeSummaryPropertyCache = cspCacheUnitialized;
-
+  private static final Property UNINITIALIZED_CSPC = SDOFactory.eINSTANCE.createAttribute();
+  private Property changeSummaryPropertyCache = UNINITIALIZED_CSPC;
   
   /**
    * <!-- begin-user-doc -->
@@ -292,33 +291,21 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
     return getURI();
   }
 
-//TODO T-153 
-  /**
-   * 
-   */
   public Property getChangeSummaryProperty() {
-
-   
-    // TODO make sure to take account of dynamic types, where the state might go from
-    // not having a cs to having a cs
-    if(changeSummaryPropertyCache == cspCacheUnitialized) {
-      // check for a property of type ChangeSummaryType and give special treatment
+    if (changeSummaryPropertyCache == UNINITIALIZED_CSPC) {
       changeSummaryPropertyCache = null;
-      Iterator props = getProperties().iterator();
-      
-      Type csType = (Type)((ModelFactoryImpl)ModelFactory.INSTANCE).getChangeSummaryType();
-      while(props.hasNext()) {
+
+      // Find property of type ChangeSummaryType, if one exists
+      Type csType = ((ModelFactoryImpl)ModelFactory.INSTANCE).getChangeSummaryType();
+      for (Iterator props = getProperties().iterator(); props.hasNext(); ) {
         Property p = (Property)props.next();
         if(csType == p.getType()) {
-          if(changeSummaryPropertyCache == null) {
-            changeSummaryPropertyCache = p;
-          } else {
-            throw new IllegalStateException("Only one Property of type ChangeSummaryType is permitted in a Type");
-          }
+          changeSummaryPropertyCache = p;
+          break;
         }
       }
     }
-    
+
     return changeSummaryPropertyCache;
   }
 

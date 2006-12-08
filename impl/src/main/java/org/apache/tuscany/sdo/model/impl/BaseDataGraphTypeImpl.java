@@ -6,13 +6,13 @@
  */
 package org.apache.tuscany.sdo.model.impl;
 
+import commonj.sdo.ChangeSummary;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 
 import org.apache.tuscany.sdo.impl.DataObjectBase;
 
 import org.apache.tuscany.sdo.model.BaseDataGraphType;
-import org.apache.tuscany.sdo.model.ChangeSummaryType;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.ModelsType;
 import org.apache.tuscany.sdo.model.XSDType;
@@ -26,7 +26,7 @@ import org.apache.tuscany.sdo.model.XSDType;
  * <ul>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.BaseDataGraphTypeImpl#getModels <em>Models</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.BaseDataGraphTypeImpl#getXsd <em>Xsd</em>}</li>
- *   <li>{@link org.apache.tuscany.sdo.model.impl.BaseDataGraphTypeImpl#getChangeSummary_ <em>Change Summary</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.impl.BaseDataGraphTypeImpl#getChangeSummary <em>Change Summary</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.impl.BaseDataGraphTypeImpl#getAnyAttribute <em>Any Attribute</em>}</li>
  * </ul>
  * </p>
@@ -54,7 +54,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
   public final static int XSD = 1;
 
   /**
-   * The feature id for the '<em><b>Change Summary</b></em>' containment reference.
+   * The feature id for the '<em><b>Change Summary</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
@@ -104,16 +104,25 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
   protected XSDType xsd = null;
   
   /**
-   * The cached value of the '{@link #getChangeSummary_() <em>Change Summary</em>}' containment reference.
+   * The default value of the '{@link #getChangeSummary() <em>Change Summary</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getChangeSummary_()
+   * @see #getChangeSummary()
    * @generated
    * @ordered
    */
-  
-  protected ChangeSummaryType changeSummary = null;
-  
+  protected static final ChangeSummary CHANGE_SUMMARY_DEFAULT_ = null;
+
+  /**
+   * The cached value of the '{@link #getChangeSummary() <em>Change Summary</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #getChangeSummary()
+   * @generated
+   * @ordered
+   */
+  protected ChangeSummary changeSummary = CHANGE_SUMMARY_DEFAULT_;
+
   /**
    * The cached value of the '{@link #getAnyAttribute() <em>Any Attribute</em>}' attribute list.
    * <!-- begin-user-doc -->
@@ -130,9 +139,10 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
    * <!-- end-user-doc -->
    * @generated
    */
-  protected BaseDataGraphTypeImpl()
+  public BaseDataGraphTypeImpl()
   {
     super();
+    createChangeSummary(CHANGE_SUMMARY);
   }
 
   /**
@@ -242,7 +252,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
    * <!-- end-user-doc -->
    * @generated
    */
-  public ChangeSummaryType getChangeSummary_()
+  public ChangeSummary getChangeSummary()
   {
     return changeSummary;
   }
@@ -251,36 +261,12 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
    * <!-- end-user-doc -->
    * @generated
    */
-  public ChangeContext basicSetChangeSummary(ChangeSummaryType newChangeSummary, ChangeContext changeContext)
+  public void setChangeSummary(ChangeSummary newChangeSummary)
   {
-    ChangeSummaryType oldChangeSummary = changeSummary;
+    ChangeSummary oldChangeSummary = changeSummary;
     changeSummary = newChangeSummary;
     if (isNotifying())
-    {
-      addNotification(this, ChangeKind.SET, CHANGE_SUMMARY, oldChangeSummary, newChangeSummary, changeContext);
-    }
-    return changeContext;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public void setChangeSummary(ChangeSummaryType newChangeSummary)
-  {
-    if (newChangeSummary != changeSummary)
-    {
-      ChangeContext changeContext = null;
-      if (changeSummary != null)
-        changeContext = inverseRemove(changeSummary, this, OPPOSITE_FEATURE_BASE - CHANGE_SUMMARY, null, changeContext);
-      if (newChangeSummary != null)
-        changeContext = inverseAdd(newChangeSummary, this, OPPOSITE_FEATURE_BASE - CHANGE_SUMMARY, null, changeContext);
-      changeContext = basicSetChangeSummary(newChangeSummary, changeContext);
-      if (changeContext != null) dispatch(changeContext);
-    }
-    else if (isNotifying())
-      notify(ChangeKind.SET, CHANGE_SUMMARY, newChangeSummary, newChangeSummary);
+      notify(ChangeKind.SET, CHANGE_SUMMARY, oldChangeSummary, changeSummary);
   }
 
   /**
@@ -309,8 +295,6 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
         return basicSetModels(null, changeContext);
       case XSD:
         return basicSetXsd(null, changeContext);
-      case CHANGE_SUMMARY:
-        return basicSetChangeSummary(null, changeContext);
       case ANY_ATTRIBUTE:
         return removeFromSequence(getAnyAttribute(), otherEnd, changeContext);
     }
@@ -331,7 +315,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
       case XSD:
         return getXsd();
       case CHANGE_SUMMARY:
-        return getChangeSummary_();
+        return getChangeSummary();
       case ANY_ATTRIBUTE:
         // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
         //if (coreType) 
@@ -356,7 +340,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
         setXsd((XSDType)newValue);
         return;
       case CHANGE_SUMMARY:
-        setChangeSummary((ChangeSummaryType)newValue);
+        setChangeSummary((ChangeSummary)newValue);
         return;
       case ANY_ATTRIBUTE:
       	setSequence(getAnyAttribute(), newValue);
@@ -381,7 +365,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
         setXsd((XSDType)null);
         return;
       case CHANGE_SUMMARY:
-        setChangeSummary((ChangeSummaryType)null);
+        setChangeSummary(CHANGE_SUMMARY_DEFAULT_);
         return;
       case ANY_ATTRIBUTE:
         unsetSequence(getAnyAttribute());
@@ -404,7 +388,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
       case XSD:
         return xsd != null;
       case CHANGE_SUMMARY:
-        return changeSummary != null;
+        return CHANGE_SUMMARY_DEFAULT_ == null ? changeSummary != null : !CHANGE_SUMMARY_DEFAULT_.equals(changeSummary);
       case ANY_ATTRIBUTE:
         return anyAttribute != null && !isSequenceEmpty(getAnyAttribute());
     }
@@ -421,7 +405,9 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (anyAttribute: ");
+    result.append(" (changeSummary: ");
+    result.append(changeSummary);
+    result.append(", anyAttribute: ");
     result.append(anyAttribute);
     result.append(')');
     return result.toString();

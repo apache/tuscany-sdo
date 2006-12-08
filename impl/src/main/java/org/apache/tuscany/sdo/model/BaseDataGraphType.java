@@ -6,6 +6,7 @@
  */
 package org.apache.tuscany.sdo.model;
 
+import commonj.sdo.ChangeSummary;
 import commonj.sdo.Sequence;
 
 import java.io.Serializable;
@@ -20,7 +21,7 @@ import java.io.Serializable;
  * <ul>
  *   <li>{@link org.apache.tuscany.sdo.model.BaseDataGraphType#getModels <em>Models</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.BaseDataGraphType#getXsd <em>Xsd</em>}</li>
- *   <li>{@link org.apache.tuscany.sdo.model.BaseDataGraphType#getChangeSummary_ <em>Change Summary</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.BaseDataGraphType#getChangeSummary <em>Change Summary</em>}</li>
  *   <li>{@link org.apache.tuscany.sdo.model.BaseDataGraphType#getAnyAttribute <em>Any Attribute</em>}</li>
  * </ul>
  * </p>
@@ -79,28 +80,28 @@ public interface BaseDataGraphType extends Serializable
   void setXsd(XSDType value);
 
   /**
-   * Returns the value of the '<em><b>Change Summary</b></em>' containment reference.
+   * Returns the value of the '<em><b>Change Summary</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>
-   * If the meaning of the '<em>Change Summary</em>' containment reference isn't clear,
+   * If the meaning of the '<em>Change Summary</em>' attribute isn't clear,
    * there really should be more of a description here...
    * </p>
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Change Summary</em>' containment reference.
-   * @see #setChangeSummary(ChangeSummaryType)
+   * @return the value of the '<em>Change Summary</em>' attribute.
+   * @see #setChangeSummary(ChangeSummary)
    * @generated
    */
-  ChangeSummaryType getChangeSummary_();
+  ChangeSummary getChangeSummary();
 
   /**
-   * Sets the value of the '{@link org.apache.tuscany.sdo.model.BaseDataGraphType#getChangeSummary_ <em>Change Summary</em>}' containment reference.
+   * Sets the value of the '{@link org.apache.tuscany.sdo.model.BaseDataGraphType#getChangeSummary <em>Change Summary</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Change Summary</em>' containment reference.
-   * @see #getChangeSummary_()
+   * @param value the new value of the '<em>Change Summary</em>' attribute.
+   * @see #getChangeSummary()
    * @generated
    */
-  void setChangeSummary(ChangeSummaryType value);
+  void setChangeSummary(ChangeSummary value);
 
   /**
    * Returns the value of the '<em><b>Any Attribute</b></em>' attribute list.

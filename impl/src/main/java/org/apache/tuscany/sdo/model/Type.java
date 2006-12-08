@@ -358,7 +358,7 @@ public interface Type extends Serializable
    * @generated
    */
   Sequence getAnyAttribute();
-  
+
   String getInstanceClassName();
 
 } // Type

@@ -55,7 +55,7 @@ public class XSD2JavaGenerator extends JavaGenerator
    *     -schemaNamespace
    *         Generate classes for XSD types in the specified targetNamespace. By default, types in the
    *         targetNamespace of the first schema in the specified xsd or wsdl file are generated.
-   *     
+   *         
    *     NOTE: see the base class JavaGenerator for other options.
    *         
    *   Example:
@@ -80,12 +80,18 @@ public class XSD2JavaGenerator extends JavaGenerator
   }
   
   protected String schemaNamespace = null;
+  protected String generateBuiltIn = null;
 
   protected int handleArgument(String args[], int index)
   {
     if (args[index].equalsIgnoreCase("-schemaNamespace"))
     {
       schemaNamespace = args[++index];
+    }
+    else if (args[index].equalsIgnoreCase("-generateBuiltIn"))
+    {
+      // Internal option used when regenerating one of the built-in (predefined) models (e.g., commonj.sdo).
+      generateBuiltIn = args[++index];
     }
     else
     {
@@ -98,15 +104,20 @@ public class XSD2JavaGenerator extends JavaGenerator
   protected void run(String args[])
   {
     String xsdFileName = args[inputIndex];
-    generateFromXMLSchema(xsdFileName, schemaNamespace, targetDirectory, javaPackage, prefix, genOptions);
+    generateFromXMLSchema(xsdFileName, schemaNamespace, targetDirectory, javaPackage, prefix, genOptions, generateBuiltIn);
   }
 
   public static void generateFromXMLSchema(String xsdFileName, String namespace, String targetDirectory, String javaPackage, String prefix, int genOptions)
   {
+    generateFromXMLSchema(xsdFileName, namespace, targetDirectory, javaPackage, prefix, genOptions, null);
+  }
+
+  protected static void generateFromXMLSchema(String xsdFileName, String namespace, String targetDirectory, String javaPackage, String prefix, int genOptions, String regenerateBuiltIn)
+  {
     DataObjectUtil.initRuntime();
     EPackage.Registry packageRegistry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE);
     ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(packageRegistry);
-    XSDHelper xsdHelper = new XSDHelperImpl(extendedMetaData);
+    XSDHelper xsdHelper = new XSDHelperImpl(extendedMetaData, regenerateBuiltIn);
 
     try
     {
