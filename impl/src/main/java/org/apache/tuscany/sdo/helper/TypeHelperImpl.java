@@ -28,6 +28,7 @@ import java.util.Set;
 
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.java.JavaFactory;
+import org.apache.tuscany.sdo.model.xml.XMLFactory;
 import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
@@ -58,7 +59,7 @@ public class TypeHelperImpl implements TypeHelper
       builtInModels = new HashSet();
       builtInModels.add(ModelFactory.INSTANCE);
       builtInModels.add(JavaFactory.INSTANCE);
-      //TODO builtInModels.add(XMLFactory.INSTANCE);
+      builtInModels.add(XMLFactory.INSTANCE);
     }
     return TypeHelperImpl.builtInModels;
   }  
