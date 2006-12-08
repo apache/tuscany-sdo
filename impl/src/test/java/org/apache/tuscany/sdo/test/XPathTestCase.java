@@ -23,13 +23,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
-
 import junit.framework.TestCase;
+
+import org.apache.tuscany.sdo.util.SDOUtil;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
-import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
@@ -92,13 +91,12 @@ public class XPathTestCase extends TestCase {
 
         DataObject noFolder = null;
 
-//        TODO fix this case to return null
-//        try {
-//            noFolder = root.getDataObject("Folder[3]");
-//            assertNull(noFolder);
-//        } catch (Exception e) {
-//            assertFalse("bad indexing generated exception" + e, true);
-//        }
+        try {
+            noFolder = root.getDataObject("Folder[3]");
+            assertNull(noFolder);
+        } catch (Exception e) {
+            assertFalse("bad indexing generated exception" + e, true);
+        }
 
         try {
             noFolder = root.getDataObject("Folder[0]");
@@ -107,13 +105,12 @@ public class XPathTestCase extends TestCase {
             assertFalse("bad indexing generated exception" + e, true);
         }
 
-//      TODO fix this case to return null
-//        try {
-//            noFolder = root.getDataObject("Folder.2");
-//            assertNull(noFolder);
-//        } catch (Exception e) {
-//            assertFalse("bad indexing generated exception" + e, true);
-//        }
+        try {
+            noFolder = root.getDataObject("Folder.2");
+            assertNull(noFolder);
+        } catch (Exception e) {
+            assertFalse("bad indexing generated exception" + e, true);
+        }
 
         try {
             noFolder = root.getDataObject("Folder.-1");

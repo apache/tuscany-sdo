@@ -2123,20 +2123,26 @@ public final class DataObjectUtil
      */ 
     protected void setIndex(int index)
     {
-      if(index < 0) {
-        // The index value should be greater than 0.  An index value which is too high will result in
-        // an index out of bounds generated later on accessing the data.
+      if (index < 0) {
+        // The index value should not be less than 0.
         runtimeException = new IndexOutOfBoundsException("Index value is too low");
         setEObject(null);
         return;
       }
-      this.index = index;
       if (!FeatureMapUtil.isMany(eObject, feature))
       {
-        runtimeException = new IndexOutOfBoundsException("Index applies only to multi-valued features.");
+        runtimeException = new IndexOutOfBoundsException("Index applies only to multi-valued features");
         setEObject(null);
         return;
       }
+      int size = ((List) eObject.eGet(feature)).size();
+      if (index >= size)
+      {
+        // The index value should be less than size.
+        runtimeException = new IndexOutOfBoundsException("Index value should have been less than " + size);
+        setEObject(null);
+      }
+      this.index = index;
     }
 
     protected void process(String pathString)
