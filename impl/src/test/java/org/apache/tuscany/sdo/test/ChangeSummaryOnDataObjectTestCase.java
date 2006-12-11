@@ -50,12 +50,7 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
   XSDHelper xh;
   TypeHelper th;
 
-  public void testNothing()
-  {
-    // just to keep junit happy whilst all other tests are commented out
-  }
-  
-  public void dont_testBasicsDO() {
+  public void testBasicsDO() {
     Type cst = TypeHelper.INSTANCE.getType("commonj.sdo","ChangeSummaryType");
     Type strt = TypeHelper.INSTANCE.getType("commonj.sdo", "String");
     
@@ -68,7 +63,7 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
     testBasicsBody(strProp, iNewt);
 }
 
-  public void dont_testBasicsDG() {
+  public void testBasicsDG() {
 
     Type strt = TypeHelper.INSTANCE.getType("commonj.sdo", "String");
     
@@ -114,7 +109,7 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
 
 
 
-  public void dont_testDynamicNestedDataObjectsDG() throws Exception {
+  public void testDynamicNestedDataObjectsDG() throws Exception {
     DataGraph dataGraph = SDOUtil.createDataGraph();
     DataObject quote = dataGraph.createRootObject(th.getType("http://www.example.com/simple", "Quote"));
 
@@ -137,8 +132,8 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
 
   }
   
-  public void dont_testDynamicNestedDataObjectsDO() throws Exception {
-    Type quoteType = th.getType("http://www.example.com/simpleCS", "QuoteBase");
+  public void testDynamicNestedDataObjectsDO() throws Exception {
+    Type quoteType = th.getType("http://www.example.com/simpleCS", "RootQuote");
     DataObject quote = DataFactory.INSTANCE.create(quoteType);
 
     testDynamicNestedDOBody(quote);   

@@ -19,7 +19,7 @@
     		  
   <xsd:import namespace="commonj.sdo" schemaLocation="sdoModel.xsd"/>
   
-  <xsd:complexType name="QuoteBase">
+  <xsd:complexType name="RootQuote">
   	<xsd:complexContent>
   	  <xsd:extension base="simpleCS:Quote">
   	    <xsd:sequence>
