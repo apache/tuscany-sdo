@@ -63,7 +63,7 @@
     </repositories>
 
     <properties>
-        <specVersion>2.0.1</specVersion>
+        <specVersion>2.1</specVersion>
         <emfVersion>2.2.1</emfVersion>
     </properties>
 
