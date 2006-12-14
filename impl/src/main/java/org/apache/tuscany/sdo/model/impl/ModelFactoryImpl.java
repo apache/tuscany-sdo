@@ -42,12 +42,12 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
  *         setOpposite() to setOpposite_();
  *   3. Change the value of the NAMESPACE_PREFIX to "sdo"
  *           public static final String NAMESPACE_PREFIX = "sdo"; //FB generated as "commonj"
- *   4. Copy the following method from the old to new generated Type/TypeImpl interface and implemention class:
+ *   4. Copy the following method from the old to new generated Type/TypeImpl interface and implemention class (resolve any missing imports):
  *         String getInstanceClassName();
- *   5. Copy the following method from the old to new generated Types/TypesImpl interface and implemention class:
+ *   5. Copy the following method from the old to new generated Types/TypesImpl interface and implemention class (resolve any missing imports):
  *         List getTypeList();
  *   6. Delete all the createXXXFromString() and convertXXXToString() methods in the newly generated ModelFactoryImpl and
- *      replace them with the ones from this file.
+ *      replace them with the ones from this file (resolve any missing imports).
  *   7. Move this JavaDoc comment into the newly generated ModelFactoryImpl class.
  * <!-- end-user-doc -->
  * @generated
@@ -69,7 +69,7 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String NAMESPACE_PREFIX = "sdo"; //FB generated as "commonj"	
+  public static final String NAMESPACE_PREFIX = "sdo"; //FB generated as "commonj"     
   public static final int BASE_DATA_GRAPH_TYPE = 1;	
   public static final int DATA_GRAPH_TYPE = 2;	
   public static final int DATA_OBJECT = 3;	
@@ -79,40 +79,41 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
   public static final int TYPE = 7;	
   public static final int TYPES = 8;	
   public static final int XSD_TYPE = 9;	
-  public static final int BOOLEAN = 10;	
-  public static final int BOOLEAN_OBJECT = 11;	
-  public static final int BYTE = 12;	
-  public static final int BYTE_OBJECT = 13;	
-  public static final int BYTES = 14;	
-  public static final int CHANGE_SUMMARY_TYPE = 15;	
-  public static final int CHARACTER = 16;	
-  public static final int CHARACTER_OBJECT = 17;	
-  public static final int DATE = 18;	
-  public static final int DATE_TIME = 19;	
-  public static final int DAY = 20;	
-  public static final int DECIMAL = 21;	
-  public static final int DOUBLE = 22;	
-  public static final int DOUBLE_OBJECT = 23;	
-  public static final int DURATION = 24;	
-  public static final int FLOAT = 25;	
-  public static final int FLOAT_OBJECT = 26;	
-  public static final int INT = 27;	
-  public static final int INTEGER = 28;	
-  public static final int INT_OBJECT = 29;	
-  public static final int LONG = 30;	
-  public static final int LONG_OBJECT = 31;	
-  public static final int MONTH = 32;	
-  public static final int MONTH_DAY = 33;	
-  public static final int OBJECT = 34;	
-  public static final int SHORT = 35;	
-  public static final int SHORT_OBJECT = 36;	
-  public static final int STRING = 37;	
-  public static final int STRINGS = 38;	
-  public static final int TIME = 39;	
-  public static final int URI = 40;	
-  public static final int YEAR = 41;	
-  public static final int YEAR_MONTH = 42;	
-  public static final int YEAR_MONTH_DAY = 43;
+  public static final int BASE64_BYTES = 10;	
+  public static final int BOOLEAN = 11;	
+  public static final int BOOLEAN_OBJECT = 12;	
+  public static final int BYTE = 13;	
+  public static final int BYTE_OBJECT = 14;	
+  public static final int BYTES = 15;	
+  public static final int CHANGE_SUMMARY_TYPE = 16;	
+  public static final int CHARACTER = 17;	
+  public static final int CHARACTER_OBJECT = 18;	
+  public static final int DATE = 19;	
+  public static final int DATE_TIME = 20;	
+  public static final int DAY = 21;	
+  public static final int DECIMAL = 22;	
+  public static final int DOUBLE = 23;	
+  public static final int DOUBLE_OBJECT = 24;	
+  public static final int DURATION = 25;	
+  public static final int FLOAT = 26;	
+  public static final int FLOAT_OBJECT = 27;	
+  public static final int INT = 28;	
+  public static final int INTEGER = 29;	
+  public static final int INT_OBJECT = 30;	
+  public static final int LONG = 31;	
+  public static final int LONG_OBJECT = 32;	
+  public static final int MONTH = 33;	
+  public static final int MONTH_DAY = 34;	
+  public static final int OBJECT = 35;	
+  public static final int SHORT = 36;	
+  public static final int SHORT_OBJECT = 37;	
+  public static final int STRING = 38;	
+  public static final int STRINGS = 39;	
+  public static final int TIME = 40;	
+  public static final int URI = 41;	
+  public static final int YEAR = 42;	
+  public static final int YEAR_MONTH = 43;	
+  public static final int YEAR_MONTH_DAY = 44;
   
   /**
    * Creates an instance of the factory.
@@ -154,6 +155,8 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
   {
     switch (typeNumber)
     {
+      case BASE64_BYTES:
+        return createBase64BytesFromString(initialValue);
       case BOOLEAN:
         return createBooleanFromString(initialValue);
       case BOOLEAN_OBJECT:
@@ -236,6 +239,8 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
   {
     switch (typeNumber)
     {
+      case BASE64_BYTES:
+        return convertBase64BytesToString(instanceValue);
       case BOOLEAN:
         return convertBooleanToString(instanceValue);
       case BOOLEAN_OBJECT:
@@ -431,6 +436,13 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
   public commonj.sdo.Type getXSDType()
   {
     return xsdTypeType;
+  }
+    
+  protected commonj.sdo.Type base64BytesType = null;
+
+  public commonj.sdo.Type getBase64Bytes()
+  {
+    return base64BytesType;
   }
     
   protected commonj.sdo.Type boolean_Type = null;
@@ -754,6 +766,7 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
     createProperty(true, xsdTypeType, XSDTypeImpl.ANY);
 
     // Create data types
+    base64BytesType = createType(true, BASE64_BYTES );
     boolean_Type = createType(true, BOOLEAN );
     booleanObjectType = createType(true, BOOLEAN_OBJECT );
     byte_Type = createType(true, BYTE );
@@ -887,6 +900,9 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
     initializeProperty(property, getSequence(), "any", null, 0, -1, XSDType.class, false, false, false);
 
     // Initialize data types
+    initializeType(base64BytesType, byte[].class, "Base64Bytes", true, false);
+    setInstanceProperty (base64BytesType, "commonj.sdo/java", "instanceClass", "byte[]");
+
     initializeType(boolean_Type, boolean.class, "Boolean", true, false);
     setInstanceProperty (boolean_Type, "commonj.sdo/java", "instanceClass", "boolean");
 
@@ -1395,6 +1411,13 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
        });
 
     addXSDMapping
+      (base64BytesType,
+       new String[] 
+       {
+       "name", "Base64Bytes"
+       });
+
+    addXSDMapping
       (boolean_Type,
        new String[] 
        {
@@ -1642,6 +1665,33 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
 
   }
   
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public byte[] createBase64BytesFromString(String initialValue)
+  {
+    return XMLTypeFactory.eINSTANCE.createBase64Binary(initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public String convertBase64BytesToString(Object instanceValue)
+  {
+    if (instanceValue instanceof byte[]) 
+    {
+        return XMLTypeFactory.eINSTANCE.convertBase64Binary((byte[])instanceValue);
+    } 
+    else 
+    {
+        return XMLTypeFactory.eINSTANCE.convertBase64Binary(instanceValue.toString().getBytes());
+    }
+  }
+
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
