@@ -30,7 +30,7 @@
 
   </xsd:complexType>
   		   
-  <xsd:element name="stockQuote" type="simpleCS:QuoteBase"/>
+  <xsd:element name="stockQuote" type="simpleCS:RootQuote"/>
 
   <xsd:complexType name="Quote">
     <xsd:sequence>
