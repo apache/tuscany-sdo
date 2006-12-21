@@ -23,13 +23,11 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.example.simple.cs.CSFactory;
-import org.example.simple.cs.Quote;
-import org.example.simple.cs.QuoteBase;
-
+import com.example.simple.cs.CSFactory;
+import com.example.simple.cs.Quote;
+import com.example.simple.cs.QuoteBase;
 import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataObject;
-import commonj.sdo.helper.XMLHelper;
 
 
 public class ChangeSummaryGenTestCase extends TestCase {

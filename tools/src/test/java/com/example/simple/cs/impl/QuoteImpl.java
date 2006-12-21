@@ -4,10 +4,10 @@
  *
  * $Id$
  */
-package com.example.simple.impl;
+package com.example.simple.cs.impl;
 
-import com.example.simple.Quote;
-import com.example.simple.SimpleFactory;
+import com.example.simple.cs.CSFactory;
+import com.example.simple.cs.Quote;
 
 import commonj.sdo.Type;
 
@@ -25,15 +25,15 @@ import org.apache.tuscany.sdo.impl.DataObjectBase;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getSymbol <em>Symbol</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getCompanyName <em>Company Name</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getPrice <em>Price</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getOpen1 <em>Open1</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getHigh <em>High</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getLow <em>Low</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getVolume <em>Volume</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getChange1 <em>Change1</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getQuotes <em>Quotes</em>}</li>
+ *   <li>{@link com.example.simple.cs.impl.QuoteImpl#getSymbol <em>Symbol</em>}</li>
+ *   <li>{@link com.example.simple.cs.impl.QuoteImpl#getCompanyName <em>Company Name</em>}</li>
+ *   <li>{@link com.example.simple.cs.impl.QuoteImpl#getPrice <em>Price</em>}</li>
+ *   <li>{@link com.example.simple.cs.impl.QuoteImpl#getOpen1 <em>Open1</em>}</li>
+ *   <li>{@link com.example.simple.cs.impl.QuoteImpl#getHigh <em>High</em>}</li>
+ *   <li>{@link com.example.simple.cs.impl.QuoteImpl#getLow <em>Low</em>}</li>
+ *   <li>{@link com.example.simple.cs.impl.QuoteImpl#getVolume <em>Volume</em>}</li>
+ *   <li>{@link com.example.simple.cs.impl.QuoteImpl#getChange1 <em>Change1</em>}</li>
+ *   <li>{@link com.example.simple.cs.impl.QuoteImpl#getQuotes <em>Quotes</em>}</li>
  * </ul>
  * </p>
  *
@@ -338,7 +338,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
    */
   public Type getType()
   {
-    return ((SimpleFactoryImpl)SimpleFactory.INSTANCE).getQuote();
+    return ((CSFactoryImpl)CSFactory.INSTANCE).getQuote();
   }
 
   /**

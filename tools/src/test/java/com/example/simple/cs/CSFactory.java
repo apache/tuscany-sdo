@@ -4,7 +4,9 @@
  *
  * $Id$
  */
-package org.example.simple.cs;
+package com.example.simple.cs;
+
+import commonj.sdo.helper.HelperContext;
 
 
 /**
@@ -23,7 +25,7 @@ public interface CSFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  CSFactory INSTANCE = org.example.simple.cs.impl.CSFactoryImpl.init();
+  CSFactory INSTANCE = com.example.simple.cs.impl.CSFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Quote</em>'.
@@ -43,4 +45,13 @@ public interface CSFactory
    */
   QuoteBase createQuoteBase();
 
+  /**
+   * Registers the types supported by this Factory within the supplied scope.argument
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param scope an instance of HelperContext used to manage the scoping of types.
+   * @generated
+   */
+  public void register(HelperContext scope);
+   
 } //CSFactory

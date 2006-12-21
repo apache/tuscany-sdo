@@ -4,7 +4,12 @@
  *
  * $Id$
  */
-package org.example.simple.cs.impl;
+package com.example.simple.cs.impl;
+
+import commonj.sdo.helper.HelperContext;
+import org.apache.tuscany.sdo.helper.TypeHelperImpl;
+
+import com.example.simple.cs.*;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -20,11 +25,11 @@ import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 
 import org.apache.tuscany.sdo.util.SDOUtil;
 
-import org.example.simple.cs.*;
-
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
+ * Generator information:
+ * patternVersion=1.0; -prefix CS
  * <!-- end-user-doc -->
  * @generated
  */
@@ -45,7 +50,16 @@ public class CSFactoryImpl extends FactoryBase implements CSFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String NAMESPACE_PREFIX = "cs";	
+  public static final String NAMESPACE_PREFIX = "cs";
+
+  /**
+   * The version of the generator pattern used to generate this class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String PATTERN_VERSION = "1.0";
+  
   public static final int QUOTE = 1;	
   public static final int QUOTE_BASE = 2;
   
@@ -57,7 +71,22 @@ public class CSFactoryImpl extends FactoryBase implements CSFactory
    */
   public CSFactoryImpl()
   {
-    super(NAMESPACE_URI, NAMESPACE_PREFIX, "org.example.simple.cs");
+    super(NAMESPACE_URI, NAMESPACE_PREFIX, "com.example.simple.cs");
+  }
+
+  /**
+   * Registers the Factory instance so that it is available within the supplied scope.
+   * @argument scope a HelperContext instance that will make the types supported by this Factory available.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */	
+  public void register(HelperContext scope) {
+    if(scope == null) {
+       throw new IllegalArgumentException("Scope can not be null");
+    } 
+    TypeHelperImpl th = (TypeHelperImpl)scope.getTypeHelper();
+    th.getExtendedMetaData().putPackage(NAMESPACE_URI, this);
   }
   
   /**

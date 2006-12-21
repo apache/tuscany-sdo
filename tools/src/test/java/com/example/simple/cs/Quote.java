@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.example.simple.cs;
+package com.example.simple.cs;
 
 import java.io.Serializable;
 
@@ -20,15 +20,15 @@ import java.util.List;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.example.simple.cs.Quote#getSymbol <em>Symbol</em>}</li>
- *   <li>{@link org.example.simple.cs.Quote#getCompanyName <em>Company Name</em>}</li>
- *   <li>{@link org.example.simple.cs.Quote#getPrice <em>Price</em>}</li>
- *   <li>{@link org.example.simple.cs.Quote#getOpen1 <em>Open1</em>}</li>
- *   <li>{@link org.example.simple.cs.Quote#getHigh <em>High</em>}</li>
- *   <li>{@link org.example.simple.cs.Quote#getLow <em>Low</em>}</li>
- *   <li>{@link org.example.simple.cs.Quote#getVolume <em>Volume</em>}</li>
- *   <li>{@link org.example.simple.cs.Quote#getChange1 <em>Change1</em>}</li>
- *   <li>{@link org.example.simple.cs.Quote#getQuotes <em>Quotes</em>}</li>
+ *   <li>{@link com.example.simple.cs.Quote#getSymbol <em>Symbol</em>}</li>
+ *   <li>{@link com.example.simple.cs.Quote#getCompanyName <em>Company Name</em>}</li>
+ *   <li>{@link com.example.simple.cs.Quote#getPrice <em>Price</em>}</li>
+ *   <li>{@link com.example.simple.cs.Quote#getOpen1 <em>Open1</em>}</li>
+ *   <li>{@link com.example.simple.cs.Quote#getHigh <em>High</em>}</li>
+ *   <li>{@link com.example.simple.cs.Quote#getLow <em>Low</em>}</li>
+ *   <li>{@link com.example.simple.cs.Quote#getVolume <em>Volume</em>}</li>
+ *   <li>{@link com.example.simple.cs.Quote#getChange1 <em>Change1</em>}</li>
+ *   <li>{@link com.example.simple.cs.Quote#getQuotes <em>Quotes</em>}</li>
  * </ul>
  * </p>
  *
@@ -52,7 +52,7 @@ public interface Quote extends Serializable
   String getSymbol();
 
   /**
-   * Sets the value of the '{@link org.example.simple.cs.Quote#getSymbol <em>Symbol</em>}' attribute.
+   * Sets the value of the '{@link com.example.simple.cs.Quote#getSymbol <em>Symbol</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Symbol</em>' attribute.
@@ -76,7 +76,7 @@ public interface Quote extends Serializable
   String getCompanyName();
 
   /**
-   * Sets the value of the '{@link org.example.simple.cs.Quote#getCompanyName <em>Company Name</em>}' attribute.
+   * Sets the value of the '{@link com.example.simple.cs.Quote#getCompanyName <em>Company Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Company Name</em>' attribute.
@@ -100,7 +100,7 @@ public interface Quote extends Serializable
   BigDecimal getPrice();
 
   /**
-   * Sets the value of the '{@link org.example.simple.cs.Quote#getPrice <em>Price</em>}' attribute.
+   * Sets the value of the '{@link com.example.simple.cs.Quote#getPrice <em>Price</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Price</em>' attribute.
@@ -124,7 +124,7 @@ public interface Quote extends Serializable
   BigDecimal getOpen1();
 
   /**
-   * Sets the value of the '{@link org.example.simple.cs.Quote#getOpen1 <em>Open1</em>}' attribute.
+   * Sets the value of the '{@link com.example.simple.cs.Quote#getOpen1 <em>Open1</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Open1</em>' attribute.
@@ -148,7 +148,7 @@ public interface Quote extends Serializable
   BigDecimal getHigh();
 
   /**
-   * Sets the value of the '{@link org.example.simple.cs.Quote#getHigh <em>High</em>}' attribute.
+   * Sets the value of the '{@link com.example.simple.cs.Quote#getHigh <em>High</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>High</em>' attribute.
@@ -172,7 +172,7 @@ public interface Quote extends Serializable
   BigDecimal getLow();
 
   /**
-   * Sets the value of the '{@link org.example.simple.cs.Quote#getLow <em>Low</em>}' attribute.
+   * Sets the value of the '{@link com.example.simple.cs.Quote#getLow <em>Low</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Low</em>' attribute.
@@ -198,7 +198,7 @@ public interface Quote extends Serializable
   double getVolume();
 
   /**
-   * Sets the value of the '{@link org.example.simple.cs.Quote#getVolume <em>Volume</em>}' attribute.
+   * Sets the value of the '{@link com.example.simple.cs.Quote#getVolume <em>Volume</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Volume</em>' attribute.
@@ -210,7 +210,7 @@ public interface Quote extends Serializable
   void setVolume(double value);
 
   /**
-   * Unsets the value of the '{@link org.example.simple.cs.Quote#getVolume <em>Volume</em>}' attribute.
+   * Unsets the value of the '{@link com.example.simple.cs.Quote#getVolume <em>Volume</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isSetVolume()
@@ -221,7 +221,7 @@ public interface Quote extends Serializable
   void unsetVolume();
 
   /**
-   * Returns whether the value of the '{@link org.example.simple.cs.Quote#getVolume <em>Volume</em>}' attribute is set.
+   * Returns whether the value of the '{@link com.example.simple.cs.Quote#getVolume <em>Volume</em>}' attribute is set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return whether the value of the '<em>Volume</em>' attribute is set.
@@ -249,7 +249,7 @@ public interface Quote extends Serializable
   double getChange1();
 
   /**
-   * Sets the value of the '{@link org.example.simple.cs.Quote#getChange1 <em>Change1</em>}' attribute.
+   * Sets the value of the '{@link com.example.simple.cs.Quote#getChange1 <em>Change1</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Change1</em>' attribute.
@@ -261,7 +261,7 @@ public interface Quote extends Serializable
   void setChange1(double value);
 
   /**
-   * Unsets the value of the '{@link org.example.simple.cs.Quote#getChange1 <em>Change1</em>}' attribute.
+   * Unsets the value of the '{@link com.example.simple.cs.Quote#getChange1 <em>Change1</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @see #isSetChange1()
@@ -272,7 +272,7 @@ public interface Quote extends Serializable
   void unsetChange1();
 
   /**
-   * Returns whether the value of the '{@link org.example.simple.cs.Quote#getChange1 <em>Change1</em>}' attribute is set.
+   * Returns whether the value of the '{@link com.example.simple.cs.Quote#getChange1 <em>Change1</em>}' attribute is set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return whether the value of the '<em>Change1</em>' attribute is set.
@@ -285,7 +285,7 @@ public interface Quote extends Serializable
 
   /**
    * Returns the value of the '<em><b>Quotes</b></em>' containment reference list.
-   * The list contents are of type {@link org.example.simple.cs.Quote}.
+   * The list contents are of type {@link com.example.simple.cs.Quote}.
    * <!-- begin-user-doc -->
    * <p>
    * If the meaning of the '<em>Quotes</em>' containment reference list isn't clear,

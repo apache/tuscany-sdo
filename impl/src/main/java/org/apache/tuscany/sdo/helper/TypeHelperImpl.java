@@ -82,6 +82,7 @@ public class TypeHelperImpl implements TypeHelper
   public Type getType(String uri, String typeName)
   {
     EPackage ePackage = extendedMetaData.getPackage(uri);
+
     if (ePackage != null)
     {
       EClassifier eClassifier = ePackage.getEClassifier(typeName);
@@ -101,8 +102,28 @@ public class TypeHelperImpl implements TypeHelper
     {
       return type;
     }
-    
+        
     //TODO more efficient implementation ... this is a really bad one!
+    
+    // check the local scope package registry
+    for (Iterator iter = ((SDOExtendedMetaDataImpl)extendedMetaData).getRegistry().values().iterator(); iter.hasNext(); )
+    {
+      Object value = iter.next();
+      if (value instanceof EPackage)
+      {
+        EPackage ePackage = (EPackage)value;
+        for (Iterator iter2 = ePackage.getEClassifiers().iterator(); iter2.hasNext(); )
+        {
+          EClassifier eClassifier = (EClassifier)iter2.next();
+          if (eClassifier.getInstanceClass() == interfaceClass)
+          {
+            return (Type)eClassifier;
+          }
+        }
+      }
+    }
+    
+    // if it wasnt in the local scope look in the EMF global package registry
     for (Iterator iter = EPackage.Registry.INSTANCE.values().iterator(); iter.hasNext(); )
     {
       Object value = iter.next();

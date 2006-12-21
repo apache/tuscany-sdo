@@ -4,12 +4,10 @@
  *
  * $Id$
  */
-package com.example.simple.impl;
+package com.example.noInterfaces.simple;
 
 import commonj.sdo.helper.HelperContext;
 import org.apache.tuscany.sdo.helper.TypeHelperImpl;
-
-import com.example.simple.*;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -27,14 +25,22 @@ import org.apache.tuscany.sdo.util.SDOUtil;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model <b>Factory</b>.
- * Generator information:
- * patternVersion=1.0;
+ * The <b>Factory</b> for the model.
+ * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
+ * patternVersion=1.0; -noInterfaces
  * @generated
  */
-public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
+public class SimpleFactory extends FactoryBase
 {
+
+  /**
+   * The singleton instance of the factory.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final SimpleFactory INSTANCE = com.example.noInterfaces.simple.SimpleFactory.init();
 
   /**
    * The package namespace URI.
@@ -68,9 +74,9 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public SimpleFactoryImpl()
+  public SimpleFactory()
   {
-    super(NAMESPACE_URI, NAMESPACE_PREFIX, "com.example.simple");
+    super(NAMESPACE_URI, NAMESPACE_PREFIX, "com.example.noInterfaces.simple");
   }
 
   /**
@@ -110,7 +116,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
    */
   public Quote createQuote()
   {
-    QuoteImpl quote = new QuoteImpl();
+    Quote quote = new Quote();
     return quote;
   }
   
@@ -125,10 +131,10 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
 
   private static boolean isInited = false;
 
-  public static SimpleFactoryImpl init()
+  public static SimpleFactory init()
   {
-    if (isInited) return (SimpleFactoryImpl)FactoryBase.getStaticFactory(SimpleFactoryImpl.NAMESPACE_URI);
-    SimpleFactoryImpl theSimpleFactoryImpl = new SimpleFactoryImpl();
+    if (isInited) return (SimpleFactory)FactoryBase.getStaticFactory(SimpleFactory.NAMESPACE_URI);
+    SimpleFactory theSimpleFactory = new SimpleFactory();
     isInited = true;
 
     // Initialize simple dependencies
@@ -136,15 +142,15 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
     SDOUtil.registerStaticTypes(ModelFactory.class);
 
     // Create package meta-data objects
-    theSimpleFactoryImpl.createMetaData();
+    theSimpleFactory.createMetaData();
 
     // Initialize created meta-data
-    theSimpleFactoryImpl.initializeMetaData();
+    theSimpleFactory.initializeMetaData();
 
     // Mark meta-data to indicate it can't be changed
-    //theSimpleFactoryImpl.freeze(); //FB do we need to freeze / should we freeze ????
+    //theSimpleFactory.freeze(); //FB do we need to freeze / should we freeze ????
 
-    return theSimpleFactoryImpl;
+    return theSimpleFactory;
   }
   
   private boolean isCreated = false;
@@ -156,15 +162,15 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
 
     // Create types and their properties
     quoteType = createType(false, QUOTE);
-    createProperty(true, quoteType, QuoteImpl.SYMBOL);
-    createProperty(true, quoteType, QuoteImpl.COMPANY_NAME);
-    createProperty(true, quoteType, QuoteImpl.PRICE);
-    createProperty(true, quoteType, QuoteImpl.OPEN1);
-    createProperty(true, quoteType, QuoteImpl.HIGH);
-    createProperty(true, quoteType, QuoteImpl.LOW);
-    createProperty(true, quoteType, QuoteImpl.VOLUME);
-    createProperty(true, quoteType, QuoteImpl.CHANGE1);
-    createProperty(false, quoteType, QuoteImpl.QUOTES);
+    createProperty(true, quoteType, Quote.SYMBOL);
+    createProperty(true, quoteType, Quote.COMPANY_NAME);
+    createProperty(true, quoteType, Quote.PRICE);
+    createProperty(true, quoteType, Quote.OPEN1);
+    createProperty(true, quoteType, Quote.HIGH);
+    createProperty(true, quoteType, Quote.LOW);
+    createProperty(true, quoteType, Quote.VOLUME);
+    createProperty(true, quoteType, Quote.CHANGE1);
+    createProperty(false, quoteType, Quote.QUOTES);
   }
   
   private boolean isInitialized = false;
@@ -182,23 +188,23 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
 
     // Initialize types and properties
     initializeType(quoteType, Quote.class, "Quote", false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.SYMBOL);
+    property = (Property)quoteType.getProperties().get(Quote.SYMBOL);
     initializeProperty(property, theModelPackageImpl.getString(), "symbol", null, 1, 1, Quote.class, false, false, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.COMPANY_NAME);
+    property = (Property)quoteType.getProperties().get(Quote.COMPANY_NAME);
     initializeProperty(property, theModelPackageImpl.getString(), "companyName", null, 1, 1, Quote.class, false, false, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.PRICE);
+    property = (Property)quoteType.getProperties().get(Quote.PRICE);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "price", null, 1, 1, Quote.class, false, false, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.OPEN1);
+    property = (Property)quoteType.getProperties().get(Quote.OPEN1);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "open1", null, 1, 1, Quote.class, false, false, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.HIGH);
+    property = (Property)quoteType.getProperties().get(Quote.HIGH);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "high", null, 1, 1, Quote.class, false, false, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.LOW);
+    property = (Property)quoteType.getProperties().get(Quote.LOW);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "low", null, 1, 1, Quote.class, false, false, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.VOLUME);
+    property = (Property)quoteType.getProperties().get(Quote.VOLUME);
     initializeProperty(property, theModelPackageImpl.getDouble(), "volume", null, 1, 1, Quote.class, false, true, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.CHANGE1);
+    property = (Property)quoteType.getProperties().get(Quote.CHANGE1);
     initializeProperty(property, theModelPackageImpl.getDouble(), "change1", null, 1, 1, Quote.class, false, true, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.QUOTES);
+    property = (Property)quoteType.getProperties().get(Quote.QUOTES);
     initializeProperty(property, this.getQuote(), "quotes", null, 0, -1, Quote.class, false, false, false, true, null);
 
     createXSDMetaData(theModelPackageImpl);
@@ -229,7 +235,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.SYMBOL),
+      ((Property)quoteType.getProperties().get(Quote.SYMBOL),
        new String[]
        {
        "kind", "element",
@@ -237,7 +243,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.COMPANY_NAME),
+      ((Property)quoteType.getProperties().get(Quote.COMPANY_NAME),
        new String[]
        {
        "kind", "element",
@@ -245,7 +251,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.PRICE),
+      ((Property)quoteType.getProperties().get(Quote.PRICE),
        new String[]
        {
        "kind", "element",
@@ -253,7 +259,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.OPEN1),
+      ((Property)quoteType.getProperties().get(Quote.OPEN1),
        new String[]
        {
        "kind", "element",
@@ -261,7 +267,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.HIGH),
+      ((Property)quoteType.getProperties().get(Quote.HIGH),
        new String[]
        {
        "kind", "element",
@@ -269,7 +275,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.LOW),
+      ((Property)quoteType.getProperties().get(Quote.LOW),
        new String[]
        {
        "kind", "element",
@@ -277,7 +283,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.VOLUME),
+      ((Property)quoteType.getProperties().get(Quote.VOLUME),
        new String[]
        {
        "kind", "element",
@@ -285,7 +291,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.CHANGE1),
+      ((Property)quoteType.getProperties().get(Quote.CHANGE1),
        new String[]
        {
        "kind", "element",
@@ -293,7 +299,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.QUOTES),
+      ((Property)quoteType.getProperties().get(Quote.QUOTES),
        new String[]
        {
        "kind", "element",
@@ -302,4 +308,4 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
 
   }
   
-} //SimpleFactoryImpl
+} //SimpleFactory

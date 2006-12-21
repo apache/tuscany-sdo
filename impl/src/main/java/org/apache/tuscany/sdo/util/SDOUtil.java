@@ -65,6 +65,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -295,7 +296,7 @@ public final class SDOUtil
    */
   public static HelperContext createHelperContext()
   {
-    return new HelperContextImpl(null);
+    return new HelperContextImpl();
   }
 
   /**
@@ -379,14 +380,14 @@ public final class SDOUtil
 
       EPackage ePackage = ((TypeHelperImpl) scope).getExtendedMetaData().getPackage(uri);
       if (ePackage != null) {
-          /**
-           * ePackage.getEclassifiers will return an EList ( simple extension of List ).
-           * 
-           * When a Type is generated from XML EMF will create a DocumentRoot type As this is EMF specific it should be removed
-           */
-          List result = new ArrayList(ePackage.getEClassifiers());
-          result.remove(((TypeHelperImpl) scope).getExtendedMetaData().getDocumentRoot(ePackage));
-          return result;
+        /**
+         * ePackage.getEclassifiers will return an EList ( simple extension of List ).
+         * 
+         * When a Type is generated from XML EMF will create a DocumentRoot type As this is EMF specific it should be removed
+         */
+        List result = new ArrayList(ePackage.getEClassifiers());
+        result.remove(((TypeHelperImpl) scope).getExtendedMetaData().getDocumentRoot(ePackage));
+        return result;
       }
       return null;
   }
@@ -516,7 +517,7 @@ public final class SDOUtil
   
   public static Property createProperty(Type containingType, String name, Type propertyType)
   {
-  	EStructuralFeature eStructuralFeature = 
+    EStructuralFeature eStructuralFeature = 
       propertyType.isDataType() ? 
         (EStructuralFeature)SDOFactory.eINSTANCE.createAttribute() :
         (EStructuralFeature)SDOFactory.eINSTANCE.createReference();
@@ -584,35 +585,45 @@ public final class SDOUtil
    *  The registered types will be visible in all TypeHelper's created in the same classLoader
    *  scope as the call to this function.
    * @param factoryClass the generated factory class.
+   * @deprecated see the register(HelperContext) metods on generated Factory classes
    */
   public static void registerStaticTypes(Class factoryClass)
   {
     //TODO this implementation is temporary, until the SDO generated factory pattern is decided
+    //TODO might want to clean this implementation in the light of the requirement to regenerate all classes
+    //after noEMF became the default, so we have no compatibility requirements (unless we
+    //cater for the simple hand edit that would make M2 generated classes work) -- as this is
+    //deprecated I'm going to do nothing for now
     //
     String temp = factoryClass.getName().replaceFirst("Factory$", "PackageImpl");
     int lastDot = temp.lastIndexOf('.');
     String packageName = temp.substring(0, lastDot) + ".impl" + temp.substring(lastDot);
-    try // this case handles the current default generator pattern
+    
+    try // this case handles the old style EMF pattern
     {
       Class javaClass = getPackageClass(factoryClass, packageName);
       Field field = javaClass.getField("eINSTANCE");
-      field.get(null); 
+      EPackageImpl pkg = (EPackageImpl)field.get(null);
+      EPackage.Registry.INSTANCE.put(pkg.getNsURI(), pkg);
     }
     catch (Exception e1)
     {
       packageName = factoryClass.getName().replaceFirst("Factory$", "Package");
-      try // this case handles the -noInterfaces generator pattern
+      try // this case handles the EMF -noInterfaces generator pattern
       {
         Class javaClass = getPackageClass(factoryClass, packageName);
         Field field = javaClass.getField("eINSTANCE");
-        field.get(null); 
+        EPackageImpl pkg = (EPackageImpl)field.get(null);
+        EPackage.Registry.INSTANCE.put(pkg.getNsURI(), pkg);
       }
       catch (Exception e2)
       {
-        try // this case handles the -noEMF generator pattern
+        try // this case handles the default (was -noEMF) generator pattern
         {
           Field field = factoryClass.getField("INSTANCE");
-          field.get(null); 
+          EPackageImpl pkg = (EPackageImpl)field.get(null);
+          EPackage.Registry.INSTANCE.put(pkg.getNsURI(), pkg);
+          // TODO -- decide if we should block global initialization of Factories with the new register method.
         }
         catch (Exception e3)
         {
@@ -621,6 +632,7 @@ public final class SDOUtil
       }
     }
   }
+
 
   private static Class getPackageClass(Class factoryClass, String packageName) throws Exception
   {

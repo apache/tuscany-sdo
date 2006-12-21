@@ -56,7 +56,8 @@ public class SDOExtendedMetaDataImpl
   public EPackage getPackage(String namespace)
   {
     if ("".equals(namespace)) namespace = null; //FB
-    return super.getPackage(namespace);
+    EPackage result = registry.getEPackage(namespace);
+    return result == null ? super.getPackage(namespace) : result;
   }
 
   /**
@@ -101,6 +102,11 @@ public class SDOExtendedMetaDataImpl
   public void setAliasNames(EModelElement modelElement, String aliasNames) {
     EAnnotation eAnnotation = getAnnotation(modelElement, true);
     eAnnotation.getDetails().put("aliasNames", aliasNames);
+  }
+  
+  public EPackage.Registry getRegistry()
+  {
+    return registry;
   }
   
 }

@@ -71,13 +71,22 @@ public class FactoryBase extends EPackageImpl
 
     createResource(namespaceURI);
     setNsURI(namespaceURI);
-    //FIXME ... figure out proper (scoped) way to register static packages
-    EPackage.Registry.INSTANCE.put(namespaceURI, this);
+    
+    // TODO this is a bit of a kludge until we figure out how to connect type scopes
+    if(namespaceURI.startsWith("commonj.sdo")) {
+      if("commonj.sdo".equals(namespaceURI) ||
+         "commonj.sdo/java".equals(namespaceURI) ||
+         "commonj.sdo/xml".equals(namespaceURI)
+      ) {
+        EPackage.Registry.INSTANCE.put(namespaceURI, this);
+      }
+    }
     
     ((SDOEFactoryImpl)getEFactoryInstance()).sdoFactory = this;
   }
 
-  
+ 
+
   public DataObject create(int typeNumber)
   {
     return null;

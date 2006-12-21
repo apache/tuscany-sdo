@@ -25,6 +25,8 @@ import org.apache.tuscany.sdo.util.SDOUtil;
 
 import com.example.simple.Quote;
 import com.example.simple.SimpleFactory;
+import com.example.simple.impl.SimpleFactoryImpl;
+
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.XMLHelper;
 
@@ -39,6 +41,7 @@ public class SimpleStaticTest
     try
     {
       SDOUtil.registerStaticTypes(SimpleFactory.class);
+      System.out.println(((SimpleFactoryImpl)SimpleFactory.INSTANCE).PATTERN_VERSION);
       
       //Quote quote = (Quote)DataFactory.INSTANCE.create(Quote.class);
       Quote quote = SimpleFactory.INSTANCE.createQuote();

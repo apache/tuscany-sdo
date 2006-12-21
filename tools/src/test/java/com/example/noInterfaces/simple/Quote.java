@@ -4,9 +4,11 @@
  *
  * $Id$
  */
-package org.example.simple.cs.impl;
+package com.example.noInterfaces.simple;
 
 import commonj.sdo.Type;
+
+import java.io.Serializable;
 
 import java.math.BigDecimal;
 
@@ -15,31 +17,30 @@ import java.util.List;
 
 import org.apache.tuscany.sdo.impl.DataObjectBase;
 
-import org.example.simple.cs.CSFactory;
-import org.example.simple.cs.Quote;
-
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Quote</b></em>'.
+ * A representation of the model object '<em><b>Quote</b></em>'.
  * <!-- end-user-doc -->
+ *
  * <p>
- * The following features are implemented:
+ * The following features are supported:
  * <ul>
- *   <li>{@link org.example.simple.cs.impl.QuoteImpl#getSymbol <em>Symbol</em>}</li>
- *   <li>{@link org.example.simple.cs.impl.QuoteImpl#getCompanyName <em>Company Name</em>}</li>
- *   <li>{@link org.example.simple.cs.impl.QuoteImpl#getPrice <em>Price</em>}</li>
- *   <li>{@link org.example.simple.cs.impl.QuoteImpl#getOpen1 <em>Open1</em>}</li>
- *   <li>{@link org.example.simple.cs.impl.QuoteImpl#getHigh <em>High</em>}</li>
- *   <li>{@link org.example.simple.cs.impl.QuoteImpl#getLow <em>Low</em>}</li>
- *   <li>{@link org.example.simple.cs.impl.QuoteImpl#getVolume <em>Volume</em>}</li>
- *   <li>{@link org.example.simple.cs.impl.QuoteImpl#getChange1 <em>Change1</em>}</li>
- *   <li>{@link org.example.simple.cs.impl.QuoteImpl#getQuotes <em>Quotes</em>}</li>
+ *   <li>{@link com.example.noInterfaces.simple.Quote#getSymbol <em>Symbol</em>}</li>
+ *   <li>{@link com.example.noInterfaces.simple.Quote#getCompanyName <em>Company Name</em>}</li>
+ *   <li>{@link com.example.noInterfaces.simple.Quote#getPrice <em>Price</em>}</li>
+ *   <li>{@link com.example.noInterfaces.simple.Quote#getOpen1 <em>Open1</em>}</li>
+ *   <li>{@link com.example.noInterfaces.simple.Quote#getHigh <em>High</em>}</li>
+ *   <li>{@link com.example.noInterfaces.simple.Quote#getLow <em>Low</em>}</li>
+ *   <li>{@link com.example.noInterfaces.simple.Quote#getVolume <em>Volume</em>}</li>
+ *   <li>{@link com.example.noInterfaces.simple.Quote#getChange1 <em>Change1</em>}</li>
+ *   <li>{@link com.example.noInterfaces.simple.Quote#getQuotes <em>Quotes</em>}</li>
  * </ul>
  * </p>
  *
+ * @extends Serializable
  * @generated
  */
-public class QuoteImpl extends DataObjectBase implements Quote
+public class Quote extends DataObjectBase implements Serializable
 {
   /**
    * The feature id for the '<em><b>Symbol</b></em>' attribute.
@@ -326,7 +327,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
    * <!-- end-user-doc -->
    * @generated
    */
-  public QuoteImpl()
+  public Quote()
   {
     super();
   }
@@ -338,12 +339,19 @@ public class QuoteImpl extends DataObjectBase implements Quote
    */
   public Type getType()
   {
-    return ((CSFactoryImpl)CSFactory.INSTANCE).getQuote();
+    return ((SimpleFactory)SimpleFactory.INSTANCE).getQuote();
   }
 
   /**
+   * Returns the value of the '<em><b>Symbol</b></em>' attribute.
    * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Symbol</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
    * <!-- end-user-doc -->
+   * @return the value of the '<em>Symbol</em>' attribute.
+   * @see #setSymbol(String)
    * @generated
    */
   public String getSymbol()
@@ -351,8 +359,11 @@ public class QuoteImpl extends DataObjectBase implements Quote
     return symbol;
   }
   /**
+   * Sets the value of the '{@link com.example.noInterfaces.simple.Quote#getSymbol <em>Symbol</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Symbol</em>' attribute.
+   * @see #getSymbol()
    * @generated
    */
   public void setSymbol(String newSymbol)
@@ -364,8 +375,15 @@ public class QuoteImpl extends DataObjectBase implements Quote
   }
 
   /**
+   * Returns the value of the '<em><b>Company Name</b></em>' attribute.
    * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Company Name</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
    * <!-- end-user-doc -->
+   * @return the value of the '<em>Company Name</em>' attribute.
+   * @see #setCompanyName(String)
    * @generated
    */
   public String getCompanyName()
@@ -373,8 +391,11 @@ public class QuoteImpl extends DataObjectBase implements Quote
     return companyName;
   }
   /**
+   * Sets the value of the '{@link com.example.noInterfaces.simple.Quote#getCompanyName <em>Company Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Company Name</em>' attribute.
+   * @see #getCompanyName()
    * @generated
    */
   public void setCompanyName(String newCompanyName)
@@ -386,8 +407,15 @@ public class QuoteImpl extends DataObjectBase implements Quote
   }
 
   /**
+   * Returns the value of the '<em><b>Price</b></em>' attribute.
    * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Price</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
    * <!-- end-user-doc -->
+   * @return the value of the '<em>Price</em>' attribute.
+   * @see #setPrice(BigDecimal)
    * @generated
    */
   public BigDecimal getPrice()
@@ -395,8 +423,11 @@ public class QuoteImpl extends DataObjectBase implements Quote
     return price;
   }
   /**
+   * Sets the value of the '{@link com.example.noInterfaces.simple.Quote#getPrice <em>Price</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Price</em>' attribute.
+   * @see #getPrice()
    * @generated
    */
   public void setPrice(BigDecimal newPrice)
@@ -408,8 +439,15 @@ public class QuoteImpl extends DataObjectBase implements Quote
   }
 
   /**
+   * Returns the value of the '<em><b>Open1</b></em>' attribute.
    * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Open1</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
    * <!-- end-user-doc -->
+   * @return the value of the '<em>Open1</em>' attribute.
+   * @see #setOpen1(BigDecimal)
    * @generated
    */
   public BigDecimal getOpen1()
@@ -417,8 +455,11 @@ public class QuoteImpl extends DataObjectBase implements Quote
     return open1;
   }
   /**
+   * Sets the value of the '{@link com.example.noInterfaces.simple.Quote#getOpen1 <em>Open1</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Open1</em>' attribute.
+   * @see #getOpen1()
    * @generated
    */
   public void setOpen1(BigDecimal newOpen1)
@@ -430,8 +471,15 @@ public class QuoteImpl extends DataObjectBase implements Quote
   }
 
   /**
+   * Returns the value of the '<em><b>High</b></em>' attribute.
    * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>High</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
    * <!-- end-user-doc -->
+   * @return the value of the '<em>High</em>' attribute.
+   * @see #setHigh(BigDecimal)
    * @generated
    */
   public BigDecimal getHigh()
@@ -439,8 +487,11 @@ public class QuoteImpl extends DataObjectBase implements Quote
     return high;
   }
   /**
+   * Sets the value of the '{@link com.example.noInterfaces.simple.Quote#getHigh <em>High</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param value the new value of the '<em>High</em>' attribute.
+   * @see #getHigh()
    * @generated
    */
   public void setHigh(BigDecimal newHigh)
@@ -452,8 +503,15 @@ public class QuoteImpl extends DataObjectBase implements Quote
   }
 
   /**
+   * Returns the value of the '<em><b>Low</b></em>' attribute.
    * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Low</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
    * <!-- end-user-doc -->
+   * @return the value of the '<em>Low</em>' attribute.
+   * @see #setLow(BigDecimal)
    * @generated
    */
   public BigDecimal getLow()
@@ -461,8 +519,11 @@ public class QuoteImpl extends DataObjectBase implements Quote
     return low;
   }
   /**
+   * Sets the value of the '{@link com.example.noInterfaces.simple.Quote#getLow <em>Low</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Low</em>' attribute.
+   * @see #getLow()
    * @generated
    */
   public void setLow(BigDecimal newLow)
@@ -474,8 +535,17 @@ public class QuoteImpl extends DataObjectBase implements Quote
   }
 
   /**
+   * Returns the value of the '<em><b>Volume</b></em>' attribute.
    * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Volume</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
    * <!-- end-user-doc -->
+   * @return the value of the '<em>Volume</em>' attribute.
+   * @see #isSetVolume()
+   * @see #unsetVolume()
+   * @see #setVolume(double)
    * @generated
    */
   public double getVolume()
@@ -483,8 +553,13 @@ public class QuoteImpl extends DataObjectBase implements Quote
     return volume;
   }
   /**
+   * Sets the value of the '{@link com.example.noInterfaces.simple.Quote#getVolume <em>Volume</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Volume</em>' attribute.
+   * @see #isSetVolume()
+   * @see #unsetVolume()
+   * @see #getVolume()
    * @generated
    */
   public void setVolume(double newVolume)
@@ -498,8 +573,12 @@ public class QuoteImpl extends DataObjectBase implements Quote
   }
 
   /**
+   * Unsets the value of the '{@link com.example.noInterfaces.simple.Quote#getVolume <em>Volume</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @see #isSetVolume()
+   * @see #getVolume()
+   * @see #setVolume(double)
    * @generated
    */
   public void unsetVolume()
@@ -513,8 +592,13 @@ public class QuoteImpl extends DataObjectBase implements Quote
   }
 
   /**
+   * Returns whether the value of the '{@link com.example.noInterfaces.simple.Quote#getVolume <em>Volume</em>}' attribute is set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Volume</em>' attribute is set.
+   * @see #unsetVolume()
+   * @see #getVolume()
+   * @see #setVolume(double)
    * @generated
    */
   public boolean isSetVolume()
@@ -523,8 +607,17 @@ public class QuoteImpl extends DataObjectBase implements Quote
   }
 
   /**
+   * Returns the value of the '<em><b>Change1</b></em>' attribute.
    * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Change1</em>' attribute isn't clear,
+   * there really should be more of a description here...
+   * </p>
    * <!-- end-user-doc -->
+   * @return the value of the '<em>Change1</em>' attribute.
+   * @see #isSetChange1()
+   * @see #unsetChange1()
+   * @see #setChange1(double)
    * @generated
    */
   public double getChange1()
@@ -532,8 +625,13 @@ public class QuoteImpl extends DataObjectBase implements Quote
     return change1;
   }
   /**
+   * Sets the value of the '{@link com.example.noInterfaces.simple.Quote#getChange1 <em>Change1</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Change1</em>' attribute.
+   * @see #isSetChange1()
+   * @see #unsetChange1()
+   * @see #getChange1()
    * @generated
    */
   public void setChange1(double newChange1)
@@ -547,8 +645,12 @@ public class QuoteImpl extends DataObjectBase implements Quote
   }
 
   /**
+   * Unsets the value of the '{@link com.example.noInterfaces.simple.Quote#getChange1 <em>Change1</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @see #isSetChange1()
+   * @see #getChange1()
+   * @see #setChange1(double)
    * @generated
    */
   public void unsetChange1()
@@ -562,8 +664,13 @@ public class QuoteImpl extends DataObjectBase implements Quote
   }
 
   /**
+   * Returns whether the value of the '{@link com.example.noInterfaces.simple.Quote#getChange1 <em>Change1</em>}' attribute is set.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Change1</em>' attribute is set.
+   * @see #unsetChange1()
+   * @see #getChange1()
+   * @see #setChange1(double)
    * @generated
    */
   public boolean isSetChange1()
@@ -572,8 +679,15 @@ public class QuoteImpl extends DataObjectBase implements Quote
   }
 
   /**
+   * Returns the value of the '<em><b>Quotes</b></em>' containment reference list.
+   * The list contents are of type {@link com.example.noInterfaces.simple.Quote}.
    * <!-- begin-user-doc -->
+   * <p>
+   * If the meaning of the '<em>Quotes</em>' containment reference list isn't clear,
+   * there really should be more of a description here...
+   * </p>
    * <!-- end-user-doc -->
+   * @return the value of the '<em>Quotes</em>' containment reference list.
    * @generated
    */
   public List getQuotes()
@@ -772,4 +886,4 @@ public class QuoteImpl extends DataObjectBase implements Quote
     return result.toString();
   }
 
-} //QuoteImpl
+} // Quote

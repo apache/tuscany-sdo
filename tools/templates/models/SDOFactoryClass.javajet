@@ -1,4 +1,4 @@
-<%@ jet package="org.apache.tuscany.sdo.generate.templates.model" skeleton="generator.skeleton" imports="org.apache.tuscany.sdo.generate.util.* java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals org.eclipse.emf.ecore.util.*" class="SDOFactoryClass" version="$Id: SDOFactoryClass.javajet,v 1.23 2005/12/10 13:31:02 emerks Exp $" %>
+<%@ jet package="org.apache.tuscany.sdo.generate.templates.model" skeleton="generator.skeleton" imports="org.apache.tuscany.sdo.generate.util.* java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.eclipse.emf.ecore.* org.eclipse.emf.codegen.ecore.genmodel.impl.Literals org.eclipse.emf.ecore.util.* org.eclipse.emf.codegen.util.CodeGenUtil" class="SDOFactoryClass" version="$Id: SDOFactoryClass.javajet,v 1.23 2005/12/10 13:31:02 emerks Exp $" %>
 <%
 /**
  *
@@ -22,12 +22,18 @@
 %>
 <%GenPackage genPackage = (GenPackage)((Object[])argument)[0]; GenModel genModel=genPackage.getGenModel();%>
 <%boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);%>
+<%String factoryPatternVersion = "1.0";%>
 <%String publicStaticFinalFlag = isImplementation ? "public static final " : "";%>
 <%@ include file="../Header.javajetinc"%>
 <%if (isInterface || genModel.isSuppressInterfaces()) {%>
 package <%=genPackage.getReflectionPackageName()%>;
 <%} else {%>
 package <%=genPackage.getClassPackageName()%>;
+<%}%>
+
+import commonj.sdo.helper.HelperContext;
+<%if (!isInterface || genModel.isSuppressInterfaces()) {%>
+import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 <%}%>
 
 <%if (isImplementation) {%>
@@ -44,12 +50,17 @@ package <%=genPackage.getClassPackageName()%>;
 <%if (!genModel.isSuppressEMFMetaData()) {%>
  * @see <%=genPackage.getQualifiedPackageInterfaceName()%>
 <%}%>
+<%if (genModel.isSuppressInterfaces()) {%>
+ * patternVersion=<%=factoryPatternVersion%>;<%=SDOGenUtil.printArguments(genPackage, genModel) %>
+<%}%>
  * @generated
  */
 <%} else {%>
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
+ * Generator information:
+ * patternVersion=<%=factoryPatternVersion%>;<%=SDOGenUtil.printArguments(genPackage, genModel) %>
  * <!-- end-user-doc -->
  * @generated
  */
@@ -105,6 +116,15 @@ public interface <%=genPackage.getFactoryInterfaceName()%><%if (!genModel.isSupp
 	 * @generated
 	 */
 	<%=publicStaticFinalFlag%><%=genModel.getImportedName("java.lang.String")%> NAMESPACE_PREFIX = "<%=genPackage.getNSName()%>";<%=genModel.getNonNLS()%>
+
+	/**
+	 * The version of the generator pattern used to generate this class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	<%=publicStaticFinalFlag%><%=genModel.getImportedName("java.lang.String")%> PATTERN_VERSION = "<%=factoryPatternVersion%>";
+
 <%int genIndex = 1;
 for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next();%>
    <%if (!genPackage.getClassifierID(genClassifier).equals("DOCUMENT_ROOT")) { %>	
@@ -123,6 +143,21 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 	{
 		super(NAMESPACE_URI, NAMESPACE_PREFIX, "<%=genPackage.getReflectionPackageName()%>");
 	}
+
+	/**
+	 * Registers the Factory instance so that it is available within the supplied scope.
+   * @argument scope a HelperContext instance that will make the types supported by this Factory available.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */	
+	public void register(HelperContext scope) {
+    if(scope == null) {
+       throw new IllegalArgumentException("Scope can not be null");
+    } 
+    TypeHelperImpl th = (TypeHelperImpl)scope.getTypeHelper();
+    th.getExtendedMetaData().putPackage(NAMESPACE_URI, this);
+  }
 	
 	/**
 	 * <!-- begin-user-doc -->
@@ -567,6 +602,15 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 
     <%}%>
   <%}%>
+  /**
+   * Registers the types supported by this Factory within the supplied scope.argument
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param scope an instance of HelperContext used to manage the scoping of types.
+	 * @generated
+   */
+  public void register(HelperContext scope);
+   
   <%if (genPackage.isDataTypeConverters()) {%>
     <%for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();%>
       <%if (genDataType.isSerializable()) {%>

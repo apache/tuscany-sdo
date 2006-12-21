@@ -48,7 +48,8 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
  *         List getTypeList();
  *   6. Delete all the createXXXFromString() and convertXXXToString() methods in the newly generated ModelFactoryImpl and
  *      replace them with the ones from this file (resolve any missing imports).
- *   7. Move this JavaDoc comment into the newly generated ModelFactoryImpl class.
+ *   7. Comment out the call to registerStaticTypes of ModelFactory.class in the init() method
+ *   8. Move this JavaDoc comment into the newly generated ModelFactoryImpl class.
  * <!-- end-user-doc -->
  * @generated
  */
@@ -694,7 +695,7 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
 
     // Initialize simple dependencies
     SDOUtil.registerStaticTypes(SDOFactory.class);
-    SDOUtil.registerStaticTypes(ModelFactory.class);
+    // SDOUtil.registerStaticTypes(ModelFactory.class);
 
     // Create package meta-data objects
     theModelFactoryImpl.createMetaData();

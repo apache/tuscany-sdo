@@ -4,13 +4,13 @@
  *
  * $Id$
  */
-package org.example.simple.cs.impl;
+package com.example.simple.cs.impl;
+
+import com.example.simple.cs.CSFactory;
+import com.example.simple.cs.QuoteBase;
 
 import commonj.sdo.ChangeSummary;
 import commonj.sdo.Type;
-
-import org.example.simple.cs.CSFactory;
-import org.example.simple.cs.QuoteBase;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +19,7 @@ import org.example.simple.cs.QuoteBase;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.example.simple.cs.impl.QuoteBaseImpl#getChanges <em>Changes</em>}</li>
+ *   <li>{@link com.example.simple.cs.impl.QuoteBaseImpl#getChanges <em>Changes</em>}</li>
  * </ul>
  * </p>
  *

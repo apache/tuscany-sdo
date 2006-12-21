@@ -25,8 +25,11 @@ import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
+import org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.util.CodeGenUtil;
 
 import commonj.sdo.Type;
 
@@ -80,6 +83,36 @@ public class SDOGenUtil {
         }
       }
       return null;
+    }
+    
+    public static String printArguments(GenPackage genPackage, GenModel genModel) {
+    	StringBuffer result = new StringBuffer();
+    	if(!CodeGenUtil.capName(genPackage.getNSName()).equals(genPackage.getPrefix())) {
+    		result.append(" -prefix " + genPackage.getPrefix());
+    	}
+    	if (genModel.isSuppressInterfaces()) {
+    		result.append(" -noInterfaces");
+    	}
+    	if ( genModel.getFeatureDelegation() == GenDelegationKind.VIRTUAL_LITERAL) {
+    		result.append(" -sparsePattern");
+    	}
+    	if ("org.apache.tuscany.sdo.impl.StoreDataObjectImpl".equals(genModel.getRootExtendsClass())) { 
+    		result.append(" -storePattern");
+        }
+    	if (genModel.isSuppressNotification()) {
+    		result.append(" -noNotification");
+    	}
+    	if (genModel.isSuppressContainment()) {
+    		result.append(" -noContainment");
+    	}
+    	if (genModel.isArrayAccessors()) {
+    		result.append(" -arrayAccessors");
+    	}
+    	if (genModel.isSuppressUnsettable()) {
+    		result.append(" -noUnsettable");
+    	}
+    	
+    	return result.toString();
     }
 
 }

@@ -4,7 +4,7 @@
  *
  * $Id$
  */
-package org.example.simple.cs;
+package com.example.simple.cs;
 
 import commonj.sdo.ChangeSummary;
 
@@ -16,7 +16,7 @@ import commonj.sdo.ChangeSummary;
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.example.simple.cs.QuoteBase#getChanges <em>Changes</em>}</li>
+ *   <li>{@link com.example.simple.cs.QuoteBase#getChanges <em>Changes</em>}</li>
  * </ul>
  * </p>
  *
@@ -39,7 +39,7 @@ public interface QuoteBase extends Quote
   ChangeSummary getChanges();
 
   /**
-   * Sets the value of the '{@link org.example.simple.cs.QuoteBase#getChanges <em>Changes</em>}' attribute.
+   * Sets the value of the '{@link com.example.simple.cs.QuoteBase#getChanges <em>Changes</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Changes</em>' attribute.
