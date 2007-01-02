@@ -87,12 +87,14 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
    * @ordered
    */
   protected DataGraph eDataGraph = null;
-
+  
   protected DataObject dataObject = null;
-
-  protected ChangeRecorder changeRecorder = null;
-  protected EList cachedObjectsToDetach = null;
+  protected SDOChangeRecorder changeRecorder = null;
+  
+  protected Set cachedDeletedObjects = null;
+  protected List cachedCreatedObjects = null;
   protected HashMap cachedSDOObjectChanges = new HashMap();  
+  protected boolean isStale = false;
 
   /**
    * <!-- begin-user-doc -->
@@ -197,8 +199,8 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     getObjectsToAttach().clear();
     getObjectChanges().clear();
     getResourceChanges().clear();
-
     oldContainmentInformation = null;
+
     beginRecording();
 //    if (eNotificationRequired())
 //      eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.ECHANGE_SUMMARY__LOGGING, false, true));
@@ -238,7 +240,6 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     oldContainmentInformation = null;
     
     beginRecording();
-    
 //    if (eNotificationRequired())
 //      eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.ECHANGE_SUMMARY__LOGGING, false, true));
   }  
@@ -401,6 +402,13 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     return eDynamicIsSet(featureID);
   }
 
+  protected void uncache()
+  {
+    cachedDeletedObjects = null;
+    cachedCreatedObjects = null;
+    cachedSDOObjectChanges.clear();
+  }
+
   protected class SDOChangeRecorder extends ChangeRecorder
   {
     public SDOChangeRecorder()
@@ -410,9 +418,7 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     
     public void beginRecording(ChangeDescription changeDescription, Collection rootObjects)
     {
-      deletedObjects = null;
-      cachedObjectsToDetach = null;
-      cachedSDOObjectChanges.clear();
+      uncache();
       super.beginRecording(changeDescription, rootObjects);
     }
 
@@ -439,9 +445,8 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     
     protected void consolidateChanges()
     {
-      deletedObjects = null;
-      cachedObjectsToDetach = null;
-      cachedSDOObjectChanges.clear();
+      uncache();
+      isStale = false;
       super.consolidateChanges();
     }
 
@@ -461,6 +466,25 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
         super.removeAdapter(notifier);
     }
     
+    public void notifyChanged(Notification notification) 
+    { 
+      super.notifyChanged(notification);
+
+      Object notifier = notification.getNotifier();
+      if (notifier instanceof EObject)
+      {
+        cachedSDOObjectChanges.remove(notifier);
+        Object feature = notification.getFeature();
+        if (feature instanceof Property && ((Property)feature).isContainment())
+        {
+          cachedCreatedObjects = null;
+          cachedDeletedObjects = null;
+          oldContainmentInformation = null;
+        }
+        isStale = true;
+      }
+    }
+
   } 
 
   /**
@@ -489,7 +513,7 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
    */
   public boolean isCreated(DataObject dataObject)
   {
-    return getObjectsToDetach().contains(dataObject);
+    return getCachedCreatedObjects().contains(dataObject);
   }
 
   /**
@@ -499,7 +523,48 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
    */
   public boolean isDeleted(DataObject dataObject)
   {
-    return getDeletedObjects().contains(dataObject);
+    return getCachedDeletedObjects().contains(dataObject);
+  }
+
+  protected Set getCachedDeletedObjects()
+  {
+    if (cachedDeletedObjects == null)
+    {
+      if (isStale()) changeRecorder.consolidateChanges();
+      cachedDeletedObjects = new HashSet();
+      for (Iterator i = EcoreUtil.getAllContents(getObjectsToAttach()); i.hasNext(); )
+      {
+        cachedDeletedObjects.add(i.next());
+      }
+    }
+    return cachedDeletedObjects;
+  }
+
+  protected List getCachedCreatedObjects()
+  {
+    if (cachedCreatedObjects == null)
+    {
+      if (isStale()) changeRecorder.consolidateChanges();
+      cachedCreatedObjects = super.getObjectsToDetach();
+    }
+    return cachedCreatedObjects;
+  }
+  
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated NOT
+   */
+  public List getChangedDataObjects()
+  {
+    EList result = new UniqueEList.FastCompare(getCachedDeletedObjects());
+    result.addAll(getCachedCreatedObjects());
+    for (Iterator i = getObjectChanges().iterator(); i.hasNext(); )
+    {
+      Map.Entry entry = (Map.Entry)i.next();
+      result.add(entry.getKey());
+    }
+    return result;
   }
 
   /**
@@ -514,7 +579,8 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     {
       return sdoSettings;
     }
-    
+
+    if (isStale()) changeRecorder.consolidateChanges();
     List settings = (List)getObjectChanges().get(dataObject);
     if (settings == null)
     {
@@ -634,16 +700,11 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     {
       changeRecorder.summarize();
     }
-    apply();
-  }
-
-  public EList getObjectsToDetach()
-  {
-    if (cachedObjectsToDetach == null)
+    else
     {
-      cachedObjectsToDetach = super.getObjectsToDetach();
+      uncache();
     }
-    return cachedObjectsToDetach;
+    apply();
   }
 
   /**
@@ -656,43 +717,19 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     return getEDataGraph();
   }
   
-
-  protected Set deletedObjects;
-
-  protected void preApply(boolean reverse)
+  protected Map getOldContainmentInformation()
   {
-    super.preApply(reverse);
-    deletedObjects = null;
+    if (oldContainmentInformation == null)
+    {
+      if (isStale()) changeRecorder.consolidateChanges();
+      super.getOldContainmentInformation();
+    }
+    return oldContainmentInformation;
   }
 
-  protected Set getDeletedObjects()
+  protected boolean isStale()
   {
-    if (deletedObjects == null)
-    {
-      deletedObjects = new HashSet();
-      for (Iterator i = EcoreUtil.getAllContents(getObjectsToAttach()); i.hasNext(); )
-      {
-        deletedObjects.add(i.next());
-      }
-    }
-    return deletedObjects;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
-  public List getChangedDataObjects()
-  {
-    EList result = new UniqueEList.FastCompare(getDeletedObjects());
-    result.addAll(getObjectsToDetach());
-    for (Iterator i = getObjectChanges().iterator(); i.hasNext(); )
-    {
-      Map.Entry entry = (Map.Entry)i.next();
-      result.add(entry.getKey());
-    }
-    return result;
+    return isLogging() && isStale;
   }
 
   /**
@@ -713,4 +750,4 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     return null;
   }
 
-} //EChangeSummaryImpl
+} //ChangeSummaryImpl
