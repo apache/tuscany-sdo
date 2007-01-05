@@ -54,8 +54,15 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-    </dependencies>
 
+        <!-- this is needed because test program calls XMLHelper.save() and SDOXMLResourceImpl (in the sdo/impl project) uses StAX ??? -->
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+            <version>1.0.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

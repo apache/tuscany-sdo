@@ -19,26 +19,25 @@
  */
 package org.apache.tuscany.sdo.util.resource;
 
-import java.io.IOException;
+import java.io.*;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
+import javax.xml.namespace.*;
+import javax.xml.stream.*;
+import commonj.sdo.ChangeSummary;
+import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 
 import org.apache.tuscany.sdo.util.StAX2SAXAdapter;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.XMIException;
-import org.eclipse.emf.ecore.xmi.XMLHelper;
-import org.eclipse.emf.ecore.xmi.XMLLoad;
-import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.eclipse.emf.ecore.xmi.impl.XMLHelperImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.emf.ecore.xmi.*;
+import org.eclipse.emf.ecore.xmi.impl.*;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
@@ -100,6 +99,10 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
         public SDOXMLHelperImpl(XMLStreamReader reader) {
             super();
             this.namespaceSupport = new StreamNamespaceSupport(reader);
+        }
+        
+        Collection getPrefixes(Object uri) {
+            return (Collection) urisToPrefixes.get(uri);
         }
     }
 
@@ -180,5 +183,107 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
         if (options != null)
             mergedOptions.putAll(options);
         xmlLoad.load(this, reader, mergedOptions);
+    }
+
+    static private final class LocalName extends QName {
+        private LocalName(String name) {
+            super(name);
+        }
+
+        public String getNamespaceURI() {
+            return null;
+        }
+    }
+
+    static final class SDOXMLSaveImpl extends XMLSaveImpl {
+        SDOXMLSaveImpl(XMLHelper helper) {
+            super(helper);
+        }
+
+        Map changeSummaryOptions = new HashMap();
+
+        protected void init(XMLResource resource, Map options) {
+            super.init(resource, options);
+            //changeSummaryOptions.put(ChangeSummaryStreamSerializer.OPTION_RootObject_PATH, "#");
+            //changeSummaryOptions.put(ChangeSummaryStreamSerializer.OPTION_OPTIMIZE_LIST, Boolean.TRUE);
+            changeSummaryOptions.put(OPTION_EXTENDED_META_DATA, extendedMetaData);
+            if (Boolean.FALSE.equals(options.get(OPTION_FORMATTED)))
+                return;
+            changeSummaryOptions.put(ChangeSummaryStreamSerializer.OPTION_LINE_BREAK, "\n");
+            changeSummaryOptions.put(ChangeSummaryStreamSerializer.OPTION_INDENT, "  ");
+        }
+
+        QName qName(EStructuralFeature f) {
+            if (extendedMetaData == null)
+                return new LocalName(f.getName());
+            String nameSpace = extendedMetaData.getNamespace(f), name = extendedMetaData.getName(f);
+            return nameSpace == null ? new LocalName(name) : new QName(nameSpace, name);
+        }
+
+        XMLStreamWriter xmlStreamWriter/* = null*/;
+
+        ChangeSummaryStreamSerializer changeSummarySerializer;
+
+        protected void saveDataTypeElementSingle(EObject o, EStructuralFeature f) {
+            if (f.getEType() == ((ModelFactoryImpl) ModelFactory.INSTANCE).getChangeSummaryType()) {
+                Object changeSummary = helper.getValue(o, f);
+                StringBuffer margin = new StringBuffer("  ");
+                for (;;) {
+                    EObject container = o.eContainer();
+                    if (container instanceof XMLTypeDocumentRoot)
+                        break;
+                    o = container;
+                    margin.append("  ");
+                }
+                changeSummaryOptions.put(ChangeSummaryStreamSerializer.OPTION_MARGIN, margin.toString());
+                try {
+                    if (xmlStreamWriter == null) {
+                        xmlStreamWriter = XMLOutputFactory.newInstance().createXMLStreamWriter(new Writer() {
+                            public void close() {
+                            }
+
+                            public void flush() {
+                            }
+
+                            public final void write(String str) {
+                                doc.add(str);
+                            }
+
+                            public void write(char[] cbuf, int off, int len) {
+                                write(new String(cbuf, off, len));
+                            }
+                        });
+                        xmlStreamWriter.setNamespaceContext(new NamespaceContext() {
+                            public String getNamespaceURI(String prefix) {
+                                return helper.getNamespaceURI(prefix);
+                            }
+
+                            public String getPrefix(String namespaceURI) {
+                                return helper.getPrefix(namespaceURI);
+                            }
+
+                            public Iterator getPrefixes(String namespaceURI) {
+                                return ((SDOXMLHelperImpl) helper).getPrefixes(namespaceURI).iterator();
+                            }
+                        });
+                        for (Iterator iterator = helper.getPrefixToNamespaceMap().iterator(); iterator.hasNext();) {
+                            Map.Entry entry = (Map.Entry) iterator.next();
+                            xmlStreamWriter.setPrefix((String) entry.getKey(), (String) entry.getValue());
+                        }
+                        changeSummarySerializer = new ChangeSummaryStreamSerializer();
+                    }
+                    changeSummarySerializer.saveChangeSummary((ChangeSummary) changeSummary, qName(f), xmlStreamWriter,
+                            qName(o.eContainingFeature()), changeSummaryOptions);
+                    doc.addLine();
+                } catch (XMLStreamException e) {
+                    xmlResource.getErrors().add(new XMIException(e));
+                }
+            } else
+                super.saveDataTypeElementSingle(o, f);
+        }
+    }
+
+    protected XMLSave createXMLSave() {
+        return new SDOXMLSaveImpl(createXMLHelper());
     }
 }

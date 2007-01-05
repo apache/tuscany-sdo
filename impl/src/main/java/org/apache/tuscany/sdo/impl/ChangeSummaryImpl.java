@@ -452,6 +452,8 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
 
     protected void addAdapter(Notifier notifier)
     {
+      if (!loadingTargets) return; // Optimize ChangeSummary to not record changes in newly created DOs
+
       if (notifier instanceof DataObjectImpl)
         ((DataObjectImpl)notifier).setChangeRecorder(this);
       else

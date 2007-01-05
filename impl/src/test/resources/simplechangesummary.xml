@@ -16,9 +16,6 @@
           set="false"/>
       <value xsi:type="sdo_1:ChangeSummarySetting" featureName="quotes" set="false"/>
     </objectChanges>
-    <objectChanges key="#//@eRootObject/@quotes.0">
-      <value xsi:type="sdo_1:ChangeSummarySetting" featureName="price" set="false"/>
-    </objectChanges>
   </changeSummary>
   <simple:Quote>
     <symbol>fbnt</symbol>
