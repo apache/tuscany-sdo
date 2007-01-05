@@ -19,9 +19,13 @@
  */
 package org.apache.tuscany.sdo.test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
+
+import org.apache.tuscany.sdo.util.SDOUtil;
 
 import junit.framework.TestCase;
 
@@ -37,6 +41,9 @@ public class ChangeSummaryPropertyTestCase extends TestCase {
     private final String TEST_MODEL = "/simpleWithChangeSummary.xsd";
     private final String TEST_NAMESPACE = "http://www.example.com/simpleCS";
 
+    private final String TEST_DATA_BEFORE_UNDO = "/simpleWithChangeSummary.xml";
+    private final String TEST_DATA_AFTER_UNDO = "/simpleWithChangeSummaryUndone.xml";
+    
     /**
      * Simple ChangeSummary test.
      */
@@ -80,12 +87,19 @@ public class ChangeSummaryPropertyTestCase extends TestCase {
         //
         cs.endLogging();
 
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "rootQuote", baos);
         //XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "rootQuote", System.out);
-               
+
+        //assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA_BEFORE_UNDO)));
+        
         cs.undoChanges();
         
-        //System.out.println("\nAfter Undo Changes:");
+        baos = new ByteArrayOutputStream();
+        XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "rootQuote", baos);
         //XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "rootQuote", System.out);
+        
+        assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA_AFTER_UNDO)));
     }
 
     protected void setUp() throws Exception {
