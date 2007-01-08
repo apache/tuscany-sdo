@@ -47,25 +47,26 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
 
   
   private final String TEST_DATA = "/simplechangesummary.xml";
+  HelperContext hc;
   XSDHelper xh;
   TypeHelper th;
 
   public void testBasicsDO() {
-    Type cst = TypeHelper.INSTANCE.getType("commonj.sdo","ChangeSummaryType");
-    Type strt = TypeHelper.INSTANCE.getType("commonj.sdo", "String");
+    Type cst = th.getType("commonj.sdo","ChangeSummaryType");
+    Type strt = th.getType("commonj.sdo", "String");
     
     Type newt = SDOUtil.createType(th, "testcases.changesummary", "simpleCS", false);
     Property strProp = SDOUtil.createProperty(newt, "strElem", strt);
     SDOUtil.createProperty(newt, "changeSummary", cst);
     
-    DataObject iNewt = DataFactory.INSTANCE.create(newt);
+    DataObject iNewt = hc.getDataFactory().create(newt);
         
     testBasicsBody(strProp, iNewt);
 }
 
   public void testBasicsDG() {
 
-    Type strt = TypeHelper.INSTANCE.getType("commonj.sdo", "String");
+    Type strt = th.getType("commonj.sdo", "String");
     
 
     Type newt = SDOUtil.createType(th, "testcases.changesummary", "simpleNOCS", false);
@@ -134,10 +135,10 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
   
   public void testDynamicNestedDataObjectsDO() throws Exception {
     Type quoteType = th.getType("http://www.example.com/simpleCS", "RootQuote");
-    DataObject quote = DataFactory.INSTANCE.create(quoteType);
+    DataObject quote = hc.getDataFactory().create(quoteType);
 
     testDynamicNestedDOBody(quote);   
-    // XMLHelper.INSTANCE.save(quote, "http://www.example.com/simpleCS", "stockQuote", System.out);
+    hc.getXMLHelper().save(quote, "http://www.example.com/simpleCS", "stockQuote", System.out);
     assertEquals(1, quote.getList("quotes").size());
     assertEquals("fbnt", quote.getString("symbol"));
 
@@ -146,6 +147,7 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
     assertEquals(0, quote.getList("quotes").size());
     assertNull(quote.getString("symbol"));
 
+    
 
   }
   
@@ -198,7 +200,7 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
     // Populate the meta data for the test (Stock Quote) model
     URL url = getClass().getResource("/simple.xsd");
     InputStream inputStream = url.openStream();
-    HelperContext hc = SDOUtil.createHelperContext();
+    hc = SDOUtil.createHelperContext();
     th = hc.getTypeHelper();
     xh = hc.getXSDHelper();
     xh.define(inputStream, url.toString());

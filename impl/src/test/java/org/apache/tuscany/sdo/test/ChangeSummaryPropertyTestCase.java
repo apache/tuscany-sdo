@@ -33,11 +33,13 @@ import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
 public class ChangeSummaryPropertyTestCase extends TestCase {
+    private HelperContext hc;
     private final String TEST_MODEL = "/simpleWithChangeSummary.xsd";
     private final String TEST_NAMESPACE = "http://www.example.com/simpleCS";
 
@@ -48,8 +50,8 @@ public class ChangeSummaryPropertyTestCase extends TestCase {
      * Simple ChangeSummary test.
      */
     public void testChangeSummary() throws Exception {
-        Type quoteType = TypeHelper.INSTANCE.getType(TEST_NAMESPACE, "RootQuote");
-        DataObject quote = DataFactory.INSTANCE.create(quoteType);
+        Type quoteType = hc.getTypeHelper().getType(TEST_NAMESPACE, "RootQuote");
+        DataObject quote = hc.getDataFactory().create(quoteType);
         
         ChangeSummary cs = quote.getChangeSummary();
         ChangeSummary csp = (ChangeSummary)quote.get("changes");
@@ -88,27 +90,32 @@ public class ChangeSummaryPropertyTestCase extends TestCase {
         cs.endLogging();
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "rootQuote", baos);
-        //XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "rootQuote", System.out);
+        hc.getXMLHelper().save(quote, TEST_NAMESPACE, "rootQuote", baos);
+        //hc.getXMLHelper().save(quote, TEST_NAMESPACE, "rootQuote", System.out);
 
         //assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA_BEFORE_UNDO)));
+        
+        DataObject copyQuote = hc.getCopyHelper().copy(quote);
+        assertTrue(hc.getEqualityHelper().equal(quote, copyQuote));
         
         cs.undoChanges();
         
         baos = new ByteArrayOutputStream();
-        XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "rootQuote", baos);
-        //XMLHelper.INSTANCE.save(quote, TEST_NAMESPACE, "rootQuote", System.out);
+        hc.getXMLHelper().save(quote, TEST_NAMESPACE, "rootQuote", baos);
+        //hc.getXMLHelper().save(quote, TEST_NAMESPACE, "rootQuote", System.out);
         
         assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA_AFTER_UNDO)));
     }
 
     protected void setUp() throws Exception {
         super.setUp();
+        
+        hc = SDOUtil.createHelperContext();
 
         // Populate the meta data for the test (Stock Quote) model
         URL url = getClass().getResource(TEST_MODEL);
         InputStream inputStream = url.openStream();
-        XSDHelper.INSTANCE.define(inputStream, url.toString());
+        hc.getXSDHelper().define(inputStream, url.toString());
         inputStream.close();
     }
 }
