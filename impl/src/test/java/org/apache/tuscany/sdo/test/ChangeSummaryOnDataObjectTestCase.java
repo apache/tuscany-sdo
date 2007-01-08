@@ -138,7 +138,7 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
     DataObject quote = hc.getDataFactory().create(quoteType);
 
     testDynamicNestedDOBody(quote);   
-    hc.getXMLHelper().save(quote, "http://www.example.com/simpleCS", "stockQuote", System.out);
+    //hc.getXMLHelper().save(quote, "http://www.example.com/simpleCS", "stockQuote", System.out);
     assertEquals(1, quote.getList("quotes").size());
     assertEquals("fbnt", quote.getString("symbol"));
 
