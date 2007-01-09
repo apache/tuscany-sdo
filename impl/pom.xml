@@ -113,6 +113,7 @@
                 <configuration>
                     <overview>${basedir}/src/main/java/org/apache/tuscany/sdo/overview.html</overview> 
                     <version>2.0</version>
+                    <source>1.4</source>
                 </configuration>
                 <!-- <executions>
                     <execution>

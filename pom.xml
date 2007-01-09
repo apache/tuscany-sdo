@@ -142,6 +142,7 @@
                 <configuration>
                     <aggregate>true</aggregate>
                     <version>2.0</version>
+                    <source>1.4</source>
                 </configuration>
             </plugin>
         </plugins>
