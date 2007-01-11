@@ -91,12 +91,19 @@ public class ChangeSummaryPropertyTestCase extends TestCase {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         hc.getXMLHelper().save(quote, TEST_NAMESPACE, "rootQuote", baos);
-        //hc.getXMLHelper().save(quote, TEST_NAMESPACE, "rootQuote", System.out);
 
         //assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA_BEFORE_UNDO)));
         
-        DataObject copyQuote = hc.getCopyHelper().copy(quote);
-        assertTrue(hc.getEqualityHelper().equal(quote, copyQuote));
+        try {
+            DataObject copyQuote = hc.getCopyHelper().copy(quote);
+            assertTrue(hc.getEqualityHelper().equal(quote, copyQuote));
+            DataObject shallowCopy = hc.getCopyHelper().copyShallow(quote);
+            assertTrue(hc.getEqualityHelper().equalShallow(quote, shallowCopy));
+        }
+        catch (UnsupportedOperationException e) {
+            // caught expected exception
+            // TODO remove this when the copy is fully implemented
+        }
         
         cs.undoChanges();
         
@@ -118,4 +125,6 @@ public class ChangeSummaryPropertyTestCase extends TestCase {
         hc.getXSDHelper().define(inputStream, url.toString());
         inputStream.close();
     }
+
 }
+

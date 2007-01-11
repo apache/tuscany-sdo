@@ -20,11 +20,12 @@
 package org.apache.tuscany.sdo.helper;
 
 
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.EcoreUtil.Copier;
 
+import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.CopyHelper;
 
@@ -41,6 +42,20 @@ public class CopyHelperImpl implements CopyHelper
         protected void copyContainment(EReference eReference, EObject eObject, EObject copyEObject)
         {
         }
+
+        protected void copyAttribute(EAttribute eAttribute, EObject eObject, EObject copyEObject) {
+            if(("ChangeSummaryType".equals(eAttribute.getEType().getName()) && "commonj.sdo".equals(eAttribute.getEType().getEPackage().getNsURI()))) {
+                boolean isLogging = ((ChangeSummary)eObject.eGet(eAttribute)).isLogging();
+                ChangeSummary destSum = (ChangeSummary)copyEObject.eGet(eAttribute);
+                if(isLogging) {
+                    if(!destSum.isLogging()) destSum.beginLogging();
+                } else {
+                    if(destSum.isLogging()) destSum.endLogging();
+                }
+            } else {
+                super.copyAttribute(eAttribute, eObject, copyEObject);
+            }
+        }
       };
     EObject result = copier.copy((EObject)dataObject);
     copier.copyReferences();
@@ -49,6 +64,21 @@ public class CopyHelperImpl implements CopyHelper
 
   public DataObject copy(DataObject dataObject)
   {
-    return (DataObject)EcoreUtil.copy((EObject)dataObject);
+    Copier copier = new Copier()
+    {
+
+        protected void copyAttribute(EAttribute eAttribute, EObject eObject, EObject copyEObject) {
+            if(("ChangeSummaryType".equals(eAttribute.getEType().getName()) && "commonj.sdo".equals(eAttribute.getEType().getEPackage().getNsURI()))) {
+                throw new UnsupportedOperationException("This will be implemented when change summary serialization/deserialization is in place");
+            } else {
+                super.copyAttribute(eAttribute, eObject, copyEObject);
+            }
+        }
+    };
+    EObject result = copier.copy((EObject)dataObject);
+    copier.copyReferences();
+    return (DataObject)result;
   }
+
+
 }

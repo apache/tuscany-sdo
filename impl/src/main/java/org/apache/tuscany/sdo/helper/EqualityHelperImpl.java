@@ -22,6 +22,7 @@ package org.apache.tuscany.sdo.helper;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -41,11 +42,13 @@ public class EqualityHelperImpl implements EqualityHelper
         protected boolean haveEqualFeature(EObject eObject1, EObject eObject2, EStructuralFeature feature)
         {
           if (feature instanceof EAttribute)
-          {
-              boolean eIsSet = eObject1.eIsSet(feature);
-              if (eIsSet != eObject2.eIsSet(feature) || !haveEqualAttribute(eObject1, eObject2, (EAttribute)feature))
-              {
-                  return false;
+          {   
+              if(!("ChangeSummaryType".equals(feature.getEType().getName()) && "commonj.sdo".equals(feature.getEType().getEPackage().getNsURI()))) {
+                  boolean eIsSet = eObject1.eIsSet(feature);
+                  if (eIsSet != eObject2.eIsSet(feature) || !haveEqualAttribute(eObject1, eObject2, (EAttribute)feature))
+                  {
+                      return false;
+                  }
               }
           }
           return true;
@@ -65,6 +68,15 @@ public class EqualityHelperImpl implements EqualityHelper
 
   public boolean equal(DataObject dataObject1, DataObject dataObject2)
   {
-    return EcoreUtil.equals((EObject)dataObject1, (EObject)dataObject2);
-  }
+      EcoreUtil.EqualityHelper equalityHelper = new EcoreUtil.EqualityHelper()
+      {
+        protected boolean haveEqualAttribute(EObject eObject1, EObject eObject2, EAttribute attribute) {
+            if(("ChangeSummaryType".equals(attribute.getEType().getName()) && "commonj.sdo".equals(attribute.getEType().getEPackage().getNsURI()))) {
+                throw new UnsupportedOperationException("This will be implemented when change summary serialzation/deserialization is in place");
+            } else {
+                return super.haveEqualAttribute(eObject1, eObject2, attribute);
+            }
+        }
+      };
+    return equalityHelper.equals((EObject)dataObject1, (EObject)dataObject2);  }
 }
