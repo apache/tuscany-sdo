@@ -309,11 +309,7 @@ public class XMLDocumentStreamReader implements XMLStreamReader {
     }
 
     public Object getProperty(String s) throws IllegalArgumentException {
-        if (isDelegating()) {
-            return realReader.getProperty(s);
-        } else {
-            throw new IllegalArgumentException();
-        }
+        return realReader.getProperty(s);
     }
 
     public String getText() {
