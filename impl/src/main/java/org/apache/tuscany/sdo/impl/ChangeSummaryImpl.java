@@ -55,8 +55,6 @@ import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import commonj.sdo.ChangeSummary;
-//import commonj.sdo.ChangeSummary.Setting;
-
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -752,4 +750,18 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     return null;
   }
 
+  public DataObject getOldDataObject(DataObject dataObject)
+  {
+    EObject oldDataObject = EcoreUtil.copy((EObject)dataObject);
+
+    List changes = (List)getObjectChanges().get(dataObject);
+    for (Iterator fIter = changes.iterator(); fIter.hasNext(); )
+    {
+      FeatureChange featureChange = (FeatureChange)fIter.next();
+      featureChange.apply(oldDataObject);
+    }
+
+    return (DataObject)oldDataObject;
+  }
+  
 } //ChangeSummaryImpl

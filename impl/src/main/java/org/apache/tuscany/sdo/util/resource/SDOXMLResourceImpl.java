@@ -19,27 +19,43 @@
  */
 package org.apache.tuscany.sdo.util.resource;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Writer;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
-import javax.xml.namespace.*;
-import javax.xml.stream.*;
-import commonj.sdo.ChangeSummary;
-import org.eclipse.emf.ecore.xml.type.XMLTypeDocumentRoot;
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
+
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
-
 import org.apache.tuscany.sdo.util.StAX2SAXAdapter;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.*;
-import org.eclipse.emf.ecore.xmi.impl.*;
+import org.eclipse.emf.ecore.xmi.XMIException;
+import org.eclipse.emf.ecore.xmi.XMLHelper;
+import org.eclipse.emf.ecore.xmi.XMLLoad;
+import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.emf.ecore.xmi.XMLSave;
+import org.eclipse.emf.ecore.xmi.impl.XMLHelperImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLLoadImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
+import org.eclipse.emf.ecore.xmi.impl.XMLSaveImpl;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
+
+import commonj.sdo.ChangeSummary;
 
 public class SDOXMLResourceImpl extends XMLResourceImpl {
     private XMLStreamReader reader;
@@ -230,8 +246,8 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
                 StringBuffer margin = new StringBuffer("  ");
                 for (;;) {
                     EObject container = o.eContainer();
-                    if (container instanceof XMLTypeDocumentRoot)
-                        break;
+                    //FB if (container instanceof XMLTypeDocumentRoot) break;
+                    if (container.eContainer() == null) break; //FB DocumentRoot?
                     o = container;
                     margin.append("  ");
                 }

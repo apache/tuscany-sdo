@@ -236,7 +236,7 @@ public class ChangeSummaryStreamSerializer {
     
     private int lengthDeleted;
 
-    private String nsElementCS, nameElementCS;
+    private String changeSummaryElementNS, changeSummaryElementName;
 
     private ChangeSummary changeSummary;
 
@@ -261,7 +261,7 @@ public class ChangeSummaryStreamSerializer {
             path = path();
             if (path != null)
                 pathDeleted.append(path).append('/');
-            step(nsElementCS, nameElementCS, pathDeleted).append('/');
+            step(changeSummaryElementNS, changeSummaryElementName, pathDeleted).append('/');
             lengthDeleted = pathDeleted.length();
         } else
             pathDeleted.delete(lengthDeleted, pathDeleted.length());
@@ -298,6 +298,15 @@ public class ChangeSummaryStreamSerializer {
         writeRef(refDeleted());
     }
 
+    protected final void writeDeletedObject(Property property) throws XMLStreamException {
+      ++nest;
+      startElement();
+      --nest;
+      DataObject oldDataObject = ((ChangeSummaryImpl)changeSummary).getOldDataObject(dataObject);
+      XMLStreamReader reader = new DataObjectXMLStreamReader(property, oldDataObject, null, xsdHelper);
+      new XMLStreamSerializer().serialize(new XMLDocumentStreamReader(reader), writer);
+    }
+
     Collection deletedDataObjects;
     static final String XSI = "http://www.w3.org/2001/XMLSchema-instance", XSI_PREFIX = "xsi", TYPE = "type";
 
@@ -313,11 +322,7 @@ public class ChangeSummaryStreamSerializer {
                 writeRef();
                 writeEndElement(null);
             } else if (property.isContainment() && deletedDataObjects.contains(dataObject)) {
-                ++nest;
-                startElement();
-                --nest;
-                new XMLStreamSerializer().serialize(new XMLDocumentStreamReader(new DataObjectXMLStreamReader(property, dataObject, null,
-                        xsdHelper)), writer);
+                writeDeletedObject(property);
             } else {
                 writeStartElement(property);
                 writeRefDeleted();
@@ -394,7 +399,7 @@ public class ChangeSummaryStreamSerializer {
      * 
      * @param changeSummary
      *            Never null
-     * @param elementCS
+     * @param changeSummaryElement
      *            changeSummary element; the NameSpace can be empty if no NameSpace, or null if local element; the prefix can be null(no preference)
      * @param writer
      *            Never null
@@ -403,7 +408,7 @@ public class ChangeSummaryStreamSerializer {
      * @param options
      *            {@link #OPTION_LINE_BREAK}, {@link #OPTION_INDENT}, {@link #OPTION_MARGIN}, {@link #OPTION_RootObject_PATH}, {@link #OPTION_OPTIMIZE_LIST} and XMLResource.OPTION_EXTENDED_META_DATA; can be null or empty
      */
-    public final void saveChangeSummary(ChangeSummary changeSummary, QName elementCS, XMLStreamWriter writer, QName rootElement, Map options)
+    public final void saveChangeSummary(ChangeSummary changeSummary, QName changeSummaryElement, XMLStreamWriter writer, QName rootElement, Map options)
             throws XMLStreamException {
         /*
          * 6-1. Group created, deleted and modified DataObjects
@@ -444,9 +449,9 @@ public class ChangeSummaryStreamSerializer {
         lineBreak = "";
         indent = margin = pathRootObject = STRING_OPTION;
         nest = 0;
-        nsElementCS = elementCS.getNamespaceURI();
-        nameElementCS = elementCS.getLocalPart();
-        writeStartElement(elementCS.getPrefix(), nsElementCS, nameElementCS);
+        changeSummaryElementNS = changeSummaryElement.getNamespaceURI();
+        changeSummaryElementName = changeSummaryElement.getLocalPart();
+        writeStartElement(changeSummaryElement.getPrefix(), changeSummaryElementNS, changeSummaryElementName);
         lineBreak = STRING_OPTION;
         rootObject = changeSummary.getRootObject();
         ExtendedMetaData extendedMetaData = (ExtendedMetaData) options.get(XMLResource.OPTION_EXTENDED_META_DATA);
@@ -457,9 +462,9 @@ public class ChangeSummaryStreamSerializer {
         }
         else
             xsdHelper = new XSDHelperImpl(extendedMetaData, null);
-        Property declaration = nsElementCS == null
-                             ? rootObject.getType().getProperty(nameElementCS)
-                             : xsdHelper.getGlobalProperty(nsElementCS, nameElementCS, true);
+        Property declaration = changeSummaryElementNS == null
+                             ? rootObject.getType().getProperty(changeSummaryElementName)
+                             : xsdHelper.getGlobalProperty(changeSummaryElementNS, changeSummaryElementName, true);
         if (declaration != null)
         {
             EClassifier type = changeDescription.eClass();
@@ -528,21 +533,19 @@ public class ChangeSummaryStreamSerializer {
             }
             prefix(SDOAnnotations.COMMONJ_SDO_NS, SDOPackage.eNS_PREFIX);
             do {
-                DataObject container = dataObject = (DataObject) iterator.next();
+                DataObject dataObject = (DataObject) iterator.next();
+                if (deletedDataObjects.contains(dataObject)) continue;
+
                 Collection oldValues = changeSummary.getOldValues(dataObject);
-                if (deletedDataObjects.contains(dataObject)) {
-                    writeStartElement(changeSummary.getOldContainmentProperty(dataObject));
-                    writeRefDeleted();
-                } else {
-                    Property containmentProperty = dataObject.getContainmentProperty();
-                    if (containmentProperty == null) {
-                        ++nest;
-                        startElement();
-                        writer.writeStartElement(rootElement.getNamespaceURI(), rootElement.getLocalPart());
-                    } else
-                        writeStartElement(containmentProperty);
-                    writeRef();
-                }
+                Property containmentProperty = dataObject.getContainmentProperty();
+                if (containmentProperty == null) {
+                    ++nest;
+                    startElement();
+                    writer.writeStartElement(rootElement.getNamespaceURI(), rootElement.getLocalPart());
+                } else
+                    writeStartElement(containmentProperty);
+                writeRef();
+
                 String lineBreak = null;
                 Iterator settings = oldValues.iterator();
                 if (settings.hasNext()) {
@@ -573,7 +576,7 @@ public class ChangeSummaryStreamSerializer {
                             if (property.isMany()) {
                                 List list = (List) oldValue.getValue();
                                 if (optimizeList)
-                                    list = optimize(list, oldValue, container.getList(property).size());
+                                    list = optimize(list, oldValue, dataObject.getList(property).size());
                                 Iterator values = list.iterator();
                                 if (values.hasNext()) {
                                     do
