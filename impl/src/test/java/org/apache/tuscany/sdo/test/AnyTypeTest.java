@@ -65,6 +65,16 @@ public class AnyTypeTest extends TestCase {
         testObject = rootObject.getDataObject("personElement");
         System.out.println("personElement dataobject: " + testObject);
     }
+    
+    public void testAbstractTypeFails() {
+    	try {
+    		DataObject abstractObj = dataFactory.create("commonj.sdo","DataObject");
+    		assertTrue("Should not succeed", false);
+    	}
+    	catch ( IllegalArgumentException e) {
+			// expected result
+		}
+    }
 
     protected void setUp() throws Exception {
         HelperContext hc = SDOUtil.createHelperContext();

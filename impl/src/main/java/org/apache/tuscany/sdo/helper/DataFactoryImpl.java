@@ -55,7 +55,7 @@ public class DataFactoryImpl implements DataFactory
   
   public DataObject create(Type type)
   {
-    if (type instanceof EClass)
+    if ((type instanceof EClass) && !type.isAbstract())
     {
       EClass eClass = (EClass)type;
       return (DataObject)EcoreUtil.create(eClass);
