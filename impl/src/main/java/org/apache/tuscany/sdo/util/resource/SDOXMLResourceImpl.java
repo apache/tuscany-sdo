@@ -43,6 +43,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMIException;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
@@ -244,13 +245,8 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
             if (f.getEType() == ((ModelFactoryImpl) ModelFactory.INSTANCE).getChangeSummaryType()) {
                 Object changeSummary = helper.getValue(o, f);
                 StringBuffer margin = new StringBuffer("  ");
-                for (;;) {
-                    EObject container = o.eContainer();
-                    //FB if (container instanceof XMLTypeDocumentRoot) break;
-                    if (container.eContainer() == null) break; //FB DocumentRoot?
-                    o = container;
+                for (EObject container = o.eContainer(), grandContainer; (grandContainer = container.eContainer()) != null; container = grandContainer)
                     margin.append("  ");
-                }
                 changeSummaryOptions.put(ChangeSummaryStreamSerializer.OPTION_MARGIN, margin.toString());
                 try {
                     if (xmlStreamWriter == null) {
@@ -271,25 +267,57 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
                         });
                         xmlStreamWriter.setNamespaceContext(new NamespaceContext() {
                             public String getNamespaceURI(String prefix) {
-                                return helper.getNamespaceURI(prefix);
+                                return declareXSI && ExtendedMetaData.XSI_PREFIX.equals(prefix) ? ExtendedMetaData.XSI_URI : helper
+                                        .getNamespaceURI(prefix);
                             }
 
                             public String getPrefix(String namespaceURI) {
-                                return helper.getPrefix(namespaceURI);
+                                return declareXSI && ExtendedMetaData.XSI_URI.equals(namespaceURI) ? ExtendedMetaData.XSI_PREFIX : helper
+                                        .getPrefix(namespaceURI);
                             }
 
                             public Iterator getPrefixes(String namespaceURI) {
-                                return ((SDOXMLHelperImpl) helper).getPrefixes(namespaceURI).iterator();
+                                final Iterator iterator = ((SDOXMLHelperImpl) helper).getPrefixes(namespaceURI).iterator();
+                                return ExtendedMetaData.XSI_URI.equals(namespaceURI) ? new Iterator() {
+                                    boolean first = true;
+
+                                    public boolean hasNext() {
+                                        if (first)
+                                            if (declareXSI) // never from true to false
+                                                return true;
+                                            else
+                                                first = false;
+                                        return iterator.hasNext();
+                                    }
+
+                                    public Object next() {
+                                        if (first) {
+                                            first = false;
+                                            if (declareXSI)
+                                                return ExtendedMetaData.XSI_PREFIX;
+                                        }
+                                        return iterator.next();
+                                    }
+
+                                    public void remove() {
+                                        if (first)
+                                            declareXSI = false;
+                                        else
+                                            iterator.remove();
+                                    }
+                                } : iterator;
                             }
                         });
                         for (Iterator iterator = helper.getPrefixToNamespaceMap().iterator(); iterator.hasNext();) {
                             Map.Entry entry = (Map.Entry) iterator.next();
                             xmlStreamWriter.setPrefix((String) entry.getKey(), (String) entry.getValue());
                         }
+                        if (declareXSI)
+                            xmlStreamWriter.setPrefix(ExtendedMetaData.XSI_PREFIX, ExtendedMetaData.XSI_URI);
                         changeSummarySerializer = new ChangeSummaryStreamSerializer();
                     }
                     changeSummarySerializer.saveChangeSummary((ChangeSummary) changeSummary, qName(f), xmlStreamWriter,
-                            qName(o.eContainingFeature()), changeSummaryOptions);
+                            changeSummaryOptions);
                     doc.addLine();
                 } catch (XMLStreamException e) {
                     xmlResource.getErrors().add(new XMIException(e));

@@ -38,21 +38,13 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.impl.ChangeDescriptionImpl;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
-import org.eclipse.emf.ecore.util.DelegatingFeatureMap;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.emf.ecore.util.FeatureMapUtil;
-import org.eclipse.emf.ecore.util.InternalEList;
+import org.eclipse.emf.ecore.util.*;
 
 import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataGraph;
@@ -750,6 +742,11 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     return null;
   }
 
+  static protected boolean isContainmentReference(Object feature)
+  {
+    return feature instanceof EReference && ((EReference) feature).isContainment();
+  }  
+  
   public DataObject getOldDataObject(DataObject dataObject)
   {
     EObject oldDataObject = EcoreUtil.copy((EObject)dataObject);
@@ -759,6 +756,26 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     {
       FeatureChange featureChange = (FeatureChange)fIter.next();
       featureChange.apply(oldDataObject);
+      EStructuralFeature feature = featureChange.getFeature();
+      if (FeatureMapUtil.isFeatureMap(feature))
+      {
+        FeatureMap featureMap = (FeatureMap) oldDataObject.eGet(feature);
+        for (int index = featureMap.size(); index != 0;)
+          if (isContainmentReference(featureMap.getEStructuralFeature(--index)))
+            featureMap.setValue(index, getOldDataObject((DataObject) featureMap.getValue(index)));
+      }
+      else if (isContainmentReference(feature))
+      {
+        Object value = oldDataObject.eGet(feature);
+        if (feature.isMany())
+        {
+          changes = (List) value;
+          for (int index = changes.size(); index != 0;)
+            changes.set(--index, getOldDataObject((DataObject) changes.get(index))); // Java pushes stack from left to right
+        }
+        else
+          oldDataObject.eSet(feature, getOldDataObject((DataObject) value));
+      }
     }
 
     return (DataObject)oldDataObject;

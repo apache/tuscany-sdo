@@ -62,6 +62,8 @@ public class ChangeSummaryPropertyTestCase extends TestCase {
         child.setBigDecimal("price", new BigDecimal("1500.0"));
         child = quote.createDataObject("quotes");
         child.setBigDecimal("price", new BigDecimal("2000.0"));
+        child = child.createDataObject("quotes");
+        child.setBigDecimal("price", new BigDecimal("2000.99"));
         child = quote.createDataObject("quotes");
         child.setBigDecimal("price", new BigDecimal("2500.0"));
 
@@ -100,7 +102,7 @@ public class ChangeSummaryPropertyTestCase extends TestCase {
         hc.getXMLHelper().save(quote, TEST_NAMESPACE, "stockQuote", baos);
         //hc.getXMLHelper().save(quote, TEST_NAMESPACE, "stockQuote", System.out);
         
-        //assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA_AFTER_UNDO)));
+        assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA_AFTER_UNDO)));
     }
 
     protected void setUp() throws Exception {

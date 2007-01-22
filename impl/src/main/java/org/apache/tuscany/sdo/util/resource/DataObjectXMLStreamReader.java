@@ -107,7 +107,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         populateProperties();
     }
 
-    protected DataObjectXMLStreamReader(Property rootElement, DataObject dataObject, TypeHelper typeHelper, XSDHelper xsdHelper) {
+    public DataObjectXMLStreamReader(Property rootElement, DataObject dataObject, TypeHelper typeHelper, XSDHelper xsdHelper) {
         this.typeHelper = typeHelper == null ? TypeHelper.INSTANCE : typeHelper;
         this.xsdHelper = (xsdHelper != null) ? xsdHelper : ((typeHelper == null) ? XSDHelper.INSTANCE : SDOUtil.createXSDHelper(typeHelper));
         this.rootElement = rootElement;
@@ -221,10 +221,10 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
     }
 
     public void populateProperties() {
-        declaredNamespaceMap.put("xml", "http://www.w3.org/XML/1998/namespace");
+        /*declaredNamespaceMap.put("xml", "http://www.w3.org/XML/1998/namespace");
         declaredNamespaceMap.put("xmlns", "http://www.w3.org/2000/xmlns/");
         declaredNamespaceMap.put("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-        
+        */
         
         if (properties != null)
             return;

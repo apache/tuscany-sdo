@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<cs:rootQuote xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cs="http://www.example.com/simpleCS" xsi:type="cs:RootQuote">
+<cs:stockQuote xmlns:cs="http://www.example.com/simpleCS">
   <symbol>fbnt</symbol>
   <companyName>FlyByNightTechnology</companyName>
   <price>1000.0</price>
@@ -8,9 +8,12 @@
   </quotes>
   <quotes>
     <price>2000.0</price>
+    <quotes>
+      <price>2000.99</price>
+    </quotes>
   </quotes>
   <quotes>
     <price>2500.0</price>
   </quotes>
   <changes logging="false" />
-</cs:rootQuote>
+</cs:stockQuote>
