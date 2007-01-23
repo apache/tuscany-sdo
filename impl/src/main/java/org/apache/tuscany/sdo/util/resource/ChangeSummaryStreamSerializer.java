@@ -541,14 +541,17 @@ public class ChangeSummaryStreamSerializer {
         Iterator iterator = deletedDataObjects.iterator();
         if (iterator.hasNext()) {
             lengthDeleted = -1;
-            StringBuffer buffer = new StringBuffer();
-            while (true) {
+            StringBuffer buffer = null;
+            do {
                 dataObject = (DataObject) iterator.next();
+                if (skipDeletedModification(changeSummary.getOldContainer(dataObject)))
+                    continue;
+                if (buffer == null)
+                    buffer = new StringBuffer();
+                else
+                    buffer.append(' ');
                 buffer.append(refDeleted());
-                if (!iterator.hasNext())
-                    break;
-                buffer.append(' ');
-            }
+            } while (iterator.hasNext());
             writer.writeAttribute(DELETE_ATTRIBUTE, buffer.toString());
         }
 
