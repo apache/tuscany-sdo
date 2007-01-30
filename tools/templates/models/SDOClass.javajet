@@ -938,8 +938,11 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
         <%if (!genModel.isSuppressNotification()) {%>
 		if (isNotifying())
 		{
-			<%=genModel.getImportedName("org.eclipse.emf.ecore.impl.ENotificationImpl")%> notification = new <%=genModel.getImportedName("org.eclipse.emf.ecore.impl.ENotificationImpl")%>(this, <%=genModel.getImportedName("org.eclipse.emf.common.notify.Notification")%>.UNSET, <%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange ? old<%=genFeature.getCapName()%> : null<%} else {%>old<%=genFeature.getCapName()%><%}%>, null, <%if (genModel.isVirtualDelegation()) {%>isSetChange<%} else {%>old<%=genFeature.getCapName()%>_set_<%}%>);
-			if (changeContext == null) changeContext = notification; else changeContext.add(notification);
+            <%if (genFeature.isUnsettable()) {%>
+			addNotification(this, ChangeKind.UNSET, <%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, null, <%if (genModel.isVirtualDelegation()) {%>isSetChange<%} else {%>!old<%=genFeature.getCapName()%>_set_<%}%>, changeContext);
+            <%} else {%>
+			addNotification(this, ChangeKind.UNSET, <%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, null, changeContext);
+            <%}%>
 		}
 		return changeContext;
         <%}%>
@@ -1000,10 +1003,10 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 		if (<%=genFeature.getSafeName()%> != null)
 		{
 			ChangeContext changeContext = null;
-        <%if (!genFeature.isBidirectional()) {%>
-			changeContext = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).inverseRemove(this, EOPPOSITE_FEATURE_BASE - <%=genFeature.getUpperName()%>, null, changeContext);
-        <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
-			changeContext = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).inverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
+            <%if (!genFeature.isBidirectional()) {%>
+			changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, EOPPOSITE_FEATURE_BASE - <%=genFeature.getUpperName()%>, null, changeContext);
+            <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
+			changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
         <%}%>
 			changeContext = basicUnset<%=genFeature.getAccessorName()%>(changeContext);
 			if (changeContext != null) dispatch(changeContext);

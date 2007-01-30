@@ -206,6 +206,14 @@ public abstract class DataObjectBase extends DataObjectImpl
     return changeContextImpl;
   }
   
+  protected ChangeContext addNotification(Object notifier, int eventType, int featureID, Object oldValue, Object newValue, boolean isSetChanged, ChangeContext changeContext) 
+  {
+    ENotificationImpl notification = new ENotificationImpl((InternalEObject)notifier, eventType, featureID, oldValue, newValue, isSetChanged );
+    ChangeContextImpl changeContextImpl = initializeChangeContext(changeContext);
+    if (changeContextImpl.notificationChain == null) changeContextImpl.notificationChain = notification; else changeContextImpl.notificationChain.add(notification);
+    return changeContextImpl;
+  }
+  
   protected ChangeContext addNotification(Object notifier, int eventType, int featureID, Object oldValue, Object newValue, ChangeContext changeContext) 
   {
     ENotificationImpl notification = new ENotificationImpl((InternalEObject)notifier, eventType, featureID, oldValue, newValue);

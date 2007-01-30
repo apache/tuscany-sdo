@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:tns="http://test.data" 
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+            elementFormDefault="qualified" 
+            targetNamespace="http://test.data">
+
+   <xsd:element name="description" type="tns:description"/>
+    <xsd:complexType name="description">
+        <xsd:sequence>
+            <xsd:element name="field1" type="xsd:string"/>
+            <xsd:element name="field2" type="xsd:string"/>
+            <xsd:element name="field3" type="xsd:string"/>
+            <xsd:element name="field4" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+
+    <xsd:element name="Wrapper" type="tns:Wrapper"/>
+    <xsd:complexType name="Wrapper">
+        <xsd:sequence>
+            <xsd:element name="description" nillable="true" type="tns:description"/>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
+
