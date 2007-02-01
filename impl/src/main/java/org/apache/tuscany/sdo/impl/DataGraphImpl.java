@@ -591,13 +591,31 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
 
   public DataObject createRootObject(String namespaceURI, String typeName)
   {
-    DataObject dataObject = DataObjectUtil.create(getType(namespaceURI, typeName));
+    Type type = getType(namespaceURI, typeName);
+    if (type == null) {
+        throw new IllegalArgumentException(
+                "createRootObject given invalid parameters: getType("+
+                namespaceURI+", "+typeName+") returned null type");
+    }
+    if (getERootObject() != null) {
+        throw new IllegalStateException(
+                "createRootObject was called when a root object already exists");
+    }
+    DataObject dataObject = DataObjectUtil.create(type);
     setERootObject((EObject)dataObject);
     return dataObject;
   }
 
   public DataObject createRootObject(Type type)
   {
+    if (type == null) {
+      throw new IllegalArgumentException(
+              "createRootObject must be provided a non-null type");
+    }
+    if (getERootObject() != null) {
+        throw new IllegalStateException(
+                "createRootObject was called when a root object already exists");
+    }
     DataObject dataObject = DataObjectUtil.create(type);
     setERootObject((EObject)dataObject);
     return dataObject;
