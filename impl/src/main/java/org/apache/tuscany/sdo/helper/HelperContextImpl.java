@@ -40,17 +40,17 @@ public class HelperContextImpl implements HelperContext {
 	private XMLHelper xmlHelper;
 	private XSDHelper xsdHelper;
 
-	
-	public HelperContextImpl() {
+	public HelperContextImpl(ExtendedMetaData extendedMetaData) {
+        typeHelper = new TypeHelperImpl(extendedMetaData);
 
-          EPackage.Registry registry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE);
-          ExtendedMetaData extendedMetaData = new SDOExtendedMetaDataImpl(registry); //TODO create subclass that makes demand() methods synchronous
-          typeHelper = new TypeHelperImpl(extendedMetaData);
-          
-          dataFactory = new DataFactoryImpl(typeHelper);
-          xmlHelper = new XMLHelperImpl(typeHelper);
-          xsdHelper = new XSDHelperImpl(typeHelper);
-	}
+        dataFactory = new DataFactoryImpl(typeHelper);
+        xmlHelper = new XMLHelperImpl(typeHelper);
+        xsdHelper = new XSDHelperImpl(typeHelper);
+    }
+
+    public HelperContextImpl() {
+        this(new SDOExtendedMetaDataImpl(new EPackageRegistryImpl(EPackage.Registry.INSTANCE))); //TODO create subclass that makes demand() methods synchronous
+    }
 
 	public CopyHelper getCopyHelper() {
 		return CopyHelper.INSTANCE;

@@ -119,7 +119,7 @@ public class StAX2SAXAdapter {
             case XMLStreamConstants.END_ELEMENT:
                 handleEndElement(reader, handler);
                 level--;
-                if (level == 0) {
+                if (level == 1) {
                     return;
                 }
                 break;

@@ -94,11 +94,18 @@ public class ChangeSummaryPropertyTestCase extends TestCase {
 
         assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA_BEFORE_UNDO)));
         
+        DataObject loaded = hc.getXMLHelper().load(new ByteArrayInputStream(baos.toByteArray())).getRootObject();
+        baos.reset();
+        hc.getXMLHelper().save(loaded, TEST_NAMESPACE, "stockQuote", baos);
+        //hc.getXMLHelper().save(loaded, TEST_NAMESPACE, "stockQuote", System.out);
+
+        assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(TEST_DATA_BEFORE_UNDO)));
+
         // Undo all changes and then serialize the resulting data graph again
         //
         cs.undoChanges();
         
-        baos = new ByteArrayOutputStream();
+        baos.reset();
         hc.getXMLHelper().save(quote, TEST_NAMESPACE, "stockQuote", baos);
         //hc.getXMLHelper().save(quote, TEST_NAMESPACE, "stockQuote", System.out);
         

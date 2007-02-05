@@ -19,6 +19,7 @@
  */
 package org.apache.tuscany.sdo.helper;
 
+import java.util.Map;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
@@ -71,6 +72,25 @@ public interface XMLStreamHelper {
      * @throws IllegalStateException if the reader is not positioned on a START_ELEMENT event
      */
     DataObject loadObject(XMLStreamReader reader) throws XMLStreamException, IllegalStateException;
+
+    /**
+     * Default Type to load DataObject if the element is unqualified/local without xsi:type
+     * or the qualified/global element or xsi:type fail to resolve.
+     * Can be null.
+     */
+    String OPTION_DEFAULT_ROOT_TYPE = "default root type";
+    
+    /**
+     * Create a DataObject from an element in a XML stream.
+     * The reader must be positioned on a START_ELEMENT event.
+     *
+     * @param reader the stream to read
+     * @param options {@link OPTION_DEFAULT_ROOT_TYPE}; can be null or empty
+     * @return a DataObject created from the element in the stream
+     * @throws XMLStreamException    if there was a problem reading the stream
+     * @throws IllegalStateException if the reader is not positioned on a START_ELEMENT event
+     */
+    DataObject loadObject(XMLStreamReader reader, Map options) throws XMLStreamException, IllegalStateException;
 
     /**
      * Save a DataObject to an XML stream.

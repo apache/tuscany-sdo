@@ -19,6 +19,7 @@
  */
 package org.apache.tuscany.sdo.helper;
 
+import java.util.Map;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -51,7 +52,7 @@ public class XMLStreamHelperImpl implements XMLStreamHelper
     if (reader.getEventType() != XMLStreamConstants.START_DOCUMENT)
       throw new IllegalStateException();
     
-    return loadDocument(reader);
+    return loadDocument(reader, null);
   }
   
   public void save(XMLDocument document, XMLStreamWriter writer) throws XMLStreamException
@@ -68,7 +69,7 @@ public class XMLStreamHelperImpl implements XMLStreamHelper
       
   }
 
-  public DataObject loadObject(XMLStreamReader reader) throws XMLStreamException, IllegalStateException
+  public final DataObject loadObject(XMLStreamReader reader, Map options) throws XMLStreamException, IllegalStateException
   {
     if (reader.getEventType() != XMLStreamConstants.START_ELEMENT)
       throw new IllegalStateException();
@@ -77,7 +78,12 @@ public class XMLStreamHelperImpl implements XMLStreamHelper
     // Wrap the reader so it represents a document
     reader = new XMLDocumentStreamReader(reader);
     
-    return loadDocument(reader).getRootObject();
+    return loadDocument(reader, options).getRootObject();
+  }
+
+  public DataObject loadObject(XMLStreamReader reader) throws XMLStreamException, IllegalStateException
+  {
+    return loadObject(reader, null);
   }
 
   public void saveObject(DataObject sdo, XMLStreamWriter writer) throws XMLStreamException
@@ -106,11 +112,11 @@ public class XMLStreamHelperImpl implements XMLStreamHelper
     return new DataObjectXMLStreamReader(dataObject, rootElementURI, rootElementName, typeHelper);
   }
   
-  protected XMLDocument loadDocument(XMLStreamReader reader) throws XMLStreamException
+  protected XMLDocument loadDocument(XMLStreamReader reader, Map options) throws XMLStreamException
   {
     try {
       XMLDocumentImpl document = new XMLDocumentImpl(typeHelper.extendedMetaData, null);
-      document.load(reader);
+      document.load(reader, options);
       return document;
     }
     catch (Exception e) {

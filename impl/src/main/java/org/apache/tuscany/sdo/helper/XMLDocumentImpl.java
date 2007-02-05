@@ -222,9 +222,9 @@ public class XMLDocumentImpl implements XMLDocument
     load(inputSource, locationURI, options);
   }
 
-  protected void load(XMLStreamReader reader) throws IOException
+  protected final void load(XMLStreamReader reader, Map options) throws IOException
   {
-    ((SDOXMLResourceImpl)resource).load(reader, null);
+    ((SDOXMLResourceImpl)resource).load(reader, options);
     initLoadedRoot();
   }
 
@@ -275,6 +275,8 @@ public class XMLDocumentImpl implements XMLDocument
             break;
           }
         } //for
+        if (rootObject == null)
+          rootObject = ((SDOXMLResourceImpl) resource).root;
       }
       else
       {

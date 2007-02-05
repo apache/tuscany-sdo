@@ -19,12 +19,11 @@
  */
 package org.apache.tuscany.sdo.test;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.URL;
-import java.util.List;
+import java.util.*;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
@@ -96,6 +95,19 @@ public class XMLStreamHelperTestCase extends TestCase {
             event = reader.next();
         }
         DataObject dataObject = streamHelper.loadObject(reader);
+        Assert.assertNotNull(dataObject);
+        Assert.assertTrue(dataObject.getString("myAttr").equals("helloworld.HelloWorldImpl"));
+    }
+
+    public void testLoadUnqualifiedObject() throws Exception {
+        XMLStreamReader reader = inputFactory.createXMLStreamReader(new StringReader(xml.replaceAll("bar:", "")));
+        int event = reader.getEventType();
+        while (!(event == XMLStreamConstants.START_ELEMENT && reader.getName().getLocalPart().equals(name.getLocalPart())) && reader.hasNext()) {
+            event = reader.next();
+        }
+        Map options = new HashMap();
+        options.put(XMLStreamHelper.OPTION_DEFAULT_ROOT_TYPE, typeHelper.getType(name.getNamespaceURI(), "MockImplementation"));
+        DataObject dataObject = streamHelper.loadObject(reader, options);
         Assert.assertNotNull(dataObject);
         Assert.assertTrue(dataObject.getString("myAttr").equals("helloworld.HelloWorldImpl"));
     }

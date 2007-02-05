@@ -751,9 +751,11 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
   {
     //TODO: Fix this method. Currently, it has the side effect of undoing the unset of contained children references
     //      of root deleted objects - i.e., when featureChange.apply(oldDataObject) is called.
+    //
+    List changes = (List) getObjectChanges().get(dataObject);
+    if (changes == null) 
+      return dataObject;
     EObject oldDataObject = EcoreUtil.copy((EObject)dataObject);
-
-    List changes = (List)getObjectChanges().get(dataObject);
     for (Iterator fIter = changes.iterator(); fIter.hasNext(); )
     {
       FeatureChange featureChange = (FeatureChange)fIter.next();
