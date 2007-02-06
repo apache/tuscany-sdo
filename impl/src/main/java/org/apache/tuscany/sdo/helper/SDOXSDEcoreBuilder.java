@@ -28,20 +28,9 @@ import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
-import org.eclipse.xsd.XSDComplexTypeDefinition;
-import org.eclipse.xsd.XSDComponent;
-import org.eclipse.xsd.XSDConcreteComponent;
-import org.eclipse.xsd.XSDFeature;
-import org.eclipse.xsd.XSDNamedComponent;
-import org.eclipse.xsd.XSDSimpleTypeDefinition;
-import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.xsd.*;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.w3c.dom.Element;
 
@@ -69,6 +58,75 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
   {
     return false;
   }
+
+  public EPackage getEPackage(XSDNamedComponent xsdNamedComponent)
+  {
+    XSDSchema containingXSDSchema = xsdNamedComponent.getSchema();
+    if (containingXSDSchema != null && !xsdSchemas.contains(containingXSDSchema))
+    {
+      xsdSchemas.add(containingXSDSchema);
+      addInput(containingXSDSchema);
+      validate(containingXSDSchema);
+    }
+
+    String targetNamespace = 
+      containingXSDSchema == null ? 
+        xsdNamedComponent.getTargetNamespace() : 
+        containingXSDSchema.getTargetNamespace();
+    EPackage ePackage = (EPackage)targetNamespaceToEPackageMap.get(targetNamespace);
+    if (ePackage == null)
+    {
+      ePackage = EcoreFactory.eINSTANCE.createEPackage();
+      setAnnotations(ePackage, containingXSDSchema);
+      addOutput(ePackage);
+      if (targetNamespace == null)
+      {
+        if (containingXSDSchema == null)
+        {
+          containingXSDSchema = rootSchema;
+        }
+        ePackage.setName(validName(containingXSDSchema.eResource().getURI().trimFileExtension().lastSegment(), true));
+        ePackage.setNsURI(containingXSDSchema.eResource().getURI().toString());
+
+        // Also register against the nsURI for the case that the target namespace is null.
+        //
+        // extendedMetaData.putPackage(ePackage.getNsURI(), ePackage);
+      }
+      else
+      {
+        String qualifiedPackageName = qualifiedPackageName(targetNamespace);
+        ePackage.setName(qualifiedPackageName);
+        ePackage.setNsURI(targetNamespace);
+      }
+
+      String nsPrefix = xsdNamedComponent.getElement().lookupPrefix(targetNamespace);
+      if (nsPrefix==null)
+      {
+        nsPrefix = ePackage.getName();
+        int index = nsPrefix.lastIndexOf('.');
+        nsPrefix = index == -1 ? nsPrefix : nsPrefix.substring(index + 1);
+
+        // http://www.w3.org/TR/REC-xml-names/#xmlReserved
+        // Namespace Constraint: Leading "XML"
+        // Prefixes beginning with the three-letter sequence x, m, l, in any case combination, 
+        // are reserved for use by XML and XML-related specifications.
+        //
+        if (nsPrefix.toLowerCase().startsWith("xml"))
+        {
+          nsPrefix = "_" + nsPrefix;
+        }
+      }
+      ePackage.setNsPrefix(nsPrefix);
+
+      extendedMetaData.setQualified(ePackage, targetNamespace != null);
+      extendedMetaData.putPackage(targetNamespace, ePackage);
+
+      targetNamespaceToEPackageMap.put(targetNamespace, ePackage);
+    }
+
+    return ePackage;
+  }
+
 
   public EClassifier getEClassifier(XSDTypeDefinition xsdTypeDefinition) {
     EClassifier eClassifier = null;

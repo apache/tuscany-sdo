@@ -18,11 +18,11 @@
     under the License.    
  -->
 <xsd:schema 
-  xmlns:simple="http://www.example.com/open" 
+  xmlns:open="http://www.example.com/open" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
   targetNamespace="http://www.example.com/open"> 
   
-   <xsd:element name="openStockQuote" type="simple:OpenQuote"/>
+   <xsd:element name="openStockQuote" type="open:OpenQuote"/>
    
    <xsd:element name="price" type="xsd:decimal"/>
    

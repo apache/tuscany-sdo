@@ -14,14 +14,14 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  -->
-<xsd:schema xmlns:sdo="commonj.sdo" xmlns:simpleCS="http://www.example.com/simpleCS" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://www.example.com/simpleCS">
+<xsd:schema xmlns:sdo="commonj.sdo" xmlns:cs="http://www.example.com/simpleCS" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" targetNamespace="http://www.example.com/simpleCS">
   
     		  
   <xsd:import namespace="commonj.sdo" schemaLocation="sdoModel.xsd"/>
   
   <xsd:complexType name="RootQuote">
   	<xsd:complexContent>
-  	  <xsd:extension base="simpleCS:Quote">
+  	  <xsd:extension base="cs:Quote">
   	    <xsd:sequence>
   	    	<xsd:element name="changes" type="sdo:ChangeSummaryType"/>
   	    </xsd:sequence>
@@ -30,7 +30,7 @@
 
   </xsd:complexType>
   		   
-  <xsd:element name="stockQuote" type="simpleCS:RootQuote"/>
+  <xsd:element name="stockQuote" type="cs:RootQuote"/>
 
   <xsd:complexType name="Quote">
     <xsd:sequence>
@@ -42,7 +42,7 @@
       <xsd:element name="low" type="xsd:decimal"/>
       <xsd:element name="volume" type="xsd:double"/>
       <xsd:element name="change1" type="xsd:double"/>
-      <xsd:element maxOccurs="unbounded" minOccurs="0" name="quotes" type="simpleCS:Quote"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="quotes" type="cs:Quote"/>
     </xsd:sequence>
   </xsd:complexType>
 

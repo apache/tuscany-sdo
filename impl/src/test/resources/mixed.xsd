@@ -20,9 +20,9 @@
 <xsd:schema 
   targetNamespace="http://www.example.com/mixed"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-  xmlns:simple="http://www.example.com/mixed"> 
+  xmlns:mixed="http://www.example.com/mixed"> 
   
-   <xsd:element name="mixedStockQuote" type="simple:MixedQuote"/>
+   <xsd:element name="mixedStockQuote" type="mixed:MixedQuote"/>
 
    <xsd:complexType name="MixedQuote" mixed="true">
        <xsd:sequence>
@@ -34,7 +34,7 @@
           <xsd:element name="low" type="xsd:decimal"/>
           <xsd:element name="volume" type="xsd:double"/>
           <xsd:element name="change1" type="xsd:double"/>
-          <xsd:element name="quotes" type="simple:MixedQuote" minOccurs="0" maxOccurs="unbounded"/>
+          <xsd:element name="quotes" type="mixed:MixedQuote" minOccurs="0" maxOccurs="unbounded"/>
        </xsd:sequence>
    </xsd:complexType>
 

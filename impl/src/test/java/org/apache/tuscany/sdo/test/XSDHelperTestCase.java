@@ -209,8 +209,15 @@ public class XSDHelperTestCase extends TestCase {
         
         String doc = hc.getXMLHelper().save(root, "http://www.example.com/simple-1", "a");
         String prefix = ((ClassImpl) root.getType()).getEPackage().getNsPrefix(); // what if there isnt one
-        assertEquals("_1", prefix);
+        assertEquals("s1", prefix);
         XMLDocument root2 = hc.getXMLHelper().load(doc);
     }
 
+    public void testPrefix() throws IOException {
+        XSDHelper xsdHelper = hc.getXSDHelper();
+        URL url = getClass().getResource("/prefix.xsd");
+        Object EClassifier = xsdHelper.define(url.openStream(), url.toString()).get(0);
+        String prefix = ((ClassImpl) EClassifier).getEPackage().getNsPrefix();
+        assertTrue(prefix.length() < "soaassureservice".length());
+    }
 }
