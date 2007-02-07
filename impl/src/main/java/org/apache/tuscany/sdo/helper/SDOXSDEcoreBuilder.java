@@ -59,73 +59,22 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return false;
   }
 
-  public EPackage getEPackage(XSDNamedComponent xsdNamedComponent)
-  {
+  public EPackage getEPackage(XSDNamedComponent xsdNamedComponent) {
     XSDSchema containingXSDSchema = xsdNamedComponent.getSchema();
-    if (containingXSDSchema != null && !xsdSchemas.contains(containingXSDSchema))
-    {
-      xsdSchemas.add(containingXSDSchema);
-      addInput(containingXSDSchema);
-      validate(containingXSDSchema);
-    }
-
-    String targetNamespace = 
-      containingXSDSchema == null ? 
-        xsdNamedComponent.getTargetNamespace() : 
-        containingXSDSchema.getTargetNamespace();
-    EPackage ePackage = (EPackage)targetNamespaceToEPackageMap.get(targetNamespace);
-    if (ePackage == null)
-    {
-      ePackage = EcoreFactory.eINSTANCE.createEPackage();
-      setAnnotations(ePackage, containingXSDSchema);
-      addOutput(ePackage);
-      if (targetNamespace == null)
-      {
-        if (containingXSDSchema == null)
-        {
-          containingXSDSchema = rootSchema;
-        }
-        ePackage.setName(validName(containingXSDSchema.eResource().getURI().trimFileExtension().lastSegment(), true));
-        ePackage.setNsURI(containingXSDSchema.eResource().getURI().toString());
-
-        // Also register against the nsURI for the case that the target namespace is null.
-        //
-        // extendedMetaData.putPackage(ePackage.getNsURI(), ePackage);
-      }
-      else
-      {
-        String qualifiedPackageName = qualifiedPackageName(targetNamespace);
-        ePackage.setName(qualifiedPackageName);
-        ePackage.setNsURI(targetNamespace);
-      }
-
-      String nsPrefix = xsdNamedComponent.getElement().lookupPrefix(targetNamespace);
-      if (nsPrefix==null)
-      {
-        nsPrefix = ePackage.getName();
-        int index = nsPrefix.lastIndexOf('.');
-        nsPrefix = index == -1 ? nsPrefix : nsPrefix.substring(index + 1);
-
-        // http://www.w3.org/TR/REC-xml-names/#xmlReserved
-        // Namespace Constraint: Leading "XML"
-        // Prefixes beginning with the three-letter sequence x, m, l, in any case combination, 
-        // are reserved for use by XML and XML-related specifications.
-        //
-        if (nsPrefix.toLowerCase().startsWith("xml"))
-        {
-          nsPrefix = "_" + nsPrefix;
-        }
-      }
+    String targetNamespace = containingXSDSchema == null ?
+        xsdNamedComponent.getTargetNamespace() : containingXSDSchema.getTargetNamespace();
+    EPackage ePackage = (EPackage) targetNamespaceToEPackageMap
+        .get(targetNamespace);
+    if (ePackage != null)
+      return ePackage;
+    ePackage = super.getEPackage(xsdNamedComponent);
+    String nsPrefix = xsdNamedComponent.getElement().lookupPrefix(
+        targetNamespace);
+    if (nsPrefix != null)
       ePackage.setNsPrefix(nsPrefix);
-
-      extendedMetaData.setQualified(ePackage, targetNamespace != null);
-      extendedMetaData.putPackage(targetNamespace, ePackage);
-
-      targetNamespaceToEPackageMap.put(targetNamespace, ePackage);
-    }
-
     return ePackage;
   }
+
 
 
   public EClassifier getEClassifier(XSDTypeDefinition xsdTypeDefinition) {
