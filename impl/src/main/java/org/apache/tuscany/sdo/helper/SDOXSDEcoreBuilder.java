@@ -85,7 +85,13 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
           xsdTypeDefinition.getURI(), 
           xsdTypeDefinition.getName());
     } else {
-      eClassifier = super.getEClassifier(xsdTypeDefinition);
+        EPackage pkg = extendedMetaData.getPackage(xsdTypeDefinition.getTargetNamespace());
+        if(pkg != null) {
+          eClassifier = pkg.getEClassifier(xsdTypeDefinition.getName());
+        }
+        if (eClassifier == null) {
+            eClassifier = super.getEClassifier(xsdTypeDefinition);
+        }
     }
     return eClassifier;
   }
@@ -165,6 +171,21 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
   protected EStructuralFeature createFeature(EClass eClass, String name, EClassifier type, XSDComponent xsdComponent, int minOccurs, int maxOccurs) {
     EStructuralFeature feature = 
       super.createFeature(eClass, name, type, xsdComponent, minOccurs, maxOccurs);
+    
+    if (feature instanceof EReference) {
+        EReference eReference = (EReference)feature;
+            if (xsdComponent != null && xsdComponent instanceof XSDParticle) {
+                XSDTerm xsdTerm = ((XSDParticle)xsdComponent).getTerm();
+                if (xsdTerm instanceof XSDElementDeclaration) {
+                        XSDTypeDefinition elementTypeDefinition = getEffectiveTypeDefinition(xsdComponent, (XSDElementDeclaration)xsdTerm);
+                        EClassifier eClassifier = getEClassifier(elementTypeDefinition);
+                        if(elementTypeDefinition instanceof XSDSimpleTypeDefinition && eClassifier instanceof EClass) { 
+                                eReference.setContainment(true);
+                        }
+                }
+            }
+   }
+
     feature.setName(name); // this is needed because super.createFeature() does EMF name mangling (toLower)
     if (xsdComponent != null) {
       String aliasNames = getEcoreAttribute(xsdComponent.getElement(), "aliasName");
