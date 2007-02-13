@@ -59,44 +59,44 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
      */
     public static class SDOXMLHelperImpl extends XMLHelperImpl {
 
+        /**
+         * EMF XMLResource (SAX) may be used to load from only a *portion* of a StAX stream
+         * which may reference (global) namespaces bound outside the (local) portion.
+         * This class extends EMF's NamespaceSupport to make {@link #getPrefix} and {@link #getURI}
+         * query these global binding(s) after first checking the local context(s).
+         */
         private static class StreamNamespaceSupport extends XMLHelperImpl.NamespaceSupport {
-            private XMLStreamReader reader;
+            protected NamespaceContext nameSpaceContext;
 
             public String getPrefix(String uri) {
-                if (reader == null)
-                    return super.getPrefix(uri);
-                String prefix = null;
-                try {
-                    prefix = uri != null ? reader.getNamespaceContext().getPrefix(uri) : null;
-                } catch (Exception e) {
-                    // HACK:
-                    // java.lang.UnsupportedOperationException
-                    // at org.apache.axiom.om.impl.llom.OMStAXWrapper.getNamespaceContext(OMStAXWrapper.java:984)
-
-                    prefix = null;
-                }
-                return prefix != null ? prefix : super.getPrefix(uri);
+                String prefix = super.getPrefix(uri);
+                if (prefix == null)
+                    try {
+                        prefix = nameSpaceContext.getPrefix(uri);
+                    } catch (Exception e) {
+                        // HACK:
+                        // java.lang.UnsupportedOperationException
+                        // at org.apache.axiom.om.impl.llom.OMStAXWrapper.getNamespaceContext(OMStAXWrapper.java:984)
+                    }
+                return prefix;
             }
 
             public String getURI(String prefix) {
-                if (reader == null)
-                    return super.getURI(prefix);
-                String uri;
-                try {
-                    uri = prefix != null ? reader.getNamespaceContext().getNamespaceURI(prefix) : null;
-                } catch (Exception e) {
-                    // HACK:
-                    // java.lang.UnsupportedOperationException
-                    // at org.apache.axiom.om.impl.llom.OMStAXWrapper.getNamespaceContext(OMStAXWrapper.java:984)
-
-                    uri = null;
-                }
-                return uri != null && uri.length()!=0 ? uri : super.getURI(prefix);
+                String uri = super.getURI(prefix);
+                if (uri == null)
+                    try {
+                        uri = nameSpaceContext.getNamespaceURI(prefix);
+                    } catch (Exception e) {
+                        // HACK:
+                        // java.lang.UnsupportedOperationException
+                        // at org.apache.axiom.om.impl.llom.OMStAXWrapper.getNamespaceContext(OMStAXWrapper.java:984)
+                    }
+                return uri;
             }
 
             public StreamNamespaceSupport(XMLStreamReader reader) {
                 super();
-                this.reader = reader;
+                nameSpaceContext = reader.getNamespaceContext();
             }
 
         }
@@ -108,7 +108,8 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
 
         public SDOXMLHelperImpl(XMLStreamReader reader) {
             super();
-            this.namespaceSupport = new StreamNamespaceSupport(reader);
+            if (reader instanceof XMLDocumentStreamReader) // Only use StreamNamespaceSupport when loading from a *portion* of a StAX stream
+                namespaceSupport = new StreamNamespaceSupport(reader);
         }
         
         private class NameSpaceContext implements NamespaceContext { // TODO Helper# pushContext() & popContext
