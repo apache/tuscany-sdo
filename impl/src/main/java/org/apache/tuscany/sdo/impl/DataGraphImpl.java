@@ -27,12 +27,15 @@ import java.io.IOException;
 import java.io.ObjectInput;
 import java.io.ObjectOutput;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
+import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.apache.tuscany.sdo.util.resource.SDOObjectInputStream;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -684,7 +687,15 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
 
       ResourceSet resourceSet = createResourceSet();
       Resource resource = resourceSet.createResource(URI.createURI("all.datagraph"));
-      resource.load(new ByteArrayInputStream(bytes), null);
+
+      HashMap map = null;
+      if(objectInput instanceof SDOObjectInputStream)
+      {
+         TypeHelperImpl th = (TypeHelperImpl)((SDOObjectInputStream)objectInput).getHelperContext().getTypeHelper();
+         map = new HashMap();
+         map.put("EXTENDED_META_DATA", th.getExtendedMetaData());
+      }
+      resource.load(new ByteArrayInputStream(bytes), map);
       eDataGraph = (DataGraphImpl)resource.getContents().get(0);
     }
 

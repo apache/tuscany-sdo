@@ -49,7 +49,9 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
  *   6. Delete all the createXXXFromString() and convertXXXToString() methods in the newly generated ModelFactoryImpl and
  *      replace them with the ones from this file (resolve any missing imports).
  *   7. Comment out the call to registerStaticTypes of ModelFactory.class in the init() method
- *   8. Move this JavaDoc comment into the newly generated ModelFactoryImpl class.
+ *   8. Change org.apache.tuscany.sdo.model.DataObject.class to commonj.sdo.DataObject.class for the following method found in method initializeMetaData();
+ *         initializeType(dataObjectType, commonj.sdo.DataObject.class, "DataObject", true); // generated as org.apache.tuscany.sdo.model.DataObject.class
+ *   9. Move this JavaDoc comment into the newly generated ModelFactoryImpl class.
  * <!-- end-user-doc -->
  * @generated
  */
@@ -830,7 +832,7 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
     property = (commonj.sdo.Property)dataGraphTypeType.getProperties().get(DataGraphTypeImpl.ANY);
     initializeProperty(property, getSequence(), "any", null, 0, 1, DataGraphType.class, false, false, false);
 
-    initializeType(dataObjectType, org.apache.tuscany.sdo.model.DataObject.class, "DataObject", true);
+    initializeType(dataObjectType, commonj.sdo.DataObject.class, "DataObject", true);
 
     initializeType(modelsTypeType, ModelsType.class, "ModelsType", false);
     property = (commonj.sdo.Property)modelsTypeType.getProperties().get(ModelsTypeImpl.ANY);

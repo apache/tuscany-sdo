@@ -1,0 +1,222 @@
+package org.apache.tuscany.sdo.test;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
+
+import junit.framework.TestCase;
+
+import org.apache.tuscany.sdo.util.SDOUtil;
+
+import commonj.sdo.DataGraph;
+import commonj.sdo.DataObject;
+import commonj.sdo.Type;
+import commonj.sdo.helper.DataFactory;
+import commonj.sdo.helper.HelperContext;
+import commonj.sdo.helper.TypeHelper;
+
+public class JavaSerializeDeserializeTestCase extends TestCase
+{
+	
+    public void testScopeDefinedSerializeDeserializeOfDataObject()
+    {
+        HelperContext hc = SDOUtil.createHelperContext();
+        Object originalDataObject = createDynamically(hc,true);
+        
+        runSerializeDeserialize((DataObject)originalDataObject, hc);
+    }
+        
+    public void testScopeDefinedSerializeDeserializeOfDataGraph()
+    {
+        HelperContext hc = SDOUtil.createHelperContext();
+        DataGraph testDO = (DataGraph)createDynamically(hc,false);
+        
+        runSerializeDeserializeWithDataGraph(testDO, hc);
+    }
+	
+        
+    /**
+     * Serialize the DataObject then Deserialize the output. 
+     * to testDO.
+     * @param testDO
+     * @param scope 
+     */
+    
+    public void runSerializeDeserialize(DataObject originalDataObject, HelperContext hc) 
+    {    	
+            
+        populateFields(originalDataObject);
+        DataObject tempDO = null;
+        ByteArrayOutputStream baos = null;
+        
+        try
+        {
+            baos = serialize(originalDataObject, hc);
+        
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            fail("An Exception occurred while serializing the DataObject: " + e.toString());    		
+        }
+        
+        try
+        {
+            tempDO = deserialize(baos, hc);
+        
+        }
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+            fail("An Exception occurred while deserializing the output of the serialization: "  + e.toString());
+        }      
+        
+        assertNotNull("Deserialization returned a null value.", tempDO);
+        
+        assertSame(tempDO.getType(), originalDataObject.getType());
+            
+
+    } 
+    
+    /**
+     * Serialize the DataGraph
+     * @param dataGraph
+     * @param scope
+     */
+    public void runSerializeDeserializeWithDataGraph(DataGraph dataGraph, HelperContext hc) 
+    {           
+        DataObject originalDataObject = dataGraph.getRootObject();
+        populateFields(originalDataObject);
+        DataObject tempDO = null;
+        ByteArrayOutputStream baos = null;
+            
+        try
+        {
+            baos = serialize(dataGraph, hc);
+        
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            fail("An Exception occurred while serializing the DataObject: " + e.toString());                
+        }
+        
+        try
+        {
+            tempDO = deserialize(baos, hc);
+        
+        }
+        catch (Exception e) 
+        {
+            e.printStackTrace();
+            fail("An Exception occurred while deserializing the output of the serialization: "  + e.toString());
+        }      
+        
+        assertNotNull("Deserialization returned a null value.", tempDO);
+        
+        assertSame(tempDO.getType(), originalDataObject.getType());
+        
+        
+    
+    }  
+
+    /**
+     * serializeDataObject is a private method to be called by the other methods
+     * in the ScrenarioLibrary
+     * 
+     * @param dataObject
+     * @param fileName
+     * @throws IOException
+     */
+    public ByteArrayOutputStream serialize(Object object, HelperContext hc) throws IOException 
+    {
+        //FileOutputStream fos = new FileOutputStream("temp");
+        ByteArrayOutputStream byteArrayOutput = new ByteArrayOutputStream();
+        ObjectOutputStream out = SDOUtil.createObjectOutputStream(byteArrayOutput, hc);
+        out.writeObject(object);
+        out.close();
+        return byteArrayOutput;
+    }
+
+    /**
+     * deserializeDataObject is a private method to be called by the other
+     * methods in the ScrenarioLibrary
+     * 
+     * @param fileName
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public DataObject deserialize(ByteArrayOutputStream baos, HelperContext hc) throws IOException, ClassNotFoundException 
+    {
+        //FileInputStream fis = new FileInputStream("temp");
+        ObjectInputStream input = null;
+        ByteArrayInputStream byteArrayInput = new ByteArrayInputStream(baos.toByteArray());
+        
+        input = SDOUtil.createObjectInputStream(byteArrayInput, hc);
+        
+        Object object = input.readObject();
+        input.close();
+        if(object instanceof DataGraph)
+            return ((DataGraph)object).getRootObject();
+        else
+            return (DataObject)object;
+    }
+    
+    /**
+     * populateFields uses set<Type> to set each of the fields in the
+     * DataObject. It is used to ensure a known set of expected values that are
+     * not other than the default values for the various fields.
+     * 
+     * @param testDO
+     * @throws ExpectedConditionError
+     */
+    public static void populateFields(DataObject testDO) 
+    {
+
+        testDO.setString("stringVal", "Testing");
+
+    }
+    /**
+     * createDynamically() creates the SDO Types using the TypeHelper.  This method should be kept in
+     * synch with the XSD used for createDynamicallyWithStaticResources.  The same XSD is used for
+     * the static generation of SDO Types using XSD2JavaGenerator.
+     */
+    public Object createDynamically(HelperContext hc, boolean createDataObject)
+    {
+        
+        TypeHelper types = hc.getTypeHelper();
+        DataFactory dataFactory = hc.getDataFactory();
+    
+    	Type stringType = types.getType("commonj.sdo", "String");
+        
+    	DataObject testType = dataFactory.create("commonj.sdo", "Type");
+    	testType.set("uri", "http://www.example.com/api_test");
+    	testType.set("name", "APITest");
+    	
+        DataObject stringProperty = testType.createDataObject("property");
+        stringProperty.set("name", "stringVal");
+        stringProperty.set("type", stringType);
+        
+           
+        List types2Define = new ArrayList();
+        types2Define.add(testType);
+        List apiXSD = types.define(types2Define);
+        Type apiXSDType = (Type) apiXSD.get(0);
+        
+        if(createDataObject)
+            return dataFactory.create(apiXSDType);;
+        
+        // Create an empty DataGraph and attach the document root to it. Otherwise, where is the documentRoot ?
+        DataGraph dataGraph = SDOUtil.createDataGraph();
+        /*DataObject testDO =*/ dataGraph.createRootObject(apiXSDType);
+        
+        
+        return dataGraph;
+        
+    }
+}

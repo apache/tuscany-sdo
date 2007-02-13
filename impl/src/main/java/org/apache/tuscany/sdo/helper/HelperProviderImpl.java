@@ -32,6 +32,7 @@ import java.util.zip.GZIPOutputStream;
 
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.util.resource.SDOObjectInputStream;
 
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
@@ -176,8 +177,12 @@ public class HelperProviderImpl extends HelperProvider
 
         ByteArrayOutputStream compressedByteArrayOutputStream = new ByteArrayOutputStream();
         GZIPOutputStream gzipOutputStream = new GZIPOutputStream(compressedByteArrayOutputStream);
-        
-        xmlHelper.save(dataObject, "commonj.sdo", "dataObject", gzipOutputStream);
+        XMLHelper xmlHelperLocal = xmlHelper;
+        if(objectOutput instanceof SDOObjectInputStream)
+        {
+            xmlHelperLocal = ((SDOObjectInputStream)objectOutput).getHelperContext().getXMLHelper();
+        }
+        xmlHelperLocal.save(dataObject, "commonj.sdo", "dataObject", gzipOutputStream);
         gzipOutputStream.close(); // Flush the contents
 
         byte[] byteArray = compressedByteArrayOutputStream.toByteArray();
@@ -197,8 +202,12 @@ public class HelperProviderImpl extends HelperProvider
         objectInput.read(compressedBytes, 0, length);
         
         GZIPInputStream gzipInputStream = new GZIPInputStream(new ByteArrayInputStream(compressedBytes));
-
-        XMLDocument doc = xmlHelper.load(gzipInputStream);
+        XMLHelper xmlHelperLocal = xmlHelper;
+        if(objectInput instanceof SDOObjectInputStream)
+        {
+            xmlHelperLocal = ((SDOObjectInputStream)objectInput).getHelperContext().getXMLHelper();
+        }
+        XMLDocument doc = xmlHelperLocal.load(gzipInputStream);
         gzipInputStream.close();
 
         return doc.getRootObject();

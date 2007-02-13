@@ -21,6 +21,8 @@ package org.apache.tuscany.sdo.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
@@ -53,6 +55,8 @@ import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.impl.DynamicDataObjectImpl;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
+import org.apache.tuscany.sdo.util.resource.SDOObjectInputStream;
+import org.apache.tuscany.sdo.util.resource.SDOObjectOutputStream;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -365,6 +369,26 @@ public final class SDOUtil
   public static CopyHelper createCrossScopeCopyHelper(TypeHelper targetScope) 
   {
     return new CrossScopeCopyHelperImpl(targetScope); 
+  }
+  
+  /**
+   * Create a new ObjectInputStream, under the helperContextScope
+   * @param scope the TypeHelper to use for locating types.
+   * @return the new XMLStreamHelper.
+   */
+  public static ObjectInputStream createObjectInputStream(InputStream inputStream, HelperContext helperContext) throws IOException
+  {
+    return new SDOObjectInputStream(inputStream, helperContext);
+  }
+  
+  /**
+   * Create a new ObjectOutputStream, under the helperContextScope.
+   * @param scope the TypeHelper to use for locating types.
+   * @return the new XMLStreamHelper.
+   */
+  public static ObjectOutputStream createObjectOutputStream(OutputStream outputStream, HelperContext helperContext) throws IOException
+  {
+    return new SDOObjectOutputStream(outputStream, helperContext);
   }
   
   /**
