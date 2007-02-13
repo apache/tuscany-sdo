@@ -43,14 +43,14 @@ public class SimpleDynamicTestCase extends TestCase {
     private final String TEST_NAMESPACE = "http://www.example.com/simple";
     private final String QUOTE_XML = "/quote.xml";
 
-	private final String TEST_MODEL2 = "/simple2.xsd";
+    private final String TEST_MODEL2 = "/simple2.xsd";
     private final String TEST_NAMESPACE2 = "http://www.example.com/simple2";
     private final String QUOTE_XML2 = "/quote2.xml";
 
     /**
      * Simple Dynamic SDO 2 test.
      */
-    public void donttestDynamic() throws IOException {
+    public void testDynamic() throws IOException {
         Type quoteType = TypeHelper.INSTANCE.getType(TEST_NAMESPACE, "Quote");
         DataObject quote = DataFactory.INSTANCE.create(quoteType);
 
@@ -74,8 +74,8 @@ public class SimpleDynamicTestCase extends TestCase {
         
         assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(QUOTE_XML)));
     }
-	
-	public void testResolveXSDWithoutSchemaLocation() throws IOException {
+
+    public void testResolveXSDWithoutSchemaLocation() throws IOException {
         Type quote2Type = TypeHelper.INSTANCE.getType(TEST_NAMESPACE2, "Quote2");
         DataObject quote2 = DataFactory.INSTANCE.create(quote2Type);
         
@@ -92,7 +92,7 @@ public class SimpleDynamicTestCase extends TestCase {
         child.setBigDecimal("price", new BigDecimal("2000.0"));
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		XMLHelper.INSTANCE.save(quote2, TEST_NAMESPACE2, "stockQuote", System.out);
+        XMLHelper.INSTANCE.save(quote2, TEST_NAMESPACE2, "stockQuote", System.out);
     }
 
     protected void setUp() throws Exception {
@@ -104,8 +104,8 @@ public class SimpleDynamicTestCase extends TestCase {
         XSDHelper.INSTANCE.define(inputStream, url.toString());
         inputStream.close();
 
-		url = getClass().getResource(TEST_MODEL2);
-		inputStream = url.openStream();
+        url = getClass().getResource(TEST_MODEL2);
+        inputStream = url.openStream();
         XSDHelper.INSTANCE.define(inputStream, null);
         inputStream.close();
     }
