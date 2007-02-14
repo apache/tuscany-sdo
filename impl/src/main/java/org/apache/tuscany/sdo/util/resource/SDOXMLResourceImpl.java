@@ -383,22 +383,118 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
         }
     }
 
+    static final String INDENT = "  ", LINE_SEPARATOR = System.getProperty("line.separator");
+
+    static final class XmlString extends XMLString {
+        XmlString(int lineWidth, String temporaryFileName) {
+            super(lineWidth, temporaryFileName); // setLineWidth & setTemporaryFileName
+        }
+
+        XmlString(int lineWidth, String publicId, String systemId, String temporaryFileName) {
+            super(lineWidth, publicId, systemId, temporaryFileName);
+        }
+
+        void setLineBreak(String lineBreak) {
+            lineSeparator = lineBreak;
+        }
+
+        void margin(String margin) {
+            indents.set(0, margin);
+        }
+
+        String indent = INDENT;
+
+        protected String getElementIndent(int extra) {
+            int nesting = depth + extra - 1;
+            for (int i = indents.size() - 1; i < nesting; ++i) {
+                indents.add(indents.get(i) + indent);
+            }
+            return (String) indents.get(nesting);
+        }
+
+        protected String getAttributeIndent() {
+            return getElementIndent();
+        }
+
+        public void reset(String publicId, String systemId, int lineWidth, String temporaryFileName) {
+            super.reset(publicId, systemId, lineWidth, temporaryFileName);
+            setLineBreak(LINE_SEPARATOR);
+            indent = INDENT;
+        }
+    }
+
+    static final char MARK = '\n';
+
+    static final String LINE_BREAK = new String(new char[] { MARK });
+
     final class SDOXMLSaveImpl extends XMLSaveImpl {
         SDOXMLSaveImpl(XMLHelper helper) {
             super(helper);
         }
 
+        XmlString doc(XMLResource resource, Map options) {
+            if (doc instanceof XmlString)
+                return (XmlString) doc;
+            Object lineWidth = options.get(OPTION_LINE_WIDTH);
+            int width = lineWidth == null ? Integer.MAX_VALUE : ((Number) lineWidth).intValue();
+            XmlString d = resource != null && Boolean.TRUE.equals(options.get(OPTION_SAVE_DOCTYPE)) ? new XmlString(width, resource.getPublicId(),
+                    resource.getSystemId(), doc.getTemporaryFileName()) : new XmlString(width, doc.getTemporaryFileName());
+            doc = d;
+            return d;
+        }
+
         Map changeSummaryOptions = new HashMap();
+        String indent = INDENT, margin;
 
         protected void init(XMLResource resource, Map options) {
             super.init(resource, options);
-            //changeSummaryOptions.put(ChangeSummaryStreamSerializer.OPTION_RootObject_PATH, "#");
-            //changeSummaryOptions.put(ChangeSummaryStreamSerializer.OPTION_OPTIMIZE_LIST, Boolean.TRUE);
+            int unformat = 0;
+            String lineBreak = (String) options.get(SDOUtil.XML_SAVE_LineBreak);
+            if (lineBreak == null)
+                changeSummaryOptions.put(SDOUtil.XML_SAVE_LineBreak, LINE_BREAK);
+            else if (lineBreak.length() == 0)
+                ++unformat;
+            else {
+                changeSummaryOptions.put(SDOUtil.XML_SAVE_LineBreak, LINE_BREAK);
+                if (lineBreak.equals(LINE_SEPARATOR))
+                    lineBreak = null;
+            }
+            String indent = (String) options.get(SDOUtil.XML_SAVE_INDENT);
+            if (indent == null)
+                changeSummaryOptions.put(SDOUtil.XML_SAVE_INDENT, INDENT);
+            else if (indent.length() == 0)
+                ++unformat;
+            else {
+                changeSummaryOptions.put(SDOUtil.XML_SAVE_INDENT, this.indent = indent);
+                if (indent.equals(INDENT))
+                    indent = null;
+            }
+            String margin = (String) options.get(SDOUtil.XML_SAVE_MARGIN);
+            if (margin == null || margin.length() == 0) {
+                if (unformat == 2)
+                    doc.setUnformatted(true);
+                else if (lineBreak != null) {
+                    XmlString d = doc(resource, options);
+                    d.setLineBreak(lineBreak);
+                    if (indent != null)
+                        d.indent = indent;
+                } else if (indent != null)
+                    doc(resource, options).indent = indent;
+                this.margin = this.indent;
+            } else {
+                XmlString d = doc(resource, options);
+                d.margin(margin);
+                if (lineBreak != null)
+                    d.setLineBreak(lineBreak);
+                if (indent != null)
+                    d.indent = indent;
+                this.margin = margin + this.indent;
+                if (!toDOM && declareXML)
+                    d.add(margin);
+            }
+            // changeSummaryOptions.put(ChangeSummaryStreamSerializer.OPTION_RootObject_PATH, "#");
+            // changeSummaryOptions.put(ChangeSummaryStreamSerializer.OPTION_OPTIMIZE_LIST, Boolean.TRUE);
             changeSummaryOptions.put(OPTION_EXTENDED_META_DATA, extendedMetaData);
-            if (Boolean.FALSE.equals(options.get(OPTION_FORMATTED)))
-                return;
-            changeSummaryOptions.put(ChangeSummaryStreamSerializer.OPTION_LINE_BREAK, "\n");
-            changeSummaryOptions.put(ChangeSummaryStreamSerializer.OPTION_INDENT, "  ");
         }
 
         QName qName(EStructuralFeature f) {
@@ -413,10 +509,10 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
         protected void saveDataTypeElementSingle(EObject o, EStructuralFeature f) {
             if (f.getEType() == ChangeSummary_TYPE) {
                 Object changeSummary = helper.getValue(o, f);
-                StringBuffer margin = new StringBuffer("  ");
+                StringBuffer margin = new StringBuffer(this.margin);
                 for (EObject container = o.eContainer(), grandContainer; (grandContainer = container.eContainer()) != null; container = grandContainer)
-                    margin.append("  ");
-                changeSummaryOptions.put(ChangeSummaryStreamSerializer.OPTION_MARGIN, margin.toString());
+                    margin.append(indent);
+                changeSummaryOptions.put(SDOUtil.XML_SAVE_MARGIN, margin.toString());
                 try {
                     if (xmlStreamWriter == null) {
                         xmlStreamWriter = XMLOutputFactory.newInstance().createXMLStreamWriter(new Writer() {
@@ -426,12 +522,35 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
                             public void flush() {
                             }
 
-                            public final void write(String str) {
-                                doc.add(str);
+                            protected final void add(char[] cbuf, int index, int off) {
+                                doc.add(new String(cbuf, index, off - index));
                             }
 
                             public void write(char[] cbuf, int off, int len) {
-                                write(new String(cbuf, off, len));
+                                if (len != 0)
+                                    for (;;) {
+                                        while (cbuf[off] == MARK) {
+                                            doc.addLine();
+                                            if (--len == 0)
+                                                return;
+                                            ++off;
+                                        }
+                                        for (int index = off;/* true */;) {
+                                            ++off;
+                                            if (--len == 0)
+                                                add(cbuf, index, off);
+                                            else {
+                                                if (cbuf[off] != MARK)
+                                                    continue;
+                                                add(cbuf, index, off);
+                                                doc.addLine();
+                                                if (--len != 0)
+                                                    break;
+                                            }
+                                            return;
+                                        }
+                                        ++off;
+                                    }
                             }
                         });
                         xmlStreamWriter.setNamespaceContext(((SDOXMLHelperImpl) helper).new NameSpaceContext() {

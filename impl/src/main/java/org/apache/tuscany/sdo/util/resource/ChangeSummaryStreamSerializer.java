@@ -29,6 +29,7 @@ import commonj.sdo.helper.XSDHelper;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.helper.*;
 import org.apache.tuscany.sdo.impl.ChangeSummaryImpl;
+import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.*;
 import org.eclipse.emf.ecore.change.*;
 import org.eclipse.emf.ecore.util.*;
@@ -115,13 +116,13 @@ public class ChangeSummaryStreamSerializer {
         if (options == null)
             return;
         if (lineBreak == STRING_OPTION)
-            lineBreak = (String) options.get(OPTION_LINE_BREAK);
+            lineBreak = (String) options.get(SDOUtil.XML_SAVE_LineBreak);
         if (lineBreak == null)
             return;
         if (margin == STRING_OPTION)
-            margin = (String) options.get(OPTION_MARGIN);
+            margin = (String) options.get(SDOUtil.XML_SAVE_MARGIN);
         if (indent == STRING_OPTION)
-            indent = (String) options.get(OPTION_INDENT);
+            indent = (String) options.get(SDOUtil.XML_SAVE_INDENT);
         breakLine();
     }
 
@@ -414,21 +415,9 @@ public class ChangeSummaryStreamSerializer {
     static protected final Object CHANGE_SUMMARY = SDOPackage.eINSTANCE.getChangeSummary();
 
     /**
-     * Line Break String such as "\n", "\r\n" and "\r", absent/null is the default (no Line Breaking)
-     */
-    static public final String OPTION_LINE_BREAK = "LineBreak",
-    /**
-     * Indent String such as " ", "\t", etc. Absent/null is the default (no indentation)
-     */
-    OPTION_INDENT = "indent",
-    /**
-     * Margin String such as " ", "\t\t", etc. Absent/null is the default (no margin)
-     */
-    OPTION_MARGIN = "margin",
-    /**
      * Root Object path String such as "#", etc. Absent/null is the default (automatic computation)
      */
-    OPTION_RootObject_PATH = "RootObject path",
+    static public final String OPTION_RootObject_PATH = "RootObject path",
     /**
      * Boolean to optimize sequence/list/array. Absent/null/Boolean.FALSE is the default (no optimization)
      */
@@ -449,7 +438,7 @@ public class ChangeSummaryStreamSerializer {
      * @param writer
      *            Never null
      * @param options
-     *            {@link #OPTION_LINE_BREAK}, {@link #OPTION_INDENT}, {@link #OPTION_MARGIN}, {@link #OPTION_RootObject_PATH}, {@link #OPTION_OPTIMIZE_LIST} and XMLResource.OPTION_EXTENDED_META_DATA; can be null or empty
+     *            {@link SDOUtil#XML_SAVE_LineBreak} (absence/null is the default i.e. no Line Breaking), {@link SDOUtil#XML_SAVE_INDENT} (absence/null is the default i.e. no indentation), {@link SDOUtil#XML_SAVE_MARGIN}, {@link #OPTION_RootObject_PATH}, {@link #OPTION_OPTIMIZE_LIST} and XMLResource.OPTION_EXTENDED_META_DATA; can be null or empty
      */
     public final void saveChangeSummary(ChangeSummary changeSummary, QName changeSummaryElement, XMLStreamWriter writer, Map options)
             throws XMLStreamException {

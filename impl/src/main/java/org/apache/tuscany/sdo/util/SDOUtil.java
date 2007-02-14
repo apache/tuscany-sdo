@@ -77,6 +77,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import commonj.sdo.DataGraph;
@@ -98,6 +99,31 @@ import commonj.sdo.helper.XSDHelper;
  */
 public final class SDOUtil
 {
+  /**
+   * Line Break String such as "\n", "\r\n", "\r" and "", absence/null is the default (line.separator System Property)
+   */
+  static public final String XML_SAVE_LineBreak = "LineBreak",
+  /**
+   * Indent String such as "\t", "", etc. absence/null is the default ("  ")
+   */
+  XML_SAVE_INDENT = "indent",
+  /**
+   * Margin String such as " ", "\t\t", etc. Absence/null/"" is the default (no margin)
+   */
+  XML_SAVE_MARGIN = "margin",
+  /**
+   * Attribute formatting that exceeds the specified width as Integer will cause a line break so that formatting will continue indented on the next line
+   */
+  XML_SAVE_LineWidth = XMLResource.OPTION_LINE_WIDTH,
+  /**
+   * Boolean to save a doctype declaration 
+   */
+  XML_SAVE_DocType = XMLResource.OPTION_SAVE_DOCTYPE,
+  /**
+   * Boolean to process the schemaLocation/noNamespaceSchemaLocation attributes occurring in the instance document to {@link XSDHelper#define convert XSD(s) to Types} 
+   */
+  XML_LOAD_SCHEMA = "ProcessSchemaLocations";
+
   /**
    * Create a DataObject wrapper for an instance of the specified dataType.
    * This method is typically used to create a root object that can be passed to the XMLHelper.save() 
