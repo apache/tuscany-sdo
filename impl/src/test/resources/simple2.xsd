@@ -32,7 +32,9 @@
           <xsd:element name="low" type="xsd:decimal"/>
           <xsd:element name="volume" type="xsd:double"/>
           <xsd:element name="change1" type="xsd:double"/>
-          <xsd:element maxOccurs="unbounded" minOccurs="0" name="quotes" type="simple:Quote"/>
+          <!-- temporarily removing this until we find a way to do this test without causing eclipse to light up
+          due to missing import -->
+          <!-- <xsd:element maxOccurs="unbounded" minOccurs="0" name="quotes" type="simple:Quote"/>  -->
        </xsd:sequence>
    </xsd:complexType>
 
