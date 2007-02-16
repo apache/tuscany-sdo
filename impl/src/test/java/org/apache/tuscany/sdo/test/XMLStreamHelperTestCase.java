@@ -19,9 +19,7 @@
  */
 package org.apache.tuscany.sdo.test;
 
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.*;
 import java.net.URL;
 import java.util.*;
 
@@ -40,16 +38,11 @@ import org.apache.tuscany.sdo.helper.XMLStreamHelper;
 import org.apache.tuscany.sdo.util.SDOUtil;
 
 import commonj.sdo.DataObject;
-import commonj.sdo.helper.TypeHelper;
-import commonj.sdo.helper.XMLDocument;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
+import commonj.sdo.helper.*;
 
 public class XMLStreamHelperTestCase extends TestCase {
 
-    private XSDHelper xsdHelper = XSDHelper.INSTANCE;
-
-    private TypeHelper typeHelper = TypeHelper.INSTANCE;
+    private HelperContext hc;
 
     private XMLStreamHelper streamHelper;
 
@@ -72,11 +65,18 @@ public class XMLStreamHelperTestCase extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        streamHelper = SDOUtil.createXMLStreamHelper(typeHelper);
+        
+        hc = SDOUtil.createHelperContext();
+        streamHelper = SDOUtil.createXMLStreamHelper(hc.getTypeHelper());
+
         URL url = getClass().getClassLoader().getResource(testName + ".xsd");
-        xsdHelper.define(url.openStream(), url.toExternalForm());
+        hc.getXSDHelper().define(url.openStream(), url.toExternalForm());
+        url = getClass().getResource("/mixed.xsd");
+        hc.getXSDHelper().define(url.openStream(), url.toString());
+
         inputFactory = XMLInputFactory.newInstance();
         outputFactory = XMLOutputFactory.newInstance();
+        
         url = getClass().getClassLoader().getResource(testName + ".xml");
         InputStreamReader reader = new InputStreamReader(url.openStream());
         StringBuffer stringBuffer = new StringBuffer();
@@ -106,7 +106,7 @@ public class XMLStreamHelperTestCase extends TestCase {
             event = reader.next();
         }
         Map options = new HashMap();
-        options.put(XMLStreamHelper.OPTION_DEFAULT_ROOT_TYPE, typeHelper.getType(name.getNamespaceURI(), "MockImplementation"));
+        options.put(XMLStreamHelper.OPTION_DEFAULT_ROOT_TYPE, hc.getTypeHelper().getType(name.getNamespaceURI(), "MockImplementation"));
         DataObject dataObject = streamHelper.loadObject(reader, options);
         Assert.assertNotNull(dataObject);
         Assert.assertTrue(dataObject.getString("myAttr").equals("helloworld.HelloWorldImpl"));
@@ -127,18 +127,18 @@ public class XMLStreamHelperTestCase extends TestCase {
     }
 
     public void testSave() throws XMLStreamException {
-        XMLDocument document = XMLHelper.INSTANCE.load(xml);
+        XMLDocument document = hc.getXMLHelper().load(xml);
         StringWriter writer = new StringWriter();
         XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
         streamHelper.save(document, streamWriter);
         streamWriter.flush();
         String xmlStr = writer.toString();
-        // System.out.println(xmlStr);
-         Assert.assertTrue(xmlStr.indexOf("myAttr=\"helloworld.HelloWorldImpl\"")!=-1);
+        //System.out.println(xmlStr);
+        Assert.assertTrue(xmlStr.indexOf("myAttr=\"helloworld.HelloWorldImpl\"")!=-1);
     }
 
     public void testSaveObject() throws XMLStreamException {
-        XMLDocument document = XMLHelper.INSTANCE.load(xml);
+        XMLDocument document = hc.getXMLHelper().load(xml);
         DataObject moduleObject = document.getRootObject();
         List components = moduleObject.getList("component");
         DataObject componentObject = (DataObject) components.get(0);
@@ -147,6 +147,20 @@ public class XMLStreamHelperTestCase extends TestCase {
         streamHelper.saveObject(componentObject, streamWriter);
         streamWriter.flush();
         Assert.assertTrue(writer.toString().indexOf("myAttr=\"helloworld.HelloWorldImpl\"")!=-1);
+    }
+
+    public void testSaveSequence() throws IOException, XMLStreamException {
+        DataObject quote = hc.getDataFactory().create("http://www.example.com/mixed", "MixedQuote");
+        quote.setString("symbol", "fbnt");
+        quote.getSequence().addText(0, "testing");
+        quote.getSequence().addText("more testing");
+
+        StringWriter writer = new StringWriter();
+        XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
+        streamHelper.saveObject(quote, streamWriter);
+        streamWriter.flush();
+        //System.out.println(writer);
+        assertTrue(writer.toString().indexOf("<symbol>fbnt</symbol>") != -1);
     }
 
     protected void tearDown() throws Exception {

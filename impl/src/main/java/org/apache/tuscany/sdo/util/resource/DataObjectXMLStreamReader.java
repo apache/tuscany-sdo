@@ -138,9 +138,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
 
     }
 
-    private void addProperty(List propertyList, Property property, Object value) {
-        if (isTransient(property))
-            return;
+    private void addProperty(Property property, Object value, List propertyList) {
         if (property.isMany() && property.getContainingType().isOpen() && value instanceof Sequence) {
             addSequenceValue(propertyList, (Sequence) value);
         } else if (SDOUtil.isMany(property, dataObject) && value instanceof List) {
@@ -149,6 +147,11 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             // Complex Type
             addSingleValue(propertyList, property, value);
         }
+    }
+
+    void addProperty(List propertyList, Property property, Object value) {
+        if (!isTransient(property))
+            addProperty(property, value, propertyList);
     }
 
     private void addSequenceValue(List elements, Sequence seq) {
@@ -261,7 +264,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
                     // property == null for text in mixed content
                     elementList.add(new NameValuePair(ELEMENT_TEXT, value));
                 } else {
-                    addProperty(elementList, property, value);
+                    addProperty(property, value, elementList);
                 }
             }
             // Attributes are not in the sequence
