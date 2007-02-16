@@ -18,17 +18,10 @@
   under the License.
  -->
 <sequences:mixedStockQuote xmlns:sequences="http://www.example.com/sequences">
-
-    <symbol>fbnt</symbol>
-
-    <companyName>FlyByNightTechnology</companyName>
-
+  <symbol>fbnt</symbol>
+  <companyName>FlyByNightTechnology</companyName>
   some text
-    <quotes>
-    <price>2000.0</price>
-  </quotes>
-
+  <quotes><price>2000.0</price></quotes>
   more text
-    <price>1000.0</price>
-
+  <price>1000.0</price>
 </sequences:mixedStockQuote>

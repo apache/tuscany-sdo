@@ -346,13 +346,13 @@ public static final int TWO_RCS_MIXED = 5;
     new String[] 
     {
     "name", "MixedQuote",
-    "kind", "elementOnly"
+    "kind", "mixed"
     });
     addXSDMapping
     ((Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.MIXED),
     new String[]
     {
-    "kind", "element",
+    "kind", "elementWildcard",
     "name", "mixed"
     });
   
@@ -434,13 +434,13 @@ public static final int TWO_RCS_MIXED = 5;
     new String[] 
     {
     "name", "MixedRepeatingChoice",
-    "kind", "elementOnly"
+    "kind", "mixed"
     });
     addXSDMapping
     ((Property)mixedRepeatingChoiceType.getProperties().get(MixedRepeatingChoiceImpl.MIXED),
     new String[]
     {
-    "kind", "element",
+    "kind", "elementWildcard",
     "name", "mixed"
     });
   
@@ -448,8 +448,8 @@ public static final int TWO_RCS_MIXED = 5;
     ((Property)mixedRepeatingChoiceType.getProperties().get(MixedRepeatingChoiceImpl.GROUP),
     new String[]
     {
-    "kind", "element",
-    "name", "group"
+    "kind", "group",
+    "name", "group:1"
     });
   
     addXSDMapping
@@ -457,7 +457,8 @@ public static final int TWO_RCS_MIXED = 5;
     new String[]
     {
     "kind", "element",
-    "name", "a"
+    "name", "a",
+    "group", "#group:1"
     });
   
     addXSDMapping
@@ -465,7 +466,8 @@ public static final int TWO_RCS_MIXED = 5;
     new String[]
     {
     "kind", "element",
-    "name", "b"
+    "name", "b",
+    "group", "#group:1"
     });
   
     // TODO - kdk - is the order right?  should kind, elementOnly be first
@@ -480,8 +482,8 @@ public static final int TWO_RCS_MIXED = 5;
     ((Property)repeatingChoiceType.getProperties().get(RepeatingChoiceImpl.GROUP),
     new String[]
     {
-    "kind", "element",
-    "name", "group"
+    "kind", "group",
+    "name", "group:0"
     });
   
     addXSDMapping
@@ -489,7 +491,8 @@ public static final int TWO_RCS_MIXED = 5;
     new String[]
     {
     "kind", "element",
-    "name", "a"
+    "name", "a",
+    "group", "#group:0"
     });
   
     addXSDMapping
@@ -497,7 +500,8 @@ public static final int TWO_RCS_MIXED = 5;
     new String[]
     {
     "kind", "element",
-    "name", "b"
+    "name", "b",
+    "group", "#group:0"
     });
   
     // TODO - kdk - is the order right?  should kind, elementOnly be first
@@ -512,8 +516,8 @@ public static final int TWO_RCS_MIXED = 5;
     ((Property)twoRCsType.getProperties().get(TwoRCsImpl.GROUP),
     new String[]
     {
-    "kind", "element",
-    "name", "group"
+    "kind", "group",
+    "name", "group:0"
     });
   
     addXSDMapping
@@ -521,7 +525,8 @@ public static final int TWO_RCS_MIXED = 5;
     new String[]
     {
     "kind", "element",
-    "name", "a"
+    "name", "a",
+    "group", "#group:0"
     });
   
     addXSDMapping
@@ -529,7 +534,8 @@ public static final int TWO_RCS_MIXED = 5;
     new String[]
     {
     "kind", "element",
-    "name", "b"
+    "name", "b",
+    "group", "#group:0"
     });
   
     addXSDMapping
@@ -544,8 +550,8 @@ public static final int TWO_RCS_MIXED = 5;
     ((Property)twoRCsType.getProperties().get(TwoRCsImpl.GROUP1),
     new String[]
     {
-    "kind", "element",
-    "name", "group1"
+    "kind", "group",
+    "name", "group:4"
     });
   
     addXSDMapping
@@ -553,7 +559,8 @@ public static final int TWO_RCS_MIXED = 5;
     new String[]
     {
     "kind", "element",
-    "name", "y"
+    "name", "y",
+    "group", "#group:4"
     });
   
     addXSDMapping
@@ -561,7 +568,8 @@ public static final int TWO_RCS_MIXED = 5;
     new String[]
     {
     "kind", "element",
-    "name", "z"
+    "name", "z",
+    "group", "#group:4"
     });
   
     // TODO - kdk - is the order right?  should kind, elementOnly be first
@@ -570,13 +578,13 @@ public static final int TWO_RCS_MIXED = 5;
     new String[] 
     {
     "name", "TwoRCsMixed",
-    "kind", "elementOnly"
+    "kind", "mixed"
     });
     addXSDMapping
     ((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.MIXED),
     new String[]
     {
-    "kind", "element",
+    "kind", "elementWildcard",
     "name", "mixed"
     });
   
@@ -584,8 +592,8 @@ public static final int TWO_RCS_MIXED = 5;
     ((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.GROUP),
     new String[]
     {
-    "kind", "element",
-    "name", "group"
+    "kind", "group",
+    "name", "group:1"
     });
   
     addXSDMapping
@@ -593,7 +601,8 @@ public static final int TWO_RCS_MIXED = 5;
     new String[]
     {
     "kind", "element",
-    "name", "a"
+    "name", "a",
+    "group", "#group:1"
     });
   
     addXSDMapping
@@ -601,7 +610,8 @@ public static final int TWO_RCS_MIXED = 5;
     new String[]
     {
     "kind", "element",
-    "name", "b"
+    "name", "b",
+    "group", "#group:1"
     });
   
     addXSDMapping
@@ -616,8 +626,8 @@ public static final int TWO_RCS_MIXED = 5;
     ((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.GROUP1),
     new String[]
     {
-    "kind", "element",
-    "name", "group1"
+    "kind", "group",
+    "name", "group:5"
     });
   
     addXSDMapping
@@ -625,7 +635,8 @@ public static final int TWO_RCS_MIXED = 5;
     new String[]
     {
     "kind", "element",
-    "name", "y"
+    "name", "y",
+    "group", "#group:5"
     });
   
     addXSDMapping
@@ -633,7 +644,8 @@ public static final int TWO_RCS_MIXED = 5;
     new String[]
     {
     "kind", "element",
-    "name", "z"
+    "name", "z",
+    "group", "#group:5"
     });
   
 

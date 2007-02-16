@@ -54,10 +54,13 @@
             </snapshots>
         </repository>
         <repository>
-            <!-- temporarily replace the eclipse repo...id>eclipse.emf</id>
-            <url>http://download.eclipse.org/tools/emf/maven2</url -->
-            <id>osuosl.org</id>
-            <url>http://ftp.osuosl.org/pub/eclipse/tools/emf/maven2</url>
+            <!-- <id>eclipse.emf</id>
+            <url>http://download.eclipse.org/tools/emf/maven2</url> -->
+            <!-- <id>osuosl.org</id>
+            <url>http://ftp.osuosl.org/pub/eclipse/tools/emf/maven2</url> -->
+            <!-- temporarily using indiana state univ as eclipse site diesnt have 2.2.2 at the moment -->
+            <id>indiana</id>
+            <url>http://ftp.ussg.iu.edu/eclipse/modeling/emf/emf/maven2/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -66,7 +69,7 @@
 
     <properties>
         <specVersion>2.1</specVersion>
-        <emfVersion>2.2.1</emfVersion>
+        <emfVersion>2.2.2</emfVersion>
     </properties>
 
     <modules>

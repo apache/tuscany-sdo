@@ -17,12 +17,4 @@
   specific language governing permissions and limitations
   under the License.
  -->
-<sequences:rc2m xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sequences="http://www.example.com/sequences" xsi:type="sequences:TwoRCsMixed">
-  <b>1</b>
-where will this appear?  <a>foo</a>
-  <a>bar</a>
-  <b>2</b>
-  <split>pea</split>
-  <z>99</z>
-  <y>fred</y>
-</sequences:rc2m>
+<sequences:rc2m xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sequences="http://www.example.com/sequences" xsi:type="sequences:TwoRCsMixed"><b>1</b>where will this appear?<a>foo</a><a>bar</a><b>2</b><split>pea</split><z>99</z><y>fred</y></sequences:rc2m>
