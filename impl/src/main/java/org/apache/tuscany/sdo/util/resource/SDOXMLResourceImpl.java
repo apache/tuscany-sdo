@@ -21,6 +21,7 @@ package org.apache.tuscany.sdo.util.resource;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.net.URL;
 import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
@@ -33,6 +34,7 @@ import javax.xml.stream.*;
 
 import org.apache.tuscany.sdo.helper.HelperContextImpl;
 import org.apache.tuscany.sdo.helper.XMLStreamHelper;
+import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 import org.apache.tuscany.sdo.util.*;
@@ -43,13 +45,16 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMIException;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
 import org.eclipse.emf.ecore.xmi.XMLLoad;
+import org.eclipse.emf.ecore.xmi.XMLOptions;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.XMLSave;
 import org.eclipse.emf.ecore.xmi.impl.*;
+import org.eclipse.emf.ecore.xmi.util.DefaultEcoreBuilder;
 import org.xml.sax.*;
 import org.xml.sax.helpers.DefaultHandler;
 
 import commonj.sdo.*;
+import commonj.sdo.helper.XSDHelper;
 
 public class SDOXMLResourceImpl extends XMLResourceImpl {
     private XMLStreamReader reader;
@@ -357,6 +362,41 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
      */
     protected XMLLoad createXMLLoad() {
         return new SDOXMLLoadImpl(createXMLHelper());
+    }
+
+    public void doLoad(InputSource inputSource, Map options) throws IOException {
+        if (options != null && Boolean.TRUE.equals(options.get(SDOUtil.XML_LOAD_SCHEMA))) {
+            XMLOptions option = (XMLOptions) options.get(OPTION_XML_OPTIONS);
+            if (option == null) {
+                option = new XMLOptionsImpl();
+                options.put(OPTION_XML_OPTIONS, option);
+            }
+            option.setProcessSchemaLocations(true);
+            Object emd = options.get(OPTION_EXTENDED_META_DATA);
+            if (emd == null)
+                emd = getDefaultLoadOptions().get(OPTION_EXTENDED_META_DATA);
+            ExtendedMetaData extendedMetaData;
+            final XSDHelper xsdHelper;
+            if (emd == null) {
+                extendedMetaData = ExtendedMetaData.INSTANCE;
+                xsdHelper = XSDHelper.INSTANCE;
+            } else {
+                extendedMetaData = (ExtendedMetaData) emd;
+                xsdHelper = new XSDHelperImpl(extendedMetaData, null);
+            }
+            option.setEcoreBuilder(new DefaultEcoreBuilder(extendedMetaData) {
+                public Collection generate(Map targetNamespaceToURI) throws IOException {
+                    for (Iterator iterator = targetNamespaceToURI.values().iterator(); iterator.hasNext();) {
+                        String uri = iterator.next().toString();
+                        xsdHelper.define(uri.indexOf(":/") == -1 ? Thread.currentThread().getContextClassLoader().getResourceAsStream(uri) : new URL(
+                                uri).openStream(), uri);
+                    }
+                    return null; // XMLHandler#processSchemaLocations doesn't take the result
+                }
+            });
+        }
+        super.doLoad(inputSource, options);
+        // TODO consider whether we should restore options here
     }
 
     /**
