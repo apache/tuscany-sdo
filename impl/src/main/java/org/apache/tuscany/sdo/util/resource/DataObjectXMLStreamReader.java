@@ -680,19 +680,33 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         if (state == DELEGATED_STATE) {
             return childReader.getTextCharacters();
         } else if (state == TEXT_STATE) {
-            return properties[currentPropertyIndex - 1].getValue() == null ? new char[0] : ((String) properties[currentPropertyIndex - 1].getValue())
-                    .toCharArray();
+            return getTextData();
         } else {
             throw new IllegalStateException();
         }
     }
 
+    private char[] getTextData() {
+        return properties[currentPropertyIndex - 1].getValue() == null ? new char[0] : ((String) properties[currentPropertyIndex - 1].getValue())
+                .toCharArray();
+    }
+
+    private int copy(int sourceStart, char[] target, int targetStart, int length) {
+        char[] source = getTextData();
+        if (sourceStart > source.length)
+            throw new IndexOutOfBoundsException("source start > source length");
+        int sourceLen = source.length - sourceStart;
+        if (length > sourceLen)
+            length = sourceLen;
+        System.arraycopy(source, sourceStart, target, targetStart, length);
+        return sourceLen;
+    }
+    
     public int getTextCharacters(int i, char[] chars, int i1, int i2) throws XMLStreamException {
         if (state == DELEGATED_STATE) {
             return childReader.getTextCharacters(i, chars, i1, i2);
         } else if (state == TEXT_STATE) {
-            // todo - implement this
-            return 0;
+            return copy(i, chars, i1, i2);
         } else {
             throw new IllegalStateException();
         }
@@ -712,7 +726,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         if (state == DELEGATED_STATE) {
             return childReader.getTextLength();
         } else if (state == TEXT_STATE) {
-            return 0;// assume text always starts at 0
+            return getTextData().length;
         } else {
             throw new IllegalStateException();
         }
