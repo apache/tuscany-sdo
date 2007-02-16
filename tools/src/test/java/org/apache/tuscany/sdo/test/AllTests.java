@@ -12,7 +12,7 @@ public class AllTests extends TestCase {
         // suite.addTestSuite(ChangeSummaryOnDataObjectTestCase.class);
         suite.addTestSuite(ChangeSummaryGenTestCase.class);
         suite.addTestSuite(GenPatternsTestCase.class);
-        suite.addTestSuite(org.apache.tuscany.sdo.test.StaticSequenceNoEmfTestCase.class);
+        //suite.addTestSuite(org.apache.tuscany.sdo.test.StaticSequenceNoEmfTestCase.class);
 
 
         return suite;
