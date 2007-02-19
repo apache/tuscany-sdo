@@ -24,15 +24,35 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.XMLConstants;
+
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
-import org.eclipse.xsd.*;
+import org.eclipse.xsd.XSDComplexTypeDefinition;
+import org.eclipse.xsd.XSDComponent;
+import org.eclipse.xsd.XSDConcreteComponent;
+import org.eclipse.xsd.XSDElementDeclaration;
+import org.eclipse.xsd.XSDFeature;
+import org.eclipse.xsd.XSDNamedComponent;
+import org.eclipse.xsd.XSDParticle;
+import org.eclipse.xsd.XSDSchema;
+import org.eclipse.xsd.XSDSimpleTypeDefinition;
+import org.eclipse.xsd.XSDTerm;
+import org.eclipse.xsd.XSDTypeDefinition;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 /**
  * TODO: 
@@ -59,6 +79,31 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return false;
   }
 
+  /*
+   * Required for Java 1.4.2 support
+   * Node#lookupPrefix is only available since DOM Level 3 (Java 5)
+   * and it doesn't return rebound prefix.
+   * XSDConstants.lookupQualifier isn't supposed to return rebound prefix either.
+   * This lookupPrefix returns any bound prefix no matter rebound to other NameSpace or not, for {@link #getEPackage}.
+   */
+  static protected String lookupPrefix(Node element, String namespaceURI) {
+    String prefix = element.getPrefix();
+    if (prefix != null && namespaceURI != null && namespaceURI.equals(element.getNamespaceURI()))
+      return prefix;
+    NamedNodeMap attributes = element.getAttributes();
+    if (attributes != null)
+      for (int index = attributes.getLength(); index != 0;) {
+        Node attribute = attributes.item(--index);
+        if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(attribute.getNamespaceURI()) && attribute.getNodeValue().equals(namespaceURI)
+              && XMLConstants.XMLNS_ATTRIBUTE.equals(attribute.getPrefix()))
+          return attribute.getLocalName();
+      }
+    for (Node parent; (parent = element.getParentNode()) != null; element = parent)
+      if (parent.getNodeType() == Node.ELEMENT_NODE)
+        return lookupPrefix(parent, namespaceURI);
+    return null;
+  }
+
   public EPackage getEPackage(XSDNamedComponent xsdNamedComponent) {
     XSDSchema containingXSDSchema = xsdNamedComponent.getSchema();
     String targetNamespace = containingXSDSchema == null ?
@@ -68,8 +113,7 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     if (ePackage != null)
       return ePackage;
     ePackage = super.getEPackage(xsdNamedComponent);
-    String nsPrefix = xsdNamedComponent.getElement().lookupPrefix(
-        targetNamespace);
+    String nsPrefix = lookupPrefix(xsdNamedComponent.getElement(), targetNamespace);
     if (nsPrefix != null)
       ePackage.setNsPrefix(nsPrefix);
     return ePackage;
