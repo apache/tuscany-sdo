@@ -19,14 +19,22 @@
  */
 package org.apache.tuscany.sdo.util.resource;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.xml.XMLConstants;
-import javax.xml.namespace.*;
-import javax.xml.stream.*;
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.namespace.QName;
+import javax.xml.stream.Location;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 import org.eclipse.emf.ecore.xmi.XMLResource;
-import org.xml.sax.*;
+import org.xml.sax.Attributes;
+import org.xml.sax.Locator;
 
 /**
  * This special purpose XMLStreamReader is used to produce a StAX event stream corresponding to a list of events 
@@ -47,7 +55,7 @@ public abstract class RecordedEventXMLStreamReader implements XMLStreamReader {
     static private class Event {
         int type;
 
-        NamespaceContext nameSpaceContext;
+        public NamespaceContext nameSpaceContext;
 
         Location location;
 
@@ -406,19 +414,25 @@ public abstract class RecordedEventXMLStreamReader implements XMLStreamReader {
             ++nest;
         }
 
-        public final void text(int type, String value, Locator locator) {
-            Event event = new ValueEvent(value);
-            event.type = type;
-            event.location(locator);
+        protected final void  add (Event event)
+        {
             int index = events.size();
             event.nameSpaceContext = index == 0 ? nameSpaceContext : ((Event) events.get(--index)).nameSpaceContext;
             events.add(event);
         }
 
+        public final void text(int type, String value, Locator locator) {
+            Event event = new ValueEvent(value);
+            event.type = type;
+            event.location(locator);
+            int index = events.size();
+            add(event);
+        }
+
         public final boolean end(String nameSpace, String local, String qName, Locator locator) {
             Event end = new EndElement(nameSpace, local, prefix(qName, nameSpace), locator);
             end.type = END_ELEMENT;
-            events.add(end);
+            add(end);
             if (nest == 0)
                 return true;
             --nest;

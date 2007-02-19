@@ -19,13 +19,17 @@
  */
 package org.apache.tuscany.sdo.util;
 
+import java.util.Comparator;
+
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
-import javax.xml.stream.*;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamReader;
 
 import org.apache.tuscany.sdo.util.resource.RecordedEventXMLStreamReader;
-import org.eclipse.emf.ecore.*;
-import org.eclipse.emf.ecore.util.*;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.internal.QName;
 
@@ -71,4 +75,18 @@ public class StreamDeserializer implements XMLStreamConstants {
     static public final class QualifiedAttribute extends Attribute {
         public String nameSpace;
     }
+
+    static protected final Comparator EQUAL_NULL = new Comparator() {
+        public int compare(Object v, Object NULL) {
+            return v == null || v.equals(null) ? 0 : 1;
+        }
+    }, EQUAL = new Comparator() {
+        public int compare(Object v, Object value) {
+            return value.equals(v) ? 0 : -1;
+        }
+    }, SAME = new Comparator() {
+        public int compare(Object v, Object value) {
+            return value == v ? 0 : -1;
+        }
+    };
 }

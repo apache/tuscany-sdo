@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cs:openQuote xmlns:cs="http://www.example.com/sequenceCS" xmlns:open="http://www.example.com/open">
+  <symbol>FBNT</symbol>
+  <open:openStockQuote>
+    <symbol>1500.0</symbol>
+  </open:openStockQuote>
+  <open:openStockQuote>
+    <symbol>2500.0</symbol>
+  </open:openStockQuote>
+  <open:openStockQuote>
+    <symbol>3000.0</symbol>
+  </open:openStockQuote>
+  <open:openStockQuote>
+    <symbol>4000.0</symbol>
+  </open:openStockQuote>
+  <changes create="#//open:openStockQuote[3] #//open:openStockQuote[4]" delete="#//changes/openQuote[1]/open:openStockQuote[2]" logging="false" xmlns:sdo="commonj.sdo">
+    <cs:openQuote sdo:ref="#/openQuote">
+      <symbol>fbnt</symbol>
+      <open:openStockQuote sdo:ref="#//open:openStockQuote[1]" />
+      <open:openStockQuote><symbol>2000.0</symbol><open:openStockQuote><symbol>2000.99</symbol></open:openStockQuote></open:openStockQuote>
+      <open:openStockQuote sdo:ref="#//open:openStockQuote[2]" />
+    </cs:openQuote>
+  </changes>
+</cs:openQuote>

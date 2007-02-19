@@ -11,6 +11,7 @@ public class AllTests extends TestCase {
       
         // suite.addTestSuite(ChangeSummaryOnDataObjectTestCase.class);
         suite.addTestSuite(ChangeSummaryTestCase.class);
+        suite.addTestSuite(ChangeSummaryPropertyTestCase.class);
         suite.addTestSuite(CrossScopeCopyTestCase.class);
         suite.addTestSuite(DataTypeBaseTypeTestCase.class);
         suite.addTestSuite(DateConversionTestCase.class);
@@ -26,6 +27,7 @@ public class AllTests extends TestCase {
         suite.addTestSuite(TypeConversionTestCase.class);
         suite.addTestSuite(TypeRoundTripTestCase.class);
         suite.addTestSuite(XMLDocumentTestCase.class);
+        suite.addTestSuite(XMLHelperTestCase.class);
         suite.addTestSuite(XMLStreamHelperTestCase.class);
         suite.addTestSuite(XPathTestCase.class);
         suite.addTestSuite(XSDHelperTestCase.class);

@@ -19,21 +19,44 @@
  */
 package org.apache.tuscany.sdo.util.resource;
 
-import java.util.*;
-import javax.xml.namespace.*;
-import javax.xml.stream.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
-import commonj.sdo.*;
-import commonj.sdo.helper.XSDHelper;
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.tuscany.sdo.SDOPackage;
-import org.apache.tuscany.sdo.helper.*;
+import org.apache.tuscany.sdo.helper.SDOAnnotations;
+import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.ChangeSummaryImpl;
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
-import org.eclipse.emf.ecore.*;
-import org.eclipse.emf.ecore.change.*;
-import org.eclipse.emf.ecore.util.*;
+import org.eclipse.emf.common.util.EMap;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.change.ChangeDescription;
+import org.eclipse.emf.ecore.change.ChangeKind;
+import org.eclipse.emf.ecore.change.FeatureChange;
+import org.eclipse.emf.ecore.change.ListChange;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+
+import commonj.sdo.ChangeSummary;
+import commonj.sdo.DataObject;
+import commonj.sdo.Property;
+import commonj.sdo.helper.XSDHelper;
 
 /**
  * ChangeSummary StAX Serializer whose output conforms to the SDO Java/C++/PHP specifications. The instance isn't thread-safe, however it's safe to
@@ -170,7 +193,7 @@ public class ChangeSummaryStreamSerializer {
     private StringBuffer step(Object container) throws XMLStreamException {
         Property containmentProperty = dataObject.getContainmentProperty();
         StringBuffer step = step(containmentProperty);
-        if (containmentProperty.isMany())
+        if (containmentProperty.isMany() || ((EObject) dataObject).eContainingFeature() != containmentProperty)
             step.append('[').append(((DataObject) container).getList(containmentProperty).indexOf(dataObject) + 1).append(']');
         return step;
     }
@@ -324,7 +347,10 @@ public class ChangeSummaryStreamSerializer {
         containmentProperty = changeSummary.getOldContainmentProperty(deletedDataObject);
         // assert containmentProperty != null;
         step(containmentProperty, pathDeleted);
-        if (containmentProperty.isMany())
+        Object f;
+        if (containmentProperty.isMany()
+                || (f = extendedMetaData.getAffiliation(((EObject) dataObject).eClass(), (EStructuralFeature) containmentProperty)) != null
+                && f != containmentProperty)
             pathDeleted.append('[').append(
                     ((List) changeSummary.getOldValue(dataObject, containmentProperty).getValue()).indexOf(deletedDataObject) + 1).append(']');
         if (id != null)
@@ -349,6 +375,8 @@ public class ChangeSummaryStreamSerializer {
       new XMLStreamSerializer().serialize(new XMLDocumentStreamReader(reader), writer);
     }
 
+    static public final Object ChangeSummary_TYPE = ((ModelFactoryImpl) ModelFactory.INSTANCE).getChangeSummaryType();
+
     Collection deletedDataObjects;
 
     protected final void writeElement(Object value, Property property) throws XMLStreamException {
@@ -370,12 +398,20 @@ public class ChangeSummaryStreamSerializer {
                 writeEndElement(null);
             }
         } else {
+            Object type = property.getType();
+            if (type == ChangeSummary_TYPE)
+                return;
             writeStartElement(property);
-            writer.writeCharacters(convertToString(property, value));
+            writer.writeCharacters(EcoreUtil.convertToString((EDataType) type, value));
             writeEndElement(null);
         }
     }
     
+    protected final void writeElement(Object value) throws XMLStreamException {
+        FeatureMap.Entry entry = (FeatureMap.Entry) value;
+        writeElement(entry.getValue(), (Property)entry.getEStructuralFeature());
+    }
+
     static protected List optimize(List values, Object featureChange, int size) {
         int fromIndex = size, toIndex = 0;
         for (Iterator changes = ((FeatureChange) featureChange).getListChanges().iterator(); changes.hasNext();) {
@@ -452,7 +488,8 @@ public class ChangeSummaryStreamSerializer {
         ChangeDescription changeDescription = (ChangeDescription) changeSummary;
         Iterator createdDataObjects = changeDescription.getObjectsToDetach().iterator();
         deletedDataObjects = changeDescription.getObjectsToAttach();
-        modifiedDataObjects = changeDescription.getObjectChanges().keySet(); // may contain DO(s) from createdDataObjects and/or deletedDataObjects
+        EMap objectChanges = changeDescription.getObjectChanges();
+        modifiedDataObjects = objectChanges.keySet(); // may contain DO(s) from createdDataObjects and/or deletedDataObjects
 
         /*
          * 6-2. Prepare to compute (X)Path
@@ -581,7 +618,7 @@ public class ChangeSummaryStreamSerializer {
                 writeRef();
 
                 String lineBreak = null;
-                Collection oldValues = changeSummary.getOldValues(dataObject);
+                Collection oldValues = (Collection) objectChanges.get(dataObject); // changeSummary.getOldValues repeats Sequence changes
                 Iterator settings = oldValues.iterator();
                 if (settings.hasNext()) {
                     do {
@@ -609,18 +646,34 @@ public class ChangeSummaryStreamSerializer {
                         Property property = oldValue.getProperty();
                         if (!xsdHelper.isAttribute(property))
                             if (property.isMany()) {
-                                List list = (List) oldValue.getValue();
-                                if (optimizeList)
-                                    list = optimize(list, oldValue, dataObject.getList(property).size());
-                                Iterator values = list.iterator();
-                                if (values.hasNext()) {
+                                Object value = oldValue.getValue();
+                                List list = (List) value;
+                                if (FeatureMapUtil.isFeatureMap((EStructuralFeature) property)) {
+                                    if (optimizeList)
+                                        list = optimize(list, oldValue, dataObject.getSequence(property).size());
+                                    Iterator values = list.iterator();
+                                    if (!values.hasNext())
+                                        continue;
+                                    do
+                                        writeElement(values.next());
+                                    while (values.hasNext());
+                                } else {
+                                    if (optimizeList)
+                                        list = optimize(list, oldValue, dataObject.getList(property).size());
+                                    Iterator values = list.iterator();
+                                    if (!values.hasNext())
+                                        continue;
                                     do
                                         writeElement(values.next(), property);
                                     while (values.hasNext());
-                                    lineBreak = this.lineBreak;
                                 }
+                                lineBreak = this.lineBreak;
                             } else if (oldValue.isSet()) {
-                                writeElement(oldValue.getValue(), property);
+                                Object value = oldValue.getValue();
+                                if (value instanceof FeatureMap.Entry)
+                                    writeElement(value);
+                                else
+                                    writeElement(value, property);
                                 lineBreak = this.lineBreak;
                             }
                     }

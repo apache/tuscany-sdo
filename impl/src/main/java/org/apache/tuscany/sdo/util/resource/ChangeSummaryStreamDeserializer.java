@@ -19,39 +19,66 @@
  */
 package org.apache.tuscany.sdo.util.resource;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.NamespaceContext;
-import javax.xml.stream.*;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
-import commonj.sdo.*;
-import commonj.sdo.helper.HelperContext;
-
-import org.eclipse.emf.ecore.*;
-import org.eclipse.emf.ecore.change.*;
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.helper.SDOAnnotations;
-import org.apache.tuscany.sdo.impl.*;
+import org.apache.tuscany.sdo.impl.ChangeSummaryImpl;
+import org.apache.tuscany.sdo.impl.ClassImpl;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.ETypedElement;
+import org.eclipse.emf.ecore.change.ChangeDescription;
+import org.eclipse.emf.ecore.change.ChangeFactory;
+import org.eclipse.emf.ecore.change.ChangeKind;
+import org.eclipse.emf.ecore.change.FeatureChange;
+import org.eclipse.emf.ecore.change.FeatureMapEntry;
+import org.eclipse.emf.ecore.change.ListChange;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
+
+import commonj.sdo.ChangeSummary;
+import commonj.sdo.DataObject;
+import commonj.sdo.Property;
+import commonj.sdo.Type;
+import commonj.sdo.helper.HelperContext;
 
 /**
  * ChangeSummary StAX Deserializer whose input conforms to the SDO Java/C++/PHP specifications. The instance isn't thread-safe, however it's safe to
  * use the instance any times on the same thread.
  */
 public class ChangeSummaryStreamDeserializer extends SDODeserializer {
-    static final class ForwardReference {
-        String ref, unset;
+    static final class ForwardReference extends Ref {
+        final String unset;
+
+        ForwardReference(String ref, NamespaceContext nameSpaces, String u) {
+            super(ref, nameSpaces);
+            unset = u;
+        }
 
         Collection attributes/* = null */, qualifiedAttributes/* = null */, tags/* = null */; // may be null, never empty
-
-        NamespaceContext nameSpaces;
     }
 
     protected Collection forwardReferences/* = null */;
 
-    static private final class ElementChange {
-        private Object property;
-
-        private String ref;
+    static private final class ElementChange extends Ref {
+        private final Object containing, containment;
+        private ElementChange(String ref, NamespaceContext nameSpaces, Object property, Object propertyInSequence) {
+            super(ref, nameSpaces);
+            containing = property;
+            containment = propertyInSequence;
+        }
     }
 
     static private class PropertyMapChanges {
@@ -98,8 +125,7 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
 
     private SDOFactory changeSettingFactory;
 
-    private void logPropertyChange(Collection featureChanges, Object property, Object value, boolean set) {
-        EStructuralFeature feature = (EStructuralFeature) property;
+    private void logPropertyChange(Collection featureChanges, EStructuralFeature feature, Object value, boolean set) {
         if (changeSettingFactory == null)
             featureChanges.add(changeFactory.createFeatureChange(feature, value, set));
         else
@@ -107,7 +133,7 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
     }
 
     void unsetProperty(Collection featureChanges, String unset, int begin, int index, Type type) {
-        logPropertyChange(featureChanges, type.getProperty(unset.substring(begin, index)), null, false);
+        logPropertyChange(featureChanges, (EStructuralFeature) type.getProperty(unset.substring(begin, index)), null, false);
     }
 
     static boolean isWhitespace(String unset, int index) {
@@ -142,23 +168,30 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
         return featureChanges;
     }
 
+    private Object value(EStructuralFeature containing, Object containment, Object value) {
+        return FeatureMapUtil.isFeatureMap(containing) ? changeFactory.createFeatureMapEntry((EStructuralFeature) containment, value) : value;
+    }
+
+    private void logPropertyChange(Collection featureChanges, Object containing, Object containment, Object value) {
+        EStructuralFeature feature = (EStructuralFeature) containing;
+        logPropertyChange(featureChanges, feature, value(feature, containment, value), true);
+    }
+
     private void logPropertyChange(Collection featureChanges, Object property, Object value) {
-        logPropertyChange(featureChanges, property, value, true);
+        logPropertyChange(featureChanges, property, propertyInSequence, value);
     }
 
     void logAttributeChange(Collection featureChanges, Property property, String literal, NamespaceContext nameSpaces) {
-        if (property != null)
-            logPropertyChange(featureChanges, property, value(property.getType(), literal, nameSpaces));
-        // else report error?
+        logPropertyChange(featureChanges, property, value(property.getType(), literal, nameSpaces));
     }
 
     protected final void logAttributeChange(Collection featureChanges, String property, Type type, String value, NamespaceContext nameSpaces) {
-        logAttributeChange(featureChanges, type.getProperty(property), value, nameSpaces);
+        logAttributeChange(featureChanges, getProperty(type, property), value, nameSpaces);
     }
 
     protected final void logAttributeChange(Collection featureChanges, String nameSpace, String name, Type type, String value,
             NamespaceContext nameSpaces) {
-        logAttributeChange(featureChanges, getProperty(type, nameSpace, name), value, nameSpaces);
+        logAttributeChange(featureChanges, getProperty(type, nameSpace, name, false), value, nameSpaces);
     }
 
     protected final String ref() {
@@ -185,6 +218,10 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
         protected Tag(XMLStreamReader reader) {
             super(reader);
         }
+    }
+
+    protected final void addPropertyChange(Collection list, Object value, Object containing) {
+        list.add(value((EStructuralFeature) containing, propertyInSequence, value));
     }
 
     protected boolean logging;
@@ -239,18 +276,15 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
                 String ref = ref(), unset = reader.getAttributeValue(SDOAnnotations.COMMONJ_SDO_NS, ChangeSummaryStreamSerializer.UNSET);
                 int attributes = reader.getAttributeCount();
                 NamespaceContext nameSpaces = reader.getNamespaceContext();
-                EObject referent = referent(ref);
+                EObject referent = referent(ref, nameSpaces);
                 if (referent == null) {
                     /*
                      * Forward-referenced(unresolved) modified DataObject
                      */
-                    ForwardReference forwardReference = new ForwardReference();
+                    ForwardReference forwardReference = new ForwardReference(ref, nameSpaces, unset);
                     if (forwardReferences == null)
                         forwardReferences = new ArrayList();
                     forwardReferences.add(forwardReference);
-                    forwardReference.ref = ref;
-                    forwardReference.unset = unset;
-                    forwardReference.nameSpaces = nameSpaces;
                     do // what about xmlns="NS1" a1="qName" xmlns="NS2" a2="qName" ?
                     {
                         /*
@@ -295,9 +329,8 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
                             continue;
                         Type xsi = typeXSI();
                         if (xsi == null) {
-                            nameSpace = tag.nameSpace;
-                            if (nameSpace != null)
-                                tag.value = value(globalElementType(tag.name.getLocalPart())); // TODO substitutionGroup type if null
+                            if (tag.nameSpace != null)
+                                tag.value = value(globalElementType(tag.nameSpace, tag.name.getLocalPart())); // TODO substitutionGroup type if null
                             else if (tag.record(reader))
                                 break;
                         } else
@@ -328,8 +361,7 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
                             /*
                              * Log property old value as element
                              */
-                            nameSpace = reader.getNamespaceURI();
-                            name = reader.getLocalName();
+                            String nameSpace = reader.getNamespaceURI(), name = reader.getLocalName();
                             Property property = getProperty(nameSpace, name, type);
                             boolean many = property.isMany();
                             Object value;
@@ -342,25 +374,24 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
                                 if (xsi != null)
                                     value = value(xsi);
                                 else if (nameSpace == null)
-                                    value = value(property, reader);
+                                    value = value(reader);
                                 else {
-                                    xsi = globalElementType(name);
-                                    value = value(xsi == null ? property.getType() : xsi);
+                                    xsi = globalElementType(nameSpace, name);
+                                    value = value(xsi == null ? propertyInSequence.getType() : xsi);
                                 }
                             } else {
                                 /*
                                  * Referenced child DataObject
                                  */
+                                nameSpaces = reader.getNamespaceContext();
                                 reader.nextTag()/* END_ELEMENT */;
-                                value = referent(ref);
+                                value = referent(ref, nameSpaces);
                                 if (value == null) {
                                     /*
                                      * Forward-referenced(unresolved) child DataObject
                                      */
                                     if (!many) {
-                                        ElementChange elementChange = new ElementChange();
-                                        elementChange.property = property;
-                                        elementChange.ref = ref;
+                                        ElementChange elementChange = new ElementChange(ref, nameSpaces, property, propertyInSequence);
                                         if (objectChanges == null) {
                                             objectChanges = newObjectChanges(featureChanges);
                                             objectChanges.newElementChanges();
@@ -369,7 +400,7 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
                                         objectChanges.elementChanges.add(elementChange);
                                         continue;
                                     }
-                                    value = ref;
+                                    value = new Ref(ref, nameSpaces);
                                 }
                             }
                             if (many) {
@@ -381,7 +412,7 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
                                     list = objectChanges.newList(property);
                                 else
                                     list = objectChanges.get(property);
-                                list.add(value);
+                                addPropertyChange(list, value, property);
                             } else
                                 logPropertyChange(featureChanges, property, value);
                         } while (START_ELEMENT == reader.nextTag());
@@ -391,23 +422,38 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
         }
     }
 
-    private Collection changeList(ChangeKind changeKind, int index, Collection listChanges) {
+    static private boolean sequence(Object listChanges) {
+        return FeatureMapUtil.isFeatureMap(((FeatureChange) ((EStructuralFeature.Setting) listChanges).getEObject()).getFeature());
+    }
+
+    private ListChange createListChange(ChangeKind changeKind, int index, Collection listChanges) {
         ListChange listChange = changeFactory.createListChange();
         listChange.setKind(changeKind);
         listChange.setIndex(index);
         listChanges.add(listChange);
-        return listChange.getValues();
+        return listChange;
     }
 
     Collection add(Collection adds, int change, Collection listChanges, Object value) {
-        if (adds == null)
-            adds = changeList(ChangeKind.ADD_LITERAL, change, listChanges);
+        if (adds == null) {
+            ListChange listChange = createListChange(ChangeKind.ADD_LITERAL, change, listChanges);
+            adds = sequence(listChanges) ? listChange.getFeatureMapEntryValues() : listChange.getValues();
+        }
         adds.add(value);
         return adds;
     }
 
     private int remove(int change, Collection listChanges, List list, int begin, int end) {
-        Collection removes = changeList(ChangeKind.REMOVE_LITERAL, change, listChanges);
+        ListChange listChange = createListChange(ChangeKind.REMOVE_LITERAL, change, listChanges);
+        if (sequence(listChanges)) {
+            Collection removes = listChange.getFeatureMapEntryValues();
+            do {
+                FeatureMap.Entry fme = (FeatureMap.Entry) list.get(begin);
+                removes.add(changeFactory.createFeatureMapEntry(fme.getEStructuralFeature(), fme.getValue()));
+            } while (++begin != end);
+            return begin;
+        }
+        Collection removes = listChange.getValues();
         do
             removes.add(list.get(begin));
         while (++begin != end);
@@ -418,53 +464,31 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
         return begin == end ? begin : remove(change, listChanges, list, begin, end);
     }
 
-    protected final void logManyChanges(PropertyMapChanges propertyMapChanges, Object referent, Collection featureChanges) {
+    protected final void logManyChanges(PropertyMapChanges propertyMapChanges, EObject referent, Collection featureChanges) {
         for (Iterator lists = propertyMapChanges.lists.entrySet().iterator(); lists.hasNext();) {
             /*
              * Compute ListChanges out of comparision of old and new list
              */
             Map.Entry entry = (Map.Entry) lists.next();
-            Property property = (Property) entry.getKey();
+            EStructuralFeature property = (EStructuralFeature) entry.getKey();
             Iterator values = ((Collection) entry.getValue()).iterator(); // old list
-            List list = ((DataObject) referent).getList(property); // new
+            Object value = referent.eGet(property);
+            List list = value instanceof FeatureMap.Internal.Wrapper ? ((FeatureMap.Internal.Wrapper) value).featureMap() : (List) value; // new
             int change = 0;
             FeatureChange featureChange = changeSettingFactory == null ? changeFactory.createFeatureChange() : (FeatureChange) changeSettingFactory
                     .createChangeSummarySetting();
-            featureChange.setFeature((EStructuralFeature) property);
+            featureChange.setFeature(property);
             Collection listChanges = featureChange.getListChanges(), adds = null;
             featureChanges.add(featureChange);
-            Type type = property.getType();
-            if (type.isDataType()) {
-                /*
-                 * Log simple value changes
-                 */
-                while (values.hasNext()) {
-                    Object value = values.next();
-                    // values.remove();
-                    int index = list.indexOf(value);
-                    switch (index) {
-                    case -1:
-                        adds = add(adds, change, listChanges, value);
-                        break;
-                    default:
-                        remove(change, listChanges, list, 0, index);
-                    case 0:
-                        list = list.subList(++index, list.size());
-                        adds = null;
-                    }
-                    ++change;
-                }
-                remove(0, list.size(), change, listChanges, list);
-            } else {
+            if (property.getEType() instanceof EClass) {
                 /*
                  * Log child DataObject changes
                  */
                 int begin = 0, end = list.size();
                 while (values.hasNext()) {
-                    Object value = values.next();
-                    if (value.getClass() == String.class) // final
-                    {
-                        value = referent((String) value);
+                    value = values.next();
+                    if (value.getClass() == Ref.class) {
+                        value = referent((Ref) value);
                         if (value == null)
                             continue;// report error?
                     }
@@ -483,6 +507,66 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
                     ++change;
                 }
                 remove(begin, end, change, listChanges, list);
+            } else if (FeatureMapUtil.isFeatureMap(property)) {
+                /*
+                 * Log Sequence changes
+                 */
+                int begin = 0, end = list.size();
+                while (values.hasNext()) {
+                    FeatureMapEntry featureMapEntry = (FeatureMapEntry) values.next();
+                    value = featureMapEntry.getValue();
+                    if (value.getClass() == Ref.class) {
+                        value = referent((Ref) value);
+                        if (value == null)
+                            continue;// report error?
+                    }
+                    // values.remove();
+                    Comparator equality;
+                    ETypedElement feature = featureMapEntry.getFeature();
+                    if (((Type) feature.getEType()).isDataType())
+                        if (value == null)
+                            equality = EQUAL_NULL;
+                        else
+                            equality = EQUAL;
+                    else
+                        equality = SAME;
+                    for (int index = begin;/* true */; ++index)
+                        if (index == end) {
+                            adds = add(adds, change, listChanges, featureMapEntry);
+                            break;
+                        } else {
+                            FeatureMap.Entry fme = (FeatureMap.Entry) list.get(index);
+                            if (feature == fme.getEStructuralFeature() && equality.compare(fme.getValue(), value) == 0) {
+                                begin = remove(begin, index, change, listChanges, list);
+                                ++begin;
+                                adds = null;
+                                break;
+                            }
+                        }
+                    ++change;
+                }
+                remove(begin, end, change, listChanges, list);
+            } else {
+                /*
+                 * Log simple value changes
+                 */
+                while (values.hasNext()) {
+                    value = values.next();
+                    // values.remove();
+                    int index = list.indexOf(value);
+                    switch (index) {
+                    case -1:
+                        adds = add(adds, change, listChanges, value);
+                        break;
+                    default:
+                        remove(change, listChanges, list, 0, index);
+                    case 0:
+                        list = list.subList(++index, list.size());
+                        adds = null;
+                    }
+                    ++change;
+                }
+                remove(0, list.size(), change, listChanges, list);
             }
         }
     }
@@ -502,7 +586,7 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
                  * Forward-referenced(unresolved) modified DataObject from begin(...)
                  */
                 ForwardReference forwardReference = (ForwardReference) iterator.next();
-                EObject referent = referent(forwardReference.ref);
+                EObject referent = referent(forwardReference);
                 if (referent == null)
                     continue; // report error?
                 // iterator.remove();
@@ -534,10 +618,10 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
                         Tag tag = (Tag) tags.next();
                         Property property = getProperty(tag.nameSpace, tag.name.getLocalPart(), type);
                         if (tag.ref != null)
-                            tag.value = referent(tag.ref);
+                            tag.value = referent(tag.ref, tag.nameSpaceContext);
                         // if (tag.value == null) report error?
                         else if (tag.events != null)
-                            tag.value = value(property, play(tag));
+                            tag.value = value(play(tag));
                         if (property.isMany()) {
                             Collection list;
                             if (propertyMapChanges == null) {
@@ -545,7 +629,7 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
                                 list = propertyMapChanges.newList(property);
                             } else
                                 list = propertyMapChanges.get(property);
-                            list.add(tag.value);
+                            addPropertyChange( list, tag.value, property);
                         } else
                             logPropertyChange(featureChanges, property, tag.value);
                     }
@@ -562,15 +646,15 @@ public class ChangeSummaryStreamDeserializer extends SDODeserializer {
                 if (objectChanges.elementChanges != null)
                     for (Iterator elementChanges = objectChanges.elementChanges.iterator(); elementChanges.hasNext();) {
                         ElementChange elementChange = (ElementChange) elementChanges.next();
-                        Object value = referent(elementChange.ref);
+                        Object value = referent(elementChange);
                         if (value == null)
                             continue; // report error?
                         // iterator.remove();
-                        logPropertyChange(objectChanges.featureChanges, elementChange.property, value);
+                        logPropertyChange(objectChanges.featureChanges, elementChange.containing, elementChange.containment, value);
                     }
                 if (objectChanges.lists != null)
-                    logManyChanges(objectChanges, ((Map.Entry) ((EStructuralFeature.Setting) objectChanges.featureChanges).getEObject()).getKey(),
-                            objectChanges.featureChanges);
+                    logManyChanges(objectChanges, (EObject) ((Map.Entry) ((EStructuralFeature.Setting) objectChanges.featureChanges).getEObject())
+                            .getKey(), objectChanges.featureChanges);
             }
         if (logging)
             changeSummary.resumeLogging();

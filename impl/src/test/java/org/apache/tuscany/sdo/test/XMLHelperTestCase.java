@@ -25,11 +25,14 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import junit.framework.TestCase;
+
 import org.apache.tuscany.sdo.util.SDOUtil;
 
-import commonj.sdo.helper.*;
-
-import junit.framework.TestCase;
+import commonj.sdo.helper.HelperContext;
+import commonj.sdo.helper.XMLDocument;
+import commonj.sdo.helper.XMLHelper;
+import commonj.sdo.helper.XSDHelper;
 
 public class XMLHelperTestCase extends TestCase {
 
@@ -52,6 +55,8 @@ public class XMLHelperTestCase extends TestCase {
 
     // Populate the meta data for the test (Stock Quote) model
     define("/simpleWithChangeSummary.xsd");
+
+    define("/SequenceChangeSummary.xsd");
   }
 
   protected void tearDown() throws Exception {
@@ -72,9 +77,9 @@ public class XMLHelperTestCase extends TestCase {
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     
-    // doc changes encoding (https://bugs.eclipse.org/bugs/show_bug.cgi?id=173681)
     // doc declares NameSpaces at root
     xmlh.save(xmlh.createDocument(doc.getRootObject(), doc.getRootElementURI(), doc.getRootElementName()), baos, options);
+    //xmlh.save(xmlh.createDocument(doc.getRootObject(), doc.getRootElementURI(), doc.getRootElementName()), System.out, options);
     
     assertEquals(baos.toString(), formetted);
   }
@@ -109,5 +114,48 @@ MARGIN+INDENT+INDENT+INDENT+  "<quotes sdo:ref=\"#//quotes[2]\" />"  +LINE_BREAK
 MARGIN+INDENT+INDENT+  "</cs:stockQuote>"  +LINE_BREAK+
 MARGIN+INDENT+  "</changes>"  +LINE_BREAK+
 MARGIN+  "</cs:stockQuote>");
+  }
+
+  public void testSaveMixedOutputStreamObject() throws IOException {
+    format("/mixedChangeSummary.xml",
+MARGIN+  "<?xml version=\"1.0\" encoding=\"ASCII\"?>"  +LINE_BREAK+
+MARGIN+  "<cs:stockQuote xmlns:cs=\"http://www.example.com/sequenceCS\"><changes create=\"#//quotes[3] #//quotes[4]\" delete=\"#//changes/stockQuote[1]/quotes[2]\" logging=\"false\" xmlns:sdo=\"commonj.sdo\">"  +LINE_BREAK+
+INDENT+  "<cs:stockQuote sdo:ref=\"#/stockQuote\">"  +LINE_BREAK+
+INDENT+INDENT+  "<symbol>fbnt</symbol>"  +LINE_BREAK+
+INDENT+INDENT+  "<companyName>FlyByNightTechnology</companyName>"  +LINE_BREAK+
+INDENT+INDENT+  "<price>1000.0</price>"  +LINE_BREAK+
+INDENT+INDENT+  "<quotes sdo:ref=\"#//quotes[1]\" />"  +LINE_BREAK+
+INDENT+INDENT+  "<quotes><price>2000.0</price><quotes><price>2000.99</price></quotes></quotes>"  +LINE_BREAK+
+INDENT+INDENT+  "<quotes sdo:ref=\"#//quotes[2]\" />"  +LINE_BREAK+
+INDENT+  "</cs:stockQuote>"  +LINE_BREAK+
+"</changes><symbol>FBNT</symbol><companyName>FlyByNightTechnology</companyName><price>999.0</price><quotes><price>1500.0</price></quotes><quotes><price>2500.0</price></quotes><volume>1000.0</volume><quotes><price>3000.0</price></quotes><quotes><price>4000.0</price></quotes></cs:stockQuote>");
+  }
+
+  public void testOpenMixedOutputStreamObject() throws IOException {
+    format("/openChangeSummary.xml",
+MARGIN+  "<?xml version=\"1.0\" encoding=\"ASCII\"?>"  +LINE_BREAK+
+MARGIN+  "<cs:openQuote xmlns:cs=\"http://www.example.com/sequenceCS\" xmlns:open=\"http://www.example.com/open\">"  +LINE_BREAK+
+MARGIN+INDENT+  "<symbol>FBNT</symbol>"  +LINE_BREAK+
+MARGIN+INDENT+  "<open:openStockQuote>"  +LINE_BREAK+
+MARGIN+INDENT+INDENT+  "<symbol>1500.0</symbol>"  +LINE_BREAK+
+MARGIN+INDENT+  "</open:openStockQuote>"  +LINE_BREAK+
+MARGIN+INDENT+  "<open:openStockQuote>"  +LINE_BREAK+
+MARGIN+INDENT+INDENT+  "<symbol>2500.0</symbol>"  +LINE_BREAK+
+MARGIN+INDENT+  "</open:openStockQuote>"  +LINE_BREAK+
+MARGIN+INDENT+  "<open:openStockQuote>"  +LINE_BREAK+
+MARGIN+INDENT+INDENT+  "<symbol>3000.0</symbol>"  +LINE_BREAK+
+MARGIN+INDENT+  "</open:openStockQuote>"  +LINE_BREAK+
+MARGIN+INDENT+  "<open:openStockQuote>"  +LINE_BREAK+
+MARGIN+INDENT+INDENT+  "<symbol>4000.0</symbol>"  +LINE_BREAK+
+MARGIN+INDENT+  "</open:openStockQuote>"  +LINE_BREAK+
+MARGIN+INDENT+  "<changes create=\"#//open:openStockQuote[3] #//open:openStockQuote[4]\" delete=\"#//changes/openQuote[1]/open:openStockQuote[2]\" logging=\"false\" xmlns:sdo=\"commonj.sdo\">"  +LINE_BREAK+
+MARGIN+INDENT+INDENT+  "<cs:openQuote sdo:ref=\"#/openQuote\">"  +LINE_BREAK+
+MARGIN+INDENT+INDENT+INDENT+  "<symbol>fbnt</symbol>"  +LINE_BREAK+
+MARGIN+INDENT+INDENT+INDENT+  "<open:openStockQuote sdo:ref=\"#//open:openStockQuote[1]\" />"  +LINE_BREAK+
+MARGIN+INDENT+INDENT+INDENT+  "<open:openStockQuote><symbol>2000.0</symbol><open:openStockQuote><symbol>2000.99</symbol></open:openStockQuote></open:openStockQuote>"  +LINE_BREAK+
+MARGIN+INDENT+INDENT+INDENT+  "<open:openStockQuote sdo:ref=\"#//open:openStockQuote[2]\" />"  +LINE_BREAK+
+MARGIN+INDENT+INDENT+  "</cs:openQuote>"  +LINE_BREAK+
+MARGIN+INDENT+  "</changes>"  +LINE_BREAK+
+MARGIN+  "</cs:openQuote>");
   }
 }
