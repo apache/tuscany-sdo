@@ -122,7 +122,11 @@ public final class SDOUtil
   /**
    * Boolean to process the schemaLocation/noNamespaceSchemaLocation attributes occurring in the instance document to {@link XSDHelper#define convert XSD(s) to Types} 
    */
-  XML_LOAD_SCHEMA = "ProcessSchemaLocations";
+  XML_LOAD_SCHEMA = "ProcessSchemaLocations",
+  /**
+   * To tolerate malformed elements and attributes (default unless set by System property XML.load.form.lax). 0 not to.  
+   */
+  XML_LOAD_LaxForm = "load malform";
 
   /**
    * Create a DataObject wrapper for an instance of the specified dataType.

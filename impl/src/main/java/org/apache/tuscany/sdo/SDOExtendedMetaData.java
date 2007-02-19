@@ -35,4 +35,5 @@ public interface SDOExtendedMetaData extends ExtendedMetaData {
   
   void setAliasNames(EModelElement eModelElement, String aliasNames);
 
+  void setFeatureNamespaceMatchingLax(boolean featureNamespaceMatchingLax);
 }

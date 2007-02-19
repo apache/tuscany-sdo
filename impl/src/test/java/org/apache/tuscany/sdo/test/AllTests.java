@@ -17,6 +17,7 @@ public class AllTests extends TestCase {
         suite.addTestSuite(DateConversionTestCase.class);
         suite.addTestSuite(DefineOpenContentPropertyTestCase.class);
         suite.addTestSuite(DefineTypeTestCase.class);
+        suite.addTestSuite(FormTestCase.class);
         suite.addTestSuite(MixedTypeTestCase.class);
         suite.addTestSuite(OpenTypeTestCase.class);
         suite.addTestSuite(SerializeTypesTestCase.class);

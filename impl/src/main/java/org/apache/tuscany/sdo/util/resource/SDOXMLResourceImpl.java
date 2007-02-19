@@ -41,7 +41,9 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.helper.HelperContextImpl;
+import org.apache.tuscany.sdo.helper.SDOExtendedMetaDataImpl;
 import org.apache.tuscany.sdo.helper.XMLStreamHelper;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
@@ -390,39 +392,76 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
         return new SDOXMLLoadImpl(createXMLHelper());
     }
 
+    static protected int loadLaxForm;
+    static {
+        int defaultLaxForm = 0x4242;
+        String property = System.getProperty("XML.load.form.lax");
+        if (property == null)
+            loadLaxForm = defaultLaxForm;
+        else
+            try {
+                loadLaxForm = Integer.decode(property).intValue();
+            } catch (NumberFormatException eNumberFormat) {
+                loadLaxForm = defaultLaxForm;
+            }
+    }
+    
     public void doLoad(InputSource inputSource, Map options) throws IOException {
-        if (options != null && Boolean.TRUE.equals(options.get(SDOUtil.XML_LOAD_SCHEMA))) {
-            XMLOptions option = (XMLOptions) options.get(OPTION_XML_OPTIONS);
-            if (option == null) {
-                option = new XMLOptionsImpl();
-                options.put(OPTION_XML_OPTIONS, option);
-            }
-            option.setProcessSchemaLocations(true);
-            Object emd = options.get(OPTION_EXTENDED_META_DATA);
-            if (emd == null)
-                emd = getDefaultLoadOptions().get(OPTION_EXTENDED_META_DATA);
-            ExtendedMetaData extendedMetaData;
-            final XSDHelper xsdHelper;
-            if (emd == null) {
-                extendedMetaData = ExtendedMetaData.INSTANCE;
-                xsdHelper = XSDHelper.INSTANCE;
-            } else {
-                extendedMetaData = (ExtendedMetaData) emd;
-                xsdHelper = new XSDHelperImpl(extendedMetaData, null);
-            }
-            option.setEcoreBuilder(new DefaultEcoreBuilder(extendedMetaData) {
-                public Collection generate(Map targetNamespaceToURI) throws IOException {
-                    for (Iterator iterator = targetNamespaceToURI.values().iterator(); iterator.hasNext();) {
-                        String uri = iterator.next().toString();
-                        xsdHelper.define(uri.indexOf(":/") == -1 ? Thread.currentThread().getContextClassLoader().getResourceAsStream(uri) : new URL(
-                                uri).openStream(), uri);
-                    }
-                    return null; // XMLHandler#processSchemaLocations doesn't take the result
+        if (options != null) {
+            /*
+             * Tolerates element/attribute malform unless indicated not to
+             */
+            Object option = options.get(SDOUtil.XML_LOAD_LaxForm);
+            int tolerance = option == null ? loadLaxForm : ((Number) option).intValue();
+            option = options.get(OPTION_EXTENDED_META_DATA);
+            if (tolerance == 0) {
+                if (option instanceof SDOExtendedMetaData)
+                    ((SDOExtendedMetaData) option).setFeatureNamespaceMatchingLax(false);
+            } else if (option instanceof SDOExtendedMetaData)
+                ((SDOExtendedMetaData) option).setFeatureNamespaceMatchingLax(true);
+            else
+                options.put(OPTION_EXTENDED_META_DATA, option = new SDOExtendedMetaDataImpl()); // TODO copy (BasicExtendedMetaData)option
+            /*
+             * Loads schema if necessary
+             */
+            if (Boolean.TRUE.equals(options.get(SDOUtil.XML_LOAD_SCHEMA))) {
+                XMLOptions xmlOptions = (XMLOptions) options.get(OPTION_XML_OPTIONS);
+                if (xmlOptions == null) {
+                    xmlOptions = new XMLOptionsImpl();
+                    options.put(OPTION_XML_OPTIONS, xmlOptions);
                 }
-            });
+                xmlOptions.setProcessSchemaLocations(true);
+                if (option == null)
+                    option = getDefaultLoadOptions().get(OPTION_EXTENDED_META_DATA);
+                ExtendedMetaData extendedMetaData;
+                final XSDHelper xsdHelper;
+                if (option == null) {
+                    extendedMetaData = ExtendedMetaData.INSTANCE;
+                    xsdHelper = XSDHelper.INSTANCE;
+                } else {
+                    extendedMetaData = (ExtendedMetaData) option;
+                    xsdHelper = new XSDHelperImpl(extendedMetaData, null);
+                }
+                xmlOptions.setEcoreBuilder(new DefaultEcoreBuilder(extendedMetaData) {
+                    public Collection generate(Map targetNamespaceToURI) throws IOException {
+                        for (Iterator iterator = targetNamespaceToURI.values().iterator(); iterator.hasNext();) {
+                            String uri = iterator.next().toString();
+                            xsdHelper.define(uri.indexOf(":/") == -1 ? Thread.currentThread().getContextClassLoader().getResourceAsStream(uri)
+                                    : new URL(uri).openStream(), uri);
+                        }
+                        return null; // XMLHandler#processSchemaLocations doesn't take the result
+                    }
+                });
+            }
+        } else if (loadLaxForm != 0) {
+            /*
+             * Tolerates element/attribute malform
+             */
+            options = new HashMap();
+            options.put(OPTION_EXTENDED_META_DATA, new SDOExtendedMetaDataImpl());
         }
         super.doLoad(inputSource, options);
-        // TODO consider whether we should restore options here
+        // TODO there is some thinking to be done about the restoration of options
     }
 
     /**

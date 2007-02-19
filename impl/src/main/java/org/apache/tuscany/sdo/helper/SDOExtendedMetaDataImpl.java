@@ -26,8 +26,10 @@ import java.util.StringTokenizer;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 
@@ -108,5 +110,170 @@ public class SDOExtendedMetaDataImpl
   {
     return registry;
   }
+
+  boolean featureNamespaceMatchingLax = true;
+
+  public void setFeatureNamespaceMatchingLax(boolean b) {
+    featureNamespaceMatchingLax = b;
+  }
+
+  protected boolean isFeatureNamespaceMatchingLax() {
+    return featureNamespaceMatchingLax;
+  }
+
+  /* getLocalAttribute & getLocalElement are
+   * TEMPORARILY COPIED FROM BASE CLASS - DO NOT EDIT - WILL BE REMOVED WHEN WE MOVE TO EMF 2.3
+   */
   
+  public EStructuralFeature getLocalAttribute(EClass eClass, String namespace, String name)
+  {
+    EStructuralFeature result = null;
+    if (isFeatureKindSpecific())
+    {
+      List allAttributes = getAllAttributes(eClass);
+      for (int i = 0, size = allAttributes.size(); i < size; ++i)
+      {
+        EStructuralFeature eStructuralFeature = (EStructuralFeature) allAttributes.get(i);
+        if (name.equals(getName(eStructuralFeature)))
+        {
+          String featureNamespace = getNamespace(eStructuralFeature);
+          if (namespace == null) 
+          {
+            if (featureNamespace == null)
+            {
+              return eStructuralFeature;
+            }
+            else if (result == null)
+            {
+              result = eStructuralFeature;
+            }
+          }
+          else if (namespace.equals(featureNamespace))
+          {
+            return eStructuralFeature;
+          }
+          else if (featureNamespace == null && result == null)
+          {
+            result = eStructuralFeature;
+          }
+        }
+      }
+    }
+    else
+    {
+      for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
+      {
+        EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
+        switch (getFeatureKind(eStructuralFeature))
+        {
+          case UNSPECIFIED_FEATURE:
+          case ATTRIBUTE_FEATURE:
+          {
+            if (name.equals(getName(eStructuralFeature)))
+            {
+              String featureNamespace = getNamespace(eStructuralFeature);
+              if (namespace == null) 
+              {
+                if (featureNamespace == null)
+                {
+                  return eStructuralFeature;
+                }
+                else if (result == null)
+                {
+                  result = eStructuralFeature;
+                }
+              }
+              else if (namespace.equals(featureNamespace))
+              {
+                return eStructuralFeature;
+              }
+              else if (featureNamespace == null && result == null)
+              {
+                result = eStructuralFeature;
+              }
+            }
+            break;
+          }
+        }
+      }
+    }
+
+    return isFeatureNamespaceMatchingLax() ? result : null;
+  }
+
+  protected EStructuralFeature getLocalElement(EClass eClass, String namespace, String name)
+  {
+    EStructuralFeature result = null;
+    if (isFeatureKindSpecific())
+    {
+      List allElements = getAllElements(eClass);
+      for (int i = 0, size = allElements.size(); i < size; ++i)
+      {
+        EStructuralFeature eStructuralFeature = (EStructuralFeature) allElements.get(i);
+        if (name.equals(getName(eStructuralFeature)))
+        {
+          String featureNamespace = getNamespace(eStructuralFeature);
+          if (namespace == null) 
+          {
+            if (featureNamespace == null)
+            {
+              return eStructuralFeature;
+            }
+            else if (result == null)
+            {
+              result = eStructuralFeature;
+            }
+          }
+          else if (namespace.equals(featureNamespace))
+          {
+            return eStructuralFeature;
+          }
+          else if (featureNamespace == null && result == null)
+          {
+            result = eStructuralFeature;
+          }
+        }
+      }
+    }
+    else
+    {
+      for (int i = 0, size = eClass.getFeatureCount(); i < size; ++i)
+      {
+        EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
+        switch (getFeatureKind(eStructuralFeature))
+        {
+          case UNSPECIFIED_FEATURE:
+          case ELEMENT_FEATURE:
+          {
+            if (name.equals(getName(eStructuralFeature)))
+            {
+              String featureNamespace = getNamespace(eStructuralFeature);
+              if (namespace == null) 
+              {
+                if (featureNamespace == null)
+                {
+                  return eStructuralFeature;
+                }
+                else if (result == null)
+                {
+                  result = eStructuralFeature;
+                }
+              }
+              else if (namespace.equals(featureNamespace))
+              {
+                return eStructuralFeature;
+              }
+              else if (featureNamespace == null && result == null)
+              {
+                result = eStructuralFeature;
+              }
+            }
+            break;
+          }
+        }
+      }
+    }
+
+    return isFeatureNamespaceMatchingLax() ? result : null;
+  }
 }
