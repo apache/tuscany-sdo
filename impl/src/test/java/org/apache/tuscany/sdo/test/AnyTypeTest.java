@@ -53,7 +53,7 @@ public class AnyTypeTest extends TestCase {
         XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
         streamHelper.saveObject(rootObject, streamWriter);
         streamWriter.flush();
-        System.out.println(writer.toString());
+        // System.out.println(writer.toString());
 
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
         StringReader reader = new StringReader(writer.toString());
@@ -61,9 +61,9 @@ public class AnyTypeTest extends TestCase {
         XMLDocument doc = streamHelper.load(streamReader);
         rootObject = doc.getRootObject();
         DataObject testObject = rootObject.getDataObject("anyTypeElement");
-        System.out.println("anyTypeElement dataobject: " + testObject);
+        // System.out.println("anyTypeElement dataobject: " + testObject);
         testObject = rootObject.getDataObject("personElement");
-        System.out.println("personElement dataobject: " + testObject);
+        // System.out.println("personElement dataobject: " + testObject);
     }
     
     public void testAbstractTypeFails() {

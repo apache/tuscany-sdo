@@ -19,19 +19,16 @@
  */
 package com.example.sequences.impl;
 
+import com.example.sequences.SequencesFactory;
 import com.example.sequences.TwoRCs;
 
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 
-import commonj.sdo.helper.TypeHelper;
-
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.tuscany.sdo.impl.DataObjectBase;
-
-import org.apache.tuscany.sdo.util.BasicSequence;
 
 /**
  * <!-- begin-user-doc -->
@@ -60,8 +57,72 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */
+   */	 
   public final static int GROUP = 0;
+
+  /**
+   * The feature id for the '<em><b>A</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int A = 1;
+
+  /**
+   * The feature id for the '<em><b>B</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int B = 2;
+
+  /**
+   * The feature id for the '<em><b>Split</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int SPLIT = 3;
+
+  /**
+   * The feature id for the '<em><b>Group1</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int GROUP1 = 4;
+
+  /**
+   * The feature id for the '<em><b>Y</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int Y = 5;
+
+  /**
+   * The feature id for the '<em><b>Z</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int Z = 6;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 7;
 
   /**
    * The cached value of the '{@link #getGroup() <em>Group</em>}' attribute list.
@@ -72,37 +133,8 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
    * @ordered
    */
   
-  // How to get BasicSequence from Sequence?
+  protected Sequence group = null;
   
-  protected BasicSequence group = null;
-  
-  /**
-   * The feature id for the '<em><b>A</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int A = 1;
-
-  /**
-   * The feature id for the '<em><b>B</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int B = 2;
-
-  /**
-   * The feature id for the '<em><b>Split</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int SPLIT = 3;
-
   /**
    * The default value of the '{@link #getSplit() <em>Split</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -124,15 +156,6 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
   protected String split = SPLIT_DEFAULT_;
 
   /**
-   * The feature id for the '<em><b>Group1</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int GROUP1 = 4;
-
-  /**
    * The cached value of the '{@link #getGroup1() <em>Group1</em>}' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -141,34 +164,14 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
    * @ordered
    */
   
-  // How to get BasicSequence from Sequence?
-  
-  protected BasicSequence group1 = null;
+  protected Sequence group1 = null;
   
   /**
-   * The feature id for the '<em><b>Y</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int Y = 5;
-
-  /**
-   * The feature id for the '<em><b>Z</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int Z = 6;
-
-  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected TwoRCsImpl()
+  public TwoRCsImpl()
   {
     super();
   }
@@ -180,7 +183,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
    */
   public Type getType()
   {
-    return TypeHelper.INSTANCE.getType(TwoRCs.class); //TBD Generate a more efficient implementation
+    return ((SequencesFactoryImpl)SequencesFactory.INSTANCE).getTwoRCs();
   }
 
   /**
@@ -192,12 +195,10 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
   {
     if (group == null)
     {
-        		group = createSequence(GROUP);
-        	
+      group = createSequence(GROUP);
     }
     return group;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -208,7 +209,6 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
           return getList(getGroup(), getType(), A);
 
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -219,7 +219,6 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
           return getList(getGroup(), getType(), B);
 
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -229,7 +228,6 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
   {
     return split;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -252,12 +250,10 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
   {
     if (group1 == null)
     {
-        		group1 = createSequence(GROUP1);
-        	
+      group1 = createSequence(GROUP1);
     }
     return group1;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -268,7 +264,6 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
           return getList(getGroup1(), getType(), Y);
 
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -279,7 +274,6 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
           return getList(getGroup1(), getType(), Z);
 
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -290,9 +284,9 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
     switch (propertyIndex)
     {
       case GROUP:
-      			return removeFromSequence(getGroup(), otherEnd, changeContext);
+        return removeFromSequence(getGroup(), otherEnd, changeContext);
       case GROUP1:
-      			return removeFromSequence(getGroup1(), otherEnd, changeContext);
+        return removeFromSequence(getGroup1(), otherEnd, changeContext);
     }
     return super.inverseRemove(otherEnd, propertyIndex, changeContext);
   }
@@ -308,7 +302,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
     {
       case GROUP:
         // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
-        		//if (coreType) 
+        //if (coreType) 
         return getGroup();
       case A:
         return getA();
@@ -318,7 +312,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
         return getSplit();
       case GROUP1:
         // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
-        		//if (coreType) 
+        //if (coreType) 
         return getGroup1();
       case Y:
         return getY();
@@ -376,7 +370,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
     switch (propertyIndex)
     {
       case GROUP:
-      			unsetSequence(getGroup());
+        unsetSequence(getGroup());
         return;
       case A:
         getA().clear();
@@ -388,7 +382,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
         setSplit(SPLIT_DEFAULT_);
         return;
       case GROUP1:
-      			unsetSequence(getGroup1());
+        unsetSequence(getGroup1());
         return;
       case Y:
         getY().clear();
@@ -410,7 +404,6 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
     switch (propertyIndex)
     {
       case GROUP:
-        		// KDK - should this be !isSequenceEmpty?
         return group != null && !isSequenceEmpty(getGroup());
       case A:
         return !getA().isEmpty();
@@ -419,7 +412,6 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
       case SPLIT:
         return SPLIT_DEFAULT_ == null ? split != null : !SPLIT_DEFAULT_.equals(split);
       case GROUP1:
-        		// KDK - should this be !isSequenceEmpty?
         return group1 != null && !isSequenceEmpty(getGroup1());
       case Y:
         return !getY().isEmpty();
@@ -436,7 +428,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
    */
   public String toString()
   {
-    if (isProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (group: ");

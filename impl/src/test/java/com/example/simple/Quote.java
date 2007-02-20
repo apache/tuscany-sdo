@@ -19,6 +19,8 @@
  */
 package com.example.simple;
 
+import java.io.Serializable;
+
 import java.math.BigDecimal;
 
 import java.util.List;
@@ -43,9 +45,10 @@ import java.util.List;
  * </ul>
  * </p>
  *
+ * @extends Serializable
  * @generated
  */
-public interface Quote
+public interface Quote extends Serializable
 {
   /**
    * Returns the value of the '<em><b>Symbol</b></em>' attribute.

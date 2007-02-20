@@ -19,6 +19,8 @@
  */
 package com.example.simple;
 
+import commonj.sdo.helper.HelperContext;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -29,13 +31,14 @@ package com.example.simple;
  */
 public interface SimpleFactory
 {
+
   /**
    * The singleton instance of the factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  SimpleFactory INSTANCE = com.example.simple.impl.SimpleFactoryImpl.eINSTANCE;
+  SimpleFactory INSTANCE = com.example.simple.impl.SimpleFactoryImpl.init();
 
   /**
    * Returns a new object of class '<em>Quote</em>'.
@@ -46,4 +49,13 @@ public interface SimpleFactory
    */
   Quote createQuote();
 
+  /**
+   * Registers the types supported by this Factory within the supplied scope.argument
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param scope an instance of HelperContext used to manage the scoping of types.
+   * @generated
+   */
+  public void register(HelperContext scope);
+   
 } //SimpleFactory

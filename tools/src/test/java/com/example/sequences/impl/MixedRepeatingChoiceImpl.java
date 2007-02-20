@@ -20,18 +20,15 @@
 package com.example.sequences.impl;
 
 import com.example.sequences.MixedRepeatingChoice;
+import com.example.sequences.SequencesFactory;
 
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
-
-import commonj.sdo.helper.TypeHelper;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.tuscany.sdo.impl.DataObjectBase;
-
-import org.apache.tuscany.sdo.util.BasicSequence;
 
 /**
  * <!-- begin-user-doc -->
@@ -57,8 +54,45 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */
+   */	 
   public final static int MIXED = 0;
+
+  /**
+   * The feature id for the '<em><b>Group</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int GROUP = 1;
+
+  /**
+   * The feature id for the '<em><b>A</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int A = 2;
+
+  /**
+   * The feature id for the '<em><b>B</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int B = 3;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 4;
 
   /**
    * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
@@ -69,43 +103,14 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
    * @ordered
    */
   
-  // How to get BasicSequence from Sequence?
-  
-  protected BasicSequence mixed = null;
+  protected Sequence mixed = null;
   
   /**
-   * The feature id for the '<em><b>Group</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int GROUP = 1;
-
-  /**
-   * The feature id for the '<em><b>A</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int A = 2;
-
-  /**
-   * The feature id for the '<em><b>B</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int B = 3;
-
-  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected MixedRepeatingChoiceImpl()
+  public MixedRepeatingChoiceImpl()
   {
     super();
   }
@@ -117,7 +122,7 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
    */
   public Type getType()
   {
-    return TypeHelper.INSTANCE.getType(MixedRepeatingChoice.class); //TBD Generate a more efficient implementation
+    return ((SequencesFactoryImpl)SequencesFactory.INSTANCE).getMixedRepeatingChoice();
   }
 
   /**
@@ -129,12 +134,10 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
   {
     if (mixed == null)
     {
-        		mixed = createSequence(MIXED);
-        	
+      mixed = createSequence(MIXED);
     }
     return mixed;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -144,7 +147,6 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
   {
     return createSequence(getMixed(), getType(), GROUP);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -155,7 +157,6 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
           return getList(getGroup(), getType(), A);
 
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -166,7 +167,6 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
           return getList(getGroup(), getType(), B);
 
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -177,9 +177,9 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
     switch (propertyIndex)
     {
       case MIXED:
-      			return removeFromSequence(getMixed(), otherEnd, changeContext);
+        return removeFromSequence(getMixed(), otherEnd, changeContext);
       case GROUP:
-      			return removeFromSequence(getGroup(), otherEnd, changeContext);
+        return removeFromSequence(getGroup(), otherEnd, changeContext);
     }
     return super.inverseRemove(otherEnd, propertyIndex, changeContext);
   }
@@ -195,11 +195,11 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
     {
       case MIXED:
         // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
-        		//if (coreType) 
+        //if (coreType) 
         return getMixed();
       case GROUP:
         // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
-        		//if (coreType) 
+        //if (coreType) 
         return getGroup();
       case A:
         return getA();
@@ -246,10 +246,10 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
     switch (propertyIndex)
     {
       case MIXED:
-      			unsetSequence(getMixed());
+        unsetSequence(getMixed());
         return;
       case GROUP:
-      			unsetSequence(getGroup());
+        unsetSequence(getGroup());
         return;
       case A:
         getA().clear();
@@ -271,10 +271,9 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
     switch (propertyIndex)
     {
       case MIXED:
-        		// KDK - should this be !isSequenceEmpty?
         return mixed != null && !isSequenceEmpty(getMixed());
       case GROUP:
-        		return !isSequenceEmpty(getGroup());
+        return !isSequenceEmpty(getGroup());
       case A:
         return !getA().isEmpty();
       case B:
@@ -290,7 +289,7 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
    */
   public String toString()
   {
-    if (isProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (mixed: ");

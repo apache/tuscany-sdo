@@ -21,6 +21,8 @@ package com.example.sequences;
 
 import commonj.sdo.Sequence;
 
+import java.io.Serializable;
+
 import java.util.List;
 
 /**
@@ -42,9 +44,10 @@ import java.util.List;
  * </ul>
  * </p>
  *
+ * @extends Serializable
  * @generated
  */
-public interface TwoRCsMixed
+public interface TwoRCsMixed extends Serializable
 {
   /**
    * Returns the value of the '<em><b>Mixed</b></em>' attribute list.

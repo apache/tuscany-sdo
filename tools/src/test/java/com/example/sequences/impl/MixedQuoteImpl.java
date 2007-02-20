@@ -20,11 +20,10 @@
 package com.example.sequences.impl;
 
 import com.example.sequences.MixedQuote;
+import com.example.sequences.SequencesFactory;
 
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
-
-import commonj.sdo.helper.TypeHelper;
 
 import java.math.BigDecimal;
 
@@ -32,8 +31,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.tuscany.sdo.impl.DataObjectBase;
-
-import org.apache.tuscany.sdo.util.BasicSequence;
 
 /**
  * <!-- begin-user-doc -->
@@ -65,8 +62,99 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */
+   */	 
   public final static int MIXED = 0;
+
+  /**
+   * The feature id for the '<em><b>Symbol</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int SYMBOL = 1;
+
+  /**
+   * The feature id for the '<em><b>Company Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int COMPANY_NAME = 2;
+
+  /**
+   * The feature id for the '<em><b>Price</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int PRICE = 3;
+
+  /**
+   * The feature id for the '<em><b>Open1</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int OPEN1 = 4;
+
+  /**
+   * The feature id for the '<em><b>High</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int HIGH = 5;
+
+  /**
+   * The feature id for the '<em><b>Low</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int LOW = 6;
+
+  /**
+   * The feature id for the '<em><b>Volume</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int VOLUME = 7;
+
+  /**
+   * The feature id for the '<em><b>Change1</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int CHANGE1 = 8;
+
+  /**
+   * The feature id for the '<em><b>Quotes</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int QUOTES = 9;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 10;
 
   /**
    * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
@@ -77,19 +165,8 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    * @ordered
    */
   
-  // How to get BasicSequence from Sequence?
+  protected Sequence mixed = null;
   
-  protected BasicSequence mixed = null;
-  
-  /**
-   * The feature id for the '<em><b>Symbol</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int SYMBOL = 1;
-
   /**
    * The default value of the '{@link #getSymbol() <em>Symbol</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -99,15 +176,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    * @ordered
    */
   protected static final String SYMBOL_DEFAULT_ = null;
-
-  /**
-   * The feature id for the '<em><b>Company Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int COMPANY_NAME = 2;
 
   /**
    * The default value of the '{@link #getCompanyName() <em>Company Name</em>}' attribute.
@@ -120,15 +188,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   protected static final String COMPANY_NAME_DEFAULT_ = null;
 
   /**
-   * The feature id for the '<em><b>Price</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int PRICE = 3;
-
-  /**
    * The default value of the '{@link #getPrice() <em>Price</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -137,15 +196,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    * @ordered
    */
   protected static final BigDecimal PRICE_DEFAULT_ = null;
-
-  /**
-   * The feature id for the '<em><b>Open1</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int OPEN1 = 4;
 
   /**
    * The default value of the '{@link #getOpen1() <em>Open1</em>}' attribute.
@@ -158,15 +208,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   protected static final BigDecimal OPEN1_DEFAULT_ = null;
 
   /**
-   * The feature id for the '<em><b>High</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int HIGH = 5;
-
-  /**
    * The default value of the '{@link #getHigh() <em>High</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -175,15 +216,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    * @ordered
    */
   protected static final BigDecimal HIGH_DEFAULT_ = null;
-
-  /**
-   * The feature id for the '<em><b>Low</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int LOW = 6;
 
   /**
    * The default value of the '{@link #getLow() <em>Low</em>}' attribute.
@@ -196,38 +228,11 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   protected static final BigDecimal LOW_DEFAULT_ = null;
 
   /**
-   * The feature id for the '<em><b>Volume</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int VOLUME = 7;
-
-  /**
-   * The feature id for the '<em><b>Change1</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int CHANGE1 = 8;
-
-  /**
-   * The feature id for the '<em><b>Quotes</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int QUOTES = 9;
-
-  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected MixedQuoteImpl()
+  public MixedQuoteImpl()
   {
     super();
   }
@@ -239,7 +244,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public Type getType()
   {
-    return TypeHelper.INSTANCE.getType(MixedQuote.class); //TBD Generate a more efficient implementation
+    return ((SequencesFactoryImpl)SequencesFactory.INSTANCE).getMixedQuote();
   }
 
   /**
@@ -251,12 +256,10 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   {
     if (mixed == null)
     {
-        		mixed = createSequence(MIXED);
-        	
+      mixed = createSequence(MIXED);
     }
     return mixed;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -266,7 +269,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   {
     return (String)get(getMixed(), getType(), SYMBOL);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -274,7 +276,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setSymbol(String newSymbol)
   {
-        set(getMixed(), getType(), SYMBOL, newSymbol);
+    set(getMixed(), getType(), SYMBOL, newSymbol);
   }
 
   /**
@@ -286,7 +288,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   {
     return (String)get(getMixed(), getType(), COMPANY_NAME);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -294,7 +295,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setCompanyName(String newCompanyName)
   {
-        set(getMixed(), getType(), COMPANY_NAME, newCompanyName);
+    set(getMixed(), getType(), COMPANY_NAME, newCompanyName);
   }
 
   /**
@@ -306,7 +307,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   {
     return (BigDecimal)get(getMixed(), getType(), PRICE);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -314,7 +314,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setPrice(BigDecimal newPrice)
   {
-        set(getMixed(), getType(), PRICE, newPrice);
+    set(getMixed(), getType(), PRICE, newPrice);
   }
 
   /**
@@ -326,7 +326,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   {
     return (BigDecimal)get(getMixed(), getType(), OPEN1);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -334,7 +333,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setOpen1(BigDecimal newOpen1)
   {
-        set(getMixed(), getType(), OPEN1, newOpen1);
+    set(getMixed(), getType(), OPEN1, newOpen1);
   }
 
   /**
@@ -346,7 +345,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   {
     return (BigDecimal)get(getMixed(), getType(), HIGH);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -354,7 +352,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setHigh(BigDecimal newHigh)
   {
-        set(getMixed(), getType(), HIGH, newHigh);
+    set(getMixed(), getType(), HIGH, newHigh);
   }
 
   /**
@@ -366,7 +364,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   {
     return (BigDecimal)get(getMixed(), getType(), LOW);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -374,7 +371,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setLow(BigDecimal newLow)
   {
-        set(getMixed(), getType(), LOW, newLow);
+    set(getMixed(), getType(), LOW, newLow);
   }
 
   /**
@@ -386,7 +383,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   {
     return ((Double)get(getMixed(), getType(), VOLUME)).doubleValue();
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -394,7 +390,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setVolume(double newVolume)
   {
-        set(getMixed(), getType(), VOLUME,  new Double(newVolume));
+    set(getMixed(), getType(), VOLUME,  new Double(newVolume));
   }
 
   /**
@@ -426,7 +422,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   {
     return ((Double)get(getMixed(), getType(), CHANGE1)).doubleValue();
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -434,7 +429,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setChange1(double newChange1)
   {
-        set(getMixed(), getType(), CHANGE1,  new Double(newChange1));
+    set(getMixed(), getType(), CHANGE1,  new Double(newChange1));
   }
 
   /**
@@ -467,7 +462,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
           return getList(getMixed(), getType(), QUOTES);
 
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -478,7 +472,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
     switch (propertyIndex)
     {
       case MIXED:
-      			return removeFromSequence(getMixed(), otherEnd, changeContext);
+        return removeFromSequence(getMixed(), otherEnd, changeContext);
       case QUOTES:
         return removeFromList(getQuotes(), otherEnd, changeContext);
     }
@@ -496,7 +490,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
     {
       case MIXED:
         // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
-        		//if (coreType) 
+        //if (coreType) 
         return getMixed();
       case SYMBOL:
         return getSymbol();
@@ -574,7 +568,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
     switch (propertyIndex)
     {
       case MIXED:
-      			unsetSequence(getMixed());
+        unsetSequence(getMixed());
         return;
       case SYMBOL:
         setSymbol(SYMBOL_DEFAULT_);
@@ -617,7 +611,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
     switch (propertyIndex)
     {
       case MIXED:
-        		// KDK - should this be !isSequenceEmpty?
         return mixed != null && !isSequenceEmpty(getMixed());
       case SYMBOL:
         return SYMBOL_DEFAULT_ == null ? getSymbol() != null : !SYMBOL_DEFAULT_.equals(getSymbol());
@@ -648,7 +641,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public String toString()
   {
-    if (isProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (mixed: ");

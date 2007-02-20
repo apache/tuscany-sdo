@@ -21,6 +21,8 @@ package org.apache.tuscany.sdo.test;
 
 import java.math.BigDecimal;
 
+import junit.framework.TestCase;
+
 import org.apache.tuscany.sdo.util.SDOUtil;
 
 import com.example.simple.Quote;
@@ -28,20 +30,23 @@ import com.example.simple.SimpleFactory;
 import com.example.simple.impl.SimpleFactoryImpl;
 
 import commonj.sdo.DataObject;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLHelper;
 
 
-public class SimpleStaticTest
+public class SimpleStaticTestCase extends TestCase
 {
+  
+  HelperContext scope;
   /**
    * Simple Static SDO 2 test.
    */
-  public static void main(String[] args)
+  public void testSimpleStatic()
   {
     try
     {
-      SDOUtil.registerStaticTypes(SimpleFactory.class);
-      System.out.println(((SimpleFactoryImpl)SimpleFactory.INSTANCE).PATTERN_VERSION);
+      SimpleFactory.INSTANCE.register(scope);
+      // System.out.println(SimpleFactoryImpl.PATTERN_VERSION);
       
       //Quote quote = (Quote)DataFactory.INSTANCE.create(Quote.class);
       Quote quote = SimpleFactory.INSTANCE.createQuote();
@@ -60,11 +65,22 @@ public class SimpleStaticTest
       quote.getQuotes().add(child);
       child.setPrice(new BigDecimal("2000.0"));
 
-      XMLHelper.INSTANCE.save((DataObject)quote, "http://www.example.com/simple", "stockQuote", System.out);
+      // scope.getXMLHelper().save((DataObject)quote, "http://www.example.com/simple", "stockQuote", System.out);
     }
     catch (Exception e)
     {
       e.printStackTrace();
     }
   }
+
+  protected void setUp() throws Exception {
+    scope = SDOUtil.createHelperContext();
+    super.setUp();
+  }
+  
+  protected void tearDown() throws Exception {
+  	super.tearDown();
+  }
+
+  
 }

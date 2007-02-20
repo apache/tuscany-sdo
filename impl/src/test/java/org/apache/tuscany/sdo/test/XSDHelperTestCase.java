@@ -30,6 +30,7 @@ import junit.framework.TestCase;
 import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
 
+import com.example.simple.SimpleFactory;
 import com.example.simple.impl.SimpleFactoryImpl;
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
@@ -82,6 +83,8 @@ public class XSDHelperTestCase extends TestCase {
     {
         //test for static sdo type.  The test succeeds if the IllegalArgumentException is thrown
         //by XSDHelper.generate method in which case the string xsd must be null;
+
+        SimpleFactory.INSTANCE.register(hc);
         XSDHelper xsdHelper = hc.getXSDHelper();
         DataObject quoteSDO = (DataObject)SimpleFactoryImpl.INSTANCE.createQuote();
         List typeList = new Vector();
@@ -148,7 +151,8 @@ public class XSDHelperTestCase extends TestCase {
         //sdo types.
         TypeHelper typeHelper = hc.getTypeHelper();
         XSDHelper xsdHelper = hc.getXSDHelper();
-        
+
+        SimpleFactory.INSTANCE.register(hc);
         DataObject quoteSDO = (DataObject)SimpleFactoryImpl.INSTANCE.createQuote();
         
         

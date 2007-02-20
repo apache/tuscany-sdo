@@ -1,69 +1,129 @@
-/**
- *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
- */
 package com.example.simple.impl;
 
 import com.example.simple.Quote;
+import com.example.simple.SimpleFactory;
+
+import commonj.sdo.Type;
 
 import java.math.BigDecimal;
 
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.tuscany.sdo.impl.DataObjectImpl;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
-
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
+import org.apache.tuscany.sdo.impl.DataObjectBase;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Quote</b></em>'.
- * <!-- end-user-doc -->
- * <p>
- * The following features are implemented:
- * <ul>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getSymbol <em>Symbol</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getCompanyName <em>Company Name</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getPrice <em>Price</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getOpen1 <em>Open1</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getHigh <em>High</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getLow <em>Low</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getVolume <em>Volume</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getChange1 <em>Change1</em>}</li>
- *   <li>{@link com.example.simple.impl.QuoteImpl#getQuotes <em>Quotes</em>}</li>
- * </ul>
- * </p>
- *
- * @generated
- */
-public class QuoteImpl extends DataObjectImpl implements Quote
+*
+*  Licensed to the Apache Software Foundation (ASF) under one
+*  or more contributor license agreements.  See the NOTICE file
+*  distributed with this work for additional information
+*  regarding copyright ownership.  The ASF licenses this file
+*  to you under the Apache License, Version 2.0 (the
+*  "License"); you may not use this file except in compliance
+*  with the License.  You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+*  Unless required by applicable law or agreed to in writing,
+*  software distributed under the License is distributed on an
+*  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+*  KIND, either express or implied.  See the License for the
+*  specific language governing permissions and limitations
+*  under the License.
+*/
+public class QuoteImpl extends DataObjectBase implements Quote
 {
+  /**
+   * The feature id for the '<em><b>Symbol</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int SYMBOL = 0;
+
+  /**
+   * The feature id for the '<em><b>Company Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int COMPANY_NAME = 1;
+
+  /**
+   * The feature id for the '<em><b>Price</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int PRICE = 2;
+
+  /**
+   * The feature id for the '<em><b>Open1</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int OPEN1 = 3;
+
+  /**
+   * The feature id for the '<em><b>High</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int HIGH = 4;
+
+  /**
+   * The feature id for the '<em><b>Low</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int LOW = 5;
+
+  /**
+   * The feature id for the '<em><b>Volume</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int VOLUME = 6;
+
+  /**
+   * The feature id for the '<em><b>Change1</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int CHANGE1 = 7;
+
+  /**
+   * The feature id for the '<em><b>Quotes</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int QUOTES = 8;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 9;
+
   /**
    * The default value of the '{@link #getSymbol() <em>Symbol</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -72,7 +132,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected static final String SYMBOL_EDEFAULT = null;
+  protected static final String SYMBOL_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getSymbol() <em>Symbol</em>}' attribute.
@@ -82,7 +142,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected String symbol = SYMBOL_EDEFAULT;
+  protected String symbol = SYMBOL_DEFAULT_;
 
   /**
    * The default value of the '{@link #getCompanyName() <em>Company Name</em>}' attribute.
@@ -92,7 +152,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected static final String COMPANY_NAME_EDEFAULT = null;
+  protected static final String COMPANY_NAME_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getCompanyName() <em>Company Name</em>}' attribute.
@@ -102,7 +162,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected String companyName = COMPANY_NAME_EDEFAULT;
+  protected String companyName = COMPANY_NAME_DEFAULT_;
 
   /**
    * The default value of the '{@link #getPrice() <em>Price</em>}' attribute.
@@ -112,7 +172,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected static final BigDecimal PRICE_EDEFAULT = null;
+  protected static final BigDecimal PRICE_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getPrice() <em>Price</em>}' attribute.
@@ -122,7 +182,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected BigDecimal price = PRICE_EDEFAULT;
+  protected BigDecimal price = PRICE_DEFAULT_;
 
   /**
    * The default value of the '{@link #getOpen1() <em>Open1</em>}' attribute.
@@ -132,7 +192,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected static final BigDecimal OPEN1_EDEFAULT = null;
+  protected static final BigDecimal OPEN1_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getOpen1() <em>Open1</em>}' attribute.
@@ -142,7 +202,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected BigDecimal open1 = OPEN1_EDEFAULT;
+  protected BigDecimal open1 = OPEN1_DEFAULT_;
 
   /**
    * The default value of the '{@link #getHigh() <em>High</em>}' attribute.
@@ -152,7 +212,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected static final BigDecimal HIGH_EDEFAULT = null;
+  protected static final BigDecimal HIGH_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getHigh() <em>High</em>}' attribute.
@@ -162,7 +222,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected BigDecimal high = HIGH_EDEFAULT;
+  protected BigDecimal high = HIGH_DEFAULT_;
 
   /**
    * The default value of the '{@link #getLow() <em>Low</em>}' attribute.
@@ -172,7 +232,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected static final BigDecimal LOW_EDEFAULT = null;
+  protected static final BigDecimal LOW_DEFAULT_ = null;
 
   /**
    * The cached value of the '{@link #getLow() <em>Low</em>}' attribute.
@@ -182,7 +242,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected BigDecimal low = LOW_EDEFAULT;
+  protected BigDecimal low = LOW_DEFAULT_;
 
   /**
    * The default value of the '{@link #getVolume() <em>Volume</em>}' attribute.
@@ -192,7 +252,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected static final double VOLUME_EDEFAULT = 0.0;
+  protected static final double VOLUME_DEFAULT_ = 0.0;
 
   /**
    * The cached value of the '{@link #getVolume() <em>Volume</em>}' attribute.
@@ -202,7 +262,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected double volume = VOLUME_EDEFAULT;
+  protected double volume = VOLUME_DEFAULT_;
 
   /**
    * This is true if the Volume attribute has been set.
@@ -211,7 +271,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected boolean volumeESet = false;
+  protected boolean volume_set_ = false;
 
   /**
    * The default value of the '{@link #getChange1() <em>Change1</em>}' attribute.
@@ -221,7 +281,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected static final double CHANGE1_EDEFAULT = 0.0;
+  protected static final double CHANGE1_DEFAULT_ = 0.0;
 
   /**
    * The cached value of the '{@link #getChange1() <em>Change1</em>}' attribute.
@@ -231,7 +291,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected double change1 = CHANGE1_EDEFAULT;
+  protected double change1 = CHANGE1_DEFAULT_;
 
   /**
    * This is true if the Change1 attribute has been set.
@@ -240,7 +300,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected boolean change1ESet = false;
+  protected boolean change1_set_ = false;
 
   /**
    * The cached value of the '{@link #getQuotes() <em>Quotes</em>}' containment reference list.
@@ -250,14 +310,15 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * @generated
    * @ordered
    */
-  protected EList quotes = null;
-
+  
+  protected List quotes = null;
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected QuoteImpl()
+  public QuoteImpl()
   {
     super();
   }
@@ -267,9 +328,9 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * <!-- end-user-doc -->
    * @generated
    */
-  protected EClass eStaticClass()
+  public Type getType()
   {
-    return SimplePackageImpl.Literals.QUOTE;
+    return ((SimpleFactoryImpl)SimpleFactory.INSTANCE).getQuote();
   }
 
   /**
@@ -281,7 +342,6 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     return symbol;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -291,8 +351,8 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     String oldSymbol = symbol;
     symbol = newSymbol;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SimplePackageImpl.QUOTE__SYMBOL, oldSymbol, symbol));
+    if (isNotifying())
+      notify(ChangeKind.SET, SYMBOL, oldSymbol, symbol);
   }
 
   /**
@@ -304,7 +364,6 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     return companyName;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -314,8 +373,8 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     String oldCompanyName = companyName;
     companyName = newCompanyName;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SimplePackageImpl.QUOTE__COMPANY_NAME, oldCompanyName, companyName));
+    if (isNotifying())
+      notify(ChangeKind.SET, COMPANY_NAME, oldCompanyName, companyName);
   }
 
   /**
@@ -327,7 +386,6 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     return price;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -337,8 +395,8 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     BigDecimal oldPrice = price;
     price = newPrice;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SimplePackageImpl.QUOTE__PRICE, oldPrice, price));
+    if (isNotifying())
+      notify(ChangeKind.SET, PRICE, oldPrice, price);
   }
 
   /**
@@ -350,7 +408,6 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     return open1;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -360,8 +417,8 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     BigDecimal oldOpen1 = open1;
     open1 = newOpen1;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SimplePackageImpl.QUOTE__OPEN1, oldOpen1, open1));
+    if (isNotifying())
+      notify(ChangeKind.SET, OPEN1, oldOpen1, open1);
   }
 
   /**
@@ -373,7 +430,6 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     return high;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -383,8 +439,8 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     BigDecimal oldHigh = high;
     high = newHigh;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SimplePackageImpl.QUOTE__HIGH, oldHigh, high));
+    if (isNotifying())
+      notify(ChangeKind.SET, HIGH, oldHigh, high);
   }
 
   /**
@@ -396,7 +452,6 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     return low;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -406,8 +461,8 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     BigDecimal oldLow = low;
     low = newLow;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SimplePackageImpl.QUOTE__LOW, oldLow, low));
+    if (isNotifying())
+      notify(ChangeKind.SET, LOW, oldLow, low);
   }
 
   /**
@@ -419,7 +474,6 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     return volume;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -429,10 +483,10 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     double oldVolume = volume;
     volume = newVolume;
-    boolean oldVolumeESet = volumeESet;
-    volumeESet = true;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SimplePackageImpl.QUOTE__VOLUME, oldVolume, volume, !oldVolumeESet));
+    boolean oldVolume_set_ = volume_set_;
+    volume_set_ = true;
+    if (isNotifying())
+      notify(ChangeKind.SET, VOLUME, oldVolume, volume, !oldVolume_set_);
   }
 
   /**
@@ -443,11 +497,11 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   public void unsetVolume()
   {
     double oldVolume = volume;
-    boolean oldVolumeESet = volumeESet;
-    volume = VOLUME_EDEFAULT;
-    volumeESet = false;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.UNSET, SimplePackageImpl.QUOTE__VOLUME, oldVolume, VOLUME_EDEFAULT, oldVolumeESet));
+    boolean oldVolume_set_ = volume_set_;
+    volume = VOLUME_DEFAULT_;
+    volume_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, VOLUME, oldVolume, VOLUME_DEFAULT_, oldVolume_set_);
   }
 
   /**
@@ -457,7 +511,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    */
   public boolean isSetVolume()
   {
-    return volumeESet;
+    return volume_set_;
   }
 
   /**
@@ -469,7 +523,6 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     return change1;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -479,10 +532,10 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     double oldChange1 = change1;
     change1 = newChange1;
-    boolean oldChange1ESet = change1ESet;
-    change1ESet = true;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SimplePackageImpl.QUOTE__CHANGE1, oldChange1, change1, !oldChange1ESet));
+    boolean oldChange1_set_ = change1_set_;
+    change1_set_ = true;
+    if (isNotifying())
+      notify(ChangeKind.SET, CHANGE1, oldChange1, change1, !oldChange1_set_);
   }
 
   /**
@@ -493,11 +546,11 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   public void unsetChange1()
   {
     double oldChange1 = change1;
-    boolean oldChange1ESet = change1ESet;
-    change1 = CHANGE1_EDEFAULT;
-    change1ESet = false;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.UNSET, SimplePackageImpl.QUOTE__CHANGE1, oldChange1, CHANGE1_EDEFAULT, oldChange1ESet));
+    boolean oldChange1_set_ = change1_set_;
+    change1 = CHANGE1_DEFAULT_;
+    change1_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, CHANGE1, oldChange1, CHANGE1_DEFAULT_, oldChange1_set_);
   }
 
   /**
@@ -507,7 +560,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    */
   public boolean isSetChange1()
   {
-    return change1ESet;
+    return change1_set_;
   }
 
   /**
@@ -519,24 +572,23 @@ public class QuoteImpl extends DataObjectImpl implements Quote
   {
     if (quotes == null)
     {
-      quotes = new EObjectContainmentEList(Quote.class, this, SimplePackageImpl.QUOTE__QUOTES);
+      quotes = createPropertyList(ListKind.CONTAINMENT, Quote.class, QUOTES);
     }
     return quotes;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
+  public ChangeContext inverseRemove(Object otherEnd, int propertyIndex, ChangeContext changeContext)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case SimplePackageImpl.QUOTE__QUOTES:
-        return ((InternalEList)getQuotes()).basicRemove(otherEnd, msgs);
+      case QUOTES:
+        return removeFromList(getQuotes(), otherEnd, changeContext);
     }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
+    return super.inverseRemove(otherEnd, propertyIndex, changeContext);
   }
 
   /**
@@ -544,30 +596,30 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object eGet(int featureID, boolean resolve, boolean coreType)
+  public Object get(int propertyIndex, boolean resolve)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case SimplePackageImpl.QUOTE__SYMBOL:
+      case SYMBOL:
         return getSymbol();
-      case SimplePackageImpl.QUOTE__COMPANY_NAME:
+      case COMPANY_NAME:
         return getCompanyName();
-      case SimplePackageImpl.QUOTE__PRICE:
+      case PRICE:
         return getPrice();
-      case SimplePackageImpl.QUOTE__OPEN1:
+      case OPEN1:
         return getOpen1();
-      case SimplePackageImpl.QUOTE__HIGH:
+      case HIGH:
         return getHigh();
-      case SimplePackageImpl.QUOTE__LOW:
+      case LOW:
         return getLow();
-      case SimplePackageImpl.QUOTE__VOLUME:
+      case VOLUME:
         return new Double(getVolume());
-      case SimplePackageImpl.QUOTE__CHANGE1:
+      case CHANGE1:
         return new Double(getChange1());
-      case SimplePackageImpl.QUOTE__QUOTES:
+      case QUOTES:
         return getQuotes();
     }
-    return super.eGet(featureID, resolve, coreType);
+    return super.get(propertyIndex, resolve);
   }
 
   /**
@@ -575,40 +627,40 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eSet(int featureID, Object newValue)
+  public void set(int propertyIndex, Object newValue)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case SimplePackageImpl.QUOTE__SYMBOL:
+      case SYMBOL:
         setSymbol((String)newValue);
         return;
-      case SimplePackageImpl.QUOTE__COMPANY_NAME:
+      case COMPANY_NAME:
         setCompanyName((String)newValue);
         return;
-      case SimplePackageImpl.QUOTE__PRICE:
+      case PRICE:
         setPrice((BigDecimal)newValue);
         return;
-      case SimplePackageImpl.QUOTE__OPEN1:
+      case OPEN1:
         setOpen1((BigDecimal)newValue);
         return;
-      case SimplePackageImpl.QUOTE__HIGH:
+      case HIGH:
         setHigh((BigDecimal)newValue);
         return;
-      case SimplePackageImpl.QUOTE__LOW:
+      case LOW:
         setLow((BigDecimal)newValue);
         return;
-      case SimplePackageImpl.QUOTE__VOLUME:
+      case VOLUME:
         setVolume(((Double)newValue).doubleValue());
         return;
-      case SimplePackageImpl.QUOTE__CHANGE1:
+      case CHANGE1:
         setChange1(((Double)newValue).doubleValue());
         return;
-      case SimplePackageImpl.QUOTE__QUOTES:
+      case QUOTES:
         getQuotes().clear();
         getQuotes().addAll((Collection)newValue);
         return;
     }
-    super.eSet(featureID, newValue);
+    super.set(propertyIndex, newValue);
   }
 
   /**
@@ -616,39 +668,39 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * <!-- end-user-doc -->
    * @generated
    */
-  public void eUnset(int featureID)
+  public void unset(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case SimplePackageImpl.QUOTE__SYMBOL:
-        setSymbol(SYMBOL_EDEFAULT);
+      case SYMBOL:
+        setSymbol(SYMBOL_DEFAULT_);
         return;
-      case SimplePackageImpl.QUOTE__COMPANY_NAME:
-        setCompanyName(COMPANY_NAME_EDEFAULT);
+      case COMPANY_NAME:
+        setCompanyName(COMPANY_NAME_DEFAULT_);
         return;
-      case SimplePackageImpl.QUOTE__PRICE:
-        setPrice(PRICE_EDEFAULT);
+      case PRICE:
+        setPrice(PRICE_DEFAULT_);
         return;
-      case SimplePackageImpl.QUOTE__OPEN1:
-        setOpen1(OPEN1_EDEFAULT);
+      case OPEN1:
+        setOpen1(OPEN1_DEFAULT_);
         return;
-      case SimplePackageImpl.QUOTE__HIGH:
-        setHigh(HIGH_EDEFAULT);
+      case HIGH:
+        setHigh(HIGH_DEFAULT_);
         return;
-      case SimplePackageImpl.QUOTE__LOW:
-        setLow(LOW_EDEFAULT);
+      case LOW:
+        setLow(LOW_DEFAULT_);
         return;
-      case SimplePackageImpl.QUOTE__VOLUME:
+      case VOLUME:
         unsetVolume();
         return;
-      case SimplePackageImpl.QUOTE__CHANGE1:
+      case CHANGE1:
         unsetChange1();
         return;
-      case SimplePackageImpl.QUOTE__QUOTES:
+      case QUOTES:
         getQuotes().clear();
         return;
     }
-    super.eUnset(featureID);
+    super.unset(propertyIndex);
   }
 
   /**
@@ -656,30 +708,30 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    * <!-- end-user-doc -->
    * @generated
    */
-  public boolean eIsSet(int featureID)
+  public boolean isSet(int propertyIndex)
   {
-    switch (featureID)
+    switch (propertyIndex)
     {
-      case SimplePackageImpl.QUOTE__SYMBOL:
-        return SYMBOL_EDEFAULT == null ? symbol != null : !SYMBOL_EDEFAULT.equals(symbol);
-      case SimplePackageImpl.QUOTE__COMPANY_NAME:
-        return COMPANY_NAME_EDEFAULT == null ? companyName != null : !COMPANY_NAME_EDEFAULT.equals(companyName);
-      case SimplePackageImpl.QUOTE__PRICE:
-        return PRICE_EDEFAULT == null ? price != null : !PRICE_EDEFAULT.equals(price);
-      case SimplePackageImpl.QUOTE__OPEN1:
-        return OPEN1_EDEFAULT == null ? open1 != null : !OPEN1_EDEFAULT.equals(open1);
-      case SimplePackageImpl.QUOTE__HIGH:
-        return HIGH_EDEFAULT == null ? high != null : !HIGH_EDEFAULT.equals(high);
-      case SimplePackageImpl.QUOTE__LOW:
-        return LOW_EDEFAULT == null ? low != null : !LOW_EDEFAULT.equals(low);
-      case SimplePackageImpl.QUOTE__VOLUME:
+      case SYMBOL:
+        return SYMBOL_DEFAULT_ == null ? symbol != null : !SYMBOL_DEFAULT_.equals(symbol);
+      case COMPANY_NAME:
+        return COMPANY_NAME_DEFAULT_ == null ? companyName != null : !COMPANY_NAME_DEFAULT_.equals(companyName);
+      case PRICE:
+        return PRICE_DEFAULT_ == null ? price != null : !PRICE_DEFAULT_.equals(price);
+      case OPEN1:
+        return OPEN1_DEFAULT_ == null ? open1 != null : !OPEN1_DEFAULT_.equals(open1);
+      case HIGH:
+        return HIGH_DEFAULT_ == null ? high != null : !HIGH_DEFAULT_.equals(high);
+      case LOW:
+        return LOW_DEFAULT_ == null ? low != null : !LOW_DEFAULT_.equals(low);
+      case VOLUME:
         return isSetVolume();
-      case SimplePackageImpl.QUOTE__CHANGE1:
+      case CHANGE1:
         return isSetChange1();
-      case SimplePackageImpl.QUOTE__QUOTES:
+      case QUOTES:
         return quotes != null && !quotes.isEmpty();
     }
-    return super.eIsSet(featureID);
+    return super.isSet(propertyIndex);
   }
 
   /**
@@ -689,7 +741,7 @@ public class QuoteImpl extends DataObjectImpl implements Quote
    */
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (symbol: ");
@@ -705,9 +757,9 @@ public class QuoteImpl extends DataObjectImpl implements Quote
     result.append(", low: ");
     result.append(low);
     result.append(", volume: ");
-    if (volumeESet) result.append(volume); else result.append("<unset>");
+    if (volume_set_) result.append(volume); else result.append("<unset>");
     result.append(", change1: ");
-    if (change1ESet) result.append(change1); else result.append("<unset>");
+    if (change1_set_) result.append(change1); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }

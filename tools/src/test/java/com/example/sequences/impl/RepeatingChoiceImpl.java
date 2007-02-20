@@ -20,18 +20,15 @@
 package com.example.sequences.impl;
 
 import com.example.sequences.RepeatingChoice;
+import com.example.sequences.SequencesFactory;
 
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
-
-import commonj.sdo.helper.TypeHelper;
 
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.tuscany.sdo.impl.DataObjectBase;
-
-import org.apache.tuscany.sdo.util.BasicSequence;
 
 /**
  * <!-- begin-user-doc -->
@@ -56,8 +53,36 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */
+   */	 
   public final static int GROUP = 0;
+
+  /**
+   * The feature id for the '<em><b>A</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int A = 1;
+
+  /**
+   * The feature id for the '<em><b>B</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int B = 2;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 3;
 
   /**
    * The cached value of the '{@link #getGroup() <em>Group</em>}' attribute list.
@@ -68,34 +93,14 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
    * @ordered
    */
   
-  // How to get BasicSequence from Sequence?
-  
-  protected BasicSequence group = null;
+  protected Sequence group = null;
   
   /**
-   * The feature id for the '<em><b>A</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int A = 1;
-
-  /**
-   * The feature id for the '<em><b>B</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int B = 2;
-
-  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected RepeatingChoiceImpl()
+  public RepeatingChoiceImpl()
   {
     super();
   }
@@ -107,7 +112,7 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
    */
   public Type getType()
   {
-    return TypeHelper.INSTANCE.getType(RepeatingChoice.class); //TBD Generate a more efficient implementation
+    return ((SequencesFactoryImpl)SequencesFactory.INSTANCE).getRepeatingChoice();
   }
 
   /**
@@ -119,12 +124,10 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
   {
     if (group == null)
     {
-        		group = createSequence(GROUP);
-        	
+      group = createSequence(GROUP);
     }
     return group;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -135,7 +138,6 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
           return getList(getGroup(), getType(), A);
 
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -146,7 +148,6 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
           return getList(getGroup(), getType(), B);
 
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -157,7 +158,7 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
     switch (propertyIndex)
     {
       case GROUP:
-      			return removeFromSequence(getGroup(), otherEnd, changeContext);
+        return removeFromSequence(getGroup(), otherEnd, changeContext);
     }
     return super.inverseRemove(otherEnd, propertyIndex, changeContext);
   }
@@ -173,7 +174,7 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
     {
       case GROUP:
         // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
-        		//if (coreType) 
+        //if (coreType) 
         return getGroup();
       case A:
         return getA();
@@ -217,7 +218,7 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
     switch (propertyIndex)
     {
       case GROUP:
-      			unsetSequence(getGroup());
+        unsetSequence(getGroup());
         return;
       case A:
         getA().clear();
@@ -239,7 +240,6 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
     switch (propertyIndex)
     {
       case GROUP:
-        		// KDK - should this be !isSequenceEmpty?
         return group != null && !isSequenceEmpty(getGroup());
       case A:
         return !getA().isEmpty();
@@ -256,7 +256,7 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
    */
   public String toString()
   {
-    if (isProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (group: ");

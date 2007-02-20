@@ -19,19 +19,16 @@
  */
 package com.example.sequences.impl;
 
+import com.example.sequences.SequencesFactory;
 import com.example.sequences.TwoRCsMixed;
 
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 
-import commonj.sdo.helper.TypeHelper;
-
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.tuscany.sdo.impl.DataObjectBase;
-
-import org.apache.tuscany.sdo.util.BasicSequence;
 
 /**
  * <!-- begin-user-doc -->
@@ -61,8 +58,81 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */
+   */	 
   public final static int MIXED = 0;
+
+  /**
+   * The feature id for the '<em><b>Group</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int GROUP = 1;
+
+  /**
+   * The feature id for the '<em><b>A</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int A = 2;
+
+  /**
+   * The feature id for the '<em><b>B</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int B = 3;
+
+  /**
+   * The feature id for the '<em><b>Split</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int SPLIT = 4;
+
+  /**
+   * The feature id for the '<em><b>Group1</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int GROUP1 = 5;
+
+  /**
+   * The feature id for the '<em><b>Y</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int Y = 6;
+
+  /**
+   * The feature id for the '<em><b>Z</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */	 
+  public final static int Z = 7;
+
+  /**
+   * This represents the number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  
+  public final static int SDO_PROPERTY_COUNT = 8;
 
   /**
    * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
@@ -73,46 +143,8 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    * @ordered
    */
   
-  // How to get BasicSequence from Sequence?
+  protected Sequence mixed = null;
   
-  protected BasicSequence mixed = null;
-  
-  /**
-   * The feature id for the '<em><b>Group</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int GROUP = 1;
-
-  /**
-   * The feature id for the '<em><b>A</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int A = 2;
-
-  /**
-   * The feature id for the '<em><b>B</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int B = 3;
-
-  /**
-   * The feature id for the '<em><b>Split</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int SPLIT = 4;
-
   /**
    * The default value of the '{@link #getSplit() <em>Split</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -124,38 +156,11 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
   protected static final String SPLIT_DEFAULT_ = null;
 
   /**
-   * The feature id for the '<em><b>Group1</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int GROUP1 = 5;
-
-  /**
-   * The feature id for the '<em><b>Y</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int Y = 6;
-
-  /**
-   * The feature id for the '<em><b>Z</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  public final static int Z = 7;
-
-  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected TwoRCsMixedImpl()
+  public TwoRCsMixedImpl()
   {
     super();
   }
@@ -167,7 +172,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    */
   public Type getType()
   {
-    return TypeHelper.INSTANCE.getType(TwoRCsMixed.class); //TBD Generate a more efficient implementation
+    return ((SequencesFactoryImpl)SequencesFactory.INSTANCE).getTwoRCsMixed();
   }
 
   /**
@@ -179,12 +184,10 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
   {
     if (mixed == null)
     {
-        		mixed = createSequence(MIXED);
-        	
+      mixed = createSequence(MIXED);
     }
     return mixed;
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -194,7 +197,6 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
   {
     return createSequence(getMixed(), getType(), GROUP);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -205,7 +207,6 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
           return getList(getGroup(), getType(), A);
 
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -216,7 +217,6 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
           return getList(getGroup(), getType(), B);
 
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -226,7 +226,6 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
   {
     return (String)get(getMixed(), getType(), SPLIT);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -234,7 +233,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    */
   public void setSplit(String newSplit)
   {
-        set(getMixed(), getType(), SPLIT, newSplit);
+    set(getMixed(), getType(), SPLIT, newSplit);
   }
 
   /**
@@ -246,7 +245,6 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
   {
     return createSequence(getMixed(), getType(), GROUP1);
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -257,7 +255,6 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
           return getList(getGroup1(), getType(), Y);
 
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -268,7 +265,6 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
           return getList(getGroup1(), getType(), Z);
 
   }
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -279,11 +275,11 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
     switch (propertyIndex)
     {
       case MIXED:
-      			return removeFromSequence(getMixed(), otherEnd, changeContext);
+        return removeFromSequence(getMixed(), otherEnd, changeContext);
       case GROUP:
-      			return removeFromSequence(getGroup(), otherEnd, changeContext);
+        return removeFromSequence(getGroup(), otherEnd, changeContext);
       case GROUP1:
-      			return removeFromSequence(getGroup1(), otherEnd, changeContext);
+        return removeFromSequence(getGroup1(), otherEnd, changeContext);
     }
     return super.inverseRemove(otherEnd, propertyIndex, changeContext);
   }
@@ -299,11 +295,11 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
     {
       case MIXED:
         // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
-        		//if (coreType) 
+        //if (coreType) 
         return getMixed();
       case GROUP:
         // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
-        		//if (coreType) 
+        //if (coreType) 
         return getGroup();
       case A:
         return getA();
@@ -313,7 +309,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
         return getSplit();
       case GROUP1:
         // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
-        		//if (coreType) 
+        //if (coreType) 
         return getGroup1();
       case Y:
         return getY();
@@ -374,10 +370,10 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
     switch (propertyIndex)
     {
       case MIXED:
-      			unsetSequence(getMixed());
+        unsetSequence(getMixed());
         return;
       case GROUP:
-      			unsetSequence(getGroup());
+        unsetSequence(getGroup());
         return;
       case A:
         getA().clear();
@@ -389,7 +385,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
         setSplit(SPLIT_DEFAULT_);
         return;
       case GROUP1:
-      			unsetSequence(getGroup1());
+        unsetSequence(getGroup1());
         return;
       case Y:
         getY().clear();
@@ -411,10 +407,9 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
     switch (propertyIndex)
     {
       case MIXED:
-        		// KDK - should this be !isSequenceEmpty?
         return mixed != null && !isSequenceEmpty(getMixed());
       case GROUP:
-        		return !isSequenceEmpty(getGroup());
+        return !isSequenceEmpty(getGroup());
       case A:
         return !getA().isEmpty();
       case B:
@@ -422,7 +417,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
       case SPLIT:
         return SPLIT_DEFAULT_ == null ? getSplit() != null : !SPLIT_DEFAULT_.equals(getSplit());
       case GROUP1:
-        		return !isSequenceEmpty(getGroup1());
+        return !isSequenceEmpty(getGroup1());
       case Y:
         return !getY().isEmpty();
       case Z:
@@ -438,7 +433,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    */
   public String toString()
   {
-    if (isProxy()) return super.toString();
+    if (isProxy(this)) return super.toString();
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (mixed: ");
