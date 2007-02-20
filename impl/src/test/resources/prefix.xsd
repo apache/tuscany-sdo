@@ -14,13 +14,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  -->
-<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://soaassureservice.soabench.ibm.com" xmlns:as="http://soaassureservice.soabench.ibm.com">
-  <element name="requestInfo" type="string"/>
-  <element name="createClaim">
-    <complexType>
-      <sequence>
-        <element ref="as:requestInfo"/>
-      </sequence>
-    </complexType>
-  </element>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:as="http://soaassureservice.soabench.ibm.com" targetNamespace="http://soaassureservice.soabench.ibm.com">
+    <element name="requestInfo" type="string"/>
+	<complexType name="CreateClaim">
+	  <sequence>
+	    <element ref="as:requestInfo"/>
+	  </sequence>
+	</complexType>
 </schema>

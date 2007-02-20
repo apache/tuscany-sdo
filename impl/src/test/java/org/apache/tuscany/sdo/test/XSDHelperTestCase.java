@@ -27,7 +27,6 @@ import java.util.Vector;
 
 import junit.framework.TestCase;
 
-import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
 
 import com.example.simple.SimpleFactory;
@@ -37,7 +36,6 @@ import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
-import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XSDHelper;
 
 /**
@@ -86,7 +84,7 @@ public class XSDHelperTestCase extends TestCase {
 
         SimpleFactory.INSTANCE.register(hc);
         XSDHelper xsdHelper = hc.getXSDHelper();
-        DataObject quoteSDO = (DataObject)SimpleFactoryImpl.INSTANCE.createQuote();
+        DataObject quoteSDO = (DataObject)SimpleFactory.INSTANCE.createQuote();
         List typeList = new Vector();
         typeList.add(quoteSDO.getType());
         String xsd = null;
@@ -153,7 +151,7 @@ public class XSDHelperTestCase extends TestCase {
         XSDHelper xsdHelper = hc.getXSDHelper();
 
         SimpleFactory.INSTANCE.register(hc);
-        DataObject quoteSDO = (DataObject)SimpleFactoryImpl.INSTANCE.createQuote();
+        DataObject quoteSDO = (DataObject)SimpleFactory.INSTANCE.createQuote();
         
         
         DataObject quoteType = DataFactory.INSTANCE.create("commonj.sdo", "Type");
@@ -203,7 +201,7 @@ public class XSDHelperTestCase extends TestCase {
         
     }
     
-    public void testXSDCorners() throws IOException {
+    public void testPrefixFromNSWithHyphenNumber() throws IOException {
         XSDHelper xsdHelper = hc.getXSDHelper();
         xsdHelper.define(xsdCornersURL.openStream(), xsdCornersURL.toString());
         DataFactory df = hc.getDataFactory();
@@ -212,16 +210,16 @@ public class XSDHelperTestCase extends TestCase {
         root.setString("a2", "a2s");
         
         String doc = hc.getXMLHelper().save(root, "http://www.example.com/simple-1", "a");
-        String prefix = ((ClassImpl) root.getType()).getEPackage().getNsPrefix(); // what if there isnt one
-        assertEquals("s1", prefix);
-        XMLDocument root2 = hc.getXMLHelper().load(doc);
+        assertTrue(doc.indexOf("xmlns:s1=\"http://www.example.com/simple-1\"") != -1);
     }
 
-    public void testPrefix() throws IOException {
+    public void testShortPrefix() throws IOException {
         XSDHelper xsdHelper = hc.getXSDHelper();
         URL url = getClass().getResource("/prefix.xsd");
-        Object EClassifier = xsdHelper.define(url.openStream(), url.toString()).get(0);
-        String prefix = ((ClassImpl) EClassifier).getEPackage().getNsPrefix();
-        assertTrue(prefix.length() < "soaassureservice".length());
+        xsdHelper.define(url.openStream(), url.toString());
+        DataObject cmd = hc.getDataFactory().create("http://soaassureservice.soabench.ibm.com", "CreateClaim");
+        cmd.setString("requestInfo", "cost");
+        String doc = hc.getXMLHelper().save(cmd, "http://soaassureservice.soabench.ibm.com", "createClaim");
+        assertTrue(doc.indexOf("xmlns:as=\"http://soaassureservice.soabench.ibm.com\"") != -1);
     }
 }
