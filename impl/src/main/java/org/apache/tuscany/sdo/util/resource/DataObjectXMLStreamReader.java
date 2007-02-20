@@ -65,7 +65,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
     private QName elementQName;
 
     // we always create a new namespace context
-    private DelegatingNamespaceContext namespaceContext = new DelegatingNamespaceContext(null);
+    private NameSpaceContext namespaceContext;
 
     private Map declaredNamespaceMap = new HashMap();
 
@@ -104,16 +104,22 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         this.typeHelper = typeHelper == null ? TypeHelper.INSTANCE : typeHelper;
         this.xsdHelper = (xsdHelper != null) ? xsdHelper : ((typeHelper == null) ? XSDHelper.INSTANCE : SDOUtil.createXSDHelper(typeHelper));
         rootElement = this.xsdHelper.getGlobalProperty(rootElmentURI, rootElementName, true);
+        namespaceContext = new NameSpaceContext();
         populateProperties();
     }
 
-    public DataObjectXMLStreamReader(Property rootElement, DataObject dataObject, TypeHelper typeHelper, XSDHelper xsdHelper) {
+    protected DataObjectXMLStreamReader(TypeHelper typeHelper, XSDHelper xsdHelper, Property rootElement, DataObject dataObject) {
         this.typeHelper = typeHelper == null ? TypeHelper.INSTANCE : typeHelper;
         this.xsdHelper = (xsdHelper != null) ? xsdHelper : ((typeHelper == null) ? XSDHelper.INSTANCE : SDOUtil.createXSDHelper(typeHelper));
         this.rootElement = rootElement;
         this.dataObject = dataObject;
         this.rootElementURI = xsdHelper.getNamespaceURI(rootElement);
         this.rootElementName = xsdHelper.getLocalName(rootElement);
+    }
+    
+    public DataObjectXMLStreamReader(Property rootElement, DataObject dataObject, TypeHelper typeHelper, XSDHelper xsdHelper) {
+        this(typeHelper, xsdHelper, rootElement, dataObject);
+        namespaceContext = new NameSpaceContext();
         populateProperties();
     }
     
@@ -123,6 +129,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         this.rootElementURI = document.getRootElementURI();
         this.typeHelper = typeHelper;
         this.xsdHelper = typeHelper == null ? XSDHelper.INSTANCE : SDOUtil.createXSDHelper(typeHelper);
+        namespaceContext = new NameSpaceContext();
         populateProperties();
     }
 
@@ -135,7 +142,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         this.properties = properties;
         this.elementQName = elementQName;
         this.attributes = attributes;
-
+        namespaceContext = new NameSpaceContext();
     }
 
     private void addProperty(Property property, Object value, List propertyList) {
@@ -216,7 +223,9 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             Map.Entry entry = new NameValuePair(qname, SDOUtil.convertToString(propertyType, value));
             propertyList.add(entry);
         } else {
-            DataObjectXMLStreamReader childReader = new DataObjectXMLStreamReader(property, (DataObject) value, typeHelper, xsdHelper);
+            DataObjectXMLStreamReader childReader = new DataObjectXMLStreamReader(typeHelper, xsdHelper, property, (DataObject) value);
+            childReader.namespaceContext = namespaceContext;
+            childReader.populateProperties();
             childReader.rootElement = property;
             Map.Entry entry = new NameValuePair(qname, childReader);
             propertyList.add(entry);
@@ -299,16 +308,6 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
 
     public DataObject getDataObject() {
         return dataObject;
-    }
-
-    /**
-     * add the namespace context
-     */
-
-    public void setParentNamespaceContext(NamespaceContext nsContext) {
-        // register the namespace context passed in to this
-        this.namespaceContext.setParent(nsContext);
-
     }
 
     /**
@@ -1009,8 +1008,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             return CHARACTERS;
         } else if (propertyValue == null || propertyValue instanceof String) {
             // strings are handled by the NameValuePairStreamReader
-            childReader = new SimpleElementStreamReader(propertyQName, (String) propertyValue);
-            childReader.setParentNamespaceContext(this.namespaceContext);
+            childReader = new SimpleElementStreamReader(propertyQName, (String) propertyValue, namespaceContext);
             childReader.init();
         } else if (propertyValue instanceof DataObjectXMLStreamReader) {
             // ADBbean has it's own method to get a reader
@@ -1018,7 +1016,6 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             // we know for sure that this is an ADB XMLStreamreader.
             // However we need to make sure that it is compatible
             childReader = reader;
-            childReader.setParentNamespaceContext(this.namespaceContext);
             childReader.init();
         } else {
             // all special possiblilities has been tried! Let's treat
@@ -1083,7 +1080,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
 
         private static final QName XSI_NIL_QNAME = new QName("http://www.w3.org/2001/XMLSchema-instance", "nil", "xsi");
 
-        private DelegatingNamespaceContext namespaceContext = new DelegatingNamespaceContext(null);
+        private final NameSpaceContext namespaceContext;
 
         private QName name;
 
@@ -1091,11 +1088,12 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
 
         private int state = START_ELEMENT_STATE;
 
-        public SimpleElementStreamReader(QName name, String value) {
+        public SimpleElementStreamReader(QName name, String value, NameSpaceContext nameSpaces) {
             this.name = name;
             this.value = value;
             if (value == null)
                 state = START_ELEMENT_STATE_WITH_NULL;
+            namespaceContext = nameSpaces;
         }
 
         public Object getProperty(String key) throws IllegalArgumentException {
@@ -1328,10 +1326,6 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             return (state == END_ELEMENT_STATE);
         }
 
-        public void setParentNamespaceContext(NamespaceContext nsContext) {
-            this.namespaceContext.setParent(nsContext);
-        }
-
         public void init() {
             // just add the current elements namespace and prefix to the this
             // elements nscontext
@@ -1460,15 +1454,10 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
 
     }
 
-    protected static class DelegatingNamespaceContext implements NamespaceContext {
-        private NamespaceContext parent;
-
+    protected class NameSpaceContext implements NamespaceContext {
         private Map prefixToNamespaceMapping = new HashMap();
 
-        public DelegatingNamespaceContext(NamespaceContext parent) {
-            super();
-            this.parent = parent;
-
+        public NameSpaceContext() {
             prefixToNamespaceMapping.put("xml", "http://www.w3.org/XML/1998/namespace");
             prefixToNamespaceMapping.put("xmlns", "http://www.w3.org/2000/xmlns/");
             prefixToNamespaceMapping.put("xsi", "http://www.w3.org/2001/XMLSchema-instance");
@@ -1481,8 +1470,6 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
             String ns = (String) prefixToNamespaceMapping.get(prefix);
             if (ns != null)
                 return ns;
-            else if (parent != null)
-                return parent.getNamespaceURI(prefix);
             else
                 return null;
         }
@@ -1496,10 +1483,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
                     return (String) entry.getKey();
                 }
             }
-            if (parent != null)
-                return parent.getPrefix(nsURI);
-            else
-                return null;
+            return null;
         }
 
         public Iterator getPrefixes(String nsURI) {
@@ -1508,11 +1492,6 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
                 Map.Entry entry = (Map.Entry) i.next();
                 if (entry.getValue().equals(nsURI)) {
                     prefixList.add(entry.getKey());
-                }
-            }
-            if (parent != null) {
-                for (Iterator i = parent.getPrefixes(nsURI); i.hasNext();) {
-                    prefixList.add(i.next());
                 }
             }
             return prefixList.iterator();
@@ -1530,17 +1509,15 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
                 prefix = "p" + (counter++);
             if (prefix == null)
                 prefix = "";
-            if (nsURI != null)
+            if (nsURI != null) {
                 prefixToNamespaceMapping.put(prefix, nsURI);
+                declaredNamespaceMap.put(prefix, nsURI);
+            }
             return new QName(nsURI, name, prefix);
         }
 
         public void removeMapping(String prefix) {
             prefixToNamespaceMapping.remove(prefix);
-        }
-
-        public void setParent(NamespaceContext parent) {
-            this.parent = parent;
         }
     }
 

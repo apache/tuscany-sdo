@@ -19,7 +19,6 @@
  */
 package org.apache.tuscany.sdo.util.resource;
 
-import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLStreamReader;
 
 interface XMLFragmentStreamReader extends XMLStreamReader {
@@ -35,11 +34,6 @@ interface XMLFragmentStreamReader extends XMLStreamReader {
      * @return
      */
      boolean isEndOfFragment();
-
-    /**
-     * add the parent namespace context to this parser
-     */
-     void setParentNamespaceContext(NamespaceContext nsContext);
 
     /**
      * Initiate the parser - this will do whatever the needed
