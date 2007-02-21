@@ -256,9 +256,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
                 if (typeName != null) {
                     QName realTypeName = namespaceContext.createQName(type.getURI(), typeName);
                     String typeQName = realTypeName.getPrefix() + ":" + realTypeName.getLocalPart();
-                    QName xmlns =
-                        new QName("http://www.w3.org/2000/xmlns/", realTypeName.getPrefix(), "xmlns");
-                    attributeList.add(new NameValuePair(xmlns, realTypeName.getNamespaceURI()));
+                    declaredNamespaceMap.put(realTypeName.getPrefix(), realTypeName.getNamespaceURI());
                     attributeList.add(new NameValuePair(XSI_TYPE_QNAME, typeQName));
                 }
             }
