@@ -1,21 +1,8 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package com.example.sequences.impl;
 
@@ -30,6 +17,7 @@ import java.util.List;
 
 import org.apache.tuscany.sdo.impl.DataObjectBase;
 
+  // EYECATCHER 1
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Two RCs</b></em>'.
@@ -51,78 +39,113 @@ import org.apache.tuscany.sdo.impl.DataObjectBase;
  */
 public class TwoRCsImpl extends DataObjectBase implements TwoRCs
 {
+
+  public final static int GROUP = -1;
+
+  public final static int A = 0;
+
+  public final static int B = 1;
+
+  public final static int SPLIT = 2;
+
+  public final static int GROUP1 = -2;
+
+  public final static int Y = 3;
+
+  public final static int Z = 4;
+
+  public final static int SDO_PROPERTY_COUNT = 5;
+
+  public final static int EXTENDED_PROPERTY_COUNT = -2;
+
+
   /**
-   * The feature id for the '<em><b>Group</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Group</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int GROUP = 0;
+   */ 
+  public final static int INTERNAL_GROUP = 0;
 
   /**
-   * The feature id for the '<em><b>A</b></em>' attribute list.
+   * The internal feature id for the '<em><b>A</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int A = 1;
+   */ 
+  public final static int INTERNAL_A = 1;
 
   /**
-   * The feature id for the '<em><b>B</b></em>' attribute list.
+   * The internal feature id for the '<em><b>B</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int B = 2;
+   */ 
+  public final static int INTERNAL_B = 2;
 
   /**
-   * The feature id for the '<em><b>Split</b></em>' attribute.
+   * The internal feature id for the '<em><b>Split</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int SPLIT = 3;
+   */ 
+  public final static int INTERNAL_SPLIT = 3;
 
   /**
-   * The feature id for the '<em><b>Group1</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Group1</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int GROUP1 = 4;
+   */ 
+  public final static int INTERNAL_GROUP1 = 4;
 
   /**
-   * The feature id for the '<em><b>Y</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Y</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int Y = 5;
+   */ 
+  public final static int INTERNAL_Y = 5;
 
   /**
-   * The feature id for the '<em><b>Z</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Z</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int Z = 6;
+   */ 
+  public final static int INTERNAL_Z = 6;
 
   /**
-   * This represents the number of properties for this type.
+   * The number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  
-  public final static int SDO_PROPERTY_COUNT = 7;
+  public final static int INTERNAL_PROPERTY_COUNT = 7;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+      case INTERNAL_GROUP: return GROUP;
+      case INTERNAL_A: return A;
+      case INTERNAL_B: return B;
+      case INTERNAL_SPLIT: return SPLIT;
+      case INTERNAL_GROUP1: return GROUP1;
+      case INTERNAL_Y: return Y;
+      case INTERNAL_Z: return Z;
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
 
   /**
    * The cached value of the '{@link #getGroup() <em>Group</em>}' attribute list.
@@ -195,7 +218,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
   {
     if (group == null)
     {
-      group = createSequence(GROUP);
+      group = createSequence(INTERNAL_GROUP);
     }
     return group;
   }
@@ -250,7 +273,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
   {
     if (group1 == null)
     {
-      group1 = createSequence(GROUP1);
+      group1 = createSequence(INTERNAL_GROUP1);
     }
     return group1;
   }

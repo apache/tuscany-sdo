@@ -224,85 +224,79 @@ public final class DataObjectUtil
   }
   
 
-  
-  private static Property getPropertyByIndex(DataObject dataObject, int propertyIndex) {
-    EObject eObject = (EObject) dataObject;
-    Property property = (Property)eObject.eClass().getEStructuralFeature(propertyIndex);
-    return property;
-  }
-
   public static void setString(DataObject dataObject, int propertyIndex, String value) {
-    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+      setString(dataObject,getProperty(dataObject, propertyIndex), value);
   }
   
   public static void setShort(DataObject dataObject, int propertyIndex, short value) {
-    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+      setShort(dataObject,getProperty(dataObject, propertyIndex), value);
   }
   
   public static void setLong(DataObject dataObject, int propertyIndex, long value) {
-    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+      setLong(dataObject,getProperty(dataObject, propertyIndex), value);
   }
   
   public static void setList(DataObject dataObject, int propertyIndex, List value) {
-    dataObject.set(propertyIndex, value);
+      setList(dataObject,getProperty(dataObject, propertyIndex), value);
   }
   
   public static void setInt(DataObject dataObject, int propertyIndex, int value) {
-    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+      setInt(dataObject,getProperty(dataObject, propertyIndex), value);
   }
   
   public static void setFloat(DataObject dataObject, int propertyIndex, float value) {
-    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+      setFloat(dataObject,getProperty(dataObject, propertyIndex), value);
   }
  
   public static void setDouble(DataObject dataObject, int propertyIndex, double value) {
-    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+      setDouble(dataObject,getProperty(dataObject, propertyIndex), value);
   }
   
   public static void setDate(DataObject dataObject, int propertyIndex, Date value) {
-    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+      setDate(dataObject,getProperty(dataObject, propertyIndex), value);
   }
   
   public static void setDataObject(DataObject dataObject, int propertyIndex, DataObject value) {
-    dataObject.set(propertyIndex, value);
+    dataObject.set(getProperty(dataObject, propertyIndex), value);
   }
   
   public static void setChar(DataObject dataObject, int propertyIndex, char value) {
-    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+      setChar(dataObject,getProperty(dataObject, propertyIndex), value);
   }
   
   public static void setBytes(DataObject dataObject, int propertyIndex, byte[] value) {
-    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+      setBytes(dataObject,getProperty(dataObject, propertyIndex), value);
   }
   
   public static void setByte(DataObject dataObject, int propertyIndex, byte value) {
-    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+      setByte(dataObject,getProperty(dataObject, propertyIndex), value);
   }
   
   public static void setBoolean(DataObject dataObject, int propertyIndex, boolean value) {
-    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+      setBoolean(dataObject,getProperty(dataObject, propertyIndex), value);
   }
   
   public static void setBigInteger(DataObject dataObject, int propertyIndex, BigInteger value)
   {
-    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+      setBigInteger(dataObject,getProperty(dataObject, propertyIndex), value);
   }
   
   public static void setBigDecimal(DataObject dataObject, int propertyIndex, BigDecimal value)
   {
-    dataObject.set(propertyIndex, getSetValue(getPropertyByIndex(dataObject, propertyIndex), value));
+    setBigDecimal(dataObject,getProperty(dataObject, propertyIndex), value);
   }
   
   public static String getString(DataObject dataObject, int propertyIndex)
   {
-    return getString(dataObject.get(propertyIndex));
+    return getString(dataObject.get(getProperty(dataObject, propertyIndex)));
   }
   
   public static short getShort(DataObject dataObject, int propertyIndex)
   {
-    return getShort(dataObject.get(propertyIndex));
+    return getShort(dataObject.get(getProperty(dataObject, propertyIndex)));
   }
   
+
   public static Sequence getSequence(DataObject dataObject, int propertyIndex)
   {
     return (Sequence)dataObject.get(propertyIndex);
@@ -310,67 +304,67 @@ public final class DataObjectUtil
   
   public static long getLong(DataObject dataObject, int propertyIndex)
   {
-    return getLong(dataObject.get(propertyIndex));
+    return getLong(dataObject.get(getProperty(dataObject, propertyIndex)));
   }
   
   public static List getList(DataObject dataObject, int propertyIndex)
   {
-    return (List)dataObject.get(propertyIndex);
+    return (List)dataObject.get(getProperty(dataObject, propertyIndex));
   }
   
   public static int getInt(DataObject dataObject, int propertyIndex)
   {
-    return getInt(dataObject.get(propertyIndex));
+    return getInt(dataObject.get(getProperty(dataObject, propertyIndex)));
   }
   
   public static float getFloat(DataObject dataObject, int propertyIndex)
   {
-    return getFloat(dataObject.get(propertyIndex));
+    return getFloat(dataObject.get(getProperty(dataObject, propertyIndex)));
   }
   
   public static double getDouble(DataObject dataObject, int propertyIndex)
   {
-    return getDouble(dataObject.get(propertyIndex));
+    return getDouble(dataObject.get(getProperty(dataObject, propertyIndex)));
   }
   
   public static Date getDate(DataObject dataObject, int propertyIndex)
   {
-    return getDate(dataObject.get(propertyIndex));
+    return getDate(dataObject.get(getProperty(dataObject, propertyIndex)));
   }
   
   public static DataObject getDataObject(DataObject dataObject, int propertyIndex)
   {
-    return (DataObject)dataObject.get(propertyIndex);
+    return (DataObject)dataObject.get(getProperty(dataObject, propertyIndex));
   }
   
   public static char getChar(DataObject dataObject, int propertyIndex)
   {
-    return getChar(dataObject.get(propertyIndex));
+    return getChar(dataObject.get(getProperty(dataObject, propertyIndex)));
   }
   
   public static byte[] getBytes(DataObject dataObject, int propertyIndex)
   {
-    return getBytes(dataObject.get(propertyIndex));
+    return getBytes(dataObject.get(getProperty(dataObject, propertyIndex)));
   }
   
   public static byte getByte(DataObject dataObject, int propertyIndex)
   {
-    return getByte(dataObject.get(propertyIndex));
+    return getByte(dataObject.get(getProperty(dataObject, propertyIndex)));
   }
   
   public static boolean getBoolean(DataObject dataObject, int propertyIndex)
   {
-    return getBoolean(dataObject.get(propertyIndex));
+    return getBoolean(dataObject.get(getProperty(dataObject, propertyIndex)));
   }
   
   public static BigInteger getBigInteger(DataObject dataObject, int propertyIndex)
   {
-    return getBigInteger(dataObject.get(propertyIndex));
+    return getBigInteger(dataObject.get(getProperty(dataObject, propertyIndex)));
   }
   
   public static BigDecimal getBigDecimal(DataObject dataObject, int propertyIndex)
   {
-    return getBigDecimal(dataObject.get(propertyIndex));
+    return getBigDecimal(dataObject.get(getProperty(dataObject, propertyIndex)));
   }
   
   public static void detach(DataObject dataObject) {
@@ -382,25 +376,16 @@ public final class DataObjectUtil
     return (DataObject)EcoreUtil.getRootContainer((EObject)dataObject);
   }
   
+  public static boolean isInternalProperty(EStructuralFeature eStructuralFeature)
+  {
+    return FeatureMapUtil.isFeatureMap(eStructuralFeature);
+  }
+
   public static List getInstanceProperties(DataObject dataObject)
   {
-    //TODO maybe optimize this to just return type.getProperties if type.isOpen (isOpen would need to be cached)
-    EObject eDataObject = (EObject) dataObject;
-    List result = new UniqueEList(eDataObject.eClass().getEAllStructuralFeatures());
-    for (int i = 0, count = result.size(); i < count; ++i)
-    {
-      EStructuralFeature eStructuralFeature = (EStructuralFeature)result.get(i);
-      if (!eStructuralFeature.isDerived() && FeatureMapUtil.isFeatureMap(eStructuralFeature))
-      {
-        List features = (List)eDataObject.eGet(eStructuralFeature);
-        for (int j = 0, size = features.size(); j < size; ++j)
-        {
-          FeatureMap.Entry entry = (FeatureMap.Entry)features.get(j);
-          EStructuralFeature entryFeature = entry.getEStructuralFeature();
-          result.add(entryFeature);
-        }
-      }
-    }
+    Type type = dataObject.getType();
+    List result = new UniqueEList(type.getProperties());
+    ((ClassImpl)type).addInstanceProperties((EObject)dataObject, result);
     return result;
   }
   
@@ -2519,6 +2504,7 @@ public final class DataObjectUtil
   public static EClass createDocumentRoot()
   {
     EClass documentRootEClass = EcoreFactory.eINSTANCE.createEClass();
+    documentRootEClass.setName("DocumentRoot");
     ExtendedMetaData.INSTANCE.setName(documentRootEClass, "");
     ExtendedMetaData.INSTANCE.setContentKind(documentRootEClass, ExtendedMetaData.MIXED_CONTENT);
     

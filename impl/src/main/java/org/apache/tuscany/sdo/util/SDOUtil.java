@@ -536,7 +536,7 @@ public final class SDOUtil
     // currently, we require setSequenced to be called first, before anything else is added to the type.
     if (type.isDataType() || !type.getProperties().isEmpty())
     {
-      if (type.getName() != null) // document root is a special case
+      if (type.getName() != "DocumentRoot") // document root is a special case
         throw new IllegalArgumentException();
     }
     

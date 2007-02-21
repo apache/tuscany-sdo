@@ -19,20 +19,28 @@
  */
 package org.apache.tuscany.sdo.impl;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EClassImpl;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.util.FeatureMap;
 
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
@@ -49,6 +57,8 @@ import commonj.sdo.Type;
  */
 public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sdo.model.Type/*, DataObject*/
 {
+	private static final long serialVersionUID = 1L;
+	
   private static final Property UNINITIALIZED_CSPC = SDOFactory.eINSTANCE.createAttribute();
   private Property changeSummaryPropertyCache = UNINITIALIZED_CSPC;
   
@@ -99,18 +109,24 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
    */
   public boolean isOpen()
   {
-    for (int i = 0, count = getFeatureCount(); i < count; ++i)
+    final List properties = getExtendedProperties();
+    if (properties != Collections.EMPTY_LIST)
     {
-      EStructuralFeature eStructuralFeature = getEStructuralFeature(i);
-      switch (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature))
+      for (int i = 0, count = properties.size(); i < count; ++i)
       {
-        case ExtendedMetaData.ELEMENT_WILDCARD_FEATURE:
-          if (eStructuralFeature == ExtendedMetaData.INSTANCE.getMixedFeature(this)) break;
-        case ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE:
-        case ExtendedMetaData.GROUP_FEATURE:
+        EStructuralFeature eStructuralFeature = (EStructuralFeature)properties.get(i);
+        if (isOpenFeatureMap(eStructuralFeature))
           return true;
       }
     }
+
+    for (final Iterator iterator = getBaseTypes().iterator() ; iterator.hasNext(); )
+    {
+      Type baseType = (Type)iterator.next();
+      if (baseType.isOpen())
+        return true;
+    }
+
     return false;
   }
 
@@ -122,7 +138,7 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
   public boolean isSequenced()
   {
     // isSequenced == isMixed 
-    return ExtendedMetaData.INSTANCE.getMixedFeature(this) != null;
+    return ExtendedMetaData.INSTANCE.getMixedFeature(this) != null; //FB is there a more efficient way to check this now that we have extendedProperties list?
   }
 
   protected List aliasNames = null;
@@ -140,16 +156,64 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
     }
     return aliasNames;
   }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated NOT
-   */
+  
+  protected List declaredProperties = null;
+  
   public List getDeclaredProperties()
   {
-    return getEStructuralFeatures();
+    if (declaredProperties == null) {
+      initPropertyLists();
+    }
+    return declaredProperties;
   }
+  
+  protected List extendedProperties = null;
+  
+  public List getExtendedProperties()
+  {
+    if (extendedProperties == null) {
+      initPropertyLists();
+    }
+    return extendedProperties;
+  }
+  
+  protected void initPropertyLists()
+  {
+    declaredProperties = new ArrayList();
+    extendedProperties = Collections.EMPTY_LIST;
+    
+    for (Iterator i = getEStructuralFeatures().iterator(); i.hasNext(); ) {
+      EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
+      boolean isExtendedProperty = DataObjectUtil.isInternalProperty(eStructuralFeature);
+      if (isExtendedProperty) {
+        if (extendedProperties == Collections.EMPTY_LIST)
+          extendedProperties = new ArrayList();
+        extendedProperties.add(eStructuralFeature);
+      }
+      else
+        declaredProperties.add(eStructuralFeature);
+    }
+  }
+  
+  public EList getEStructuralFeatures()
+  {
+    if (eStructuralFeatures == null)
+    {
+      eStructuralFeatures = 
+        new EObjectContainmentWithInverseEList(EStructuralFeature.class, this, EcorePackage.ECLASS__ESTRUCTURAL_FEATURES, EcorePackage.ESTRUCTURAL_FEATURE__ECONTAINING_CLASS)
+        {
+          protected void didChange()
+          {
+            declaredProperties = extendedProperties = null;
+          }
+        };
+    }
+    return eStructuralFeatures;
+  }
+
+  protected List allProperties = null;
+  protected List allExtendedProperties = null;
+  protected EList allFeaturesCache = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -158,7 +222,81 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
    */
   public List getProperties()
   {
-    return getEAllStructuralFeatures();
+    final EList allFeatures = getEAllStructuralFeatures();
+    if (allFeatures != allFeaturesCache) 
+    {
+      allFeaturesCache = allFeatures;
+      allProperties = allExtendedProperties = null;
+    }
+    if (allProperties == null)
+    {
+      allProperties = new UniqueEList();
+      for (final Iterator iterator = getBaseTypes().iterator(); iterator.hasNext(); )
+      {
+        Type baseType = (Type)iterator.next();
+        allProperties.addAll(baseType.getProperties());
+      }
+      allProperties.addAll(getDeclaredProperties());
+    }
+    return allProperties;
+  }
+
+  public List getAllExtendedProperties()
+  {
+    final EList allFeatures = getEAllStructuralFeatures();
+    if (allFeatures != allFeaturesCache) 
+    {
+      allFeaturesCache = allFeatures;
+      allProperties = allExtendedProperties = null;
+    }
+    if (allProperties == null)
+    {
+      allExtendedProperties = new UniqueEList();
+      for (final Iterator iterator = getBaseTypes().iterator(); iterator.hasNext(); )
+      {
+        Type baseType = (Type)iterator.next();
+        allExtendedProperties.addAll(((ClassImpl)baseType).getAllExtendedProperties());
+      }
+      allExtendedProperties.addAll(getExtendedProperties());
+    }
+    return allExtendedProperties;
+  }
+  
+  protected boolean isOpenFeatureMap(EStructuralFeature eStructuralFeature)
+  {
+    switch (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature))
+    {
+      case ExtendedMetaData.ELEMENT_WILDCARD_FEATURE:
+        return eStructuralFeature != ExtendedMetaData.INSTANCE.getMixedFeature(this);
+      case ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE:
+      //FB I think this is wrong ... case ExtendedMetaData.GROUP_FEATURE:
+        return true;
+    }
+    return false;
+  }
+
+  public void addInstanceProperties(EObject dataObject, Collection propertyList)
+  {
+    for (final Iterator iterator = getBaseTypes().iterator(); iterator.hasNext(); )
+    {
+      ClassImpl baseType = (ClassImpl)iterator.next();
+      baseType.addInstanceProperties(dataObject, propertyList);
+    }
+
+    for (final Iterator iter = getExtendedProperties().iterator(); iter.hasNext(); )
+    {
+      EStructuralFeature eStructuralFeature = (EStructuralFeature)iter.next();
+      if (isOpenFeatureMap(eStructuralFeature))
+      {
+        List features = (List)dataObject.eGet(eStructuralFeature);
+        for (int j = 0, size = features.size(); j < size; ++j)
+        {
+          FeatureMap.Entry entry = (FeatureMap.Entry)features.get(j);
+          EStructuralFeature entryFeature = entry.getEStructuralFeature();
+          propertyList.add(entryFeature);
+        }
+      }
+    }
   }
 
   /**
