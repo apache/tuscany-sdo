@@ -289,7 +289,7 @@ public class TypeHelperImpl implements TypeHelper
     // get/create document root
     EPackage ePackage = extendedMetaData.getPackage(uri);
     Type documentRoot = 
-      ePackage != null ? (Type)extendedMetaData.getType(ePackage, "") : null;
+      ePackage != null ? (Type)extendedMetaData.getType(extendedMetaData.getPackage(uri), "") : null;
     if (documentRoot == null) 
     {
       documentRoot = SDOUtil.createType(this, uri, null, false);

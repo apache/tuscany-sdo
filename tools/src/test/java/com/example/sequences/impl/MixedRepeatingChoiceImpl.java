@@ -1,8 +1,21 @@
 /**
- * <copyright>
- * </copyright>
  *
- * $Id$
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
  */
 package com.example.sequences.impl;
 
@@ -17,7 +30,6 @@ import java.util.List;
 
 import org.apache.tuscany.sdo.impl.DataObjectBase;
 
-  // EYECATCHER 1
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Mixed Repeating Choice</b></em>'.
@@ -36,77 +48,51 @@ import org.apache.tuscany.sdo.impl.DataObjectBase;
  */
 public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRepeatingChoice
 {
-
-  public final static int MIXED = -1;
-
-  public final static int GROUP = -2;
-
-  public final static int A = 0;
-
-  public final static int B = 1;
-
-  public final static int SDO_PROPERTY_COUNT = 2;
-
-  public final static int EXTENDED_PROPERTY_COUNT = -2;
-
-
   /**
-   * The internal feature id for the '<em><b>Mixed</b></em>' attribute list.
+   * The feature id for the '<em><b>Mixed</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */ 
-  public final static int INTERNAL_MIXED = 0;
+   */	 
+  public final static int MIXED = 0;
 
   /**
-   * The internal feature id for the '<em><b>Group</b></em>' attribute list.
+   * The feature id for the '<em><b>Group</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */ 
-  public final static int INTERNAL_GROUP = 1;
+   */	 
+  public final static int GROUP = 1;
 
   /**
-   * The internal feature id for the '<em><b>A</b></em>' attribute list.
+   * The feature id for the '<em><b>A</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */ 
-  public final static int INTERNAL_A = 2;
+   */	 
+  public final static int A = 2;
 
   /**
-   * The internal feature id for the '<em><b>B</b></em>' attribute list.
+   * The feature id for the '<em><b>B</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */ 
-  public final static int INTERNAL_B = 3;
+   */	 
+  public final static int B = 3;
 
   /**
-   * The number of properties for this type.
+   * This represents the number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  public final static int INTERNAL_PROPERTY_COUNT = 4;
-
-  protected int internalConvertIndex(int internalIndex)
-  {
-    switch (internalIndex)
-    {
-      case INTERNAL_MIXED: return MIXED;
-      case INTERNAL_GROUP: return GROUP;
-      case INTERNAL_A: return A;
-      case INTERNAL_B: return B;
-    }
-    return super.internalConvertIndex(internalIndex);
-  }
-
+  
+  public final static int SDO_PROPERTY_COUNT = 4;
 
   /**
    * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
@@ -148,7 +134,7 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
   {
     if (mixed == null)
     {
-      mixed = createSequence(INTERNAL_MIXED);
+      mixed = createSequence(MIXED);
     }
     return mixed;
   }

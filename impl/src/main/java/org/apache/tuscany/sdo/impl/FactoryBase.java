@@ -110,20 +110,15 @@ public class FactoryBase extends EPackageImpl
       return (Type)createEClass(typeNumber);
   }
   
-  protected void createProperty(boolean isDataType, Type containingType, int internalPropertyNumber)
+  protected void createProperty(boolean isDataType, Type containingType, int propertyNumber)
   {
     if (isDataType)
-      createEAttribute((EClass)containingType, internalPropertyNumber);
+      createEAttribute((EClass)containingType, propertyNumber);
     else
-      createEReference((EClass)containingType, internalPropertyNumber);
+      createEReference((EClass)containingType, propertyNumber);
   }
   
-  protected Property getProperty(Type type, int internalPropertyNumber)
-  {
-    return (Property)((EClass)type).getEAllStructuralFeatures().get(internalPropertyNumber);
-  }
-  
-  protected void initializeType(Type type, Class instanceClass, String name)
+  protected void initializeType(Type type, Class instanceClass, String name) //FB TODO regenerate models and then delete this method
   {
     initEClass((EClass)type, instanceClass, name, !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);   
   }
@@ -147,7 +142,7 @@ public class FactoryBase extends EPackageImpl
   {
     initEReference((EReference)property, (EClassifier)type, (EReference)oppositeProperty, name, defaultValue, lower, upper, containerClass, isDerived, isDerived, !isReadonly, isComposite, !isComposite /*resolve*/, isUnsettable, IS_UNIQUE, isDerived, IS_ORDERED);
   }
-  
+
   protected void initXSD()
   {
     createDocumentRoot();

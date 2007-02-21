@@ -1,8 +1,21 @@
 /**
- * <copyright>
- * </copyright>
  *
- * $Id$
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
  */
 package com.example.sequences.impl;
 
@@ -17,7 +30,6 @@ import java.util.List;
 
 import org.apache.tuscany.sdo.impl.DataObjectBase;
 
-  // EYECATCHER 1
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Two RCs Mixed</b></em>'.
@@ -40,125 +52,87 @@ import org.apache.tuscany.sdo.impl.DataObjectBase;
  */
 public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
 {
-
-  public final static int MIXED = -1;
-
-  public final static int GROUP = -2;
-
-  public final static int A = 0;
-
-  public final static int B = 1;
-
-  public final static int SPLIT = 2;
-
-  public final static int GROUP1 = -3;
-
-  public final static int Y = 3;
-
-  public final static int Z = 4;
-
-  public final static int SDO_PROPERTY_COUNT = 5;
-
-  public final static int EXTENDED_PROPERTY_COUNT = -3;
-
-
   /**
-   * The internal feature id for the '<em><b>Mixed</b></em>' attribute list.
+   * The feature id for the '<em><b>Mixed</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */ 
-  public final static int INTERNAL_MIXED = 0;
+   */	 
+  public final static int MIXED = 0;
 
   /**
-   * The internal feature id for the '<em><b>Group</b></em>' attribute list.
+   * The feature id for the '<em><b>Group</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */ 
-  public final static int INTERNAL_GROUP = 1;
+   */	 
+  public final static int GROUP = 1;
 
   /**
-   * The internal feature id for the '<em><b>A</b></em>' attribute list.
+   * The feature id for the '<em><b>A</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */ 
-  public final static int INTERNAL_A = 2;
+   */	 
+  public final static int A = 2;
 
   /**
-   * The internal feature id for the '<em><b>B</b></em>' attribute list.
+   * The feature id for the '<em><b>B</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */ 
-  public final static int INTERNAL_B = 3;
+   */	 
+  public final static int B = 3;
 
   /**
-   * The internal feature id for the '<em><b>Split</b></em>' attribute.
+   * The feature id for the '<em><b>Split</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */ 
-  public final static int INTERNAL_SPLIT = 4;
+   */	 
+  public final static int SPLIT = 4;
 
   /**
-   * The internal feature id for the '<em><b>Group1</b></em>' attribute list.
+   * The feature id for the '<em><b>Group1</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */ 
-  public final static int INTERNAL_GROUP1 = 5;
+   */	 
+  public final static int GROUP1 = 5;
 
   /**
-   * The internal feature id for the '<em><b>Y</b></em>' attribute list.
+   * The feature id for the '<em><b>Y</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */ 
-  public final static int INTERNAL_Y = 6;
+   */	 
+  public final static int Y = 6;
 
   /**
-   * The internal feature id for the '<em><b>Z</b></em>' attribute list.
+   * The feature id for the '<em><b>Z</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */ 
-  public final static int INTERNAL_Z = 7;
+   */	 
+  public final static int Z = 7;
 
   /**
-   * The number of properties for this type.
+   * This represents the number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  public final static int INTERNAL_PROPERTY_COUNT = 8;
-
-  protected int internalConvertIndex(int internalIndex)
-  {
-    switch (internalIndex)
-    {
-      case INTERNAL_MIXED: return MIXED;
-      case INTERNAL_GROUP: return GROUP;
-      case INTERNAL_A: return A;
-      case INTERNAL_B: return B;
-      case INTERNAL_SPLIT: return SPLIT;
-      case INTERNAL_GROUP1: return GROUP1;
-      case INTERNAL_Y: return Y;
-      case INTERNAL_Z: return Z;
-    }
-    return super.internalConvertIndex(internalIndex);
-  }
-
+  
+  public final static int SDO_PROPERTY_COUNT = 8;
 
   /**
    * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
@@ -210,7 +184,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
   {
     if (mixed == null)
     {
-      mixed = createSequence(INTERNAL_MIXED);
+      mixed = createSequence(MIXED);
     }
     return mixed;
   }
@@ -250,7 +224,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    */
   public String getSplit()
   {
-    return (String)get(getMixed(), getType(), INTERNAL_SPLIT);
+    return (String)get(getMixed(), getType(), SPLIT);
   }
   /**
    * <!-- begin-user-doc -->
@@ -259,7 +233,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    */
   public void setSplit(String newSplit)
   {
-    set(getMixed(), getType(), INTERNAL_SPLIT, newSplit);
+    set(getMixed(), getType(), SPLIT, newSplit);
   }
 
   /**

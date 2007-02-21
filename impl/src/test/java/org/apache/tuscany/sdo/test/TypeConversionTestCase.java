@@ -51,19 +51,19 @@ public class TypeConversionTestCase extends TestCase
 
     // The following constants describe the index for the fields in api_test.xsd.
     
-    private static final int STRING_VAL_INDEX = 0;
-    private static final int BOOLEAN_VAL_INDEX = 1;
-    private static final int BYTE_VAL_INDEX = 3;
-    private static final int DECIMAL_VAL_INDEX = 5;
-    private static final int INT_VAL_INDEX = 7;
-    private static final int FLOAT_VAL_INDEX = 8;
-    private static final int DOUBLE_VAL_INDEX = 9;
-    private static final int DATE_VAL_INDEX = 10;
-    private static final int SHORT_VAL_INDEX = 11;
-    private static final int LONG_VAL_INDEX = 12;
-    private static final int BYTES_VAL_INDEX = 14;
-    private static final int INTEGER_VAL_INDEX = 15;
-    private static final int CHAR_VAL_INDEX = 16;
+    private static final int STRING_VAL_INDEX = 1;
+    private static final int BOOLEAN_VAL_INDEX = 2;
+    private static final int BYTE_VAL_INDEX = 4;
+    private static final int DECIMAL_VAL_INDEX = 6;
+    private static final int INT_VAL_INDEX = 8;
+    private static final int FLOAT_VAL_INDEX = 9;
+    private static final int DOUBLE_VAL_INDEX = 10;
+    private static final int DATE_VAL_INDEX = 11;
+    private static final int SHORT_VAL_INDEX = 12;
+    private static final int LONG_VAL_INDEX = 13;
+    private static final int BYTES_VAL_INDEX = 15;
+    private static final int INTEGER_VAL_INDEX = 16;
+    private static final int CHAR_VAL_INDEX = 17;
     
     // The following variables are Method arrays.  Each array refers to a specific get<Type>, but within
     // the array exist the get<Type>(index), get<Type>(property), and get<Type>(path).  Rather than

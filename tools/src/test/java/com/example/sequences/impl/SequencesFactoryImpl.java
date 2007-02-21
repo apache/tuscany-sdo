@@ -1,8 +1,21 @@
 /**
- * <copyright>
- * </copyright>
  *
- * $Id$
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
  */
 package com.example.sequences.impl;
 
@@ -29,7 +42,7 @@ import org.apache.tuscany.sdo.util.SDOUtil;
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
  * Generator information:
- * patternVersion=1.1; -prefix Sequences
+ * patternVersion=1.0; -prefix Sequences
  * <!-- end-user-doc -->
  * @generated
  */
@@ -58,7 +71,7 @@ public class SequencesFactoryImpl extends FactoryBase implements SequencesFactor
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String PATTERN_VERSION = "1.1";
+  public static final String PATTERN_VERSION = "1.0";
   
   public static final int MIXED_QUOTE = 1;	
   public static final int MIXED_REPEATING_CHOICE = 2;	
@@ -232,42 +245,46 @@ public class SequencesFactoryImpl extends FactoryBase implements SequencesFactor
 
     // Create types and their properties
     mixedQuoteType = createType(false, MIXED_QUOTE);
-    createProperty(true, mixedQuoteType,MixedQuoteImpl.INTERNAL_MIXED); 
-    createProperty(true, mixedQuoteType,MixedQuoteImpl.INTERNAL_SYMBOL); 
-    createProperty(true, mixedQuoteType,MixedQuoteImpl.INTERNAL_COMPANY_NAME); 
-    createProperty(true, mixedQuoteType,MixedQuoteImpl.INTERNAL_PRICE); 
-    createProperty(true, mixedQuoteType,MixedQuoteImpl.INTERNAL_OPEN1); 
-    createProperty(true, mixedQuoteType,MixedQuoteImpl.INTERNAL_HIGH); 
-    createProperty(true, mixedQuoteType,MixedQuoteImpl.INTERNAL_LOW); 
-    createProperty(true, mixedQuoteType,MixedQuoteImpl.INTERNAL_VOLUME); 
-    createProperty(true, mixedQuoteType,MixedQuoteImpl.INTERNAL_CHANGE1); 
-    createProperty(false, mixedQuoteType,MixedQuoteImpl.INTERNAL_QUOTES); 
+    createProperty(true, mixedQuoteType, MixedQuoteImpl.MIXED);
+    createProperty(true, mixedQuoteType, MixedQuoteImpl.SYMBOL);
+    createProperty(true, mixedQuoteType, MixedQuoteImpl.COMPANY_NAME);
+    createProperty(true, mixedQuoteType, MixedQuoteImpl.PRICE);
+    createProperty(true, mixedQuoteType, MixedQuoteImpl.OPEN1);
+    createProperty(true, mixedQuoteType, MixedQuoteImpl.HIGH);
+    createProperty(true, mixedQuoteType, MixedQuoteImpl.LOW);
+    createProperty(true, mixedQuoteType, MixedQuoteImpl.VOLUME);
+    createProperty(true, mixedQuoteType, MixedQuoteImpl.CHANGE1);
+    createProperty(false, mixedQuoteType, MixedQuoteImpl.QUOTES);
+
     mixedRepeatingChoiceType = createType(false, MIXED_REPEATING_CHOICE);
-    createProperty(true, mixedRepeatingChoiceType,MixedRepeatingChoiceImpl.INTERNAL_MIXED); 
-    createProperty(true, mixedRepeatingChoiceType,MixedRepeatingChoiceImpl.INTERNAL_GROUP); 
-    createProperty(true, mixedRepeatingChoiceType,MixedRepeatingChoiceImpl.INTERNAL_A); 
-    createProperty(true, mixedRepeatingChoiceType,MixedRepeatingChoiceImpl.INTERNAL_B); 
+    createProperty(true, mixedRepeatingChoiceType, MixedRepeatingChoiceImpl.MIXED);
+    createProperty(true, mixedRepeatingChoiceType, MixedRepeatingChoiceImpl.GROUP);
+    createProperty(true, mixedRepeatingChoiceType, MixedRepeatingChoiceImpl.A);
+    createProperty(true, mixedRepeatingChoiceType, MixedRepeatingChoiceImpl.B);
+
     repeatingChoiceType = createType(false, REPEATING_CHOICE);
-    createProperty(true, repeatingChoiceType,RepeatingChoiceImpl.INTERNAL_GROUP); 
-    createProperty(true, repeatingChoiceType,RepeatingChoiceImpl.INTERNAL_A); 
-    createProperty(true, repeatingChoiceType,RepeatingChoiceImpl.INTERNAL_B); 
+    createProperty(true, repeatingChoiceType, RepeatingChoiceImpl.GROUP);
+    createProperty(true, repeatingChoiceType, RepeatingChoiceImpl.A);
+    createProperty(true, repeatingChoiceType, RepeatingChoiceImpl.B);
+
     twoRCsType = createType(false, TWO_RCS);
-    createProperty(true, twoRCsType,TwoRCsImpl.INTERNAL_GROUP); 
-    createProperty(true, twoRCsType,TwoRCsImpl.INTERNAL_A); 
-    createProperty(true, twoRCsType,TwoRCsImpl.INTERNAL_B); 
-    createProperty(true, twoRCsType,TwoRCsImpl.INTERNAL_SPLIT); 
-    createProperty(true, twoRCsType,TwoRCsImpl.INTERNAL_GROUP1); 
-    createProperty(true, twoRCsType,TwoRCsImpl.INTERNAL_Y); 
-    createProperty(true, twoRCsType,TwoRCsImpl.INTERNAL_Z); 
+    createProperty(true, twoRCsType, TwoRCsImpl.GROUP);
+    createProperty(true, twoRCsType, TwoRCsImpl.A);
+    createProperty(true, twoRCsType, TwoRCsImpl.B);
+    createProperty(true, twoRCsType, TwoRCsImpl.SPLIT);
+    createProperty(true, twoRCsType, TwoRCsImpl.GROUP1);
+    createProperty(true, twoRCsType, TwoRCsImpl.Y);
+    createProperty(true, twoRCsType, TwoRCsImpl.Z);
+
     twoRCsMixedType = createType(false, TWO_RCS_MIXED);
-    createProperty(true, twoRCsMixedType,TwoRCsMixedImpl.INTERNAL_MIXED); 
-    createProperty(true, twoRCsMixedType,TwoRCsMixedImpl.INTERNAL_GROUP); 
-    createProperty(true, twoRCsMixedType,TwoRCsMixedImpl.INTERNAL_A); 
-    createProperty(true, twoRCsMixedType,TwoRCsMixedImpl.INTERNAL_B); 
-    createProperty(true, twoRCsMixedType,TwoRCsMixedImpl.INTERNAL_SPLIT); 
-    createProperty(true, twoRCsMixedType,TwoRCsMixedImpl.INTERNAL_GROUP1); 
-    createProperty(true, twoRCsMixedType,TwoRCsMixedImpl.INTERNAL_Y); 
-    createProperty(true, twoRCsMixedType,TwoRCsMixedImpl.INTERNAL_Z); 
+    createProperty(true, twoRCsMixedType, TwoRCsMixedImpl.MIXED);
+    createProperty(true, twoRCsMixedType, TwoRCsMixedImpl.GROUP);
+    createProperty(true, twoRCsMixedType, TwoRCsMixedImpl.A);
+    createProperty(true, twoRCsMixedType, TwoRCsMixedImpl.B);
+    createProperty(true, twoRCsMixedType, TwoRCsMixedImpl.SPLIT);
+    createProperty(true, twoRCsMixedType, TwoRCsMixedImpl.GROUP1);
+    createProperty(true, twoRCsMixedType, TwoRCsMixedImpl.Y);
+    createProperty(true, twoRCsMixedType, TwoRCsMixedImpl.Z);
   }
   
   private boolean isInitialized = false;
@@ -285,107 +302,446 @@ public class SequencesFactoryImpl extends FactoryBase implements SequencesFactor
 
     // Initialize types and properties
     initializeType(mixedQuoteType, MixedQuote.class, "MixedQuote", false);
-    property = getProperty(mixedQuoteType, MixedQuoteImpl.INTERNAL_MIXED);
+    property = (Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.MIXED);
     initializeProperty(property, getSequence(), "mixed", null, 0, -1, MixedQuote.class, false, false, false);
-
-    property = getProperty(mixedQuoteType, MixedQuoteImpl.INTERNAL_SYMBOL);
+    property = (Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.SYMBOL);
     initializeProperty(property, theModelPackageImpl.getString(), "symbol", null, 1, 1, MixedQuote.class, false, false, true);
-
-    property = getProperty(mixedQuoteType, MixedQuoteImpl.INTERNAL_COMPANY_NAME);
+    property = (Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.COMPANY_NAME);
     initializeProperty(property, theModelPackageImpl.getString(), "companyName", null, 1, 1, MixedQuote.class, false, false, true);
-
-    property = getProperty(mixedQuoteType, MixedQuoteImpl.INTERNAL_PRICE);
+    property = (Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.PRICE);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "price", null, 1, 1, MixedQuote.class, false, false, true);
-
-    property = getProperty(mixedQuoteType, MixedQuoteImpl.INTERNAL_OPEN1);
+    property = (Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.OPEN1);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "open1", null, 1, 1, MixedQuote.class, false, false, true);
-
-    property = getProperty(mixedQuoteType, MixedQuoteImpl.INTERNAL_HIGH);
+    property = (Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.HIGH);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "high", null, 1, 1, MixedQuote.class, false, false, true);
-
-    property = getProperty(mixedQuoteType, MixedQuoteImpl.INTERNAL_LOW);
+    property = (Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.LOW);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "low", null, 1, 1, MixedQuote.class, false, false, true);
-
-    property = getProperty(mixedQuoteType, MixedQuoteImpl.INTERNAL_VOLUME);
+    property = (Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.VOLUME);
     initializeProperty(property, theModelPackageImpl.getDouble(), "volume", null, 1, 1, MixedQuote.class, false, true, true);
-
-    property = getProperty(mixedQuoteType, MixedQuoteImpl.INTERNAL_CHANGE1);
+    property = (Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.CHANGE1);
     initializeProperty(property, theModelPackageImpl.getDouble(), "change1", null, 1, 1, MixedQuote.class, false, true, true);
-
-    property = getProperty(mixedQuoteType, MixedQuoteImpl.INTERNAL_QUOTES);
-    initializeProperty(property, this.getMixedQuote(), "quotes", null, 0, -1, MixedQuote.class, false, false, true, true , null);
+    property = (Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.QUOTES);
+    initializeProperty(property, this.getMixedQuote(), "quotes", null, 0, -1, MixedQuote.class, false, false, true, true, null);
 
     initializeType(mixedRepeatingChoiceType, MixedRepeatingChoice.class, "MixedRepeatingChoice", false);
-    property = getProperty(mixedRepeatingChoiceType, MixedRepeatingChoiceImpl.INTERNAL_MIXED);
+    property = (Property)mixedRepeatingChoiceType.getProperties().get(MixedRepeatingChoiceImpl.MIXED);
     initializeProperty(property, getSequence(), "mixed", null, 0, -1, MixedRepeatingChoice.class, false, false, false);
-
-    property = getProperty(mixedRepeatingChoiceType, MixedRepeatingChoiceImpl.INTERNAL_GROUP);
+    property = (Property)mixedRepeatingChoiceType.getProperties().get(MixedRepeatingChoiceImpl.GROUP);
     initializeProperty(property, getSequence(), "group", null, 0, -1, MixedRepeatingChoice.class, false, false, true);
-
-    property = getProperty(mixedRepeatingChoiceType, MixedRepeatingChoiceImpl.INTERNAL_A);
+    property = (Property)mixedRepeatingChoiceType.getProperties().get(MixedRepeatingChoiceImpl.A);
     initializeProperty(property, theModelPackageImpl.getString(), "a", null, 0, -1, MixedRepeatingChoice.class, false, false, true);
-
-    property = getProperty(mixedRepeatingChoiceType, MixedRepeatingChoiceImpl.INTERNAL_B);
+    property = (Property)mixedRepeatingChoiceType.getProperties().get(MixedRepeatingChoiceImpl.B);
     initializeProperty(property, theModelPackageImpl.getInt(), "b", null, 0, -1, MixedRepeatingChoice.class, false, false, true);
 
     initializeType(repeatingChoiceType, RepeatingChoice.class, "RepeatingChoice", false);
-    property = getProperty(repeatingChoiceType, RepeatingChoiceImpl.INTERNAL_GROUP);
+    property = (Property)repeatingChoiceType.getProperties().get(RepeatingChoiceImpl.GROUP);
     initializeProperty(property, getSequence(), "group", null, 0, -1, RepeatingChoice.class, false, false, false);
-
-    property = getProperty(repeatingChoiceType, RepeatingChoiceImpl.INTERNAL_A);
+    property = (Property)repeatingChoiceType.getProperties().get(RepeatingChoiceImpl.A);
     initializeProperty(property, theModelPackageImpl.getString(), "a", null, 0, -1, RepeatingChoice.class, false, false, true);
-
-    property = getProperty(repeatingChoiceType, RepeatingChoiceImpl.INTERNAL_B);
+    property = (Property)repeatingChoiceType.getProperties().get(RepeatingChoiceImpl.B);
     initializeProperty(property, theModelPackageImpl.getInt(), "b", null, 0, -1, RepeatingChoice.class, false, false, true);
 
     initializeType(twoRCsType, TwoRCs.class, "TwoRCs", false);
-    property = getProperty(twoRCsType, TwoRCsImpl.INTERNAL_GROUP);
+    property = (Property)twoRCsType.getProperties().get(TwoRCsImpl.GROUP);
     initializeProperty(property, getSequence(), "group", null, 0, -1, TwoRCs.class, false, false, false);
-
-    property = getProperty(twoRCsType, TwoRCsImpl.INTERNAL_A);
+    property = (Property)twoRCsType.getProperties().get(TwoRCsImpl.A);
     initializeProperty(property, theModelPackageImpl.getString(), "a", null, 0, -1, TwoRCs.class, false, false, true);
-
-    property = getProperty(twoRCsType, TwoRCsImpl.INTERNAL_B);
+    property = (Property)twoRCsType.getProperties().get(TwoRCsImpl.B);
     initializeProperty(property, theModelPackageImpl.getInt(), "b", null, 0, -1, TwoRCs.class, false, false, true);
-
-    property = getProperty(twoRCsType, TwoRCsImpl.INTERNAL_SPLIT);
+    property = (Property)twoRCsType.getProperties().get(TwoRCsImpl.SPLIT);
     initializeProperty(property, theModelPackageImpl.getString(), "split", null, 1, 1, TwoRCs.class, false, false, false);
-
-    property = getProperty(twoRCsType, TwoRCsImpl.INTERNAL_GROUP1);
+    property = (Property)twoRCsType.getProperties().get(TwoRCsImpl.GROUP1);
     initializeProperty(property, getSequence(), "group1", null, 0, -1, TwoRCs.class, false, false, false);
-
-    property = getProperty(twoRCsType, TwoRCsImpl.INTERNAL_Y);
+    property = (Property)twoRCsType.getProperties().get(TwoRCsImpl.Y);
     initializeProperty(property, theModelPackageImpl.getString(), "y", null, 0, -1, TwoRCs.class, false, false, true);
-
-    property = getProperty(twoRCsType, TwoRCsImpl.INTERNAL_Z);
+    property = (Property)twoRCsType.getProperties().get(TwoRCsImpl.Z);
     initializeProperty(property, theModelPackageImpl.getInt(), "z", null, 0, -1, TwoRCs.class, false, false, true);
 
     initializeType(twoRCsMixedType, TwoRCsMixed.class, "TwoRCsMixed", false);
-    property = getProperty(twoRCsMixedType, TwoRCsMixedImpl.INTERNAL_MIXED);
+    property = (Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.MIXED);
     initializeProperty(property, getSequence(), "mixed", null, 0, -1, TwoRCsMixed.class, false, false, false);
-
-    property = getProperty(twoRCsMixedType, TwoRCsMixedImpl.INTERNAL_GROUP);
+    property = (Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.GROUP);
     initializeProperty(property, getSequence(), "group", null, 0, -1, TwoRCsMixed.class, false, false, true);
-
-    property = getProperty(twoRCsMixedType, TwoRCsMixedImpl.INTERNAL_A);
+    property = (Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.A);
     initializeProperty(property, theModelPackageImpl.getString(), "a", null, 0, -1, TwoRCsMixed.class, false, false, true);
-
-    property = getProperty(twoRCsMixedType, TwoRCsMixedImpl.INTERNAL_B);
+    property = (Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.B);
     initializeProperty(property, theModelPackageImpl.getInt(), "b", null, 0, -1, TwoRCsMixed.class, false, false, true);
-
-    property = getProperty(twoRCsMixedType, TwoRCsMixedImpl.INTERNAL_SPLIT);
+    property = (Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.SPLIT);
     initializeProperty(property, theModelPackageImpl.getString(), "split", null, 1, 1, TwoRCsMixed.class, false, false, true);
-
-    property = getProperty(twoRCsMixedType, TwoRCsMixedImpl.INTERNAL_GROUP1);
+    property = (Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.GROUP1);
     initializeProperty(property, getSequence(), "group1", null, 0, -1, TwoRCsMixed.class, false, false, true);
-
-    property = getProperty(twoRCsMixedType, TwoRCsMixedImpl.INTERNAL_Y);
+    property = (Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.Y);
     initializeProperty(property, theModelPackageImpl.getString(), "y", null, 0, -1, TwoRCsMixed.class, false, false, true);
-
-    property = getProperty(twoRCsMixedType, TwoRCsMixedImpl.INTERNAL_Z);
+    property = (Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.Z);
     initializeProperty(property, theModelPackageImpl.getInt(), "z", null, 0, -1, TwoRCsMixed.class, false, false, true);
 
+    createXSDMetaData(theModelPackageImpl);
   }
-
     
+  protected void createXSDMetaData(ModelFactoryImpl theModelPackageImpl)
+  {
+    super.initXSD();
+    
+    Property property = null;
+    
+    property = createGlobalProperty
+      ("mixedStockQuote",
+      this.getMixedQuote(),
+       new String[]
+       {
+       "kind", "element",
+       "name", "mixedStockQuote",
+       "namespace", "##targetNamespace"
+       });
+                
+    property = createGlobalProperty
+      ("mrc",
+      this.getMixedRepeatingChoice(),
+       new String[]
+       {
+       "kind", "element",
+       "name", "mrc",
+       "namespace", "##targetNamespace"
+       });
+                
+    property = createGlobalProperty
+      ("mrc2",
+      this.getTwoRCsMixed(),
+       new String[]
+       {
+       "kind", "element",
+       "name", "mrc2",
+       "namespace", "##targetNamespace"
+       });
+                
+    property = createGlobalProperty
+      ("rc",
+      this.getRepeatingChoice(),
+       new String[]
+       {
+       "kind", "element",
+       "name", "rc",
+       "namespace", "##targetNamespace"
+       });
+                
+    property = createGlobalProperty
+      ("rc2",
+      this.getTwoRCs(),
+       new String[]
+       {
+       "kind", "element",
+       "name", "rc2",
+       "namespace", "##targetNamespace"
+       });
+                
+    addXSDMapping
+      (mixedQuoteType,
+       new String[] 
+       {
+       "name", "MixedQuote",
+       "kind", "mixed"
+       });
+
+    addXSDMapping
+      ((Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.MIXED),
+       new String[]
+       {
+       "kind", "elementWildcard",
+       "name", ":mixed"
+       });
+
+    addXSDMapping
+      ((Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.SYMBOL),
+       new String[]
+       {
+       "kind", "element",
+       "name", "symbol"
+       });
+
+    addXSDMapping
+      ((Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.COMPANY_NAME),
+       new String[]
+       {
+       "kind", "element",
+       "name", "companyName"
+       });
+
+    addXSDMapping
+      ((Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.PRICE),
+       new String[]
+       {
+       "kind", "element",
+       "name", "price"
+       });
+
+    addXSDMapping
+      ((Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.OPEN1),
+       new String[]
+       {
+       "kind", "element",
+       "name", "open1"
+       });
+
+    addXSDMapping
+      ((Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.HIGH),
+       new String[]
+       {
+       "kind", "element",
+       "name", "high"
+       });
+
+    addXSDMapping
+      ((Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.LOW),
+       new String[]
+       {
+       "kind", "element",
+       "name", "low"
+       });
+
+    addXSDMapping
+      ((Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.VOLUME),
+       new String[]
+       {
+       "kind", "element",
+       "name", "volume"
+       });
+
+    addXSDMapping
+      ((Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.CHANGE1),
+       new String[]
+       {
+       "kind", "element",
+       "name", "change1"
+       });
+
+    addXSDMapping
+      ((Property)mixedQuoteType.getProperties().get(MixedQuoteImpl.QUOTES),
+       new String[]
+       {
+       "kind", "element",
+       "name", "quotes"
+       });
+
+    addXSDMapping
+      (mixedRepeatingChoiceType,
+       new String[] 
+       {
+       "name", "MixedRepeatingChoice",
+       "kind", "mixed"
+       });
+
+    addXSDMapping
+      ((Property)mixedRepeatingChoiceType.getProperties().get(MixedRepeatingChoiceImpl.MIXED),
+       new String[]
+       {
+       "kind", "elementWildcard",
+       "name", ":mixed"
+       });
+
+    addXSDMapping
+      ((Property)mixedRepeatingChoiceType.getProperties().get(MixedRepeatingChoiceImpl.GROUP),
+       new String[]
+       {
+       "kind", "group",
+       "name", "group:1"
+       });
+
+    addXSDMapping
+      ((Property)mixedRepeatingChoiceType.getProperties().get(MixedRepeatingChoiceImpl.A),
+       new String[]
+       {
+       "kind", "element",
+       "name", "a",
+       "group", "#group:1"
+       });
+
+    addXSDMapping
+      ((Property)mixedRepeatingChoiceType.getProperties().get(MixedRepeatingChoiceImpl.B),
+       new String[]
+       {
+       "kind", "element",
+       "name", "b",
+       "group", "#group:1"
+       });
+
+    addXSDMapping
+      (repeatingChoiceType,
+       new String[] 
+       {
+       "name", "RepeatingChoice",
+       "kind", "elementOnly"
+       });
+
+    addXSDMapping
+      ((Property)repeatingChoiceType.getProperties().get(RepeatingChoiceImpl.GROUP),
+       new String[]
+       {
+       "kind", "group",
+       "name", "group:0"
+       });
+
+    addXSDMapping
+      ((Property)repeatingChoiceType.getProperties().get(RepeatingChoiceImpl.A),
+       new String[]
+       {
+       "kind", "element",
+       "name", "a",
+       "group", "#group:0"
+       });
+
+    addXSDMapping
+      ((Property)repeatingChoiceType.getProperties().get(RepeatingChoiceImpl.B),
+       new String[]
+       {
+       "kind", "element",
+       "name", "b",
+       "group", "#group:0"
+       });
+
+    addXSDMapping
+      (twoRCsType,
+       new String[] 
+       {
+       "name", "TwoRCs",
+       "kind", "elementOnly"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsType.getProperties().get(TwoRCsImpl.GROUP),
+       new String[]
+       {
+       "kind", "group",
+       "name", "group:0"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsType.getProperties().get(TwoRCsImpl.A),
+       new String[]
+       {
+       "kind", "element",
+       "name", "a",
+       "group", "#group:0"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsType.getProperties().get(TwoRCsImpl.B),
+       new String[]
+       {
+       "kind", "element",
+       "name", "b",
+       "group", "#group:0"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsType.getProperties().get(TwoRCsImpl.SPLIT),
+       new String[]
+       {
+       "kind", "element",
+       "name", "split"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsType.getProperties().get(TwoRCsImpl.GROUP1),
+       new String[]
+       {
+       "kind", "group",
+       "name", "group:4"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsType.getProperties().get(TwoRCsImpl.Y),
+       new String[]
+       {
+       "kind", "element",
+       "name", "y",
+       "group", "#group:4"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsType.getProperties().get(TwoRCsImpl.Z),
+       new String[]
+       {
+       "kind", "element",
+       "name", "z",
+       "group", "#group:4"
+       });
+
+    addXSDMapping
+      (twoRCsMixedType,
+       new String[] 
+       {
+       "name", "TwoRCsMixed",
+       "kind", "mixed"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.MIXED),
+       new String[]
+       {
+       "kind", "elementWildcard",
+       "name", ":mixed"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.GROUP),
+       new String[]
+       {
+       "kind", "group",
+       "name", "group:1"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.A),
+       new String[]
+       {
+       "kind", "element",
+       "name", "a",
+       "group", "#group:1"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.B),
+       new String[]
+       {
+       "kind", "element",
+       "name", "b",
+       "group", "#group:1"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.SPLIT),
+       new String[]
+       {
+       "kind", "element",
+       "name", "split"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.GROUP1),
+       new String[]
+       {
+       "kind", "group",
+       "name", "group:5"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.Y),
+       new String[]
+       {
+       "kind", "element",
+       "name", "y",
+       "group", "#group:5"
+       });
+
+    addXSDMapping
+      ((Property)twoRCsMixedType.getProperties().get(TwoRCsMixedImpl.Z),
+       new String[]
+       {
+       "kind", "element",
+       "name", "z",
+       "group", "#group:5"
+       });
+
+  }
+  
 } //SequencesFactoryImpl

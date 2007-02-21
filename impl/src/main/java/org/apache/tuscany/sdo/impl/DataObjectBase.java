@@ -177,7 +177,6 @@ public abstract class DataObjectBase extends DataObjectImpl
   }
   
   protected interface ChangeContext {}
-
   
   protected ChangeContext inverseRemove(Object otherEnd, int propertyIndex, ChangeContext changeContext)
   {
@@ -276,14 +275,9 @@ public abstract class DataObjectBase extends DataObjectImpl
     throw new UnsupportedOperationException();
   }
   
-  protected int internalConvertIndex(int internalIndex)
-  {
-    return internalIndex;
-  }
-  
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    Object result = get(internalConvertIndex(featureID), resolve);
+    Object result = get(featureID, resolve);
     if (coreType)
     {
       if (result instanceof FeatureMap.Internal.Wrapper) result = ((FeatureMap.Internal.Wrapper)result).featureMap();
@@ -293,17 +287,17 @@ public abstract class DataObjectBase extends DataObjectImpl
 
   public void eSet(int featureID, Object newValue)
   {
-    set(internalConvertIndex(featureID), newValue);
+    set(featureID, newValue);
   } 
 
   public void eUnset(int featureID)
   {
-    unset(internalConvertIndex(featureID));
+    unset(featureID);
   }
   
   public boolean eIsSet(int featureID)
   {
-    return isSet(internalConvertIndex(featureID));
+    return isSet(featureID);
   }
   
   private class ChangeContextImpl implements ChangeContext
@@ -314,10 +308,9 @@ public abstract class DataObjectBase extends DataObjectImpl
     }
   }
   
-  //FB TODO ... review this? ... what about eInverseAdd?
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int propertyNumber, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int propertyIndex, NotificationChain msgs)
   {
-    return ((ChangeContextImpl)inverseRemove(otherEnd, propertyNumber, new ChangeContextImpl(msgs))).notificationChain;
+    return ((ChangeContextImpl)inverseRemove(otherEnd, propertyIndex, new ChangeContextImpl(msgs))).notificationChain;
   }
   
   public String toString()

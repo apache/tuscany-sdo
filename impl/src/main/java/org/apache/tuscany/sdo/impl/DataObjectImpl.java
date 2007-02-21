@@ -90,7 +90,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public Object get(int propertyIndex)
   {
-    return get(DataObjectUtil.getProperty(this, propertyIndex));  
+    return eGet(propertyIndex, true, false);
   }
 
   /**
@@ -100,7 +100,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void set(int propertyIndex, Object value)
   {
-    set(DataObjectUtil.getProperty(this, propertyIndex), value);  
+    eSet(propertyIndex, value);
   }
 
   /**
@@ -110,7 +110,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public boolean isSet(int propertyIndex)
   {
-    return isSet(DataObjectUtil.getProperty(this, propertyIndex));  
+    return eIsSet(propertyIndex);
   }
 
   /**
@@ -120,7 +120,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public void unset(int propertyIndex)
   {
-    unset(DataObjectUtil.getProperty(this, propertyIndex));  
+    eUnset(propertyIndex);
   }
 
   /**
@@ -204,7 +204,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
   }
 
   
-  // Remaining DataObject methods are implemented as straight delegation to DataObjectUtil
+  // Remaining DataObject methods are (will be) implemented as straight delegation to DataObjectUtil
 
   /**
    * <!-- begin-user-doc -->

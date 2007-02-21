@@ -22,7 +22,7 @@
 %>
 <%GenPackage genPackage = (GenPackage)((Object[])argument)[0]; GenModel genModel=genPackage.getGenModel();%>
 <%boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);%>
-<%String factoryPatternVersion = "1.1";%>
+<%String factoryPatternVersion = "1.0";%>
 <%String publicStaticFinalFlag = isImplementation ? "public static final " : "";%>
 <%@ include file="../Header.javajetinc"%>
 <%if (isInterface || genModel.isSuppressInterfaces()) {%>
@@ -288,7 +288,10 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
         <%if (!genClass.isDynamic()) {%>
 		<%=genClass.getSafeUncapName()%>Type = createType(false, <%=genPackage.getClassifierID(genClass)%>);
           <%for (Iterator j=genClass.getGenFeatures().iterator(); j.hasNext();) { GenFeature genFeature = (GenFeature)j.next();%>
-		createProperty(<%=!genFeature.isReferenceType()%>, <%=genClass.getSafeUncapName()%>Type,<%=genClass.getClassName()%>.INTERNAL_<%=genFeature.getUpperName()%>); 
+		createProperty(<%=!genFeature.isReferenceType()%>, <%=genClass.getSafeUncapName()%>Type, <%=genClass.getClassName()%>.<%=genFeature.getUpperName()%>);
+          <%}%>
+          <%if (c.hasNext()) {%>
+
           <%}%>
         <%}%>
       <%}%>
@@ -340,12 +343,12 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
           <%}%>
           <%for (Iterator j=genClass.getGenFeatures().iterator(); j.hasNext();) {GenFeature genFeature = (GenFeature)j.next();%>
             <%String type = genFeature.getType().equals("commonj.sdo.Sequence") ? "getSequence()" : genPackage.getPackageInstanceVariable(genFeature.getTypeGenPackage()) + ".get" + genFeature.getTypeClassifierAccessorName() + "()";%>
-		property = getProperty(<%=genClass.getSafeUncapName()%>Type, <%=genClass.getClassName()%>.INTERNAL_<%=genFeature.getUpperName()%>);
+		property = (<%=genModel.getImportedName("commonj.sdo.Property")%>)<%=genClass.getSafeUncapName()%>Type.getProperties().get(<%=genClass.getClassName()%>.<%=genFeature.getUpperName()%>);
             <%if (genFeature.isReferenceType()) { GenFeature reverseGenFeature = genFeature.getReverse();%>
               <%String reverse = reverseGenFeature == null ? "null" : genPackage.getPackageInstanceVariable(reverseGenFeature.getGenPackage()) + ".get" + reverseGenFeature.getFeatureAccessorName() + "()";%>
-		initializeProperty(property, <%=type%>, "<%=genFeature.getSafeName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>, <%=genFeature.getContainmentFlag().equals("IS_COMPOSITE")? "true": "false"%> , <%=reverse%>);
+		initializeProperty(property, <%=type%>, "<%=genFeature.getName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>, <%=genFeature.getContainmentFlag().equals("IS_COMPOSITE")? "true": "false"%>, <%=reverse%>);
             <%}else{%>
-		initializeProperty(property, <%=type%>, "<%=genFeature.getSafeName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>);
+		initializeProperty(property, <%=type%>, "<%=genFeature.getName()%>", <%=genFeature.getDefaultValue()%>, <%=genFeature.getLowerBound()%>, <%=genFeature.getUpperBound()%>, <%=genFeature.getContainerClass()%>, <%=genFeature.getChangeableFlag().equals("IS_CHANGEABLE") ? "false" : "true"%>, <%=genFeature.getUnsettableFlag().equals("IS_UNSETTABLE") ? "true": "false"%>, <%=genFeature.getDerivedFlag().equals("IS_DERIVED") ? "true" : "false"%>);
             <%}%>
             <%for (Iterator sources = annotationSources.iterator(); sources.hasNext();) { String annotationSource = (String)sources.next();%>
               <%EAnnotation featureAnnotation = genFeature.getEcoreFeature().getEAnnotation(annotationSource);%>
@@ -355,8 +358,8 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
                 <%}%>
               <%}%>
             <%}%>
-
           <%}%>
+
         <%}%>
       <%}%>
       <%if (!genPackage.getGenDataTypes().isEmpty()) {%>
@@ -374,12 +377,8 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 
         <%}%>
       <%}%>
-      <% if(genPackage.getEcorePackage().getEAnnotation(ExtendedMetaData.ANNOTATION_URI) != null) { // if there are XSD annotations%>
 		createXSDMetaData(<%=SDOGenUtil.getDependentFactoryArgumentList(genPackage, false)%>);
-      <% } %>
 	}
-
-      <% if(genPackage.getEcorePackage().getEAnnotation(ExtendedMetaData.ANNOTATION_URI) != null) { // if there are XSD annotations %>
 	  
 	protected void createXSDMetaData(<%=SDOGenUtil.getDependentFactoryArgumentList(genPackage, true)%>)
 	{
@@ -399,7 +398,6 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 			 });
 
       <%}%>
-
       <%for (Iterator i=genPackage.getGenClassifiers().iterator(); i.hasNext();) { GenClassifier genClassifier = (GenClassifier)i.next(); EAnnotation classAnnotation = genClassifier.getEcoreClassifier().getEAnnotation(extendedMetaDataSource);%>
         <%if (classAnnotation != null && !genClassifier.getName().equals("DocumentRoot")) {%>
 		addXSDMapping
@@ -449,7 +447,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
             <%}%>
           <%} else {%>
 		addXSDMapping
-		  (getProperty(<%=genClassifier.getSafeUncapName()%>Type, <%=genClass.getClassName()%>.INTERNAL_<%=genFeature.getUpperName()%>),
+		  ((<%=genModel.getImportedName("commonj.sdo.Property")%>)<%=genClassifier.getSafeUncapName()%>Type.getProperties().get(<%=genClass.getClassName()%>.<%=genFeature.getUpperName()%>),
 			 new String[]
 			 {
             <%for (Iterator k = featureAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);%>
@@ -462,8 +460,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
         <%}%>
       <%}%>
   }
-   <% } // TODO check this is in the right place -- end if there are XSD annotations %>
-    
+  
 <%for (Iterator i=genPackage.getAllGenDataTypes().iterator(); i.hasNext();) { GenDataType genDataType = (GenDataType)i.next();%>
   <%if (genDataType.isSerializable()) {%>
 	/**

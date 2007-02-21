@@ -532,7 +532,7 @@ public class DefineTypeTestCase extends TestCase
 
     sequence.addText("\n  ");
 
-    Type definedGlobalType = types.getType("http://www.example.com/open", "DocumentRoot");
+    Type definedGlobalType = types.getType("http://www.example.com/open", null);
     
     Property definedSymbolProperty = definedGlobalType.getProperty("symbol");
     quote.setString(definedSymbolProperty, "fbnt");

@@ -1,4 +1,4 @@
-<%@ jet package="org.apache.tuscany.sdo.generate.templates.model" imports="org.eclipse.emf.codegen.util.* org.apache.tuscany.sdo.impl.* java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.apache.tuscany.sdo.generate.util.*" class="SDOClass" version="$Id: Class.javajet,v 1.41 2006/02/15 19:58:39 emerks Exp $" %>
+<%@ jet package="org.apache.tuscany.sdo.generate.templates.model" skeleton="generator.skeleton" imports="org.apache.tuscany.sdo.generate.util.* java.util.* org.eclipse.emf.codegen.ecore.genmodel.*" class="SDOClass" version="$Id: Class.javajet,v 1.41 2006/02/15 19:58:39 emerks Exp $" %>
 <%
 /**
  *
@@ -22,11 +22,7 @@
 %>
 <%GenClass genClass = (GenClass)((Object[])argument)[0]; GenPackage genPackage = genClass.getGenPackage(); GenModel genModel=genPackage.getGenModel();%>
 <%boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);%>
-<%boolean isDebug = false;%>
 <%String publicStaticFinalFlag = isImplementation ? "public static final " : "";%>
-<%/*%>
-<% * Output preamble and javadoc header%>
-<% */%>
 <%@ include file="../Header.javajetinc"%>
 <%if (isInterface) {%>
 package <%=genPackage.getInterfacePackageName()%>;
@@ -36,9 +32,6 @@ package <%=genPackage.getClassPackageName()%>;
 
 <%genModel.markImportLocation(stringBuffer, genPackage);%>
 
-<%if (isDebug) { // EYECATCHER 1 %>
-  // EYECATCHER 1
-<%}%>
 <%if (isInterface) {%>
 /**
  * <!-- begin-user-doc -->
@@ -56,9 +49,6 @@ package <%=genPackage.getClassPackageName()%>;
  * The following features are supported:
  * <ul>
 <%for (Iterator i=genClass.getGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
-  <%if (isDebug) { // EYECATCHER 2%>
-// debug EYECATCHER 2
-  <% } %>
   <%if (!genFeature.isSuppressedGetVisibility()) {%>
  *   <li>{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}</li>
   <%}%>
@@ -77,7 +67,7 @@ package <%=genPackage.getClassPackageName()%>;
 <%}} if (first) {%>
  * @model
 <%}}%>
-<%if (genClass.needsRootExtendsInterfaceExtendsTag()) { // does it need an @extends tag %>
+<%if (genClass.needsRootExtendsInterfaceExtendsTag()) {%>
  * @extends <%=genModel.getImportedName(genModel.getRootExtendsInterface())%>
 <%}%>
  * @generated
@@ -172,140 +162,52 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 
 <%}%>
 <%if (isImplementation && !genModel.isReflectiveDelegation()) {%>
-
-   <%ClassImpl classImpl = (ClassImpl) genClass.getEcoreClass();%>
-   <%List declaredProperties = classImpl.getDeclaredProperties();%>
-   <%List extendedProperties = classImpl.getExtendedProperties();%>
-   <%int declaredPropertiesCount = 0;%>
-   <%int extendedPropertiesCount = 0;%>
-   <%for (Iterator f=genClass.getAllGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();%>
-     <%if (declaredProperties.contains(genFeature.getEcoreFeature())){%>
-       <%declaredPropertiesCount++;%>
-       <%String featureValue = "";
-       List allFeatures = genClass.getAllGenFeatures();
-       int g = allFeatures.indexOf(genFeature);
-       GenClass base = genClass.getBaseGenClass();
-       if (base == null)
-       {
-         featureValue = Integer.toString(declaredProperties.indexOf(genFeature.getEcoreFeature()));
-       } else {
-         int baseCount = base.getFeatureCount();    
-         if (g < baseCount)
-         {
-           featureValue = base.getClassName() + "." + genFeature.getUpperName();
-         } else {
-           String baseCountID = base.getClassName() + "." + "SDO_PROPERTY_COUNT";
-           featureValue =  baseCountID + " + " + Integer.toString(declaredProperties.indexOf(genFeature.getEcoreFeature()));
-          }
-       }%>
-	public final static int <%=genFeature.getUpperName()%> = <%=featureValue%>;
-
-     <%} else if (extendedProperties.contains(genFeature.getEcoreFeature())){%>
-       <%extendedPropertiesCount++;%>
-       <%String featureValue = "";
-       List allFeatures = genClass.getAllGenFeatures();
-       int g = allFeatures.indexOf(genFeature);
-       GenClass base = genClass.getBaseGenClass();
-       if (base == null)
-       {
-         featureValue = Integer.toString(-1 - extendedProperties.indexOf(genFeature.getEcoreFeature()));
-       } else {
-         int baseCount = base.getFeatureCount();    
-         if (g < baseCount)
-         {
-           featureValue = base.getClassName() + "." + genFeature.getUpperName();
-         } else {
-           String baseCountID = base.getClassName() + "." + "SDO_PROPERTY_COUNT";
-           featureValue =  baseCountID + " + " + Integer.toString(-1 - extendedProperties.indexOf(genFeature.getEcoreFeature()));
-          }
-       }%>
-	public final static int <%=genFeature.getUpperName()%> = <%=featureValue%>;
-
-     <%}%>
-   <%}%>
-   <%String featureCount = "";%>
-   <%GenClass base = genClass.getBaseGenClass();%>
-   <%if (base == null)%>
-     <%{%>
-       <%featureCount = Integer.toString(declaredPropertiesCount);%>
-     <%}%>
-     <%else {%>
-       <%String baseCountID = base.getClassName() + "." + "SDO_PROPERTY_COUNT";%>
-       <%featureCount = baseCountID + " + " + Integer.toString(declaredPropertiesCount);%>
-     <%}%>
-	public final static int SDO_PROPERTY_COUNT = <%=featureCount%>;
-
-   <%featureCount = "";%>
-   <%base = genClass.getBaseGenClass();%>
-   <%if (base == null)%>
-     <%{%>
-       <%featureCount = Integer.toString(extendedPropertiesCount*-1);%>
-     <%}%>
-     <%else {%>
-       <%String baseCountID = base.getClassName() + "." + "EXTENDED_PROPERTY_COUNT";%>
-       <%featureCount = baseCountID + " - " + Integer.toString(extendedPropertiesCount);%>
-     <%}%>
-	public final static int EXTENDED_PROPERTY_COUNT = <%=featureCount%>;
-
-
   <%for (Iterator f=genClass.getAllGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();%>
 	/**
-	 * The internal feature id for the '<em><b><%=genFeature.getFormattedName()%></b></em>' <%=genFeature.getFeatureKind()%>.
+	 * The feature id for the '<em><b><%=genFeature.getFormattedName()%></b></em>' <%=genFeature.getFeatureKind()%>.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-    <%String featureValue = "";%>
-    <%List allFeatures = genClass.getAllGenFeatures();%>
-    <%int g = allFeatures.indexOf(genFeature);%>
-    <%base = genClass.getBaseGenClass();%>
-    <%if (base == null)%>
-    <%{%>
-      <%featureValue = Integer.toString(g);%>
-    <%} else {%>
-      <%int baseCount = base.getFeatureCount();%>
-      <%if (g < baseCount)%>
-      <%{%>
-        <%featureValue = base.getClassName() + "." + genFeature.getUpperName();%>
-      <%} else {%>
-        <%String baseCountID = base.getClassName() + "." + "INTERNAL_PROPERTY_COUNT";%>
-        <%featureValue =  baseCountID + " + " + Integer.toString(g - baseCount);%>
-       <%}%>
-     <%}%> 
-	public final static int INTERNAL_<%=genFeature.getUpperName()%> = <%=featureValue%>;
+    <%String featureValue = "";
+    List allFeatures = genClass.getAllGenFeatures();
+    int g = allFeatures.indexOf(genFeature);
+    GenClass base = genClass.getBaseGenClass();
+    if (base == null)
+    {
+      featureValue = Integer.toString(g);
+    } else {
+      int baseCount = base.getFeatureCount();    
+      if (g < baseCount)
+      {
+        featureValue = base.getClassName() + "." + genFeature.getUpperName();
+      } else {
+        String baseCountID = base.getClassName() + "." + "SDO_PROPERTY_COUNT";
+        featureValue =  baseCountID + " + " + Integer.toString(g - baseCount);
+       }
+     }%>	 
+	public final static int <%=genFeature.getUpperName()%> = <%=featureValue%>;
 
   <%}%>
 	/**
-	 * The number of properties for this type.
+	 * This represents the number of properties for this type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-   <%featureCount = "";
-    base = genClass.getBaseGenClass();
+	<%String featureCount = "";
+	GenClass base = genClass.getBaseGenClass();
     if (base == null)
     {
       featureCount = Integer.toString(genClass.getFeatureCount());
     } 
     else {
-      String baseCountID = base.getClassName() + "." + "INTERNAL_PROPERTY_COUNT";
+      String baseCountID = base.getClassName() + "." + "SDO_PROPERTY_COUNT";
       featureCount = baseCountID + " + " + Integer.toString(genClass.getFeatureCount() - base.getFeatureCount());
     }%>
-	public final static int INTERNAL_PROPERTY_COUNT = <%=featureCount%>;
-
-	protected int internalConvertIndex(int internalIndex)
-	{
-		switch (internalIndex)
-		{
-  <%for (Iterator f=genClass.getAllGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();%>
-			case INTERNAL_<%=genFeature.getUpperName()%>: return <%=genFeature.getUpperName()%>;
-  <%}%>
-		}
-		return super.internalConvertIndex(internalIndex);
-	}
-
+	public final static int SDO_PROPERTY_COUNT = <%=featureCount%>;
 
   <%for (Iterator i=genClass.getDeclaredFieldGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
 <%@ include file="Class/declaredFieldGenFeature.override.javajetinc" fail="alternative" %>
@@ -424,7 +326,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 <%@ include file="Class/declaredFieldGenFeature.insert.javajetinc" fail="silent" %>
 <%@ end %><%//Class/declaredFieldGenFeature.override.javajetinc%>
 <%}%>
-<%if (isImplementation) { // create constructor %>
+<%if (isImplementation) {%>
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -452,10 +354,6 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	}
 
 <%}%>
-<%/*%>
-<% * Output getter and setter interfaces / impls%>
-<% */%>
-<%%>
 <%for (Iterator i=(isImplementation ? genClass.getImplementedGenFeatures() : genClass.getDeclaredGenFeatures()).iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
 <%@ include file="Class/genFeature.override.javajetinc" fail="alternative" %>
 <%@ start %>
@@ -641,8 +539,8 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
         <%if (genModel.isVirtualDelegation()) {%>
 			eVirtualSet(<%=genFeature.getUpperName()%>, <%=genFeature.getSafeName()%> = new <%=genClass.getListConstructor(genFeature)%>);
         <%} else {
-                if (genFeature.getType().equals("commonj.sdo.Sequence")){%>
-		  <%=genFeature.getSafeName()%> = createSequence(INTERNAL_<%=genFeature.getUpperName()%>);<%} else {%>
+				if (genFeature.getType().equals("commonj.sdo.Sequence")){%>
+		  <%=genFeature.getSafeName()%> = createSequence(<%=genFeature.getUpperName()%>);<%} else {%>
 		  <%=genFeature.getSafeName()%> = createPropertyList(ListKind.CONTAINMENT, <%=genFeature.getListItemType()%>.class, <%=genFeature.getUpperName()%>);<%}}%>
 		}
 		return <%=genFeature.getSafeName()%><%=genFeature.isMapType() && genFeature.isEffectiveSuppressEMFTypes() ? ".map()" : ""%>;
@@ -698,7 +596,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
       <%if (genFeature.isResolveProxies() && !genFeature.isListType()) {%>
 		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = basicGet<%=genFeature.getAccessorName()%>();
 		return <%=genFeature.getSafeName()%> != null && <%=genFeature.getSafeName()%>.isProxy() ? <%=genFeature.getNonEObjectInternalTypeCast()%>eResolveProxy((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>) : <%=genFeature.getSafeName()%>;
-      <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature(); // AAAA%>
+      <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();%>
         <%if (genFeature.isFeatureMapType()) {%>
           <%if (delegateFeature.isWrappedFeatureMapType()) {%>
 		return create<%=genFeature.getImportedType()%>(get<%=delegateFeature.getAccessorName()%>(), getType(), <%=genFeature.getUpperName()%>);
@@ -714,9 +612,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
           <%}%>
         <%} else {%>
           <%if (delegateFeature.isWrappedFeatureMapType()) {%>
-		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)get(get<%=delegateFeature.getAccessorName()%>(), getType(), INTERNAL_<%=genFeature.getUpperName()%>)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
+		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)get(get<%=delegateFeature.getAccessorName()%>(), getType(), <%=genFeature.getUpperName()%>)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
           <%} else {%>
-		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)get(get<%=delegateFeature.getAccessorName()%>(), getType(), INTERNAL_<%=genFeature.getUpperName()%>);<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
+		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)get(get<%=delegateFeature.getAccessorName()%>(), getType(), <%=genFeature.getUpperName()%>);<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
           <%}%>
         <%}%>
       <%} else {%>
@@ -752,7 +650,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
       <%} else {%>
 		return <%=genFeature.getSafeName()%>;
       <%}%>
-    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature(); //BBBB%>
+    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();%>
       <%if (delegateFeature.isWrappedFeatureMapType()) {%>
 		return (<%=genFeature.getImportedType()%>)get(get<%=delegateFeature.getAccessorName()%>(), getType(), <%=genFeature.getUpperName()%>);
       <%} else {%>
@@ -812,7 +710,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
       <%}%>
 <%@ include file="Class/basicSetGenFeature.post.insert.javajetinc" fail="silent" %>
 		return changeContext;
-    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature(); //CCCC%>
+    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();%>
       <%if (delegateFeature.isWrappedFeatureMapType()) {%>
 		return basicAdd(get<%=delegateFeature.getAccessorName()%>(), getType(), <%=genFeature.getUpperName()%>, new<%=genFeature.getCapName()%>, changeContext);
       <%} else {%>
@@ -992,9 +890,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
         <%}%>
       <%}%>
 <%@ include file="Class/setGenFeature.post.insert.javajetinc" fail="silent" %>
-    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature(); // DDDD%>
+    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();%>
       <%if (delegateFeature.isWrappedFeatureMapType()) {%>
-		set(get<%=delegateFeature.getAccessorName()%>(), getType(), INTERNAL_<%=genFeature.getUpperName()%>, <%if (genFeature.isPrimitiveType()){%> new <%=genFeature.getObjectType()%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()){%>)<%}%>);
+		set(get<%=delegateFeature.getAccessorName()%>(), getType(), <%=genFeature.getUpperName()%>, <%if (genFeature.isPrimitiveType()){%> new <%=genFeature.getObjectType()%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()){%>)<%}%>);
       <%} else {%>
 		((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)get<%=delegateFeature.getAccessorName()%>()).set(<%=genFeature.getQualifiedFeatureAccessor()%>, <%if (genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType()%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()){%>)<%}%>);
       <%}%>
@@ -1186,7 +1084,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
           <%}%>
         <%}%>
       <%}%>
-    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature(); //EEEE%>
+    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();%>
       <%if (delegateFeature.isWrappedFeatureMapType()) {%>
         unset(get<%=delegateFeature.getAccessorName()%>(), getType(), <%=genFeature.getUpperName()%>);
       <%} else {%>
@@ -1253,7 +1151,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 		return <%=genFeature.getUncapName()%>_set_;
         <%}%>
       <%}%>
-    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature(); //FFFF%>
+    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature();%>
       <%if (delegateFeature.isWrappedFeatureMapType()) {%>
         return isSet(get<%=delegateFeature.getAccessorName()%>(), getType(), <%=genFeature.getUpperName()%>);
       <%} else {%>
@@ -1274,7 +1172,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
   <%}%>
 <%@ include file="Class/genFeature.insert.javajetinc" fail="silent" %>
 <%@ end %><%//Class/genFeature.override.javajetinc%>
-<%}// end output getter and setter interfaces or impls%>
+<%}//for%>
 <%for (Iterator i= (isImplementation ? genClass.getImplementedGenOperations() : genClass.getDeclaredGenOperations()).iterator(); i.hasNext();) { GenOperation genOperation = (GenOperation)i.next();%>
 <%@ include file="Class/genOperation.override.javajetinc" fail="alternative" %>
 <%@ start %>

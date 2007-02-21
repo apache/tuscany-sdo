@@ -1,8 +1,21 @@
 /**
- * <copyright>
- * </copyright>
  *
- * $Id$
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
  */
 package com.example.sequences;
 
@@ -12,7 +25,6 @@ import java.io.Serializable;
 
 import java.util.List;
 
-  // EYECATCHER 1
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Two RCs Mixed</b></em>'.
@@ -21,21 +33,13 @@ import java.util.List;
  * <p>
  * The following features are supported:
  * <ul>
-// debug EYECATCHER 2
  *   <li>{@link com.example.sequences.TwoRCsMixed#getMixed <em>Mixed</em>}</li>
-// debug EYECATCHER 2
  *   <li>{@link com.example.sequences.TwoRCsMixed#getGroup <em>Group</em>}</li>
-// debug EYECATCHER 2
  *   <li>{@link com.example.sequences.TwoRCsMixed#getA <em>A</em>}</li>
-// debug EYECATCHER 2
  *   <li>{@link com.example.sequences.TwoRCsMixed#getB <em>B</em>}</li>
-// debug EYECATCHER 2
  *   <li>{@link com.example.sequences.TwoRCsMixed#getSplit <em>Split</em>}</li>
-// debug EYECATCHER 2
  *   <li>{@link com.example.sequences.TwoRCsMixed#getGroup1 <em>Group1</em>}</li>
-// debug EYECATCHER 2
  *   <li>{@link com.example.sequences.TwoRCsMixed#getY <em>Y</em>}</li>
-// debug EYECATCHER 2
  *   <li>{@link com.example.sequences.TwoRCsMixed#getZ <em>Z</em>}</li>
  * </ul>
  * </p>
