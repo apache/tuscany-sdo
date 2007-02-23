@@ -31,11 +31,17 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
+import org.eclipse.emf.ecore.util.EDataTypeEList;
+import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectEList;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
-
 
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
@@ -84,17 +90,96 @@ public abstract class DataObjectBase extends DataObjectImpl
     eNotify(new ENotificationImpl(this, Notification.SET, property, oldBooleanValue, newBooleanValue, isSetChange));
   }
   
-  protected interface ListKind
+  public interface ListKind
   {
     int CONTAINMENT = 0;
+    int CONTAINMENT_UNSETTABLE = 1;
+    int CONTAINMENT_RESOLVING = 2;
+    int CONTAINMENT_RESOLVING_UNSETTABLE = 3;
+    int CONTAINMENT_INVERSE = 4;
+    int CONTAINMENT_INVERSE_UNSETTABLE = 5;
+    int CONTAINMENT_INVERSE_RESOLVING = 6;
+    int CONTAINMENT_INVERSE_RESOLVING_UNSETTABLE = 7;
+
+    int NONCONTAINMENT = 8;
+    int NONCONTAINMENT_UNSETTABLE = 9;
+    int NONCONTAINMENT_RESOLVING = 10;
+    int NONCONTAINMENT_RESOLVING_UNSETTABLE = 11;
+    int NONCONTAINMENT_INVERSE = 12;
+    int NONCONTAINMENT_INVERSE_UNSETTABLE = 13;
+    int NONCONTAINMENT_MANYINVERSE = 14;
+    int NONCONTAINMENT_MANYINVERSE_UNSETTABLE = 15;
+    int NONCONTAINMENT_INVERSE_RESOLVING = 16;
+    int NONCONTAINMENT_INVERSE_RESOLVING_UNSETTABLE = 17;
+    int NONCONTAINMENT_MANYINVERSE_RESOLVING = 18;
+    int NONCONTAINMENT_MANYINVERSE_RESOLVING_UNSETTABLE = 19;
+    
+    int DATATYPE = 20;
+    int DATATYPE_UNSETTABLE = 21;
+    int DATATYPE_UNIQUE = 22;
+    int DATATYPE_UNIQUE_UNSETTABLE = 23;
   }
   
+  /**
+   * @deprecated
+   */
   protected List createPropertyList(int listKind, Class dataClass, int property)
+  {
+    return createPropertyList(listKind, dataClass, property, 0);
+  }
+  
+  protected List createPropertyList(int listKind, Class dataClass, int property, int reverseProperty)
   {
     switch (listKind)
     {
       case ListKind.CONTAINMENT:
         return new EObjectContainmentEList(dataClass, this, property);
+      case ListKind.CONTAINMENT_INVERSE_RESOLVING_UNSETTABLE:
+        return new EObjectContainmentWithInverseEList.Unsettable.Resolving(dataClass, this, property, reverseProperty);
+      case ListKind.CONTAINMENT_INVERSE_RESOLVING:
+        return new EObjectContainmentWithInverseEList.Resolving(dataClass, this, property, reverseProperty);
+      case ListKind.CONTAINMENT_INVERSE_UNSETTABLE:
+        return new EObjectContainmentWithInverseEList.Unsettable(dataClass, this, property, reverseProperty);
+      case ListKind.CONTAINMENT_INVERSE:
+        return new EObjectContainmentWithInverseEList(dataClass, this, property, reverseProperty);
+      case ListKind.CONTAINMENT_RESOLVING_UNSETTABLE:
+        return new EObjectContainmentEList.Unsettable.Resolving(dataClass, this, property);
+      case ListKind.CONTAINMENT_RESOLVING:
+        return new EObjectContainmentEList.Resolving(dataClass, this, property);
+      case ListKind.CONTAINMENT_UNSETTABLE:
+        return new EObjectContainmentEList.Unsettable(dataClass, this, property);
+      case ListKind.NONCONTAINMENT_MANYINVERSE_RESOLVING_UNSETTABLE:
+        return new EObjectWithInverseResolvingEList.Unsettable.ManyInverse(dataClass, this, property, reverseProperty);
+      case ListKind.NONCONTAINMENT_MANYINVERSE_RESOLVING:
+        return new EObjectWithInverseResolvingEList.ManyInverse(dataClass, this, property, reverseProperty);
+      case ListKind.NONCONTAINMENT_INVERSE_RESOLVING_UNSETTABLE:
+        return new EObjectWithInverseResolvingEList.Unsettable(dataClass, this, property, reverseProperty);
+      case ListKind.NONCONTAINMENT_INVERSE_RESOLVING:
+        return new EObjectWithInverseResolvingEList(dataClass, this, property, reverseProperty);
+      case ListKind.NONCONTAINMENT_MANYINVERSE_UNSETTABLE:
+        return new EObjectWithInverseEList.Unsettable.ManyInverse(dataClass, this, property, reverseProperty);
+      case ListKind.NONCONTAINMENT_MANYINVERSE:
+        return new EObjectWithInverseEList.ManyInverse(dataClass, this, property, reverseProperty);
+      case ListKind.NONCONTAINMENT_INVERSE_UNSETTABLE:
+        return new EObjectWithInverseEList.Unsettable(dataClass, this, property, reverseProperty);
+      case ListKind.NONCONTAINMENT_INVERSE:
+        return new EObjectWithInverseEList(dataClass, this, property, reverseProperty);
+      case ListKind.NONCONTAINMENT_RESOLVING_UNSETTABLE:
+        return new EObjectResolvingEList.Unsettable(dataClass, this, property);
+      case ListKind.NONCONTAINMENT_RESOLVING:
+        return new EObjectResolvingEList(dataClass, this, property);
+      case ListKind.NONCONTAINMENT_UNSETTABLE:
+        return new EObjectEList.Unsettable(dataClass, this, property);
+      case ListKind.NONCONTAINMENT:
+        return new EObjectEList(dataClass, this, property);
+      case ListKind.DATATYPE_UNIQUE_UNSETTABLE:
+        return new EDataTypeUniqueEList.Unsettable(dataClass, this, property);
+      case ListKind.DATATYPE_UNIQUE:
+        return new EDataTypeUniqueEList(dataClass, this, property);
+      case ListKind.DATATYPE_UNSETTABLE:
+        return new EDataTypeEList.Unsettable(dataClass, this, property);
+      case ListKind.DATATYPE:
+        return new EDataTypeEList(dataClass, this, property);
     }
     return null;
   }
