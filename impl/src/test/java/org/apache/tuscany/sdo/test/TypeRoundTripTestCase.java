@@ -28,7 +28,6 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.apache.tuscany.sdo.util.SDOUtil;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataHelper;

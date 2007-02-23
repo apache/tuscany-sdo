@@ -425,7 +425,7 @@ public abstract class RecordedEventXMLStreamReader implements XMLStreamReader {
             Event event = new ValueEvent(value);
             event.type = type;
             event.location(locator);
-            int index = events.size();
+            //int index = events.size();
             add(event);
         }
 

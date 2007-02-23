@@ -183,6 +183,10 @@ public class DefineTypeTestCase extends TestCase
     
     DataObject customer1 = factory.create("http://example.com/customer",
     "Customer");
+
+    customer1.setInt("custNum", 0);
+    assertTrue(customer1.isSet("custNum"));
+
     customer1.setInt("custNum", 1);
     customer1.set("firstName", "John");
     customer1.set("lastName", "Adams");
@@ -662,7 +666,7 @@ public void testInterdependentTypes()
 	    List ts = new ArrayList();
 	    ts.add(t1);
 	    ts.add(t2);
-	    List types = TypeHelper.INSTANCE.define(ts);
+	    List types = hc.getTypeHelper().define(ts);
 	    
 	    Type first = (Type)types.get(0);
 	    Type second = (Type)types.get(1);

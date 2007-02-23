@@ -27,18 +27,14 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 import java.net.URL;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
-
 import junit.framework.TestCase;
 
+import org.apache.tuscany.sdo.util.SDOUtil;
+
 import commonj.sdo.DataObject;
-import commonj.sdo.Property;
 import commonj.sdo.Type;
-import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
 
 
 public class SimpleDynamicTestCase extends TestCase {
@@ -46,9 +42,9 @@ public class SimpleDynamicTestCase extends TestCase {
     private final String TEST_NAMESPACE = "http://www.example.com/simple";
     private final String QUOTE_XML = "/quote.xml";
 
-    private final String TEST_MODEL2 = "/simple2.xsd";
-    private final String TEST_NAMESPACE2 = "http://www.example.com/simple2";
-    private final String QUOTE_XML2 = "/quote2.xml";
+    //private final String TEST_MODEL2 = "/simple2.xsd";
+    //private final String TEST_NAMESPACE2 = "http://www.example.com/simple2";
+    //private final String QUOTE_XML2 = "/quote2.xml";
     
     HelperContext hc;
     TypeHelper th;
@@ -81,6 +77,7 @@ public class SimpleDynamicTestCase extends TestCase {
         assertTrue(TestUtil.equalXmlFiles(new ByteArrayInputStream(baos.toByteArray()), getClass().getResource(QUOTE_XML)));
     }
 
+    /*
     public void dontTestResolveXSDWithoutSchemaLocation() throws IOException {
 
         URL url = getClass().getResource(TEST_MODEL2);
@@ -106,6 +103,7 @@ public class SimpleDynamicTestCase extends TestCase {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         hc.getXMLHelper().save(quote2, TEST_NAMESPACE2, "stockQuote", System.out);
     }
+    */
 
     protected void setUp() throws Exception {
         super.setUp();

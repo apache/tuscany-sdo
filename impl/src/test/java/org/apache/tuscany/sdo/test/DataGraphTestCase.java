@@ -22,8 +22,6 @@ package org.apache.tuscany.sdo.test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.util.List;
-import java.util.Iterator;
 
 import junit.framework.TestCase;
 
@@ -32,7 +30,6 @@ import org.apache.tuscany.sdo.util.SDOUtil;
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
-import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XSDHelper;
 
 /**

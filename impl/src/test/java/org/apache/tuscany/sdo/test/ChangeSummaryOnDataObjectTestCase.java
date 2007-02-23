@@ -36,11 +36,9 @@ import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
-import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XSDHelper;
-import commonj.sdo.helper.XMLHelper;
 
 
 public class ChangeSummaryOnDataObjectTestCase extends TestCase {

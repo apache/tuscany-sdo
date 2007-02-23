@@ -30,7 +30,6 @@ import junit.framework.TestCase;
 import org.apache.tuscany.sdo.util.SDOUtil;
 
 import com.example.simple.SimpleFactory;
-import com.example.simple.impl.SimpleFactoryImpl;
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;

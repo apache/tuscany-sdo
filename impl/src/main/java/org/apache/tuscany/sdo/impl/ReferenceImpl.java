@@ -82,6 +82,14 @@ public class ReferenceImpl extends EReferenceImpl implements Property,/* DataObj
     return !isChangeable(); //TODO semantics don't exactly match?
   }
 
+  /**
+   * Single-valued SDO properties behave as EMF unsettable, multi-valued properties as EMF !unsettable
+   */
+  public boolean isUnsettable()
+  {
+    return !isMany();
+  }
+
   protected List aliasNames = null;
 
   /**
@@ -233,7 +241,7 @@ public class ReferenceImpl extends EReferenceImpl implements Property,/* DataObj
   }
 
   public boolean isSetNullable() {
-    return isReadOnly();
+    return isNullable();
   }
 
   

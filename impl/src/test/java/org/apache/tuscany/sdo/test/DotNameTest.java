@@ -24,16 +24,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
-
 import junit.framework.TestCase;
+
+import org.apache.tuscany.sdo.util.SDOUtil;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
-import commonj.sdo.helper.XSDHelper;
 
 
 public class DotNameTest extends TestCase {
