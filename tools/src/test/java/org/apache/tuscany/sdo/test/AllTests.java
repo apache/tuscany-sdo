@@ -31,7 +31,6 @@ public class AllTests extends TestCase {
       
         suite.addTestSuite(ChangeSummaryGenTestCase.class);
         suite.addTestSuite(GenPatternsTestCase.class);
-        suite.addTestSuite(InheritanceTestCase.class);
         suite.addTestSuite(SimpleStaticTestCase.class);
 
         return suite;
