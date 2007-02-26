@@ -1,5 +1,4 @@
-/**
- *
+<!--
  *  Licensed to the Apache Software Foundation (ASF) under one
  *  or more contributor license agreements.  See the NOTICE file
  *  distributed with this work for additional information
@@ -16,34 +15,9 @@
  *  KIND, either express or implied.  See the License for the
  *  specific language governing permissions and limitations
  *  under the License.
- */
-
-package org.apache.tuscany.sdo.test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-public class AllTests extends TestCase {
-	
-	
-  public static TestSuite suite() {
-
-        TestSuite suite = new TestSuite();
-      
-        suite.addTestSuite(ChangeSummaryGenTestCase.class);
-        suite.addTestSuite(GenPatternsTestCase.class);
-        suite.addTestSuite(InheritanceTestCase.class);
-        suite.addTestSuite(SimpleStaticTestCase.class);
-
-        return suite;
-    }
-
-
-    
-    /**
-     * Runs the test suite using the textual runner.
-     */
-    public static void main(String[] args) {
-        junit.textui.TestRunner.run(suite());
-    }
-}
-
+ -->
+<subgroup:a xmlns:subgroup="http://example.com/subgroup">
+  <subgroup:ge1>
+    <subgroup:imInTypeB>thisIsElB</subgroup:imInTypeB>
+  </subgroup:ge1>
+</subgroup:a>

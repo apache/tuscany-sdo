@@ -1,21 +1,8 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package com.example.sequences;
 
@@ -112,6 +99,8 @@ public interface TwoRCsMixed extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Split</em>' attribute.
+   * @see #isSetSplit()
+   * @see #unsetSplit()
    * @see #setSplit(String)
    * @generated
    */
@@ -122,10 +111,35 @@ public interface TwoRCsMixed extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Split</em>' attribute.
+   * @see #isSetSplit()
+   * @see #unsetSplit()
    * @see #getSplit()
    * @generated
    */
   void setSplit(String value);
+
+  /**
+   * Unsets the value of the '{@link com.example.sequences.TwoRCsMixed#getSplit <em>Split</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetSplit()
+   * @see #getSplit()
+   * @see #setSplit(String)
+   * @generated
+   */
+  void unsetSplit();
+
+  /**
+   * Returns whether the value of the '{@link com.example.sequences.TwoRCsMixed#getSplit <em>Split</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Split</em>' attribute is set.
+   * @see #unsetSplit()
+   * @see #getSplit()
+   * @see #setSplit(String)
+   * @generated
+   */
+  boolean isSetSplit();
 
   /**
    * Returns the value of the '<em><b>Group1</b></em>' attribute list.

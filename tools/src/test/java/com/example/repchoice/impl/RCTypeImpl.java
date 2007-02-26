@@ -4,10 +4,10 @@
  *
  * $Id$
  */
-package com.example.sequences.impl;
+package com.example.repchoice.impl;
 
-import com.example.sequences.RepeatingChoice;
-import com.example.sequences.SequencesFactory;
+import com.example.repchoice.RCType;
+import com.example.repchoice.RepchoiceFactory;
 
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
@@ -19,29 +19,32 @@ import org.apache.tuscany.sdo.impl.DataObjectBase;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Repeating Choice</b></em>'.
+ * An implementation of the model object '<em><b>RC Type</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link com.example.sequences.impl.RepeatingChoiceImpl#getGroup <em>Group</em>}</li>
- *   <li>{@link com.example.sequences.impl.RepeatingChoiceImpl#getA <em>A</em>}</li>
- *   <li>{@link com.example.sequences.impl.RepeatingChoiceImpl#getB <em>B</em>}</li>
+ *   <li>{@link com.example.repchoice.impl.RCTypeImpl#getGroup <em>Group</em>}</li>
+ *   <li>{@link com.example.repchoice.impl.RCTypeImpl#getS <em>S</em>}</li>
+ *   <li>{@link com.example.repchoice.impl.RCTypeImpl#getI <em>I</em>}</li>
+ *   <li>{@link com.example.repchoice.impl.RCTypeImpl#getF <em>F</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoice
+public class RCTypeImpl extends DataObjectBase implements RCType
 {
 
   public final static int GROUP = -1;
 
-  public final static int A = 0;
+  public final static int S = 0;
 
-  public final static int B = 1;
+  public final static int I = 1;
 
-  public final static int SDO_PROPERTY_COUNT = 2;
+  public final static int F = 2;
+
+  public final static int SDO_PROPERTY_COUNT = 3;
 
   public final static int EXTENDED_PROPERTY_COUNT = -1;
 
@@ -56,22 +59,31 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
   public final static int INTERNAL_GROUP = 0;
 
   /**
-   * The internal feature id for the '<em><b>A</b></em>' attribute list.
+   * The internal feature id for the '<em><b>S</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_A = 1;
+  public final static int INTERNAL_S = 1;
 
   /**
-   * The internal feature id for the '<em><b>B</b></em>' attribute list.
+   * The internal feature id for the '<em><b>I</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_B = 2;
+  public final static int INTERNAL_I = 2;
+
+  /**
+   * The internal feature id for the '<em><b>F</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_F = 3;
 
   /**
    * The number of properties for this type.
@@ -80,15 +92,16 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
    * @generated
    * @ordered
    */
-  public final static int INTERNAL_PROPERTY_COUNT = 3;
+  public final static int INTERNAL_PROPERTY_COUNT = 4;
 
   protected int internalConvertIndex(int internalIndex)
   {
     switch (internalIndex)
     {
       case INTERNAL_GROUP: return GROUP;
-      case INTERNAL_A: return A;
-      case INTERNAL_B: return B;
+      case INTERNAL_S: return S;
+      case INTERNAL_I: return I;
+      case INTERNAL_F: return F;
     }
     return super.internalConvertIndex(internalIndex);
   }
@@ -110,7 +123,7 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
    * <!-- end-user-doc -->
    * @generated
    */
-  public RepeatingChoiceImpl()
+  public RCTypeImpl()
   {
     super();
   }
@@ -122,7 +135,7 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
    */
   public Type getType()
   {
-    return ((SequencesFactoryImpl)SequencesFactory.INSTANCE).getRepeatingChoice();
+    return ((RepchoiceFactoryImpl)RepchoiceFactory.INSTANCE).getRCType();
   }
 
   /**
@@ -143,9 +156,9 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getA()
+  public List getS()
   {
-          return getList(getGroup(), getType(), A);
+          return getList(getGroup(), getType(), S);
 
   }
   /**
@@ -153,9 +166,19 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
    * <!-- end-user-doc -->
    * @generated
    */
-  public List getB()
+  public List getI()
   {
-          return getList(getGroup(), getType(), B);
+          return getList(getGroup(), getType(), I);
+
+  }
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public List getF()
+  {
+          return getList(getGroup(), getType(), F);
 
   }
   /**
@@ -186,10 +209,12 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
         // XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
         //if (coreType) 
         return getGroup();
-      case A:
-        return getA();
-      case B:
-        return getB();
+      case S:
+        return getS();
+      case I:
+        return getI();
+      case F:
+        return getF();
     }
     return super.get(propertyIndex, resolve);
   }
@@ -206,13 +231,17 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
       case GROUP:
       	setSequence(getGroup(), newValue);
         return;
-      case A:
-        getA().clear();
-        getA().addAll((Collection)newValue);
+      case S:
+        getS().clear();
+        getS().addAll((Collection)newValue);
         return;
-      case B:
-        getB().clear();
-        getB().addAll((Collection)newValue);
+      case I:
+        getI().clear();
+        getI().addAll((Collection)newValue);
+        return;
+      case F:
+        getF().clear();
+        getF().addAll((Collection)newValue);
         return;
     }
     super.set(propertyIndex, newValue);
@@ -230,11 +259,14 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
       case GROUP:
         unsetSequence(getGroup());
         return;
-      case A:
-        getA().clear();
+      case S:
+        getS().clear();
         return;
-      case B:
-        getB().clear();
+      case I:
+        getI().clear();
+        return;
+      case F:
+        getF().clear();
         return;
     }
     super.unset(propertyIndex);
@@ -251,10 +283,12 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
     {
       case GROUP:
         return group != null && !isSequenceEmpty(getGroup());
-      case A:
-        return !getA().isEmpty();
-      case B:
-        return !getB().isEmpty();
+      case S:
+        return !getS().isEmpty();
+      case I:
+        return !getI().isEmpty();
+      case F:
+        return !getF().isEmpty();
     }
     return super.isSet(propertyIndex);
   }
@@ -275,4 +309,4 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
     return result.toString();
   }
 
-} //RepeatingChoiceImpl
+} //RCTypeImpl

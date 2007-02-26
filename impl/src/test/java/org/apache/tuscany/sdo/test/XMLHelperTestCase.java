@@ -67,7 +67,7 @@ public class XMLHelperTestCase extends TestCase {
  
   }
 
-  protected final void format(String xml,String formetted) throws IOException {
+  protected final void format(String xml,String formatted) throws IOException {
     XMLDocument doc = xmlh.load(getClass().getResource(xml).openStream());
     Map options = new HashMap();
 
@@ -81,7 +81,7 @@ public class XMLHelperTestCase extends TestCase {
     xmlh.save(xmlh.createDocument(doc.getRootObject(), doc.getRootElementURI(), doc.getRootElementName()), baos, options);
     //xmlh.save(xmlh.createDocument(doc.getRootObject(), doc.getRootElementURI(), doc.getRootElementName()), System.out, options);
     
-    assertEquals(baos.toString(), formetted);
+    assertEquals(formatted, baos.toString());
   }
 
   public void testSaveXMLDocumentOutputStreamObject() throws IOException {

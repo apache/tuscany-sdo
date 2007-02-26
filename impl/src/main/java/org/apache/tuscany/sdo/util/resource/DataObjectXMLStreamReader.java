@@ -34,8 +34,11 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.tuscany.sdo.impl.AttributeImpl;
 import org.apache.tuscany.sdo.impl.ReferenceImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -156,8 +159,8 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         }
     }
 
-    void addProperty(List propertyList, Property property, Object value) {
-        if (!isTransient(property))
+    void addProperty(List propertyList, Property property, Object value, Object type) {
+        if (!isTransient(property, type))
             addProperty(property, value, propertyList);
     }
 
@@ -171,8 +174,14 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         }
     }
 
-    private boolean isTransient(Property property) {
+    static private boolean isTransient(Property property, Object type) {
         // HACK: We need some SDOUtil extension to understand a property is derived
+        EStructuralFeature feature = (EStructuralFeature) property;
+        if (ExtendedMetaData.INSTANCE.getGroup(feature) != null)
+            return false;
+        feature = ExtendedMetaData.INSTANCE.getAffiliation((EClass) type, feature);
+        if (feature != null && feature != property)
+            return false;
         if (property instanceof ReferenceImpl) {
             ReferenceImpl r = (ReferenceImpl) property;
             if (r.isTransient())
@@ -283,7 +292,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
                     if (!dataObject.isSet(property))
                         continue;
                     Object value = dataObject.get(property);
-                    addProperty(attributeList, property, value);
+                    addProperty(attributeList, property, value, type);
                 }
             }
         } else {
@@ -295,9 +304,9 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
                     continue;
                 Object value = dataObject.get(property);
                 if (xsdHelper.isAttribute(property))
-                    addProperty(attributeList, property, value);
+                    addProperty(attributeList, property, value, type);
                 else
-                    addProperty(elementList, property, value);
+                    addProperty(elementList, property, value, type);
             }
         }
         properties = (Map.Entry[]) elementList.toArray(new Map.Entry[0]);

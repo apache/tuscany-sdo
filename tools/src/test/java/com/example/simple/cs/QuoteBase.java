@@ -33,6 +33,8 @@ public interface QuoteBase extends Quote
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Changes</em>' attribute.
+   * @see #isSetChanges()
+   * @see #unsetChanges()
    * @see #setChanges(ChangeSummary)
    * @generated
    */
@@ -43,9 +45,34 @@ public interface QuoteBase extends Quote
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Changes</em>' attribute.
+   * @see #isSetChanges()
+   * @see #unsetChanges()
    * @see #getChanges()
    * @generated
    */
   void setChanges(ChangeSummary value);
+
+  /**
+   * Unsets the value of the '{@link com.example.simple.cs.QuoteBase#getChanges <em>Changes</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetChanges()
+   * @see #getChanges()
+   * @see #setChanges(ChangeSummary)
+   * @generated
+   */
+  void unsetChanges();
+
+  /**
+   * Returns whether the value of the '{@link com.example.simple.cs.QuoteBase#getChanges <em>Changes</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Changes</em>' attribute is set.
+   * @see #unsetChanges()
+   * @see #getChanges()
+   * @see #setChanges(ChangeSummary)
+   * @generated
+   */
+  boolean isSetChanges();
 
 } // QuoteBase

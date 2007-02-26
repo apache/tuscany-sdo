@@ -1,21 +1,8 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package com.example.sequences.impl;
 
@@ -56,105 +43,149 @@ import org.apache.tuscany.sdo.impl.DataObjectBase;
  */
 public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
 {
+
+  public final static int MIXED = -1;
+
+  public final static int SYMBOL = 0;
+
+  public final static int COMPANY_NAME = 1;
+
+  public final static int PRICE = 2;
+
+  public final static int OPEN1 = 3;
+
+  public final static int HIGH = 4;
+
+  public final static int LOW = 5;
+
+  public final static int VOLUME = 6;
+
+  public final static int CHANGE1 = 7;
+
+  public final static int QUOTES = 8;
+
+  public final static int SDO_PROPERTY_COUNT = 9;
+
+  public final static int EXTENDED_PROPERTY_COUNT = -1;
+
+
   /**
-   * The feature id for the '<em><b>Mixed</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Mixed</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int MIXED = 0;
+   */ 
+  public final static int INTERNAL_MIXED = 0;
 
   /**
-   * The feature id for the '<em><b>Symbol</b></em>' attribute.
+   * The internal feature id for the '<em><b>Symbol</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int SYMBOL = 1;
+   */ 
+  public final static int INTERNAL_SYMBOL = 1;
 
   /**
-   * The feature id for the '<em><b>Company Name</b></em>' attribute.
+   * The internal feature id for the '<em><b>Company Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int COMPANY_NAME = 2;
+   */ 
+  public final static int INTERNAL_COMPANY_NAME = 2;
 
   /**
-   * The feature id for the '<em><b>Price</b></em>' attribute.
+   * The internal feature id for the '<em><b>Price</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int PRICE = 3;
+   */ 
+  public final static int INTERNAL_PRICE = 3;
 
   /**
-   * The feature id for the '<em><b>Open1</b></em>' attribute.
+   * The internal feature id for the '<em><b>Open1</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int OPEN1 = 4;
+   */ 
+  public final static int INTERNAL_OPEN1 = 4;
 
   /**
-   * The feature id for the '<em><b>High</b></em>' attribute.
+   * The internal feature id for the '<em><b>High</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int HIGH = 5;
+   */ 
+  public final static int INTERNAL_HIGH = 5;
 
   /**
-   * The feature id for the '<em><b>Low</b></em>' attribute.
+   * The internal feature id for the '<em><b>Low</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int LOW = 6;
+   */ 
+  public final static int INTERNAL_LOW = 6;
 
   /**
-   * The feature id for the '<em><b>Volume</b></em>' attribute.
+   * The internal feature id for the '<em><b>Volume</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int VOLUME = 7;
+   */ 
+  public final static int INTERNAL_VOLUME = 7;
 
   /**
-   * The feature id for the '<em><b>Change1</b></em>' attribute.
+   * The internal feature id for the '<em><b>Change1</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int CHANGE1 = 8;
+   */ 
+  public final static int INTERNAL_CHANGE1 = 8;
 
   /**
-   * The feature id for the '<em><b>Quotes</b></em>' containment reference list.
+   * The internal feature id for the '<em><b>Quotes</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int QUOTES = 9;
+   */ 
+  public final static int INTERNAL_QUOTES = 9;
 
   /**
-   * This represents the number of properties for this type.
+   * The number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  
-  public final static int SDO_PROPERTY_COUNT = 10;
+  public final static int INTERNAL_PROPERTY_COUNT = 10;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+      case INTERNAL_MIXED: return MIXED;
+      case INTERNAL_SYMBOL: return SYMBOL;
+      case INTERNAL_COMPANY_NAME: return COMPANY_NAME;
+      case INTERNAL_PRICE: return PRICE;
+      case INTERNAL_OPEN1: return OPEN1;
+      case INTERNAL_HIGH: return HIGH;
+      case INTERNAL_LOW: return LOW;
+      case INTERNAL_VOLUME: return VOLUME;
+      case INTERNAL_CHANGE1: return CHANGE1;
+      case INTERNAL_QUOTES: return QUOTES;
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
 
   /**
    * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
@@ -167,66 +198,6 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   
   protected Sequence mixed = null;
   
-  /**
-   * The default value of the '{@link #getSymbol() <em>Symbol</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getSymbol()
-   * @generated
-   * @ordered
-   */
-  protected static final String SYMBOL_DEFAULT_ = null;
-
-  /**
-   * The default value of the '{@link #getCompanyName() <em>Company Name</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getCompanyName()
-   * @generated
-   * @ordered
-   */
-  protected static final String COMPANY_NAME_DEFAULT_ = null;
-
-  /**
-   * The default value of the '{@link #getPrice() <em>Price</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getPrice()
-   * @generated
-   * @ordered
-   */
-  protected static final BigDecimal PRICE_DEFAULT_ = null;
-
-  /**
-   * The default value of the '{@link #getOpen1() <em>Open1</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getOpen1()
-   * @generated
-   * @ordered
-   */
-  protected static final BigDecimal OPEN1_DEFAULT_ = null;
-
-  /**
-   * The default value of the '{@link #getHigh() <em>High</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getHigh()
-   * @generated
-   * @ordered
-   */
-  protected static final BigDecimal HIGH_DEFAULT_ = null;
-
-  /**
-   * The default value of the '{@link #getLow() <em>Low</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getLow()
-   * @generated
-   * @ordered
-   */
-  protected static final BigDecimal LOW_DEFAULT_ = null;
-
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -256,7 +227,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
   {
     if (mixed == null)
     {
-      mixed = createSequence(MIXED);
+      mixed = createSequence(INTERNAL_MIXED);
     }
     return mixed;
   }
@@ -267,7 +238,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public String getSymbol()
   {
-    return (String)get(getMixed(), getType(), SYMBOL);
+    return (String)get(getMixed(), getType(), INTERNAL_SYMBOL);
   }
   /**
    * <!-- begin-user-doc -->
@@ -276,7 +247,27 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setSymbol(String newSymbol)
   {
-    set(getMixed(), getType(), SYMBOL, newSymbol);
+    set(getMixed(), getType(), INTERNAL_SYMBOL, newSymbol);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetSymbol()
+  {
+        unset(getMixed(), getType(), SYMBOL);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetSymbol()
+  {
+        return isSet(getMixed(), getType(), SYMBOL);
   }
 
   /**
@@ -286,7 +277,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public String getCompanyName()
   {
-    return (String)get(getMixed(), getType(), COMPANY_NAME);
+    return (String)get(getMixed(), getType(), INTERNAL_COMPANY_NAME);
   }
   /**
    * <!-- begin-user-doc -->
@@ -295,7 +286,27 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setCompanyName(String newCompanyName)
   {
-    set(getMixed(), getType(), COMPANY_NAME, newCompanyName);
+    set(getMixed(), getType(), INTERNAL_COMPANY_NAME, newCompanyName);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetCompanyName()
+  {
+        unset(getMixed(), getType(), COMPANY_NAME);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetCompanyName()
+  {
+        return isSet(getMixed(), getType(), COMPANY_NAME);
   }
 
   /**
@@ -305,7 +316,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public BigDecimal getPrice()
   {
-    return (BigDecimal)get(getMixed(), getType(), PRICE);
+    return (BigDecimal)get(getMixed(), getType(), INTERNAL_PRICE);
   }
   /**
    * <!-- begin-user-doc -->
@@ -314,7 +325,27 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setPrice(BigDecimal newPrice)
   {
-    set(getMixed(), getType(), PRICE, newPrice);
+    set(getMixed(), getType(), INTERNAL_PRICE, newPrice);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetPrice()
+  {
+        unset(getMixed(), getType(), PRICE);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetPrice()
+  {
+        return isSet(getMixed(), getType(), PRICE);
   }
 
   /**
@@ -324,7 +355,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public BigDecimal getOpen1()
   {
-    return (BigDecimal)get(getMixed(), getType(), OPEN1);
+    return (BigDecimal)get(getMixed(), getType(), INTERNAL_OPEN1);
   }
   /**
    * <!-- begin-user-doc -->
@@ -333,7 +364,27 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setOpen1(BigDecimal newOpen1)
   {
-    set(getMixed(), getType(), OPEN1, newOpen1);
+    set(getMixed(), getType(), INTERNAL_OPEN1, newOpen1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetOpen1()
+  {
+        unset(getMixed(), getType(), OPEN1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetOpen1()
+  {
+        return isSet(getMixed(), getType(), OPEN1);
   }
 
   /**
@@ -343,7 +394,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public BigDecimal getHigh()
   {
-    return (BigDecimal)get(getMixed(), getType(), HIGH);
+    return (BigDecimal)get(getMixed(), getType(), INTERNAL_HIGH);
   }
   /**
    * <!-- begin-user-doc -->
@@ -352,7 +403,27 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setHigh(BigDecimal newHigh)
   {
-    set(getMixed(), getType(), HIGH, newHigh);
+    set(getMixed(), getType(), INTERNAL_HIGH, newHigh);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetHigh()
+  {
+        unset(getMixed(), getType(), HIGH);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetHigh()
+  {
+        return isSet(getMixed(), getType(), HIGH);
   }
 
   /**
@@ -362,7 +433,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public BigDecimal getLow()
   {
-    return (BigDecimal)get(getMixed(), getType(), LOW);
+    return (BigDecimal)get(getMixed(), getType(), INTERNAL_LOW);
   }
   /**
    * <!-- begin-user-doc -->
@@ -371,7 +442,27 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setLow(BigDecimal newLow)
   {
-    set(getMixed(), getType(), LOW, newLow);
+    set(getMixed(), getType(), INTERNAL_LOW, newLow);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetLow()
+  {
+        unset(getMixed(), getType(), LOW);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetLow()
+  {
+        return isSet(getMixed(), getType(), LOW);
   }
 
   /**
@@ -381,7 +472,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public double getVolume()
   {
-    return ((Double)get(getMixed(), getType(), VOLUME)).doubleValue();
+    return ((Double)get(getMixed(), getType(), INTERNAL_VOLUME)).doubleValue();
   }
   /**
    * <!-- begin-user-doc -->
@@ -390,7 +481,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setVolume(double newVolume)
   {
-    set(getMixed(), getType(), VOLUME,  new Double(newVolume));
+    set(getMixed(), getType(), INTERNAL_VOLUME,  new Double(newVolume));
   }
 
   /**
@@ -420,7 +511,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public double getChange1()
   {
-    return ((Double)get(getMixed(), getType(), CHANGE1)).doubleValue();
+    return ((Double)get(getMixed(), getType(), INTERNAL_CHANGE1)).doubleValue();
   }
   /**
    * <!-- begin-user-doc -->
@@ -429,7 +520,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void setChange1(double newChange1)
   {
-    set(getMixed(), getType(), CHANGE1,  new Double(newChange1));
+    set(getMixed(), getType(), INTERNAL_CHANGE1,  new Double(newChange1));
   }
 
   /**
@@ -571,22 +662,22 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
         unsetSequence(getMixed());
         return;
       case SYMBOL:
-        setSymbol(SYMBOL_DEFAULT_);
+        unsetSymbol();
         return;
       case COMPANY_NAME:
-        setCompanyName(COMPANY_NAME_DEFAULT_);
+        unsetCompanyName();
         return;
       case PRICE:
-        setPrice(PRICE_DEFAULT_);
+        unsetPrice();
         return;
       case OPEN1:
-        setOpen1(OPEN1_DEFAULT_);
+        unsetOpen1();
         return;
       case HIGH:
-        setHigh(HIGH_DEFAULT_);
+        unsetHigh();
         return;
       case LOW:
-        setLow(LOW_DEFAULT_);
+        unsetLow();
         return;
       case VOLUME:
         unsetVolume();
@@ -613,17 +704,17 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
       case MIXED:
         return mixed != null && !isSequenceEmpty(getMixed());
       case SYMBOL:
-        return SYMBOL_DEFAULT_ == null ? getSymbol() != null : !SYMBOL_DEFAULT_.equals(getSymbol());
+        return isSetSymbol();
       case COMPANY_NAME:
-        return COMPANY_NAME_DEFAULT_ == null ? getCompanyName() != null : !COMPANY_NAME_DEFAULT_.equals(getCompanyName());
+        return isSetCompanyName();
       case PRICE:
-        return PRICE_DEFAULT_ == null ? getPrice() != null : !PRICE_DEFAULT_.equals(getPrice());
+        return isSetPrice();
       case OPEN1:
-        return OPEN1_DEFAULT_ == null ? getOpen1() != null : !OPEN1_DEFAULT_.equals(getOpen1());
+        return isSetOpen1();
       case HIGH:
-        return HIGH_DEFAULT_ == null ? getHigh() != null : !HIGH_DEFAULT_.equals(getHigh());
+        return isSetHigh();
       case LOW:
-        return LOW_DEFAULT_ == null ? getLow() != null : !LOW_DEFAULT_.equals(getLow());
+        return isSetLow();
       case VOLUME:
         return isSetVolume();
       case CHANGE1:

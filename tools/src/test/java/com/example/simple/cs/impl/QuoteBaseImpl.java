@@ -27,105 +27,131 @@ import commonj.sdo.Type;
  */
 public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
 {
-  /**
-   * The feature id for the '<em><b>Symbol</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
-  public final static int SYMBOL = QuoteImpl.SYMBOL;
 
-  /**
-   * The feature id for the '<em><b>Company Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
-  public final static int COMPANY_NAME = QuoteImpl.COMPANY_NAME;
-
-  /**
-   * The feature id for the '<em><b>Price</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
-  public final static int PRICE = QuoteImpl.PRICE;
-
-  /**
-   * The feature id for the '<em><b>Open1</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
-  public final static int OPEN1 = QuoteImpl.OPEN1;
-
-  /**
-   * The feature id for the '<em><b>High</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
-  public final static int HIGH = QuoteImpl.HIGH;
-
-  /**
-   * The feature id for the '<em><b>Low</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
-  public final static int LOW = QuoteImpl.LOW;
-
-  /**
-   * The feature id for the '<em><b>Volume</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
-  public final static int VOLUME = QuoteImpl.VOLUME;
-
-  /**
-   * The feature id for the '<em><b>Change1</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
-  public final static int CHANGE1 = QuoteImpl.CHANGE1;
-
-  /**
-   * The feature id for the '<em><b>Quotes</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
-  public final static int QUOTES = QuoteImpl.QUOTES;
-
-  /**
-   * The feature id for the '<em><b>Changes</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
   public final static int CHANGES = QuoteImpl.SDO_PROPERTY_COUNT + 0;
 
+  public final static int SDO_PROPERTY_COUNT = QuoteImpl.SDO_PROPERTY_COUNT + 1;
+
+  public final static int EXTENDED_PROPERTY_COUNT = QuoteImpl.EXTENDED_PROPERTY_COUNT - 0;
+
+
   /**
-   * This represents the number of properties for this type.
+   * The internal feature id for the '<em><b>Symbol</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_SYMBOL = QuoteImpl.SYMBOL;
+
+  /**
+   * The internal feature id for the '<em><b>Company Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_COMPANY_NAME = QuoteImpl.COMPANY_NAME;
+
+  /**
+   * The internal feature id for the '<em><b>Price</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_PRICE = QuoteImpl.PRICE;
+
+  /**
+   * The internal feature id for the '<em><b>Open1</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_OPEN1 = QuoteImpl.OPEN1;
+
+  /**
+   * The internal feature id for the '<em><b>High</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_HIGH = QuoteImpl.HIGH;
+
+  /**
+   * The internal feature id for the '<em><b>Low</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_LOW = QuoteImpl.LOW;
+
+  /**
+   * The internal feature id for the '<em><b>Volume</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_VOLUME = QuoteImpl.VOLUME;
+
+  /**
+   * The internal feature id for the '<em><b>Change1</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_CHANGE1 = QuoteImpl.CHANGE1;
+
+  /**
+   * The internal feature id for the '<em><b>Quotes</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_QUOTES = QuoteImpl.QUOTES;
+
+  /**
+   * The internal feature id for the '<em><b>Changes</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_CHANGES = QuoteImpl.INTERNAL_PROPERTY_COUNT + 0;
+
+  /**
+   * The number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  
-  public final static int SDO_PROPERTY_COUNT = QuoteImpl.SDO_PROPERTY_COUNT + 1;
+  public final static int INTERNAL_PROPERTY_COUNT = QuoteImpl.INTERNAL_PROPERTY_COUNT + 1;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+      case INTERNAL_SYMBOL: return SYMBOL;
+      case INTERNAL_COMPANY_NAME: return COMPANY_NAME;
+      case INTERNAL_PRICE: return PRICE;
+      case INTERNAL_OPEN1: return OPEN1;
+      case INTERNAL_HIGH: return HIGH;
+      case INTERNAL_LOW: return LOW;
+      case INTERNAL_VOLUME: return VOLUME;
+      case INTERNAL_CHANGE1: return CHANGE1;
+      case INTERNAL_QUOTES: return QUOTES;
+      case INTERNAL_CHANGES: return CHANGES;
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
 
   /**
    * The default value of the '{@link #getChanges() <em>Changes</em>}' attribute.
@@ -146,6 +172,15 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * @ordered
    */
   protected ChangeSummary changes = CHANGES_DEFAULT_;
+
+  /**
+   * This is true if the Changes attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean changes_set_ = false;
 
   /**
    * <!-- begin-user-doc -->
@@ -186,8 +221,35 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
   {
     ChangeSummary oldChanges = changes;
     changes = newChanges;
+    boolean oldChanges_set_ = changes_set_;
+    changes_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, CHANGES, oldChanges, changes);
+      notify(ChangeKind.SET, CHANGES, oldChanges, changes, !oldChanges_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetChanges()
+  {
+    ChangeSummary oldChanges = changes;
+    boolean oldChanges_set_ = changes_set_;
+    changes = CHANGES_DEFAULT_;
+    changes_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, CHANGES, oldChanges, CHANGES_DEFAULT_, oldChanges_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetChanges()
+  {
+    return changes_set_;
   }
 
   /**
@@ -231,7 +293,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
     switch (propertyIndex)
     {
       case CHANGES:
-        setChanges(CHANGES_DEFAULT_);
+        unsetChanges();
         return;
     }
     super.unset(propertyIndex);
@@ -247,7 +309,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
     switch (propertyIndex)
     {
       case CHANGES:
-        return CHANGES_DEFAULT_ == null ? changes != null : !CHANGES_DEFAULT_.equals(changes);
+        return isSetChanges();
     }
     return super.isSet(propertyIndex);
   }
@@ -263,7 +325,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (changes: ");
-    result.append(changes);
+    if (changes_set_) result.append(changes); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }

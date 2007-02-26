@@ -24,6 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.URL;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -163,13 +164,14 @@ public class ChangeSummaryPropertyTestCase extends TestCase {
         assertSame(cs, csp);
 
         quote.set("symbol", "fbnt");
-        Sequence sequence = quote.getSequence("any");
         Property property = xsdHelper.getGlobalProperty("http://www.example.com/open", "openStockQuote", true);
         Type quoteType = property.getType();
-        createDataObject(quoteType, "1500.0", sequence, property);
-        DataObject child = createDataObject(quoteType, "2000.0", sequence, property);
-        createDataObject(quoteType, "2000.99", child.getSequence("any"), property);
-        createDataObject(quoteType, "2500.0", sequence, property);
+        List openStockQuotes = ((DataObject)quote).getList(property);
+        
+        addQuote(openStockQuotes, quoteType, "1500.0");
+        DataObject osq2 = addQuote(openStockQuotes, quoteType, "2000.0");
+        addQuote(osq2.getList(property), quoteType, "2000.99");
+        addQuote(openStockQuotes, quoteType, "2500.0");
 
         // Begin logging changes
         //
@@ -179,12 +181,21 @@ public class ChangeSummaryPropertyTestCase extends TestCase {
         //
         quote.set("symbol", "FBNT");
 
-        createDataObject(quoteType, "3000.0", sequence, property);
-        createDataObject(quoteType, "4000.0", sequence, property);
+        addQuote(openStockQuotes, quoteType, "3000.0");
+        addQuote(openStockQuotes, quoteType, "4000.0");
 
-        sequence.remove(1); // child.delete();
+        openStockQuotes.remove(osq2);
+
 
         verify(cs, quote, SequenceTest_NameSpace, SequenceTest_ELEMENT, "/openChangeSummary.xml", "/openChangeSummaryUndone.xml");
+    }
+
+    private DataObject addQuote(List openStockQuotes, Type quoteType,
+            Object value) {
+        DataObject osq = dataFactory.create(quoteType);
+        osq.set("symbol", value);
+	    openStockQuotes.add(osq);
+        return osq;
     }
 
     void define(String model) throws Exception {

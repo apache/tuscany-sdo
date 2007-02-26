@@ -208,25 +208,27 @@ public class TypeHelperImpl implements TypeHelper
     
     
     // define a global property to accompany the type definition
-    if(definedType.getName() != null) { // null type name => type is global property holder,
-    	                                // so we don't need a global property for null named type
-        DataObject globalProperty = DataFactory.INSTANCE.create("commonj.sdo", "Property");
+    if (definedType.getName() != null) { // null type name => type is
+        // global property holder,
+        // so we don't need a global property for null named type
+        DataObject globalProperty = DataFactory.INSTANCE.create(
+                "commonj.sdo", "Property");
         String propertyName = definedType.getName();
-	    if(!Character.isLowerCase(propertyName.charAt(0))) {
-	    	char[] pca = propertyName.toCharArray();
-	    	pca[0] = Character.toLowerCase(pca[0]);
-	    	propertyName = new String(pca);
-	    }    
-	    globalProperty.set("name", propertyName);
-	    globalProperty.set("type", definedType);
-	    globalProperty.set("containment", Boolean.TRUE);
-	    defineOpenContentProperty(definedType.getURI(), globalProperty);
+        if (!Character.isLowerCase(propertyName.charAt(0))) {
+            char[] pca = propertyName.toCharArray();
+            pca[0] = Character.toLowerCase(pca[0]);
+            propertyName = new String(pca);
+        }
+        globalProperty.set("name", propertyName);
+        globalProperty.set("type", definedType);
+        globalProperty.set("containment", Boolean.TRUE);
+        defineOpenContentProperty(definedType.getURI(), globalProperty);
     }
 
     return definedType;
   }
 
-  public List /*Type*/define(List /*DataObject*/types)
+  public List /* Type */define(List /* DataObject */types)
   {
     int count = types.size();
     List definedTypes = new ArrayList(count);
@@ -289,7 +291,7 @@ public class TypeHelperImpl implements TypeHelper
     // get/create document root
     EPackage ePackage = extendedMetaData.getPackage(uri);
     Type documentRoot = 
-      ePackage != null ? (Type)extendedMetaData.getType(extendedMetaData.getPackage(uri), "") : null;
+      ePackage != null ? (Type)extendedMetaData.getType(ePackage, "") : null;
     if (documentRoot == null) 
     {
       documentRoot = SDOUtil.createType(this, uri, null, false);
