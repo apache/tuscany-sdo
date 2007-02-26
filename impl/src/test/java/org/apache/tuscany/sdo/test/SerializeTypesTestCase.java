@@ -22,15 +22,11 @@ package org.apache.tuscany.sdo.test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
-import org.eclipse.emf.ecore.xmi.XMLResource;
 
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
@@ -116,17 +112,9 @@ public class SerializeTypesTestCase extends TestCase {
         SDOUtil.saveDataGraph(dataGraph, baos, null);
         //SDOUtil.saveDataGraph(dataGraph, System.out, null);
 
-        TypeHelper deserializingTypeHelper = SDOUtil.createHelperContext().getTypeHelper();
-        
-        // The following is a kludge to force deserialization of metadata into a different TypeHelper (scope)
-        // TBD figure out a proper non-EMF way to do this.
-        Map options = new HashMap();
-        Object differentFromSerializing = ((TypeHelperImpl) deserializingTypeHelper).getExtendedMetaData();
-        options.put(XMLResource.OPTION_EXTENDED_META_DATA, differentFromSerializing);
-
         byte[] serialized = baos.toByteArray();
         ByteArrayInputStream bais = new ByteArrayInputStream(serialized);
-        DataGraph loadedDataGraph = SDOUtil.loadDataGraph(bais, options);
+        DataGraph loadedDataGraph = SDOUtil.loadDataGraph(bais, null, SDOUtil.createTypeHelper());
 
         DataObject loadedRootObject = loadedDataGraph.getRootObject();
         assertNotSame(loadedRootObject.getType(), customer1.getType());

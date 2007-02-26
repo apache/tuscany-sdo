@@ -275,6 +275,61 @@ public final class SDOUtil
     return (DataGraph)resource.getContents().get(0);
   }
   
+  static final Object LOADING_SCOPE = XMLResource.OPTION_EXTENDED_META_DATA;
+
+  protected static void registerLoadingScope(Map options, TypeHelper scope)
+  {
+    Object extendedMetaData = ((TypeHelperImpl) scope).getExtendedMetaData();
+    options.put(LOADING_SCOPE, extendedMetaData);
+  }
+
+  /**
+   * Load a serialized data graph from the specified insputStream.
+   * 
+   * @param inputStream
+   *            the inputStream of the data graph.
+   * @param options
+   *            loader control options, or null.
+   * @param scope
+   *            To register deserialized Types and utilize already registered Types in order to instantiate expected DataObject instances, null for
+   *            {@link TypeHelper.INSTANCE TypeHelper.INSTANCE}.
+   * @return the de-serialized data graph.
+   * @throws IOException
+   */
+  public static DataGraph loadDataGraph(InputStream inputStream, Map options, TypeHelper scope) throws IOException
+  {
+    DataGraph result = null;
+    if (scope == null || scope == TypeHelper.INSTANCE) {
+      result = loadDataGraph(inputStream, options);
+    } else if (options == null) {
+      options = new HashMap();
+      registerLoadingScope(options, scope);
+      result = loadDataGraph(inputStream, options);
+    } else if (options.containsKey(LOADING_SCOPE)) {
+      Object restore = options.get(LOADING_SCOPE);
+      registerLoadingScope(options, scope);
+      try
+      {
+        result = loadDataGraph(inputStream, options);
+      }
+      finally
+      {
+        options.put(LOADING_SCOPE, restore);
+      }
+    } else {
+      registerLoadingScope(options, scope);
+      try
+      {
+        result = loadDataGraph(inputStream, options);
+      }
+      finally
+      {
+        options.remove(LOADING_SCOPE);
+      }
+    }
+    return result;
+  }
+  
   /**
    * Serialize the specified data graph to the specified outputStream.
    * @param dataGraph the data graph to save.
