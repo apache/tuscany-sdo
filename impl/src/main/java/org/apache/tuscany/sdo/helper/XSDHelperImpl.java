@@ -70,16 +70,19 @@ import commonj.sdo.helper.XSDHelper;
 public class XSDHelperImpl implements XSDHelper
 {
   protected boolean extensibleNamespaces = false;
+  protected XSDEcoreBuilder ecoreBuilder;
+  protected ExtendedMetaData extendedMetaData;
   
-  private XSDEcoreBuilder ecoreBuilder;
-
-  private ExtendedMetaData extendedMetaData;
+  private static synchronized XSDEcoreBuilder createXSDEcoreBuilder(ExtendedMetaData extendedMetaData, boolean extensibleNamespaces)
+  {
+    return new SDOXSDEcoreBuilder(extendedMetaData, extensibleNamespaces);    
+  }
 
   public XSDHelperImpl(ExtendedMetaData extendedMetaData, String redefineBuiltIn, boolean extensibleNamespaces)
   {
     this.extendedMetaData = extendedMetaData;
     this.extensibleNamespaces = extensibleNamespaces;
-    ecoreBuilder = new SDOXSDEcoreBuilder(extendedMetaData, extensibleNamespaces);
+    ecoreBuilder = createXSDEcoreBuilder(extendedMetaData, extensibleNamespaces);
     
     // Add the built-in models to the targetNamespaceToEPackageMap so they can't be (re)defined/overridden
     for (Iterator iter = TypeHelperImpl.getBuiltInModels().iterator(); iter.hasNext(); ) {

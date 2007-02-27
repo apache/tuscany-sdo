@@ -70,14 +70,6 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
   }
   
   /**
-   * @deprecated
-   */
-  public SDOXSDEcoreBuilder(ExtendedMetaData extendedMetaData)
-  {
-    this(extendedMetaData, false);
-  }
-
-  /**
    * Overrides method in EMF. This will cause the SDO Properties to be in the
    * order in which the Attributes appeared in the XSD.
    */
