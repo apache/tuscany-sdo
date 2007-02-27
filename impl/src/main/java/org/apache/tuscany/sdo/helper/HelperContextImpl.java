@@ -33,23 +33,22 @@ import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
-public class HelperContextImpl implements HelperContext {
-		
+public class HelperContextImpl implements HelperContext
+{
 	private DataFactory dataFactory;
 	private TypeHelper typeHelper;
 	private XMLHelper xmlHelper;
 	private XSDHelper xsdHelper;
 
-	public HelperContextImpl(ExtendedMetaData extendedMetaData) {
+	public HelperContextImpl(ExtendedMetaData extendedMetaData, boolean extensibleNamespaces) {
         typeHelper = new TypeHelperImpl(extendedMetaData);
-
         dataFactory = new DataFactoryImpl(typeHelper);
         xmlHelper = new XMLHelperImpl(typeHelper);
-        xsdHelper = new XSDHelperImpl(typeHelper);
+        xsdHelper = new XSDHelperImpl(typeHelper, extensibleNamespaces);
     }
 
-    public HelperContextImpl() {
-        this(new SDOExtendedMetaDataImpl(new EPackageRegistryImpl(EPackage.Registry.INSTANCE))); //TODO create subclass that makes demand() methods synchronous
+    public HelperContextImpl(boolean extensibleNamespaces) {
+        this(new SDOExtendedMetaDataImpl(new EPackageRegistryImpl(EPackage.Registry.INSTANCE)), extensibleNamespaces);
     }
 
 	public CopyHelper getCopyHelper() {

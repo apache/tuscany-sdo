@@ -33,12 +33,14 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EPackage.Registry;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 
+/**
+ * TODO make demand() methods synchronous?
+ */
 public class SDOExtendedMetaDataImpl 
   extends BasicExtendedMetaData 
-  implements SDOExtendedMetaData {
-
-  
-  
+  implements SDOExtendedMetaData
+{
+ 
   public SDOExtendedMetaDataImpl() {
     super();
   }
@@ -121,10 +123,12 @@ public class SDOExtendedMetaDataImpl
     return featureNamespaceMatchingLax;
   }
 
-  /* getLocalAttribute & getLocalElement are
-   * TEMPORARILY COPIED FROM BASE CLASS - DO NOT EDIT - WILL BE REMOVED WHEN WE MOVE TO EMF 2.3
-   */
   
+  /****************************************************************************************************** 
+   * getLocalAttribute & getLocalElement are
+   * TEMPORARILY COPIED FROM BASE CLASS - DO NOT EDIT - WILL BE REMOVED WHEN WE MOVE TO EMF 2.3
+   ******************************************************************************************************/
+ 
   public EStructuralFeature getLocalAttribute(EClass eClass, String namespace, String name)
   {
     EStructuralFeature result = null;

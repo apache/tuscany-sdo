@@ -69,14 +69,17 @@ import commonj.sdo.helper.XSDHelper;
  */
 public class XSDHelperImpl implements XSDHelper
 {
+  protected boolean extensibleNamespaces = false;
+  
   private XSDEcoreBuilder ecoreBuilder;
 
   private ExtendedMetaData extendedMetaData;
 
-  public XSDHelperImpl(ExtendedMetaData extendedMetaData, String redefineBuiltIn)
+  public XSDHelperImpl(ExtendedMetaData extendedMetaData, String redefineBuiltIn, boolean extensibleNamespaces)
   {
     this.extendedMetaData = extendedMetaData;
-    ecoreBuilder = new SDOXSDEcoreBuilder(extendedMetaData);
+    this.extensibleNamespaces = extensibleNamespaces;
+    ecoreBuilder = new SDOXSDEcoreBuilder(extendedMetaData, extensibleNamespaces);
     
     // Add the built-in models to the targetNamespaceToEPackageMap so they can't be (re)defined/overridden
     for (Iterator iter = TypeHelperImpl.getBuiltInModels().iterator(); iter.hasNext(); ) {
@@ -89,9 +92,14 @@ public class XSDHelperImpl implements XSDHelper
     }
   }
   
-  public XSDHelperImpl(TypeHelper typeHelper)
+  public XSDHelperImpl(ExtendedMetaData extendedMetaData, String redefineBuiltIn)
   {
-    this(((TypeHelperImpl)typeHelper).extendedMetaData, null);
+    this(extendedMetaData, redefineBuiltIn, false);
+  }
+  
+  public XSDHelperImpl(TypeHelper typeHelper, boolean extensibleNamespaces)
+  {
+    this(((TypeHelperImpl)typeHelper).extendedMetaData, null, extensibleNamespaces);
   }
   
   public String getLocalName(Type type)
@@ -196,7 +204,7 @@ public class XSDHelperImpl implements XSDHelper
         XSDSchema schema = (XSDSchema)schemaIter.next();    
 
         EPackage ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
-        if (ePackage == null || TypeHelperImpl.getBuiltInModels().contains(ePackage))
+        if (extensibleNamespaces || ePackage == null || TypeHelperImpl.getBuiltInModels().contains(ePackage))
         {
           Collection originalEPackages = new HashSet(ecoreBuilder.getTargetNamespaceToEPackageMap().values());
           ecoreBuilder.generate(schema);

@@ -381,13 +381,24 @@ public final class SDOUtil
    * Create a HelperContext to provide access to a consistent set of
    * Helpers which make use of a new TypeHelper instance to provide
    * scope for type definitions.
+   * @param extensibleNamespaces true if the contents of a namespaces should be incrementally modifiable
    * @return the new HelperContext
+   */
+  public static HelperContext createHelperContext(boolean extensibleNamespaces)
+  {
+    return new HelperContextImpl(extensibleNamespaces);
+  }
+  
+  /**
+   * Create a HelperContext.
+   * @return the new HelperContext
+   * @see #createHelperContext(boolean)
    */
   public static HelperContext createHelperContext()
   {
-    return new HelperContextImpl();
+    return createHelperContext(false);
   }
-
+  
   /**
    * Create a new TypeHelper instance. The returned type helper will have visibility of types registered
    *  directly by calling a define method on it or by calling define on an associated XSDHelper. It will
@@ -433,7 +444,7 @@ public final class SDOUtil
    */
   public static XSDHelper createXSDHelper(TypeHelper scope)
   {
-    return new XSDHelperImpl(scope);
+    return new XSDHelperImpl(scope, false);
   }
   
   /**

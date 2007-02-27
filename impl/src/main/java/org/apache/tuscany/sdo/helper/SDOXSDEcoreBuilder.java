@@ -20,9 +20,11 @@
 package org.apache.tuscany.sdo.helper;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.xml.XMLConstants;
 
@@ -34,10 +36,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EEnum;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.util.EcoreUtil.UsageCrossReferencer;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDComponent;
 import org.eclipse.xsd.XSDConcreteComponent;
@@ -54,20 +58,23 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-/**
- * TODO: 
- *  - Implement support for the SDO XSD Schema annotations
- *  - Override the default ecore type mappings
- *  
- * DONE:
- *  - Override the default XSDEcoreBuilder name mangling
- */
 public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
 {
-  public SDOXSDEcoreBuilder(ExtendedMetaData extendedMetaData)
+  protected boolean replaceConflictingTypes = false;
+
+  public SDOXSDEcoreBuilder(ExtendedMetaData extendedMetaData, boolean replaceConflictingTypes)
   {
     super(extendedMetaData);
+    this.replaceConflictingTypes = replaceConflictingTypes;
     populateTypeToTypeObjectMap((EPackage)ModelFactory.INSTANCE);
+  }
+  
+  /**
+   * @deprecated
+   */
+  public SDOXSDEcoreBuilder(ExtendedMetaData extendedMetaData)
+  {
+    this(extendedMetaData, false);
   }
 
   /**
@@ -108,8 +115,7 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     XSDSchema containingXSDSchema = xsdNamedComponent.getSchema();
     String targetNamespace = containingXSDSchema == null ?
         xsdNamedComponent.getTargetNamespace() : containingXSDSchema.getTargetNamespace();
-    EPackage ePackage = (EPackage) targetNamespaceToEPackageMap
-        .get(targetNamespace);
+    EPackage ePackage = (EPackage) targetNamespaceToEPackageMap.get(targetNamespace);
     if (ePackage != null)
       return ePackage;
     ePackage = super.getEPackage(xsdNamedComponent);
@@ -119,8 +125,6 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return ePackage;
   }
 
-
-
   public EClassifier getEClassifier(XSDTypeDefinition xsdTypeDefinition) {
     EClassifier eClassifier = null;
     if (rootSchema.getSchemaForSchemaNamespace().equals(xsdTypeDefinition.getTargetNamespace())) {
@@ -128,14 +132,15 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
         getBuiltInEClassifier(
           xsdTypeDefinition.getURI(), 
           xsdTypeDefinition.getName());
-    } else {
-        EPackage pkg = extendedMetaData.getPackage(xsdTypeDefinition.getTargetNamespace());
-        if(pkg != null) {
-          eClassifier = pkg.getEClassifier(xsdTypeDefinition.getName());
-        }
-        if (eClassifier == null) {
-            eClassifier = super.getEClassifier(xsdTypeDefinition);
-        }
+    } 
+    else if (xsdTypeDefinition.getContainer() == null) { //FB ASK ED check if unresolved type?
+      EPackage pkg = extendedMetaData.getPackage(xsdTypeDefinition.getTargetNamespace());
+      if(pkg != null) {
+         eClassifier = pkg.getEClassifier(xsdTypeDefinition.getName());
+      }
+    }
+    if (eClassifier == null) {
+      eClassifier = super.getEClassifier(xsdTypeDefinition);
     }
     return eClassifier;
   }
@@ -162,18 +167,129 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     return eClassifier;
   }
   
+  private void updateReferences(EObject oldEObject, EObject newEObject)
+  {
+    Collection usages = UsageCrossReferencer.find(oldEObject, targetNamespaceToEPackageMap.values());
+    for (Iterator iter = usages.iterator(); iter.hasNext(); )
+    {
+      EStructuralFeature.Setting setting = (EStructuralFeature.Setting)iter.next();
+      EObject referencingEObject = setting.getEObject();
+      EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
+      if (!eStructuralFeature.isDerived() && eStructuralFeature.isChangeable()) //ASK ED
+      {
+        if (eStructuralFeature.isMany())
+        {
+          List refList = (List)referencingEObject.eGet(eStructuralFeature);
+          int refIndex = refList.indexOf(oldEObject);
+          refList.set(refIndex, newEObject);
+        }
+        else
+        {
+          referencingEObject.eSet(eStructuralFeature, newEObject);
+        }
+      }
+    }
+  }
+  
+  private XSDTypeDefinition getXSDTypeDefinition(EClassifier eClassifier)
+  {
+    XSDTypeDefinition xsdTypeDefinition = null;
+    for (Iterator i = xsdComponentToEModelElementMap.entrySet().iterator(); i.hasNext(); )
+    {
+      Entry e = (Entry) i.next();
+      if (eClassifier == e.getValue()) 
+      {
+        xsdTypeDefinition = (XSDTypeDefinition)e.getKey();
+        break;
+      }
+    }
+    return xsdTypeDefinition;
+  }
+  
+  private boolean sameType(XSDTypeDefinition t1, XSDTypeDefinition t2)
+  {
+    XSDConcreteComponent n1 = t1, n2 = t2;
+    while (n1 != null && n2 != null)
+    {
+      if (n1.eClass() != n2.eClass()) break;
+      if (n1 instanceof XSDNamedComponent /*&& n2 instanceof XSDNamedComponent*/)
+      {
+        String s1 = ((XSDNamedComponent)n1).getName();
+        String s2 = ((XSDNamedComponent)n2).getName();
+        if (s1 == null ? s1 != s2 : !s1.equals(s2)) break;
+      }
+      n1 = n1.getContainer();
+      n2 = n2.getContainer();
+    }
+    return n1 == null && n2 == null;
+  }
+  
+  protected void removeDuplicateEClassifier(EClassifier eClassifier, XSDTypeDefinition xsdTypeDefinition)
+  {
+    EPackage ePackage = eClassifier.getEPackage();
+    List eClassifiers = ePackage.getEClassifiers();
+    String name = eClassifier.getName();
+    int size = eClassifiers.size();
+    for (int index = eClassifiers.indexOf(eClassifier); ++index < size; )
+    {
+      EClassifier nextEClassifier = (EClassifier)eClassifiers.get(index);
+      if (!name.equals(nextEClassifier.getName())) break;
+      if (extendedMetaData.getName(eClassifier).equals(extendedMetaData.getName(nextEClassifier))) //FB ASK ED same type?
+      {
+        XSDTypeDefinition nextXSDTypeDefinition = getXSDTypeDefinition(nextEClassifier);
+        if (!sameType(nextXSDTypeDefinition, xsdTypeDefinition))
+        {
+          //System.out.println("###EClassifier mismatch: ");
+          //System.out.println("    old: " + extendedMetaData.getName(nextEClassifier));
+          //System.out.println("    new: " + extendedMetaData.getName(eClassifier));
+          continue;
+        }
+        eClassifiers.remove(index); 
+        //System.out.println("removed: " + nextEClassifier);
+        //UsageCrossReferencer.print(System.out, usages);
+        updateReferences(nextEClassifier, eClassifier);
+        break;
+      }
+    }
+  }
+  
+  protected void removeDuplicateDocumentRootFeature(EClass eClass, EStructuralFeature eStructuralFeature)
+  {
+    List eStructuralFeatures = eClass.getEStructuralFeatures();
+    int last = eStructuralFeatures.size() - 1;
+    String name = extendedMetaData.getName(eStructuralFeature);
+    for (int index = 0; index < last; index++)
+    {
+      EStructuralFeature otherEStructuralFeature = (EStructuralFeature)eStructuralFeatures.get(index);
+      if (name.equals(extendedMetaData.getName(otherEStructuralFeature))) //FB ASK ED same global feature?
+      {
+        if (otherEStructuralFeature.eClass() != eStructuralFeature.eClass())
+        {
+          //System.out.println("###EStructuralFeature mismatch: ");
+          //System.out.println("    old: " + extendedMetaData.getName(otherEStructuralFeature));
+          //System.out.println("    new: " + extendedMetaData.getName(eStructuralFeature));
+          continue;
+        }
+        eStructuralFeatures.remove(index);
+        updateReferences(otherEStructuralFeature, eStructuralFeature);
+        break;
+      }
+    }
+  }
+  
   public EClass computeEClass(XSDComplexTypeDefinition xsdComplexTypeDefinition) {
     EPackage ePackage = (EPackage)targetNamespaceToEPackageMap.get(xsdComplexTypeDefinition.getTargetNamespace());
     if (ePackage != null && TypeHelperImpl.getBuiltInModels().contains(ePackage)) {
       EClassifier eclassifier = ePackage.getEClassifier(xsdComplexTypeDefinition.getName());
       if (eclassifier != null) return (EClass)eclassifier;
     }
-    EClass eclass = super.computeEClass(xsdComplexTypeDefinition);
+    EClass eClass = super.computeEClass(xsdComplexTypeDefinition);
+    if (replaceConflictingTypes) removeDuplicateEClassifier(eClass, xsdComplexTypeDefinition);
     String aliasNames = getEcoreAttribute(xsdComplexTypeDefinition.getElement(), "aliasName");
     if (aliasNames != null) {
-      SDOExtendedMetaData.INSTANCE.setAliasNames(eclass, aliasNames);
+      SDOExtendedMetaData.INSTANCE.setAliasNames(eClass, aliasNames);
     }
-    return eclass;
+    return eClass;
   }
 
   protected EClassifier computeEClassifier(XSDTypeDefinition xsdTypeDefinition) {
@@ -200,12 +316,13 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
       EClassifier eclassifier = ePackage.getEClassifier(xsdSimpleTypeDefinition.getName());
       if (eclassifier != null) return (EDataType)eclassifier;
     }
-    EDataType edatatype = super.computeEDataType(xsdSimpleTypeDefinition);
+    EDataType eDataType = super.computeEDataType(xsdSimpleTypeDefinition);
+    if (replaceConflictingTypes) removeDuplicateEClassifier(eDataType, xsdSimpleTypeDefinition);
     String aliasNames = getEcoreAttribute(xsdSimpleTypeDefinition.getElement(), "aliasName");
     if (aliasNames != null) {
-      SDOExtendedMetaData.INSTANCE.setAliasNames(edatatype, aliasNames);
+      SDOExtendedMetaData.INSTANCE.setAliasNames(eDataType, aliasNames);
     }
-    return edatatype;
+    return eDataType;
   }
 
   protected EEnum computeEEnum(XSDSimpleTypeDefinition xsdSimpleTypeDefinition) {
@@ -213,27 +330,37 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
   }
     
   protected EStructuralFeature createFeature(EClass eClass, String name, EClassifier type, XSDComponent xsdComponent, int minOccurs, int maxOccurs) {
-    EStructuralFeature feature = 
-      super.createFeature(eClass, name, type, xsdComponent, minOccurs, maxOccurs);
+    EStructuralFeature feature = super.createFeature(eClass, name, type, xsdComponent, minOccurs, maxOccurs);
     
-    if (feature instanceof EReference) {
-        EReference eReference = (EReference)feature;
-            if (xsdComponent != null && xsdComponent instanceof XSDParticle) {
-                XSDTerm xsdTerm = ((XSDParticle)xsdComponent).getTerm();
-                if (xsdTerm instanceof XSDElementDeclaration) {
-                        XSDTypeDefinition elementTypeDefinition = getEffectiveTypeDefinition(xsdComponent, (XSDElementDeclaration)xsdTerm);
-                        EClassifier eClassifier = getEClassifier(elementTypeDefinition);
-                        if(elementTypeDefinition instanceof XSDSimpleTypeDefinition && eClassifier instanceof EClass) { 
-                                eReference.setContainment(true);
-                        }
-                }
-            }
-   }
-
+    //FB What is the following for?
+    if (feature instanceof EReference)
+    {
+      EReference eReference = (EReference)feature;
+      if (xsdComponent != null && xsdComponent instanceof XSDParticle)
+      {
+        XSDTerm xsdTerm = ((XSDParticle)xsdComponent).getTerm();
+        if (xsdTerm instanceof XSDElementDeclaration)
+        {
+          XSDTypeDefinition elementTypeDefinition = getEffectiveTypeDefinition(xsdComponent, (XSDElementDeclaration)xsdTerm);
+          EClassifier eClassifier = getEClassifier(elementTypeDefinition);
+          if (elementTypeDefinition instanceof XSDSimpleTypeDefinition && eClassifier instanceof EClass)
+          {
+            eReference.setContainment(true);
+          }
+        }
+      }
+    }
+    
     feature.setName(name); // this is needed because super.createFeature() does EMF name mangling (toLower)
-    if (xsdComponent != null) {
+    
+    if (replaceConflictingTypes && "".equals(extendedMetaData.getName(eClass)))
+      removeDuplicateDocumentRootFeature(eClass, feature);
+    
+    if (xsdComponent != null)
+    {
       String aliasNames = getEcoreAttribute(xsdComponent.getElement(), "aliasName");
-      if (aliasNames != null) {
+      if (aliasNames != null)
+      {
         SDOExtendedMetaData.INSTANCE.setAliasNames(feature, aliasNames);
       }
     }
@@ -541,5 +668,5 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     
     return qualifiedPackageName.toString().toLowerCase(); //make sure it's lower case .. we can't work with Axis if not.
   }
-
+  
 }

@@ -306,8 +306,10 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
                         changeSummaryDeserializers = new ArrayList();
                     ChangeSummaryStreamDeserializer changeSummaryDeserializer = new ChangeSummaryStreamDeserializer();
                     try {
-                        changeSummaryDeserializer.begin((DataObject) objects.peekEObject(), new HelperContextImpl(extendedMetaData), tag
-                                .play(xmlResource));
+                        changeSummaryDeserializer.begin(
+                          (DataObject) objects.peekEObject(), 
+                          new HelperContextImpl(extendedMetaData, false), 
+                          tag.play(xmlResource));
                         changeSummaryDeserializers.add(changeSummaryDeserializer);
                     } catch (XMLStreamException e) {
                         xmlResource.getErrors().add(new XMIException(e));
