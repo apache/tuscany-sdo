@@ -345,10 +345,11 @@ public abstract class JavaGenerator
     for (Iterator iter = packageList.iterator(); iter.hasNext();)
     {
       EPackage currentEPackage = (EPackage)iter.next();
-      String currentBasePackage = extractBasePackageName(currentEPackage, javaPackage);
-      String currentPrefix = prefix == null ? CodeGenUtil.capName(shortName != null ? shortName : currentEPackage.getName()) : prefix;
+      boolean generateCurrent = currentEPackage.getNsURI().equals(packageURI);
+      String currentBasePackage = extractBasePackageName(currentEPackage, generateCurrent ? javaPackage : null);
+      String currentPrefix = generateCurrent && prefix != null ? prefix : CodeGenUtil.capName(shortName != null ? shortName : currentEPackage.getName());
       GenPackage currentGenPackage = createGenPackage(currentEPackage, currentBasePackage, currentPrefix, genOptions, resourceSet);
-      if (currentEPackage.getNsURI().equals(packageURI))
+      if (generateCurrent)
       {
         genModel = currentGenPackage.getGenModel();
       }
