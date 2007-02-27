@@ -363,6 +363,12 @@ public class DateConversionTestCase extends TestCase
         }
 
     }
+    
+    public void testDateTime(){
+      // a small bolt on test case resulting from a fix for JIRA TUSCANY-1044
+      String date = DataHelper.INSTANCE.toDateTime(DataHelper.INSTANCE.toCalendar("2007-02-04T00:00:00.200Z"));
+      assertEquals("2007-02-04T00:00:00.200Z", date);
+  }
 
 }
 

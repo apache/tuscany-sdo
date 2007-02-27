@@ -360,7 +360,8 @@ public class DataHelperImpl implements DataHelper
       return null;
     }
     
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS zz");
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'");
+    f.setTimeZone(TimeZone.getTimeZone("UTC"));
     
     return f.format(date);
   }
