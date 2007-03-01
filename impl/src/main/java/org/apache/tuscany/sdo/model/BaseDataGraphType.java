@@ -40,6 +40,8 @@ public interface BaseDataGraphType extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Models</em>' containment reference.
+   * @see #isSetModels()
+   * @see #unsetModels()
    * @see #setModels(ModelsType)
    * @generated
    */
@@ -50,10 +52,35 @@ public interface BaseDataGraphType extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Models</em>' containment reference.
+   * @see #isSetModels()
+   * @see #unsetModels()
    * @see #getModels()
    * @generated
    */
   void setModels(ModelsType value);
+
+  /**
+   * Unsets the value of the '{@link org.apache.tuscany.sdo.model.BaseDataGraphType#getModels <em>Models</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetModels()
+   * @see #getModels()
+   * @see #setModels(ModelsType)
+   * @generated
+   */
+  void unsetModels();
+
+  /**
+   * Returns whether the value of the '{@link org.apache.tuscany.sdo.model.BaseDataGraphType#getModels <em>Models</em>}' containment reference is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Models</em>' containment reference is set.
+   * @see #unsetModels()
+   * @see #getModels()
+   * @see #setModels(ModelsType)
+   * @generated
+   */
+  boolean isSetModels();
 
   /**
    * Returns the value of the '<em><b>Xsd</b></em>' containment reference.
@@ -64,6 +91,8 @@ public interface BaseDataGraphType extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Xsd</em>' containment reference.
+   * @see #isSetXsd()
+   * @see #unsetXsd()
    * @see #setXsd(XSDType)
    * @generated
    */
@@ -74,10 +103,35 @@ public interface BaseDataGraphType extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Xsd</em>' containment reference.
+   * @see #isSetXsd()
+   * @see #unsetXsd()
    * @see #getXsd()
    * @generated
    */
   void setXsd(XSDType value);
+
+  /**
+   * Unsets the value of the '{@link org.apache.tuscany.sdo.model.BaseDataGraphType#getXsd <em>Xsd</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetXsd()
+   * @see #getXsd()
+   * @see #setXsd(XSDType)
+   * @generated
+   */
+  void unsetXsd();
+
+  /**
+   * Returns whether the value of the '{@link org.apache.tuscany.sdo.model.BaseDataGraphType#getXsd <em>Xsd</em>}' containment reference is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Xsd</em>' containment reference is set.
+   * @see #unsetXsd()
+   * @see #getXsd()
+   * @see #setXsd(XSDType)
+   * @generated
+   */
+  boolean isSetXsd();
 
   /**
    * Returns the value of the '<em><b>Change Summary</b></em>' attribute.
@@ -88,6 +142,8 @@ public interface BaseDataGraphType extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Change Summary</em>' attribute.
+   * @see #isSetChangeSummary()
+   * @see #unsetChangeSummary()
    * @see #setChangeSummary(ChangeSummary)
    * @generated
    */
@@ -98,10 +154,35 @@ public interface BaseDataGraphType extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Change Summary</em>' attribute.
+   * @see #isSetChangeSummary()
+   * @see #unsetChangeSummary()
    * @see #getChangeSummary()
    * @generated
    */
   void setChangeSummary(ChangeSummary value);
+
+  /**
+   * Unsets the value of the '{@link org.apache.tuscany.sdo.model.BaseDataGraphType#getChangeSummary <em>Change Summary</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetChangeSummary()
+   * @see #getChangeSummary()
+   * @see #setChangeSummary(ChangeSummary)
+   * @generated
+   */
+  void unsetChangeSummary();
+
+  /**
+   * Returns whether the value of the '{@link org.apache.tuscany.sdo.model.BaseDataGraphType#getChangeSummary <em>Change Summary</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Change Summary</em>' attribute is set.
+   * @see #unsetChangeSummary()
+   * @see #getChangeSummary()
+   * @see #setChangeSummary(ChangeSummary)
+   * @generated
+   */
+  boolean isSetChangeSummary();
 
   /**
    * Returns the value of the '<em><b>Any Attribute</b></em>' attribute list.

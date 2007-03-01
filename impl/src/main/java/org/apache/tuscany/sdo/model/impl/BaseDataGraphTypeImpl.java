@@ -35,51 +35,77 @@ import org.apache.tuscany.sdo.model.XSDType;
  */
 public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements BaseDataGraphType
 {
-  /**
-   * The feature id for the '<em><b>Models</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
+
   public final static int MODELS = 0;
 
-  /**
-   * The feature id for the '<em><b>Xsd</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
   public final static int XSD = 1;
 
-  /**
-   * The feature id for the '<em><b>Change Summary</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
   public final static int CHANGE_SUMMARY = 2;
 
+  public final static int ANY_ATTRIBUTE = -1;
+
+  public final static int SDO_PROPERTY_COUNT = 3;
+
+  public final static int EXTENDED_PROPERTY_COUNT = -1;
+
+
   /**
-   * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Models</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int ANY_ATTRIBUTE = 3;
+   */ 
+  public final static int INTERNAL_MODELS = 0;
 
   /**
-   * This represents the number of properties for this type.
+   * The internal feature id for the '<em><b>Xsd</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_XSD = 1;
+
+  /**
+   * The internal feature id for the '<em><b>Change Summary</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_CHANGE_SUMMARY = 2;
+
+  /**
+   * The internal feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_ANY_ATTRIBUTE = 3;
+
+  /**
+   * The number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  
-  public final static int SDO_PROPERTY_COUNT = 4;
+  public final static int INTERNAL_PROPERTY_COUNT = 4;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+      case INTERNAL_MODELS: return MODELS;
+      case INTERNAL_XSD: return XSD;
+      case INTERNAL_CHANGE_SUMMARY: return CHANGE_SUMMARY;
+      case INTERNAL_ANY_ATTRIBUTE: return ANY_ATTRIBUTE;
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
 
   /**
    * The cached value of the '{@link #getModels() <em>Models</em>}' containment reference.
@@ -93,6 +119,15 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
   protected ModelsType models = null;
   
   /**
+   * This is true if the Models containment reference has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean models_set_ = false;
+
+  /**
    * The cached value of the '{@link #getXsd() <em>Xsd</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -103,6 +138,15 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
   
   protected XSDType xsd = null;
   
+  /**
+   * This is true if the Xsd containment reference has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean xsd_set_ = false;
+
   /**
    * The default value of the '{@link #getChangeSummary() <em>Change Summary</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -122,6 +166,15 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
    * @ordered
    */
   protected ChangeSummary changeSummary = CHANGE_SUMMARY_DEFAULT_;
+
+  /**
+   * This is true if the Change Summary attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean changeSummary_set_ = false;
 
   /**
    * The cached value of the '{@link #getAnyAttribute() <em>Any Attribute</em>}' attribute list.
@@ -173,9 +226,11 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
   {
     ModelsType oldModels = models;
     models = newModels;
+    boolean oldModels_set_ = models_set_;
+    models_set_ = true;
     if (isNotifying())
     {
-      addNotification(this, ChangeKind.SET, MODELS, oldModels, newModels, changeContext);
+      addNotification(this, ChangeKind.SET, MODELS, oldModels, newModels, !oldModels_set_, changeContext);
     }
     return changeContext;
   }
@@ -197,8 +252,64 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
       changeContext = basicSetModels(newModels, changeContext);
       if (changeContext != null) dispatch(changeContext);
     }
-    else if (isNotifying())
-      notify(ChangeKind.SET, MODELS, newModels, newModels);
+    else
+    	{
+      boolean oldModels_set_ = models_set_;
+      models_set_ = true;
+      if (isNotifying())
+        notify(ChangeKind.SET, MODELS, newModels, newModels, !oldModels_set_);
+    	}
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ChangeContext basicUnsetModels(ChangeContext changeContext)
+  {
+    ModelsType oldModels = models;
+    models = null;
+    boolean oldModels_set_ = models_set_;
+    models_set_ = false;
+    if (isNotifying())
+    {
+      addNotification(this, ChangeKind.UNSET, MODELS, oldModels, null, !oldModels_set_, changeContext);
+    }
+    return changeContext;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetModels()
+  {
+    if (models != null)
+    {
+      ChangeContext changeContext = null;
+      changeContext = inverseRemove(models, this, EOPPOSITE_FEATURE_BASE - MODELS, null, changeContext);
+      changeContext = basicUnsetModels(changeContext);
+      if (changeContext != null) dispatch(changeContext);
+    }
+    else
+    	{
+      boolean oldModels_set_ = models_set_;
+      models_set_ = false;
+      if (isNotifying())
+        notify(ChangeKind.UNSET, MODELS, null, null, oldModels_set_);
+    	}
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetModels()
+  {
+    return models_set_;
   }
 
   /**
@@ -219,9 +330,11 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
   {
     XSDType oldXsd = xsd;
     xsd = newXsd;
+    boolean oldXsd_set_ = xsd_set_;
+    xsd_set_ = true;
     if (isNotifying())
     {
-      addNotification(this, ChangeKind.SET, XSD, oldXsd, newXsd, changeContext);
+      addNotification(this, ChangeKind.SET, XSD, oldXsd, newXsd, !oldXsd_set_, changeContext);
     }
     return changeContext;
   }
@@ -243,8 +356,64 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
       changeContext = basicSetXsd(newXsd, changeContext);
       if (changeContext != null) dispatch(changeContext);
     }
-    else if (isNotifying())
-      notify(ChangeKind.SET, XSD, newXsd, newXsd);
+    else
+    	{
+      boolean oldXsd_set_ = xsd_set_;
+      xsd_set_ = true;
+      if (isNotifying())
+        notify(ChangeKind.SET, XSD, newXsd, newXsd, !oldXsd_set_);
+    	}
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public ChangeContext basicUnsetXsd(ChangeContext changeContext)
+  {
+    XSDType oldXsd = xsd;
+    xsd = null;
+    boolean oldXsd_set_ = xsd_set_;
+    xsd_set_ = false;
+    if (isNotifying())
+    {
+      addNotification(this, ChangeKind.UNSET, XSD, oldXsd, null, !oldXsd_set_, changeContext);
+    }
+    return changeContext;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetXsd()
+  {
+    if (xsd != null)
+    {
+      ChangeContext changeContext = null;
+      changeContext = inverseRemove(xsd, this, EOPPOSITE_FEATURE_BASE - XSD, null, changeContext);
+      changeContext = basicUnsetXsd(changeContext);
+      if (changeContext != null) dispatch(changeContext);
+    }
+    else
+    	{
+      boolean oldXsd_set_ = xsd_set_;
+      xsd_set_ = false;
+      if (isNotifying())
+        notify(ChangeKind.UNSET, XSD, null, null, oldXsd_set_);
+    	}
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetXsd()
+  {
+    return xsd_set_;
   }
 
   /**
@@ -265,8 +434,35 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
   {
     ChangeSummary oldChangeSummary = changeSummary;
     changeSummary = newChangeSummary;
+    boolean oldChangeSummary_set_ = changeSummary_set_;
+    changeSummary_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, CHANGE_SUMMARY, oldChangeSummary, changeSummary);
+      notify(ChangeKind.SET, CHANGE_SUMMARY, oldChangeSummary, changeSummary, !oldChangeSummary_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetChangeSummary()
+  {
+    ChangeSummary oldChangeSummary = changeSummary;
+    boolean oldChangeSummary_set_ = changeSummary_set_;
+    changeSummary = CHANGE_SUMMARY_DEFAULT_;
+    changeSummary_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, CHANGE_SUMMARY, oldChangeSummary, CHANGE_SUMMARY_DEFAULT_, oldChangeSummary_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetChangeSummary()
+  {
+    return changeSummary_set_;
   }
 
   /**
@@ -278,7 +474,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
   {
     if (anyAttribute == null)
     {
-      anyAttribute = createSequence(ANY_ATTRIBUTE);
+      anyAttribute = createSequence(INTERNAL_ANY_ATTRIBUTE);
     }
     return anyAttribute;
   }
@@ -292,9 +488,9 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     switch (propertyIndex)
     {
       case MODELS:
-        return basicSetModels(null, changeContext);
+        return basicUnsetModels(changeContext);
       case XSD:
-        return basicSetXsd(null, changeContext);
+        return basicUnsetXsd(changeContext);
       case ANY_ATTRIBUTE:
         return removeFromSequence(getAnyAttribute(), otherEnd, changeContext);
     }
@@ -359,13 +555,13 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     switch (propertyIndex)
     {
       case MODELS:
-        setModels((ModelsType)null);
+        unsetModels();
         return;
       case XSD:
-        setXsd((XSDType)null);
+        unsetXsd();
         return;
       case CHANGE_SUMMARY:
-        setChangeSummary(CHANGE_SUMMARY_DEFAULT_);
+        unsetChangeSummary();
         return;
       case ANY_ATTRIBUTE:
         unsetSequence(getAnyAttribute());
@@ -384,11 +580,11 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     switch (propertyIndex)
     {
       case MODELS:
-        return models != null;
+        return isSetModels();
       case XSD:
-        return xsd != null;
+        return isSetXsd();
       case CHANGE_SUMMARY:
-        return CHANGE_SUMMARY_DEFAULT_ == null ? changeSummary != null : !CHANGE_SUMMARY_DEFAULT_.equals(changeSummary);
+        return isSetChangeSummary();
       case ANY_ATTRIBUTE:
         return anyAttribute != null && !isSequenceEmpty(getAnyAttribute());
     }
@@ -406,7 +602,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (changeSummary: ");
-    result.append(changeSummary);
+    if (changeSummary_set_) result.append(changeSummary); else result.append("<unset>");
     result.append(", anyAttribute: ");
     result.append(anyAttribute);
     result.append(')');

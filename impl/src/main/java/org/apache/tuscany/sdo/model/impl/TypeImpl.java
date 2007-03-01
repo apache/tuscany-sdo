@@ -6,18 +6,17 @@
  */
 package org.apache.tuscany.sdo.model.impl;
 
-import commonj.sdo.Sequence;
-
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.tuscany.sdo.impl.DataObjectBase;
-
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.Property;
 import org.apache.tuscany.sdo.model.Type;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
+
+import commonj.sdo.Sequence;
 
 /**
  * <!-- begin-user-doc -->
@@ -44,114 +43,161 @@ import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
  */
 public class TypeImpl extends DataObjectBase implements Type
 {
-  /**
-   * The feature id for the '<em><b>Base Type</b></em>' reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
+
   public final static int BASE_TYPE = 0;
 
-  /**
-   * The feature id for the '<em><b>Property</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
   public final static int PROPERTY = 1;
 
-  /**
-   * The feature id for the '<em><b>Alias Name</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
   public final static int ALIAS_NAME = 2;
 
+  public final static int ANY = -1;
+
+  public final static int NAME = 3;
+
+  public final static int URI = 4;
+
+  public final static int DATA_TYPE = 5;
+
+  public final static int OPEN = 6;
+
+  public final static int SEQUENCED = 7;
+
+  public final static int ABSTRACT = 8;
+
+  public final static int ANY_ATTRIBUTE = -2;
+
+  public final static int SDO_PROPERTY_COUNT = 9;
+
+  public final static int EXTENDED_PROPERTY_COUNT = -2;
+
+
   /**
-   * The feature id for the '<em><b>Any</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Base Type</b></em>' reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int ANY = 3;
+   */ 
+  public final static int INTERNAL_BASE_TYPE = 0;
 
   /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * The internal feature id for the '<em><b>Property</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int NAME = 4;
+   */ 
+  public final static int INTERNAL_PROPERTY = 1;
 
   /**
-   * The feature id for the '<em><b>Uri</b></em>' attribute.
+   * The internal feature id for the '<em><b>Alias Name</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int URI = 5;
+   */ 
+  public final static int INTERNAL_ALIAS_NAME = 2;
 
   /**
-   * The feature id for the '<em><b>Data Type</b></em>' attribute.
+   * The internal feature id for the '<em><b>Any</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int DATA_TYPE = 6;
+   */ 
+  public final static int INTERNAL_ANY = 3;
 
   /**
-   * The feature id for the '<em><b>Open</b></em>' attribute.
+   * The internal feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int OPEN = 7;
+   */ 
+  public final static int INTERNAL_NAME = 4;
 
   /**
-   * The feature id for the '<em><b>Sequenced</b></em>' attribute.
+   * The internal feature id for the '<em><b>Uri</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int SEQUENCED = 8;
+   */ 
+  public final static int INTERNAL_URI = 5;
 
   /**
-   * The feature id for the '<em><b>Abstract</b></em>' attribute.
+   * The internal feature id for the '<em><b>Data Type</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int ABSTRACT = 9;
+   */ 
+  public final static int INTERNAL_DATA_TYPE = 6;
 
   /**
-   * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Open</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int ANY_ATTRIBUTE = 10;
+   */ 
+  public final static int INTERNAL_OPEN = 7;
 
   /**
-   * This represents the number of properties for this type.
+   * The internal feature id for the '<em><b>Sequenced</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_SEQUENCED = 8;
+
+  /**
+   * The internal feature id for the '<em><b>Abstract</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_ABSTRACT = 9;
+
+  /**
+   * The internal feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_ANY_ATTRIBUTE = 10;
+
+  /**
+   * The number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  
-  public final static int SDO_PROPERTY_COUNT = 11;
+  public final static int INTERNAL_PROPERTY_COUNT = 11;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+      case INTERNAL_BASE_TYPE: return BASE_TYPE;
+      case INTERNAL_PROPERTY: return PROPERTY;
+      case INTERNAL_ALIAS_NAME: return ALIAS_NAME;
+      case INTERNAL_ANY: return ANY;
+      case INTERNAL_NAME: return NAME;
+      case INTERNAL_URI: return URI;
+      case INTERNAL_DATA_TYPE: return DATA_TYPE;
+      case INTERNAL_OPEN: return OPEN;
+      case INTERNAL_SEQUENCED: return SEQUENCED;
+      case INTERNAL_ABSTRACT: return ABSTRACT;
+      case INTERNAL_ANY_ATTRIBUTE: return ANY_ATTRIBUTE;
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
 
   /**
    * The cached value of the '{@link #getBaseType() <em>Base Type</em>}' reference list.
@@ -218,6 +264,15 @@ public class TypeImpl extends DataObjectBase implements Type
   protected String name = NAME_DEFAULT_;
 
   /**
+   * This is true if the Name attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean name_set_ = false;
+
+  /**
    * The default value of the '{@link #getUri() <em>Uri</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -236,6 +291,15 @@ public class TypeImpl extends DataObjectBase implements Type
    * @ordered
    */
   protected String uri = URI_DEFAULT_;
+
+  /**
+   * This is true if the Uri attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean uri_set_ = false;
 
   /**
    * The default value of the '{@link #isDataType() <em>Data Type</em>}' attribute.
@@ -432,7 +496,7 @@ public class TypeImpl extends DataObjectBase implements Type
   {
     if (any == null)
     {
-      any = createSequence(ANY);
+      any = createSequence(INTERNAL_ANY);
     }
     return any;
   }
@@ -454,8 +518,35 @@ public class TypeImpl extends DataObjectBase implements Type
   {
     String oldName = name;
     name = newName;
+    boolean oldName_set_ = name_set_;
+    name_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, NAME, oldName, name);
+      notify(ChangeKind.SET, NAME, oldName, name, !oldName_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetName()
+  {
+    String oldName = name;
+    boolean oldName_set_ = name_set_;
+    name = NAME_DEFAULT_;
+    name_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, NAME, oldName, NAME_DEFAULT_, oldName_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetName()
+  {
+    return name_set_;
   }
 
   /**
@@ -476,8 +567,35 @@ public class TypeImpl extends DataObjectBase implements Type
   {
     String oldUri = uri;
     uri = newUri;
+    boolean oldUri_set_ = uri_set_;
+    uri_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, URI, oldUri, uri);
+      notify(ChangeKind.SET, URI, oldUri, uri, !oldUri_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetUri()
+  {
+    String oldUri = uri;
+    boolean oldUri_set_ = uri_set_;
+    uri = URI_DEFAULT_;
+    uri_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, URI, oldUri, URI_DEFAULT_, oldUri_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetUri()
+  {
+    return uri_set_;
   }
 
   /**
@@ -685,7 +803,7 @@ public class TypeImpl extends DataObjectBase implements Type
   {
     if (anyAttribute == null)
     {
-      anyAttribute = createSequence(ANY_ATTRIBUTE);
+      anyAttribute = createSequence(INTERNAL_ANY_ATTRIBUTE);
     }
     return anyAttribute;
   }
@@ -818,10 +936,10 @@ public class TypeImpl extends DataObjectBase implements Type
         unsetSequence(getAny());
         return;
       case NAME:
-        setName(NAME_DEFAULT_);
+        unsetName();
         return;
       case URI:
-        setUri(URI_DEFAULT_);
+        unsetUri();
         return;
       case DATA_TYPE:
         unsetDataType();
@@ -860,9 +978,9 @@ public class TypeImpl extends DataObjectBase implements Type
       case ANY:
         return any != null && !isSequenceEmpty(getAny());
       case NAME:
-        return NAME_DEFAULT_ == null ? name != null : !NAME_DEFAULT_.equals(name);
+        return isSetName();
       case URI:
-        return URI_DEFAULT_ == null ? uri != null : !URI_DEFAULT_.equals(uri);
+        return isSetUri();
       case DATA_TYPE:
         return isSetDataType();
       case OPEN:
@@ -892,9 +1010,9 @@ public class TypeImpl extends DataObjectBase implements Type
     result.append(", any: ");
     result.append(any);
     result.append(", name: ");
-    result.append(name);
+    if (name_set_) result.append(name); else result.append("<unset>");
     result.append(", uri: ");
-    result.append(uri);
+    if (uri_set_) result.append(uri); else result.append("<unset>");
     result.append(", dataType: ");
     if (dataType_set_) result.append(dataType); else result.append("<unset>");
     result.append(", open: ");

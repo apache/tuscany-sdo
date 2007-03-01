@@ -31,24 +31,41 @@ import org.apache.tuscany.sdo.model.Types;
  */
 public class TypesImpl extends DataObjectBase implements Types
 {
+
+  public final static int TYPE = 0;
+
+  public final static int SDO_PROPERTY_COUNT = 1;
+
+  public final static int EXTENDED_PROPERTY_COUNT = 0;
+
+
   /**
-   * The feature id for the '<em><b>Type</b></em>' containment reference list.
+   * The internal feature id for the '<em><b>Type</b></em>' containment reference list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int TYPE = 0;
+   */ 
+  public final static int INTERNAL_TYPE = 0;
 
   /**
-   * This represents the number of properties for this type.
+   * The number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  
-  public final static int SDO_PROPERTY_COUNT = 1;
+  public final static int INTERNAL_PROPERTY_COUNT = 1;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+      case INTERNAL_TYPE: return TYPE;
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
 
   /**
    * The cached value of the '{@link #getType_() <em>Type</em>}' containment reference list.
@@ -176,5 +193,5 @@ public class TypesImpl extends DataObjectBase implements Types
   {
     return getType_();
   }
-  
+
 } //TypesImpl

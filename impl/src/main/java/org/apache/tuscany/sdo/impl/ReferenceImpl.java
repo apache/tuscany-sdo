@@ -244,6 +244,46 @@ public class ReferenceImpl extends EReferenceImpl implements Property,/* DataObj
     return isNullable();
   }
 
+  public void unsetName()
+  {
+    throw new UnsupportedOperationException("Property is frozen and cannot be modified");
+  }
+
+  public boolean isSetName()
+  {
+    return true;
+  }
+  
+  public void unsetOpposite()
+  {
+    throw new UnsupportedOperationException("Property is frozen and cannot be modified");
+  }
+
+  public boolean isSetOpposite()
+  {
+    return getOpposite() != null;
+  }
+  
+  public void unsetType()
+  {
+    throw new UnsupportedOperationException("Property is frozen and cannot be modified");
+  }
+
+  public boolean isSetType()
+  {
+    return true;
+  }
+  
+  public void unsetDefault()
+  {
+    throw new UnsupportedOperationException("Property is frozen and cannot be modified");
+  }
+
+  public boolean isSetDefault()
+  {
+    return getDefault() != null;
+  }
+  
   
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
   // DataObject method implementations

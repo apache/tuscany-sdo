@@ -42,114 +42,161 @@ import org.apache.tuscany.sdo.model.Type;
  */
 public class PropertyImpl extends DataObjectBase implements Property
 {
-  /**
-   * The feature id for the '<em><b>Alias Name</b></em>' attribute list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
+
   public final static int ALIAS_NAME = 0;
 
+  public final static int ANY = -1;
+
+  public final static int NAME = 1;
+
+  public final static int MANY = 2;
+
+  public final static int CONTAINMENT = 3;
+
+  public final static int DEFAULT = 4;
+
+  public final static int READ_ONLY = 5;
+
+  public final static int TYPE = 6;
+
+  public final static int OPPOSITE = 7;
+
+  public final static int NULLABLE = 8;
+
+  public final static int ANY_ATTRIBUTE = -2;
+
+  public final static int SDO_PROPERTY_COUNT = 9;
+
+  public final static int EXTENDED_PROPERTY_COUNT = -2;
+
+
   /**
-   * The feature id for the '<em><b>Any</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Alias Name</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int ANY = 1;
+   */ 
+  public final static int INTERNAL_ALIAS_NAME = 0;
 
   /**
-   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * The internal feature id for the '<em><b>Any</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int NAME = 2;
+   */ 
+  public final static int INTERNAL_ANY = 1;
 
   /**
-   * The feature id for the '<em><b>Many</b></em>' attribute.
+   * The internal feature id for the '<em><b>Name</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int MANY = 3;
+   */ 
+  public final static int INTERNAL_NAME = 2;
 
   /**
-   * The feature id for the '<em><b>Containment</b></em>' attribute.
+   * The internal feature id for the '<em><b>Many</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int CONTAINMENT = 4;
+   */ 
+  public final static int INTERNAL_MANY = 3;
 
   /**
-   * The feature id for the '<em><b>Default</b></em>' attribute.
+   * The internal feature id for the '<em><b>Containment</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int DEFAULT = 5;
+   */ 
+  public final static int INTERNAL_CONTAINMENT = 4;
 
   /**
-   * The feature id for the '<em><b>Read Only</b></em>' attribute.
+   * The internal feature id for the '<em><b>Default</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int READ_ONLY = 6;
+   */ 
+  public final static int INTERNAL_DEFAULT = 5;
 
   /**
-   * The feature id for the '<em><b>Type</b></em>' reference.
+   * The internal feature id for the '<em><b>Read Only</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int TYPE = 7;
+   */ 
+  public final static int INTERNAL_READ_ONLY = 6;
 
   /**
-   * The feature id for the '<em><b>Opposite</b></em>' reference.
+   * The internal feature id for the '<em><b>Type</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int OPPOSITE = 8;
+   */ 
+  public final static int INTERNAL_TYPE = 7;
 
   /**
-   * The feature id for the '<em><b>Nullable</b></em>' attribute.
+   * The internal feature id for the '<em><b>Opposite</b></em>' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int NULLABLE = 9;
+   */ 
+  public final static int INTERNAL_OPPOSITE = 8;
 
   /**
-   * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Nullable</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int ANY_ATTRIBUTE = 10;
+   */ 
+  public final static int INTERNAL_NULLABLE = 9;
 
   /**
-   * This represents the number of properties for this type.
+   * The internal feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_ANY_ATTRIBUTE = 10;
+
+  /**
+   * The number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  
-  public final static int SDO_PROPERTY_COUNT = 11;
+  public final static int INTERNAL_PROPERTY_COUNT = 11;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+      case INTERNAL_ALIAS_NAME: return ALIAS_NAME;
+      case INTERNAL_ANY: return ANY;
+      case INTERNAL_NAME: return NAME;
+      case INTERNAL_MANY: return MANY;
+      case INTERNAL_CONTAINMENT: return CONTAINMENT;
+      case INTERNAL_DEFAULT: return DEFAULT;
+      case INTERNAL_READ_ONLY: return READ_ONLY;
+      case INTERNAL_TYPE: return TYPE;
+      case INTERNAL_OPPOSITE: return OPPOSITE;
+      case INTERNAL_NULLABLE: return NULLABLE;
+      case INTERNAL_ANY_ATTRIBUTE: return ANY_ATTRIBUTE;
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
 
   /**
    * The cached value of the '{@link #getAliasName() <em>Alias Name</em>}' attribute list.
@@ -192,6 +239,15 @@ public class PropertyImpl extends DataObjectBase implements Property
    * @ordered
    */
   protected String name = NAME_DEFAULT_;
+
+  /**
+   * This is true if the Name attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean name_set_ = false;
 
   /**
    * The default value of the '{@link #isMany() <em>Many</em>}' attribute.
@@ -272,6 +328,15 @@ public class PropertyImpl extends DataObjectBase implements Property
   protected String default_ = DEFAULT_DEFAULT_;
 
   /**
+   * This is true if the Default attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean default_set_ = false;
+
+  /**
    * The default value of the '{@link #isReadOnly() <em>Read Only</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -312,6 +377,15 @@ public class PropertyImpl extends DataObjectBase implements Property
   protected Type type = null;
   
   /**
+   * This is true if the Type reference has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean type_set_ = false;
+
+  /**
    * The cached value of the '{@link #getOpposite_() <em>Opposite</em>}' reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -322,6 +396,15 @@ public class PropertyImpl extends DataObjectBase implements Property
   
   protected Property opposite = null;
   
+  /**
+   * This is true if the Opposite reference has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean opposite_set_ = false;
+
   /**
    * The default value of the '{@link #isNullable() <em>Nullable</em>}' attribute.
    * <!-- begin-user-doc -->
@@ -404,7 +487,7 @@ public class PropertyImpl extends DataObjectBase implements Property
   {
     if (any == null)
     {
-      any = createSequence(ANY);
+      any = createSequence(INTERNAL_ANY);
     }
     return any;
   }
@@ -426,8 +509,35 @@ public class PropertyImpl extends DataObjectBase implements Property
   {
     String oldName = name;
     name = newName;
+    boolean oldName_set_ = name_set_;
+    name_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, NAME, oldName, name);
+      notify(ChangeKind.SET, NAME, oldName, name, !oldName_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetName()
+  {
+    String oldName = name;
+    boolean oldName_set_ = name_set_;
+    name = NAME_DEFAULT_;
+    name_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, NAME, oldName, NAME_DEFAULT_, oldName_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetName()
+  {
+    return name_set_;
   }
 
   /**
@@ -546,8 +656,35 @@ public class PropertyImpl extends DataObjectBase implements Property
   {
     String oldDefault = default_;
     default_ = newDefault;
+    boolean oldDefault_set_ = default_set_;
+    default_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, DEFAULT, oldDefault, default_);
+      notify(ChangeKind.SET, DEFAULT, oldDefault, default_, !oldDefault_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetDefault()
+  {
+    String oldDefault = default_;
+    boolean oldDefault_set_ = default_set_;
+    default_ = DEFAULT_DEFAULT_;
+    default_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, DEFAULT, oldDefault, DEFAULT_DEFAULT_, oldDefault_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetDefault()
+  {
+    return default_set_;
   }
 
   /**
@@ -637,8 +774,35 @@ public class PropertyImpl extends DataObjectBase implements Property
   {
     Type oldType = type;
     type = newType;
+    boolean oldType_set_ = type_set_;
+    type_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, TYPE, oldType, type);
+      notify(ChangeKind.SET, TYPE, oldType, type, !oldType_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetType()
+  {
+    Type oldType = type;
+    boolean oldType_set_ = type_set_;
+    type = null;
+    type_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, TYPE, oldType, null, oldType_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetType()
+  {
+    return type_set_;
   }
 
   /**
@@ -679,8 +843,35 @@ public class PropertyImpl extends DataObjectBase implements Property
   {
     Property oldOpposite = opposite;
     opposite = newOpposite;
+    boolean oldOpposite_set_ = opposite_set_;
+    opposite_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, OPPOSITE, oldOpposite, opposite);
+      notify(ChangeKind.SET, OPPOSITE, oldOpposite, opposite, !oldOpposite_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetOpposite()
+  {
+    Property oldOpposite = opposite;
+    boolean oldOpposite_set_ = opposite_set_;
+    opposite = null;
+    opposite_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, OPPOSITE, oldOpposite, null, oldOpposite_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetOpposite()
+  {
+    return opposite_set_;
   }
 
   /**
@@ -741,7 +932,7 @@ public class PropertyImpl extends DataObjectBase implements Property
   {
     if (anyAttribute == null)
     {
-      anyAttribute = createSequence(ANY_ATTRIBUTE);
+      anyAttribute = createSequence(INTERNAL_ANY_ATTRIBUTE);
     }
     return anyAttribute;
   }
@@ -866,7 +1057,7 @@ public class PropertyImpl extends DataObjectBase implements Property
         unsetSequence(getAny());
         return;
       case NAME:
-        setName(NAME_DEFAULT_);
+        unsetName();
         return;
       case MANY:
         unsetMany();
@@ -875,16 +1066,16 @@ public class PropertyImpl extends DataObjectBase implements Property
         unsetContainment();
         return;
       case DEFAULT:
-        setDefault_(DEFAULT_DEFAULT_);
+        unsetDefault();
         return;
       case READ_ONLY:
         unsetReadOnly();
         return;
       case TYPE:
-        setType((Type)null);
+        unsetType();
         return;
       case OPPOSITE:
-        setOpposite_((Property)null);
+        unsetOpposite();
         return;
       case NULLABLE:
         unsetNullable();
@@ -910,19 +1101,19 @@ public class PropertyImpl extends DataObjectBase implements Property
       case ANY:
         return any != null && !isSequenceEmpty(getAny());
       case NAME:
-        return NAME_DEFAULT_ == null ? name != null : !NAME_DEFAULT_.equals(name);
+        return isSetName();
       case MANY:
         return isSetMany();
       case CONTAINMENT:
         return isSetContainment();
       case DEFAULT:
-        return DEFAULT_DEFAULT_ == null ? default_ != null : !DEFAULT_DEFAULT_.equals(default_);
+        return isSetDefault();
       case READ_ONLY:
         return isSetReadOnly();
       case TYPE:
-        return type != null;
+        return isSetType();
       case OPPOSITE:
-        return opposite != null;
+        return isSetOpposite();
       case NULLABLE:
         return isSetNullable();
       case ANY_ATTRIBUTE:
@@ -946,13 +1137,13 @@ public class PropertyImpl extends DataObjectBase implements Property
     result.append(", any: ");
     result.append(any);
     result.append(", name: ");
-    result.append(name);
+    if (name_set_) result.append(name); else result.append("<unset>");
     result.append(", many: ");
     if (many_set_) result.append(many); else result.append("<unset>");
     result.append(", containment: ");
     if (containment_set_) result.append(containment); else result.append("<unset>");
     result.append(", default: ");
-    result.append(default_);
+    if (default_set_) result.append(default_); else result.append("<unset>");
     result.append(", readOnly: ");
     if (readOnly_set_) result.append(readOnly); else result.append("<unset>");
     result.append(", nullable: ");

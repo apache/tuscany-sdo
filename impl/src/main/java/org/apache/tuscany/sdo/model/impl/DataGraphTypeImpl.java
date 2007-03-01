@@ -27,60 +27,81 @@ import org.apache.tuscany.sdo.model.ModelFactory;
  */
 public class DataGraphTypeImpl extends BaseDataGraphTypeImpl implements DataGraphType
 {
+
+  public final static int ANY = BaseDataGraphTypeImpl.SDO_PROPERTY_COUNT + -1;
+
+  public final static int SDO_PROPERTY_COUNT = BaseDataGraphTypeImpl.SDO_PROPERTY_COUNT + 0;
+
+  public final static int EXTENDED_PROPERTY_COUNT = BaseDataGraphTypeImpl.EXTENDED_PROPERTY_COUNT - 1;
+
+
   /**
-   * The feature id for the '<em><b>Models</b></em>' containment reference.
+   * The internal feature id for the '<em><b>Models</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int MODELS = BaseDataGraphTypeImpl.MODELS;
+   */ 
+  public final static int INTERNAL_MODELS = BaseDataGraphTypeImpl.MODELS;
 
   /**
-   * The feature id for the '<em><b>Xsd</b></em>' containment reference.
+   * The internal feature id for the '<em><b>Xsd</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int XSD = BaseDataGraphTypeImpl.XSD;
+   */ 
+  public final static int INTERNAL_XSD = BaseDataGraphTypeImpl.XSD;
 
   /**
-   * The feature id for the '<em><b>Change Summary</b></em>' attribute.
+   * The internal feature id for the '<em><b>Change Summary</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int CHANGE_SUMMARY = BaseDataGraphTypeImpl.CHANGE_SUMMARY;
+   */ 
+  public final static int INTERNAL_CHANGE_SUMMARY = BaseDataGraphTypeImpl.CHANGE_SUMMARY;
 
   /**
-   * The feature id for the '<em><b>Any Attribute</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Any Attribute</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int ANY_ATTRIBUTE = BaseDataGraphTypeImpl.ANY_ATTRIBUTE;
+   */ 
+  public final static int INTERNAL_ANY_ATTRIBUTE = BaseDataGraphTypeImpl.ANY_ATTRIBUTE;
 
   /**
-   * The feature id for the '<em><b>Any</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Any</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int ANY = BaseDataGraphTypeImpl.SDO_PROPERTY_COUNT + 0;
+   */ 
+  public final static int INTERNAL_ANY = BaseDataGraphTypeImpl.INTERNAL_PROPERTY_COUNT + 0;
 
   /**
-   * This represents the number of properties for this type.
+   * The number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  
-  public final static int SDO_PROPERTY_COUNT = BaseDataGraphTypeImpl.SDO_PROPERTY_COUNT + 1;
+  public final static int INTERNAL_PROPERTY_COUNT = BaseDataGraphTypeImpl.INTERNAL_PROPERTY_COUNT + 1;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+      case INTERNAL_MODELS: return MODELS;
+      case INTERNAL_XSD: return XSD;
+      case INTERNAL_CHANGE_SUMMARY: return CHANGE_SUMMARY;
+      case INTERNAL_ANY_ATTRIBUTE: return ANY_ATTRIBUTE;
+      case INTERNAL_ANY: return ANY;
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
 
   /**
    * The cached value of the '{@link #getAny() <em>Any</em>}' attribute list.
@@ -122,7 +143,7 @@ public class DataGraphTypeImpl extends BaseDataGraphTypeImpl implements DataGrap
   {
     if (any == null)
     {
-      any = createSequence(ANY);
+      any = createSequence(INTERNAL_ANY);
     }
     return any;
   }

@@ -103,6 +103,8 @@ public interface Type extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
+   * @see #isSetName()
+   * @see #unsetName()
    * @see #setName(String)
    * @generated
    */
@@ -113,10 +115,35 @@ public interface Type extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #isSetName()
+   * @see #unsetName()
    * @see #getName()
    * @generated
    */
   void setName(String value);
+
+  /**
+   * Unsets the value of the '{@link org.apache.tuscany.sdo.model.Type#getName <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetName()
+   * @see #getName()
+   * @see #setName(String)
+   * @generated
+   */
+  void unsetName();
+
+  /**
+   * Returns whether the value of the '{@link org.apache.tuscany.sdo.model.Type#getName <em>Name</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Name</em>' attribute is set.
+   * @see #unsetName()
+   * @see #getName()
+   * @see #setName(String)
+   * @generated
+   */
+  boolean isSetName();
 
   /**
    * Returns the value of the '<em><b>Uri</b></em>' attribute.
@@ -127,6 +154,8 @@ public interface Type extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Uri</em>' attribute.
+   * @see #isSetUri()
+   * @see #unsetUri()
    * @see #setUri(String)
    * @generated
    */
@@ -137,10 +166,35 @@ public interface Type extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Uri</em>' attribute.
+   * @see #isSetUri()
+   * @see #unsetUri()
    * @see #getUri()
    * @generated
    */
   void setUri(String value);
+
+  /**
+   * Unsets the value of the '{@link org.apache.tuscany.sdo.model.Type#getUri <em>Uri</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetUri()
+   * @see #getUri()
+   * @see #setUri(String)
+   * @generated
+   */
+  void unsetUri();
+
+  /**
+   * Returns whether the value of the '{@link org.apache.tuscany.sdo.model.Type#getUri <em>Uri</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Uri</em>' attribute is set.
+   * @see #unsetUri()
+   * @see #getUri()
+   * @see #setUri(String)
+   * @generated
+   */
+  boolean isSetUri();
 
   /**
    * Returns the value of the '<em><b>Data Type</b></em>' attribute.

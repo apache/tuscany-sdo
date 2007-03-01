@@ -75,6 +75,8 @@ public interface Property extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Name</em>' attribute.
+   * @see #isSetName()
+   * @see #unsetName()
    * @see #setName(String)
    * @generated
    */
@@ -85,10 +87,35 @@ public interface Property extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Name</em>' attribute.
+   * @see #isSetName()
+   * @see #unsetName()
    * @see #getName()
    * @generated
    */
   void setName(String value);
+
+  /**
+   * Unsets the value of the '{@link org.apache.tuscany.sdo.model.Property#getName <em>Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetName()
+   * @see #getName()
+   * @see #setName(String)
+   * @generated
+   */
+  void unsetName();
+
+  /**
+   * Returns whether the value of the '{@link org.apache.tuscany.sdo.model.Property#getName <em>Name</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Name</em>' attribute is set.
+   * @see #unsetName()
+   * @see #getName()
+   * @see #setName(String)
+   * @generated
+   */
+  boolean isSetName();
 
   /**
    * Returns the value of the '<em><b>Many</b></em>' attribute.
@@ -201,6 +228,8 @@ public interface Property extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Default</em>' attribute.
+   * @see #isSetDefault()
+   * @see #unsetDefault()
    * @see #setDefault_(String)
    * @generated
    */
@@ -211,10 +240,35 @@ public interface Property extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Default</em>' attribute.
+   * @see #isSetDefault()
+   * @see #unsetDefault()
    * @see #getDefault_()
    * @generated
    */
   void setDefault_(String value);
+
+  /**
+   * Unsets the value of the '{@link org.apache.tuscany.sdo.model.Property#getDefault <em>Default</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetDefault()
+   * @see #getDefault_()
+   * @see #setDefault_(String)
+   * @generated
+   */
+  void unsetDefault();
+
+  /**
+   * Returns whether the value of the '{@link org.apache.tuscany.sdo.model.Property#getDefault <em>Default</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Default</em>' attribute is set.
+   * @see #unsetDefault()
+   * @see #getDefault_()
+   * @see #setDefault_(String)
+   * @generated
+   */
+  boolean isSetDefault();
 
   /**
    * Returns the value of the '<em><b>Read Only</b></em>' attribute.
@@ -276,6 +330,8 @@ public interface Property extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Type</em>' reference.
+   * @see #isSetType()
+   * @see #unsetType()
    * @see #setType(Type)
    * @generated
    */
@@ -286,10 +342,35 @@ public interface Property extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Type</em>' reference.
+   * @see #isSetType()
+   * @see #unsetType()
    * @see #getType_()
    * @generated
    */
   void setType(Type value);
+
+  /**
+   * Unsets the value of the '{@link org.apache.tuscany.sdo.model.Property#getType_ <em>Type</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetType()
+   * @see #getType_()
+   * @see #setType(Type)
+   * @generated
+   */
+  void unsetType();
+
+  /**
+   * Returns whether the value of the '{@link org.apache.tuscany.sdo.model.Property#getType_ <em>Type</em>}' reference is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Type</em>' reference is set.
+   * @see #unsetType()
+   * @see #getType_()
+   * @see #setType(Type)
+   * @generated
+   */
+  boolean isSetType();
 
   /**
    * Returns the value of the '<em><b>Opposite</b></em>' reference.
@@ -300,6 +381,8 @@ public interface Property extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Opposite</em>' reference.
+   * @see #isSetOpposite()
+   * @see #unsetOpposite()
    * @see #setOpposite_(Property)
    * @generated
    */
@@ -310,10 +393,35 @@ public interface Property extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Opposite</em>' reference.
+   * @see #isSetOpposite()
+   * @see #unsetOpposite()
    * @see #getOpposite_()
    * @generated
    */
   void setOpposite_(Property value);
+
+  /**
+   * Unsets the value of the '{@link org.apache.tuscany.sdo.model.Property#getOpposite <em>Opposite</em>}' reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetOpposite()
+   * @see #getOpposite_()
+   * @see #setOpposite_(Property)
+   * @generated
+   */
+  void unsetOpposite();
+
+  /**
+   * Returns whether the value of the '{@link org.apache.tuscany.sdo.model.Property#getOpposite <em>Opposite</em>}' reference is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Opposite</em>' reference is set.
+   * @see #unsetOpposite()
+   * @see #getOpposite_()
+   * @see #setOpposite_(Property)
+   * @generated
+   */
+  boolean isSetOpposite();
 
   /**
    * Returns the value of the '<em><b>Nullable</b></em>' attribute.

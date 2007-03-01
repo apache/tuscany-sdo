@@ -21,6 +21,7 @@ package org.apache.tuscany.sdo.impl;
 
 import java.util.List;
 
+import org.apache.tuscany.sdo.impl.DataObjectBase.ChangeKind;
 import org.apache.tuscany.sdo.util.BasicSequence;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.ecore.EClass;
@@ -233,7 +234,7 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
   public boolean isSetReadOnly() {
     return isReadOnly();
   }
-
+  
   public org.apache.tuscany.sdo.model.Type getType_() {
     return (org.apache.tuscany.sdo.model.Type)getType();
   }
@@ -277,7 +278,47 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
   public boolean isSetNullable() {
     return isUnsettable();
   }
+  
+  public void unsetName()
+  {
+    throw new UnsupportedOperationException("Property is frozen and cannot be modified");
+  }
 
+  public boolean isSetName()
+  {
+    return true;
+  }
+  
+  public void unsetOpposite()
+  {
+    throw new UnsupportedOperationException("Property is frozen and cannot be modified");
+  }
+
+  public boolean isSetOpposite()
+  {
+    return getOpposite() != null;
+  }
+  
+  public void unsetType()
+  {
+    throw new UnsupportedOperationException("Property is frozen and cannot be modified");
+  }
+
+  public boolean isSetType()
+  {
+    return true;
+  }
+  
+  public void unsetDefault()
+  {
+    throw new UnsupportedOperationException("Property is frozen and cannot be modified");
+  }
+
+  public boolean isSetDefault()
+  {
+    return getDefault() != null;
+  }
+  
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
   // DataObject method implementations

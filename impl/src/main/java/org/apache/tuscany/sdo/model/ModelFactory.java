@@ -6,6 +6,8 @@
  */
 package org.apache.tuscany.sdo.model;
 
+import commonj.sdo.helper.HelperContext;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -79,4 +81,13 @@ public interface ModelFactory
    */
   XSDType createXSDType();
 
+  /**
+   * Registers the types supported by this Factory within the supplied scope.argument
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param scope an instance of HelperContext used to manage the scoping of types.
+   * @generated
+   */
+  public void register(HelperContext scope);
+   
 } //ModelFactory

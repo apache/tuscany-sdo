@@ -255,6 +255,26 @@ public class DataTypeImpl extends EDataTypeImpl implements Type, org.apache.tusc
     return false;
   }
 
+  public void unsetName()
+  {
+    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
+  }
+
+  public boolean isSetName()
+  {
+    return true;
+  }
+  
+  public void unsetUri()
+  {
+    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
+  }
+
+  public boolean isSetUri()
+  {
+    return true;
+  }
+
   public void setUri(String value) {
     throw new UnsupportedOperationException("Type is frozen and cannot be modified");
   }

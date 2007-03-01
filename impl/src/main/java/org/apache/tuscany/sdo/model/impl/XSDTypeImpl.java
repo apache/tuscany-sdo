@@ -29,24 +29,41 @@ import org.apache.tuscany.sdo.model.XSDType;
  */
 public class XSDTypeImpl extends DataObjectBase implements XSDType
 {
+
+  public final static int ANY = -1;
+
+  public final static int SDO_PROPERTY_COUNT = 0;
+
+  public final static int EXTENDED_PROPERTY_COUNT = -1;
+
+
   /**
-   * The feature id for the '<em><b>Any</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Any</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int ANY = 0;
+   */ 
+  public final static int INTERNAL_ANY = 0;
 
   /**
-   * This represents the number of properties for this type.
+   * The number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  
-  public final static int SDO_PROPERTY_COUNT = 1;
+  public final static int INTERNAL_PROPERTY_COUNT = 1;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+      case INTERNAL_ANY: return ANY;
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
 
   /**
    * The cached value of the '{@link #getAny() <em>Any</em>}' attribute list.
@@ -88,7 +105,7 @@ public class XSDTypeImpl extends DataObjectBase implements XSDType
   {
     if (any == null)
     {
-      any = createSequence(ANY);
+      any = createSequence(INTERNAL_ANY);
     }
     return any;
   }

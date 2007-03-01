@@ -24,15 +24,29 @@ import org.apache.tuscany.sdo.model.ModelFactory;
  */
 public abstract class DataObjectImpl extends DataObjectBase implements DataObject
 {
+
+  public final static int SDO_PROPERTY_COUNT = 0;
+
+  public final static int EXTENDED_PROPERTY_COUNT = 0;
+
+
   /**
-   * This represents the number of properties for this type.
+   * The number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  
-  public final static int SDO_PROPERTY_COUNT = 0;
+  public final static int INTERNAL_PROPERTY_COUNT = 0;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
 
   /**
    * <!-- begin-user-doc -->

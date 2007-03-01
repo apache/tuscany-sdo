@@ -31,24 +31,41 @@ import org.apache.tuscany.sdo.model.TextType;
  */
 public abstract class TextTypeImpl extends DataObjectBase implements TextType
 {
+
+  public final static int TEXT = 0;
+
+  public final static int SDO_PROPERTY_COUNT = 1;
+
+  public final static int EXTENDED_PROPERTY_COUNT = 0;
+
+
   /**
-   * The feature id for the '<em><b>Text</b></em>' attribute list.
+   * The internal feature id for the '<em><b>Text</b></em>' attribute list.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int TEXT = 0;
+   */ 
+  public final static int INTERNAL_TEXT = 0;
 
   /**
-   * This represents the number of properties for this type.
+   * The number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  
-  public final static int SDO_PROPERTY_COUNT = 1;
+  public final static int INTERNAL_PROPERTY_COUNT = 1;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+      case INTERNAL_TEXT: return TEXT;
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
 
   /**
    * The cached value of the '{@link #getText() <em>Text</em>}' attribute list.

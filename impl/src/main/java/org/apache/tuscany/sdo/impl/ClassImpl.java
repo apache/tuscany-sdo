@@ -421,6 +421,26 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
     return isSequenced();
   }
 
+  public void unsetName()
+  {
+    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
+  }
+
+  public boolean isSetName()
+  {
+    return true;
+  }
+  
+  public void unsetUri()
+  {
+    throw new UnsupportedOperationException("Type is frozen and cannot be modified");
+  }
+
+  public boolean isSetUri()
+  {
+    return true;
+  }
+
   public void setUri(String value) {
     throw new UnsupportedOperationException("Type is frozen and cannot be modified");
   }
