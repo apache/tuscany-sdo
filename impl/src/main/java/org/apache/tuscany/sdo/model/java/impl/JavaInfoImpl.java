@@ -28,24 +28,41 @@ import org.apache.tuscany.sdo.model.java.JavaInfo;
  */
 public class JavaInfoImpl extends DataObjectBase implements JavaInfo
 {
+
+  public final static int JAVA_CLASS = 0;
+
+  public final static int SDO_PROPERTY_COUNT = 1;
+
+  public final static int EXTENDED_PROPERTY_COUNT = 0;
+
+
   /**
-   * The feature id for the '<em><b>Java Class</b></em>' attribute.
+   * The internal feature id for the '<em><b>Java Class</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int JAVA_CLASS = 0;
+   */ 
+  public final static int INTERNAL_JAVA_CLASS = 0;
 
   /**
-   * This represents the number of properties for this type.
+   * The number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  
-  public final static int SDO_PROPERTY_COUNT = 1;
+  public final static int INTERNAL_PROPERTY_COUNT = 1;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+      case INTERNAL_JAVA_CLASS: return JAVA_CLASS;
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
 
   /**
    * The default value of the '{@link #getJavaClass() <em>Java Class</em>}' attribute.
@@ -68,11 +85,20 @@ public class JavaInfoImpl extends DataObjectBase implements JavaInfo
   protected String javaClass = JAVA_CLASS_DEFAULT_;
 
   /**
+   * This is true if the Java Class attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean javaClass_set_ = false;
+
+  /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected JavaInfoImpl()
+  public JavaInfoImpl()
   {
     super();
   }
@@ -105,8 +131,35 @@ public class JavaInfoImpl extends DataObjectBase implements JavaInfo
   {
     String oldJavaClass = javaClass;
     javaClass = newJavaClass;
+    boolean oldJavaClass_set_ = javaClass_set_;
+    javaClass_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, JAVA_CLASS, oldJavaClass, javaClass);
+      notify(ChangeKind.SET, JAVA_CLASS, oldJavaClass, javaClass, !oldJavaClass_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetJavaClass()
+  {
+    String oldJavaClass = javaClass;
+    boolean oldJavaClass_set_ = javaClass_set_;
+    javaClass = JAVA_CLASS_DEFAULT_;
+    javaClass_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, JAVA_CLASS, oldJavaClass, JAVA_CLASS_DEFAULT_, oldJavaClass_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetJavaClass()
+  {
+    return javaClass_set_;
   }
 
   /**
@@ -150,7 +203,7 @@ public class JavaInfoImpl extends DataObjectBase implements JavaInfo
     switch (propertyIndex)
     {
       case JAVA_CLASS:
-        setJavaClass(JAVA_CLASS_DEFAULT_);
+        unsetJavaClass();
         return;
     }
     super.unset(propertyIndex);
@@ -166,7 +219,7 @@ public class JavaInfoImpl extends DataObjectBase implements JavaInfo
     switch (propertyIndex)
     {
       case JAVA_CLASS:
-        return JAVA_CLASS_DEFAULT_ == null ? javaClass != null : !JAVA_CLASS_DEFAULT_.equals(javaClass);
+        return isSetJavaClass();
     }
     return super.isSet(propertyIndex);
   }
@@ -182,7 +235,7 @@ public class JavaInfoImpl extends DataObjectBase implements JavaInfo
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (javaClass: ");
-    result.append(javaClass);
+    if (javaClass_set_) result.append(javaClass); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }

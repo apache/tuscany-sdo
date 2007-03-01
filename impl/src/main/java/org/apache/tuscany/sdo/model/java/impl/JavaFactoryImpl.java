@@ -6,19 +6,26 @@
  */
 package org.apache.tuscany.sdo.model.java.impl;
 
-import org.apache.tuscany.sdo.SDOFactory;
-import org.apache.tuscany.sdo.impl.FactoryBase;
-import org.apache.tuscany.sdo.model.ModelFactory;
-import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
-import org.apache.tuscany.sdo.model.java.JavaFactory;
-import org.apache.tuscany.sdo.model.java.JavaInfo;
-import org.apache.tuscany.sdo.util.SDOUtil;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
-import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
+import commonj.sdo.helper.HelperContext;
+import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
+
+import org.apache.tuscany.sdo.SDOFactory;
+
+import org.apache.tuscany.sdo.impl.FactoryBase;
+
+import org.apache.tuscany.sdo.model.ModelFactory;
+
+import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
+
+import org.apache.tuscany.sdo.model.java.*;
+
+import org.apache.tuscany.sdo.util.SDOUtil;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -27,11 +34,9 @@ import commonj.sdo.Type;
  * Until the SDO code generator supports name conflicts and regen/merge, follow the following steps to regenerate this model:
  *   1. Regenerate the model into a temporary directory:
  *         XSD2JavaGenerator -generateBuiltIn commonj.sdo/java -targetDirectory <temp-dir> -javaPackage org.apache.tuscany.sdo.model.java <sdo-api-dir>/src/main/resources/xml/sdoJava.xsd
- *   3. Change the value of the NAMESPACE_PREFIX to "sdoJava"
- *           public static final String NAMESPACE_PREFIX = "sdoJava"; //FB generated as "java"
- *   4. Delete all the createXXXFromString() and convertXXXToString() methods in the newly generated JavaFactoryImpl and
+ *   2. Delete all the createXXXFromString() and convertXXXToString() methods in the newly generated JavaFactoryImpl and
  *      replace them with the ones from this file.
- *   5. Move this JavaDoc comment into the newly generated JavaFactoryImpl class.
+ *   3. Move this JavaDoc comment into the newly generated JavaFactoryImpl class.
  * <!-- end-user-doc -->
  * @generated
  */
@@ -52,7 +57,16 @@ public class JavaFactoryImpl extends FactoryBase implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String NAMESPACE_PREFIX = "sdoJava"; //FB generated as "java"
+  public static final String NAMESPACE_PREFIX = "sdoJava";
+
+  /**
+   * The version of the generator pattern used to generate this class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String PATTERN_VERSION = "1.1";
+  
   public static final int JAVA_INFO = 1;	
   public static final int BOOLEAN_OBJECT = 2;	
   public static final int BYTE_OBJECT = 3;	
@@ -72,6 +86,21 @@ public class JavaFactoryImpl extends FactoryBase implements JavaFactory
   public JavaFactoryImpl()
   {
     super(NAMESPACE_URI, NAMESPACE_PREFIX, "org.apache.tuscany.sdo.model.java");
+  }
+
+  /**
+   * Registers the Factory instance so that it is available within the supplied scope.
+   * @argument scope a HelperContext instance that will make the types supported by this Factory available.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */	
+  public void register(HelperContext scope) {
+    if(scope == null) {
+       throw new IllegalArgumentException("Scope can not be null");
+    } 
+    TypeHelperImpl th = (TypeHelperImpl)scope.getTypeHelper();
+    th.getExtendedMetaData().putPackage(NAMESPACE_URI, this);
   }
   
   /**
@@ -255,9 +284,11 @@ public class JavaFactoryImpl extends FactoryBase implements JavaFactory
     if (isCreated) return;
     isCreated = true;	
 
+    // Create types and their properties
+          javaInfoType = createType(false, JAVA_INFO);
+    createProperty(true, javaInfoType,JavaInfoImpl.INTERNAL_JAVA_CLASS); 
 
-    javaInfoType = createType(false, JAVA_INFO);
-    createProperty(true, javaInfoType, JavaInfoImpl.JAVA_CLASS);
+    // Create data types
     booleanObjectType = createType(true, BOOLEAN_OBJECT );
     byteObjectType = createType(true, BYTE_OBJECT );
     characterObjectType = createType(true, CHARACTER_OBJECT );
@@ -279,13 +310,12 @@ public class JavaFactoryImpl extends FactoryBase implements JavaFactory
     ModelFactoryImpl theModelPackageImpl = (ModelFactoryImpl)FactoryBase.getStaticFactory(ModelFactoryImpl.NAMESPACE_URI);
     Property property = null;
 
-    // Add supertypes to classes
+    // Add supertypes to types
 
-    // Initialize classes and features; add operations and parameters
-    initializeType(javaInfoType, JavaInfo.class, "JavaInfo");
-
-    property = (Property)javaInfoType.getProperties().get(JavaInfoImpl.JAVA_CLASS);
-    initializeProperty(property, theModelPackageImpl.getString(), "javaClass", null, 0, 1, JavaInfo.class, false, false, false);
+    // Initialize types and properties
+    initializeType(javaInfoType, JavaInfo.class, "JavaInfo", false);
+    property = getProperty(javaInfoType, JavaInfoImpl.INTERNAL_JAVA_CLASS);
+    initializeProperty(property, theModelPackageImpl.getString(), "javaClass", null, 0, 1, JavaInfo.class, false, true, false);
 
     // Initialize data types
     initializeType(booleanObjectType, Boolean.class, "BooleanObject", true, false);
@@ -321,6 +351,7 @@ public class JavaFactoryImpl extends FactoryBase implements JavaFactory
     
     Property property = null;
     
+
     property = createGlobalProperty
       ("extendedInstanceClass",
       theModelPackageImpl.getString(),
@@ -385,7 +416,7 @@ public class JavaFactoryImpl extends FactoryBase implements JavaFactory
        });
 
     addXSDMapping
-      ((Property)javaInfoType.getProperties().get(JavaInfoImpl.JAVA_CLASS),
+      (getProperty(javaInfoType, JavaInfoImpl.INTERNAL_JAVA_CLASS),
        new String[]
        {
        "kind", "attribute",

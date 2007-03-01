@@ -6,6 +6,8 @@
  */
 package org.apache.tuscany.sdo.model.xml;
 
+import commonj.sdo.helper.HelperContext;
+
 
 /**
  * <!-- begin-user-doc -->
@@ -26,12 +28,21 @@ public interface XMLFactory
   XMLFactory INSTANCE = org.apache.tuscany.sdo.model.xml.impl.XMLFactoryImpl.init();
 
   /**
-   * Returns a new object of class '<em>XML Info</em>'.
+   * Returns a new object of class '<em>Info</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>XML Info</em>'.
+   * @return a new object of class '<em>Info</em>'.
    * @generated
    */
   XMLInfo createXMLInfo();
 
-} //XmlFactory
+  /**
+   * Registers the types supported by this Factory within the supplied scope.argument
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param scope an instance of HelperContext used to manage the scoping of types.
+   * @generated
+   */
+  public void register(HelperContext scope);
+   
+} //XMLFactory

@@ -6,6 +6,9 @@
  */
 package org.apache.tuscany.sdo.model.xml.impl;
 
+import commonj.sdo.helper.HelperContext;
+import org.apache.tuscany.sdo.helper.TypeHelperImpl;
+
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
@@ -29,9 +32,7 @@ import org.apache.tuscany.sdo.util.SDOUtil;
  * Until the SDO code generator supports name conflicts and regen/merge, follow the following steps to regenerate this model:
  *   1. Regenerate the model into a temporary directory:
  *         XSD2JavaGenerator -generateBuiltIn commonj.sdo/xml -prefix XML -targetDirectory <temp-dir> -javaPackage org.apache.tuscany.sdo.model.xml <sdo-api-dir>/src/main/resources/xml/sdoXML.xsd
- *   2. Change the value of the NAMESPACE_PREFIX to "sdoXML"
- *           public static final String NAMESPACE_PREFIX = "sdoXML"; //YZ generated as "_xml"
- *   3. Move this JavaDoc comment into the newly generated XMLFactoryImpl class.
+ *   2. Move this JavaDoc comment into the newly generated XMLFactoryImpl class.
  * <!-- end-user-doc -->
  * @generated
  */
@@ -52,9 +53,18 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String NAMESPACE_PREFIX = "sdoXML"; //YZ generated as "_xml";
-  public static final int XML_INFO = 1;
+  public static final String NAMESPACE_PREFIX = "sdoXML";
 
+  /**
+   * The version of the generator pattern used to generate this class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public static final String PATTERN_VERSION = "1.1";
+  
+  public static final int XML_INFO = 1;
+  
   /**
    * Creates an instance of the factory.
    * <!-- begin-user-doc -->
@@ -66,6 +76,21 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
     super(NAMESPACE_URI, NAMESPACE_PREFIX, "org.apache.tuscany.sdo.model.xml");
   }
 
+  /**
+   * Registers the Factory instance so that it is available within the supplied scope.
+   * @argument scope a HelperContext instance that will make the types supported by this Factory available.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */	
+  public void register(HelperContext scope) {
+    if(scope == null) {
+       throw new IllegalArgumentException("Scope can not be null");
+    } 
+    TypeHelperImpl th = (TypeHelperImpl)scope.getTypeHelper();
+    th.getExtendedMetaData().putPackage(NAMESPACE_URI, this);
+  }
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -91,22 +116,22 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
     XMLInfoImpl xmlInfo = new XMLInfoImpl();
     return xmlInfo;
   }
-
-  // Following creates and initializes SDO metadata for the supported types.
+  
+  // Following creates and initializes SDO metadata for the supported types.			
   protected Type xmlInfoType = null;
 
   public Type getXMLInfo()
   {
     return xmlInfoType;
   }
-
+  
 
   private static boolean isInited = false;
 
   public static XMLFactoryImpl init()
   {
     if (isInited) return (XMLFactoryImpl)FactoryBase.getStaticFactory(XMLFactoryImpl.NAMESPACE_URI);
-    XMLFactoryImpl theXmlFactoryImpl = new XMLFactoryImpl();
+    XMLFactoryImpl theXMLFactoryImpl = new XMLFactoryImpl();
     isInited = true;
 
     // Initialize simple dependencies
@@ -114,29 +139,29 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
     SDOUtil.registerStaticTypes(ModelFactory.class);
 
     // Create package meta-data objects
-    theXmlFactoryImpl.createMetaData();
+    theXMLFactoryImpl.createMetaData();
 
     // Initialize created meta-data
-    theXmlFactoryImpl.initializeMetaData();
+    theXMLFactoryImpl.initializeMetaData();
 
     // Mark meta-data to indicate it can't be changed
-    //theXmlFactoryImpl.freeze(); //FB do we need to freeze / should we freeze ????
+    //theXMLFactoryImpl.freeze(); //FB do we need to freeze / should we freeze ????
 
-    return theXmlFactoryImpl;
+    return theXMLFactoryImpl;
   }
-
+  
   private boolean isCreated = false;
 
   public void createMetaData()
   {
     if (isCreated) return;
-    isCreated = true;
+    isCreated = true;	
 
     // Create types and their properties
-    xmlInfoType = createType(false, XML_INFO);
-    createProperty(true, xmlInfoType, XMLInfoImpl.XML_ELEMENT);
+          xmlInfoType = createType(false, XML_INFO);
+    createProperty(true, xmlInfoType,XMLInfoImpl.INTERNAL_XML_ELEMENT); 
   }
-
+  
   private boolean isInitialized = false;
 
   public void initializeMetaData()
@@ -152,17 +177,18 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
 
     // Initialize types and properties
     initializeType(xmlInfoType, XMLInfo.class, "XMLInfo", false);
-    property = (Property)xmlInfoType.getProperties().get(XMLInfoImpl.XML_ELEMENT);
-    initializeProperty(property, theModelPackageImpl.getObject(), "xmlElement", null, 0, 1, XMLInfo.class, false, false, false);
+    property = getProperty(xmlInfoType, XMLInfoImpl.INTERNAL_XML_ELEMENT);
+    initializeProperty(property, theModelPackageImpl.getBoolean(), "xmlElement", null, 0, 1, XMLInfo.class, false, true, false);
 
     createXSDMetaData(theModelPackageImpl);
   }
-
+    
   protected void createXSDMetaData(ModelFactoryImpl theModelPackageImpl)
   {
     super.initXSD();
-
+    
     Property property = null;
+    
 
     property = createGlobalProperty
       ("aliasName",
@@ -174,7 +200,7 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
        "namespace", "##targetNamespace"
        },
        IS_ATTRIBUTE);
-
+                
     property = createGlobalProperty
       ("dataType",
       theModelPackageImpl.getURI(),
@@ -185,7 +211,7 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
        "namespace", "##targetNamespace"
        },
        IS_ATTRIBUTE);
-
+                
     property = createGlobalProperty
       ("many",
       theModelPackageImpl.getBoolean(),
@@ -196,7 +222,7 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
        "namespace", "##targetNamespace"
        },
        IS_ATTRIBUTE);
-
+                
     property = createGlobalProperty
       ("name",
       theModelPackageImpl.getString(),
@@ -207,7 +233,7 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
        "namespace", "##targetNamespace"
        },
        IS_ATTRIBUTE);
-
+                
     property = createGlobalProperty
       ("oppositeProperty",
       theModelPackageImpl.getString(),
@@ -218,7 +244,7 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
        "namespace", "##targetNamespace"
        },
        IS_ATTRIBUTE);
-
+                
     property = createGlobalProperty
       ("propertyType",
       theModelPackageImpl.getURI(),
@@ -229,7 +255,7 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
        "namespace", "##targetNamespace"
        },
        IS_ATTRIBUTE);
-
+                
     property = createGlobalProperty
       ("readOnly",
       theModelPackageImpl.getBoolean(),
@@ -240,7 +266,7 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
        "namespace", "##targetNamespace"
        },
        IS_ATTRIBUTE);
-
+                
     property = createGlobalProperty
       ("sequence",
       theModelPackageImpl.getBoolean(),
@@ -251,7 +277,7 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
        "namespace", "##targetNamespace"
        },
        IS_ATTRIBUTE);
-
+                
     property = createGlobalProperty
       ("string",
       theModelPackageImpl.getBoolean(),
@@ -262,10 +288,10 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
        "namespace", "##targetNamespace"
        },
        IS_ATTRIBUTE);
-
+                
     property = createGlobalProperty
       ("xmlElement",
-      theModelPackageImpl.getObject(),
+      theModelPackageImpl.getBoolean(),
        new String[]
        {
        "kind", "attribute",
@@ -273,17 +299,17 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
        "namespace", "##targetNamespace"
        },
        IS_ATTRIBUTE);
-
+                
     addXSDMapping
       (xmlInfoType,
-       new String[]
+       new String[] 
        {
        "name", "XMLInfo",
        "kind", "empty"
        });
 
     addXSDMapping
-      ((Property)xmlInfoType.getProperties().get(XMLInfoImpl.XML_ELEMENT),
+      (getProperty(xmlInfoType, XMLInfoImpl.INTERNAL_XML_ELEMENT),
        new String[]
        {
        "kind", "attribute",
@@ -291,5 +317,5 @@ public class XMLFactoryImpl extends FactoryBase implements XMLFactory
        });
 
   }
-
-} //XmlFactoryImpl
+    
+} //XMLFactoryImpl

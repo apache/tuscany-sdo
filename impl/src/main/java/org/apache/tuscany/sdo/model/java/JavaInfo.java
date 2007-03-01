@@ -34,6 +34,8 @@ public interface JavaInfo extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Java Class</em>' attribute.
+   * @see #isSetJavaClass()
+   * @see #unsetJavaClass()
    * @see #setJavaClass(String)
    * @generated
    */
@@ -44,9 +46,34 @@ public interface JavaInfo extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Java Class</em>' attribute.
+   * @see #isSetJavaClass()
+   * @see #unsetJavaClass()
    * @see #getJavaClass()
    * @generated
    */
   void setJavaClass(String value);
+
+  /**
+   * Unsets the value of the '{@link org.apache.tuscany.sdo.model.java.JavaInfo#getJavaClass <em>Java Class</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetJavaClass()
+   * @see #getJavaClass()
+   * @see #setJavaClass(String)
+   * @generated
+   */
+  void unsetJavaClass();
+
+  /**
+   * Returns whether the value of the '{@link org.apache.tuscany.sdo.model.java.JavaInfo#getJavaClass <em>Java Class</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Java Class</em>' attribute is set.
+   * @see #unsetJavaClass()
+   * @see #getJavaClass()
+   * @see #setJavaClass(String)
+   * @generated
+   */
+  boolean isSetJavaClass();
 
 } // JavaInfo

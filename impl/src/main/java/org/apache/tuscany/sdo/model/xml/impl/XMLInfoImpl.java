@@ -10,17 +10,17 @@ import commonj.sdo.Type;
 
 import org.apache.tuscany.sdo.impl.DataObjectBase;
 
-import org.apache.tuscany.sdo.model.xml.XMLInfo;
 import org.apache.tuscany.sdo.model.xml.XMLFactory;
+import org.apache.tuscany.sdo.model.xml.XMLInfo;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>XML Info</b></em>'.
+ * An implementation of the model object '<em><b>Info</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.apache.tuscany.sdo.model.xml.impl.XMLInfoImpl#getXmlElement <em>Xml Element</em>}</li>
+ *   <li>{@link org.apache.tuscany.sdo.model.xml.impl.XMLInfoImpl#isXmlElement <em>Xml Element</em>}</li>
  * </ul>
  * </p>
  *
@@ -28,44 +28,70 @@ import org.apache.tuscany.sdo.model.xml.XMLFactory;
  */
 public class XMLInfoImpl extends DataObjectBase implements XMLInfo
 {
-  /**
-   * The feature id for the '<em><b>Xml Element</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
+
   public final static int XML_ELEMENT = 0;
 
-  /**
-   * This represents the number of properties for this type.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  
   public final static int SDO_PROPERTY_COUNT = 1;
 
-  /**
-   * The default value of the '{@link #getXmlElement() <em>Xml Element</em>}' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getXmlElement()
-   * @generated
-   * @ordered
-   */
-  protected static final Object XML_ELEMENT_DEFAULT_ = null;
+  public final static int EXTENDED_PROPERTY_COUNT = 0;
+
 
   /**
-   * The cached value of the '{@link #getXmlElement() <em>Xml Element</em>}' attribute.
+   * The internal feature id for the '<em><b>Xml Element</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getXmlElement()
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_XML_ELEMENT = 0;
+
+  /**
+   * The number of properties for this type.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  protected Object xmlElement = XML_ELEMENT_DEFAULT_;
+  public final static int INTERNAL_PROPERTY_COUNT = 1;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+      case INTERNAL_XML_ELEMENT: return XML_ELEMENT;
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
+
+  /**
+   * The default value of the '{@link #isXmlElement() <em>Xml Element</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isXmlElement()
+   * @generated
+   * @ordered
+   */
+  protected static final boolean XML_ELEMENT_DEFAULT_ = false;
+
+  /**
+   * The cached value of the '{@link #isXmlElement() <em>Xml Element</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isXmlElement()
+   * @generated
+   * @ordered
+   */
+  protected boolean xmlElement = XML_ELEMENT_DEFAULT_;
+
+  /**
+   * This is true if the Xml Element attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean xmlElement_set_ = false;
 
   /**
    * <!-- begin-user-doc -->
@@ -92,7 +118,7 @@ public class XMLInfoImpl extends DataObjectBase implements XMLInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public Object getXmlElement()
+  public boolean isXmlElement()
   {
     return xmlElement;
   }
@@ -101,12 +127,39 @@ public class XMLInfoImpl extends DataObjectBase implements XMLInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public void setXmlElement(Object newXmlElement)
+  public void setXmlElement(boolean newXmlElement)
   {
-    Object oldXmlElement = xmlElement;
+    boolean oldXmlElement = xmlElement;
     xmlElement = newXmlElement;
+    boolean oldXmlElement_set_ = xmlElement_set_;
+    xmlElement_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, XML_ELEMENT, oldXmlElement, xmlElement);
+      notify(ChangeKind.SET, XML_ELEMENT, oldXmlElement, xmlElement, !oldXmlElement_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetXmlElement()
+  {
+    boolean oldXmlElement = xmlElement;
+    boolean oldXmlElement_set_ = xmlElement_set_;
+    xmlElement = XML_ELEMENT_DEFAULT_;
+    xmlElement_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, XML_ELEMENT, oldXmlElement, XML_ELEMENT_DEFAULT_, oldXmlElement_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetXmlElement()
+  {
+    return xmlElement_set_;
   }
 
   /**
@@ -119,7 +172,7 @@ public class XMLInfoImpl extends DataObjectBase implements XMLInfo
     switch (propertyIndex)
     {
       case XML_ELEMENT:
-        return getXmlElement();
+        return isXmlElement() ? Boolean.TRUE : Boolean.FALSE;
     }
     return super.get(propertyIndex, resolve);
   }
@@ -134,7 +187,7 @@ public class XMLInfoImpl extends DataObjectBase implements XMLInfo
     switch (propertyIndex)
     {
       case XML_ELEMENT:
-        setXmlElement((Object)newValue);
+        setXmlElement(((Boolean)newValue).booleanValue());
         return;
     }
     super.set(propertyIndex, newValue);
@@ -150,7 +203,7 @@ public class XMLInfoImpl extends DataObjectBase implements XMLInfo
     switch (propertyIndex)
     {
       case XML_ELEMENT:
-        setXmlElement(XML_ELEMENT_DEFAULT_);
+        unsetXmlElement();
         return;
     }
     super.unset(propertyIndex);
@@ -166,7 +219,7 @@ public class XMLInfoImpl extends DataObjectBase implements XMLInfo
     switch (propertyIndex)
     {
       case XML_ELEMENT:
-        return XML_ELEMENT_DEFAULT_ == null ? xmlElement != null : !XML_ELEMENT_DEFAULT_.equals(xmlElement);
+        return isSetXmlElement();
     }
     return super.isSet(propertyIndex);
   }
@@ -182,7 +235,7 @@ public class XMLInfoImpl extends DataObjectBase implements XMLInfo
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (xmlElement: ");
-    result.append(xmlElement);
+    if (xmlElement_set_) result.append(xmlElement); else result.append("<unset>");
     result.append(')');
     return result.toString();
   }
