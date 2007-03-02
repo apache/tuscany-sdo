@@ -21,9 +21,9 @@ package org.apache.tuscany.sdo.impl;
 
 import java.util.List;
 
+import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EReferenceImpl;
 
 import commonj.sdo.Property;
@@ -58,7 +58,7 @@ public class ReferenceImpl extends EReferenceImpl implements Property,/* DataObj
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEReference();
+    return SDOPackage.eINSTANCE.getReference();
   }
 
   /**
@@ -113,11 +113,12 @@ public class ReferenceImpl extends EReferenceImpl implements Property,/* DataObj
    */
   public Type getType()
   {
-    // Note that Property.getType() conflicts with DataObject.getType(), so we can only implement
-    // it one way or the other here. We're implementing it to return the property type so it will
-    // return the wrong type when the caller is using the DataObject interface.  Not much we can 
-    // do about it tho. -- James Snell
     return (Type)getEType();
+    /*
+    EClassifier eType = getEType();
+    //FB More temporary hacks
+    return eType instanceof Type ? (Type)getEType() : null;
+    */
   }
 
   /**

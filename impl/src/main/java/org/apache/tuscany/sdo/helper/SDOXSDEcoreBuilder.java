@@ -29,6 +29,7 @@ import java.util.Map.Entry;
 import javax.xml.XMLConstants;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
+import org.apache.tuscany.sdo.impl.SDOFactoryImpl.SDOEcoreFactory;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.common.util.URI;
@@ -53,18 +54,18 @@ import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTerm;
 import org.eclipse.xsd.XSDTypeDefinition;
-import org.eclipse.xsd.ecore.XSDEcoreBuilder;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
+public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
 {
   protected boolean replaceConflictingTypes = false;
 
   public SDOXSDEcoreBuilder(ExtendedMetaData extendedMetaData, boolean replaceConflictingTypes)
   {
     super(extendedMetaData);
+    ecoreFactory = new SDOEcoreFactory();
     this.replaceConflictingTypes = replaceConflictingTypes;
     populateTypeToTypeObjectMap((EPackage)ModelFactory.INSTANCE);
   }
@@ -125,7 +126,7 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
           xsdTypeDefinition.getURI(), 
           xsdTypeDefinition.getName());
     } 
-    else if (xsdTypeDefinition.getContainer() == null) { //FB ASK ED check if unresolved type?
+    else if (xsdTypeDefinition.getContainer() == null) {
       EPackage pkg = extendedMetaData.getPackage(xsdTypeDefinition.getTargetNamespace());
       if(pkg != null) {
          eClassifier = pkg.getEClassifier(xsdTypeDefinition.getName());
@@ -167,13 +168,13 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
       EStructuralFeature.Setting setting = (EStructuralFeature.Setting)iter.next();
       EObject referencingEObject = setting.getEObject();
       EStructuralFeature eStructuralFeature = setting.getEStructuralFeature();
-      if (!eStructuralFeature.isDerived() && eStructuralFeature.isChangeable()) //ASK ED
+      if (eStructuralFeature.isChangeable())
       {
         if (eStructuralFeature.isMany())
         {
           List refList = (List)referencingEObject.eGet(eStructuralFeature);
           int refIndex = refList.indexOf(oldEObject);
-          refList.set(refIndex, newEObject);
+          if (refIndex != -1) refList.set(refIndex, newEObject);
         }
         else
         {
@@ -185,6 +186,9 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
   
   private XSDTypeDefinition getXSDTypeDefinition(EClassifier eClassifier)
   {
+    //TODO Maybe we should create a reverse (eModelElementToXSDComponentMap) for better performance.
+    //     Use a HashMap subclass for xsdComponentToEModelElementMap that overrides put() to also add the 
+    //     reverse mapping in eModelElementToXSDComponentMap
     XSDTypeDefinition xsdTypeDefinition = null;
     for (Iterator i = xsdComponentToEModelElementMap.entrySet().iterator(); i.hasNext(); )
     {
@@ -226,7 +230,7 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     {
       EClassifier nextEClassifier = (EClassifier)eClassifiers.get(index);
       if (!name.equals(nextEClassifier.getName())) break;
-      if (extendedMetaData.getName(eClassifier).equals(extendedMetaData.getName(nextEClassifier))) //FB ASK ED same type?
+      if (extendedMetaData.getName(eClassifier).equals(extendedMetaData.getName(nextEClassifier)))
       {
         XSDTypeDefinition nextXSDTypeDefinition = getXSDTypeDefinition(nextEClassifier);
         if (!sameType(nextXSDTypeDefinition, xsdTypeDefinition))
@@ -237,8 +241,6 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
           continue;
         }
         eClassifiers.remove(index); 
-        //System.out.println("removed: " + nextEClassifier);
-        //UsageCrossReferencer.print(System.out, usages);
         updateReferences(nextEClassifier, eClassifier);
         break;
       }
@@ -253,7 +255,7 @@ public class SDOXSDEcoreBuilder extends XSDEcoreBuilder
     for (int index = 0; index < last; index++)
     {
       EStructuralFeature otherEStructuralFeature = (EStructuralFeature)eStructuralFeatures.get(index);
-      if (name.equals(extendedMetaData.getName(otherEStructuralFeature))) //FB ASK ED same global feature?
+      if (name.equals(extendedMetaData.getName(otherEStructuralFeature)))
       {
         if (otherEStructuralFeature.eClass() != eStructuralFeature.eClass())
         {

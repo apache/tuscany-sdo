@@ -19,7 +19,6 @@
  */
 package org.apache.tuscany.sdo.impl;
 
-
 import org.apache.tuscany.sdo.AnyTypeDataObject;
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
@@ -27,22 +26,20 @@ import org.apache.tuscany.sdo.SimpleAnyTypeDataObject;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
-
 import org.eclipse.emf.ecore.impl.EcoreFactoryImpl;
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
@@ -78,7 +75,7 @@ public class SDOFactoryImpl extends EFactoryImpl implements SDOFactory
   {
     public EClass createEClass() { return new ClassImpl(); }
     public EDataType createEDataType() { return new DataTypeImpl(); }
-    public EEnum createEEnum() { return new EnumImpl(); }
+    //public EEnum createEEnum() { return new EnumImpl(); }
     public EAttribute createEAttribute() { return new AttributeImpl(); }
     public EReference createEReference() { return new ReferenceImpl(); }
     

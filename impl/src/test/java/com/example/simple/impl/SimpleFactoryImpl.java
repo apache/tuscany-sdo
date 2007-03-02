@@ -1,21 +1,8 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package com.example.simple.impl;
 
@@ -42,7 +29,7 @@ import org.apache.tuscany.sdo.util.SDOUtil;
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
  * Generator information:
- * patternVersion=1.0;
+ * patternVersion=1.1;
  * <!-- end-user-doc -->
  * @generated
  */
@@ -71,7 +58,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String PATTERN_VERSION = "1.0";
+  public static final String PATTERN_VERSION = "1.1";
   
   public static final int QUOTE = 1;
   
@@ -168,16 +155,16 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
     isCreated = true;	
 
     // Create types and their properties
-    quoteType = createType(false, QUOTE);
-    createProperty(true, quoteType, QuoteImpl.SYMBOL);
-    createProperty(true, quoteType, QuoteImpl.COMPANY_NAME);
-    createProperty(true, quoteType, QuoteImpl.PRICE);
-    createProperty(true, quoteType, QuoteImpl.OPEN1);
-    createProperty(true, quoteType, QuoteImpl.HIGH);
-    createProperty(true, quoteType, QuoteImpl.LOW);
-    createProperty(true, quoteType, QuoteImpl.VOLUME);
-    createProperty(true, quoteType, QuoteImpl.CHANGE1);
-    createProperty(false, quoteType, QuoteImpl.QUOTES);
+          quoteType = createType(false, QUOTE);
+    createProperty(true, quoteType,QuoteImpl.INTERNAL_SYMBOL); 
+    createProperty(true, quoteType,QuoteImpl.INTERNAL_COMPANY_NAME); 
+    createProperty(true, quoteType,QuoteImpl.INTERNAL_PRICE); 
+    createProperty(true, quoteType,QuoteImpl.INTERNAL_OPEN1); 
+    createProperty(true, quoteType,QuoteImpl.INTERNAL_HIGH); 
+    createProperty(true, quoteType,QuoteImpl.INTERNAL_LOW); 
+    createProperty(true, quoteType,QuoteImpl.INTERNAL_VOLUME); 
+    createProperty(true, quoteType,QuoteImpl.INTERNAL_CHANGE1); 
+    createProperty(false, quoteType,QuoteImpl.INTERNAL_QUOTES); 
   }
   
   private boolean isInitialized = false;
@@ -195,24 +182,32 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
 
     // Initialize types and properties
     initializeType(quoteType, Quote.class, "Quote", false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.SYMBOL);
-    initializeProperty(property, theModelPackageImpl.getString(), "symbol", null, 1, 1, Quote.class, false, false, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.COMPANY_NAME);
-    initializeProperty(property, theModelPackageImpl.getString(), "companyName", null, 1, 1, Quote.class, false, false, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.PRICE);
-    initializeProperty(property, theModelPackageImpl.getDecimal(), "price", null, 1, 1, Quote.class, false, false, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.OPEN1);
-    initializeProperty(property, theModelPackageImpl.getDecimal(), "open1", null, 1, 1, Quote.class, false, false, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.HIGH);
-    initializeProperty(property, theModelPackageImpl.getDecimal(), "high", null, 1, 1, Quote.class, false, false, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.LOW);
-    initializeProperty(property, theModelPackageImpl.getDecimal(), "low", null, 1, 1, Quote.class, false, false, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.VOLUME);
+    property = getProperty(quoteType, QuoteImpl.INTERNAL_SYMBOL);
+    initializeProperty(property, theModelPackageImpl.getString(), "symbol", null, 1, 1, Quote.class, false, true, false);
+
+    property = getProperty(quoteType, QuoteImpl.INTERNAL_COMPANY_NAME);
+    initializeProperty(property, theModelPackageImpl.getString(), "companyName", null, 1, 1, Quote.class, false, true, false);
+
+    property = getProperty(quoteType, QuoteImpl.INTERNAL_PRICE);
+    initializeProperty(property, theModelPackageImpl.getDecimal(), "price", null, 1, 1, Quote.class, false, true, false);
+
+    property = getProperty(quoteType, QuoteImpl.INTERNAL_OPEN1);
+    initializeProperty(property, theModelPackageImpl.getDecimal(), "open1", null, 1, 1, Quote.class, false, true, false);
+
+    property = getProperty(quoteType, QuoteImpl.INTERNAL_HIGH);
+    initializeProperty(property, theModelPackageImpl.getDecimal(), "high", null, 1, 1, Quote.class, false, true, false);
+
+    property = getProperty(quoteType, QuoteImpl.INTERNAL_LOW);
+    initializeProperty(property, theModelPackageImpl.getDecimal(), "low", null, 1, 1, Quote.class, false, true, false);
+
+    property = getProperty(quoteType, QuoteImpl.INTERNAL_VOLUME);
     initializeProperty(property, theModelPackageImpl.getDouble(), "volume", null, 1, 1, Quote.class, false, true, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.CHANGE1);
+
+    property = getProperty(quoteType, QuoteImpl.INTERNAL_CHANGE1);
     initializeProperty(property, theModelPackageImpl.getDouble(), "change1", null, 1, 1, Quote.class, false, true, false);
-    property = (Property)quoteType.getProperties().get(QuoteImpl.QUOTES);
-    initializeProperty(property, this.getQuote(), "quotes", null, 0, -1, Quote.class, false, false, false, true, null);
+
+    property = getProperty(quoteType, QuoteImpl.INTERNAL_QUOTES);
+    initializeProperty(property, this.getQuote(), "quotes", null, 0, -1, Quote.class, false, false, false, true , null);
 
     createXSDMetaData(theModelPackageImpl);
   }
@@ -223,6 +218,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
     
     Property property = null;
     
+
     property = createGlobalProperty
       ("stockQuote",
       this.getQuote(),
@@ -242,7 +238,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.SYMBOL),
+      (getProperty(quoteType, QuoteImpl.INTERNAL_SYMBOL),
        new String[]
        {
        "kind", "element",
@@ -250,7 +246,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.COMPANY_NAME),
+      (getProperty(quoteType, QuoteImpl.INTERNAL_COMPANY_NAME),
        new String[]
        {
        "kind", "element",
@@ -258,7 +254,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.PRICE),
+      (getProperty(quoteType, QuoteImpl.INTERNAL_PRICE),
        new String[]
        {
        "kind", "element",
@@ -266,7 +262,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.OPEN1),
+      (getProperty(quoteType, QuoteImpl.INTERNAL_OPEN1),
        new String[]
        {
        "kind", "element",
@@ -274,7 +270,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.HIGH),
+      (getProperty(quoteType, QuoteImpl.INTERNAL_HIGH),
        new String[]
        {
        "kind", "element",
@@ -282,7 +278,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.LOW),
+      (getProperty(quoteType, QuoteImpl.INTERNAL_LOW),
        new String[]
        {
        "kind", "element",
@@ -290,7 +286,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.VOLUME),
+      (getProperty(quoteType, QuoteImpl.INTERNAL_VOLUME),
        new String[]
        {
        "kind", "element",
@@ -298,7 +294,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.CHANGE1),
+      (getProperty(quoteType, QuoteImpl.INTERNAL_CHANGE1),
        new String[]
        {
        "kind", "element",
@@ -306,7 +302,7 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
     addXSDMapping
-      ((Property)quoteType.getProperties().get(QuoteImpl.QUOTES),
+      (getProperty(quoteType, QuoteImpl.INTERNAL_QUOTES),
        new String[]
        {
        "kind", "element",
@@ -314,5 +310,5 @@ public class SimpleFactoryImpl extends FactoryBase implements SimpleFactory
        });
 
   }
-  
+    
 } //SimpleFactoryImpl

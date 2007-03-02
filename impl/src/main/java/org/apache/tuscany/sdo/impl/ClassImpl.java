@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import org.apache.tuscany.sdo.SDOFactory;
+import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
@@ -41,6 +42,7 @@ import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
@@ -79,7 +81,7 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEClass();
+    return SDOPackage.eINSTANCE.getClass_();
   }
 
   /**
@@ -293,7 +295,11 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
         {
           FeatureMap.Entry entry = (FeatureMap.Entry)features.get(j);
           EStructuralFeature entryFeature = entry.getEStructuralFeature();
-          propertyList.add(entryFeature);
+          boolean isText = 
+              entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT ||
+              entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA ||    
+              entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT;
+          if (!isText) propertyList.add(entryFeature);
         }
       }
     }

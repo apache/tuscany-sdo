@@ -1,3 +1,9 @@
+/**
+ * <copyright>
+ * </copyright>
+ *
+ * $Id$
+ */
 package com.example.simple.impl;
 
 import com.example.simple.Quote;
@@ -13,116 +19,159 @@ import java.util.List;
 import org.apache.tuscany.sdo.impl.DataObjectBase;
 
 /**
-*
-*  Licensed to the Apache Software Foundation (ASF) under one
-*  or more contributor license agreements.  See the NOTICE file
-*  distributed with this work for additional information
-*  regarding copyright ownership.  The ASF licenses this file
-*  to you under the Apache License, Version 2.0 (the
-*  "License"); you may not use this file except in compliance
-*  with the License.  You may obtain a copy of the License at
-*
-*    http://www.apache.org/licenses/LICENSE-2.0
-*
-*  Unless required by applicable law or agreed to in writing,
-*  software distributed under the License is distributed on an
-*  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-*  KIND, either express or implied.  See the License for the
-*  specific language governing permissions and limitations
-*  under the License.
-*/
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b>Quote</b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+ * The following features are implemented:
+ * <ul>
+ *   <li>{@link com.example.simple.impl.QuoteImpl#getSymbol <em>Symbol</em>}</li>
+ *   <li>{@link com.example.simple.impl.QuoteImpl#getCompanyName <em>Company Name</em>}</li>
+ *   <li>{@link com.example.simple.impl.QuoteImpl#getPrice <em>Price</em>}</li>
+ *   <li>{@link com.example.simple.impl.QuoteImpl#getOpen1 <em>Open1</em>}</li>
+ *   <li>{@link com.example.simple.impl.QuoteImpl#getHigh <em>High</em>}</li>
+ *   <li>{@link com.example.simple.impl.QuoteImpl#getLow <em>Low</em>}</li>
+ *   <li>{@link com.example.simple.impl.QuoteImpl#getVolume <em>Volume</em>}</li>
+ *   <li>{@link com.example.simple.impl.QuoteImpl#getChange1 <em>Change1</em>}</li>
+ *   <li>{@link com.example.simple.impl.QuoteImpl#getQuotes <em>Quotes</em>}</li>
+ * </ul>
+ * </p>
+ *
+ * @generated
+ */
 public class QuoteImpl extends DataObjectBase implements Quote
 {
-  /**
-   * The feature id for the '<em><b>Symbol</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
+
   public final static int SYMBOL = 0;
 
-  /**
-   * The feature id for the '<em><b>Company Name</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
   public final static int COMPANY_NAME = 1;
 
-  /**
-   * The feature id for the '<em><b>Price</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
   public final static int PRICE = 2;
 
-  /**
-   * The feature id for the '<em><b>Open1</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
   public final static int OPEN1 = 3;
 
-  /**
-   * The feature id for the '<em><b>High</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
   public final static int HIGH = 4;
 
-  /**
-   * The feature id for the '<em><b>Low</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
   public final static int LOW = 5;
 
-  /**
-   * The feature id for the '<em><b>Volume</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
   public final static int VOLUME = 6;
 
-  /**
-   * The feature id for the '<em><b>Change1</b></em>' attribute.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */	 
   public final static int CHANGE1 = 7;
 
+  public final static int QUOTES = 8;
+
+  public final static int SDO_PROPERTY_COUNT = 9;
+
+  public final static int EXTENDED_PROPERTY_COUNT = 0;
+
+
   /**
-   * The feature id for the '<em><b>Quotes</b></em>' containment reference list.
+   * The internal feature id for the '<em><b>Symbol</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
-   */	 
-  public final static int QUOTES = 8;
+   */ 
+  public final static int INTERNAL_SYMBOL = 0;
 
   /**
-   * This represents the number of properties for this type.
+   * The internal feature id for the '<em><b>Company Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_COMPANY_NAME = 1;
+
+  /**
+   * The internal feature id for the '<em><b>Price</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_PRICE = 2;
+
+  /**
+   * The internal feature id for the '<em><b>Open1</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_OPEN1 = 3;
+
+  /**
+   * The internal feature id for the '<em><b>High</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_HIGH = 4;
+
+  /**
+   * The internal feature id for the '<em><b>Low</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_LOW = 5;
+
+  /**
+   * The internal feature id for the '<em><b>Volume</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_VOLUME = 6;
+
+  /**
+   * The internal feature id for the '<em><b>Change1</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_CHANGE1 = 7;
+
+  /**
+   * The internal feature id for the '<em><b>Quotes</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */ 
+  public final static int INTERNAL_QUOTES = 8;
+
+  /**
+   * The number of properties for this type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  
-  public final static int SDO_PROPERTY_COUNT = 9;
+  public final static int INTERNAL_PROPERTY_COUNT = 9;
+
+  protected int internalConvertIndex(int internalIndex)
+  {
+    switch (internalIndex)
+    {
+      case INTERNAL_SYMBOL: return SYMBOL;
+      case INTERNAL_COMPANY_NAME: return COMPANY_NAME;
+      case INTERNAL_PRICE: return PRICE;
+      case INTERNAL_OPEN1: return OPEN1;
+      case INTERNAL_HIGH: return HIGH;
+      case INTERNAL_LOW: return LOW;
+      case INTERNAL_VOLUME: return VOLUME;
+      case INTERNAL_CHANGE1: return CHANGE1;
+      case INTERNAL_QUOTES: return QUOTES;
+    }
+    return super.internalConvertIndex(internalIndex);
+  }
+
 
   /**
    * The default value of the '{@link #getSymbol() <em>Symbol</em>}' attribute.
@@ -145,6 +194,15 @@ public class QuoteImpl extends DataObjectBase implements Quote
   protected String symbol = SYMBOL_DEFAULT_;
 
   /**
+   * This is true if the Symbol attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean symbol_set_ = false;
+
+  /**
    * The default value of the '{@link #getCompanyName() <em>Company Name</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -163,6 +221,15 @@ public class QuoteImpl extends DataObjectBase implements Quote
    * @ordered
    */
   protected String companyName = COMPANY_NAME_DEFAULT_;
+
+  /**
+   * This is true if the Company Name attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean companyName_set_ = false;
 
   /**
    * The default value of the '{@link #getPrice() <em>Price</em>}' attribute.
@@ -185,6 +252,15 @@ public class QuoteImpl extends DataObjectBase implements Quote
   protected BigDecimal price = PRICE_DEFAULT_;
 
   /**
+   * This is true if the Price attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean price_set_ = false;
+
+  /**
    * The default value of the '{@link #getOpen1() <em>Open1</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -203,6 +279,15 @@ public class QuoteImpl extends DataObjectBase implements Quote
    * @ordered
    */
   protected BigDecimal open1 = OPEN1_DEFAULT_;
+
+  /**
+   * This is true if the Open1 attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean open1_set_ = false;
 
   /**
    * The default value of the '{@link #getHigh() <em>High</em>}' attribute.
@@ -225,6 +310,15 @@ public class QuoteImpl extends DataObjectBase implements Quote
   protected BigDecimal high = HIGH_DEFAULT_;
 
   /**
+   * This is true if the High attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean high_set_ = false;
+
+  /**
    * The default value of the '{@link #getLow() <em>Low</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -243,6 +337,15 @@ public class QuoteImpl extends DataObjectBase implements Quote
    * @ordered
    */
   protected BigDecimal low = LOW_DEFAULT_;
+
+  /**
+   * This is true if the Low attribute has been set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  protected boolean low_set_ = false;
 
   /**
    * The default value of the '{@link #getVolume() <em>Volume</em>}' attribute.
@@ -351,8 +454,35 @@ public class QuoteImpl extends DataObjectBase implements Quote
   {
     String oldSymbol = symbol;
     symbol = newSymbol;
+    boolean oldSymbol_set_ = symbol_set_;
+    symbol_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, SYMBOL, oldSymbol, symbol);
+      notify(ChangeKind.SET, SYMBOL, oldSymbol, symbol, !oldSymbol_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetSymbol()
+  {
+    String oldSymbol = symbol;
+    boolean oldSymbol_set_ = symbol_set_;
+    symbol = SYMBOL_DEFAULT_;
+    symbol_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, SYMBOL, oldSymbol, SYMBOL_DEFAULT_, oldSymbol_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetSymbol()
+  {
+    return symbol_set_;
   }
 
   /**
@@ -373,8 +503,35 @@ public class QuoteImpl extends DataObjectBase implements Quote
   {
     String oldCompanyName = companyName;
     companyName = newCompanyName;
+    boolean oldCompanyName_set_ = companyName_set_;
+    companyName_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, COMPANY_NAME, oldCompanyName, companyName);
+      notify(ChangeKind.SET, COMPANY_NAME, oldCompanyName, companyName, !oldCompanyName_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetCompanyName()
+  {
+    String oldCompanyName = companyName;
+    boolean oldCompanyName_set_ = companyName_set_;
+    companyName = COMPANY_NAME_DEFAULT_;
+    companyName_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, COMPANY_NAME, oldCompanyName, COMPANY_NAME_DEFAULT_, oldCompanyName_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetCompanyName()
+  {
+    return companyName_set_;
   }
 
   /**
@@ -395,8 +552,35 @@ public class QuoteImpl extends DataObjectBase implements Quote
   {
     BigDecimal oldPrice = price;
     price = newPrice;
+    boolean oldPrice_set_ = price_set_;
+    price_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, PRICE, oldPrice, price);
+      notify(ChangeKind.SET, PRICE, oldPrice, price, !oldPrice_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetPrice()
+  {
+    BigDecimal oldPrice = price;
+    boolean oldPrice_set_ = price_set_;
+    price = PRICE_DEFAULT_;
+    price_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, PRICE, oldPrice, PRICE_DEFAULT_, oldPrice_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetPrice()
+  {
+    return price_set_;
   }
 
   /**
@@ -417,8 +601,35 @@ public class QuoteImpl extends DataObjectBase implements Quote
   {
     BigDecimal oldOpen1 = open1;
     open1 = newOpen1;
+    boolean oldOpen1_set_ = open1_set_;
+    open1_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, OPEN1, oldOpen1, open1);
+      notify(ChangeKind.SET, OPEN1, oldOpen1, open1, !oldOpen1_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetOpen1()
+  {
+    BigDecimal oldOpen1 = open1;
+    boolean oldOpen1_set_ = open1_set_;
+    open1 = OPEN1_DEFAULT_;
+    open1_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, OPEN1, oldOpen1, OPEN1_DEFAULT_, oldOpen1_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetOpen1()
+  {
+    return open1_set_;
   }
 
   /**
@@ -439,8 +650,35 @@ public class QuoteImpl extends DataObjectBase implements Quote
   {
     BigDecimal oldHigh = high;
     high = newHigh;
+    boolean oldHigh_set_ = high_set_;
+    high_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, HIGH, oldHigh, high);
+      notify(ChangeKind.SET, HIGH, oldHigh, high, !oldHigh_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetHigh()
+  {
+    BigDecimal oldHigh = high;
+    boolean oldHigh_set_ = high_set_;
+    high = HIGH_DEFAULT_;
+    high_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, HIGH, oldHigh, HIGH_DEFAULT_, oldHigh_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetHigh()
+  {
+    return high_set_;
   }
 
   /**
@@ -461,8 +699,35 @@ public class QuoteImpl extends DataObjectBase implements Quote
   {
     BigDecimal oldLow = low;
     low = newLow;
+    boolean oldLow_set_ = low_set_;
+    low_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, LOW, oldLow, low);
+      notify(ChangeKind.SET, LOW, oldLow, low, !oldLow_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public void unsetLow()
+  {
+    BigDecimal oldLow = low;
+    boolean oldLow_set_ = low_set_;
+    low = LOW_DEFAULT_;
+    low_set_ = false;
+    if (isNotifying())
+      notify(ChangeKind.UNSET, LOW, oldLow, LOW_DEFAULT_, oldLow_set_);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public boolean isSetLow()
+  {
+    return low_set_;
   }
 
   /**
@@ -673,22 +938,22 @@ public class QuoteImpl extends DataObjectBase implements Quote
     switch (propertyIndex)
     {
       case SYMBOL:
-        setSymbol(SYMBOL_DEFAULT_);
+        unsetSymbol();
         return;
       case COMPANY_NAME:
-        setCompanyName(COMPANY_NAME_DEFAULT_);
+        unsetCompanyName();
         return;
       case PRICE:
-        setPrice(PRICE_DEFAULT_);
+        unsetPrice();
         return;
       case OPEN1:
-        setOpen1(OPEN1_DEFAULT_);
+        unsetOpen1();
         return;
       case HIGH:
-        setHigh(HIGH_DEFAULT_);
+        unsetHigh();
         return;
       case LOW:
-        setLow(LOW_DEFAULT_);
+        unsetLow();
         return;
       case VOLUME:
         unsetVolume();
@@ -713,17 +978,17 @@ public class QuoteImpl extends DataObjectBase implements Quote
     switch (propertyIndex)
     {
       case SYMBOL:
-        return SYMBOL_DEFAULT_ == null ? symbol != null : !SYMBOL_DEFAULT_.equals(symbol);
+        return isSetSymbol();
       case COMPANY_NAME:
-        return COMPANY_NAME_DEFAULT_ == null ? companyName != null : !COMPANY_NAME_DEFAULT_.equals(companyName);
+        return isSetCompanyName();
       case PRICE:
-        return PRICE_DEFAULT_ == null ? price != null : !PRICE_DEFAULT_.equals(price);
+        return isSetPrice();
       case OPEN1:
-        return OPEN1_DEFAULT_ == null ? open1 != null : !OPEN1_DEFAULT_.equals(open1);
+        return isSetOpen1();
       case HIGH:
-        return HIGH_DEFAULT_ == null ? high != null : !HIGH_DEFAULT_.equals(high);
+        return isSetHigh();
       case LOW:
-        return LOW_DEFAULT_ == null ? low != null : !LOW_DEFAULT_.equals(low);
+        return isSetLow();
       case VOLUME:
         return isSetVolume();
       case CHANGE1:
@@ -745,17 +1010,17 @@ public class QuoteImpl extends DataObjectBase implements Quote
 
     StringBuffer result = new StringBuffer(super.toString());
     result.append(" (symbol: ");
-    result.append(symbol);
+    if (symbol_set_) result.append(symbol); else result.append("<unset>");
     result.append(", companyName: ");
-    result.append(companyName);
+    if (companyName_set_) result.append(companyName); else result.append("<unset>");
     result.append(", price: ");
-    result.append(price);
+    if (price_set_) result.append(price); else result.append("<unset>");
     result.append(", open1: ");
-    result.append(open1);
+    if (open1_set_) result.append(open1); else result.append("<unset>");
     result.append(", high: ");
-    result.append(high);
+    if (high_set_) result.append(high); else result.append("<unset>");
     result.append(", low: ");
-    result.append(low);
+    if (low_set_) result.append(low); else result.append("<unset>");
     result.append(", volume: ");
     if (volume_set_) result.append(volume); else result.append("<unset>");
     result.append(", change1: ");

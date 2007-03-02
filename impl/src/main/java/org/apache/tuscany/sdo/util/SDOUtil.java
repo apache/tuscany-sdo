@@ -568,7 +568,7 @@ public final class SDOUtil
 
     if (isOpen)
     {
-      EAttribute eAttribute = EcoreFactory.eINSTANCE.createEAttribute();
+      EAttribute eAttribute = (EAttribute)SDOFactory.eINSTANCE.createAttribute();
       ((EClass)type).getEStructuralFeatures().add(eAttribute);
 
       eAttribute.setName("any");
@@ -609,7 +609,7 @@ public final class SDOUtil
     if (isSequenced) {
       EClass eClass = (EClass)type;
       ExtendedMetaData.INSTANCE.setContentKind(eClass, ExtendedMetaData.MIXED_CONTENT);
-      EAttribute mixedFeature = EcoreFactory.eINSTANCE.createEAttribute();
+      EAttribute mixedFeature = (EAttribute)SDOFactory.eINSTANCE.createAttribute();
       mixedFeature.setName("mixed");
       mixedFeature.setUnique(false);
       mixedFeature.setEType(EcorePackage.eINSTANCE.getEFeatureMapEntry());

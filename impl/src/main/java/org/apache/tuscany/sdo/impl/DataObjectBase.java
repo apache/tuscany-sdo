@@ -48,7 +48,7 @@ import commonj.sdo.Type;
 
 
 /**
- * Base implementation of the SDO DataObject interface. Used as base class for prototype of EMF-less generated subclasses
+ * Base implementation of the SDO DataObject interface. Used as base class for generated (static) SDO classes
  */
 public abstract class DataObjectBase extends DataObjectImpl
 {

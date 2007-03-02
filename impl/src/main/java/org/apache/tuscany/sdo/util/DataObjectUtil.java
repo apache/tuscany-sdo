@@ -33,10 +33,10 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
+import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
-import org.apache.tuscany.sdo.impl.SDOFactoryImpl;
 import org.apache.tuscany.sdo.util.resource.SDOXMLResourceFactoryImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
@@ -45,12 +45,9 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -378,7 +375,20 @@ public final class DataObjectUtil
   
   public static boolean isInternalProperty(EStructuralFeature eStructuralFeature)
   {
-    return FeatureMapUtil.isFeatureMap(eStructuralFeature);
+    return !(eStructuralFeature.getEType() instanceof Type);
+    /*
+    if (FeatureMapUtil.isFeatureMap(eStructuralFeature)) return true;
+    EClassifier eType = eStructuralFeature.getEType();
+    if (!(eType instanceof Type))
+    {
+      System.out.println("Non Type property: " + eStructuralFeature.getName());
+      if (eType != null)
+      {
+        System.out.println("  type: " + eType.getName());
+      }
+    }
+    return false;
+    */
   }
 
   public static List getInstanceProperties(DataObject dataObject)
@@ -2503,12 +2513,12 @@ public final class DataObjectUtil
   
   public static EClass createDocumentRoot()
   {
-    EClass documentRootEClass = EcoreFactory.eINSTANCE.createEClass();
+    EClass documentRootEClass = (EClass)SDOFactory.eINSTANCE.createClass();
     documentRootEClass.setName("DocumentRoot");
     ExtendedMetaData.INSTANCE.setName(documentRootEClass, "");
     ExtendedMetaData.INSTANCE.setContentKind(documentRootEClass, ExtendedMetaData.MIXED_CONTENT);
     
-    EAttribute mixed = EcoreFactory.eINSTANCE.createEAttribute();
+    EAttribute mixed = (EAttribute)SDOFactory.eINSTANCE.createAttribute();
     mixed.setName("mixed");
     mixed.setEType(EcorePackage.eINSTANCE.getEFeatureMapEntry());
     mixed.setUpperBound(EStructuralFeature.UNBOUNDED_MULTIPLICITY);
@@ -2516,7 +2526,7 @@ public final class DataObjectUtil
     ExtendedMetaData.INSTANCE.setFeatureKind(mixed, ExtendedMetaData.ELEMENT_WILDCARD_FEATURE);
     documentRootEClass.getEStructuralFeatures().add(mixed);
     
-    EReference xmlnsPrefixMap = EcoreFactory.eINSTANCE.createEReference();
+    EReference xmlnsPrefixMap = (EReference)SDOFactory.eINSTANCE.createReference();
     xmlnsPrefixMap.setName("xMLNSPrefixMap");
     xmlnsPrefixMap.setEType(EcorePackage.eINSTANCE.getEStringToStringMapEntry());
     xmlnsPrefixMap.setUpperBound(EStructuralFeature.UNBOUNDED_MULTIPLICITY);
@@ -2526,7 +2536,7 @@ public final class DataObjectUtil
     ExtendedMetaData.INSTANCE.setFeatureKind(xmlnsPrefixMap, ExtendedMetaData.ATTRIBUTE_FEATURE);
     documentRootEClass.getEStructuralFeatures().add(xmlnsPrefixMap);
     
-    EReference xsiSchemaLocation = EcoreFactory.eINSTANCE.createEReference();
+    EReference xsiSchemaLocation = (EReference)SDOFactory.eINSTANCE.createReference();
     xsiSchemaLocation.setName("xSISchemaLocation");
     xsiSchemaLocation.setEType(EcorePackage.eINSTANCE.getEStringToStringMapEntry());
     xsiSchemaLocation.setUpperBound(EStructuralFeature.UNBOUNDED_MULTIPLICITY);
@@ -2546,6 +2556,7 @@ public final class DataObjectUtil
    *  corresponding INSTANCE fields (e.g., TypeHelper.INSTANCE), or using the SDOUtil methods (e.g.,
    *  SDOUtil.createTypeHelper(), this will always be the case.
    */
+  /*
   static
   {
     EPackage.Registry.INSTANCE.put(EcorePackage.eNS_URI, new EPackage.Descriptor()
@@ -2561,6 +2572,7 @@ public final class DataObjectUtil
         }
       });
   }
+  */
   
   protected static StringBuffer getXPath(DataObject dataObject, StringBuffer path)
   {

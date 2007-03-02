@@ -19,6 +19,8 @@
  */
 package org.apache.tuscany.sdo.impl;
 
+import org.apache.tuscany.sdo.SDOFactory;
+import org.apache.tuscany.sdo.impl.SDOFactoryImpl.SDOEcoreFactory;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
@@ -39,6 +41,7 @@ import commonj.sdo.Property;
 import commonj.sdo.Type;
 
 /**
+ * Base class for generated (static) SDO factories
  */
 public class FactoryBase extends EPackageImpl
 {
@@ -48,6 +51,7 @@ public class FactoryBase extends EPackageImpl
   protected FactoryBase(String namespaceURI, String namespacePrefix)
   {
     super(new SDOEFactoryImpl());
+    ecoreFactory = new SDOEcoreFactory();
     
     int index = namespacePrefix.lastIndexOf(".");
     setName(index != -1 ? namespacePrefix.substring(index + 1) : namespacePrefix);
@@ -64,6 +68,7 @@ public class FactoryBase extends EPackageImpl
   protected FactoryBase(String namespaceURI, String namespacePrefix, String interfacePackage)
   {
     super(new SDOEFactoryImpl());
+    ecoreFactory = new SDOEcoreFactory();
     
     int index = interfacePackage.lastIndexOf(".");
     setName(index != -1 ? interfacePackage.substring(index + 1) : interfacePackage);
@@ -140,7 +145,7 @@ public class FactoryBase extends EPackageImpl
   
   protected void initializeProperty(Property property, Type type, String name, String defaultValue, int lower, int upper, Class containerClass, boolean isReadonly, boolean isUnsettable, boolean isDerived)
   {
-    initEAttribute((EAttribute)property, (EClassifier)type, name, defaultValue, lower, upper, containerClass, isDerived, isDerived, !isReadonly, isUnsettable, !IS_ID, !IS_UNIQUE, isDerived, IS_ORDERED);
+    initEAttribute((EAttribute)property, type != sequence ? (EClassifier)type : ecorePackage.getEFeatureMapEntry(), name, defaultValue, lower, upper, containerClass, isDerived, isDerived, !isReadonly, isUnsettable, !IS_ID, !IS_UNIQUE, isDerived, IS_ORDERED);
   }
   
   protected void initializeProperty(Property property, Type type, String name, String defaultValue, int lower, int upper, Class containerClass, boolean isReadonly, boolean isUnsettable, boolean isDerived, boolean isComposite, Property oppositeProperty)
@@ -219,10 +224,12 @@ public class FactoryBase extends EPackageImpl
     addAnnotation((ENamedElement)globalProperty, annotationSource, xsdMappings);
     return (Property) globalProperty;
   }
+  
+  private static final Type sequence = SDOFactory.eINSTANCE.createDataType(); // dummy type
 
   protected Type getSequence() 
   {
-    return (Type)ecorePackage.getEFeatureMapEntry();
+    return sequence;
   }
   
   protected void addSuperType(Type subType, Type superType) 

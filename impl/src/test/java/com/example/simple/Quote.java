@@ -1,21 +1,8 @@
 /**
+ * <copyright>
+ * </copyright>
  *
- *  Licensed to the Apache Software Foundation (ASF) under one
- *  or more contributor license agreements.  See the NOTICE file
- *  distributed with this work for additional information
- *  regarding copyright ownership.  The ASF licenses this file
- *  to you under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
+ * $Id$
  */
 package com.example.simple;
 
@@ -59,6 +46,8 @@ public interface Quote extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Symbol</em>' attribute.
+   * @see #isSetSymbol()
+   * @see #unsetSymbol()
    * @see #setSymbol(String)
    * @generated
    */
@@ -69,10 +58,35 @@ public interface Quote extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Symbol</em>' attribute.
+   * @see #isSetSymbol()
+   * @see #unsetSymbol()
    * @see #getSymbol()
    * @generated
    */
   void setSymbol(String value);
+
+  /**
+   * Unsets the value of the '{@link com.example.simple.Quote#getSymbol <em>Symbol</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetSymbol()
+   * @see #getSymbol()
+   * @see #setSymbol(String)
+   * @generated
+   */
+  void unsetSymbol();
+
+  /**
+   * Returns whether the value of the '{@link com.example.simple.Quote#getSymbol <em>Symbol</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Symbol</em>' attribute is set.
+   * @see #unsetSymbol()
+   * @see #getSymbol()
+   * @see #setSymbol(String)
+   * @generated
+   */
+  boolean isSetSymbol();
 
   /**
    * Returns the value of the '<em><b>Company Name</b></em>' attribute.
@@ -83,6 +97,8 @@ public interface Quote extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Company Name</em>' attribute.
+   * @see #isSetCompanyName()
+   * @see #unsetCompanyName()
    * @see #setCompanyName(String)
    * @generated
    */
@@ -93,10 +109,35 @@ public interface Quote extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Company Name</em>' attribute.
+   * @see #isSetCompanyName()
+   * @see #unsetCompanyName()
    * @see #getCompanyName()
    * @generated
    */
   void setCompanyName(String value);
+
+  /**
+   * Unsets the value of the '{@link com.example.simple.Quote#getCompanyName <em>Company Name</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetCompanyName()
+   * @see #getCompanyName()
+   * @see #setCompanyName(String)
+   * @generated
+   */
+  void unsetCompanyName();
+
+  /**
+   * Returns whether the value of the '{@link com.example.simple.Quote#getCompanyName <em>Company Name</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Company Name</em>' attribute is set.
+   * @see #unsetCompanyName()
+   * @see #getCompanyName()
+   * @see #setCompanyName(String)
+   * @generated
+   */
+  boolean isSetCompanyName();
 
   /**
    * Returns the value of the '<em><b>Price</b></em>' attribute.
@@ -107,6 +148,8 @@ public interface Quote extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Price</em>' attribute.
+   * @see #isSetPrice()
+   * @see #unsetPrice()
    * @see #setPrice(BigDecimal)
    * @generated
    */
@@ -117,10 +160,35 @@ public interface Quote extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Price</em>' attribute.
+   * @see #isSetPrice()
+   * @see #unsetPrice()
    * @see #getPrice()
    * @generated
    */
   void setPrice(BigDecimal value);
+
+  /**
+   * Unsets the value of the '{@link com.example.simple.Quote#getPrice <em>Price</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetPrice()
+   * @see #getPrice()
+   * @see #setPrice(BigDecimal)
+   * @generated
+   */
+  void unsetPrice();
+
+  /**
+   * Returns whether the value of the '{@link com.example.simple.Quote#getPrice <em>Price</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Price</em>' attribute is set.
+   * @see #unsetPrice()
+   * @see #getPrice()
+   * @see #setPrice(BigDecimal)
+   * @generated
+   */
+  boolean isSetPrice();
 
   /**
    * Returns the value of the '<em><b>Open1</b></em>' attribute.
@@ -131,6 +199,8 @@ public interface Quote extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Open1</em>' attribute.
+   * @see #isSetOpen1()
+   * @see #unsetOpen1()
    * @see #setOpen1(BigDecimal)
    * @generated
    */
@@ -141,10 +211,35 @@ public interface Quote extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Open1</em>' attribute.
+   * @see #isSetOpen1()
+   * @see #unsetOpen1()
    * @see #getOpen1()
    * @generated
    */
   void setOpen1(BigDecimal value);
+
+  /**
+   * Unsets the value of the '{@link com.example.simple.Quote#getOpen1 <em>Open1</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetOpen1()
+   * @see #getOpen1()
+   * @see #setOpen1(BigDecimal)
+   * @generated
+   */
+  void unsetOpen1();
+
+  /**
+   * Returns whether the value of the '{@link com.example.simple.Quote#getOpen1 <em>Open1</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Open1</em>' attribute is set.
+   * @see #unsetOpen1()
+   * @see #getOpen1()
+   * @see #setOpen1(BigDecimal)
+   * @generated
+   */
+  boolean isSetOpen1();
 
   /**
    * Returns the value of the '<em><b>High</b></em>' attribute.
@@ -155,6 +250,8 @@ public interface Quote extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>High</em>' attribute.
+   * @see #isSetHigh()
+   * @see #unsetHigh()
    * @see #setHigh(BigDecimal)
    * @generated
    */
@@ -165,10 +262,35 @@ public interface Quote extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>High</em>' attribute.
+   * @see #isSetHigh()
+   * @see #unsetHigh()
    * @see #getHigh()
    * @generated
    */
   void setHigh(BigDecimal value);
+
+  /**
+   * Unsets the value of the '{@link com.example.simple.Quote#getHigh <em>High</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetHigh()
+   * @see #getHigh()
+   * @see #setHigh(BigDecimal)
+   * @generated
+   */
+  void unsetHigh();
+
+  /**
+   * Returns whether the value of the '{@link com.example.simple.Quote#getHigh <em>High</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>High</em>' attribute is set.
+   * @see #unsetHigh()
+   * @see #getHigh()
+   * @see #setHigh(BigDecimal)
+   * @generated
+   */
+  boolean isSetHigh();
 
   /**
    * Returns the value of the '<em><b>Low</b></em>' attribute.
@@ -179,6 +301,8 @@ public interface Quote extends Serializable
    * </p>
    * <!-- end-user-doc -->
    * @return the value of the '<em>Low</em>' attribute.
+   * @see #isSetLow()
+   * @see #unsetLow()
    * @see #setLow(BigDecimal)
    * @generated
    */
@@ -189,10 +313,35 @@ public interface Quote extends Serializable
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Low</em>' attribute.
+   * @see #isSetLow()
+   * @see #unsetLow()
    * @see #getLow()
    * @generated
    */
   void setLow(BigDecimal value);
+
+  /**
+   * Unsets the value of the '{@link com.example.simple.Quote#getLow <em>Low</em>}' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see #isSetLow()
+   * @see #getLow()
+   * @see #setLow(BigDecimal)
+   * @generated
+   */
+  void unsetLow();
+
+  /**
+   * Returns whether the value of the '{@link com.example.simple.Quote#getLow <em>Low</em>}' attribute is set.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return whether the value of the '<em>Low</em>' attribute is set.
+   * @see #unsetLow()
+   * @see #getLow()
+   * @see #setLow(BigDecimal)
+   * @generated
+   */
+  boolean isSetLow();
 
   /**
    * Returns the value of the '<em><b>Volume</b></em>' attribute.

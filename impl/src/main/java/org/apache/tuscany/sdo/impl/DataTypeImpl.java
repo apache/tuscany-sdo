@@ -22,10 +22,10 @@ package org.apache.tuscany.sdo.impl;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.impl.EDataTypeImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
@@ -61,7 +61,7 @@ public class DataTypeImpl extends EDataTypeImpl implements Type, org.apache.tusc
    */
   protected EClass eStaticClass()
   {
-    return EcorePackage.eINSTANCE.getEDataType();
+    return SDOPackage.eINSTANCE.getDataType();
   }
 
   /**

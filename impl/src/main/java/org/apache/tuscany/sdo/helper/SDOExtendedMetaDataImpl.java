@@ -21,42 +21,33 @@ package org.apache.tuscany.sdo.helper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
+import org.apache.tuscany.sdo.impl.SDOFactoryImpl.SDOEcoreFactory;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EPackage.Registry;
-import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 
 /**
  * TODO make demand() methods synchronous?
  */
 public class SDOExtendedMetaDataImpl 
-  extends BasicExtendedMetaData 
+  extends BaseSDOExtendedMetaDataImpl 
   implements SDOExtendedMetaData
 {
  
   public SDOExtendedMetaDataImpl() {
-    super();
+    super(new SDOEcoreFactory());
   }
 
   public SDOExtendedMetaDataImpl(Registry registry) {
-    super(registry);
+    super(registry, new SDOEcoreFactory());
   }
 
-  public SDOExtendedMetaDataImpl(String annotationURI, Registry registry, Map annotationMap) {
-    super(annotationURI, registry, annotationMap);
-  }
-
-  public SDOExtendedMetaDataImpl(String annotationURI, Registry registry) {
-    super(annotationURI, registry);
-  }
-  
   public EPackage getPackage(String namespace)
   {
     if ("".equals(namespace)) namespace = null; //FB
