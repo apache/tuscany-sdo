@@ -47,6 +47,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.xml.sax.InputSource;
@@ -167,7 +168,7 @@ public class XMLDocumentImpl implements XMLDocument
       }
       if (oldContainer != documentRoot || oldContainmentReference != rootElement)
       {
-        if (oldContainmentReference != null && oldContainmentReference.isMany())
+        if (oldContainmentReference != null && FeatureMapUtil.isMany(oldContainer, oldContainmentReference))
         {
           oldContainmentIndex = ((List)oldContainer.eGet(oldContainmentReference)).indexOf(rootObject);
         }
@@ -186,7 +187,7 @@ public class XMLDocumentImpl implements XMLDocument
     {
       if (oldContainer != documentRoot || oldContainmentReference != rootElement)
       {
-        if (oldContainmentReference.isMany())
+        if (FeatureMapUtil.isMany(oldContainer, oldContainmentReference))
         {
           ((List)oldContainer.eGet(oldContainmentReference)).add(oldContainmentIndex, rootObject);
         }

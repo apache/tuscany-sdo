@@ -2534,7 +2534,7 @@ public final class DataObjectUtil
 
     boolean first = path.length() == 0;
     Property property = dataObject.getContainmentProperty();
-    if (property.isMany())
+    if (SDOUtil.isMany(property, dataObject))
     {
       List list = container.getList(property);
       int pos = list.indexOf(dataObject);

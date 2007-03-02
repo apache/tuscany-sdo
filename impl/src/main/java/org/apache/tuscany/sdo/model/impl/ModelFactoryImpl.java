@@ -55,7 +55,9 @@ import commonj.sdo.helper.HelperContext;
  *   6. Comment out the call to registerStaticTypes of ModelFactory.class in the init() method
  *   7. Change org.apache.tuscany.sdo.model.DataObject.class to commonj.sdo.DataObject.class for the following method found in method initializeMetaData();
  *         initializeType(dataObjectType, commonj.sdo.DataObject.class, "DataObject", true); // generated as org.apache.tuscany.sdo.model.DataObject.class
- *   8. Move this JavaDoc comment into the newly generated ModelFactoryImpl class.
+ *   8. Add the following case to the generated create() method:
+ *         case DATA_OBJECT: return SDOFactory.eINSTANCE.createAnyTypeDataObject();
+ *   9. Move this JavaDoc comment into the newly generated ModelFactoryImpl class.
  * <!-- end-user-doc -->
  * @generated
  */
@@ -160,7 +162,7 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
+   * @generated NOT
    */
   public DataObject create(int typeNumber)
   {
@@ -172,6 +174,7 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
       case TYPE: return (DataObject)createType();
       case TYPES: return (DataObject)createTypes();
       case XSD_TYPE: return (DataObject)createXSDType();
+      case DATA_OBJECT: return SDOFactory.eINSTANCE.createAnyTypeDataObject();
       default:
         return super.create(typeNumber);
     }

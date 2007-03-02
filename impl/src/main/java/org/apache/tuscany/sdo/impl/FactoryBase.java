@@ -33,7 +33,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EClassImpl;
-import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import commonj.sdo.DataObject;
@@ -248,7 +247,7 @@ public class FactoryBase extends EPackageImpl
   
   // private EMF-specific methods
 
-  private static class SDOEFactoryImpl extends EFactoryImpl
+  private static class SDOEFactoryImpl extends DynamicDataObjectImpl.FactoryImpl
   {
     protected FactoryBase sdoFactory;
     
