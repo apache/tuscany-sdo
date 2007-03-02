@@ -19,18 +19,21 @@
  */
 package org.apache.tuscany.sdo.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Set;
 
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
+import org.apache.tuscany.sdo.util.BasicSequence;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -42,7 +45,7 @@ import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
@@ -179,12 +182,17 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
     return extendedProperties;
   }
   
+  protected List getTypeFeatures()
+  {
+    return getEStructuralFeatures();    
+  }
+  
   protected void initPropertyLists()
   {
     declaredProperties = new ArrayList();
     extendedProperties = Collections.EMPTY_LIST;
     
-    for (Iterator i = getEStructuralFeatures().iterator(); i.hasNext(); ) {
+    for (Iterator i = getTypeFeatures().iterator(); i.hasNext(); ) {
       EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
       boolean isExtendedProperty = DataObjectUtil.isInternalProperty(eStructuralFeature);
       if (isExtendedProperty) {
@@ -277,12 +285,12 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
     return false;
   }
 
-  public void addInstanceProperties(EObject dataObject, Collection propertyList)
+  public void addOpenProperties(EObject dataObject, Collection propertyList)
   {
     for (final Iterator iterator = getBaseTypes().iterator(); iterator.hasNext(); )
     {
       ClassImpl baseType = (ClassImpl)iterator.next();
-      baseType.addInstanceProperties(dataObject, propertyList);
+      baseType.addOpenProperties(dataObject, propertyList);
     }
 
     for (final Iterator iter = getExtendedProperties().iterator(); iter.hasNext(); )
@@ -295,15 +303,88 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
         {
           FeatureMap.Entry entry = (FeatureMap.Entry)features.get(j);
           EStructuralFeature entryFeature = entry.getEStructuralFeature();
-          boolean isText = 
-              entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT ||
-              entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA ||    
-              entryFeature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__COMMENT;
-          if (!isText) propertyList.add(entryFeature);
+          Property property = BasicSequence.getFeatureProperty(entryFeature);
+          if (property != null) propertyList.add(entryFeature);
         }
       }
     }
   }
+  
+  public Property getOpenProperty(EObject dataObject, String featureName)
+  {
+    for (final Iterator iterator = getBaseTypes().iterator(); iterator.hasNext(); )
+    {
+      ClassImpl baseType = (ClassImpl)iterator.next();
+      Property result = baseType.getOpenProperty(dataObject, featureName);
+      if (result != null) return result;
+    }
+    
+    Set openFeatureSet = new HashSet();
+    for (final Iterator iter = getExtendedProperties().iterator(); iter.hasNext(); )
+    {
+      EStructuralFeature eStructuralFeature = (EStructuralFeature)iter.next();
+      //if (isOpenFeatureMap(eStructuralFeature)) 
+      //FB The above check excludes subsitition groups - i.e., doesn't support dObj.get("element.substitution")
+      if (FeatureMapUtil.isFeatureMap(eStructuralFeature))
+      {
+        List features = (List)dataObject.eGet(eStructuralFeature);
+        for (int j = 0, size = features.size(); j < size; ++j)
+        {
+          FeatureMap.Entry entry = (FeatureMap.Entry)features.get(j);
+          EStructuralFeature entryFeature = entry.getEStructuralFeature();
+          if (openFeatureSet.add(entryFeature))
+          {
+            Property property = BasicSequence.getFeatureProperty(entryFeature);
+            if (property != null)
+            {
+              if (property.getName().equals(featureName)) return (Property)entryFeature;
+               List aliasNames = property.getAliasNames();
+              for (int aliasCount = aliasNames.size(); aliasCount > 0; )
+              {
+                if (aliasNames.get(--aliasCount).equals(featureName)) return (Property)entryFeature;
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    return null;
+  }
+  
+  /*
+  public Property getOpenProperty(DataObject dataObject, String featureName)
+  {
+    EObject eObject = (EObject)dataObject;
+    EClass eClass = eObject.eClass();
+    Set openFeatureSet = new HashSet();
+    for (int i = 0, count = eClass.getEAllStructuralFeatures().size(); i < count; ++i)
+    {
+      EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
+      if (FeatureMapUtil.isFeatureMap(eStructuralFeature))
+      {
+        List features = (List)eObject.eGet(eStructuralFeature);
+        for (int j = 0, size = features.size(); j < size; ++j)
+        {
+          FeatureMap.Entry entry = (FeatureMap.Entry)features.get(j);
+          EStructuralFeature entryFeature = entry.getEStructuralFeature();
+          if (openFeatureSet.add(entryFeature))
+          {
+            Property property = (Property)entryFeature;
+            if (property.getName().equals(featureName)) return (Property)entryFeature;
+  
+            List aliasNames = property.getAliasNames();
+            for (int aliasCount = aliasNames.size(); aliasCount > 0; )
+            {
+              if (aliasNames.get(--aliasCount).equals(featureName)) return (Property)entryFeature;
+            }
+          }
+        }
+      }
+    }
+    return null;
+  }
+  */
 
   /**
    * <!-- begin-user-doc -->

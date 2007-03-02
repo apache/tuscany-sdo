@@ -1284,7 +1284,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public Property getInstanceProperty(String propertyName)
   {
-    return DataObjectUtil.getProperty(this, propertyName);
+    return DataObjectUtil.getInstanceProperty(this, propertyName);
   }
 
   /**
@@ -1292,7 +1292,7 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public Property getProperty(String propertyName)
   {
-    return DataObjectUtil.getProperty(this, propertyName);
+    return DataObjectUtil.getInstanceProperty(this, propertyName);
   }
 
   /**

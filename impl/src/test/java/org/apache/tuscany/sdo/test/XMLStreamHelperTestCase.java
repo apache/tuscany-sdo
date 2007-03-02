@@ -121,9 +121,7 @@ public class XMLStreamHelperTestCase extends TestCase {
         DataObject moduleObject = document.getRootObject();
         List components = moduleObject.getList("component");
         DataObject componentObject = (DataObject) components.get(0);
-        // componentObject.getDataObject("implementation.mock");
-        //DataObject implObject = (DataObject) componentObject.getSequence(0).getValue(0);
-        DataObject implObject = componentObject.getDataObject(componentObject.getProperty("implementation.mock")); //FB
+        DataObject implObject = componentObject.getDataObject("implementation.mock");
         Assert.assertTrue(implObject.getString("myAttr").equals("helloworld.HelloWorldImpl"));
     }
 

@@ -375,27 +375,15 @@ public final class DataObjectUtil
   
   public static boolean isInternalProperty(EStructuralFeature eStructuralFeature)
   {
+    //return FeatureMapUtil.isFeatureMap(eStructuralFeature);
     return !(eStructuralFeature.getEType() instanceof Type);
-    /*
-    if (FeatureMapUtil.isFeatureMap(eStructuralFeature)) return true;
-    EClassifier eType = eStructuralFeature.getEType();
-    if (!(eType instanceof Type))
-    {
-      System.out.println("Non Type property: " + eStructuralFeature.getName());
-      if (eType != null)
-      {
-        System.out.println("  type: " + eType.getName());
-      }
-    }
-    return false;
-    */
   }
 
   public static List getInstanceProperties(DataObject dataObject)
   {
     Type type = dataObject.getType();
     List result = new UniqueEList(type.getProperties());
-    ((ClassImpl)type).addInstanceProperties((EObject)dataObject, result);
+    ((ClassImpl)type).addOpenProperties((EObject)dataObject, result);
     return result;
   }
   
@@ -447,7 +435,7 @@ public final class DataObjectUtil
   
   public static DataObject createDataObject(DataObject dataObject, String propertyName, String namespaceURI, String typeName)
   {
-    Property property = getProperty(dataObject, propertyName);
+    Property property = getInstanceProperty(dataObject, propertyName);
     Type type = DataObjectUtil.getType(dataObject, namespaceURI, typeName);
     return createDataObject(dataObject, property, type);
   }
@@ -467,7 +455,7 @@ public final class DataObjectUtil
 
   public static DataObject createDataObject(DataObject dataObject, String propertyName)
   {
-    Property property = (Property)getProperty(dataObject, propertyName);
+    Property property = (Property)getInstanceProperty(dataObject, propertyName);
     Type type = property.getType();
     return createDataObject(dataObject,property, type);
   }
@@ -1671,7 +1659,7 @@ public final class DataObjectUtil
     }
 
     if (value instanceof byte[]) {
-        return XMLTypeFactory.eINSTANCE.convertHexBinary((byte[])value);
+      return XMLTypeFactory.eINSTANCE.convertHexBinary((byte[])value);
     }
     
     if (value == null)
@@ -1779,37 +1767,6 @@ public final class DataObjectUtil
       }
     }
     throw new IndexOutOfBoundsException();
-  }
-  
-  public static EStructuralFeature getOpenFeature(EObject eObject, String featureName)
-  {
-    EClass eClass = eObject.eClass();
-    Set openFeatureSet = new HashSet();
-    for (int i = 0, count = eClass.getEAllStructuralFeatures().size(); i < count; ++i)
-    {
-      EStructuralFeature eStructuralFeature = eClass.getEStructuralFeature(i);
-      if (/*!eStructuralFeature.isDerived() && */FeatureMapUtil.isFeatureMap(eStructuralFeature))
-      {
-        List features = (List)eObject.eGet(eStructuralFeature);
-        for (int j = 0, size = features.size(); j < size; ++j)
-        {
-          FeatureMap.Entry entry = (FeatureMap.Entry)features.get(j);
-          EStructuralFeature entryFeature = entry.getEStructuralFeature();
-          if (openFeatureSet.add(entryFeature))
-          {
-            Property property = (Property)entryFeature;
-            if (property.getName().equals(featureName)) return entryFeature;
-
-            List aliasNames = property.getAliasNames();
-            for (int aliasCount = aliasNames.size(); aliasCount > 0; )
-            {
-              if (aliasNames.get(--aliasCount).equals(featureName)) return entryFeature;
-            }
-          }
-        }
-      }
-    }
-    return null;
   }
   
   public static List getAliasNames(EStructuralFeature eStructuralFeature)
@@ -2071,7 +2028,7 @@ public final class DataObjectUtil
     {
       if (name != null)
       {
-        feature = (EStructuralFeature)((DataObject)eObject).getProperty(name);
+        feature = (EStructuralFeature)((DataObject)eObject).getInstanceProperty(name);
         if (feature == null)
         {
           int index = name.lastIndexOf('.');
@@ -2085,7 +2042,7 @@ public final class DataObjectUtil
               index = Integer.parseInt(name.substring(++index));
                 //  NumberFormatException may be thrown
               String propertyName = name.substring(0, propertyNameEnd);
-              feature = (EStructuralFeature)((DataObject)eObject).getProperty(propertyName);
+              feature = (EStructuralFeature)((DataObject)eObject).getInstanceProperty(propertyName);
               if (feature != null)
               {
                 setIndex(index);
@@ -2224,23 +2181,18 @@ public final class DataObjectUtil
       }
     }
 
-    protected static int matchingIndex(List eObjects, String attributeName, String attributeValue)
+    protected static int matchingIndex(List dataObjects, String attributeName, String attributeValue)
     {
-      for (int i = 0, size = eObjects.size(); i < size; i++)
+      for (int i = 0, size = dataObjects.size(); i < size; i++)
       {
-        EObject eObject = (EObject)eObjects.get(i);
-        EStructuralFeature feature = (EStructuralFeature)((Type)eObject.eClass()).getProperty(attributeName);
-        // If feature is null, that means it could be an open feature.
-        if (feature == null)
+        DataObject dataObject = (DataObject)dataObjects.get(i);
+        Property property = getInstanceProperty(dataObject, attributeName);
+        if (property != null)
         {
-          feature = (EStructuralFeature)DataObjectUtil.getOpenFeature(eObject, attributeName);
-        }
-        if (feature != null)
-        {
-          Object test = eObject.eGet(feature, true);
+          Object test = dataObject.get(property);
           if (test != null)
           {
-            String testString = EcoreUtil.convertToString((EDataType)feature.getEType(), test);
+            String testString = EcoreUtil.convertToString((EDataType)property.getType(), test);
             if (attributeValue.equals(testString))
             {
               return i;
@@ -2428,12 +2380,13 @@ public final class DataObjectUtil
     }
   }
 
-  public static Property getProperty(DataObject dataObject, String propertyName)
+  public static Property getInstanceProperty(DataObject dataObject, String propertyName)
   {
-    Property property = dataObject.getType().getProperty(propertyName);
+    ClassImpl type = (ClassImpl)dataObject.getType();
+    Property property = type.getProperty(propertyName);
     if (property == null)
     {
-      property = (Property)DataObjectUtil.getOpenFeature((EObject)dataObject, propertyName);
+      property = type.getOpenProperty((EObject)dataObject, propertyName);
       //throw new IllegalArgumentException("Type '" + dataObject.getType().getName() + "' does not have a property named '" + propertyName + "'");
     }
   

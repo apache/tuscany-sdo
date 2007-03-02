@@ -53,6 +53,11 @@ public class BasicSequence implements Sequence, FeatureMap.Internal.Wrapper
   public Property getProperty(int index)
   {
     EStructuralFeature feature = featureMap.getEStructuralFeature(index);
+    return getFeatureProperty(feature);
+  }
+  
+  public static Property getFeatureProperty(EStructuralFeature feature)
+  {
     boolean isText = 
       feature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__TEXT ||
       feature == XMLTypePackage.Literals.XML_TYPE_DOCUMENT_ROOT__CDATA ||    

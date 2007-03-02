@@ -20,12 +20,14 @@
 package org.apache.tuscany.sdo.impl;
 
 import java.io.ObjectStreamException;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.tuscany.sdo.AnyTypeDataObject;
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.SimpleAnyTypeDataObject;
+import org.apache.tuscany.sdo.impl.SDOFactoryImpl.SDOEcoreFactory;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -35,6 +37,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.change.ChangePackage;
 import org.eclipse.emf.ecore.change.impl.ChangePackageImpl;
+import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 import org.eclipse.emf.ecore.impl.EcorePackageImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
@@ -201,11 +204,12 @@ public class SDOPackageImpl extends EPackageImpl implements SDOPackage
    * @see org.eclipse.emf.ecore.EPackage.Registry
    * @see org.apache.tuscany.sdo.SDOPackage#eNS_URI
    * @see #init()
-   * @generated
+   * @generated NOT
    */
   private SDOPackageImpl()
   {
     super(eNS_URI, SDOFactory.eINSTANCE);
+    ecoreFactory = new SDOEcoreFactory();
   }
 
   /**
@@ -585,6 +589,41 @@ public class SDOPackageImpl extends EPackageImpl implements SDOPackage
     // Create data types
     eJavaListEDataType = createEDataType(EJAVA_LIST);
     eObjectStreamExceptionEDataType = createEDataType(EOBJECT_STREAM_EXCEPTION);
+  }
+  
+  protected EClass createEClass(int id)
+  {
+    EClassImpl c;
+    switch(id) {
+      case ANY_TYPE_DATA_OBJECT:
+        c = new ClassImpl() {
+          List baseTypes = null;
+          public List getBaseTypes() {
+            if (baseTypes == null)
+              baseTypes = Collections.singletonList(getDataObject());
+            return baseTypes;
+          }
+          public List getTypeFeatures() {
+            return getEAllStructuralFeatures();
+          }
+        };
+        break;
+      case SIMPLE_ANY_TYPE_DATA_OBJECT:
+        c = new ClassImpl() {
+          List baseTypes = null;
+          public List getBaseTypes() {
+            if (baseTypes == null)
+              baseTypes = Collections.singletonList(getAnyTypeDataObject());
+            return baseTypes;
+          }
+        };
+        break;
+      default:
+        c = (EClassImpl)ecoreFactory.createEClass();
+    }
+    c.setClassifierID(id);
+    getEClassifiers().add(c);
+    return c;
   }
 
   /**
