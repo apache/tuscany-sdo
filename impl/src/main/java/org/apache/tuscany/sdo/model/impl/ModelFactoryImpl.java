@@ -6,30 +6,33 @@
  */
 package org.apache.tuscany.sdo.model.impl;
 
-import commonj.sdo.helper.DataHelper;
-import commonj.sdo.helper.HelperContext;
-import org.apache.tuscany.sdo.helper.TypeHelperImpl;
-
-import commonj.sdo.ChangeSummary;
-import commonj.sdo.DataObject;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
 import org.apache.tuscany.sdo.SDOFactory;
-
+import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.impl.FactoryBase;
-
-import org.apache.tuscany.sdo.model.*;
-
+import org.apache.tuscany.sdo.model.BaseDataGraphType;
+import org.apache.tuscany.sdo.model.DataGraphType;
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.ModelsType;
+import org.apache.tuscany.sdo.model.Property;
+import org.apache.tuscany.sdo.model.TextType;
+import org.apache.tuscany.sdo.model.Type;
+import org.apache.tuscany.sdo.model.Types;
+import org.apache.tuscany.sdo.model.XSDType;
 import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
+
+import commonj.sdo.ChangeSummary;
+import commonj.sdo.DataObject;
+import commonj.sdo.helper.DataHelper;
+import commonj.sdo.helper.HelperContext;
 
 /**
  * <!-- begin-user-doc -->
@@ -2429,5 +2432,5 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
   {
       return (String)instanceValue;
   }
-   
+
 } //ModelFactoryImpl

@@ -474,7 +474,7 @@ public class PropertyImpl extends DataObjectBase implements Property
   {
     if (aliasName == null)
     {
-      aliasName = createPropertyList(ListKind.CONTAINMENT, String.class, ALIAS_NAME);
+      aliasName = createPropertyList(ListKind.DATATYPE, String.class, ALIAS_NAME, 0);
     }
     return aliasName;
   }

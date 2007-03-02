@@ -30,6 +30,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
+import org.eclipse.emf.ecore.EClassifier;
 
 import commonj.sdo.Type;
 
@@ -64,6 +65,132 @@ public class SDOGenUtil {
         + genPackage.getImportedFactoryInterfaceName() + ".INSTANCE)";
     }
  
+    public static String getListKind(GenFeature genFeature, boolean suppressNotification )
+    {
+        boolean unsettable = genFeature.isUnsettable();
+        
+        if(suppressNotification)
+        {
+            return "ListKind.BASIC";
+        }
+        else if (genFeature.isEffectiveContains())
+        {
+            if (genFeature.isBidirectional())
+            {
+                if (genFeature.isResolveProxies())
+                {
+                    if( unsettable )
+                        return "ListKind.CONTAINMENT_INVERSE_RESOLVING_UNSETTABLE";
+                    else
+                        return "ListKind.CONTAINMENT_INVERSE_RESOLVING";
+                }
+                else
+                {
+                    if( unsettable )
+                        return "ListKind.CONTAINMENT_INVERSE_UNSETTABLE";
+                    else
+                        return "ListKind.CONTAINMENT_INVERSE";
+                }
+            }
+            else
+            {
+                if (genFeature.isBidirectional())
+                {
+                    if (genFeature.isResolveProxies())
+                    {
+                        if( unsettable )
+                            return "ListKind.CONTAINMENT_RESOLVING_UNSETTABLE";
+                        else
+                            return "ListKind.CONTAINMENT_RESOLVING";
+                    }
+                    else
+                    {
+                        if( unsettable )
+                            return "ListKind.CONTAINMENT_UNSETTABLE";
+                        else
+                            return "ListKind.CONTAINMENT";
+                    }
+                }
+            }
+        }
+        else if (genFeature.isReferenceType())
+        {
+            if (genFeature.isBidirectional())
+            {
+                GenFeature reverseFeature = genFeature.getReverse();
+                if (genFeature.isResolveProxies())
+                {
+                    if (reverseFeature.isListType())
+                    {
+                        if( unsettable )
+                            return "ListKind.NONCONTAINMENT_MANYINVERSE_RESOLVING_UNSETTABLE";
+                        else
+                            return "ListKind.NONCONTAINMENT_MANYINVERSE_RESOLVING";
+                    }
+                    else
+                    {
+                        if( unsettable )
+                            return "ListKind.NONCONTAINMENT_INVERSE_RESOLVING_UNSETTABLE";
+                        else
+                            return "ListKind.NONCONTAINMENT_INVERSE_RESOLVING";
+                    }
+                }
+                else
+                {
+                    if (reverseFeature.isListType())
+                    {
+                        if( unsettable )
+                            return "ListKind.NONCONTAINMENT_MANYINVERSE_UNSETTABLE";
+                        else
+                            return "ListKind.NONCONTAINMENT_MANYINVERSE";
+                    }
+                    else
+                    {
+                        if( unsettable )
+                            return "ListKind.NONCONTAINMENT_INVERSE_UNSETTABLE";
+                        else
+                            return "ListKind.NONCONTAINMENT_INVERSE";
+                    }
+                }
+            }
+            else
+            {
+                if (genFeature.isResolveProxies())
+                {
+                    if( unsettable )
+                        return "ListKind.NONCONTAINMENT_RESOLVING_UNSETTABLE";
+                    else
+                        return "ListKind.NONCONTAINMENT_RESOLVING";
+                }
+                else
+                {
+                    if( unsettable )
+                        return "ListKind.NONCONTAINMENT_UNSETTABLE";
+                    else
+                        return "ListKind.NONCONTAINMENT";
+                }
+            }
+        }
+        else
+        {   //datatype
+            if (genFeature.isUnique())
+            {
+                if( unsettable )
+                    return "ListKind.DATATYPE_UNIQUE_UNSETTABLE";
+                else
+                    return "ListKind.DATATYPE_UNIQUE";
+            }
+            else
+            {
+                if( unsettable )
+                    return "ListKind.DATATYPE_UNSETTABLE";
+                else
+                    return "ListKind.DATATYPE";
+            }
+        }
+        return "ListKind.CONTAINMENT";
+    }
+
     public static boolean hasChangeSummaryProperty(GenClass genClass)
     {
       return getChangeSummaryProperty(genClass) != null;
@@ -75,11 +202,15 @@ public class SDOGenUtil {
       for (Iterator i = genClass.getGenFeatures().iterator(); i.hasNext(); )
       {
         GenFeature genFeature = (GenFeature)i.next();
-        Type type = (Type)genFeature.getEcoreFeature().getEType();
-        //if (csType == type)// this doesn't work when generating sdoModel.xsd
-        if (csType.getName().equals(type.getName()) && csType.getURI().equals(type.getURI()))
-        {            
-          return genFeature.getUpperName();
+        EClassifier eClassifier = genFeature.getEcoreFeature().getEType();
+        if (eClassifier instanceof Type)
+        {
+          Type type = (Type)eClassifier;
+          //if (csType == type)// this doesn't work when generating sdoModel.xsd
+          if (csType.getName().equals(type.getName()) && csType.getURI().equals(type.getURI()))
+          {            
+            return genFeature.getUpperName();
+          }
         }
       }
       return null;

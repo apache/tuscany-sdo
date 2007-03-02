@@ -107,7 +107,7 @@ public abstract class TextTypeImpl extends DataObjectBase implements TextType
   {
     if (text == null)
     {
-      text = createPropertyList(ListKind.CONTAINMENT, String.class, TEXT);
+      text = createPropertyList(ListKind.DATATYPE, String.class, TEXT, 0);
     }
     return text;
   }

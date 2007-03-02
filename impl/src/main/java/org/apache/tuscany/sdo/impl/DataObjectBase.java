@@ -118,6 +118,8 @@ public abstract class DataObjectBase extends DataObjectImpl
     int DATATYPE_UNSETTABLE = 21;
     int DATATYPE_UNIQUE = 22;
     int DATATYPE_UNIQUE_UNSETTABLE = 23;
+    
+    int BASIC = 24;
   }
   
   /**

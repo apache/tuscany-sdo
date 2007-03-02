@@ -640,7 +640,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
         <%} else {
                 if (genFeature.getType().equals("commonj.sdo.Sequence")){%>
 		  <%=genFeature.getSafeName()%> = createSequence(INTERNAL_<%=genFeature.getUpperName()%>);<%} else {%>
-		  <%=genFeature.getSafeName()%> = createPropertyList(ListKind.CONTAINMENT, <%=genFeature.getListItemType()%>.class, <%=genFeature.getUpperName()%>);<%}}%>
+		  <%=genFeature.getSafeName()%> = createPropertyList(<%=SDOGenUtil.getListKind(genFeature, genFeature.isUnsettable())%>, <%=genFeature.getListItemType()%>.class, <%=genFeature.getUpperName()%>, <%=genFeature.isBidirectional()?genFeature.getReverse().getUpperName():"0" %>);<%}}%>
 		}
 		return <%=genFeature.getSafeName()%><%=genFeature.isMapType() && genFeature.isEffectiveSuppressEMFTypes() ? ".map()" : ""%>;
       <%} else if (genFeature.isContainer()) {%>

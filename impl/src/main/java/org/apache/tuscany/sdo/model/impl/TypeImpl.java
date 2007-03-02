@@ -457,7 +457,7 @@ public class TypeImpl extends DataObjectBase implements Type
   {
     if (baseType == null)
     {
-      baseType = createPropertyList(ListKind.CONTAINMENT, Type.class, BASE_TYPE);
+      baseType = createPropertyList(ListKind.NONCONTAINMENT_RESOLVING, Type.class, BASE_TYPE, 0);
     }
     return baseType;
   }
@@ -470,7 +470,7 @@ public class TypeImpl extends DataObjectBase implements Type
   {
     if (property == null)
     {
-      property = createPropertyList(ListKind.CONTAINMENT, Property.class, PROPERTY);
+      property = createPropertyList(ListKind.CONTAINMENT, Property.class, PROPERTY, 0);
     }
     return property;
   }
@@ -483,7 +483,7 @@ public class TypeImpl extends DataObjectBase implements Type
   {
     if (aliasName == null)
     {
-      aliasName = createPropertyList(ListKind.CONTAINMENT, String.class, ALIAS_NAME);
+      aliasName = createPropertyList(ListKind.DATATYPE, String.class, ALIAS_NAME, 0);
     }
     return aliasName;
   }

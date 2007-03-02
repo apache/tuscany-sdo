@@ -107,7 +107,7 @@ public class TypesImpl extends DataObjectBase implements Types
   {
     if (type == null)
     {
-      type = createPropertyList(ListKind.CONTAINMENT, org.apache.tuscany.sdo.model.Type.class, TYPE);
+      type = createPropertyList(ListKind.CONTAINMENT, org.apache.tuscany.sdo.model.Type.class, TYPE, 0);
     }
     return type;
   }
