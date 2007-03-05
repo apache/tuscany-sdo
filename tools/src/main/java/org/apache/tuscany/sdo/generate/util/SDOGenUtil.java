@@ -69,7 +69,7 @@ public class SDOGenUtil {
     {
         boolean unsettable = genFeature.isUnsettable();
         
-        if(suppressNotification)
+        if (suppressNotification)
         {
             return "ListKind.BASIC";
         }
@@ -94,22 +94,19 @@ public class SDOGenUtil {
             }
             else
             {
-                if (genFeature.isBidirectional())
+                if (genFeature.isResolveProxies())
                 {
-                    if (genFeature.isResolveProxies())
-                    {
-                        if( unsettable )
-                            return "ListKind.CONTAINMENT_RESOLVING_UNSETTABLE";
-                        else
-                            return "ListKind.CONTAINMENT_RESOLVING";
-                    }
+                    if( unsettable )
+                        return "ListKind.CONTAINMENT_RESOLVING_UNSETTABLE";
                     else
-                    {
-                        if( unsettable )
-                            return "ListKind.CONTAINMENT_UNSETTABLE";
-                        else
-                            return "ListKind.CONTAINMENT";
-                    }
+                        return "ListKind.CONTAINMENT_RESOLVING";
+                }
+                else
+                {
+                    if( unsettable )
+                        return "ListKind.CONTAINMENT_UNSETTABLE";
+                    else
+                        return "ListKind.CONTAINMENT";
                 }
             }
         }
@@ -188,7 +185,6 @@ public class SDOGenUtil {
                     return "ListKind.DATATYPE";
             }
         }
-        return "ListKind.CONTAINMENT";
     }
 
     public static boolean hasChangeSummaryProperty(GenClass genClass)
