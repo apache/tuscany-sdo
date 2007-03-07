@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,18 +38,23 @@ import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 import org.apache.tuscany.sdo.util.resource.SDOXMLResourceFactoryImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -74,6 +80,7 @@ import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataHelper;
 import commonj.sdo.helper.TypeHelper;
+import commonj.sdo.impl.HelperProvider;
 
 
 public final class DataObjectUtil
@@ -2583,6 +2590,9 @@ public final class DataObjectUtil
     //resource.getDefaultSaveOptions().put(XMLResource.OPTION_FORMATTED, Boolean.FALSE);
   }
 
+  /**
+   * @deprecated SDO runtime initialization is no longer required
+   */
   public static void initRuntime()
   {
     // NOOP since init is done during static initialization of this class. See above.
@@ -2702,5 +2712,92 @@ public final class DataObjectUtil
     return false;
   }
   */
+
+  /**
+   * Returns a unique list of meta object instance properties (stored in EAnnotations)
+   *  
+   * @param metaObject - A Type or Property instance
+   * @return A list of commonj.sdo.Property instances
+   */
+  public static List getMetaObjectInstanceProperties(EModelElement metaObject) 
+  {
+    // Use the default helper context for now
+    TypeHelper typeHelper = HelperProvider.getDefaultContext().getTypeHelper();
+      
+    List result = new UniqueEList();
+    List annotations = metaObject.getEAnnotations();
+    int size = annotations.size();
+    for (int i=0; i<size; i++) 
+    {
+      EAnnotation annotation = (EAnnotation)annotations.get(i);
+      String propertyURI = annotation.getSource();
+      
+      for (Iterator iter = annotation.getDetails().iterator(); iter.hasNext(); ) 
+      {
+        EStringToStringMapEntryImpl entry = (EStringToStringMapEntryImpl)iter.next();
+        String propertyName = entry.getTypedKey();
+        
+        Property globalProperty = getGlobalProperty(typeHelper, propertyURI, propertyName);
+        if (globalProperty != null)
+        {
+          result.add(globalProperty);
+        }
+      }
+    }
+    return result; 
+  }
   
+  /**
+   * Return the value of the specified mata object instance property (stored in EAnnotations)
+   * 
+   * @param metaObject - A Type or Property instance
+   * @param property - The instance property to retrieve
+   * @return The value of the instance property
+   */
+  public static Object getMetaObjectInstanceProperty(EModelElement metaObject, Property property)
+  {
+    String value = EcoreUtil.getAnnotation(metaObject, property.getContainingType().getURI(), property.getName());
+    //TODO if (property.isMany()) ... // create list of values from from string
+    return SDOUtil.createFromString(property.getType(), value);
+  }
+
+  protected static Property getGlobalProperty(TypeHelper typeHelper, String uri, String name)
+  {
+    Property property;
+    if (ExtendedMetaData.ANNOTATION_URI.equals(uri)) {
+      if ("minExclusive".equals(name) ||
+          "minInclusive".equals(name) ||
+          "maxExclusive".equals(name) ||
+          "maxInclusive".equals(name) ||
+          "totalDigits".equals(name) ||
+          "fractionDigits".equals(name) ||
+          "length".equals(name) ||
+          "minLength".equals(name) ||
+          "maxLength".equals(name) ||
+          "enumeration".equals(name) ||
+          "whiteSpace".equals(name) ||
+          "pattern".equals(name))
+      {
+        //TODO Use standard facet properties, once SDO defines them
+        //TODO property = getSDOFacetProperty(name);
+        //TEMP For now just expose a string property for the EMF (ExtendedMetaData) facets
+        property = SDOUtil.createGlobalProperty(typeHelper, uri, name, ((ModelFactoryImpl)ModelFactory.INSTANCE).getString());
+      }
+      else
+      {
+        //TODO Should we consider exposing more ExtendedMetaData?
+        property = null;
+      }
+    }
+    else
+    {
+      property = typeHelper.getOpenContentProperty(uri, name);
+      if (property == null)
+      {
+        property = SDOUtil.createGlobalProperty(typeHelper, uri, name, ((ModelFactoryImpl)ModelFactory.INSTANCE).getString());
+      }
+    }
+    return property;
+  }
+
 }

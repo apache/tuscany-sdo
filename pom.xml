@@ -94,6 +94,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <version>2.3</version>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <includes>

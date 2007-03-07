@@ -51,6 +51,7 @@ import org.apache.tuscany.sdo.helper.XMLHelperImpl;
 import org.apache.tuscany.sdo.helper.XMLStreamHelper;
 import org.apache.tuscany.sdo.helper.XMLStreamHelperImpl;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
+import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.impl.DynamicDataObjectImpl;
 import org.apache.tuscany.sdo.model.ModelFactory;
@@ -58,10 +59,13 @@ import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 import org.apache.tuscany.sdo.util.resource.SDOObjectInputStream;
 import org.apache.tuscany.sdo.util.resource.SDOObjectOutputStream;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
@@ -512,6 +516,18 @@ public final class SDOUtil
       return null;
   }
   
+  public static List getOpenContentProperties(DataObject dataObject)
+  {
+    List result = new UniqueEList();
+    ((ClassImpl)dataObject.getType()).addOpenProperties((EObject)dataObject, result);
+    return result;
+  }
+
+  public static boolean isDocumentRoot(Type type)
+  {
+    return "".equals(SDOExtendedMetaData.INSTANCE.getName((EClassifier)type));
+  }
+  
   public static Type createType(TypeHelper scope, String uri, String name, boolean isDataType)
   {
     ExtendedMetaData extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
@@ -668,6 +684,34 @@ public final class SDOUtil
     return (Property)eStructuralFeature;
   }
   
+  public static Property createGlobalProperty(TypeHelper scope, String uri, String name, Type type)
+  {
+    ExtendedMetaData extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
+
+    // get/create document root
+    EPackage ePackage = extendedMetaData.getPackage(uri);
+    Type documentRoot = ePackage != null ? (Type)extendedMetaData.getType(ePackage, "") : null;
+    if (documentRoot == null) 
+    {
+      documentRoot = SDOUtil.createType(scope, uri, null, false);
+    }
+
+    // Determine if property already exists
+    Property newProperty = documentRoot.getProperty(name);
+    if (newProperty == null)
+    {
+      // Create the new property 'under' the document root.....
+      newProperty = SDOUtil.createProperty(documentRoot, name, type);
+    }
+    else
+    {
+      // if property already exists, validate the expected type
+      if (!newProperty.getType().equals(type))
+        throw new IllegalArgumentException();
+    }
+    return newProperty;
+  }
+  
   public static void addAliasName(Property property, String aliasName)
   {
     throw new UnsupportedOperationException(); // TODO: implement this method properly
@@ -697,6 +741,37 @@ public final class SDOUtil
   public static void setOpposite(Property property, Property opposite)
   {
     ((EReference)property).setEOpposite((EReference)opposite);
+  }
+  
+  public static void addTypeInstanceProperties(Type definedType, DataObject modeledType)
+  {
+    addInstanceProperties((EModelElement)definedType, modeledType);
+  }
+
+  public static void addPropertyInstanceProperties(Property definedProperty, DataObject modeledProperty)
+  {
+    addInstanceProperties((EModelElement)definedProperty, modeledProperty);
+  }
+  
+  protected static void addInstanceProperties(EModelElement metaObject, DataObject dataObject)
+  {
+    List instanceProperties = getOpenContentProperties(dataObject);
+    for (Iterator iter = instanceProperties.iterator(); iter.hasNext(); )
+    {
+      Property property = (Property)iter.next();
+      String uri = property.getContainingType().getURI();
+      EAnnotation eAnnotation = metaObject.getEAnnotation(uri);
+      if (eAnnotation == null)
+      {
+        eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+        eAnnotation.setSource(uri);
+        metaObject.getEAnnotations().add(eAnnotation);
+      }
+      Object value = dataObject.get(property);
+      //TODO if (property.isMany()) ... // convert list of values
+      String stringValue = SDOUtil.convertToString(property.getType(), value);
+      eAnnotation.getDetails().put(property.getName(), stringValue);
+    }
   }
   
   /**

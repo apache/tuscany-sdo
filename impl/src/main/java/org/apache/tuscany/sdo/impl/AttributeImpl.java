@@ -185,14 +185,12 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
     throw new UnsupportedOperationException();
   }
 
-  public List getInstanceProperties()
-  {
-    throw new UnsupportedOperationException();
+  public List getInstanceProperties() {
+    return DataObjectUtil.getMetaObjectInstanceProperties(this);
   }
 
-  public Object get(Property property)
-  {
-    throw new UnsupportedOperationException();
+  public Object get(Property property) {
+    return DataObjectUtil.getMetaObjectInstanceProperty(this, property);
   }
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -30,6 +30,7 @@ import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.java.JavaFactory;
 import org.apache.tuscany.sdo.model.xml.XMLFactory;
 import org.apache.tuscany.sdo.util.SDOUtil;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -37,7 +38,6 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
-import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.TypeHelper;
 
 
@@ -185,45 +185,23 @@ public class TypeHelperImpl implements TypeHelper
         Type propertyType = getDefinedType(modeledProperty.getType_());
         Property definedProperty = SDOUtil.createProperty(definedType, modeledProperty.getName(), propertyType);
         
-        SDOUtil.setMany(definedProperty, modeledProperty.isMany());
-        SDOUtil.setDefault(definedProperty, modeledProperty.getDefault_());
-        SDOUtil.setReadOnly(definedProperty, modeledProperty.isReadOnly());
-        
-        for (Iterator iter2 = modeledProperty.getAliasName().iterator(); iter2.hasNext(); )
+        initializeProperty(definedProperty, modeledProperty);
+      }
+
+      // define a global property to accompany the type definition
+      if (!SDOUtil.isDocumentRoot(definedType)) 
+      { 
+        String propertyName = definedType.getName();
+        if (!Character.isLowerCase(propertyName.charAt(0))) 
         {
-          String aliasName = (String)iter2.next();
-          SDOUtil.addAliasName(definedProperty, aliasName);
+          propertyName = propertyName.substring(0, 1).toLowerCase() + propertyName.substring(1);
         }
-        
-        if (!propertyType.isDataType())
-        {
-          SDOUtil.setContainment(definedProperty, modeledProperty.isContainment());
-          if (modeledProperty.getOpposite_() != null)
-          {
-            SDOUtil.setOpposite(definedProperty, getDefinedProperty(modeledProperty.getOpposite_()));
-          }
-        }
+        Property globalProperty = SDOUtil.createGlobalProperty(this, definedType.getURI(), propertyName, definedType);
+        SDOUtil.setContainment(globalProperty, true);
       }
     } // if (!isDataType)
     
-    
-    // define a global property to accompany the type definition
-    if (definedType.getName() != null) { // null type name => type is
-        // global property holder,
-        // so we don't need a global property for null named type
-        DataObject globalProperty = DataFactory.INSTANCE.create(
-                "commonj.sdo", "Property");
-        String propertyName = definedType.getName();
-        if (!Character.isLowerCase(propertyName.charAt(0))) {
-            char[] pca = propertyName.toCharArray();
-            pca[0] = Character.toLowerCase(pca[0]);
-            propertyName = new String(pca);
-        }
-        globalProperty.set("name", propertyName);
-        globalProperty.set("type", definedType);
-        globalProperty.set("containment", Boolean.TRUE);
-        defineOpenContentProperty(definedType.getURI(), globalProperty);
-    }
+    SDOUtil.addTypeInstanceProperties(definedType, (DataObject)modeledType);
 
     return definedType;
   }
@@ -276,6 +254,27 @@ public class TypeHelperImpl implements TypeHelper
     }
   }
   
+  protected void initializeProperty(Property newProperty, org.apache.tuscany.sdo.model.Property modeledProperty)
+  {
+    SDOUtil.setMany(newProperty, modeledProperty.isMany());
+    SDOUtil.setDefault(newProperty, modeledProperty.getDefault_());
+    SDOUtil.setReadOnly(newProperty, modeledProperty.isReadOnly());
+    for (Iterator iter = modeledProperty.getAliasName().iterator(); iter.hasNext();)
+    {
+      String aliasName = (String)iter.next();
+      SDOUtil.addAliasName(newProperty, aliasName);
+    }
+    if (!newProperty.getType().isDataType())
+    {
+      SDOUtil.setContainment(newProperty, modeledProperty.isContainment());
+      if (modeledProperty.getOpposite_() != null)
+      {
+        SDOUtil.setOpposite(newProperty, getDefinedProperty(modeledProperty.getOpposite_()));
+      }
+    }
+    SDOUtil.addPropertyInstanceProperties(newProperty, (DataObject)modeledProperty);
+  }
+  
   public static final String TUSCANY_NO_URI="http://tuscany-no-uri";
   
   public Property defineOpenContentProperty(String uri, DataObject property)
@@ -288,56 +287,19 @@ public class TypeHelperImpl implements TypeHelper
 
     if (uri == null) uri = TUSCANY_NO_URI;
 
-    // get/create document root
-    EPackage ePackage = extendedMetaData.getPackage(uri);
-    Type documentRoot = 
-      ePackage != null ? (Type)extendedMetaData.getType(ePackage, "") : null;
-    if (documentRoot == null) 
-    {
-      documentRoot = SDOUtil.createType(this, uri, null, false);
-    }
-
-    // Determine if property already exists
-    Property newProperty = documentRoot.getProperty(modeledProperty.getName());
-    if (newProperty == null)
-    {
-      //FB TBD ... is this code really supposed to be the same as in define()? If so, factor it out and reuse
-       
-      // Create the new property 'under' the document root.....
-      newProperty = SDOUtil.createProperty(documentRoot, modeledProperty.getName(), propertyType);
-
-      // Propagate the modeled property's attributes
-      SDOUtil.setMany(newProperty, modeledProperty.isMany());
-      SDOUtil.setDefault(newProperty, modeledProperty.getDefault_());
-      SDOUtil.setReadOnly(newProperty, modeledProperty.isReadOnly());
-      for (Iterator iter = modeledProperty.getAliasName().iterator(); iter.hasNext();)
-      {
-        String aliasName = (String)iter.next();
-        SDOUtil.addAliasName(newProperty, aliasName);
-      }
-      if (!propertyType.isDataType())
-      {
-        SDOUtil.setContainment(newProperty, modeledProperty.isContainment());
-        if (modeledProperty.getOpposite_() != null)
-        {
-          SDOUtil.setOpposite(newProperty, getDefinedProperty(modeledProperty.getOpposite_()));
-        }
-      }
-    }
-    else
-    {
-      // if property already exists, validate the expected type
-      if (!newProperty.getType().equals(propertyType))
-        throw new IllegalArgumentException();
-    }
+    Property newProperty = SDOUtil.createGlobalProperty(this, uri, modeledProperty.getName(), propertyType);
+   
+    // Propagate the modeled property's attributes
+    initializeProperty(newProperty, modeledProperty);
 
     return newProperty;
   }
 
   public Property getOpenContentProperty(String uri, String propertyName)
   {
-    //FB TBD ... in the future we will allow elements or attributes - see SDOUtil.createProperty()
-    return (Property)extendedMetaData.getElement(uri, propertyName);
+    //return (Property)extendedMetaData.getElement(uri, propertyName);
+    EClass documentRoot = (EClass)extendedMetaData.getType(uri, "");
+    return documentRoot != null ? (Property)documentRoot.getEStructuralFeature(propertyName) : null;
   }
 
 }

@@ -168,14 +168,12 @@ public class DataTypeImpl extends EDataTypeImpl implements Type, org.apache.tusc
     return null;
   }
   
-  public List getInstanceProperties()
-  {
-    throw new UnsupportedOperationException();
+  public List getInstanceProperties() {
+    return DataObjectUtil.getMetaObjectInstanceProperties(this);
   }
 
-  public Object get(Property property)
-  {
-    throw new UnsupportedOperationException();
+  public Object get(Property property) {
+    return DataObjectUtil.getMetaObjectInstanceProperty(this, property);
   }
   
   /////////////////////////////////////////////////////////////////////////////////////////////////////////
