@@ -40,6 +40,7 @@ import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
+import org.apache.tuscany.sdo.util.resource.SDOURIConverterImpl;
 import org.apache.tuscany.sdo.util.resource.SDOXMLResourceFactoryImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
@@ -2469,6 +2470,7 @@ public final class DataObjectUtil
   protected static void configureResourceSet(ResourceSet resourceSet)
   {
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().putAll(getRegistrations());
+    resourceSet.setURIConverter(new SDOURIConverterImpl());
   }
   
   public static EClass createDocumentRoot()
