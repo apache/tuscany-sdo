@@ -44,28 +44,32 @@ import org.apache.tuscany.sdo.generate.XSD2JavaGenerator;
  */
 public class GeneratorMojo extends AbstractMojo {
     /**
-     * The directory containing schema files; defaults to ${basedir}/src/main/xsd
+     * The directory containing schema files; defaults to
+     * ${basedir}/src/main/xsd
      * 
      * @parameter expression="${basedir}/src/main/xsd"
      */
     private String schemaDir;
 
     /**
-     * Name of the schema file; if omitted all files in the directory are processed
+     * Name of the schema file; if omitted all files in the directory are
+     * processed
      * 
      * @parameter
      */
     private File schemaFile;
 
     /**
-     * The Java package to generate into. By default the value is derived from the schema URI.
+     * The Java package to generate into. By default the value is derived from
+     * the schema URI.
      * 
      * @parameter
      */
     private String javaPackage;
 
     /**
-     * The directory to generate into; defaults to ${project.build.directory}/sdo-source
+     * The directory to generate into; defaults to
+     * ${project.build.directory}/sdo-source
      * 
      * @parameter expression="${project.build.directory}/sdo-source"
      */
@@ -79,7 +83,8 @@ public class GeneratorMojo extends AbstractMojo {
     private String prefix;
 
     /**
-     * This option can be used to eliminate the generated interface and to generate only an implementation class.
+     * This option can be used to eliminate the generated interface and to
+     * generate only an implementation class.
      * 
      * @parameter
      */
@@ -93,14 +98,16 @@ public class GeneratorMojo extends AbstractMojo {
     private Boolean noContainment;
 
     /**
-     * This option eliminates all change notification overhead in the generated classes.
+     * This option eliminates all change notification overhead in the generated
+     * classes.
      * 
      * @parameter
      */
     private Boolean noNotification;
 
     /**
-     * With this option, all generated properties will not record their unset state.
+     * With this option, all generated properties will not record their unset
+     * state.
      * 
      * @parameter
      */
@@ -122,7 +129,6 @@ public class GeneratorMojo extends AbstractMojo {
 
     /**
      * @parameter expression="${project}"
-     * 
      * @required
      */
     private MavenProject project;
@@ -133,7 +139,8 @@ public class GeneratorMojo extends AbstractMojo {
     private List mojos;
 
     /**
-     * With this option, generated interfaces will extend commonj.sdo.DataObject.
+     * With this option, generated interfaces will extend
+     * commonj.sdo.DataObject.
      * 
      * @parameter
      */
@@ -148,7 +155,8 @@ public class GeneratorMojo extends AbstractMojo {
 
     public void execute() throws MojoExecutionException {
 
-        // check for schemaFiles parameter first, if properties are not set, use global property
+        // check for schemaFiles parameter first, if properties are not set, use
+        // global property
         if (null != schemaFiles) {
             for (int i = 0; i < schemaFiles.length; ++i) {
                 SchemaFileOption sf = schemaFiles[i];
@@ -212,7 +220,7 @@ public class GeneratorMojo extends AbstractMojo {
                     schemaFiles[i].setTargetDirectory(targetDirectory);
                 }
             } else {
-                schemaFiles = new SchemaFileOption[] { new SchemaFileOption() };
+                schemaFiles = new SchemaFileOption[] {new SchemaFileOption()};
                 schemaFiles[0].setFileName(schemaFile);
                 schemaFiles[0].setJavaPackage(javaPackage);
                 // schemaFiles[0].setCompilerSourceRoots(compileSourceRoots);
@@ -230,7 +238,7 @@ public class GeneratorMojo extends AbstractMojo {
 
         for (int i = 0; i < schemaFiles.length; i++) {
             File file = schemaFiles[i].getFileName();
-            File marker = new File(targetDirectory, ".gen#" + file.getName());
+            File marker = new File(schemaFiles[i].getTargetDirectory(), ".gen#" + file.getName());
             if (file.lastModified() > marker.lastModified()) {
                 getLog().info("Generating SDO interfaces from " + file);
 
@@ -254,13 +262,17 @@ public class GeneratorMojo extends AbstractMojo {
                 if (schemaFiles[i].isGenerateSwitch() != null && schemaFiles[i].isGenerateSwitch().booleanValue()) {
                     genOptions |= JavaGenerator.OPTION_GENERATE_SWITCH;
                 }
-                if (schemaFiles[i].isInterfaceDataObject() != null
-                        && schemaFiles[i].isInterfaceDataObject().booleanValue()) {
+                if (schemaFiles[i].isInterfaceDataObject() != null && schemaFiles[i].isInterfaceDataObject()
+                    .booleanValue()) {
                     genOptions |= JavaGenerator.OPTION_INTERFACE_DO;
                 }
 
-                XSD2JavaGenerator.generateFromXMLSchema(file.toString(), null, targetDirectory, javaPackage, prefix,
-                        genOptions);
+                XSD2JavaGenerator.generateFromXMLSchema(file.toString(),
+                                                        null,
+                                                        schemaFiles[i].getTargetDirectory(),
+                                                        schemaFiles[i].getJavaPackage(),
+                                                        schemaFiles[i].getPrefix(),
+                                                        genOptions);
             }
             try {
                 marker.createNewFile();
@@ -273,13 +285,13 @@ public class GeneratorMojo extends AbstractMojo {
         targetDirectory = targetDirectory.replace('/', File.separatorChar);
 
         // FIXME: [rfeng] Workaround to figure out the current execution phase
-        MojoDescriptor descriptor = (MojoDescriptor) mojos.get(0);
+        MojoDescriptor descriptor = (MojoDescriptor)mojos.get(0);
         PluginDescriptor pluginDescriptor = descriptor.getPluginDescriptor();
         Map pluginMap = project.getBuild().getPluginsAsMap();
-        Plugin plugin = (Plugin) pluginMap.get(pluginDescriptor.getGroupId() + ":" + pluginDescriptor.getArtifactId());
+        Plugin plugin = (Plugin)pluginMap.get(pluginDescriptor.getGroupId() + ":" + pluginDescriptor.getArtifactId());
         // How to get the current execution id?
         for (Iterator i = plugin.getExecutions().iterator(); i.hasNext();) {
-            PluginExecution execution = (PluginExecution) i.next();
+            PluginExecution execution = (PluginExecution)i.next();
             String phase = execution.getPhase();
             if (phase != null && phase.indexOf("-test-") != -1) {
                 project.addTestCompileSourceRoot(targetDirectory);

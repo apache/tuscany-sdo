@@ -26,6 +26,7 @@ public class SchemaFileOption {
     /**
      * Name of the schema file
      * 
+     * @parameter
      */
     private File fileName;
     
