@@ -173,17 +173,16 @@ public class XSD2JavaGenerator extends JavaGenerator
     System.out.println("Usage arguments:");
     System.out.println("  [ -targetDirectory <target-root-directory> ]");
     System.out.println("  [ -javaPackage <java-package-name> ]");
-    System.out.println("  [ -schemaNamespace <namespace-uri> ]");
     System.out.println("  [ -prefix <prefix-string> ]");
-    System.out.println("  [ -sparsePattern | -storePattern ]");
+    System.out.println("  [ -schemaNamespace <namespace-uri> ]");
     System.out.println("  [ -noInterfaces ]");
     System.out.println("  [ -noContainment ]");
     System.out.println("  [ -noNotification ]");
-    System.out.println("  [ -arrayAccessors ]");
-    System.out.println("  [ -generateLoader ]");
     System.out.println("  [ -noUnsettable ]");
-    System.out.println("  [ -useEMFPatterns ]");
-    System.out.println("  [ -interfaceDataObject ]");
+    /* Future Option: System.out.println("  [ -sparsePattern | -storePattern ]"); */
+    /* Future Option: System.out.println("  [ -arrayAccessors ]"); */
+    /* Future Option: System.out.println("  [ -generateLoader ]"); */
+    /* Future Option: System.out.println("  [ -interfaceDataObject ]"); */
     System.out.println("  <xsd-file> | <wsdl-file>");
     System.out.println("");
     System.out.println("For example:");

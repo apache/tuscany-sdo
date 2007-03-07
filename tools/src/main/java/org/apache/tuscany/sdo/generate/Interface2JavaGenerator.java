@@ -225,16 +225,15 @@ public class Interface2JavaGenerator extends JavaGenerator
     System.out.println("Usage arguments:");
     System.out.println("  [ -targetDirectory <target-root-directory> ]");
     System.out.println("  [ -javaPackage <java-package-name> ]");
-    System.out.println("  [ -namespace <xsd-namespace> ]");
     System.out.println("  [ -prefix <prefix-string> ]");
-    System.out.println("  [ -sparsePattern | -storePattern ]");
+    System.out.println("  [ -namespace <xsd-namespace> ]");
     System.out.println("  [ -noInterfaces ]");
     System.out.println("  [ -noContainment ]");
     System.out.println("  [ -noNotification ]");
-    System.out.println("  [ -arrayAccessors ]");
-    System.out.println("  [ -generateLoader ]");
     System.out.println("  [ -noUnsettable ]");
-    System.out.println("  [ -useEMFPatterns ]");
+    /* Future Option: System.out.println("  [ -sparsePattern | -storePattern ]"); */
+    /* Future Option: System.out.println("  [ -arrayAccessors ]"); */
+    /* Future Option: System.out.println("  [ -generateLoader ]"); */
     System.out.println("  interface-names");
     System.out.println("");
     System.out.println("For example:");

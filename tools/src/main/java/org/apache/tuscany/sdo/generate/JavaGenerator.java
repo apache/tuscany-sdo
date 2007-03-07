@@ -72,20 +72,20 @@ import commonj.sdo.helper.XSDHelper;
  *     [ -targetDirectory <target-root-directory> ]
  *     [ -javaPackage <java-package-name> ]
  *     [ -prefix <prefix-string> ]
- *     [ -sparsePattern | -storePattern ]
  *     [ -noInterfaces ]
  *     [ -noContainment ]
  *     [ -noNotification ]
+ *     [ -noUnsettable ]
+ *     
+ *   Not supported (future options):
+ *   
  *     [ -arrayAccessors ]
  *     [ -generateLoader ]
- *     [ -noUnsettable ]
  *     [ -interfaceDataObject ]
+ *     [ -sparsePattern | -storePattern ]
  *     
  *   Basic options:
  *   
- *     -targetDirectory
- *         Generates the Java source code in the specified directory. By default, the code is generated
- *         in the same directory as the input xsd or wsdl file.
  *     -javaPackage
  *         Overrides the Java package for the generated classes. By default the package name is derived
  *         from the targetNamespace of the XML schema being generated. For example, if the targetNamespace is
@@ -93,41 +93,38 @@ import commonj.sdo.helper.XSDHelper;
  *     -prefix
  *         Specifies the prefix string to use for naming the generated factory. For example "-prefix Foo" will
  *         result in a factory interface with the name "FooFactory".
- *     -sparsePattern
- *         For SDO metamodels that have classes with many properties of which only a few are typically set at
- *         runtime, this option can be used to produce a space-optimized implementation (at the expense of speed).
- *     -storePattern
- *         This option can be used to generate static classes that work with a Store-based DataObject
- *         implementation. It changes the generator pattern to generate accessors which delegate to the
- *         reflective methods (as opposed to the other way around) and changes the DataObject base class
- *         to org.apache.tuscany.sdo.impl.StoreDataObjectImpl. Note that this option generates classes that
- *         require a Store implementation to be provided before they can be run. 
- *     -noEMF
- *         Deprecated option. It is the default now.
- *     -interfaceDataObject
- *         This option is used to generate static interfaces that extend commonj.sdo.DataObject  
- *         
- *   The following options can be used to increase performance, but with some loss of SDO functionality:
- *   
- *     -noInterfaces
- *         By default, each DataObject generates both a Java interface and a corresponding implementation
- *         class. If an SDO metamodel does not use multiple inheritance (which is always the case for
- *         XML Schema derived models), then this option can be used to eliminate the interface and to generate
- *         only an implementation class.
- *         
- *   Following are planned but not supported yet:
- *   
- *     -noNotification
- *         This option eliminates all change notification overhead in the generated classes. Changes to
- *         DataObjects generated using this option cannot be recorded, and consequently the classes cannot
- *         be used with an SDO ChangeSummary or DataGraph.
+ *     -targetDirectory
+ *         Generates the Java source code in the specified directory. By default, the code is generated
+ *         in the same directory as the input xsd or wsdl file.
+ *         is not necessary.
+ *
+ *   Extended options:
+ *
  *     -noContainment
  *         Turns off container management for containment properties. DataObject.getContainer() will always
  *         return null for data objects generated with this option, even if a containment reference is set.
  *         Setting a containment reference will also not automatically remove the target object from its
  *         previous container, if it had one, so it will need to be explicitly removed by the client. Use
  *         of this option is only recommended for scenarios where this kind of container movement/management
- *         is not necessary.
+ *     -noInterfaces
+ *         By default, each DataObject generates both a Java interface and a corresponding implementation
+ *         class. If an SDO metamodel does not use multiple inheritance (which is always the case for
+ *         XML Schema derived models), then this option can be used to eliminate the interface and to generate
+ *         only an implementation class.
+ *     -noNotification
+ *         This option eliminates all change notification overhead in the generated classes. Changes to
+ *         DataObjects generated using this option cannot be recorded, and consequently the classes cannot
+ *         be used with an SDO ChangeSummary or DataGraph.
+ *     -noUnsettable
+ *         By default, some XML constructs result in SDO property implementations that maintain additional
+ *         state information to record when the property has been set to the "default value", as opposed to
+ *         being truly unset (see DataObject.isSet() and DataObject.unset()). The SDO specification allows an
+ *         implementation to choose to provide this behavior or not. With this option, all generated properties
+ *         will not record their unset state. The generated isSet() methods simply returns whether the current
+ *         value is equal to the property's "default value".
+ *         
+ *   Following are planned but not supported yet:
+ *   
  *     -arrayAccessors
  *         Generates Java array getters/setters for multiplicity-many properties. With this option, 
  *         the set of "standard" JavaBean array accessor methods (e.g., Foo[] getFoo(), Foo getFoo(int),
@@ -144,13 +141,18 @@ import commonj.sdo.helper.XSDHelper;
  *           options.put("GENERATED_LOADER", <prefix>ResourceFactoryImpl.class);
  *           XMLDocument doc = XMLHelper.INSTANCE.load(new FileInputStream("somefile.xml"), null, options);
  *         Note: this option currently only works for simple schemas without substitution groups or wildcards.
- *     -noUnsettable
- *         By default, some XML constructs result in SDO property implementations that maintain additional
- *         state information to record when the property has been set to the "default value", as opposed to
- *         being truly unset (see DataObject.isSet() and DataObject.unset()). The SDO specification allows an
- *         implementation to choose to provide this behavior or not. With this option, all generated properties
- *         will not record their unset state. The generated isSet() methods simply returns whether the current
- *         value is equal to the property's "default value".
+ *     -interfaceDataObject
+ *         This option is used to generate static interfaces that extend commonj.sdo.DataObject  
+ *     -sparsePattern
+ *         For SDO metamodels that have classes with many properties of which only a few are typically set at
+ *         runtime, this option can be used to produce a space-optimized implementation (at the expense of speed).
+ *     -storePattern
+ *         This option can be used to generate static classes that work with a Store-based DataObject
+ *         implementation. It changes the generator pattern to generate accessors which delegate to the
+ *         reflective methods (as opposed to the other way around) and changes the DataObject base class
+ *         to org.apache.tuscany.sdo.impl.StoreDataObjectImpl. Note that this option generates classes that
+ *         require a Store implementation to be provided before they can be run. 
+ *         
  *         
  */
 public abstract class JavaGenerator
@@ -613,23 +615,7 @@ public abstract class JavaGenerator
 
   protected static void printUsage()
   {
-    System.out.println("Usage arguments:");
-    System.out.println("  [ -targetDirectory <target-root-directory> ]");
-    System.out.println("  [ -javaPackage <java-package-name> ]");
-    System.out.println("  [ -prefix <prefix-string> ]");
-    System.out.println("  [ -sparsePattern | -storePattern ]");
-    System.out.println("  [ -noInterfaces ]");
-    System.out.println("  [ -noContainment ]");
-    System.out.println("  [ -noNotification ]");
-    System.out.println("  [ -arrayAccessors ]");
-    System.out.println("  [ -generateLoader ]");
-    System.out.println("  [ -noUnsettable ]");
-    System.out.println("  [ -interfaceDataObject ]");
-    System.out.println("  <xsd-file> | <wsdl-file>");
-    System.out.println("");
-    System.out.println("For example:");
-    System.out.println("");
-    System.out.println("  generate somedir/somefile.xsd");
+    System.out.println("Usage: this is a deprecated command replaced by XSD2JavaGenerator");
   }
 
 }
