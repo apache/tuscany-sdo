@@ -744,7 +744,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
     stringBuffer.append(TEXT_151);
     stringBuffer.append(type);
     stringBuffer.append(TEXT_152);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(genFeature.getName());
     stringBuffer.append(TEXT_153);
     stringBuffer.append(genFeature.getDefaultValue());
     stringBuffer.append(TEXT_154);
@@ -768,7 +768,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
     stringBuffer.append(TEXT_163);
     stringBuffer.append(type);
     stringBuffer.append(TEXT_164);
-    stringBuffer.append(genFeature.getSafeName());
+    stringBuffer.append(genFeature.getName());
     stringBuffer.append(TEXT_165);
     stringBuffer.append(genFeature.getDefaultValue());
     stringBuffer.append(TEXT_166);
