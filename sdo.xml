@@ -25,6 +25,7 @@
     <fileSets>
         <!-- include legal and other files -->
         <fileSet>
+            <outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
             <includes>
                 <include>LICENSE.txt</include>
                 <include>NOTICE.txt</include>
@@ -33,15 +34,15 @@
         </fileSet>
         <fileSet>
             <directory>distribution</directory>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>target/javadoc/api</directory>
-            <outputDirectory>javadoc/api</outputDirectory>
+            <outputDirectory>tuscany-sdo-${sdo.version}/javadoc/api</outputDirectory>
         </fileSet>
         <fileSet>
             <directory>target/site/apidocs</directory>
-            <outputDirectory>javadoc/impl</outputDirectory>
+            <outputDirectory>tuscany-sdo-${sdo.version}/javadoc/impl</outputDirectory>
         </fileSet>
     </fileSets>
 
@@ -52,7 +53,7 @@
                 <include>org.apache.tuscany.sdo:tuscany-sdo-tools</include>
             </includes>
             <binaries>
-                <outputDirectory>lib</outputDirectory>
+                <outputDirectory>tuscany-sdo-${sdo.version}/lib</outputDirectory>
                 <unpack>false</unpack>
                 <includeDependencies>true</includeDependencies>
             </binaries>

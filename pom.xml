@@ -70,6 +70,7 @@
     <properties>
         <specVersion>2.1</specVersion>
         <emfVersion>2.2.2</emfVersion>
+        <sdo.version>${version}</sdo.version>
     </properties>
 
     <modules>
