@@ -1,4 +1,4 @@
-Tuscany SDO Java M2 Sample Program Distribution
+Tuscany SDO Java M3 Sample Program Distribution
 ===============================================
 
 This is a distribution of the sample programs for the Tuscany SDO Java implementation.

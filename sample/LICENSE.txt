@@ -212,6 +212,7 @@ JavaDoc and Interface Definition Files files in any medium without fee or royalt
 of a compliant implementation of the Service Data Objects Specification is hereby granted.  
 The Service Data Objects Specification may be found at any of the following locations:
 
+http://osoa.org/display/Main/Service+Data+Objects+Specifications
 http://dev2dev.bea.com/technologies/commonj/index.jsp
 http://www.ibm.com/developerworks/library/specification/ws-sdo/
 http://oracle.com/technology/webservices/sca
