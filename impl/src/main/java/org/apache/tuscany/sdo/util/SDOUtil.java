@@ -631,7 +631,8 @@ public final class SDOUtil
       mixedFeature.setEType(EcorePackage.eINSTANCE.getEFeatureMapEntry());
       mixedFeature.setLowerBound(0);
       mixedFeature.setUpperBound(-1);
-      eClass.getEStructuralFeatures().add(mixedFeature);
+      //eClass.getEStructuralFeatures().add(mixedFeature);
+      ((ClassImpl)eClass).setSequenceFeature(mixedFeature);
       ExtendedMetaData.INSTANCE.setFeatureKind(mixedFeature, ExtendedMetaData.ELEMENT_WILDCARD_FEATURE);
       ExtendedMetaData.INSTANCE.setName(mixedFeature, ":mixed"); 
     }

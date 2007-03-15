@@ -37,6 +37,7 @@ import org.apache.tuscany.sdo.util.BasicSequence;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -64,8 +65,9 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
 {
   private static final long serialVersionUID = 1L;
 	
-  private static final Property UNINITIALIZED_CSPC = SDOFactory.eINSTANCE.createAttribute();
-  private Property changeSummaryPropertyCache = UNINITIALIZED_CSPC;
+  private static final Property UNINITIALIZED_PROPERTY = SDOFactory.eINSTANCE.createAttribute();
+  
+  private Property changeSummaryPropertyCache = UNINITIALIZED_PROPERTY;
   
   /**
    * <!-- begin-user-doc -->
@@ -135,6 +137,61 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
     return false;
   }
 
+  private EAttribute sequenceFeature = (EAttribute)UNINITIALIZED_PROPERTY;
+  
+  public EAttribute getSequenceFeature()
+  {
+    //FB This isn't quite right. 
+    //FB What if there are multiple sequences? We'll need to provide a mixed-like combined Sequence.
+    if (sequenceFeature == UNINITIALIZED_PROPERTY)
+    {
+      for (final Iterator iterator = getBaseTypes().iterator() ; iterator.hasNext(); )
+      {
+        ClassImpl baseType = (ClassImpl)iterator.next();
+        sequenceFeature = baseType.getSequenceFeature();
+        if (sequenceFeature != null) return sequenceFeature;
+      }
+
+      List properties = getExtendedProperties();
+      if (properties != Collections.EMPTY_LIST)
+      {
+        for (int i = 0, count = properties.size(); i < count; ++i)
+        {
+          EStructuralFeature eStructuralFeature = (EStructuralFeature)properties.get(i);
+          if (isSequenceFeatureMap(eStructuralFeature))
+          {
+            sequenceFeature = (EAttribute)eStructuralFeature;
+            return sequenceFeature;
+          }
+        }
+      }
+      
+      sequenceFeature = null;
+    }
+    return sequenceFeature;
+  }
+  
+  protected boolean isSequenceFeatureMap(EStructuralFeature eStructuralFeature)
+  {
+    //return eStructuralFeature == ExtendedMetaData.INSTANCE.getMixedFeature(this);
+    switch (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature))
+    {
+      case ExtendedMetaData.ELEMENT_WILDCARD_FEATURE:
+        //return eStructuralFeature.getUpperBound() != 1; //FB TODO - I think this may be needed
+        int contentKind = ExtendedMetaData.INSTANCE.getContentKind(this);
+        return contentKind == ExtendedMetaData.MIXED_CONTENT || contentKind == ExtendedMetaData.SIMPLE_CONTENT;
+      case ExtendedMetaData.GROUP_FEATURE:
+        return true;
+    }
+    return false;
+  }
+
+  public void setSequenceFeature(EAttribute sequenceFeature)
+  {
+    getEStructuralFeatures().add(sequenceFeature);
+    this.sequenceFeature = sequenceFeature;
+  }
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -142,10 +199,9 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
    */
   public boolean isSequenced()
   {
-    // isSequenced == isMixed 
-    return ExtendedMetaData.INSTANCE.getMixedFeature(this) != null; //FB is there a more efficient way to check this now that we have extendedProperties list?
+    return getSequenceFeature() != null;      
   }
-
+  
   protected List aliasNames = null;
 
   /**
@@ -535,7 +591,7 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
   }
 
   public Property getChangeSummaryProperty() {
-    if (changeSummaryPropertyCache == UNINITIALIZED_CSPC) {
+    if (changeSummaryPropertyCache == UNINITIALIZED_PROPERTY) {
       changeSummaryPropertyCache = null;
 
       // Find property of type ChangeSummaryType, if one exists

@@ -39,7 +39,6 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.EStructuralFeature.Internal.DynamicValueHolder;
 import org.eclipse.emf.ecore.impl.BasicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.EContentsEList;
 import org.eclipse.emf.ecore.util.ECrossReferenceEList;
 
@@ -1263,8 +1262,8 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public Sequence getSequence()
   {
-    EAttribute mixedFeature = BasicExtendedMetaData.INSTANCE.getMixedFeature(eClass());
-    return mixedFeature != null ? (Sequence)eGet(mixedFeature, true, false) : null;
+    EAttribute sequenceFeature = ((ClassImpl)eClass()).getSequenceFeature();
+    return sequenceFeature != null ? (Sequence)eGet(sequenceFeature, true, false) : null;
   }
 
   /**

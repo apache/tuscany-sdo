@@ -37,18 +37,19 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  */
 public class BaseSDOExtendedMetaDataImpl extends BasicExtendedMetaData
 {
-  protected EcoreFactory ecoreFactory;
-
-  public BaseSDOExtendedMetaDataImpl(EcoreFactory ecoreFactory)
-  {
-    super();
-    this.ecoreFactory = ecoreFactory;
+  protected EcoreFactory ecoreFactory = EcoreFactory.eINSTANCE;
+  protected DemandMetaData demandMetaData = new DemandMetaData();
+  
+  public static class DemandMetaData {
+    EClassifier getEObject() { return EcorePackage.eINSTANCE.getEObject(); }
+    EClassifier getAnyType() { return XMLTypePackage.eINSTANCE.getAnyType(); }
+    EClassifier getAnySimpleType() { return XMLTypePackage.eINSTANCE.getAnySimpleType(); }
+    EClassifier getXMLTypeDocumentRoot() { return XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot(); }
   }
 
-  public BaseSDOExtendedMetaDataImpl(EPackage.Registry registry, EcoreFactory ecoreFactory)
+  public BaseSDOExtendedMetaDataImpl(EPackage.Registry registry)
   {
     super(registry);
-    this.ecoreFactory = ecoreFactory;
   }
 
   public EPackage demandPackage(String namespace)
@@ -73,7 +74,7 @@ public class BaseSDOExtendedMetaDataImpl extends BasicExtendedMetaData
       // demandDocumentRoot(ePackage);
 
       EClass documentRootEClass = ecoreFactory.createEClass();
-      documentRootEClass.getESuperTypes().add(XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot());
+      documentRootEClass.getESuperTypes().add(demandMetaData.getXMLTypeDocumentRoot());
       documentRootEClass.setName("DocumentRoot");
       ePackage.getEClassifiers().add(documentRootEClass);
       setDocumentRoot(documentRootEClass);
@@ -93,7 +94,7 @@ public class BaseSDOExtendedMetaDataImpl extends BasicExtendedMetaData
     {
       EClass eClass = ecoreFactory.createEClass();
       eClass.setName(name);
-      eClass.getESuperTypes().add(XMLTypePackage.eINSTANCE.getAnyType());
+      eClass.getESuperTypes().add(demandMetaData.getAnyType());
       setContentKind(eClass, MIXED_CONTENT);
       ePackage.getEClassifiers().add(eClass);
       return eClass;
@@ -118,7 +119,7 @@ public class BaseSDOExtendedMetaDataImpl extends BasicExtendedMetaData
       {
         EReference eReference = ecoreFactory.createEReference();
         eReference.setContainment(isElement);
-        eReference.setEType(EcorePackage.eINSTANCE.getEObject());
+        eReference.setEType(demandMetaData.getEObject());
         eReference.setName(name);
         eReference.setDerived(true);
         eReference.setTransient(true);
@@ -142,7 +143,7 @@ public class BaseSDOExtendedMetaDataImpl extends BasicExtendedMetaData
       {
         EAttribute eAttribute = ecoreFactory.createEAttribute();
         eAttribute.setName(name);
-        eAttribute.setEType(XMLTypePackage.eINSTANCE.getAnySimpleType());
+        eAttribute.setEType(demandMetaData.getAnySimpleType());
         eAttribute.setDerived(true);
         eAttribute.setTransient(true);
         eAttribute.setVolatile(true);

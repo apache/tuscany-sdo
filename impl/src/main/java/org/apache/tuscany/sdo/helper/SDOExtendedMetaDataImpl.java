@@ -25,8 +25,11 @@ import java.util.StringTokenizer;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.impl.SDOFactoryImpl.SDOEcoreFactory;
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -41,11 +44,18 @@ public class SDOExtendedMetaDataImpl
 {
  
   public SDOExtendedMetaDataImpl() {
-    super(new SDOEcoreFactory());
+    this(EPackage.Registry.INSTANCE);
   }
 
   public SDOExtendedMetaDataImpl(Registry registry) {
-    super(registry, new SDOEcoreFactory());
+    super(registry);
+    ecoreFactory = new SDOEcoreFactory();
+    demandMetaData = new SDODemandMetaData();
+  }
+
+  public static class SDODemandMetaData extends DemandMetaData {
+    EClassifier getEObject() { return (EClassifier)((ModelFactoryImpl)ModelFactory.INSTANCE).getDataObject(); }
+    EClassifier getAnySimpleType() { return (EClassifier)((ModelFactoryImpl)ModelFactory.INSTANCE).getObject(); }
   }
 
   public EPackage getPackage(String namespace)
@@ -116,8 +126,9 @@ public class SDOExtendedMetaDataImpl
 
   
   /****************************************************************************************************** 
-   * getLocalAttribute & getLocalElement are
-   * TEMPORARILY COPIED FROM BASE CLASS - DO NOT EDIT - WILL BE REMOVED WHEN WE MOVE TO EMF 2.3
+   * Following methods, getLocalAttribute & getLocalElement, ARE TEMPORARY COPIES FROM THE BASE CLASS. 
+   * One line (the last line)in each method is changed to support lax namespace matching. 
+   * DO NOT EDIT THESE METHODS. THEY WILL BE REMOVED WHEN WE MOVE TO EMF 2.3, WHICH FIXES THE PROBLEM.
    ******************************************************************************************************/
  
   public EStructuralFeature getLocalAttribute(EClass eClass, String namespace, String name)
