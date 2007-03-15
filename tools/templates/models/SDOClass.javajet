@@ -1043,8 +1043,8 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 			addNotification(this, ChangeKind.UNSET, <%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, null, changeContext);
             <%}%>
 		}
-		return changeContext;
         <%}%>
+		return changeContext;
     <%} else {%>
 <%@ include file="Class/basicUnsetGenFeature.TODO.override.javajetinc" fail="alternative" %>
 <%@ start %>
