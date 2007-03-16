@@ -245,8 +245,8 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
   
   protected void initPropertyLists()
   {
-    declaredProperties = new ArrayList();
-    extendedProperties = Collections.EMPTY_LIST;
+    List declaredProperties = new ArrayList();
+    List extendedProperties = Collections.EMPTY_LIST;
     
     for (Iterator i = getTypeFeatures().iterator(); i.hasNext(); ) {
       EStructuralFeature eStructuralFeature = (EStructuralFeature)i.next();
@@ -259,6 +259,8 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
       else
         declaredProperties.add(eStructuralFeature);
     }
+    this.declaredProperties = declaredProperties;
+    this.extendedProperties = extendedProperties;
   }
   
   public EList getEStructuralFeatures()
@@ -295,14 +297,15 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
       allProperties = allExtendedProperties = null;
     }
     if (allProperties == null)
-    {
-      allProperties = new UniqueEList();
+    { 
+      List allProperties = new UniqueEList();
       for (final Iterator iterator = getBaseTypes().iterator(); iterator.hasNext(); )
       {
         Type baseType = (Type)iterator.next();
         allProperties.addAll(baseType.getProperties());
       }
-      allProperties.addAll(getDeclaredProperties());
+      allProperties.addAll(getDeclaredProperties());     
+      this.allProperties = allProperties;
     }
     return allProperties;
   }
@@ -317,13 +320,14 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
     }
     if (allProperties == null)
     {
-      allExtendedProperties = new UniqueEList();
+      List allExtendedProperties = new UniqueEList();
       for (final Iterator iterator = getBaseTypes().iterator(); iterator.hasNext(); )
       {
         Type baseType = (Type)iterator.next();
         allExtendedProperties.addAll(((ClassImpl)baseType).getAllExtendedProperties());
       }
-      allExtendedProperties.addAll(getExtendedProperties());
+      allExtendedProperties.addAll(getExtendedProperties());     
+      this.allExtendedProperties = allExtendedProperties;
     }
     return allExtendedProperties;
   }
