@@ -504,14 +504,7 @@ public final class SDOUtil
 
       EPackage ePackage = ((TypeHelperImpl) scope).getExtendedMetaData().getPackage(uri);
       if (ePackage != null) {
-        /**
-         * ePackage.getEclassifiers will return an EList ( simple extension of List ).
-         * 
-         * When a Type is generated from XML EMF will create a DocumentRoot type As this is EMF specific it should be removed
-         */
-        List result = new ArrayList(ePackage.getEClassifiers());
-        result.remove(((TypeHelperImpl) scope).getExtendedMetaData().getDocumentRoot(ePackage));
-        return result;
+        return new ArrayList(ePackage.getEClassifiers());
       }
       return null;
   }
