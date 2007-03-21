@@ -437,7 +437,19 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     {
       uncache();
       isStale = false;
+      
+      // TODO remove this fixup when https://bugs.eclipse.org/bugs/show_bug.cgi?id=177235 is
+      // available to us (i.e. we update to EMF 2.3) -- see Tuscany-1164
+      boolean isUncontainedRoot = dataObject != null
+        && ((EObject)dataObject).eContainer() == null
+        && ((EObject)dataObject).eResource() == null;
+      
       super.consolidateChanges();
+      
+      if(isUncontainedRoot && changeDescription.getObjectsToAttach().contains(dataObject)) {
+        changeDescription.getObjectsToAttach().remove(dataObject);
+      }
+      
     }
 
     protected void addAdapter(Notifier notifier)
