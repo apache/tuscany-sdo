@@ -1505,7 +1505,7 @@ public class SDOClass
          {
            featureValue = base.getClassName() + "." + genFeature.getUpperName();
          } else {
-           String baseCountID = base.getClassName() + "." + "SDO_PROPERTY_COUNT";
+           String baseCountID = base.getClassName() + "." + "EXTENDED_PROPERTY_COUNT";
            featureValue =  baseCountID + " + " + Integer.toString(-1 - extendedProperties.indexOf(genFeature.getEcoreFeature()));
           }
        }

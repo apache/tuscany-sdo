@@ -893,7 +893,7 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
     initializeProperty(property, this.getBoolean(), "containment", null, 0, 1, Property.class, false, true, false);
 
     property = getProperty(propertyType, PropertyImpl.INTERNAL_DEFAULT);
-    initializeProperty(property, this.getString(), "default_", null, 0, 1, Property.class, false, true, false);
+    initializeProperty(property, this.getString(), "default", null, 0, 1, Property.class, false, true, false);
 
     property = getProperty(propertyType, PropertyImpl.INTERNAL_READ_ONLY);
     initializeProperty(property, this.getBoolean(), "readOnly", null, 0, 1, Property.class, false, true, false);
@@ -947,7 +947,7 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
     initializeProperty(property, this.getBoolean(), "sequenced", null, 0, 1, Type.class, false, true, false);
 
     property = getProperty(typeType, TypeImpl.INTERNAL_ABSTRACT);
-    initializeProperty(property, this.getBoolean(), "abstract_", null, 0, 1, Type.class, false, true, false);
+    initializeProperty(property, this.getBoolean(), "abstract", null, 0, 1, Type.class, false, true, false);
 
     property = getProperty(typeType, TypeImpl.INTERNAL_ANY_ATTRIBUTE);
     initializeProperty(property, getSequence(), "anyAttribute", null, 0, -1, Type.class, false, false, false);

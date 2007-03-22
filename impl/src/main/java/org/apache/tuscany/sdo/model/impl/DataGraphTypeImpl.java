@@ -41,7 +41,7 @@ import org.apache.tuscany.sdo.model.ModelFactory;
 public class DataGraphTypeImpl extends BaseDataGraphTypeImpl implements DataGraphType
 {
 
-  public final static int ANY = BaseDataGraphTypeImpl.SDO_PROPERTY_COUNT + -1;
+  public final static int ANY = BaseDataGraphTypeImpl.EXTENDED_PROPERTY_COUNT + -1;
 
   public final static int SDO_PROPERTY_COUNT = BaseDataGraphTypeImpl.SDO_PROPERTY_COUNT + 0;
 
