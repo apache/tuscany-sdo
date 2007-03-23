@@ -22,6 +22,7 @@ package org.apache.tuscany.samples.sdo.specCodeSnippets;
 import java.util.List;
 
 import commonj.sdo.DataObject;
+import commonj.sdo.Sequence;
 import commonj.sdo.helper.XMLHelper;
 
 /**
@@ -29,13 +30,13 @@ import commonj.sdo.helper.XMLHelper;
  * 
  * The following sample is from the <a href="http://incubator.apache.org/tuscany"
  * target="_blank"> Apache Tuscany</a> project. It was written to help users
- * understand and experiement with SDO. It is based upon code snippets contained
+ * understand and experiment with SDO. It is based upon code snippets contained
  * within, and is meant for use with, and reference to the <a
  * href="http://www.osoa.org/download/attachments/791/SDO_Specification_Java_V2.01.pdf?version=1"
  * target="_bank">SDO Specification</a>. Specifically this sample is based upon section titled "Creating DataObjects from XML documents" <br>
  * <br>
  * <b>Usage:</b> <br>
- * This sample can easily be run from within Eclipse as a Java Application if tuscany or 
+ * This sample can easily be run from within Eclipse as a Java Application if Tuscany or 
  * the sample-sdo project is imported into Eclipse as an existing project.
  * <br><br>
  * If executing as a standalone application please do the following: 
@@ -101,7 +102,7 @@ public class CreateDataObjectFromXmlString {
         System.out.println("***************************************");
         System.out.println("SDO Sample CreateDataObjectFromXmlString");
         System.out.println("***************************************");
-        System.out.println("Demonstrats creating a DataObject from a String of XML, based upon section titled 'Creating DataObjects from XML documents'");
+        System.out.println("Demonstrates creating a DataObject from a String of XML, based upon section titled 'Creating DataObjects from XML documents'");
         System.out.println("***************************************");
 
         // sample
@@ -110,7 +111,7 @@ public class CreateDataObjectFromXmlString {
             System.out.println("Use the following XML String: " + XML_STRING);
             System.out.println("Creating DataObject");
             DataObject po = createDataObjectFromXmlString();
-            System.out.println("The following DataObject sucessfully created from XML String");
+            System.out.println("The following DataObject was sucessfully created from the XML String");
 
             System.out.println(XMLHelper.INSTANCE.save(po, "http://example.com/purchaseOrder", "purchaseOrder"));
 
@@ -119,7 +120,7 @@ public class CreateDataObjectFromXmlString {
              * difficult. This is because without a Type definition SDO does not know
              * the intended multiplicity of properties. Currently the Tuscany
              * implementation assumes that elements and attributes are lists. There
-             * is some discussion (SDO-3, also mentioned in SDO-22) about adding
+             * is some discussion (SDO-3, also mentioned in SDO Specification JIRA SDO-22) about adding
              * annotations to the XML (sdo:many="false") to control the indended
              * multiplicity of DataObjects created without a model.
              * 
@@ -149,8 +150,8 @@ public class CreateDataObjectFromXmlString {
             List nameList = shipTo.getList("name");
             DataObject name = (DataObject) nameList.get(0);
             // access the contents of the name DataObject
-            List textList = name.getList("text");
-            String actualName = (String) textList.get(0);
+            Sequence s = name.getSequence();
+            String actualName = (String) s.getValue(0);
             System.out.println("Name being shipped to: " + actualName);
 
         } catch (Exception e) {
