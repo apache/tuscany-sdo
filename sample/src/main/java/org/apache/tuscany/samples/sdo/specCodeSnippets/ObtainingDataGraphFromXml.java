@@ -103,7 +103,7 @@ public class ObtainingDataGraphFromXml {
         System.out.println("SDO Sample ObtainingDataGraphFromXml");
         System.out.println("***************************************");
         System.out.println("Demonstrates a vareity of methods available to obtain the root DataObject"
-                + "contained within an xml representation of a DataGraph.");
+                + " contained within an xml representation of a DataGraph.");
         System.out.println("***************************************");
         
 
@@ -146,9 +146,8 @@ public class ObtainingDataGraphFromXml {
             DataObject company = null;
 
             /**
-             * Use specification mechanism for obtaining a DataObject that represents
+             * Use specification mechanism for obtaining a DataObject that represents the datagraph
              */
-            // the a datagraph
             System.out.println("Using specification methods to obtain DataObject represeenting a datagraph from xml");
 
             // When the xml file represents a DataGraph the root Object
@@ -157,8 +156,7 @@ public class ObtainingDataGraphFromXml {
                     ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML)).getRootObject();
                                               
             // Obtain the company DataObject from the DataObject representing the datagraph
-            Sequence mySeq = (Sequence) dataObjectRepresentingDataGraph.getSequence("any");
-            company = (DataObject) mySeq.getValue(0);
+            company = dataObjectRepresentingDataGraph.getDataObject("company");
 
             System.out.println("Obtained DataObject representing datagraph");
             System.out.println(dataObjectRepresentingDataGraph);

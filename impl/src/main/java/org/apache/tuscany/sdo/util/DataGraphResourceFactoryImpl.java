@@ -563,7 +563,13 @@ public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
                     }
                   }
 
+                  //FB TEMPORARY allow loading proper serialization (global element instead of type name)
+                  //FB Proper fix is to reimplement DataGraph as proper DataObject, and remove this entire class
+                  EStructuralFeature rootFeature = extendedMetaData.getElement(helper.getURI(prefix), name);
+                  if (rootFeature != null) name = rootFeature.getEType().getName();
+                  
                   EObject rootObject = createObjectByType(prefix, name, false);
+                  
                   eDataGraph.setERootObject(rootObject);
                   processObject(rootObject);
                   if (rootObject != null
