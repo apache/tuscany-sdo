@@ -25,7 +25,7 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 /**
  * Provides interactive menu based command line interface to modify, save, view purchase order DataObject.
- * 
+ * <p>
  * <b>Usage:</b> <br>
  * This sample can easily be run from within Eclipse as a Java Application if tuscany or 
  * the sample-sdo project is imported into Eclipse as an existing project.
@@ -52,13 +52,10 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
  * </LI>
  * </UL>
  * 
- * These jar files can be obtained from directly from Tuscany and EMF projects or from <a
- * href="http://wiki.apache.org/ws-data/attachments/Tuscany(2f)TuscanyJava(2f)SDO_Java_Overview/attachments/SDO%20Execution%20Dependencies"
- * target="_bank">SDO Execution Dependancies </a> </LI>
+ * These jar files can be obtained by downloading and unpacking a <a href="http://cwiki.apache.org/TUSCANY/sdo-downloads.html" target="_blank">Tuscany binary distribution</a></LI>
  * <LI>Execute: <br>
  * java org.apache.tuscany.samples.sdo.otherSources.PurchaseOrderCmdLine</LI>
  * </UL>
- * @author Robbie Minshall
  * @see org.apache.tuscany.samples.sdo.SdoSampleConstants
  * @see org.apache.tuscany.samples.sdo.otherSources.PurchaseOrderControl
  */

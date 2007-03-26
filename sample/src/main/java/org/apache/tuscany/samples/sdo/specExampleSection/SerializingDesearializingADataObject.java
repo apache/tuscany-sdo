@@ -81,9 +81,7 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
  * </LI>
  * </UL>
  * 
- * These jar files can be obtained from directly from Tuscany and EMF projects or from <a
- * href="http://wiki.apache.org/ws-data/attachments/Tuscany(2f)TuscanyJava(2f)SDO_Java_Overview/attachments/SDO%20Execution%20Dependencies"
- * target="_bank">SDO Execution Dependancies </a> </LI>
+ * These jar files can be obtained by downloading and unpacking a <a href="http://cwiki.apache.org/TUSCANY/sdo-downloads.html" target="_blank">Tuscany binary distribution </a> </LI>
  * <LI>Execute: <br>
  * java org.apache.tuscany.samples.sdo.specExampleSection.SerializingDesearializingADataObject</LI>
  * </UL>

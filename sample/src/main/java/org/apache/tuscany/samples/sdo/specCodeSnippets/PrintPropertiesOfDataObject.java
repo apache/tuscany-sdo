@@ -32,18 +32,18 @@ import commonj.sdo.helper.XSDHelper;
 
 /**
  * Demonstrates iterating through, and inspecting properites of a DataObject. This
- * sample shows listing properties of a dataObject, determining if the properties are
- * set, are simple properties or represent DataObjects <br>
+ * sample shows listing properties of a DataObject, determining if the properties are
+ * set and whether they are simple properties or represent DataObjects <br>
  * <br>
  * This sample is from the <a href="http://incubator.apache.org/tuscany"
  * target="_blank"> Apache Tuscany</a> project. It was written to help users
- * understand and experiement with SDO. It is based upon code snippets contained
+ * understand and experiment with SDO. It is based upon code snippets contained
  * within, and is meant for use with, and reference to the <a
- * href="http://www.osoa.org/download/attachments/791/SDO_Specification_Java_V2.01.pdf?version=1"
+ * href=http://osoa.org/download/attachments/36/Java-SDO-Spec-v2.1.0-FINAL.pdf?version=1"
  * target="_bank">SDO Specification</a>. This specific examples was based upon code
  * snippets in the section titled 'Property Indexes'. <br>
  * <b>Usage:</b> <br>
- * This sample can easily be run from within Eclipse as a Java Application if tuscany or 
+ * This sample can easily be run from within Eclipse as a Java Application if Tuscany or 
  * the sample-sdo project is imported into Eclipse as an existing project.
  * <br><br>
  * If executing as a standalone application please do the following: 
@@ -68,14 +68,10 @@ import commonj.sdo.helper.XSDHelper;
  * </LI>
  * </UL>
  * 
- * These jar files can be obtained from directly from Tuscany and EMF projects or from <a
- * href="http://wiki.apache.org/ws-data/attachments/Tuscany(2f)TuscanyJava(2f)SDO_Java_Overview/attachments/SDO%20Execution%20Dependencies"
- * target="_bank">SDO Execution Dependancies </a> </LI>
+ * These jar files can be obtained by downloading and unpacking a <a href="http://cwiki.apache.org/TUSCANY/sdo-downloads.html" target="_blank">Tuscany binary distribution</a>  </LI>
  * <LI>Execute: <br>
  * java org.apache.tuscany.samples.sdo.specCodeSnippets.PrintPropertiesOfDataObject</LI>
  * </UL>
- * 
- * @author Robbie Minshall
  */
 
 public class PrintPropertiesOfDataObject {

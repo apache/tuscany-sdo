@@ -40,8 +40,6 @@ import org.apache.tuscany.samples.sdo.specCodeSnippets.*;
  * Provides operational API for purchase order sample for SDO. It is used by
  * {@link PurchaseOrderCmdLine} for an interactive sample. Often relies upon 
  * methods that are located within the {@link org.apache.tuscany.samples.sdo.otherSources} package.
- * 
- * @author Robbie Minshall
  * @see org.apache.tuscany.samples.sdo.otherSources.PurchaseOrderCmdLine
  * 
  */

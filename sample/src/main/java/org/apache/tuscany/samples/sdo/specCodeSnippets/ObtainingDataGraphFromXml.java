@@ -32,18 +32,18 @@ import commonj.sdo.DataGraph;
 import commonj.sdo.Sequence;
 
 /**
- * Demonstrates a vareity of methods available to obtain the root DataObject
- *  contained within an xml representation of a DataGraph. This is currently a grey
- * area of the specification and this samples demonstrates spec complant means, as
+ * Demonstrates a variety of methods available to obtain the root DataObject
+ * contained within an xml representation of a DataGraph. This is currently a grey
+ * area of the specification and this samples demonstrates spec compliant means, as
  * well as utility methods that have been added to Tuscany to address issues within
  * the specification.
  * 
  * The following sample is from the <a href="http://incubator.apache.org/tuscany"
  * target="_blank"> Apache Tuscany</a> project. It was written to help users
- * understand and experiement with SDO. It is based upon example code contained
+ * understand and experiment with SDO. It is based upon example code contained
  * within, and is meant for use with, and reference to the <a
- * href="http://www.osoa.org/download/attachments/791/SDO_Specification_Java_V2.01.pdf?version=1"
- * target="_bank">SDO Specification</a>. This sample addresses confusing aspects of
+ * href="http://osoa.org/download/attachments/36/Java-SDO-Spec-v2.1.0-FINAL.pdf?version=1"
+ * target="_bank">SDO Specification</a>. This sample attempts to clarify aspects of
  * the the AccessDataObjectsUsingXPath example from the Examples section of the SDO
  * specification.<br>
  * <br>
@@ -53,7 +53,7 @@ import commonj.sdo.Sequence;
  * provided in the resources directory of these samples. The xml file
  * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#COMPANY_DATAGRAPH_XML} is
  * used to load the DataGraph and is also located in this resources directory. <br>
- * <br>
+ * <P>
  * <b>Usage:</b> <br>
  * This sample can easily be run from within Eclipse as a Java Application if tuscany or 
  * the sample-sdo project is imported into Eclipse as an existing project.
@@ -80,15 +80,12 @@ import commonj.sdo.Sequence;
  * </LI>
  * </UL>
  * 
- * These jar files can be obtained from directly from Tuscany and EMF projects or from <a
- * href="http://wiki.apache.org/ws-data/attachments/Tuscany(2f)TuscanyJava(2f)SDO_Java_Overview/attachments/SDO%20Execution%20Dependencies"
- * target="_bank">SDO Execution Dependancies </a> </LI>
+ * These jar files can be obtained by downloading and unpacking a <a href="http://cwiki.apache.org/TUSCANY/sdo-downloads.html" target="_blank">Tuscany binary distribution</a>  </LI>
  * <LI>Execute: <br>
  * java org.apache.tuscany.samples.sdo.specCodeSnippets.ObtainingDataGraphFromXml</LI>
  * </UL>
  * 
  * @see org.apache.tuscany.samples.sdo.specExampleSection.AccessDataObjectsUsingXPath
- * @author Robbie Minshall
  */
 
 public class ObtainingDataGraphFromXml {

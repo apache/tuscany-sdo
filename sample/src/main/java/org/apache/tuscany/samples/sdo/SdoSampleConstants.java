@@ -22,8 +22,6 @@ package org.apache.tuscany.samples.sdo;
 
 /**
  * Interface provides some common Constants that are used across the samples.
- * 
- * @author Robbie Minshall
  */
 public interface SdoSampleConstants {
     

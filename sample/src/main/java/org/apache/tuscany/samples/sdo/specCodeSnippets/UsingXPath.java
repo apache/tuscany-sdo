@@ -27,17 +27,12 @@ import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
 /**
- * Demonstrates accessing a created DataObject's properties using xPath.
+ * Demonstrates accessing a created DataObject's properties using SDO's XPath like syntax.
  * 
  * This sample is from the <a href="http://incubator.apache.org/tuscany" target="_blank"> Apache Tuscany</a> project. It was written to help users
- * understand and experiement with SDO. It is based upon code snippets contained within, and is meant for use with, and reference to the <a
- * href="http://www.osoa.org/download/attachments/791/SDO_Specification_Java_V2.01.pdf?version=1" target="_bank">SDO Specification</a>.
- * <br>
- * <br>
- * It is worth noting that the Examples section of the specification, and the
- * {@link org.apache.tuscany.samples.sdo.specExampleSection.AccessingDataObjectsUsingXPath} use unpure xpath expression. This sample attempts to
- * demonstrate a more appropiate subset of xPath operations.<br>
- * <br>
+ * understand and experiment with SDO. It is based upon code snippets contained within, and is meant for use with, and reference to the <a
+ * href="http://osoa.org/download/attachments/36/Java-SDO-Spec-v2.1.0-FINAL.pdf?version=1" target="_bank">SDO Specification</a>
+ * <P>
  * <b>Usage:</b> <br>
  * This sample can easily be run from within Eclipse as a Java Application if tuscany or the sample-sdo project is imported into Eclipse as an
  * existing project. <br>
@@ -63,14 +58,10 @@ import commonj.sdo.helper.XSDHelper;
  * </LI>
  * </UL>
  * 
- * These jar files can be obtained from directly from Tuscany and EMF projects or from <a
- * href="http://wiki.apache.org/ws-data/attachments/Tuscany(2f)TuscanyJava(2f)SDO_Java_Overview/attachments/SDO%20Execution%20Dependencies"
- * target="_bank">SDO Execution Dependancies </a> </LI>
+ * These jar files can be obtained by downloading and unpacking a <a href="http://cwiki.apache.org/TUSCANY/sdo-downloads.html" target="_blank">Tuscany binary distribution </a> </LI>
  * <LI>Execute: <br>
  * java org.apache.tuscany.samples.sdo.specCodeSnippets.UsingXPath</LI>
  * </UL>
- * 
- * @author Robbie Minshall
  */
 public class UsingXPath {
 

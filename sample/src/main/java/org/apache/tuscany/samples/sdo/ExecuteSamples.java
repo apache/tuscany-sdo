@@ -31,7 +31,7 @@ import org.apache.tuscany.samples.sdo.specExampleSection.*;
  * Executes all command line samples. <br>
  * <br>
  * <b>Usage:</b> <br>
- * This sample can easily be run from within Eclipse as a Java Application if tuscany or 
+ * This sample can easily be run from within Eclipse as a Java Application if Tuscany or 
  * the sample-sdo project is imported into Eclipse as an existing project.
  * <br><br>
  * If executing as a standalone application please do the following: 
@@ -55,15 +55,9 @@ import org.apache.tuscany.samples.sdo.specExampleSection.*;
  * </UL>
  * </LI>
  * </UL>
- * 
- * These jar files can be obtained from directly from Tuscany and EMF projects or from <a
- * href="http://wiki.apache.org/ws-data/attachments/Tuscany(2f)TuscanyJava(2f)SDO_Java_Overview/attachments/SDO%20Execution%20Dependencies"
- * target="_bank">SDO Execution Dependancies </a> </LI>
  * <LI>Execute: <br>
  * java org.apache.tuscany.samples.sdo.ExecuteSamples </LI>
  * </UL>
- * 
- * @author Robbie Minshall
  */
 public class ExecuteSamples {
 

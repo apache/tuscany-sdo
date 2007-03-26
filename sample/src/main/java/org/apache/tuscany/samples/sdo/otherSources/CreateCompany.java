@@ -39,12 +39,12 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 import org.apache.tuscany.sdo.util.SDOUtil;
 
 /**
- * Demonstrates creating a DataObject using the Types defined in a previously generated xsd {@link SdoSampleConstants#COMPANY_XSD} then persisting to a XML file
+ * Demonstrates creating a DataObject using the Types defined in a previously generated XML Schema ({@link SdoSampleConstants#COMPANY_XSD}) then persisting to an XML file
  * This example is useful as a reference for creating valid xml documents that conform to an existing XSD and has been used to create valid XML files for use 
  * with specification code samples.
- * 
+ * <p>
  * <b>Usage:</b> <br>
- * This sample can easily be run from within Eclipse as a Java Application if tuscany or 
+ * This sample can easily be run from within Eclipse as a Java Application if Tuscany or 
  * the sample-sdo project is imported into Eclipse as an existing project.
  * <br><br>
  * If executing as a standalone application please do the following: 
@@ -69,15 +69,10 @@ import org.apache.tuscany.sdo.util.SDOUtil;
  * </LI>
  * </UL>
  * 
- * These jar files can be obtained from directly from Tuscany and EMF projects or from <a
- * href="http://wiki.apache.org/ws-data/attachments/Tuscany(2f)TuscanyJava(2f)SDO_Java_Overview/attachments/SDO%20Execution%20Dependencies"
- * target="_bank">SDO Execution Dependancies </a> </LI>
+ * These jar files can be obtained by downloading a binary distribution of Tuscany SDO Java</LI>
  * <LI>Execute: <br>
  * java org.apache.tuscany.samples.sdo.otherSources.CreateCompany</LI>
  * </UL>
- * 
- * @author Robbie Minshall
- * 
  */
 public class CreateCompany {
 
@@ -111,22 +106,22 @@ public class CreateCompany {
 
         /**
          * DataObjects can exist on there own or can be associated with a DataGraph. This sample allows you to create and then generate xml for a
-         * company DataObject That is either associated with a DataGraph or independant
+         * company DataObject That is either associated with a DataGraph or independent
          */
         boolean useDataGraph = shouldUseDataGraph();
 
-        // define these so that they will be scoped appropiately.
+        // define these so that they will be scoped appropriately.
         DataGraph dataGraph = null;
         DataObject company = null;
 
         if (useDataGraph) {
 
             /**
-             * The SDO specification says the following about creating a DataGraph A DataGraph is created by a DAS, which returns either an empty
+             * The SDO specification says the following about creating a DataGraph. A DataGraph is created by a DAS, which returns either an empty
              * DataGraph, or a DataGraph filled with DataObjects. An empty DataGraph can have a root assigned by the createRootObject() methods.
              * However, if a previous root DataObject exists then an IllegalStateException is thrown.
              * 
-             * In order to create a simply sample which creates a DataGraph without the use of a DAS this sample will use the
+             * In order to create a simple sample which creates a DataGraph without the use of a DAS this sample will use the
              * {@link org.apache.tuscany.sdo.util.SDOUtil} class to create a DataObject
              */
 

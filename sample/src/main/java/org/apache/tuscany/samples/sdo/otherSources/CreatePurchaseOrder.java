@@ -41,8 +41,8 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
  * HREF="http://www-128.ibm.com/developerworks/webservices/library/ws-sdoxmlschema/"
  * title="Me" onClick="checkLinks(this)">Create and read an XML document based on XML
  * Schema</A>
- * 
- *  * <b>Usage:</b> <br>
+ * <p>
+ * <b>Usage:</b> <br>
  * This sample can easily be run from within Eclipse as a Java Application if tuscany or 
  * the sample-sdo project is imported into Eclipse as an existing project.
  * <br><br>
@@ -68,15 +68,10 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
  * </LI>
  * </UL>
  * 
- * These jar files can be obtained from directly from Tuscany and EMF projects or from <a
- * href="http://wiki.apache.org/ws-data/attachments/Tuscany(2f)TuscanyJava(2f)SDO_Java_Overview/attachments/SDO%20Execution%20Dependencies"
- * target="_bank">SDO Execution Dependancies </a> </LI>
+ * These jar files can be obtained by downloading and unpacking a <a href="http://cwiki.apache.org/TUSCANY/sdo-downloads.html" target="_blank">Tuscany binary distribution</a></LI>
  * <LI>Execute: <br>
  * java org.apache.tuscany.samples.sdo.otherSources.CreatePurchaseOrder</LI>
  * </UL>
- * 
- * @author Fuhwei Lwo
- * @author Robbie Minshall
  * @see ReadPurchaseOrder
  * @see org.apache.tuscany.samples.sdo.specExampleSection.CreatingXmlFromDataObjects
  */
