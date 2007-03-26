@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cs:stockQuote xmlns:cs="http://www.example.com/simpleCS">
+  <symbol>FBNT</symbol>
+  <companyName>FlyByNightTechnology</companyName>
+  <price>999.0</price>
+  <volume>1000.0</volume>
+  <quotes>
+    <price>1500.0</price>
+  </quotes>
+  <quotes>
+    <price>2500.0</price>
+  </quotes>
+  <quotes>
+    <price>3000.0</price>
+  </quotes>
+  <quotes>
+    <price>4000.0</price>
+  </quotes>
+  <changes create="#//quotes[3] #//quotes[4]" delete="#//changes/stockQuote[1]/quotes[2]" logging="false" xmlns:sdo="commonj.sdo">
+    <cs:stockQuote sdo:ref="#/stockQuote" sdo:unset="volume">
+      <symbol>fbnt</symbol>
+      <price>1000.0</price>
+      <quotes sdo:ref="#//quotes[1]" />
+      <quotes><price>2000.0</price><quotes><price>2000.99</price></quotes></quotes>
+      <quotes sdo:ref="#//quotes[2]" />
+    </cs:stockQuote>
+  </changes>
+</cs:stockQuote>

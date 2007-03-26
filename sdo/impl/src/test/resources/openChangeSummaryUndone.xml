@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ASCII"?>
+<cs:openQuote xmlns:cs="http://www.example.com/sequenceCS" xmlns:open="http://www.example.com/open">
+  <symbol>fbnt</symbol>
+  <open:openStockQuote>
+    <symbol>1500.0</symbol>
+  </open:openStockQuote>
+  <open:openStockQuote>
+    <symbol>2000.0</symbol>
+    <open:openStockQuote>
+      <symbol>2000.99</symbol>
+    </open:openStockQuote>
+  </open:openStockQuote>
+  <open:openStockQuote>
+    <symbol>2500.0</symbol>
+  </open:openStockQuote>
+  <changes logging="false" />
+</cs:openQuote>

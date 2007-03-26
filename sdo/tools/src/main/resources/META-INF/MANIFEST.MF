@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Extension-Name: tuscany-sdo-tools
+Specification-Title: Tuscany SDO Tools Implementation
+Specification-Vendor: Apache Software Foundation
+Implementation-Vendor: Apache Software Foundation
+Implementation-Vendor-Id: org.apache
+Implementation-Title: tuscany-sdo-tools
+Implementation-Version: incubating-M3
+Bundle-ManifestVersion: 2
+Bundle-Name: Tuscany SDO Tools Implementation
+Bundle-SymbolicName: org.apache.tuscany.sdo.tools
+Bundle-Version: 1.0.0
+Bundle-Vendor: Apache Software Foundation
+Require-Bundle: org.eclipse.emf.common,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.change,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.xsd,
+ org.apache.tuscany.sdo.spec;visibility:=reexport
+Export-Package: org.apache.tuscany.sdo.generate,
+ org.apache.tuscany.sdo.generate.util

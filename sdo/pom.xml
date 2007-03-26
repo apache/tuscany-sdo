@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.apache.tuscany</groupId>
+        <artifactId>parent</artifactId>
+        <version>2-incubator-SNAPSHOT</version>
+    </parent>
+    <groupId>org.apache.tuscany.sdo</groupId>
+    <artifactId>tuscany-sdo</artifactId>
+    <packaging>pom</packaging>
+    <name>Tuscany SDO Implementation Project</name>
+    <version>1.0-incubator-SNAPSHOT</version>
+
+    <repositories>
+        <repository>
+            <id>apache.snapshots</id>
+            <name>Apache Snapshot Repository</name>
+            <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>apache.incubator</id>
+            <name>Apache Incubator Repository</name>
+            <url>http://people.apache.org/repo/m2-incubating-repository/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <!-- <id>eclipse.emf</id>
+            <url>http://download.eclipse.org/tools/emf/maven2</url> -->
+            <!-- <id>osuosl.org</id>
+            <url>http://ftp.osuosl.org/pub/eclipse/tools/emf/maven2</url> -->
+            <!-- temporarily using indiana state univ as eclipse site diesnt have 2.2.2 at the moment -->
+            <id>indiana</id>
+            <url>http://ftp.ussg.iu.edu/eclipse/modeling/emf/emf/maven2/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <properties>
+        <specVersion>2.1</specVersion>
+        <emfVersion>2.2.2</emfVersion>
+        <sdo.version>${version}</sdo.version>
+    </properties>
+
+    <modules>
+        <module>impl</module>
+        <module>tools</module>
+        <module>plugin</module>
+        <!-- <module>sample</module>   -->
+        <!-- <module>distribution</module>  -->
+    </modules>
+
+    <build>
+        <defaultGoal>install</defaultGoal>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.4</source>
+                    <target>1.4</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>2.3</version>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/*TestCase.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <!-- <version>${dependency.plugin.version}</version>  -->
+                <executions>
+                    <execution>
+                        <id>unpack-javadoc</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>commonj</groupId>
+                                    <artifactId>sdo-api-r${specVersion}</artifactId>
+                                    <classifier>javadoc</classifier>
+                                    <version>${pom.version}</version>
+                                    <outputDirectory>${project.build.directory}/javadoc/api</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>               
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2-SNAPSHOT</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>sdo.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <aggregate>true</aggregate>
+                    <version>2.0</version>
+                    <source>1.4</source>
+                </configuration>
+            </plugin>
+        </plugins>
+        </pluginManagement>
+
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>commonj</groupId>
+                <artifactId>sdo-api-r${specVersion}</artifactId>
+                <version>1.0-incubator-SNAPSHOT</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>3.8.1</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

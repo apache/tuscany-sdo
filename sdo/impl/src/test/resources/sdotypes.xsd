@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+    
+    http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.    
+ -->
+<xsd:schema 
+  targetNamespace="http://www.example.com/sdotypes"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+  xmlns:sdot="http://www.example.com/sdotypes"> 
+  
+  <xsd:element name="foo0" type="xsd:anySimpleType"/>
+  <xsd:element name="foo2" type="xsd:anyURI"/>
+  <xsd:element name="foo3" type="xsd:base64Binary"/>
+  <xsd:element name="foo4" type="xsd:boolean"/>
+  <xsd:element name="foo5" type="xsd:byte"/>
+  <xsd:element name="foo6" type="xsd:date"/>
+  <xsd:element name="foo7" type="xsd:dateTime"/>
+  <xsd:element name="foo8" type="xsd:decimal"/>
+  <xsd:element name="foo9" type="xsd:double"/>
+  <xsd:element name="foo10" type="xsd:duration"/>
+  <xsd:element name="foo11" type="xsd:ENTITIES"/>
+  <xsd:element name="foo12" type="xsd:ENTITY"/>
+  <xsd:element name="foo13" type="xsd:float"/>
+  <xsd:element name="foo14" type="xsd:gDay"/>
+  <xsd:element name="foo15" type="xsd:gMonth"/>
+  <xsd:element name="foo16" type="xsd:gMonthDay"/>
+  <xsd:element name="foo17" type="xsd:gYear"/>
+  <xsd:element name="foo18" type="xsd:gYearMonth"/>
+  <xsd:element name="foo19" type="xsd:hexBinary"/>
+  <xsd:element name="foo20" type="xsd:ID"/>
+  <xsd:element name="foo21" type="xsd:IDREF"/>
+  <xsd:element name="foo22" type="xsd:IDREFS"/>
+  <xsd:element name="foo23" type="xsd:int"/>
+  <xsd:element name="foo24" type="xsd:integer"/>
+  <xsd:element name="foo25" type="xsd:language"/>
+  <xsd:element name="foo26" type="xsd:long"/>
+  <xsd:element name="foo27" type="xsd:Name"/>
+  <xsd:element name="foo28" type="xsd:NCName"/>
+  <xsd:element name="foo29" type="xsd:negativeInteger"/>
+  <xsd:element name="foo30" type="xsd:NMTOKEN"/>
+  <xsd:element name="foo31" type="xsd:NMTOKENS"/>
+  <xsd:element name="foo32" type="xsd:nonNegativeInteger"/>
+  <xsd:element name="foo33" type="xsd:nonPositiveInteger"/>
+  <xsd:element name="foo34" type="xsd:normalizedString"/>
+  <xsd:element name="foo35" type="xsd:NOTATION"/>
+  <xsd:element name="foo36" type="xsd:positiveInteger"/>
+  <xsd:element name="foo37" type="xsd:QName"/>
+  <xsd:element name="foo38" type="xsd:short"/>
+  <xsd:element name="foo39" type="xsd:string"/>
+  <xsd:element name="foo40" type="xsd:time"/>
+  <xsd:element name="foo41" type="xsd:token"/>
+  <xsd:element name="foo42" type="xsd:unsignedByte"/>
+  <xsd:element name="foo43" type="xsd:unsignedInt"/>
+  <xsd:element name="foo44" type="xsd:unsignedLong"/>
+  <xsd:element name="foo45" type="xsd:unsignedShort"/>
+
+</xsd:schema>
