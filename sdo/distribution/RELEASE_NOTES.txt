@@ -26,56 +26,71 @@ For more detail on these fixes and features please see ...
 http://issues.apache.org/jira/secure/IssueNavigator.jspa?reset=true&&pid=12310210&fixfor=12312317&resolution=1&sorter/field=issuekey&sorter/order=DESC
 
 
-TUSCANY-1155	Java SDO static code generation tool java doc and usage hints need updating.
-TUSCANY-1141	The dependency/imported package was not initialized if the codegen tool was provided with -javaPackage option for the target codegen package
-TUSCANY-1132	SDO Java serialization/deserialization throws an exception when the serialized data object is not the root and its container is of AnyTypeDataObject
-TUSCANY-1130	Concurrent access to SDOUtil.createHelperContext() results in exception
-TUSCANY-1123	test case generated code and metadata access is anachronistic
-TUSCANY-1120	Static code generator template bugs
-TUSCANY-1113	Extensible namespaces and types that change
-TUSCANY-1107	Multiple calls to getNamespaceContext
-TUSCANY-1102	Support EMF 2.2.2
-TUSCANY-1101	Support mixed Sequence and any Sequence in Change Summary
-TUSCANY-1100	Dynamic Type tests are needed to ensure that all XSD datatypes are supported
-TUSCANY-1099	fix for TUSCANY-1083 used lookupPrefix method of Node not available to Java 1.4.2 users
-TUSCANY-1097	DataObjectXMLStreamReader shouldn't have ignored (transient Properties in) Sequence
-TUSCANY-1093	isSet returning false when boolean set to false, or int set to 0
-TUSCANY-1091	DataObjectXMLStreamReader doesn't have to repeat NameSpace declaration which impacts performance
-TUSCANY-1088	SDO should tolerate malformed XML
-TUSCANY-1086	Scope defined java serialiazation/deserialization of SDO
-TUSCANY-1085	schemaLocation attribute in the <xsd:import> should be only a hint
-TUSCANY-1083	Shorter NameSpace prefix to speed up XML processing and reduce communication bandwidth
-TUSCANY-1082	Change Summary XML deserialization
-TUSCANY-1062	DataGraph.createRootObject implementation does not match 2.1 spec and also is not helpful when given bad parameters
-TUSCANY-1055	DataFactory.create(abstract_type) should throw an IllegalArgumentException
-TUSCANY-1050	For some schemas, the code generated will not compile (notication and settable problems)
-TUSCANY-1044	DataHelperImpl.toDateTime() is not compliant with spec.
-TUSCANY-972	commonj.sdo/xml namespace should be supported by SDO runtime by default
-TUSCANY-958	NPE generated during a property set of a static SDO
-TUSCANY-956	SDOFactory instance lookup is using the wrong namespace URI
-TUSCANY-935	SDO path accessors need to support names that contain "."
-TUSCANY-934	XSD2JavaGenerator -noEMF option does not work with abstract classes.
-TUSCANY-933	XSD2Java Generator still generates EMF codes with -noEMF option on
-TUSCANY-932	Invoking DataObject.isSet(String path) with invalid path would result in NPE
-TUSCANY-931	Sequence.add(int index, String propertyName, Object value) is not functioning correctly
-TUSCANY-930	Add new SDOUtil.createHelperContext() method
-TUSCANY-929	Move to SDO 2.1 spec APIs
-TUSCANY-928	Define Tuscany SDO options for XMLHelper load and save operations
-TUSCANY-902	release distributions should have common root folder naming the release
-TUSCANY-894	SDO (and indirectly DAS) may not now depend on CPL if EMF has completed migration to EPL
-TUSCANY-887	TypeHelper.define() should create an accompanying global property per type
-TUSCANY-885	Property DataObject.getProperty(String propertyName) should return null if the property cannot be found
-TUSCANY-859	ChangeSummary#isCreated cache is not updated while changes are still going on
-TUSCANY-836	doubleValue() may be inaccurate for Long
-TUSCANY-718	make -noEMF code generation the default
-TUSCANY-713	Discover and regiester new SDO types during the time of loading the XML instance document
-TUSCANY-709	Loads DataGraph in designated scope(TypeHelper)
-TUSCANY-701	Conversion to date types which do not include month can give incorrect results
-TUSCANY-684	Generated SDO classes should be able to register the static types to a given TypeHelper
-TUSCANY-521	Hide special Sequence-type properties from SDO Types
-TUSCANY-396	Cardinality of wildcard element not respected
-	
-	
+TUSCANY-153        ChangeSummary on root data object not supported
+TUSCANY-396        Cardinality of wildcard element not respected
+TUSCANY-521        Hide special Sequence-type properties from SDO Types
+TUSCANY-684        Generated SDO classes should be able to register the static types to a given TypeHelper
+TUSCANY-701        Conversion to date types which do not include month can give incorrect results
+TUSCANY-708        Should TypeHelper.define return List of Types that includes DocumentRootType
+TUSCANY-709        Loads DataGraph in designated scope(TypeHelper)
+TUSCANY-713        Discover and regiester new SDO types during the time of loading the XML instance document
+TUSCANY-718        make -noEMF code generation the default
+TUSCANY-836        doubleValue() may be inaccurate for Long
+TUSCANY-859        ChangeSummary#isCreated cache is not updated while changes are still going on
+TUSCANY-885        Property DataObject.getProperty(String propertyName) should return null if the property cannot be fou
+TUSCANY-887        TypeHelper.define() should create an accompanying global property per type
+TUSCANY-894        SDO (and indirectly DAS) may not now depend on CPL if EMF has completed migration to EPL
+TUSCANY-901        jar Manifests require Implementation-Vendor-Id
+TUSCANY-902        release distributions should have common root folder naming the release
+TUSCANY-928        Define Tuscany SDO options for XMLHelper load and save operations
+TUSCANY-929        Move to SDO 2.1 spec APIs
+TUSCANY-930        Add new SDOUtil.createHelperContext() method
+TUSCANY-931        Sequence.add(int index, String propertyName, Object value) is not functioning correctly
+TUSCANY-932        Invoking DataObject.isSet(String path) with invalid path would result in NPE
+TUSCANY-933        XSD2Java Generator still generates EMF codes with -noEMF option on
+TUSCANY-934        XSD2JavaGenerator -noEMF option does not work with abstract classes.
+TUSCANY-935        SDO path accessors need to support names that contain "."
+TUSCANY-956        SDOFactory instance lookup is using the wrong namespace URI
+TUSCANY-958        NPE generated during a property set of a static SDO
+TUSCANY-972        commonj.sdo/xml namespace should be supported by SDO runtime by default
+TUSCANY-1100       Dynamic Type tests are needed to ensure that all XSD datatypes are supported
+TUSCANY-1006       ChangeSummaryImpl.cachedSDOObjectChanges appears to not be thread safe
+TUSCANY-1044       DataHelperImpl.toDateTime() is not compliant with spec.
+TUSCANY-1050       For some schemas, the code generated will not compile (notication and settable problems)
+TUSCANY-1055       DataFactory.create(abstract_type) should throw an IllegalArgumentException
+TUSCANY-1062       DataGraph.createRootObject implementation does not match 2.1 spec and also is not helpful when given
+TUSCANY-1065       Coexistence problem between EMF and Tuscany SDO
+TUSCANY-1082       Change Summary XML deserialization
+TUSCANY-1083       Shorter NameSpace prefix to speed up XML processing and reduce communication bandwidth
+TUSCANY-1085       schemaLocation attribute in the <xsd:import> should be only a hint
+TUSCANY-1086       Scope defined java serialiazation/deserialization of SDO
+TUSCANY-1088       SDO should tolerate malformed XML
+TUSCANY-1091       DataObjectXMLStreamReader doesn't have to repeat NameSpace declaration which impacts performance
+TUSCANY-1093       isSet returning false when boolean set to false, or int set to 0
+TUSCANY-1096       Exception thrown when reference with many multiplicity to the element of anyType
+TUSCANY-1097       DataObjectXMLStreamReader shouldn't have ignored (transient Properties in) Sequence
+TUSCANY-1098       Add get() and getInstanceProperties() methods in Type and Property
+TUSCANY-1099       fix for TUSCANY-1083 used lookupPrefix method of Node not available to Java 1.4.2 users
+TUSCANY-1101       Support mixed Sequence and any Sequence in Change Summary
+TUSCANY-1102       Support EMF 2.2.2
+TUSCANY-1107       Multiple calls to getNamespaceContext
+TUSCANY-1113       Extensible namespaces and types that change
+TUSCANY-1120       Static code generator template bugs
+TUSCANY-1123       test case generated code and metadata access is anachronistic
+TUSCANY-1130       Concurrent access to SDOUtil.createHelperContext() results in exception
+TUSCANY-1132       SDO Java serialization/deserialization throws an exception when the serialized data object is not the
+TUSCANY-1141       The dependency/imported package was not initialized if the codegen tool was provided with -javaPackag
+TUSCANY-1155       Java SDO static code generation tool java doc and usage hints need updating.
+TUSCANY-1156       CodeGen generates lowercase feature name when the schema specifies uppercase
+TUSCANY-1164       Container of root object is non-null after endLogging()
+TUSCANY-1167       SDO Codegen generates bad code when the noNotification option is used
+TUSCANY-1168       Type.isSequenced() returns wrong value for my XSD
+TUSCANY-1169       Property.getType() throws ClassCastException if the property is from AnyDataObjectType.getInstancePro
+TUSCANY-1172       plugin LICENSE.txt file has spurious
+TUSCANY-1179       Race condition due to lazy metada initialization when SDO is shared across threads for read intent
+TUSCANY-1185       Contribution of EMF classes, BasicExtendedMetaData and XSDEcoreBuilder
+TUSCANY-1190       IAE in static case when using DataObject.setList() to assign multiple Objects to a many-valued Proper
+
 	
 	
 	
