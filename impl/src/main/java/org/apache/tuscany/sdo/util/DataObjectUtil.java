@@ -2470,7 +2470,7 @@ public final class DataObjectUtil
   protected static void configureResourceSet(ResourceSet resourceSet)
   {
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().putAll(getRegistrations());
-    resourceSet.setURIConverter(new SDOURIConverterImpl());
+//    resourceSet.setURIConverter(new SDOURIConverterImpl());
   }
   
   public static EClass createDocumentRoot()
