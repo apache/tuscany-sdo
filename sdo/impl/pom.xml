@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.apache.tuscany.sdo</groupId>
         <artifactId>tuscany-sdo</artifactId>
-        <version>1.0-incubator-SNAPSHOT</version>
+        <version>1.0-incubator-M3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tuscany-sdo-impl</artifactId>
@@ -94,7 +94,7 @@
        <!-- dependencies for test cases -->
         <dependency>
             <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <artifactId>junit</artifactId> 
         </dependency>
         <dependency>
             <groupId>org.codehaus.woodstox</groupId>

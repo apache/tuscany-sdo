@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.apache.tuscany.sdo</groupId>
         <artifactId>tuscany-sdo</artifactId>
-        <version>1.0-incubator-SNAPSHOT</version>
+        <version>1.0-incubator-M3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tuscany-sdo-tools</artifactId>
@@ -52,7 +52,7 @@
 
         <dependency>
             <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <artifactId>junit</artifactId> 
         </dependency>
 
         <!-- this is needed because test program calls XMLHelper.save() and SDOXMLResourceImpl (in the sdo/impl project) uses StAX ??? -->

@@ -22,13 +22,13 @@
     <parent>
         <groupId>org.apache.tuscany</groupId>
         <artifactId>parent</artifactId>
-        <version>2-incubator-SNAPSHOT</version>
+        <version>2-incubating</version>
     </parent>
     <groupId>org.apache.tuscany.sdo</groupId>
     <artifactId>tuscany-sdo</artifactId>
     <packaging>pom</packaging>
     <name>Tuscany SDO Implementation Project</name>
-    <version>1.0-incubator-SNAPSHOT</version>
+    <version>1.0-incubator-M3</version>
 
     <repositories>
         <repository>
@@ -76,9 +76,6 @@
     <modules>
         <module>impl</module>
         <module>tools</module>
-        <module>plugin</module>
-        <!-- <module>sample</module>   -->
-        <!-- <module>distribution</module>  -->
     </modules>
 
     <build>
@@ -132,7 +129,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2-SNAPSHOT</version>
+                <!-- <version>2.2-SNAPSHOT</version> -->
                 <configuration>
                     <descriptors>
                         <descriptor>sdo.xml</descriptor>
@@ -162,7 +159,7 @@
             <dependency>
                 <groupId>commonj</groupId>
                 <artifactId>sdo-api-r${specVersion}</artifactId>
-                <version>1.0-incubator-SNAPSHOT</version>
+                <version>1.0-incubator-M3</version>
                 <scope>compile</scope>
             </dependency>
             <dependency>
