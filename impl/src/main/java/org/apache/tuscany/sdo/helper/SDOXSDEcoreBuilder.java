@@ -120,16 +120,17 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
 
   public EClassifier getEClassifier(XSDTypeDefinition xsdTypeDefinition) {
     EClassifier eClassifier = null;
-    if (rootSchema.getSchemaForSchemaNamespace().equals(xsdTypeDefinition.getTargetNamespace())) {
-      eClassifier = 
-        getBuiltInEClassifier(
-          xsdTypeDefinition.getURI(), 
-          xsdTypeDefinition.getName());
-    } 
-    else if (xsdTypeDefinition.getContainer() == null) {
-      EPackage pkg = extendedMetaData.getPackage(xsdTypeDefinition.getTargetNamespace());
-      if(pkg != null) {
-         eClassifier = pkg.getEClassifier(xsdTypeDefinition.getName());
+    if (xsdTypeDefinition != null)
+    {
+      if (rootSchema.getSchemaForSchemaNamespace().equals(xsdTypeDefinition.getTargetNamespace())) {
+        eClassifier = 
+          getBuiltInEClassifier(xsdTypeDefinition.getURI(), xsdTypeDefinition.getName());
+      } 
+      else if (xsdTypeDefinition.getContainer() == null) {
+        EPackage pkg = extendedMetaData.getPackage(xsdTypeDefinition.getTargetNamespace());
+        if(pkg != null) {
+          eClassifier = pkg.getEClassifier(xsdTypeDefinition.getName());
+        }
       }
     }
     if (eClassifier == null) {
@@ -140,7 +141,7 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
   
   public EDataType getEDataType(XSDSimpleTypeDefinition xsdSimpleTypeDefinition) {
     EDataType eClassifier = null;
-    if (rootSchema.getSchemaForSchemaNamespace().equals(xsdSimpleTypeDefinition.getTargetNamespace())) {
+    if (xsdSimpleTypeDefinition != null && rootSchema.getSchemaForSchemaNamespace().equals(xsdSimpleTypeDefinition.getTargetNamespace())) {
       eClassifier =
         (EDataType)getBuiltInEClassifier(
           xsdSimpleTypeDefinition.getURI(),
@@ -272,6 +273,7 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
   }
   
   public EClass computeEClass(XSDComplexTypeDefinition xsdComplexTypeDefinition) {
+    if (xsdComplexTypeDefinition == null) return super.computeEClass(xsdComplexTypeDefinition);
     EPackage ePackage = (EPackage)targetNamespaceToEPackageMap.get(xsdComplexTypeDefinition.getTargetNamespace());
     if (ePackage != null && TypeHelperImpl.getBuiltInModels().contains(ePackage)) {
       EClassifier eclassifier = ePackage.getEClassifier(xsdComplexTypeDefinition.getName());
@@ -287,6 +289,7 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
   }
 
   protected EClassifier computeEClassifier(XSDTypeDefinition xsdTypeDefinition) {
+    if (xsdTypeDefinition == null) return super.computeEClassifier(xsdTypeDefinition);
     EPackage ePackage = (EPackage)targetNamespaceToEPackageMap.get(xsdTypeDefinition.getTargetNamespace());
     if (ePackage != null && TypeHelperImpl.getBuiltInModels().contains(ePackage)) {
       EClassifier eclassifier = ePackage.getEClassifier(xsdTypeDefinition.getName());
@@ -305,6 +308,7 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
   }
 
   protected EDataType computeEDataType(XSDSimpleTypeDefinition xsdSimpleTypeDefinition) {
+    if (xsdSimpleTypeDefinition == null) return super.computeEDataType(xsdSimpleTypeDefinition);
     EPackage ePackage = (EPackage)targetNamespaceToEPackageMap.get(xsdSimpleTypeDefinition.getTargetNamespace());
     if (ePackage != null && TypeHelperImpl.getBuiltInModels().contains(ePackage)) {
       EClassifier eclassifier = ePackage.getEClassifier(xsdSimpleTypeDefinition.getName());
