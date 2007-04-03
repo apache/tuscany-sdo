@@ -31,7 +31,6 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import org.apache.tuscany.sdo.util.DataObjectUtil;
-import org.apache.tuscany.sdo.util.SDOUtil;
 import org.apache.tuscany.sdo.util.resource.SDOObjectInputStream;
 
 import commonj.sdo.DataGraph;
@@ -70,7 +69,10 @@ public class HelperProviderImpl extends HelperProvider
 
   public HelperProviderImpl()
   {
-    HelperContext hc = SDOUtil.createHelperContext();
+    //FB HelperContext hc = SDOUtil.createHelperContext();
+    //FB The defulat HelperContext must use EMF's ClassLoader-delegating EPackage.Registry.INSTANCE, until we provide
+    //FB another way to get (ClassLoader scope) support for HelperContext.
+    HelperContext hc = new HelperContextImpl(new SDOExtendedMetaDataImpl(), false);
     typeHelper = hc.getTypeHelper();
     dataFactory = hc.getDataFactory();
     xmlHelper = hc.getXMLHelper();

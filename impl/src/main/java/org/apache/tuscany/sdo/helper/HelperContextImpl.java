@@ -20,6 +20,8 @@
 
 package org.apache.tuscany.sdo.helper;
 
+import java.util.Iterator;
+
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -48,9 +50,23 @@ public class HelperContextImpl implements HelperContext
     }
 
     public HelperContextImpl(boolean extensibleNamespaces) {
-        this(new SDOExtendedMetaDataImpl(new EPackageRegistryImpl(EPackage.Registry.INSTANCE)), extensibleNamespaces);
+        this(new SDOExtendedMetaDataImpl(new EPackageRegistryImpl(getBuiltInModelRegistry())), extensibleNamespaces);
     }
-
+    
+    static protected EPackage.Registry builtInModelRegistry = null;
+    static protected EPackage.Registry getBuiltInModelRegistry()
+    {
+      if (builtInModelRegistry == null) {
+        builtInModelRegistry = new EPackageRegistryImpl();
+        for (Iterator iter = TypeHelperImpl.getBuiltInModels().iterator(); iter.hasNext(); )
+        {
+          EPackage ePackage = (EPackage)iter.next();
+          builtInModelRegistry.put(ePackage.getNsURI(), ePackage);
+        }
+      }
+      return builtInModelRegistry;
+    }
+    
 	public CopyHelper getCopyHelper() {
 		return CopyHelper.INSTANCE;
 	}
