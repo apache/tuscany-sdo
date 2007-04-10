@@ -201,7 +201,15 @@ public class HelperProviderImpl extends HelperProvider
         // Root object: [rootXML] = length + XML contents
         int length = objectInput.readInt();
         byte[] compressedBytes = new byte [length];
-        objectInput.read(compressedBytes, 0, length);
+
+        int index = 0;
+        int bytesRead;
+        while (index < length) {
+            if ((bytesRead = objectInput.read(compressedBytes, index, length-index)) == -1) {
+                break;
+            }
+            index += bytesRead;
+        }
         
         GZIPInputStream gzipInputStream = new GZIPInputStream(new ByteArrayInputStream(compressedBytes));
         XMLHelper xmlHelperLocal = xmlHelper;
