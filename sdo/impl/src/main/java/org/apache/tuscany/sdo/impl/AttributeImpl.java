@@ -93,6 +93,11 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
   {
     return !isMany();
   }
+
+  public boolean isUnique()
+  {
+    return false;
+  }
   
   protected List aliasNames = null;
 
