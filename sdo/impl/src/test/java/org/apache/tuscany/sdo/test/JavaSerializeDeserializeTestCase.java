@@ -56,6 +56,62 @@ public class JavaSerializeDeserializeTestCase extends TestCase
         
         runSerializeDeserializeWithDataGraph(testDO, hc);
     }
+    
+    private String xsdString = "<xsd:schema targetNamespace=\"http://www.example.com/simple\" " +
+        "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" " + 
+        "xmlns:simple=\"http://www.example.com/simple\">" +
+        "<xsd:element name=\"company\" type=\"simple:Company\"/>" +
+        "<xsd:complexType name=\"Company\">" +
+        "<xsd:sequence>" +
+        "<xsd:element name=\"symbol\" type=\"xsd:string\"/>" +
+        "<xsd:element name=\"companyName\" type=\"xsd:string\"/>" +
+        "<xsd:element name=\"employees\" type=\"simple:Employee\" minOccurs=\"0\" maxOccurs=\"unbounded\"/>" +
+        "</xsd:sequence>" +
+        "</xsd:complexType>" +
+        
+        "<xsd:complexType name=\"Employee\">" +
+        "<xsd:sequence>" +
+        "<xsd:element name=\"employeeID\" type=\"xsd:string\"/>" +
+        "<xsd:element name=\"employeeName\" type=\"xsd:string\"/>" +
+        "</xsd:sequence>" +
+        "</xsd:complexType>" +       
+        "</xsd:schema>";
+    
+    public void testLargePayload()
+    {
+        HelperContext hc = SDOUtil.createHelperContext();
+        hc.getXSDHelper().define(xsdString);
+        DataObject company = hc.getDataFactory().create("http://www.example.com/simple", "Company");
+        company.setString("symbol", "EXAMPLE");
+        company.setString("companyName", "Example Inc.");
+        List employees = company.getList("employees");
+        DataObject employee;
+        for (int i=0; i<1000; i++) {
+            employee = hc.getDataFactory().create("http://www.example.com/simple", "Employee");
+            employee.setString("employeeID", "ID #" + i);
+            employee.setString("employeeName", "Empoyee #" + i);
+            employees.add(employee);
+        }
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = SDOUtil.createObjectOutputStream(bos, hc);
+            oos.writeObject(company);
+            oos.flush();
+            byte[] bytes = bos.toByteArray();
+            oos.close();
+            bos.close();
+            
+            ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
+            ObjectInputStream ois = SDOUtil.createObjectInputStream(bis, hc);
+            ois.readObject();
+            ois.close();
+            bis.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            fail("An Exception occurred while deserializing the output of the serialization: "  + e.toString());
+        }
+    }
 	
         
     /**
