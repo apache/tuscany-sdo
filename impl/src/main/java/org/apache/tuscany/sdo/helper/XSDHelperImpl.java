@@ -26,6 +26,7 @@ import java.io.Reader;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -46,6 +47,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -70,19 +72,24 @@ import commonj.sdo.helper.XSDHelper;
 public class XSDHelperImpl implements XSDHelper
 {
   protected boolean extensibleNamespaces = false;
-  protected XSDEcoreBuilder ecoreBuilder;
   protected ExtendedMetaData extendedMetaData;
+  protected XSDEcoreBuilder nondelegatingEcoreBuilder = null;
+  protected HashMap tcclToEcoreBuilderMap = null;
   
   public XSDHelperImpl(ExtendedMetaData extendedMetaData, String redefineBuiltIn, boolean extensibleNamespaces)
   {
     this.extendedMetaData = extendedMetaData;
     this.extensibleNamespaces = extensibleNamespaces;
-    ecoreBuilder = new SDOXSDEcoreBuilder(extendedMetaData, extensibleNamespaces);
     
-    // Add the built-in models to the targetNamespaceToEPackageMap so they can't be (re)defined/overridden
-    for (Iterator iter = TypeHelperImpl.getBuiltInModels().iterator(); iter.hasNext(); ) {
-      EPackage ePackage = (EPackage)iter.next();
-      ecoreBuilder.getTargetNamespaceToEPackageMap().put(ePackage.getNsURI(), ePackage);
+    XSDEcoreBuilder ecoreBuilder = createEcoreBuilder();
+    
+    if (extendedMetaData instanceof SDOExtendedMetaDataImpl &&
+        ((SDOExtendedMetaDataImpl)extendedMetaData).getRegistry() instanceof EPackageRegistryImpl.Delegator) {
+      tcclToEcoreBuilderMap = new HashMap();
+      putTCCLEcoreBuilder(ecoreBuilder);
+    }
+    else {
+      nondelegatingEcoreBuilder = ecoreBuilder;
     }
     
     if (redefineBuiltIn != null) { // Redefining/regenerating this built-in model
@@ -98,6 +105,47 @@ public class XSDHelperImpl implements XSDHelper
   public XSDHelperImpl(TypeHelper typeHelper, boolean extensibleNamespaces)
   {
     this(((TypeHelperImpl)typeHelper).extendedMetaData, null, extensibleNamespaces);
+  }
+  
+  protected XSDEcoreBuilder createEcoreBuilder() {
+    XSDEcoreBuilder ecoreBuilder = new SDOXSDEcoreBuilder(extendedMetaData, extensibleNamespaces);
+    
+    // Add the built-in models to the targetNamespaceToEPackageMap so they can't be (re)defined/overridden
+    for (Iterator iter = TypeHelperImpl.getBuiltInModels().iterator(); iter.hasNext(); ) {
+      EPackage ePackage = (EPackage)iter.next();
+      ecoreBuilder.getTargetNamespaceToEPackageMap().put(ePackage.getNsURI(), ePackage);
+    }
+    
+    return ecoreBuilder;
+  }
+  
+  protected void putTCCLEcoreBuilder(XSDEcoreBuilder ecoreBuilder) {
+    ClassLoader tccl = Thread.currentThread().getContextClassLoader();
+    if (tcclToEcoreBuilderMap.get(tccl) == null) {
+        tcclToEcoreBuilderMap.put(tccl, ecoreBuilder);
+    }
+  }
+  
+  protected XSDEcoreBuilder getEcoreBuilder() {
+    if (nondelegatingEcoreBuilder != null) 
+      return nondelegatingEcoreBuilder;
+    
+    XSDEcoreBuilder result = null;
+    try {
+      for (ClassLoader tccl = Thread.currentThread().getContextClassLoader(); tccl != null; tccl = tccl.getParent()) {
+        result = (XSDEcoreBuilder)tcclToEcoreBuilderMap.get(tccl);
+        if (result != null)
+          return result;
+      } // for
+    }
+    catch (SecurityException exception) {
+      //exception.printStackTrace();
+    }
+
+    result = createEcoreBuilder();
+    putTCCLEcoreBuilder(result);
+    
+    return result;
   }
   
   public String getLocalName(Type type)
@@ -196,6 +244,7 @@ public class XSDHelperImpl implements XSDHelper
       Resource model = resourceSet.createResource(URI.createURI(schemaLocation != null ? schemaLocation : "null.xsd"));
       ((XSDResourceImpl)model).load(inputSource, null);
       
+      XSDEcoreBuilder ecoreBuilder = getEcoreBuilder();
       List newTypes = new ArrayList();
       for (Iterator schemaIter = model.getContents().iterator(); schemaIter.hasNext(); )
       {
