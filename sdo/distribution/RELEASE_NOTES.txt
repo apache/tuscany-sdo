@@ -90,6 +90,10 @@ TUSCANY-1172       plugin LICENSE.txt file has spurious
 TUSCANY-1179       Race condition due to lazy metada initialization when SDO is shared across threads for read intent
 TUSCANY-1185       Contribution of EMF classes, BasicExtendedMetaData and XSDEcoreBuilder
 TUSCANY-1190       IAE in static case when using DataObject.setList() to assign multiple Objects to a many-valued Proper
+TUSCANY-1205	 An exception was thrown when reading a large Java object back to DataObject
+TUSCANY-1200	 Default HelperContext should provide automatic ClassLoader-specific scoping
+TUSCANY-1196	 java.lang.ClassCastException org.eclipse.emf.ecore.impl.DynamicEObjectImpl incompatible with commonj.sdo.DataObject
+TUSCANY-1193	 unable to create data objects from dynamic metadata that match data objects created from XSD metadata
 
 	
 	
