@@ -45,8 +45,8 @@ Building the SDO Samples Source distribution
 
 To build the SDO Samples source distribution
 1) Build the SDO binary distribution as instructed above
-2) From the top level directory of your SDO implementation build tree change directory to the <archive-root>/sdo/sample directory and execute the command mvn javadoc:javadoc to create javadoc for the samples in the <archive-root>/sdo/sample/target/site directory
-3) copy the <archive-root>/sdo/sample directory from the SDO implementation source distribution to a temporary location retaining the path <archive-root>/sdo/sample below the temporary directory location
-4) copy the site folder created in step 2 to the temporary directory created for step 3, so that it exists at path <archive-root>/sample/site
-4) create .zip and .tar.gz archives containing the sample source and javadoc using the naming convention
+2) From the top level directory of your SDO implementation build tree change directory to the <archive-root>/sdo/sample directory and execute the command mvn javadoc:javadoc to create javadoc for the samples in the <archive-root>/sdo/sample/target/site/apidocs directory
+3) copy the <archive-root>/sdo/sample directory from the SDO implementation source distribution to a temporary location with the path <archive-root>/sample below the temporary directory location
+4) copy the site/apidocs folder created in step 2 to the temporary directory created for step 3, so that it exists at path <archive-root>/sample/javadoc
+5) create .zip and .tar.gz archives containing the sample source and javadoc using the naming convention
 apache-<archive-root>-sample.<archive-extension>, such that the archives each contain a single root folder <archive-root>
