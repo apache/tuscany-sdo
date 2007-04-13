@@ -215,11 +215,11 @@ For the Eclipse Modeling Framework component:
 
 applicable to the jar files
 
-  common-2.2.1.jar
-  ecore-2.2.1.jar
-  ecore-change-2.2.1.jar
-  ecore-xmi-2.2.1.jar
-  xsd-2.2.1.jar
+  common-2.2.2.jar
+  ecore-2.2.2.jar
+  ecore-change-2.2.2.jar
+  ecore-xmi-2.2.2.jar
+  xsd-2.2.2.jar
 
 Eclipse Public License - v 1.0
 

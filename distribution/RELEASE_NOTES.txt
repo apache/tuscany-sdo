@@ -11,7 +11,7 @@ Downloading
   http://cwiki.apache.org/confluence/display/TUSCANY/SDO+Java+Download
 
 Compatibility Concerns
-  M2 now uses the SDO 2.1 interfaces whereas M2 used the 2.0.1 interfaces.
+  M3 now uses the SDO 2.1 interfaces whereas M2 used the 2.0.1 interfaces.
   A program written to the M2 dynamic SDO API/SPI can compile against M3 libraries,
   although some API and SPI interfaces have been deprecated between releases.
   In most instances these programs will execute as before, but if the programs relied

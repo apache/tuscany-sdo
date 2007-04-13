@@ -15,6 +15,6 @@ Ensure that all the jar files found in the SDO for Java binary distribution's
 lib directory are on your java classpath, and use your java 1.4.2 (or greater) compiler to
 compile the classes in this distribution in your own favourite development environment.
 
-Look at the site/apidocs/index.html to understand how to run these programs.
+Look at the javadoc/index.html in the sample directory to understand how to run these programs.
 
 
