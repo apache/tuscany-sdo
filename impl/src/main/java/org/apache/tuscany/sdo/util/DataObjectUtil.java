@@ -40,7 +40,6 @@ import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
-import org.apache.tuscany.sdo.util.resource.SDOURIConverterImpl;
 import org.apache.tuscany.sdo.util.resource.SDOXMLResourceFactoryImpl;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
@@ -730,7 +729,7 @@ public final class DataObjectUtil
     else 
     {
       DataObjectUtil.Accessor.create(
-        (EObject)dataObject, path).setAndRecyle(value);
+        (EObject)dataObject, path, value).setAndRecyle(value);
     }
   }
   
@@ -1794,6 +1793,52 @@ public final class DataObjectUtil
     }
     return list;
   }
+  
+  protected static Property demandOpenProperty(Type type, String name, Object value, boolean isSequence)
+  {
+    TypeHelper typeHelper = TypeHelper.INSTANCE; //FB TODO: what TypeHelper to use?
+    
+    String uri = type.getURI() + "/" + type.getName(); // unique URI for open content properties on instances of the type
+    Property property = typeHelper.getOpenContentProperty(uri, name);
+    if (property != null)
+      return property;
+
+    boolean isMany = isSequence;
+    boolean isContainment = false;
+    Type propertyType;
+    
+    if (value instanceof DataObject)
+    {
+      DataObject dataObject = (DataObject)value;
+      propertyType = dataObject.getType();
+      isContainment = dataObject.getContainer() == null;
+    }
+    else if (value instanceof List && !((List)value).isEmpty())
+    {
+      Object listValue = ((List)value).get(0); //TODO: get common base class if all values are not the same type?
+      if (listValue instanceof DataObject)
+        propertyType = ((DataObject)listValue).getType();
+      else
+        propertyType = typeHelper.getType(listValue.getClass());
+      isMany = true;
+    }
+    else
+    {
+      propertyType = typeHelper.getType(value.getClass()); 
+    }
+    if (propertyType == null)
+    {
+      propertyType = ((ModelFactoryImpl)ModelFactory.INSTANCE).getObject();
+    }
+    
+    Property newProperty = SDOUtil.createGlobalProperty(TypeHelper.INSTANCE, uri, name, propertyType);
+    if (isMany)
+      SDOUtil.setMany(newProperty, isMany);
+    if (isContainment)
+      SDOUtil.setContainment(newProperty, isContainment);
+
+    return newProperty;
+  }
 
   /**
    * Process the default EMF path and minimal XPath syntax.
@@ -1829,8 +1874,13 @@ public final class DataObjectUtil
      */
     public static Accessor create(EObject eObject, String path)
     {
+      return create(eObject, path, null);
+    }
+      
+    public static Accessor create(EObject eObject, String path, Object value)
+    {
       Accessor result = pool.get();
-      result.init(eObject, path);
+      result.init(eObject, path, value);
       return result;
     }
 
@@ -1887,6 +1937,7 @@ public final class DataObjectUtil
     protected static final int NO_INDEX = -1;
 
     protected EObject eObject;
+    protected Object value;
 
     protected EStructuralFeature feature;
 
@@ -1898,14 +1949,15 @@ public final class DataObjectUtil
     {
     }
 
-    protected Accessor(EObject eObject, String path)
-    {
-      init(eObject, path);
-    }
+    //protected Accessor(EObject eObject, String path)
+    //{
+    //  init(eObject, path);
+    //}
 
-    protected void init(EObject eObject, String path)
+    protected void init(EObject eObject, String path, Object value)
     {
       this.eObject = eObject;
+      this.value = value;
       runtimeException = null;
 
       // This should only be called with a path right now.
@@ -2041,7 +2093,16 @@ public final class DataObjectUtil
         {
           int index = name.lastIndexOf('.');
           if (index == -1)
+          {
+            Type type = (Type)eObject.eClass();
+            if (value != null && type.isOpen())
+            {
+              feature = (EStructuralFeature)demandOpenProperty(type, name, value, false);
+              this.index = NO_INDEX;
+              return;
+            }
             runtimeException = new IllegalArgumentException("Class '" + eObject.eClass().getName() + "' does not have a feature named '" + name + '\'');
+          }
           else
           {
             int propertyNameEnd = index;
