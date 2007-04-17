@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
+import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
@@ -99,7 +100,7 @@ public class BasicSequence implements Sequence, FeatureMap.Internal.Wrapper
 
   protected EStructuralFeature getEStructuralFeature(int propertyIndex)
   {
-    return featureMap.getEObject().eClass().getEStructuralFeature(propertyIndex);
+    return (EStructuralFeature)DataObjectUtil.getProperty((DataObject)featureMap.getEObject(), propertyIndex);
   }
 
   public boolean add(String propertyName, Object value)
