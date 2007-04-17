@@ -54,13 +54,20 @@ public class DefineOpenContentPropertyTestCase extends TestCase {
         Type quoteType = typeHelper.getType(TEST_NAMESPACE, "OpenQuote");
         DataObject quote = dataFactory.create(quoteType);
         
-        quote.setString("symbol", "s1");
+        Property symbolProperty = quoteType.getProperty("symbol");
+        assertFalse(symbolProperty.isOpenContent());
+
+        quote.setString(symbolProperty, "s1");
 
         Property companyProperty = typeHelper.getOpenContentProperty(TEST_NAMESPACE, "company");
+        assertTrue(companyProperty.isOpenContent());
+        
         DataObject company = quote.createDataObject(companyProperty);
         company.setString("name", "FlyByNightTechnology");
 
         Property priceProperty = typeHelper.getOpenContentProperty(TEST_NAMESPACE, "price");
+        assertTrue(priceProperty.isOpenContent());
+
         quote.getList(priceProperty).add(new BigDecimal("1000.0"));
 
         // Define a new SDO open content property with simple type
@@ -68,6 +75,7 @@ public class DefineOpenContentPropertyTestCase extends TestCase {
 		p.set("type", typeHelper.getType("commonj.sdo", "Decimal"));
 		p.set("name", "highPrice");
 		Property highPrice = typeHelper.defineOpenContentProperty(TEST_NAMESPACE, p);
+        assertTrue(highPrice.isOpenContent());
         
 		quote.setBigDecimal(highPrice, new BigDecimal("1100.0"));
         
@@ -77,7 +85,8 @@ public class DefineOpenContentPropertyTestCase extends TestCase {
         mutualFundQuotePropertyDef.set("name", "mutualFundQuote");
         mutualFundQuotePropertyDef.setBoolean("containment", true);
         Property mutualFundQuoteProperty = typeHelper.defineOpenContentProperty(TEST_NAMESPACE, mutualFundQuotePropertyDef);
-        
+        assertTrue(mutualFundQuoteProperty.isOpenContent());
+
         DataObject mutualFundQuote = quote.createDataObject(mutualFundQuoteProperty);
         mutualFundQuote.setString("symbol", "mutual-1");
         

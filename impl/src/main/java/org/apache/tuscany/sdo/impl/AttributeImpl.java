@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.util.BasicSequence;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -187,7 +188,7 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
 
   public boolean isOpenContent()
   {
-    throw new UnsupportedOperationException();
+    return SDOUtil.isDocumentRoot(getContainingType());
   }
 
   public List getInstanceProperties() {
