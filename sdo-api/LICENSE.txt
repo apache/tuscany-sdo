@@ -208,7 +208,7 @@
 ===============================================================================================================
 
 
-License for the Service Data Objects JavaDoc and Interface Definition files. (sdo-api-r2.1-1.0-incubator-M3.jar)
+License for the Service Data Objects JavaDoc and Interface Definition files. (sdo-api-r2.1-1.0-incubating-beta1.jar)
 
 Permission to copy, make derivative works of, and distribute the Service Data Objects 
 JavaDoc and Interface Definition Files files in any medium without fee or royalty as part 

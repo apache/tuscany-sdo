@@ -1,4 +1,4 @@
-Apache Tuscany M3 build (March 2007)
+Apache Tuscany Beta1 build (April 2007)
 ===================================
 
 http://incubator.apache.org/tuscany/

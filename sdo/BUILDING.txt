@@ -15,7 +15,7 @@ http://cwiki.apache.org/confluence/display/TUSCANY/Developing+SDO+Java
 
 Building
 --------
-In these instructions <archive-root> refers to the common root folder contained in all distribution archives for a particular release, for example "tuscany-sdo-1.0-incubating-M3"
+In these instructions <archive-root> refers to the common root folder contained in all distribution archives for a particular release, for example "tuscany-sdo-1.0-incubating-beta1"
 
 1) Download the corresponding SDO specification source distribution from http://cwiki.apache.org/TUSCANY/sdo-java-download.html
 2) Execute the instructions in that archive for building the SDO specification component
