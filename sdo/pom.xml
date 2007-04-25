@@ -28,7 +28,7 @@
     <artifactId>tuscany-sdo</artifactId>
     <packaging>pom</packaging>
     <name>Tuscany SDO Implementation Project</name>
-    <version>1.0-incubator-M3</version>
+    <version>1.0-incubating-beta1</version>
 
     <repositories>
         <repository>

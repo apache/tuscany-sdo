@@ -26,6 +26,7 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
+import commonj.sdo.Type;
 
 /**
  *  SDO Sequance implementation which delegates to a feature map.
@@ -75,9 +76,25 @@ public class BasicSequence implements Sequence, FeatureMap.Internal.Wrapper
     return featureMap.setValue(index, value);
   }
 
+  /*
   protected EStructuralFeature getEStructuralFeature(String propertyName)
   {
     return featureMap.getEObject().eClass().getEStructuralFeature(propertyName);
+  }
+  */
+
+  protected EStructuralFeature getEStructuralFeature(String propertyName, Object value)
+  {
+    EStructuralFeature result = featureMap.getEObject().eClass().getEStructuralFeature(propertyName);
+    if (result == null)
+    {
+      Type type = (Type)featureMap.getEObject().eClass();
+      if (type.isOpen())
+      {
+        result = (EStructuralFeature)DataObjectUtil.demandOpenProperty(type, propertyName, value, true);
+      }
+    }
+    return result;
   }
 
   protected EStructuralFeature getEStructuralFeature(int propertyIndex)
@@ -87,7 +104,7 @@ public class BasicSequence implements Sequence, FeatureMap.Internal.Wrapper
 
   public boolean add(String propertyName, Object value)
   {
-    return featureMap.add(getEStructuralFeature(propertyName), value);
+    return featureMap.add(getEStructuralFeature(propertyName, value), value);
   }
 
   public boolean add(int propertyIndex, Object value)
@@ -102,7 +119,7 @@ public class BasicSequence implements Sequence, FeatureMap.Internal.Wrapper
 
   public void add(int index, String propertyName, Object value)
   {
-    featureMap.add(index, getEStructuralFeature(propertyName), value);
+    featureMap.add(index, getEStructuralFeature(propertyName, value), value);
   }
 
   public void add(int index, int propertyIndex, Object value)

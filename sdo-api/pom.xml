@@ -27,7 +27,7 @@
     <groupId>commonj</groupId>
     <artifactId>sdo-api-r${specVersion}</artifactId>
     <packaging>osgi-bundle</packaging>
-    <version>1.0-incubator-M3</version>
+    <version>1.0-incubating-beta1</version>
     <name>SDO API</name>
     <description>API classes for Service Data Objects</description>
 
