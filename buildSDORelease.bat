@@ -161,5 +161,8 @@ move *-sample* sample
 
 cd %ROOT%
 
+rem capturing the command to manually deploy files to a staging repository
+rem C:\Documents and Settings\ibm_user\.m2\repository\org\apache\tuscany\sdo\tuscany-sdo-impl\1.0-incubating-beta1>mvn deploy:deploy-file -DgroupId=org.apache.tuscany.sdo -DartifactId=tuscany-sdo-impl -Dversion=1.0-incubating-beta1 -Dpackaging=jar -Dfile=tuscany-sdo-impl-1.0-incubating-beta1.jar -DrepositoryId=people.apache.org -Durl=scp://people.apache.org/home/kelvingoodson/public_html/repo -DgeneratePom=false -DpomFile=tuscany-sdo-impl-1.0-incubating-beta1.pom
+
 
 
