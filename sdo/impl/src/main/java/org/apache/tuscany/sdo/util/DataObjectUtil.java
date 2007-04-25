@@ -2597,10 +2597,14 @@ public final class DataObjectUtil
   }
   */
   
-  protected static StringBuffer getXPath(DataObject dataObject, StringBuffer path)
+  protected static StringBuffer getXPath(DataObject dataObject, StringBuffer path, DataObject root)
   {
     DataObject container = dataObject.getContainer();
     if (container == null) return path;
+    
+    if (container == root) {
+        throw new IllegalStateException("There is a cycle in the containment hierarchy of " + root);
+    }
 
     boolean first = path.length() == 0;
     Property property = dataObject.getContainmentProperty();
@@ -2615,12 +2619,12 @@ public final class DataObjectUtil
       path.insert(0, property.getName() + (first ? "" : "/"));
     }
 
-    return getXPath(container, path);
+    return getXPath(container, path, root);
   }
 
   public static String getXPath(DataObject dataObject)
   {
-    StringBuffer path = getXPath(dataObject, new StringBuffer());
+    StringBuffer path = getXPath(dataObject, new StringBuffer(), dataObject);
     return path.toString();
   }
   

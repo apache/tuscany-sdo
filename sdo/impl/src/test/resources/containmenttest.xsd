@@ -1,0 +1,12 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:contain="http://www.example.com/ContainmentTest" targetNamespace="http://www.example.com/ContainmentTest"> 
+
+     <xsd:element name="containTestInstance" type="contain:ContainmentTest"/>
+
+     <xsd:complexType mixed="true" name="ContainmentTest">
+       <xsd:sequence>
+          <xsd:element name="Name" type="xsd:string"/>
+          <xsd:element name="Contain" type="contain:ContainmentTest"/>
+          <xsd:element maxOccurs="unbounded" minOccurs="0" name="ContainMany" type="contain:ContainmentTest"/>
+       </xsd:sequence>
+   </xsd:complexType>
+</xsd:schema>

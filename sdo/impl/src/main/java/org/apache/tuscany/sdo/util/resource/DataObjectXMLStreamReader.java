@@ -56,6 +56,8 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
     private String rootElementURI;
 
     private String rootElementName;
+    
+    private DataObject serializeRoot;
 
     private TypeHelper typeHelper;
 
@@ -104,6 +106,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         this.dataObject = dataObject;
         this.rootElementURI = rootElmentURI;
         this.rootElementName = rootElementName;
+        this.serializeRoot = dataObject;
         this.typeHelper = typeHelper == null ? TypeHelper.INSTANCE : typeHelper;
         this.xsdHelper = (xsdHelper != null) ? xsdHelper : ((typeHelper == null) ? XSDHelper.INSTANCE : SDOUtil.createXSDHelper(typeHelper));
         rootElement = this.xsdHelper.getGlobalProperty(rootElmentURI, rootElementName, true);
@@ -120,6 +123,15 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         this.rootElementName = xsdHelper.getLocalName(rootElement);
     }
     
+    protected DataObjectXMLStreamReader(TypeHelper typeHelper, XSDHelper xsdHelper, Property rootElement, DataObject dataObject, DataObject serializeRoot) {
+        this.typeHelper = typeHelper == null ? TypeHelper.INSTANCE : typeHelper;
+        this.xsdHelper = (xsdHelper != null) ? xsdHelper : ((typeHelper == null) ? XSDHelper.INSTANCE : SDOUtil.createXSDHelper(typeHelper));
+        this.rootElement = rootElement;
+        this.dataObject = dataObject;
+        this.serializeRoot = serializeRoot;
+        this.rootElementURI = xsdHelper.getNamespaceURI(rootElement);
+        this.rootElementName = xsdHelper.getLocalName(rootElement);
+    }
     public DataObjectXMLStreamReader(Property rootElement, DataObject dataObject, TypeHelper typeHelper, XSDHelper xsdHelper) {
         this(typeHelper, xsdHelper, rootElement, dataObject);
         namespaceContext = new NameSpaceContext();
@@ -130,6 +142,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         this.dataObject = document.getRootObject();
         this.rootElementName = document.getRootElementName();
         this.rootElementURI = document.getRootElementURI();
+        this.serializeRoot = this.dataObject;
         this.typeHelper = typeHelper;
         this.xsdHelper = typeHelper == null ? XSDHelper.INSTANCE : SDOUtil.createXSDHelper(typeHelper);
         namespaceContext = new NameSpaceContext();
@@ -231,8 +244,11 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         } else if (propertyType.isDataType()) {
             Map.Entry entry = new NameValuePair(qname, SDOUtil.convertToString(propertyType, value));
             propertyList.add(entry);
+        } else if (property.isContainment() && value == serializeRoot) {
+            // do not create the childReader because a containmentCycle exists and this is the second
+            // time this DataObject has been encountered
         } else {
-            DataObjectXMLStreamReader childReader = new DataObjectXMLStreamReader(typeHelper, xsdHelper, property, (DataObject) value);
+            DataObjectXMLStreamReader childReader = new DataObjectXMLStreamReader(typeHelper, xsdHelper, property, (DataObject) value, serializeRoot);
             childReader.namespaceContext = namespaceContext;
             childReader.populateProperties();
             childReader.rootElement = property;

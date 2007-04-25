@@ -33,6 +33,7 @@ public class AllTests extends TestCase {
         suite.addTestSuite(ChangeSummaryOnDataObjectTestCase.class);
         suite.addTestSuite(ChangeSummaryPropertyTestCase.class);
         suite.addTestSuite(ChangeSummaryTestCase.class);
+        suite.addTestSuite(ContainmentCycleTestCase.class);
         suite.addTestSuite(CrossScopeCopyTestCase.class);
         suite.addTestSuite(DataGraphTestCase.class);
         suite.addTestSuite(DataTypeBaseTypeTestCase.class);
