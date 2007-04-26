@@ -19,13 +19,21 @@
  */
 package org.apache.tuscany.sdo.helper;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+
+import org.apache.tuscany.sdo.util.DataObjectUtil;
+
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataHelper;
@@ -554,12 +562,69 @@ public class DataHelperImpl implements DataHelper
   
   public Object convert(Type type, Object value)
   {
-    throw new UnsupportedOperationException();
+    Class typeClass = type.getInstanceClass();
+    if (typeClass.isInstance(value))
+      return value;
+    
+    if (typeClass == BigDecimal.class) {
+      return DataObjectUtil.getBigDecimal(value);
+    }
+    else if (typeClass == BigInteger.class) {
+      return DataObjectUtil.getBigInteger(value);
+    }
+    else if (typeClass == boolean.class || typeClass == Boolean.class) {
+      return Boolean.valueOf(DataObjectUtil.getBoolean(value));
+    }
+    else if (typeClass == byte.class || typeClass == Byte.class) {
+      return Byte.valueOf(DataObjectUtil.getByte(value));
+    }
+    else if (typeClass == byte[].class) {
+      return DataObjectUtil.getBytes(value);
+    }
+    else if (typeClass == char.class || typeClass == Character.class) {
+      return Character.valueOf(DataObjectUtil.getChar(value));
+    }
+    else if (typeClass == Date.class) {
+      return DataObjectUtil.getDate(value);
+    }
+    else if (typeClass == double.class || typeClass == Double.class) {
+      return Double.valueOf(DataObjectUtil.getDouble(value));
+    }
+    else if (typeClass == float.class || typeClass == Float.class) {
+      return Float.valueOf(DataObjectUtil.getFloat(value));
+    }
+    else if (typeClass == int.class || typeClass == Integer.class) {
+      return Integer.valueOf(DataObjectUtil.getInt(value));
+    }
+    else if (typeClass == long.class || typeClass == Long.class) {
+      return Long.valueOf(DataObjectUtil.getLong(value));
+    }
+    else if (typeClass == short.class || typeClass == Short.class) {
+      return Short.valueOf(DataObjectUtil.getShort(value));
+    }
+    else if (typeClass == String.class) {
+      return DataObjectUtil.getString(value);
+    }
+    
+    throw new IllegalArgumentException();
   }
   
   public Object convert(Property property, Object value)
   {
-    throw new UnsupportedOperationException();
+    Type type = property.getType();
+    if (!property.isMany())
+    {
+      return convert(type, value);
+    } 
+    else 
+    {
+      List listValue = (List)value;
+      List listResult = new ArrayList();
+      for (Iterator iter = listValue.iterator(); iter.hasNext(); ) {
+        listResult.add(convert(type, iter.next()));
+      }
+      return listResult;
+    }
   }
 
 }
