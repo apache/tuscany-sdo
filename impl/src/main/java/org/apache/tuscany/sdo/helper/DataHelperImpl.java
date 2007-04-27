@@ -573,34 +573,34 @@ public class DataHelperImpl implements DataHelper
       return DataObjectUtil.getBigInteger(value);
     }
     else if (typeClass == boolean.class || typeClass == Boolean.class) {
-      return Boolean.valueOf(DataObjectUtil.getBoolean(value));
+      return new Boolean(DataObjectUtil.getBoolean(value));
     }
     else if (typeClass == byte.class || typeClass == Byte.class) {
-      return Byte.valueOf(DataObjectUtil.getByte(value));
+      return new Byte(DataObjectUtil.getByte(value));
     }
     else if (typeClass == byte[].class) {
       return DataObjectUtil.getBytes(value);
     }
     else if (typeClass == char.class || typeClass == Character.class) {
-      return Character.valueOf(DataObjectUtil.getChar(value));
+      return new Character(DataObjectUtil.getChar(value));
     }
     else if (typeClass == Date.class) {
       return DataObjectUtil.getDate(value);
     }
     else if (typeClass == double.class || typeClass == Double.class) {
-      return Double.valueOf(DataObjectUtil.getDouble(value));
+      return new Double(DataObjectUtil.getDouble(value));
     }
     else if (typeClass == float.class || typeClass == Float.class) {
-      return Float.valueOf(DataObjectUtil.getFloat(value));
+      return new Float(DataObjectUtil.getFloat(value));
     }
     else if (typeClass == int.class || typeClass == Integer.class) {
-      return Integer.valueOf(DataObjectUtil.getInt(value));
+      return new Integer(DataObjectUtil.getInt(value));
     }
     else if (typeClass == long.class || typeClass == Long.class) {
-      return Long.valueOf(DataObjectUtil.getLong(value));
+      return new Long(DataObjectUtil.getLong(value));
     }
     else if (typeClass == short.class || typeClass == Short.class) {
-      return Short.valueOf(DataObjectUtil.getShort(value));
+      return new Short(DataObjectUtil.getShort(value));
     }
     else if (typeClass == String.class) {
       return DataObjectUtil.getString(value);

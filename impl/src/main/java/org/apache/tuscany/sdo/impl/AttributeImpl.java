@@ -183,7 +183,7 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
   
   public boolean isNullable()
   {
-    throw new UnsupportedOperationException();
+    return false; //throw new UnsupportedOperationException();
   }
 
   public boolean isOpenContent()
