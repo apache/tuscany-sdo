@@ -32,6 +32,8 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EAttributeImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
@@ -185,7 +187,8 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
   
   public boolean isNullable()
   {
-    return false; //throw new UnsupportedOperationException();
+    String isNillable = EcoreUtil.getAnnotation(this, ExtendedMetaData.ANNOTATION_URI, "nillable");
+    return isNillable != null && "true".equals(isNillable);
   }
 
   public boolean isOpenContent()

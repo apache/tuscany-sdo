@@ -26,6 +26,8 @@ import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.EReferenceImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
@@ -144,7 +146,8 @@ public class ReferenceImpl extends EReferenceImpl implements Property,/* DataObj
   
   public boolean isNullable()
   {
-    throw new UnsupportedOperationException();
+    String isNillable = EcoreUtil.getAnnotation(this, ExtendedMetaData.ANNOTATION_URI, "nillable");
+    return isNillable != null && "true".equals(isNillable);
   }
 
   public boolean isOpenContent()

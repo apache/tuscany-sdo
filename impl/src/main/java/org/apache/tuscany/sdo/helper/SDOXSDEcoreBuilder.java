@@ -41,6 +41,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil.UsageCrossReferencer;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
@@ -330,7 +331,13 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
     
   protected EStructuralFeature createFeature(EClass eClass, String name, EClassifier type, XSDComponent xsdComponent, int minOccurs, int maxOccurs) {
     EStructuralFeature feature = super.createFeature(eClass, name, type, xsdComponent, minOccurs, maxOccurs);
-    
+
+    if (xsdComponent instanceof XSDParticle) {
+      XSDTerm xsdTerm = ((XSDParticle)xsdComponent).getTerm();
+      if (xsdTerm instanceof XSDElementDeclaration && ((XSDElementDeclaration)xsdTerm).isNillable())
+        EcoreUtil.setAnnotation(feature, ExtendedMetaData.ANNOTATION_URI, "nillable", "true");
+    }
+
     //FB What is the following for?
     if (feature instanceof EReference)
     {
