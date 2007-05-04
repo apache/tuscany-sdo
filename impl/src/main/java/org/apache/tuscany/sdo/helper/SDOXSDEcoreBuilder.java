@@ -155,7 +155,8 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
   protected EClassifier getBuiltInEClassifier(String namespace, String name)
   {
     EClassifier eClassifier = (EClassifier)SDOUtil.getXSDSDOType(name);
-    if (eClassifier == null) {
+    if (eClassifier == null || "base64Binary".equals(name))
+    {
       eClassifier = super.getBuiltInEClassifier(namespace, name);
     }
     return eClassifier;

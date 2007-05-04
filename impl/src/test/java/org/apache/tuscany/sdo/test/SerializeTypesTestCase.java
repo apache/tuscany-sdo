@@ -34,6 +34,7 @@ import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
+import commonj.sdo.helper.XMLDocument;
 
 public class SerializeTypesTestCase extends TestCase {
 
@@ -125,5 +126,65 @@ public class SerializeTypesTestCase extends TestCase {
         assertEquals(loadedRootObject.get("lastName"), customer1.get("lastName"));
         DataObject loadedAddress = loadedRootObject.getDataObject("address");
         assertEquals(loadedAddress.get("addrSt"), address.get("addrSt"));
+    }
+    
+    private String xsdString =
+        "<xsd:schema targetNamespace=\"http://www.example.com/simple\" " +
+            "xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" " + 
+            "xmlns:simple=\"http://www.example.com/simple\"> " + 
+            "<xsd:element name=\"bytesTypeTest\" type=\"simple:BytesTypeTest\"/> " +
+            "<xsd:complexType name=\"BytesTypeTest\"> " +
+                "<xsd:sequence> " +
+                    "<xsd:element name=\"base64Binary\" type=\"xsd:base64Binary\"/> " +
+                    "<xsd:element name=\"hexBinary\" type=\"xsd:hexBinary\"/> " +
+                "</xsd:sequence> " +
+            "</xsd:complexType> " +
+        "</xsd:schema>";
+
+    
+    private String testString = "Hello World";
+    private String testStringInBase64 = "SGVsbG8gV29ybGQ=";
+    private String testStringInHex = "48656C6C6F20576F726C64";
+    
+    public void testSerializeXSDBase64BinaryRoundTrip() throws Exception {
+        hc.getXSDHelper().define(xsdString);
+        
+        DataObject typeTest = hc.getDataFactory().create("http://www.example.com/simple", "BytesTypeTest");
+        typeTest.setBytes("base64Binary", testString.getBytes());
+        
+        String output = hc.getXMLHelper().save(typeTest, typeTest.getType().getURI(), "bytesTypeTest");
+        
+        String startTag = "<base64Binary>";
+        String endTag = "</base64Binary>";
+        int start = output.indexOf(startTag) + startTag.length();
+        int end = output.indexOf(endTag);
+        
+        String value = output.substring(start, end);
+        assertEquals(testStringInBase64, value);
+        
+        XMLDocument xmlDoc = hc.getXMLHelper().load(output);
+        typeTest = xmlDoc.getRootObject();
+        assertEquals(testString, new String(typeTest.getBytes("base64Binary")));
+    }
+    
+    public void testSerializeXSDHexBinaryRoundTrip() throws Exception {
+        hc.getXSDHelper().define(xsdString);
+        
+        DataObject typeTest = hc.getDataFactory().create("http://www.example.com/simple", "BytesTypeTest");
+        typeTest.setBytes("hexBinary", testString.getBytes());
+        
+        String output = hc.getXMLHelper().save(typeTest, typeTest.getType().getURI(), "bytesTypeTest");
+        
+        String startTag = "<hexBinary>";
+        String endTag = "</hexBinary>";
+        int start = output.indexOf(startTag) + startTag.length();
+        int end = output.indexOf(endTag);
+        
+        String value = output.substring(start, end);
+        assertEquals(testStringInHex, value);
+        
+        XMLDocument xmlDoc = hc.getXMLHelper().load(output);
+        typeTest = xmlDoc.getRootObject();
+        assertEquals(testString, new String(typeTest.getBytes("hexBinary")));
     }
 }

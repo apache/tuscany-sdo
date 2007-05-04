@@ -70,6 +70,7 @@ import org.eclipse.emf.ecore.xmi.impl.EcoreResourceFactoryImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLOptionsImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMLParserPoolImpl;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 
 import commonj.sdo.ChangeSummary;
@@ -383,7 +384,8 @@ public final class DataObjectUtil
   public static boolean isInternalProperty(EStructuralFeature eStructuralFeature)
   {
     //return FeatureMapUtil.isFeatureMap(eStructuralFeature);
-    return !(eStructuralFeature.getEType() instanceof Type);
+    EClassifier eClassifier = eStructuralFeature.getEType();
+    return !(eClassifier instanceof Type || eClassifier == XMLTypePackage.Literals.BASE64_BINARY);
   }
 
   public static List getInstanceProperties(DataObject dataObject)

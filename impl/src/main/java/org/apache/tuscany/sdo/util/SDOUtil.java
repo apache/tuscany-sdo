@@ -181,16 +181,8 @@ public final class SDOUtil
   public static Type getXSDSDOType(String xsdType)
   {    
     Type type = null;
-    //if ("anyType".equals(xsdType)) {
-    //  type = (Type)SDOPackage.eINSTANCE.getDataObject();
-    //} else {
-      String name = (String)xsdToSdoMappings.get(xsdType);
-      if (name != null) {
-        type = (Type)((ModelFactoryImpl)ModelFactory.INSTANCE).getEClassifier(name);
-      } else {
-        type = (Type)SDOExtendedMetaData.INSTANCE.getType(XMLTypePackage.eINSTANCE, xsdType);
-      }
-    //}
+    String name = (String)xsdToSdoMappings.get(xsdType);
+    if (name != null) type = (Type)((ModelFactoryImpl)ModelFactory.INSTANCE).getEClassifier(name);
     return type;
   }
   
@@ -866,7 +858,7 @@ public final class SDOUtil
     xsdToSdoMappings.put("anySimpleType", "Object");
     xsdToSdoMappings.put("anyType", "DataObject");
     xsdToSdoMappings.put("anyURI", "URI");
-    xsdToSdoMappings.put("base64Binary", "Base64Bytes");
+    xsdToSdoMappings.put("base64Binary", "Bytes");
     xsdToSdoMappings.put("boolean", "Boolean");
     xsdToSdoMappings.put("byte", "Byte");
     xsdToSdoMappings.put("date", "YearMonthDay");

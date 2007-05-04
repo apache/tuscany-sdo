@@ -22,14 +22,18 @@ package org.apache.tuscany.sdo.impl;
 import java.util.List;
 
 import org.apache.tuscany.sdo.SDOPackage;
+import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 import org.apache.tuscany.sdo.util.BasicSequence;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.EAttributeImpl;
 import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
@@ -123,12 +127,10 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
    */
   public Type getType()
   {
-    return (Type)getEType();
-    /*
     EClassifier eType = getEType();
-    //FB More temporary hacks
-    return eType instanceof Type ? (Type)getEType() : null;
-    */
+    if (eType == XMLTypePackage.Literals.BASE64_BINARY)
+      return ((ModelFactoryImpl)ModelFactory.INSTANCE).getBytes();
+    return (Type)eType;
   }
 
   /**
