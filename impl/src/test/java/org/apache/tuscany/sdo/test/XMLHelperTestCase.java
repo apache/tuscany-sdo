@@ -19,15 +19,23 @@
  */
 package org.apache.tuscany.sdo.test;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.dom.DOMSource;
+
 import junit.framework.TestCase;
 
 import org.apache.tuscany.sdo.util.SDOUtil;
+import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLDocument;
@@ -57,6 +65,8 @@ public class XMLHelperTestCase extends TestCase {
     define("/simpleWithChangeSummary.xsd");
 
     define("/SequenceChangeSummary.xsd");
+    
+    define("/simple.xsd");
   }
 
   protected void tearDown() throws Exception {
@@ -157,5 +167,48 @@ MARGIN+INDENT+INDENT+INDENT+  "<open:openStockQuote sdo:ref=\"#//open:openStockQ
 MARGIN+INDENT+INDENT+  "</cs:openQuote>"  +LINE_BREAK+
 MARGIN+INDENT+  "</changes>"  +LINE_BREAK+
 MARGIN+  "</cs:openQuote>");
+  }
+  
+  private String quoteXML =
+      "<?xml version=\"1.0\" encoding=\"ASCII\"?>" +
+      "<simple:stockQuote xmlns:simple=\"http://www.example.com/simple\">" +
+          "<symbol>fbnt</symbol>" +
+          "<companyName>FlyByNightTechnology</companyName>" +
+          "<price>1000.0</price>" +
+          "<open1>1000.0</open1>" +
+          "<high>1000.0</high>" +
+          "<low>1000.0</low>" +
+          "<volume>1000.0</volume>" +
+          "<change1>1000.0</change1>" +
+          "<quotes>" +
+              "<price>2000.0</price>" +
+          "</quotes>" +
+      "</simple:stockQuote>";
+
+  public void dontTestLoadDOMSource() throws IOException, ParserConfigurationException, SAXException
+  {
+      //TODO Enable this test when we move to EMF 2.2.3 
+
+      DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
+      dFactory.setNamespaceAware(true);
+
+      DocumentBuilder dBuilder = dFactory.newDocumentBuilder();
+      Document document = dBuilder.parse(new ByteArrayInputStream(quoteXML.getBytes()));
+      
+      DOMSource domSource = new DOMSource(document);
+      
+      XMLDocument xmlDocument = hc.getXMLHelper().load(domSource, null, null);
+      
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      
+      Map options = new HashMap();
+      options.put(SDOUtil.XML_SAVE_INDENT, "");
+      options.put(SDOUtil.XML_SAVE_MARGIN, "");
+      options.put(SDOUtil.XML_SAVE_LineBreak, "");
+      
+      hc.getXMLHelper().save(xmlDocument, baos, options);
+      
+      boolean isEqual = TestUtil.equalXmlFiles(new ByteArrayInputStream(quoteXML.getBytes()), new ByteArrayInputStream(baos.toByteArray()));
+      assertTrue(isEqual);
   }
 }

@@ -29,8 +29,15 @@ import java.io.Writer;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
+import javax.xml.transform.dom.DOMResult;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.sax.SAXSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.xml.sax.InputSource;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.TypeHelper;
@@ -86,9 +93,26 @@ public class XMLHelperImpl implements XMLHelper
     return document;
   }
   
-  public XMLDocument load(Source inputSource, String locationURI, Object options) throws IOException
+  public XMLDocument load(Source source, String locationURI, Object options) throws IOException
   {
-    throw new UnsupportedOperationException();
+      if (source instanceof DOMSource) {
+          DOMSource domSource = (DOMSource)source;
+          XMLDocumentImpl document = new XMLDocumentImpl(extendedMetaData, options);
+          document.load(domSource.getNode(), options);
+          return document;
+      }
+      else if (source instanceof SAXSource) {
+          XMLDocumentImpl document = new XMLDocumentImpl(extendedMetaData, options);
+          InputSource inputSource = SAXSource.sourceToInputSource(source);
+          document.load(inputSource, locationURI, options);
+          return document;
+      }
+      else if (source instanceof StreamSource) {
+          return load(((StreamSource)source).getInputStream(), locationURI, options);
+      }
+      else {
+          throw new UnsupportedOperationException();
+      }
   }
   
   public String save(DataObject dataObject, String rootElementURI, String rootElementName)
@@ -122,7 +146,18 @@ public class XMLHelperImpl implements XMLHelper
   
   public void save(XMLDocument xmlDocument, Result outputResult, Object options) throws IOException
   {
-    throw new UnsupportedOperationException();
+      if (outputResult instanceof DOMResult) {
+          ((XMLDocumentImpl)xmlDocument).save(((DOMResult)outputResult).getNode(), options);
+      }
+      else if (outputResult instanceof SAXResult) {
+          throw new UnsupportedOperationException();
+      }
+      else if (outputResult instanceof StreamResult) {
+          save(xmlDocument, ((StreamResult)outputResult).getOutputStream(), options);
+      }
+      else {
+          throw new UnsupportedOperationException();
+      }
   }
 
   public XMLDocument createDocument(DataObject dataObject, String rootElementURI, String rootElementName)

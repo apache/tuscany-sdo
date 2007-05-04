@@ -50,6 +50,8 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 
 import commonj.sdo.DataObject;
@@ -154,6 +156,24 @@ public class XMLDocumentImpl implements XMLDocument
 
   protected void save(OutputStream outputStream, Object options) throws IOException
   {
+    save(outputStream, null, options);
+  }
+    
+  protected void save(Writer outputWriter, Object options) throws IOException
+  {
+    // TODO temporary brute-force implementation ... to be replaced
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    save(outputStream, options);
+    outputWriter.write(new String(outputStream.toByteArray()));
+  }
+
+  protected void save(Node node, Object options) throws IOException
+  {
+    save(null, (Document)node, options);
+  }
+  
+  protected void save(OutputStream outputStream, Document document, Object options) throws IOException
+  {
     EObject oldContainer = null;
     EReference oldContainmentReference = null;
     int oldContainmentIndex = -1;
@@ -181,7 +201,10 @@ public class XMLDocumentImpl implements XMLDocument
       }
     }
 
-    resource.save(outputStream, (Map)options);
+    if (outputStream != null)
+      resource.save(outputStream, (Map)options);
+    else // if (document != null)
+      resource.save(document, (Map)options, null);
 
     if (oldContainer != null)
     {
@@ -203,14 +226,6 @@ public class XMLDocumentImpl implements XMLDocument
     }
   }
 
-  protected void save(Writer outputWriter, Object options) throws IOException
-  {
-    // TODO temporary brute-force implementation ... to be replaced
-    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    save(outputStream, options);
-    outputWriter.write(new String(outputStream.toByteArray()));
-  }
-
   protected void load(InputStream inputStream, String locationURI, Object options) throws IOException
   {
     InputSource inputSource = new InputSource(inputStream);
@@ -221,6 +236,11 @@ public class XMLDocumentImpl implements XMLDocument
   {
     InputSource inputSource = new InputSource(inputReader);
     load(inputSource, locationURI, options);
+  }
+  
+  protected final void load(Node node, Object options) throws IOException {
+      resource.load(node, (Map)options);
+      initLoadedRoot();
   }
 
   protected final void load(XMLStreamReader reader, Map options) throws IOException
