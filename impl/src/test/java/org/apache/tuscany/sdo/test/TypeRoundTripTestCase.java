@@ -95,7 +95,6 @@ public class TypeRoundTripTestCase extends TestCase {
     list.add("bar");
     list.add("test");
     Test[] tests = {
-      new Test(types.getType(URI, "Base64Bytes"),  "SGVsbG8gV29ybGQ=", "Hello World", new BytesComparator()),
       new Test(types.getType(URI, "Boolean"),      "true", new Boolean(true)),
       new Test(types.getType(URI, "Byte"),         "49", new Byte((byte)49)),
       new Test(types.getType(URI, "Bytes"),        "666F6F", "foo", new BytesComparator()),
