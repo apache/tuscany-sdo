@@ -33,20 +33,20 @@ import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 
 /**
- *  SDO Sequance implementation which delegates to a Collection of hidden FeatureMap properties.
+ *  SDO Sequance implementation which delegates to a Collection of DataObject properties.
  */
 public class VirtualSequence implements Sequence
 {
   private final DataObject dataObject;
-  protected final List properties; // size > 1
+  protected final List delegateProperties; // size > 1
 
   public VirtualSequence(DataObject object)
   {
     dataObject = object;
-    properties = ((ClassImpl)dataObject.getType()).getVirtualSequenceFeatures();
+    delegateProperties = ((ClassImpl)dataObject.getType()).getVirtualSequenceProperties();
   }
   
-  static protected boolean sequence(Object property)
+  static protected boolean isSequenceProperty(Object property)
   {
     return FeatureMapUtil.isFeatureMap((EStructuralFeature)property);
   }
@@ -54,12 +54,12 @@ public class VirtualSequence implements Sequence
   public int size()
   {
     int size = 0;
-    for (Iterator iterator = properties.iterator() ; iterator.hasNext() ;)
+    for (Iterator iterator = delegateProperties.iterator() ; iterator.hasNext() ;)
     {
       Property property = (Property)iterator.next();
       if (dataObject.isSet(property))
-        if (sequence(property))
-          size += dataObject.getSequence(property).size();
+        if (isSequenceProperty(property))
+          size += ((Sequence)dataObject.get(property)).size();
         else if (property.isMany())
           size += dataObject.getList(property).size();
         else
@@ -70,13 +70,13 @@ public class VirtualSequence implements Sequence
 
   public Property getProperty(int index)
   {
-    for (Iterator iterator = properties.iterator() ; iterator.hasNext() ;)
+    for (Iterator iterator = delegateProperties.iterator() ; iterator.hasNext() ;)
     {
       Property property = (Property)iterator.next();
       if (dataObject.isSet(property))
-        if (sequence(property))
+        if (isSequenceProperty(property))
         {
-          Sequence sequence = dataObject.getSequence(property);
+          Sequence sequence = (Sequence)dataObject.get(property);
           int size = sequence.size();
           if (index < size)
             return sequence.getProperty(index);
@@ -99,13 +99,13 @@ public class VirtualSequence implements Sequence
 
   public Object getValue(int index)
   {
-    for (Iterator iterator = properties.iterator() ; iterator.hasNext() ;)
+    for (Iterator iterator = delegateProperties.iterator() ; iterator.hasNext() ;)
     {
       Property property = (Property)iterator.next();
       if (dataObject.isSet(property))
-        if (sequence(property))
+        if (isSequenceProperty(property))
         {
-          Sequence sequence = dataObject.getSequence(property);
+          Sequence sequence = (Sequence)dataObject.get(property);
           int size = sequence.size();
           if (index < size)
             return sequence.getValue(index);
@@ -129,13 +129,13 @@ public class VirtualSequence implements Sequence
 
   public Object setValue(int index, Object value)
   {
-    for (Iterator iterator = properties.iterator() ; iterator.hasNext() ;)
+    for (Iterator iterator = delegateProperties.iterator() ; iterator.hasNext() ;)
     {
       Property property = (Property)iterator.next();
       if (dataObject.isSet(property))
-        if (sequence(property))
+        if (isSequenceProperty(property))
         {
-          Sequence sequence = dataObject.getSequence(property);
+          Sequence sequence = (Sequence)dataObject.get(property);
           int size = sequence.size();
           if (index < size)
             return sequence.setValue(index, value);
@@ -166,9 +166,9 @@ public class VirtualSequence implements Sequence
     return FeatureMapUtil.getValidator((EClass)dataObject.getType(), feature).isValid((EStructuralFeature)property);
   }
 
-  boolean append(Property property, Property p, Object value)
+  boolean append(Property delegateProperty, Property property, Object value)
   {
-    return dataObject.getSequence(property).add(p, value);
+    return ((Sequence)dataObject.get(delegateProperty)).add(property, value);
   }
   
   boolean append(Property property, Object value)
@@ -187,10 +187,10 @@ public class VirtualSequence implements Sequence
   public final boolean add(Property p, Object value)
   {
     Property property;
-    int size = properties.size(), index = size;
+    int size = delegateProperties.size(), index = size;
     do
     {
-      property = (Property)properties.get(--index);
+      property = (Property)delegateProperties.get(--index);
       if (!dataObject.isSet(property))
         continue;
       EStructuralFeature feature = (EStructuralFeature)property;
@@ -203,7 +203,7 @@ public class VirtualSequence implements Sequence
         return append(property, value);
       if (size == ++index)
         return false;
-      property = (Property)properties.get(index);
+      property = (Property)delegateProperties.get(index);
       break;
     }
     while (index != 0);
@@ -219,7 +219,7 @@ public class VirtualSequence implements Sequence
         return set(p, value);
       if (size == ++index)
         return false;
-      property = (Property)properties.get(index);
+      property = (Property)delegateProperties.get(index);
     }
   }
 
@@ -245,7 +245,7 @@ public class VirtualSequence implements Sequence
   
   void insert(Property property, Property p, Object value)
   {
-    dataObject.getSequence(property).add(0, p, value);
+    ((Sequence)dataObject.get(property)).add(0, p, value);
   }
   
   void insert(Property property, Object value)
@@ -292,7 +292,7 @@ public class VirtualSequence implements Sequence
   
   public final void add(int index, Property p, Object value)
   {
-    Iterator iterator = properties.iterator();
+    Iterator iterator = delegateProperties.iterator();
     if (index == 0)
       switch (insert(iterator, p, value))
       {
@@ -307,9 +307,9 @@ public class VirtualSequence implements Sequence
     {
       Property property = (Property)iterator.next();
       if (dataObject.isSet(property))
-        if (sequence(property))
+        if (isSequenceProperty(property))
         {
-          Sequence sequence = dataObject.getSequence(property);
+          Sequence sequence = (Sequence)dataObject.get(property);
           int size = sequence.size();
           if (index < size)
           {
@@ -385,13 +385,13 @@ public class VirtualSequence implements Sequence
 
   public void remove(int index)
   {
-    for (Iterator iterator = properties.iterator() ; iterator.hasNext() ;)
+    for (Iterator iterator = delegateProperties.iterator() ; iterator.hasNext() ;)
     {
       Property property = (Property)iterator.next();
       if (dataObject.isSet(property))
-        if (sequence(property))
+        if (isSequenceProperty(property))
         {
-          Sequence sequence = dataObject.getSequence(property);
+          Sequence sequence = (Sequence)dataObject.get(property);
           int size = sequence.size();
           if (index < size)
           {
@@ -457,13 +457,13 @@ public class VirtualSequence implements Sequence
   
   public void move(int toIndex, int fromIndex)
   {
-    for (Iterator iterator = properties.iterator() ; iterator.hasNext() ;)
+    for (Iterator iterator = delegateProperties.iterator(); iterator.hasNext() ;)
     {
       Property property = (Property)iterator.next();
       if (dataObject.isSet(property))
-        if (sequence(property))
+        if (isSequenceProperty(property))
         {
-          Sequence sequence = dataObject.getSequence(property);
+          Sequence sequence = (Sequence)dataObject.get(property);
           int size = sequence.size();
           if (toIndex < size)
           {
@@ -478,9 +478,9 @@ public class VirtualSequence implements Sequence
               if (!dataObject.isSet(property))
                 continue;
               fromIndex -= size;
-              if (sequence(property))
+              if (isSequenceProperty(property))
               {
-                Sequence fromSequence = dataObject.getSequence(property);
+                Sequence fromSequence = (Sequence)dataObject.get(property);
                 size = fromSequence.size();
                 if (fromIndex >= size)
                   continue;
@@ -514,9 +514,9 @@ public class VirtualSequence implements Sequence
               if (!dataObject.isSet(property))
                 continue;
               toIndex -= size;
-              if (sequence(property))
+              if (isSequenceProperty(property))
               {
-                Sequence toSequence = dataObject.getSequence(property);
+                Sequence toSequence = (Sequence)dataObject.get(property);
                 size = toSequence.size();
                 if (toIndex >= size)
                   continue;
@@ -551,7 +551,7 @@ public class VirtualSequence implements Sequence
                     {
                       /*if (!validate(feature, p))
                         throw new IllegalArgumentException(); */
-                      move(sequence, fromIndex, dataObject.getSequence(property), 0, p);
+                      move(sequence, fromIndex, (Sequence)dataObject.get(property), 0, p);
                       return;
                     }
                     if (property != p || !property.isMany())
@@ -599,9 +599,9 @@ public class VirtualSequence implements Sequence
               if (!dataObject.isSet(p))
                 continue;
               fromIndex -= size;
-              if (sequence(p))
+              if (isSequenceProperty(p))
               {
-                Sequence fromSequence = dataObject.getSequence(p);
+                Sequence fromSequence = (Sequence)dataObject.get(p);
                 size = fromSequence.size();
                 if (fromIndex >= size)
                   continue;
@@ -641,9 +641,9 @@ public class VirtualSequence implements Sequence
               if (!dataObject.isSet(p))
                 continue;
               toIndex -= size;
-              if (sequence(p))
+              if (isSequenceProperty(p))
               {
-                Sequence toSequence = dataObject.getSequence(p);
+                Sequence toSequence = (Sequence)dataObject.get(p);
                 size = toSequence.size();
                 if (toIndex >= size)
                   continue;
@@ -713,9 +713,9 @@ public class VirtualSequence implements Sequence
             if (!dataObject.isSet(p))
               continue;
             toIndex -= size;
-            if (sequence(p))
+            if (isSequenceProperty(p))
             {
-              Sequence toSequence = dataObject.getSequence(p);
+              Sequence toSequence = (Sequence)dataObject.get(p);
               size = toSequence.size();
               if (toIndex >= size)
                 continue;

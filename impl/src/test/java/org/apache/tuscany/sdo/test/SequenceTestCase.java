@@ -29,11 +29,11 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
-import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XSDHelper;
 
 public class SequenceTestCase extends TestCase {
+    HelperContext hc;
     Type type;
     Property localA, choiceX, choiceY, localB, open;
 
@@ -55,7 +55,7 @@ public class SequenceTestCase extends TestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        HelperContext hc = SDOUtil.createHelperContext();
+        hc = SDOUtil.createHelperContext();
         hc.getXSDHelper().define(xml);
         type = hc.getTypeHelper().getType("testNS", "Sequenced");
         localA = type.getProperty("localA");
@@ -67,7 +67,7 @@ public class SequenceTestCase extends TestCase {
     }
 
     public void testSequenced() {
-        DataObject dataObject = DataFactory.INSTANCE.create(type);
+        DataObject dataObject = hc.getDataFactory().create(type);
         Sequence sequence = dataObject.getSequence();
         
         sequence.add(choiceX, "x1");
@@ -96,4 +96,5 @@ public class SequenceTestCase extends TestCase {
         assertEquals(list.size(), 1);
         assertEquals(list.get(0), "open");
     }
+    
 }

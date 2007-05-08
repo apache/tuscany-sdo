@@ -192,7 +192,7 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
     return true;
   }
   
-  public List getVirtualSequenceFeatures()
+  public List getVirtualSequenceProperties()
   {
     List result = new ArrayList();
     for (Iterator iterator = getEAllStructuralFeatures().iterator(); iterator.hasNext(); ) 
