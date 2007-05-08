@@ -35,6 +35,7 @@ import org.apache.tuscany.sdo.generate.adapter.SDOGenModelGeneratorAdapterFactor
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.SDOPackageImpl;
 import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.internal.InternalFactory;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.codegen.ecore.generator.Generator;
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
@@ -363,8 +364,13 @@ public abstract class JavaGenerator
     
     if (genModel == null) return; // nothing to generate
 
+    //TODO Figure out which predefined packages are really "used"
     usedGenPackages.add(createGenPackage(SDOPackageImpl.eINSTANCE, "org.apache.tuscany", "SDO", 0, resourceSet));
     usedGenPackages.add(createGenPackage((EPackage)ModelFactory.INSTANCE, "org.apache.tuscany.sdo", "Model", 0, resourceSet));
+    usedGenPackages.add(createGenPackage((EPackage)InternalFactory.INSTANCE, "org.apache.tuscany.sdo.model", "Internal", 0, resourceSet));
+    //usedGenPackages.add(createGenPackage((EPackage)JavaFactory.INSTANCE, "org.apache.tuscany.sdo.model", "Java", 0, resourceSet));
+    //usedGenPackages.add(createGenPackage((EPackage)XMLFactory.INSTANCE, "org.apache.tuscany.sdo.model", "XML", 0, resourceSet));
+   
     genModel.getUsedGenPackages().addAll(usedGenPackages);
     
     // Invoke the SDO JavaGenerator to generate the SDO classes

@@ -17,13 +17,13 @@
  *  specific language governing permissions and limitations
  *  under the License.
  -->
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:sdo="commonj.sdo" xmlns:sdoJava="commonj.sdo/java" xmlns:sdoXML="commonj.sdo/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" elementFormDefault="qualified" targetNamespace="commonj.sdo" xsi:schemaLocation="commonj.sdo/xml sdoXML.xsd                   commonj.sdo/java sdoJava.xsd"> 
-
-<xsd:include schemaLocation="c:/sdosrc/tuscany/java/spec/sdo-api/src/main/resources/xml/sdoModel.xsd"/>
-  
-<!-- Data Types -->
-<xsd:simpleType name="Base64Bytes" sdoJava:instanceClass="byte[]">
-  <xsd:restriction base="xsd:base64Binary"/>
-</xsd:simpleType>
-
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:sdoJava="commonj.sdo/java"
+            xmlns:internal="http://www.apache.org/tuscany/commonj.sdo.internal"
+            targetNamespace="http://www.apache.org/tuscany/commonj.sdo.internal">
+            
+  <xsd:simpleType name="Base64Bytes" sdoJava:instanceClass="byte[]">
+    <xsd:restriction base="xsd:base64Binary"/>
+  </xsd:simpleType>
+ 
 </xsd:schema>

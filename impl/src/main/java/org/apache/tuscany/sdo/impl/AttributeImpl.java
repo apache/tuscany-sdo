@@ -24,6 +24,8 @@ import java.util.List;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
+import org.apache.tuscany.sdo.model.internal.InternalFactory;
+import org.apache.tuscany.sdo.model.internal.impl.InternalFactoryImpl;
 import org.apache.tuscany.sdo.util.BasicSequence;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.apache.tuscany.sdo.util.SDOUtil;
@@ -35,7 +37,6 @@ import org.eclipse.emf.ecore.impl.EAttributeImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.FeatureMap;
-import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
@@ -121,6 +122,8 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
     }
     return aliasNames;
   }
+  
+  public static Type INTERNAL_BASE64_BYTES = ((InternalFactoryImpl)InternalFactory.INSTANCE).getBase64Bytes();
 
   /**
    * <!-- begin-user-doc -->
@@ -130,7 +133,7 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
   public Type getType()
   {
     EClassifier eType = getEType();
-    if (eType == XMLTypePackage.Literals.BASE64_BINARY)
+    if (eType == INTERNAL_BASE64_BYTES)
       return ((ModelFactoryImpl)ModelFactory.INSTANCE).getBytes();
     return (Type)eType;
   }

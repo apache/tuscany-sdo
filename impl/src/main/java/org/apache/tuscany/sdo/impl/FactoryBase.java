@@ -76,14 +76,13 @@ public class FactoryBase extends EPackageImpl
     createResource(namespaceURI);
     setNsURI(namespaceURI);
     
-    // TODO this is a bit of a kludge until we figure out how to connect type scopes
-    if(namespaceURI.startsWith("commonj.sdo")) {
-      if("commonj.sdo".equals(namespaceURI) ||
-         "commonj.sdo/java".equals(namespaceURI) ||
-         "commonj.sdo/xml".equals(namespaceURI)
-      ) {
-        EPackage.Registry.INSTANCE.put(namespaceURI, this);
-      }
+    // TODO this is a big kludge until we figure out how to connect type scopes
+    if("commonj.sdo".equals(namespaceURI) ||
+       "commonj.sdo/java".equals(namespaceURI) ||
+       "commonj.sdo/xml".equals(namespaceURI) ||
+       "http://www.apache.org/tuscany/commonj.sdo.internal".equals(namespaceURI))
+    {
+      EPackage.Registry.INSTANCE.put(namespaceURI, this);
     }
     
     ((SDOEFactoryImpl)getEFactoryInstance()).sdoFactory = this;

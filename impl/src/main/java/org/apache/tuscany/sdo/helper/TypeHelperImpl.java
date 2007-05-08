@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.tuscany.sdo.model.ModelFactory;
+import org.apache.tuscany.sdo.model.internal.InternalFactory;
 import org.apache.tuscany.sdo.model.java.JavaFactory;
 import org.apache.tuscany.sdo.model.xml.XMLFactory;
 import org.apache.tuscany.sdo.util.SDOUtil;
@@ -60,6 +61,7 @@ public class TypeHelperImpl implements TypeHelper
       builtInModels.add(ModelFactory.INSTANCE);
       builtInModels.add(JavaFactory.INSTANCE);
       builtInModels.add(XMLFactory.INSTANCE);
+      builtInModels.add(InternalFactory.INSTANCE);
     }
     return TypeHelperImpl.builtInModels;
   }  

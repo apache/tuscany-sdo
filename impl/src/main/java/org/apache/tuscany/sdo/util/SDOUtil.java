@@ -825,7 +825,7 @@ public final class SDOUtil
       });
   }
   
-  //Java instance class to SDO mappings (p.69 - p.71 of the SDO spec)
+  //Java instance class to SDO mappings (section 8.1 of the SDO spec)
   private static Map javaToSdoMappings = new HashMap();
   static {
     javaToSdoMappings.put(boolean.class, "Boolean");
@@ -851,13 +851,13 @@ public final class SDOUtil
     javaToSdoMappings.put(Short.class, "ShortObject");
   }
 
-  //XSD to SDO mappings (p.95 of the SDO spec)
+  //XSD to SDO mappings (section 9.4 of the SDO spec)
   private static Map xsdToSdoMappings = new HashMap();
   static {
     xsdToSdoMappings.put("anySimpleType", "Object");
     xsdToSdoMappings.put("anyType", "DataObject");
     xsdToSdoMappings.put("anyURI", "URI");
-    xsdToSdoMappings.put("base64Binary", "Bytes");
+    xsdToSdoMappings.put("base64Binary", "Bytes"); // Special handling in SDOXSDEcoreBuilder.getBuiltInEClassifier()
     xsdToSdoMappings.put("boolean", "Boolean");
     xsdToSdoMappings.put("byte", "Byte");
     xsdToSdoMappings.put("date", "YearMonthDay");

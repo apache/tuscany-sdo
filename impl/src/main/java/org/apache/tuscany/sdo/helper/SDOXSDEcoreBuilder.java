@@ -29,6 +29,7 @@ import java.util.Map.Entry;
 import javax.xml.XMLConstants;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
+import org.apache.tuscany.sdo.impl.AttributeImpl;
 import org.apache.tuscany.sdo.impl.SDOFactoryImpl.SDOEcoreFactory;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.util.SDOUtil;
@@ -155,11 +156,12 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
   
   protected EClassifier getBuiltInEClassifier(String namespace, String name)
   {
-    EClassifier eClassifier = (EClassifier)SDOUtil.getXSDSDOType(name);
-    if (eClassifier == null || "base64Binary".equals(name))
-    {
+    EClassifier eClassifier = 
+      "base64Binary".equals(name)
+        ? (EClassifier)AttributeImpl.INTERNAL_BASE64_BYTES
+          : (EClassifier)SDOUtil.getXSDSDOType(name);
+    if (eClassifier == null)
       eClassifier = super.getBuiltInEClassifier(namespace, name);
-    }
     return eClassifier;
   }
   
