@@ -29,10 +29,10 @@ import java.util.List;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.impl.ChangeSummaryImpl.SDOChangeRecorder;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.apache.tuscany.sdo.util.VirtualSequence;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
@@ -1254,6 +1254,8 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
   {
     DataObjectUtil.delete(this);
   }
+  
+  protected Sequence sequence = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -1262,8 +1264,16 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public Sequence getSequence()
   {
-    EAttribute sequenceFeature = ((ClassImpl)eClass()).getSequenceFeature();
-    return sequenceFeature != null ? (Sequence)eGet(sequenceFeature, true, false) : null;
+    if (sequence == null)
+    {
+      EStructuralFeature sequenceFeature = ((ClassImpl)eClass()).getSequenceFeature();
+      if (sequenceFeature == null) return null;
+      if (sequenceFeature == ClassImpl.VIRTUAL_SEQUENCE_FEATURE)
+        sequence = new VirtualSequence(this);
+      else
+        sequence = (Sequence)eGet(sequenceFeature, true, false);
+    }
+    return sequence;
   }
 
   /**

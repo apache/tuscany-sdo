@@ -137,55 +137,73 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
     return false;
   }
 
-  private EAttribute sequenceFeature = (EAttribute)UNINITIALIZED_PROPERTY;
+  private static final EStructuralFeature UNINITIALIZED_SEQUENCE_FEATURE = (EAttribute)SDOFactory.eINSTANCE.createAttribute();
+  protected static final EStructuralFeature VIRTUAL_SEQUENCE_FEATURE = (EAttribute)SDOFactory.eINSTANCE.createAttribute();
   
-  public EAttribute getSequenceFeature()
-  {
-    //FB This isn't quite right. 
-    //FB What if there are multiple sequences? We'll need to provide a mixed-like combined Sequence.
-    if (sequenceFeature == UNINITIALIZED_PROPERTY)
-    {
-      for (final Iterator iterator = getBaseTypes().iterator() ; iterator.hasNext(); )
-      {
-        ClassImpl baseType = (ClassImpl)iterator.next();
-        sequenceFeature = baseType.getSequenceFeature();
-        if (sequenceFeature != null) return sequenceFeature;
-      }
+  private EStructuralFeature sequenceFeature = UNINITIALIZED_SEQUENCE_FEATURE;
 
-      List properties = getExtendedProperties();
-      if (properties != Collections.EMPTY_LIST)
+  public EStructuralFeature getSequenceFeature()
+  {
+    if (sequenceFeature == UNINITIALIZED_SEQUENCE_FEATURE)
+    {
+      EStructuralFeature sequenceFeatureCandidate = null;
+      boolean hasNonDerivedFeatures = false;
+      
+      for (Iterator iterator = getEAllStructuralFeatures().iterator(); iterator.hasNext(); ) 
       {
-        for (int i = 0, count = properties.size(); i < count; ++i)
-        {
-          EStructuralFeature eStructuralFeature = (EStructuralFeature)properties.get(i);
-          if (isSequenceFeatureMap(eStructuralFeature))
-          {
-            sequenceFeature = (EAttribute)eStructuralFeature;
-            return sequenceFeature;
-          }
+        EStructuralFeature eStructuralFeature = (EStructuralFeature)iterator.next();
+        if (!eStructuralFeature.isDerived()) {
+          if (sequenceFeatureCandidate == null && isSequenceFeatureMap(eStructuralFeature))
+            sequenceFeatureCandidate = eStructuralFeature;
+          else if (isElementFeature(eStructuralFeature))
+            hasNonDerivedFeatures = true;
         }
       }
       
-      sequenceFeature = null;
+      sequenceFeature = 
+        sequenceFeatureCandidate != null && hasNonDerivedFeatures ? 
+          VIRTUAL_SEQUENCE_FEATURE : 
+          sequenceFeatureCandidate;
     }
+    
     return sequenceFeature;
   }
   
   protected boolean isSequenceFeatureMap(EStructuralFeature eStructuralFeature)
   {
-    //return eStructuralFeature == ExtendedMetaData.INSTANCE.getMixedFeature(this);
     switch (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature))
     {
       case ExtendedMetaData.ELEMENT_WILDCARD_FEATURE:
-        //return eStructuralFeature.getUpperBound() != 1; //FB TODO - I think this may be needed
-        int contentKind = ExtendedMetaData.INSTANCE.getContentKind(this);
-        return contentKind == ExtendedMetaData.MIXED_CONTENT || contentKind == ExtendedMetaData.SIMPLE_CONTENT;
+        return eStructuralFeature.getUpperBound() != 1;
       case ExtendedMetaData.GROUP_FEATURE:
         return true;
     }
     return false;
   }
 
+  protected boolean isElementFeature(EStructuralFeature eStructuralFeature)
+  {
+    switch (ExtendedMetaData.INSTANCE.getFeatureKind(eStructuralFeature))
+    {
+      case ExtendedMetaData.ATTRIBUTE_FEATURE:
+      case ExtendedMetaData.ATTRIBUTE_WILDCARD_FEATURE:
+        return false;
+    }
+    return true;
+  }
+  
+  public List getVirtualSequenceFeatures()
+  {
+    List result = new ArrayList();
+    for (Iterator iterator = getEAllStructuralFeatures().iterator(); iterator.hasNext(); ) 
+    {
+      EStructuralFeature eStructuralFeature = (EStructuralFeature)iterator.next();
+      if (!eStructuralFeature.isDerived() && isElementFeature(eStructuralFeature))
+        result.add(eStructuralFeature);
+    }
+    return result;
+  }
+  
   public void setSequenceFeature(EAttribute sequenceFeature)
   {
     getEStructuralFeatures().add(sequenceFeature);
@@ -318,7 +336,7 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
       allFeaturesCache = allFeatures;
       allProperties = allExtendedProperties = null;
     }
-    if (allProperties == null)
+    if (allExtendedProperties == null)
     {
       List allExtendedProperties = new UniqueEList();
       for (final Iterator iterator = getBaseTypes().iterator(); iterator.hasNext(); )
