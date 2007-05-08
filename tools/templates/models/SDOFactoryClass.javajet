@@ -322,7 +322,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 		// Add supertypes to types
       <%for (Iterator c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = (GenClass)c.next();%>
         <%for (Iterator b=genClass.getBaseGenClasses().iterator(); b.hasNext();) { GenClass baseGenClass = (GenClass)b.next();%>
-		addSuperType(<%=genClass.getSafeUncapName()%>Type, <%=baseGenClass.getSafeUncapName()%>Type);
+		addSuperType(<%=genClass.getSafeUncapName()%>Type, <%=genPackage.getPackageInstanceVariable(baseGenClass.getGenPackage())%>.get<%=baseGenClass.getClassifierAccessorName()%>());
         <%}%>
       <%}%>
 
