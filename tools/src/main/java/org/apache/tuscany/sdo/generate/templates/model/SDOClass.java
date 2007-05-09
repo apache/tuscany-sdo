@@ -1559,7 +1559,7 @@ public class SDOClass
     int baseCount = base.getFeatureCount();
     if (g < baseCount)
     {
-    featureValue = base.getClassName() + "." + genFeature.getUpperName();
+    featureValue = base.getClassName() + ".INTERNAL_" + genFeature.getUpperName();
     } else {
     String baseCountID = base.getClassName() + "." + "INTERNAL_PROPERTY_COUNT";
     featureValue =  baseCountID + " + " + Integer.toString(g - baseCount);
