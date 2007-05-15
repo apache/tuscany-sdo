@@ -38,8 +38,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>commonj</groupId>
-            <artifactId>sdo-api-r${specVersion}</artifactId>
+            <groupId>org.apache.tuscany.sdo</groupId>
+            <artifactId>tuscany-sdo-lib</artifactId>
+            <version>${pom.version}</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>

@@ -74,6 +74,7 @@
     </properties>
 
     <modules>
+        <module>lib</module>
         <module>impl</module>
         <module>tools</module>
         <module>plugin</module>
