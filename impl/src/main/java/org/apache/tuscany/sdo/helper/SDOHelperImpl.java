@@ -404,7 +404,7 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
       //FB???eStructuralFeature.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
     }
     
-    if (containingType.isSequenced()) {
+    if (ExtendedMetaData.INSTANCE.getMixedFeature((EClass)containingType) != null) {
       eStructuralFeature.setDerived(true);
       eStructuralFeature.setTransient(true);
       eStructuralFeature.setVolatile(true);
