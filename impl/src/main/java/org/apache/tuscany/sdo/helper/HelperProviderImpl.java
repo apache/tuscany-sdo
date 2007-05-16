@@ -20,7 +20,7 @@
 package org.apache.tuscany.sdo.helper;
 
 
-import org.apache.tuscany.sdo.rtlib.helper.HelperProviderBase;
+import org.apache.tuscany.sdo.spi.HelperProviderBase;
 
 import commonj.sdo.helper.HelperContext;
 

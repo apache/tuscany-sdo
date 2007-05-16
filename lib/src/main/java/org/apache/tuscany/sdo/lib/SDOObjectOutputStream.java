@@ -17,13 +17,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package org.apache.tuscany.sdo.util.resource;
-
-/**
- * This class inherites off of ObjectInputStream providing a way to store the scope under which
- * this inputStream has been created.
- * 
- */
+package org.apache.tuscany.sdo.lib;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -31,6 +25,10 @@ import java.io.OutputStream;
 
 import commonj.sdo.helper.HelperContext;
 
+/**
+ * This subclass of ObjectOutputStream provides a place to store the scope in which
+ * it was created.
+ */
 public class SDOObjectOutputStream extends ObjectOutputStream {
     
     private HelperContext helperContext;

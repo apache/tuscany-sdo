@@ -17,7 +17,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package org.apache.tuscany.sdo.rtlib.helper;
+package org.apache.tuscany.sdo.spi;
 
 /**
  * Base class for an implementation of the SDOHelper and SDOHelper.MetaDataBuilder interfaces.
@@ -31,12 +31,16 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.tuscany.sdo.api.SDOHelper;
-import org.apache.tuscany.sdo.util.resource.SDOObjectInputStream;
-import org.apache.tuscany.sdo.util.resource.SDOObjectOutputStream;
+import org.apache.tuscany.sdo.api.SDOUtil;
+import org.apache.tuscany.sdo.lib.SDOObjectInputStream;
+import org.apache.tuscany.sdo.lib.SDOObjectOutputStream;
 
+import commonj.sdo.DataObject;
+import commonj.sdo.Property;
 import commonj.sdo.helper.HelperContext;
 
 public abstract class SDOHelperBase implements SDOHelper, SDOHelper.MetaDataBuilder
@@ -56,6 +60,37 @@ public abstract class SDOHelperBase implements SDOHelper, SDOHelper.MetaDataBuil
     return new SDOObjectOutputStream(outputStream, helperContext);
   }
   
+  public String getXPath(DataObject dataObject)
+  {
+    StringBuffer path = getXPath(dataObject, new StringBuffer(), dataObject);
+    return path.toString();
+  }
+
+  protected StringBuffer getXPath(DataObject dataObject, StringBuffer path, DataObject root)
+  {
+    DataObject container = dataObject.getContainer();
+    if (container == null)
+      return path;
+
+    if (container == root)
+      throw new IllegalStateException("There is a cycle in the containment hierarchy of " + root);
+
+    boolean first = path.length() == 0;
+    Property property = dataObject.getContainmentProperty();
+    if (SDOUtil.isMany(property, dataObject))
+    {
+      List list = container.getList(property);
+      int pos = list.indexOf(dataObject);
+      path.insert(0, property.getName() + "." + pos + (first ? "" : "/"));
+    }
+    else
+    {
+      path.insert(0, property.getName() + (first ? "" : "/"));
+    }
+
+    return getXPath(container, path, root);
+  }
+
   public MetaDataBuilder getMetaDataBuilder()
   {
     return this;

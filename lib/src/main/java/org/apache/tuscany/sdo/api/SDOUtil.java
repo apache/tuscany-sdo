@@ -27,7 +27,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tuscany.sdo.rtlib.helper.HelperProviderBase;
+import org.apache.tuscany.sdo.spi.HelperProviderBase;
 
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
@@ -236,6 +236,14 @@ public final class SDOUtil
   public static boolean isDocumentRoot(Type type)
   {
     return defaultSDOHelper.isDocumentRoot(type);
+  }
+  
+  /**
+   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#getXPath(DataObject)}.
+   */
+  public static String getXPath(DataObject dataObject) 
+  {
+    return defaultSDOHelper.getXPath(dataObject);
   }
   
   /**

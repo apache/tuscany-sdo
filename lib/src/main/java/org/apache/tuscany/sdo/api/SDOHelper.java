@@ -234,6 +234,13 @@ public interface SDOHelper
   public boolean isDocumentRoot(Type type);
   
   /**
+   * Return an XPath from the containment root to the specified DataObject.
+   * @param dataObject a DataObject
+   * @return the XPath from the containment root.
+   */
+  public String getXPath(DataObject dataObject);
+  
+  /**
    * Gets a MetaDataBuilder which can be used to programatically create SDO Types and Properties.
    * @return a MetaDataBuilder instance
    */

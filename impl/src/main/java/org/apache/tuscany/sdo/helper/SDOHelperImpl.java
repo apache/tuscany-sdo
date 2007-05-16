@@ -35,12 +35,13 @@ import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SimpleAnyTypeDataObject;
 import org.apache.tuscany.sdo.api.SDOHelper;
+import org.apache.tuscany.sdo.api.XMLStreamHelper;
 import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.impl.DynamicDataObjectImpl;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
-import org.apache.tuscany.sdo.rtlib.helper.SDOHelperBase;
+import org.apache.tuscany.sdo.spi.SDOHelperBase;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
@@ -331,7 +332,7 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
       
       //FB TBD Add an "anyAttribute" EAttribute as well.
       
-      if (type.isSequenced()) {
+      if (ExtendedMetaData.INSTANCE.getMixedFeature((EClass)type) != null) {
         eAttribute.setDerived(true);
         eAttribute.setTransient(true);
         eAttribute.setVolatile(true);
@@ -347,8 +348,6 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
   
   public void setSequenced(Type type, boolean isSequenced)
   {
-    if (isSequenced == type.isSequenced()) return;
-    
     // currently, we require setSequenced to be called first, before anything else is added to the type.
     if (type.isDataType() || !type.getProperties().isEmpty())
     {

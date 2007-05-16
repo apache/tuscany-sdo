@@ -36,6 +36,7 @@ import java.util.TimeZone;
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
+import org.apache.tuscany.sdo.api.SDOUtil;
 import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.model.ModelFactory;
@@ -1833,7 +1834,7 @@ public final class DataObjectUtil
       propertyType = ((ModelFactoryImpl)ModelFactory.INSTANCE).getObject();
     }
     
-    Property newProperty = SDOUtil.createGlobalProperty(TypeHelper.INSTANCE, uri, name, propertyType);
+    Property newProperty = SDOUtil.createOpenContentProperty(TypeHelper.INSTANCE, uri, name, propertyType);
     if (isMany)
       SDOUtil.setMany(newProperty, isMany);
     if (isContainment)
@@ -2599,6 +2600,7 @@ public final class DataObjectUtil
   }
   */
   
+  /*
   protected static StringBuffer getXPath(DataObject dataObject, StringBuffer path, DataObject root)
   {
     DataObject container = dataObject.getContainer();
@@ -2623,11 +2625,13 @@ public final class DataObjectUtil
 
     return getXPath(container, path, root);
   }
+  */
 
   public static String getXPath(DataObject dataObject)
   {
-    StringBuffer path = getXPath(dataObject, new StringBuffer(), dataObject);
-    return path.toString();
+    return SDOUtil.getXPath(dataObject);
+    //StringBuffer path = getXPath(dataObject, new StringBuffer(), dataObject);
+    //return path.toString();
   }
   
   protected static XMLParserPool globalXMLParserPool = new XMLParserPoolImpl();
@@ -2850,7 +2854,7 @@ public final class DataObjectUtil
         //TODO Use standard facet properties, once SDO defines them
         //TODO property = getSDOFacetProperty(name);
         //TEMP For now just expose a string property for the EMF (ExtendedMetaData) facets
-        property = SDOUtil.createGlobalProperty(typeHelper, uri, name, ((ModelFactoryImpl)ModelFactory.INSTANCE).getString());
+        property = SDOUtil.createOpenContentProperty(typeHelper, uri, name, ((ModelFactoryImpl)ModelFactory.INSTANCE).getString());
       }
       else
       {
@@ -2863,7 +2867,7 @@ public final class DataObjectUtil
       property = typeHelper.getOpenContentProperty(uri, name);
       if (property == null)
       {
-        property = SDOUtil.createGlobalProperty(typeHelper, uri, name, ((ModelFactoryImpl)ModelFactory.INSTANCE).getString());
+        property = SDOUtil.createOpenContentProperty(typeHelper, uri, name, ((ModelFactoryImpl)ModelFactory.INSTANCE).getString());
       }
     }
     return property;

@@ -17,7 +17,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package org.apache.tuscany.sdo.rtlib.helper;
+package org.apache.tuscany.sdo.spi;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -30,8 +30,8 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import org.apache.tuscany.sdo.api.SDOHelper;
-import org.apache.tuscany.sdo.util.DataObjectUtil;
-import org.apache.tuscany.sdo.util.resource.SDOObjectInputStream;
+import org.apache.tuscany.sdo.api.SDOUtil;
+import org.apache.tuscany.sdo.lib.SDOObjectInputStream;
 
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
@@ -164,13 +164,13 @@ public abstract class HelperProviderBase extends HelperProvider
       if (dataGraph != null)
       {
         objectOutput.writeByte(0);
-        objectOutput.writeUTF(DataObjectUtil.getXPath(dataObject));
+        objectOutput.writeUTF(SDOUtil.getXPath(dataObject));
         objectOutput.writeObject(dataGraph);
       }
       else if (dataObject.getContainer() != null)
       {
         objectOutput.writeByte(0);
-        objectOutput.writeUTF(DataObjectUtil.getXPath(dataObject));
+        objectOutput.writeUTF(SDOUtil.getXPath(dataObject));
         objectOutput.writeObject(dataObject.getRootObject());
       }
       else
@@ -214,7 +214,7 @@ public abstract class HelperProviderBase extends HelperProvider
         
         GZIPInputStream gzipInputStream = new GZIPInputStream(new ByteArrayInputStream(compressedBytes));
         XMLHelper xmlHelperLocal = xmlHelper;
-        if(objectInput instanceof SDOObjectInputStream)
+        if (objectInput instanceof SDOObjectInputStream)
         {
             xmlHelperLocal = ((SDOObjectInputStream)objectInput).getHelperContext().getXMLHelper();
         }
