@@ -229,7 +229,7 @@ public interface SDOHelper
   /**
    * Return true if the specified type is a special DocumentRoot Type.
    * @param type the Type in question
-   * @return a List containing the open content properties
+   * @return true if type is a DocumentRoot
    */
   public boolean isDocumentRoot(Type type);
   
