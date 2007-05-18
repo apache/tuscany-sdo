@@ -155,7 +155,7 @@ public class ClassImpl extends EClassImpl implements Type, org.apache.tuscany.sd
         if (!eStructuralFeature.isDerived()) {
           if (sequenceFeatureCandidate == null && isSequenceFeatureMap(eStructuralFeature))
             sequenceFeatureCandidate = eStructuralFeature;
-          else if (isElementFeature(eStructuralFeature))
+          else if (isElementFeature(eStructuralFeature) && !DataObjectUtil.isInternalProperty(eStructuralFeature))
             hasNonDerivedFeatures = true;
         }
       }
