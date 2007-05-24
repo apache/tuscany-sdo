@@ -59,7 +59,7 @@ public class OpenContentTestCase extends TestCase
       assertEquals(2, dob.getInstanceProperties().size());
       assertTrue(dob.getInstanceProperties().contains(prop));
 
-      scope.getXMLHelper().save((DataObject)dob, "http://www.example.com/open", "bar", System.out);
+      // scope.getXMLHelper().save((DataObject)dob, "http://www.example.com/open", "bar", System.out);
   }
 
   protected void setUp() throws Exception {
