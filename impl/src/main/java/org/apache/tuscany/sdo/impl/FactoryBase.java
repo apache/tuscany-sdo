@@ -121,10 +121,20 @@ public class FactoryBase extends EPackageImpl
       createEReference((EClass)containingType, internalPropertyNumber);
   }
   
+  /**
+   * @deprecated - use getLocalProperty instead, since getProperty causes
+   * caching of structural features. 
+   */
   protected Property getProperty(Type type, int internalPropertyNumber)
   {
     return (Property)((EClass)type).getEAllStructuralFeatures().get(internalPropertyNumber);
   }
+  
+  protected Property getLocalProperty(Type type, int localPropertyIndex)
+  {
+    return (Property)((EClass)type).getEStructuralFeatures().get(localPropertyIndex);
+  }
+  
   
   protected void initializeType(Type type, Class instanceClass, String name)
   {
