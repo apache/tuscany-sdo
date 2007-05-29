@@ -29,6 +29,12 @@
     <packaging>pom</packaging>
     <name>Tuscany SDO Implementation Project</name>
     <version>1.0-incubating-SNAPSHOT</version>
+    
+    <scm>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/incubator/tuscany/java/sdo</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/incubator/tuscany/java/sdo</developerConnection>
+        <url>http://svn.apache.org/repos/asf/incubator/tuscany/java/sdo</url>
+    </scm>
 
     <repositories>
         <repository>
