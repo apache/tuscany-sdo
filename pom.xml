@@ -27,7 +27,7 @@
     <groupId>org.apache.tuscany.sdo</groupId>
     <artifactId>tuscany-sdo</artifactId>
     <packaging>pom</packaging>
-    <name>Tuscany SDO Implementation Project</name>
+    <name>Apache Tuscany SDO Implementation Project</name>
     <version>1.0-incubating-SNAPSHOT</version>
     
     <scm>
