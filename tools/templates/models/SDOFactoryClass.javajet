@@ -258,8 +258,10 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 		<%=factoryType%> the<%=factoryType%> = new <%=factoryType%>();
 		isInited = true;
 
-		// Initialize simple dependencies
-  <%for (Iterator p=genPackage.getPackageSimpleDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
+		// Initialize dependencies
+  <%HashSet packages = new HashSet(genPackage.getPackageSimpleDependencies());%>
+  <%for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { packages.add(p.next()); }%>
+  <%for (Iterator p=packages.iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
 		<%=genModel.getImportedName("org.apache.tuscany.sdo.util.SDOUtil")%>.registerStaticTypes(<%=dep.getImportedFactoryInterfaceName()%>.class);
   <%}%>
 

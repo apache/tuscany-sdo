@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -84,6 +85,7 @@ import commonj.sdo.helper.XSDHelper;
  *     [ -generateLoader ]
  *     [ -interfaceDataObject ]
  *     [ -sparsePattern | -storePattern ]
+ *     [ -noGenerate ]
  *     
  *   Basic options:
  *   
@@ -152,7 +154,10 @@ import commonj.sdo.helper.XSDHelper;
  *         implementation. It changes the generator pattern to generate accessors which delegate to the
  *         reflective methods (as opposed to the other way around) and changes the DataObject base class
  *         to org.apache.tuscany.sdo.impl.StoreDataObjectImpl. Note that this option generates classes that
- *         require a Store implementation to be provided before they can be run. 
+ *         require a Store implementation to be provided before they can be run.
+ *     -noGenerate
+ *         A basic implementation of this switch is in place, but is not fully implemented. An intention
+ *         behind this is to provide commentary on the artifacts that would be generated.  
  *         
  *         
  */
@@ -169,6 +174,7 @@ public abstract class JavaGenerator
   //FIXME Temporary, I need this option for now to get Switch classes generated for the SCDL models
   public static int OPTION_GENERATE_SWITCH=0x100;
   public static int OPTION_INTERFACE_DO=0x400;
+  public static int OPTION_NO_GENERATE=0x800;
   
   static 
   {
@@ -279,6 +285,10 @@ public abstract class JavaGenerator
     {
       genOptions |= OPTION_INTERFACE_DO;
     }
+    else if (args[index].equalsIgnoreCase("-noGenerate"))
+    {
+      genOptions |= OPTION_NO_GENERATE;
+    }
     //else if (...)
     else
     {
@@ -340,29 +350,50 @@ public abstract class JavaGenerator
     }
   }
   
-  public static void generatePackages(Collection packageList, String packageURI, String shortName, String targetDirectory, String javaPackage, String prefix, int genOptions)
+  protected static void generatePackages(Collection packageList, String packageURI, String shortName, String targetDirectory, String javaPackage, String prefix, int genOptions)
+  {
+    Hashtable packageInfoTable = new Hashtable();
+    packageInfoTable.put(packageURI, new PackageInfo(javaPackage, prefix, packageURI, shortName ));
+    generatePackages(packageList, targetDirectory, packageInfoTable, genOptions, false);      
+  }
+  
+  protected static GenModel generatePackages(Collection packageList, String targetDirectory, Hashtable packageInfoTable, int genOptions, boolean allNamespaces )
   {
     ResourceSet resourceSet = DataObjectUtil.createResourceSet();
     List usedGenPackages = new ArrayList();
     GenModel genModel = null;
+    ArrayList packagesToModel = new ArrayList();
     for (Iterator iter = packageList.iterator(); iter.hasNext();)
     {
       EPackage currentEPackage = (EPackage)iter.next();
-      boolean generateCurrent = currentEPackage.getNsURI().equals(packageURI);
-      String currentBasePackage = extractBasePackageName(currentEPackage, generateCurrent ? javaPackage : null);
-      String currentPrefix = generateCurrent && prefix != null ? prefix : CodeGenUtil.capName(shortName != null ? shortName : currentEPackage.getName());
-      GenPackage currentGenPackage = createGenPackage(currentEPackage, currentBasePackage, currentPrefix, genOptions, resourceSet);
-      if (generateCurrent)
+      String packageNamespace  = currentEPackage.getNsURI();
+      PackageInfo packageInfo  = (PackageInfo)packageInfoTable.get(packageNamespace);
+      boolean bTargetPackage   = allNamespaces;
+      String javaPackage       = null;
+      String prefix            = null;
+      String shortName         = null;
+      if( packageInfo != null )
       {
-        genModel = currentGenPackage.getGenModel();
-      }
+        bTargetPackage = true;
+        javaPackage    = packageInfo.getBasePackage();
+        prefix         = packageInfo.getPrefix();
+        shortName      = packageInfo.getShortName();
+      }    
+      String currentBasePackage = extractBasePackageName(currentEPackage, bTargetPackage ? javaPackage : null);
+      String currentPrefix = bTargetPackage && prefix != null ? prefix : CodeGenUtil.capName(shortName != null ? shortName : currentEPackage.getName());
+      packageInfoTable.put(currentEPackage, new PackageInfo(currentBasePackage, currentPrefix, null, null ));
+      
+      if( allNamespaces || packageInfo != null )
+          packagesToModel.add(currentEPackage);
       else
-      {
-        usedGenPackages.add(currentGenPackage);
-      }
+      {    
+          GenPackage currentGenPackage = createGenPackage(currentEPackage, currentBasePackage, currentPrefix, genOptions, resourceSet);
+          usedGenPackages.add(currentGenPackage);
+      }    
     }
-    
-    if (genModel == null) return; // nothing to generate
+    genModel = createGenPackages(packagesToModel, packageInfoTable, genOptions, resourceSet);
+      
+    if (genModel == null) return null; // nothing to generate
 
     //TODO Figure out which predefined packages are really "used"
     usedGenPackages.add(createGenPackage(SDOPackageImpl.eINSTANCE, "org.apache.tuscany", "SDO", 0, resourceSet));
@@ -372,16 +403,22 @@ public abstract class JavaGenerator
     //usedGenPackages.add(createGenPackage((EPackage)XMLFactory.INSTANCE, "org.apache.tuscany.sdo.model", "XML", 0, resourceSet));
    
     genModel.getUsedGenPackages().addAll(usedGenPackages);
-    
-    // Invoke the SDO JavaGenerator to generate the SDO classes
-    try
+      
+    // If the display namespace option is selected, Don't generate
+    if( (genOptions & OPTION_NO_GENERATE) == 0)                      
     {
-      generateFromGenModel(genModel, new File(targetDirectory).getCanonicalPath(), genOptions);
+      // Invoke the SDO JavaGenerator to generate the SDO classes
+      try
+      {
+        generateFromGenModel(genModel, new File(targetDirectory).getCanonicalPath(), genOptions);
+      }
+      catch (IOException e)
+      {
+        e.printStackTrace();
+      }
     }
-    catch (IOException e)
-    {
-      e.printStackTrace();
-    }
+      
+    return genModel;    
   }
   
   /**
@@ -396,6 +433,27 @@ public abstract class JavaGenerator
     return schema.getTargetNamespace();
   }
 
+  protected static GenModel createGenPackages(Collection ePackages, Hashtable packageInfoTable, int genOptions, ResourceSet resourceSet)
+  {
+    GenModel genModel = ecore2GenModel(ePackages, packageInfoTable, genOptions);
+
+    for (Iterator iter = ePackages.iterator(); iter.hasNext();)
+    {
+      EPackage ePackage = (EPackage)iter.next(); 
+        
+      URI ecoreURI = URI.createURI("file:///" + ePackage.getName() + ".ecore");
+      URI genModelURI = ecoreURI.trimFileExtension().appendFileExtension("genmodel");
+
+      Resource ecoreResource = resourceSet.createResource(ecoreURI);
+      ecoreResource.getContents().add(ePackage);
+
+      Resource genModelResource = resourceSet.createResource(genModelURI);
+      genModelResource.getContents().add(genModel);
+    }    
+
+    return genModel;
+  }
+  
   public static GenPackage createGenPackage(EPackage ePackage, String basePackage, String prefix, int genOptions, ResourceSet resourceSet)
   {
     GenModel genModel = ecore2GenModel(ePackage, basePackage, prefix, genOptions);
@@ -449,8 +507,8 @@ public abstract class JavaGenerator
 
     //if ((genOptions & OPTION_USE_EMF_PATTERNS) == 0)
     {
-    	generator.getAdapterFactoryDescriptorRegistry().addDescriptor
-        (GenModelPackage.eNS_URI, SDOGenModelGeneratorAdapterFactory.DESCRIPTOR);
+      generator.getAdapterFactoryDescriptorRegistry().addDescriptor
+      (GenModelPackage.eNS_URI, SDOGenModelGeneratorAdapterFactory.DESCRIPTOR);
     }
     
     generator.setInput(genModel);
@@ -470,8 +528,17 @@ public abstract class JavaGenerator
 
   public static GenModel ecore2GenModel(EPackage ePackage, String basePackage, String prefix, int genOptions)
   {
+      ArrayList ePackages = new ArrayList();
+      ePackages.add(ePackage);
+      Hashtable packageInfoTable = new Hashtable();
+      packageInfoTable.put(ePackage, new PackageInfo(basePackage, prefix, null, null ));
+      return ecore2GenModel(ePackages, packageInfoTable, genOptions ); 
+  }
+  
+  private static GenModel ecore2GenModel(Collection ePackages, Hashtable packageInfoTable, int genOptions)
+  {
     GenModel genModel = GenModelFactory.eINSTANCE.createGenModel();
-    genModel.initialize(Collections.singleton(ePackage));
+    genModel.initialize(ePackages);
     
     genModel.setRootExtendsInterface("");
     genModel.setRootImplementsInterface("commonj.sdo.DataObject");
@@ -536,43 +603,48 @@ public abstract class JavaGenerator
       genModel.setRootExtendsInterface("java.io.Serializable");
     }
     
-    GenPackage genPackage = (GenPackage)genModel.getGenPackages().get(0);
-    
-    if (basePackage != null)
+    //GenPackage genPackage = (GenPackage)genModel.getGenPackages().get(0);
+    Collection packages = genModel.getGenPackages(); 
+    for (Iterator iter1 = packages.iterator(); iter1.hasNext();)
     {
-      genPackage.setBasePackage(basePackage);
-    }
-    if (prefix != null) 
-    {
-      genPackage.setPrefix(prefix);
-    }
-
-    //FIXME Temporary, I need this option for now to get Switch classes generated for the SCDL models
-    if ((genOptions & OPTION_GENERATE_SWITCH) == 0)
-    {
-        genPackage.setAdapterFactory(false);
-    }
-
-    if ((genOptions & OPTION_GENERATE_LOADER) != 0)
-    {
-      //FIXME workaround compile error with 02162006 build, generated code references non-existent EcoreResourceImpl class
-      genPackage.setResource(GenResourceKind.XML_LITERAL);
-      //genPackage.setDataTypeConverters(true);
-    }
-    else
-    {
-      genPackage.setResource(GenResourceKind.NONE_LITERAL);
-      for (Iterator iter = genPackage.getGenClasses().iterator(); iter.hasNext();)
+      GenPackage genPackage   = (GenPackage)iter1.next();
+      PackageInfo packageInfo = (PackageInfo)packageInfoTable.get(genPackage.getEcorePackage());
+        
+      if (packageInfo.getBasePackage() != null)
       {
-        GenClass genClass = (GenClass)iter.next();
-        if ("DocumentRoot".equals(genClass.getName()))
+          genPackage.setBasePackage(packageInfo.getBasePackage());
+      }
+      if (packageInfo.getPrefix() != null) 
+      {
+          genPackage.setPrefix(packageInfo.getPrefix());
+      }
+
+      //FIXME Temporary, I need this option for now to get Switch classes generated for the SCDL models
+      if ((genOptions & OPTION_GENERATE_SWITCH) == 0)
+      {
+          genPackage.setAdapterFactory(false);
+      }
+
+      if ((genOptions & OPTION_GENERATE_LOADER) != 0)
+      {
+        //FIXME workaround compile error with 02162006 build, generated code references non-existent EcoreResourceImpl class
+        genPackage.setResource(GenResourceKind.XML_LITERAL);
+        //genPackage.setDataTypeConverters(true);
+      }
+      else
+      {
+        genPackage.setResource(GenResourceKind.NONE_LITERAL);
+        for (Iterator iter2 = genPackage.getGenClasses().iterator(); iter2.hasNext();)
         {
-          genClass.setDynamic(true); // Don't generate DocumentRoot class
-          break;
-        }
+          GenClass genClass = (GenClass)iter2.next();
+          if ("DocumentRoot".equals(genClass.getName()))
+          {
+            genClass.setDynamic(true); // Don't generate DocumentRoot class
+            break;
+          }
+        }    
       }
     }
-
     return genModel;
   }
 
@@ -624,4 +696,28 @@ public abstract class JavaGenerator
     System.out.println("Usage: this is a deprecated command replaced by XSD2JavaGenerator");
   }
 
+  public static class PackageInfo
+  {
+    private String   basePackage;
+    private String   prefix;
+    private String   namespace;
+    private String   shortName;
+
+    public PackageInfo(String basePackage, String prefix, String namespace, String shortName ) 
+    { 
+      setBasePackage(basePackage);
+      setPrefix(prefix);
+      setNamespace(namespace);
+      setShortName(shortName);
+    }
+      
+    public void setBasePackage(String basePackage) { this.basePackage = basePackage; }
+    public String getBasePackage() { return basePackage; }
+    public void setPrefix(String prefix) { this.prefix = prefix; }
+    public String getPrefix() { return prefix; }
+    public void setNamespace(String namespace) { this.namespace = namespace; }
+    public String getNamespace() { return namespace; }
+    public void setShortName(String shortName) { this.shortName = shortName; }
+    public String getShortName() { return shortName; }
+  }
 }

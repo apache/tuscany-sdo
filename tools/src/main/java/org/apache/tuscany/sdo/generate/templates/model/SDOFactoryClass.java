@@ -139,7 +139,7 @@ import org.eclipse.emf.codegen.util.CodeGenUtil;
   protected final String TEXT_99 = ".NAMESPACE_URI);" + NL + "\t\t";
   protected final String TEXT_100 = " the";
   protected final String TEXT_101 = " = new ";
-  protected final String TEXT_102 = "();" + NL + "\t\tisInited = true;" + NL + "" + NL + "\t\t// Initialize simple dependencies";
+  protected final String TEXT_102 = "();" + NL + "\t\tisInited = true;" + NL + "" + NL + "\t\t// Initialize dependencies";
   protected final String TEXT_103 = NL + "\t\t";
   protected final String TEXT_104 = ".registerStaticTypes(";
   protected final String TEXT_105 = ".class);";
@@ -623,7 +623,9 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
     stringBuffer.append(TEXT_101);
     stringBuffer.append(factoryType);
     stringBuffer.append(TEXT_102);
-    for (Iterator p=genPackage.getPackageSimpleDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();
+    HashSet packages = new HashSet(genPackage.getPackageSimpleDependencies());
+    for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { packages.add(p.next()); }
+    for (Iterator p=packages.iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();
     stringBuffer.append(TEXT_103);
     stringBuffer.append(genModel.getImportedName("org.apache.tuscany.sdo.util.SDOUtil"));
     stringBuffer.append(TEXT_104);

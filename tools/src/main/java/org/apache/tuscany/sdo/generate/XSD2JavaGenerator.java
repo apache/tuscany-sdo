@@ -19,15 +19,27 @@
  */
 package org.apache.tuscany.sdo.generate;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.List;
 
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
+import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -47,6 +59,7 @@ public class XSD2JavaGenerator extends JavaGenerator
    *     [ -targetDirectory <target-root-directory> ]
    *     [ -javaPackage <java-package-name> ]
    *     [ -schemaNamespace <namespace-uri> ]
+   *     [ -namespaceInfo <namespaces-file> ]
    *     [ other options ... ]
    *     <xsd-file> | <wsdl-file>
    *
@@ -54,7 +67,14 @@ public class XSD2JavaGenerator extends JavaGenerator
    *   
    *     -schemaNamespace
    *         Generate classes for XSD types in the specified targetNamespace. By default, types in the
-   *         targetNamespace of the first schema in the specified xsd or wsdl file are generated.
+   *         targetNamespace of the first schema in the specified xsd or wsdl file are generated. Specify   
+   *         'all' and this parameter will act as a wildcard selecting all namespaces for code generation.
+   *     -namespaceInfo 
+   *         Specifies the name of a file that should contain a list of namespaces and their associated package names.
+   *         Optionally, a prefix may be assigned to each namespace as well.  These values are separated by semicolons.
+   *         So each line in the file would look something like this:
+   *         
+   *         some\namespace;custom.package.name;optionalPrefix
    *         
    *     NOTE: see the base class JavaGenerator for other options.
    *         
@@ -78,20 +98,33 @@ public class XSD2JavaGenerator extends JavaGenerator
       printUsage();
     }
   }
+
   
   protected String schemaNamespace = null;
+  protected String namespaceInfo = null;
   protected String generateBuiltIn = null;
+  protected static GeneratedPackages generatedPackages = null;
+  protected boolean allNamespaces = false;
 
   protected int handleArgument(String args[], int index)
   {
     if (args[index].equalsIgnoreCase("-schemaNamespace"))
     {
       schemaNamespace = args[++index];
+      if( "all".equalsIgnoreCase(schemaNamespace) )
+      {
+        schemaNamespace = null;
+        allNamespaces = true;
+      }
     }
     else if (args[index].equalsIgnoreCase("-generateBuiltIn"))
     {
       // Internal option used when regenerating one of the built-in (predefined) models (e.g., commonj.sdo).
       generateBuiltIn = args[++index];
+    }
+    else if (args[index].equalsIgnoreCase("-namespaceInfo"))
+    {
+        namespaceInfo = args[++index];
     }
     else
     {
@@ -104,21 +137,36 @@ public class XSD2JavaGenerator extends JavaGenerator
   protected void run(String args[])
   {
     String xsdFileName = args[inputIndex];
-    generateFromXMLSchema(xsdFileName, schemaNamespace, targetDirectory, javaPackage, prefix, genOptions, generateBuiltIn);
+    EPackage.Registry packageRegistry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE);
+    ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(packageRegistry);
+    String packageURI = getSchemaNamespace(xsdFileName);
+    Hashtable packageInfoTable = createPackageInfoTable(packageURI, schemaNamespace, javaPackage, prefix, namespaceInfo );
+    generateFromXMLSchema(xsdFileName, packageRegistry, extendedMetaData, targetDirectory, packageInfoTable, genOptions, generateBuiltIn, allNamespaces);
   }
 
   public static void generateFromXMLSchema(String xsdFileName, String namespace, String targetDirectory, String javaPackage, String prefix, int genOptions)
   {
-    generateFromXMLSchema(xsdFileName, namespace, targetDirectory, javaPackage, prefix, genOptions, null);
-  }
-
-  protected static void generateFromXMLSchema(String xsdFileName, String namespace, String targetDirectory, String javaPackage, String prefix, int genOptions, String regenerateBuiltIn)
-  {
-    DataObjectUtil.initRuntime();
     EPackage.Registry packageRegistry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE);
     ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(packageRegistry);
-    XSDHelper xsdHelper = new XSDHelperImpl(extendedMetaData, regenerateBuiltIn);
+    String packageURI = getSchemaNamespace(xsdFileName);
+    Hashtable packageInfoTable = createPackageInfoTable(packageURI, namespace, javaPackage, prefix, null );
+    generateFromXMLSchema(xsdFileName, packageRegistry, extendedMetaData, targetDirectory, packageInfoTable, genOptions, null, false );
+  }
 
+  
+  protected static GenModel generateFromXMLSchema(String xsdFileName,
+                                                  EPackage.Registry packageRegistry,
+                                                  ExtendedMetaData extendedMetaData,
+                                                  String targetDirectory, 
+                                                  Hashtable packageInfoTable, 
+                                                  int genOptions,
+                                                  String regenerateBuiltIn,
+                                                  boolean allNamespaces )
+  {
+    GenModel genModel = null;  
+      
+    DataObjectUtil.initRuntime();
+    XSDHelper xsdHelper = new XSDHelperImpl(extendedMetaData, regenerateBuiltIn);
     try
     {
       File inputFile = new File(xsdFileName).getAbsoluteFile();
@@ -136,10 +184,27 @@ public class XSD2JavaGenerator extends JavaGenerator
 
       if (!packageRegistry.values().isEmpty())
       {
-        String packageURI = namespace != null ? namespace : getSchemaNamespace(xsdFileName);
-        generatePackages(packageRegistry.values(), packageURI, null, targetDirectory, javaPackage, prefix, genOptions);
+        genModel = generatePackages(packageRegistry.values(), targetDirectory, packageInfoTable, genOptions, allNamespaces );
+        // For now, this option is not supported
+        /*
+        if(  (genModel != null) )
+        {
+          if((extendedMetaData != null))
+          {    
+            // Display only, will report all namespaces and associated packages found
+            List genPackages = genModel.getGenPackages();
+            for (Iterator iter = genPackages.iterator(); iter.hasNext();)
+            {
+              GenPackage genPackage = (GenPackage)iter.next();
+              EPackage ecorePackage = genPackage.getEcorePackage();
+              if( (genOptions & OPTION_DISPLAY_NAMESPACES) != 0)                      
+                System.out.println(extendedMetaData.getNamespace(ecorePackage)+";"+genPackage.getInterfacePackageName()+"."+ecorePackage.getName());
+            }
+          }    
+        }
+        */
       }
-
+      
       /*
       for (Iterator iter = packageRegistry.values().iterator(); iter.hasNext();)
       {
@@ -157,6 +222,7 @@ public class XSD2JavaGenerator extends JavaGenerator
     {
       e.printStackTrace();
     }
+    return genModel;
   }
   
   public static String getSchemaNamespace(String xsdFileName)
@@ -175,6 +241,7 @@ public class XSD2JavaGenerator extends JavaGenerator
     System.out.println("  [ -javaPackage <java-package-name> ]");
     System.out.println("  [ -prefix <prefix-string> ]");
     System.out.println("  [ -schemaNamespace <namespace-uri> ]");
+    System.out.println("  [ -namespaceInfo <namespaces-file> ]");
     System.out.println("  [ -noInterfaces ]");
     System.out.println("  [ -noContainment ]");
     System.out.println("  [ -noNotification ]");
@@ -190,4 +257,208 @@ public class XSD2JavaGenerator extends JavaGenerator
     System.out.println("  generate somedir/somefile.xsd");
   }
 
+  public void generateFromXMLSchema(String args[])
+  {
+    try
+    {
+      processArguments(args);
+      EPackage.Registry packageRegistry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE);
+      ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(packageRegistry);
+      String xsdFileName = args[inputIndex];
+      String packageURI = getSchemaNamespace(xsdFileName);
+      Hashtable packageInfoTable = createPackageInfoTable(packageURI, schemaNamespace, javaPackage, prefix, namespaceInfo );
+      GenModel genModel = generateFromXMLSchema(xsdFileName, packageRegistry, extendedMetaData, targetDirectory, packageInfoTable, genOptions, generateBuiltIn, allNamespaces);
+      generatedPackages = new GeneratedPackages(genModel,extendedMetaData);
+    }
+    catch (IllegalArgumentException e)
+    {
+      printUsage();
+    }      
+  }
+  
+  private static Hashtable createPackageInfoTable( String packageURI, String schemaNamespace, String javaPackage, String prefix, String namespaceInfo )
+  {
+    Hashtable packageInfoTable = new Hashtable();
+      
+    if( namespaceInfo != null )
+    {
+      try
+      {
+        FileReader inputFile = new FileReader(namespaceInfo);
+        BufferedReader bufRead = new BufferedReader(inputFile);
+          
+        String line = bufRead.readLine();
+        while( line != null )
+        {
+          if( line.length() > 0 )
+          {
+            String [] options = line.split(";");
+            if( options.length > 1 )
+            {
+              if( options.length > 2 )
+                packageInfoTable.put(options[0], new PackageInfo(options[1], options[2], options[0], null ));
+              else    
+                packageInfoTable.put(options[0], new PackageInfo(options[1], null, options[0], null ));
+            }
+            else
+              packageInfoTable.put(options[0], new PackageInfo(null, null, options[0], null ));
+          }
+              line = bufRead.readLine();
+        }
+      }
+      catch (IOException e)
+      {
+        e.printStackTrace();
+      }
+    }
+    else
+    {
+        if( schemaNamespace != null )
+            packageInfoTable.put(schemaNamespace, new PackageInfo(javaPackage, prefix, schemaNamespace, null ));
+        else
+            packageInfoTable.put(packageURI, new PackageInfo(javaPackage, prefix, null, null ));
+    }    
+    return packageInfoTable;
+  }
+  
+  public List getGeneratedPackageInfo()
+  {
+    if( generatedPackages != null )
+      return generatedPackages.getPackageList();
+    else
+      return null;
+  }
+  
+  protected class GeneratedPackages
+  {
+    private List genPackages = null;
+      
+    GeneratedPackages(GenModel genModel, ExtendedMetaData extendedMetaData)
+    {
+      List packages = genModel.getGenPackages();
+      Hashtable genClasses = new Hashtable();
+      for (Iterator iter = packages.iterator(); iter.hasNext();)
+      {
+        // loop through the list, once to build up the eclass to genclass mapper
+        GenPackage genPackage = (GenPackage)iter.next();
+        List classes = genPackage.getGenClasses();
+        for (Iterator classIter = classes.iterator(); classIter.hasNext();)
+        {
+          GenClass genClass = (GenClass)classIter.next();
+          genClasses.put(genClass.getEcoreClass(), genClass);
+        }
+      }
+      genPackages = new ArrayList();
+      for (Iterator iter = packages.iterator(); iter.hasNext();)
+      {
+        // now process the pckage list
+        GenPackage genPackage = (GenPackage)iter.next();
+        genPackages.add(new GeneratedPackage(genPackage,extendedMetaData,genClasses));
+      }
+    }
+      
+    List getPackageList() {return genPackages;}
+  }
+  
+  public class GeneratedPackage
+  {
+    private String namespace;
+    private List   classes;
+    
+    public String getNamespace() {return namespace;}
+    public List getClasses() {return classes;}
+    
+    GeneratedPackage(GenPackage genPackage, ExtendedMetaData extendedMetaData, Hashtable eclassGenClassMap )
+    {
+      classes = new ArrayList();
+         
+      EPackage ePackage = genPackage.getEcorePackage();
+      namespace     = extendedMetaData.getNamespace(ePackage);
+        
+      List genClasses = genPackage.getGenClasses();
+      for (Iterator iterClass = genClasses.iterator(); iterClass.hasNext();)
+      {
+        GenClass genClass = (GenClass)iterClass.next();
+        if( !("DocumentRoot".equals(genClass.getInterfaceName())))
+        {
+          String name  = extendedMetaData.getName(genClass.getEcoreClass());
+          String className = genPackage.getInterfacePackageName() + "." + genClass.getInterfaceName();
+          classes.add( new PackageClassInfo( name, className, false, null ) );
+          EClass documentRoot = extendedMetaData.getDocumentRoot(ePackage);
+          if( documentRoot != null )
+          {
+            List rootElements = extendedMetaData.getElements(documentRoot);
+            for (Iterator iterRoot = rootElements.iterator(); iterRoot.hasNext();)
+            {
+              EStructuralFeature element = (EStructuralFeature)iterRoot.next();
+              EClassifier elementType = element.getEType();
+              if( elementType instanceof EClass )
+              {
+                // complex type
+                EClass eClass = (EClass)elementType;
+                GenClass genEClass = (GenClass)eclassGenClassMap.get(elementType);
+                name = extendedMetaData.getName(element);
+                String interfaceName = genEClass.getGenPackage().getInterfacePackageName()
+                       + '.' + genEClass.getInterfaceName();
+                boolean anonymous = extendedMetaData.isAnonymous(eClass);
+                            
+                // Build list of property class names
+                List propertyClassNames = new ArrayList();
+                List properties = eClass.getEStructuralFeatures(); 
+                for (Iterator iterProperties = properties.iterator(); iterProperties.hasNext();)
+                {
+                  EStructuralFeature feature = (EStructuralFeature)iterProperties.next();
+                  EClassifier propertyType = feature.getEType();
+                  if (propertyType instanceof EClass) 
+                  {
+                    GenClass propertyGenClass = (GenClass)eclassGenClassMap.get(propertyType);
+                    if( propertyGenClass != null )
+                    {    
+                      String propertyClassName =  propertyGenClass.getGenPackage().getInterfacePackageName() + '.'
+                                                  + propertyGenClass.getInterfaceName();
+                      propertyClassNames.add(propertyClassName);
+                    }        
+                  } 
+                  else if (propertyType instanceof EClassifier) 
+                  {
+                    String propertyClassName = propertyType.getInstanceClass().getName();
+                    propertyClassNames.add(propertyClassName);
+                  }
+                }
+                classes.add( new PackageClassInfo( name, interfaceName, anonymous, propertyClassNames ) );
+              }
+              else
+              {
+                // simple type
+                name  = extendedMetaData.getName(element);
+                className = elementType.getInstanceClass().getName();
+                classes.add( new PackageClassInfo( name, className, false, null ) );
+              }
+            }    
+          }
+        }
+      }   
+    }
+      
+    public class PackageClassInfo
+    {
+      private String name;
+      private String className = null;
+      private boolean anonymous = false;
+      private List properties = null;
+        
+      PackageClassInfo( String name, String className, boolean anonymous, List properties )
+      {
+        this.name = name;
+        this.className = className;
+        this.anonymous = anonymous;
+        this.properties = properties;
+      }
+        
+      public String getName() {return name;}
+      public String getClassName() {return className;}
+      public boolean getAnonymous() {return anonymous;}
+      public List getProperties() {return properties;}
+    }
+  }
 }
