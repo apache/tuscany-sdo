@@ -623,8 +623,15 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
     stringBuffer.append(TEXT_101);
     stringBuffer.append(factoryType);
     stringBuffer.append(TEXT_102);
-    HashSet packages = new HashSet(genPackage.getPackageSimpleDependencies());
-    for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { packages.add(p.next()); }
+    
+		List packages = new ArrayList(genPackage.getPackageSimpleDependencies());
+		for (Iterator pidi=genPackage.getPackageInitializationDependencies().iterator(); pidi.hasNext();) {
+			Object pkg = pidi.next();
+			if(!packages.contains(pkg)) {
+				packages.add(pkg);
+			}
+		}
+  
     for (Iterator p=packages.iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();
     stringBuffer.append(TEXT_103);
     stringBuffer.append(genModel.getImportedName("org.apache.tuscany.sdo.util.SDOUtil"));
