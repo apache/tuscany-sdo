@@ -32,7 +32,7 @@ import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.impl.AttributeImpl;
 import org.apache.tuscany.sdo.impl.SDOFactoryImpl.SDOEcoreFactory;
 import org.apache.tuscany.sdo.model.ModelFactory;
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.api.SDOUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -156,10 +156,17 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
   
   protected EClassifier getBuiltInEClassifier(String namespace, String name)
   {
-    EClassifier eClassifier = 
-      "base64Binary".equals(name)
-        ? (EClassifier)AttributeImpl.INTERNAL_BASE64_BYTES
-          : (EClassifier)SDOUtil.getXSDSDOType(name);
+      EClassifier eClassifier = null;
+      if ("base64Binary".equals(name)) {
+          eClassifier = (EClassifier)AttributeImpl.INTERNAL_BASE64_BYTES;
+      }
+      else if ("QName".equals(name)) {
+          eClassifier = (EClassifier)AttributeImpl.INTERNAL_QNAME;
+      }
+      else {
+          eClassifier = (EClassifier)SDOUtil.getXSDSDOType(name);
+      }
+      
     if (eClassifier == null)
       eClassifier = super.getBuiltInEClassifier(namespace, name);
     return eClassifier;

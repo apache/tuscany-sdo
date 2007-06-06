@@ -124,6 +124,7 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
   }
   
   public static Type INTERNAL_BASE64_BYTES = ((InternalFactoryImpl)InternalFactory.INSTANCE).getBase64Bytes();
+  public static Type INTERNAL_QNAME = ((InternalFactoryImpl)InternalFactory.INSTANCE).getQName();
 
   /**
    * <!-- begin-user-doc -->
@@ -135,6 +136,8 @@ public class AttributeImpl extends EAttributeImpl implements Property, org.apach
     EClassifier eType = getEType();
     if (eType == INTERNAL_BASE64_BYTES)
       return ((ModelFactoryImpl)ModelFactory.INSTANCE).getBytes();
+    else if (eType == INTERNAL_QNAME)
+        return ((ModelFactoryImpl)ModelFactory.INSTANCE).getURI();
     return (Type)eType;
   }
 

@@ -60,6 +60,7 @@ public class AllTests extends TestCase {
         suite.addTestSuite(XMLStreamHelperTestCase.class);
         suite.addTestSuite(XPathTestCase.class);
         suite.addTestSuite(XSDHelperTestCase.class);
+        suite.addTestSuite(XSDQNameTestCase.class);
 
         return suite;
     }

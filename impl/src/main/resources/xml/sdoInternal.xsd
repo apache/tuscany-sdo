@@ -26,4 +26,8 @@
     <xsd:restriction base="xsd:base64Binary"/>
   </xsd:simpleType>
  
+  <xsd:simpleType name="QName" sdoJava:instanceClass="java.lang.String">
+    <xsd:restriction base="xsd:QName"/>
+  </xsd:simpleType>
+
 </xsd:schema>

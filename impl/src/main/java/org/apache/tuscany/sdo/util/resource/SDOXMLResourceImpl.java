@@ -50,6 +50,7 @@ import org.apache.tuscany.sdo.util.SDOUtil;
 import org.apache.tuscany.sdo.util.StAX2SAXAdapter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EFactory;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
@@ -167,6 +168,78 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
             if (nameSpaceContext == null)
                 nameSpaceContext = new NameSpaceContext();
             return nameSpaceContext;
+        }
+        
+        private String xsdQName2SDOURI(String xsdQName) {
+            org.eclipse.emf.ecore.xml.type.internal.QName qname = new org.eclipse.emf.ecore.xml.type.internal.QName(xsdQName);
+            updateQNameURI(qname);
+            return qname.getNamespaceURI() + "#" + qname.getLocalPart();
+        }
+        
+        private String SDOURI2XsdQName(String sdoURI) {
+            String namespace = null;
+            String localPart = sdoURI;
+            
+            int index = sdoURI.indexOf('#');
+            if (index == -1) {
+                return localPart;
+            }
+            else {
+                namespace = sdoURI.substring(0, index);
+                localPart = sdoURI.substring(index+1);
+                
+                EPackage ePackage = extendedMetaData.getPackage(namespace);
+                if (ePackage == null)
+                {
+                  ePackage = extendedMetaData.demandPackage(namespace);
+                }
+
+                String prefix = getPrefix(ePackage, true);
+                if (!packages.containsKey(ePackage))
+                {
+                  packages.put(ePackage, prefix);
+                }
+                
+                return prefix + ":" + localPart;
+            }
+        }
+        
+        protected Object createFromString(EFactory eFactory, EDataType eDataType, String value) {
+            Object obj = super.createFromString(eFactory, eDataType, value);
+            if (eDataType.getName().equals("QName")) {
+                if (extendedMetaData != null) {
+                    if (obj instanceof List) {
+                        List list = (List)obj;
+                        for (int i=0; i<list.size(); i++) {
+                            String xsdQName = (String)list.get(i);
+                            list.set(i, xsdQName2SDOURI(xsdQName));
+                        }
+                    }
+                    else {
+                        obj = xsdQName2SDOURI((String)obj);
+                    }
+                }
+            }
+            return obj;
+        }
+        
+        public String convertToString(EFactory factory, EDataType dataType, Object value) {
+            if (dataType.getName().equals("QName")) {
+                if (extendedMetaData != null) {
+                    if (value instanceof List) {
+                        List list = (List)value;
+                        for (int i=0; i<list.size(); i++) {
+                            String sdoURI = (String)list.get(i);
+                            list.set(i, SDOURI2XsdQName(sdoURI));
+                        }
+                    }
+                    else {
+                        value = SDOURI2XsdQName((String)value);
+                    }
+                }
+            }
+            
+            return super.convertToString(factory, dataType, value);
         }
     }
 

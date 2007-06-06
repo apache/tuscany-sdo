@@ -19,15 +19,21 @@
  */
 package org.apache.tuscany.sdo.model.internal.impl;
 
+import commonj.sdo.helper.HelperContext;
 import org.apache.tuscany.sdo.helper.TypeHelperImpl;
-import org.apache.tuscany.sdo.impl.FactoryBase;
-import org.apache.tuscany.sdo.model.internal.InternalFactory;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
-import commonj.sdo.helper.HelperContext;
+
+import org.apache.tuscany.sdo.SDOFactory;
+
+import org.apache.tuscany.sdo.impl.FactoryBase;
+
+import org.apache.tuscany.sdo.model.ModelFactory;
+
+import org.apache.tuscany.sdo.model.internal.*;
+import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 /**
  * <!-- begin-user-doc -->
@@ -68,9 +74,10 @@ public class InternalFactoryImpl extends FactoryBase implements InternalFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String PATTERN_VERSION = "1.1";
+  public static final String PATTERN_VERSION = "1.2";
   
-  public static final int BASE64_BYTES = 1;
+  public static final int BASE64_BYTES = 1;	
+  public static final int QNAME = 2;
   
   /**
    * Creates an instance of the factory.
@@ -123,6 +130,8 @@ public class InternalFactoryImpl extends FactoryBase implements InternalFactory
     {
       case BASE64_BYTES:
         return createBase64BytesFromString(initialValue);
+      case QNAME:
+        return createQNameFromString(initialValue);
       default:
         throw new IllegalArgumentException("The type number '" + typeNumber + "' is not a valid datatype");
     }
@@ -139,6 +148,8 @@ public class InternalFactoryImpl extends FactoryBase implements InternalFactory
     {
       case BASE64_BYTES:
         return convertBase64BytesToString(instanceValue);
+      case QNAME:
+        return convertQNameToString(instanceValue);
       default:
         throw new IllegalArgumentException("The type number '" + typeNumber + "' is not a valid datatype");
     }
@@ -151,6 +162,13 @@ public class InternalFactoryImpl extends FactoryBase implements InternalFactory
   {
     return base64BytesType;
   }
+    
+  protected Type qNameType = null;
+
+  public Type getQName()
+  {
+    return qNameType;
+  }
   
 
   private static boolean isInited = false;
@@ -161,10 +179,10 @@ public class InternalFactoryImpl extends FactoryBase implements InternalFactory
     InternalFactoryImpl theInternalFactoryImpl = new InternalFactoryImpl();
     isInited = true;
 
-    // Initialize simple dependencies
+    //  Initialize simple dependencies
     //SDOUtil.registerStaticTypes(SDOFactory.class);
     //SDOUtil.registerStaticTypes(ModelFactory.class);
-
+    
     // Create package meta-data objects
     theInternalFactoryImpl.createMetaData();
 
@@ -186,6 +204,7 @@ public class InternalFactoryImpl extends FactoryBase implements InternalFactory
 
     // Create data types
     base64BytesType = createType(true, BASE64_BYTES );
+    qNameType = createType(true, QNAME );
   }
   
   private boolean isInitialized = false;
@@ -202,6 +221,9 @@ public class InternalFactoryImpl extends FactoryBase implements InternalFactory
     // Initialize data types
     initializeType(base64BytesType, byte[].class, "Base64Bytes", true, false);
     setInstanceProperty (base64BytesType, "commonj.sdo/java", "instanceClass", "byte[]");
+
+    initializeType(qNameType, String.class, "QName", true, false);
+    setInstanceProperty (qNameType, "commonj.sdo/java", "instanceClass", "java.lang.String");
 
     createXSDMetaData();
   }
@@ -220,6 +242,13 @@ public class InternalFactoryImpl extends FactoryBase implements InternalFactory
        "name", "Base64Bytes"
        });
 
+    addXSDMapping
+      (qNameType,
+       new String[] 
+       {
+       "name", "QName"
+       });
+
   }
     
   /**
@@ -229,7 +258,7 @@ public class InternalFactoryImpl extends FactoryBase implements InternalFactory
    */
   public byte[] createBase64BytesFromString(String initialValue)
   {
-    return XMLTypeFactory.eINSTANCE.createBase64Binary(initialValue);
+      return XMLTypeFactory.eINSTANCE.createBase64Binary(initialValue);
   }
 
   /**
@@ -239,11 +268,31 @@ public class InternalFactoryImpl extends FactoryBase implements InternalFactory
    */
   public String convertBase64BytesToString(Object instanceValue)
   {
-    if (instanceValue instanceof byte[]) {
-      return XMLTypeFactory.eINSTANCE.convertBase64Binary((byte[])instanceValue);
-    } else {
-      return XMLTypeFactory.eINSTANCE.convertBase64Binary(instanceValue.toString().getBytes());
-    }
+      if (instanceValue instanceof byte[]) {
+          return XMLTypeFactory.eINSTANCE.convertBase64Binary((byte[])instanceValue);
+        } else {
+          return XMLTypeFactory.eINSTANCE.convertBase64Binary(instanceValue.toString().getBytes());
+      }
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String createQNameFromString(String initialValue)
+  {
+    return (String)super.createFromString(QNAME, initialValue);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public String convertQNameToString(Object instanceValue)
+  {
+    return super.convertToString(QNAME, instanceValue);
   }
 
 } //InternalFactoryImpl
