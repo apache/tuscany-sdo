@@ -45,12 +45,28 @@ public class DeserializationNoSchemaTestCase extends TestCase
 
   TypeHelper th;
 
+  private final String xmlStr =
+      "<?xml version=\"1.0\" encoding=\"ASCII\"?> " +
+      "<simple:stockQuote xmlns:simple=\"www.example.com/simple\"> " +
+          "<symbol>fbnt</symbol> " +
+          "<companyName>FlyByNightTechnology</companyName> " +
+          "<price>1000.0</price> " +
+          "<open1>1000.0</open1> " +
+          "<high>1000.0</high> " +
+          "<low>1000.0</low> " +
+          "<volume>1000.0</volume> " +
+          "<change1>1000.0</change1> " +
+          "<quotes> " +
+              "<price>2000.0</price> " +
+          "</quotes> " +
+      "</simple:stockQuote>";
+  
   public void testLoadQuoteXMLDoc() throws IOException
   {
     XMLHelper xmlHelper = hc.getXMLHelper();
-    URL url = getClass().getResource("/quote.xml");
-    InputStream inputStream = url.openStream();
-    XMLDocument doc = xmlHelper.load(inputStream);
+/*    URL url = getClass().getResource("/quote.xml");
+    InputStream inputStream = url.openStream();*/
+    XMLDocument doc = xmlHelper.load(xmlStr);
     DataObject root = doc.getRootObject();
 
     List symbols = root.getList("symbol");
