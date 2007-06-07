@@ -54,6 +54,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.ecore.XSDEcoreBuilder;
+import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import org.eclipse.xsd.util.XSDResourceImpl;
 import org.xml.sax.InputSource;
 
@@ -241,6 +242,7 @@ public class XSDHelperImpl implements XSDHelper
     try
     {
       ResourceSet resourceSet = DataObjectUtil.createResourceSet();
+      resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XSDResourceFactoryImpl());
       Resource model = resourceSet.createResource(URI.createURI(schemaLocation != null ? schemaLocation : "null.xsd"));
       ((XSDResourceImpl)model).load(inputSource, null);
       
