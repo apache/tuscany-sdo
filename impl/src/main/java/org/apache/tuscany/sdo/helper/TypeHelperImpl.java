@@ -30,7 +30,7 @@ import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.internal.InternalFactory;
 import org.apache.tuscany.sdo.model.java.JavaFactory;
 import org.apache.tuscany.sdo.model.xml.XMLFactory;
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.api.SDOUtil;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
@@ -156,7 +156,7 @@ public class TypeHelperImpl implements TypeHelper
     Type definedType = SDOUtil.createType(this, modeledType.getUri(), modeledType.getName(), isDataType);  
     if (definedType == null)
     {
-      // If type already defined, return the existing Type.
+      // If type already defined, return existing Type.
       return getType(modeledType.getUri(), modeledType.getName());
     }
     
@@ -198,14 +198,34 @@ public class TypeHelperImpl implements TypeHelper
         {
           propertyName = propertyName.substring(0, 1).toLowerCase() + propertyName.substring(1);
         }
-        Property globalProperty = SDOUtil.createGlobalProperty(this, definedType.getURI(), propertyName, definedType);
+        Property globalProperty = SDOUtil.createOpenContentProperty(this, definedType.getURI(), propertyName, definedType);
         SDOUtil.setContainment(globalProperty, true);
       }
     } // if (!isDataType)
     
-    SDOUtil.addTypeInstanceProperties(definedType, (DataObject)modeledType);
+    addTypeInstanceProperties(definedType, (DataObject)modeledType);
 
     return definedType;
+  }
+  
+  protected void addTypeInstanceProperties(Type definedType, DataObject modeledType)
+  {
+    List instanceProperties = SDOUtil.getOpenContentProperties(modeledType);
+    for (Iterator iter = instanceProperties.iterator(); iter.hasNext(); )
+    {
+      Property property = (Property)iter.next();
+      SDOUtil.addTypeInstanceProperty(definedType, property, modeledType.get(property));
+    }
+  }
+  
+  protected void addPropertyInstanceProperties(Property definedProperty, DataObject modeledProperty)
+  {
+    List instanceProperties = SDOUtil.getOpenContentProperties(modeledProperty);
+    for (Iterator iter = instanceProperties.iterator(); iter.hasNext(); )
+    {
+      Property property = (Property)iter.next();
+      SDOUtil.addPropertyInstanceProperty(definedProperty, property, modeledProperty.get(property));
+    }
   }
 
   public List /* Type */define(List /* DataObject */types)
@@ -274,7 +294,7 @@ public class TypeHelperImpl implements TypeHelper
         SDOUtil.setOpposite(newProperty, getDefinedProperty(modeledProperty.getOpposite_()));
       }
     }
-    SDOUtil.addPropertyInstanceProperties(newProperty, (DataObject)modeledProperty);
+    addPropertyInstanceProperties(newProperty, (DataObject)modeledProperty);
   }
   
   public static final String TUSCANY_NO_URI="http://tuscany-no-uri";
@@ -289,7 +309,7 @@ public class TypeHelperImpl implements TypeHelper
 
     if (uri == null) uri = TUSCANY_NO_URI;
 
-    Property newProperty = SDOUtil.createGlobalProperty(this, uri, modeledProperty.getName(), propertyType);
+    Property newProperty = SDOUtil.createOpenContentProperty(this, uri, modeledProperty.getName(), propertyType);
    
     // Propagate the modeled property's attributes
     initializeProperty(newProperty, modeledProperty);
