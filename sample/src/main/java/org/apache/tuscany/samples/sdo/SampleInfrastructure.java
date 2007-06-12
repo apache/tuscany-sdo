@@ -111,7 +111,7 @@ public class SampleInfrastructure {
     banner('!',
         "Something unexpected has gone wrong with the execution of this sample program\n" +
         "Please take a look at the exception and see if its something wrong with your environment\n" +
-        "If you can't figure it out please send a note to the tuscany-users@ws.apache.org mailing list\n" +
+        "If you can't figure it out please send a note to the tuscany-user@ws.apache.org mailing list\n" +
         "including the text of the exception and any other useful information, thanks");
     
     e.printStackTrace();

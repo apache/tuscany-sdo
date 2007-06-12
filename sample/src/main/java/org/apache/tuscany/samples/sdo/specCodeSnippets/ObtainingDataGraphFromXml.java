@@ -106,7 +106,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
       
       /*
        * Create an instance of the sample program.  Edit the "userLevel" argument to suit
-       * your experience, NOVICE, MASTERED_THE_BASICS or ADVANCED
+       * your experience, NOVICE, INTERMEDIATE or ADVANCED
        */
       ObtainingDataGraphFromXml sample = new ObtainingDataGraphFromXml(NOVICE);
       sample.run();
