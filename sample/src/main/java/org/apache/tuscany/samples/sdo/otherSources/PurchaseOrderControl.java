@@ -32,6 +32,7 @@ import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.helper.CopyHelper;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 import org.apache.tuscany.samples.sdo.specCodeSnippets.*;
@@ -43,7 +44,7 @@ import org.apache.tuscany.samples.sdo.specCodeSnippets.*;
  * @see org.apache.tuscany.samples.sdo.otherSources.PurchaseOrderCmdLine
  * 
  */
-public class PurchaseOrderControl {
+public class PurchaseOrderControl extends SampleBase {
 
     // there are a number of ways to set properties
     // these constants define which mechanism the user
@@ -75,6 +76,7 @@ public class PurchaseOrderControl {
      */
     public PurchaseOrderControl() throws Exception {
         this(null, null);
+        scope = createScopeForTypes();
     }
 
     /**
@@ -91,6 +93,8 @@ public class PurchaseOrderControl {
         this.xsdFileName = xsdFileName;
         this.xmlFileName = xmlFileName;
 
+        scope = createScopeForTypes();
+        
         // define purchase order types for SDO
         definePurchaseOrderTypes();
         // read in existing xml and populate DataObjects
@@ -107,13 +111,13 @@ public class PurchaseOrderControl {
         if ((xsdFileName == null) || (xsdFileName.equals("")) || (xsdFileName.equalsIgnoreCase("null"))) {
 
             // use simple example to define type from resource
-            CreateDataObjectFromXsdAndXmlFiles.definePurchaseOrderTypeUsingXsdResource();
+            loadXMLSchemaFromFile(SdoSampleConstants.PO_XSD_RESOURCE);
 
         } else {
             System.out.println("Using file to access xsd in order to define types");
             try {
                 FileInputStream fis = new FileInputStream(xsdFileName);
-                XSDHelper.INSTANCE.define(fis, null);
+                scope.getXSDHelper().define(fis, null);
                 fis.close();
                 System.out.println("Sucessfully used " + xsdFileName + " to define types");
 
@@ -136,13 +140,13 @@ public class PurchaseOrderControl {
 
         if ((xmlFileName == null) || (xmlFileName.equals("")) || (xmlFileName.equalsIgnoreCase("null"))) {
 
-            purchaseOrder = CreateDataObjectFromXsdAndXmlFiles.createPurchaseOrderDataObjectUsingXmlResource();
+            purchaseOrder = loadXMLFromFile(SdoSampleConstants.PO_XML_RESOURCE);
         } else {
             try {
 
                 System.out.println("Using file to access xml to populate DataObjects");
                 FileInputStream fis = new FileInputStream(xmlFileName);
-                XMLDocument xmlDoc = XMLHelper.INSTANCE.load(fis);
+                XMLDocument xmlDoc = scope.getXMLHelper().load(fis);
                 purchaseOrder = xmlDoc.getRootObject();
                 System.out.println("Sucessfully used file to populate DataObjects");
                 fis.close();
@@ -304,7 +308,7 @@ public class PurchaseOrderControl {
      */
     public void saveAs(String fileName) throws IOException {
         OutputStream stream = new FileOutputStream(fileName);
-        XMLHelper.INSTANCE.save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder", stream);
+        scope.getXMLHelper().save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder", stream);
         System.out.println("Saved to " + fileName);
     }
 
@@ -413,7 +417,7 @@ public class PurchaseOrderControl {
      * @return deep copy of the purchase order DataObject
      */
     public DataObject getDeepCopyPurchaseOrder() {
-        return CopyHelper.INSTANCE.copy(purchaseOrder);
+        return scope.getCopyHelper().copy(purchaseOrder);
 
     }
 
@@ -422,7 +426,7 @@ public class PurchaseOrderControl {
      * @return shallow copy of the purchase order DataObject
      */
     public DataObject getShallowCopyPurchaseOrder() {
-        return CopyHelper.INSTANCE.copyShallow(purchaseOrder);
+        return scope.getCopyHelper().copyShallow(purchaseOrder);
     }
 
     /**
@@ -441,7 +445,7 @@ public class PurchaseOrderControl {
      * @return XMLDocument that represents current purchase order DataObject
      */
     public XMLDocument getXMLDocuement() {
-        return XMLHelper.INSTANCE.createDocument(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder");
+        return scope.getXMLHelper().createDocument(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder");
     }
 
     /**
@@ -450,9 +454,9 @@ public class PurchaseOrderControl {
      */
     public String getXMLString() {
         // alternativly could use the following
-        // return XMLHelper.INSTANCE.createDocument(purchaseOrder, PO_NAMESPACE,
+        // return scope.getXMLHelper().createDocument(purchaseOrder, PO_NAMESPACE,
         // "purchaseOrder").toString();
-        return XMLHelper.INSTANCE.save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder");
+        return scope.getXMLHelper().save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder");
     }
 
     // PRIVATE HELPER METHODS

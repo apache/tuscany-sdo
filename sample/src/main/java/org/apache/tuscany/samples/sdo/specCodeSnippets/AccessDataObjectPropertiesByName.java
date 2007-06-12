@@ -22,10 +22,10 @@ package org.apache.tuscany.samples.sdo.specCodeSnippets;
 
 import java.util.List;
 
-import commonj.sdo.DataObject;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+
+import commonj.sdo.DataObject;
 
 /**
  * Demonstrates accessing a created DataObject's properties by name.
@@ -70,7 +70,11 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
  * java org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName</LI>
  * </UL>
  */
-public class AccessDataObjectPropertiesByName {
+public class AccessDataObjectPropertiesByName extends SampleBase {
+
+    public AccessDataObjectPropertiesByName(int userLevel) {
+      super(userLevel);
+    }
 
     /**
      * Prints a subset of PurchaseOrder properties to System.out
@@ -115,6 +119,19 @@ public class AccessDataObjectPropertiesByName {
      *            No parameters required.
      */
     public static void main(String[] args) {
+      // TODO make the default level NOVICE, once the rest of the sample has been
+      // converted to using commentary()
+      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+
+      try {
+        sample.run();
+      }
+      catch (Exception e) {
+        sample.somethingUnexpectedHasHappened(e);
+      }
+    }
+
+    public void run () throws Exception {
 
         // information
         System.out.println("***************************************");
@@ -124,10 +141,12 @@ public class AccessDataObjectPropertiesByName {
         System.out.println("***************************************");
 
         // create a DataObejct
+        scope = createScopeForTypes();
+        
         DataObject purchaseOrder = null;
         try {
-            XSDHelper.INSTANCE.define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);           
-            purchaseOrder = XMLHelper.INSTANCE.load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE)).getRootObject();
+            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);           
+            purchaseOrder = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE)).getRootObject();
             System.out.println("DataObject created");
         } catch (Exception e) {
             System.out.println("Error creating DataObject " + e.toString());

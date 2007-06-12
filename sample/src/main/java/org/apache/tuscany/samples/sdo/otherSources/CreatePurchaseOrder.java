@@ -21,6 +21,7 @@
 package org.apache.tuscany.samples.sdo.otherSources;
 
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -29,6 +30,7 @@ import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 /**
@@ -76,7 +78,11 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
  * @see org.apache.tuscany.samples.sdo.specExampleSection.CreatingXmlFromDataObjects
  */
 
-public class CreatePurchaseOrder {
+public class CreatePurchaseOrder extends SampleBase {
+
+    public CreatePurchaseOrder(int userLevel) {
+      super(userLevel);
+    }
 
     /**
      * Defines purchase order types using
@@ -84,7 +90,7 @@ public class CreatePurchaseOrder {
      * 
      * @throws Exception
      */
-    private static void definePOTypes() throws Exception {
+    private void definePOTypes() throws Exception {
 
         InputStream is = ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE);
         if (is == null) {
@@ -92,7 +98,7 @@ public class CreatePurchaseOrder {
         } else {
             System.out.println("Obtained Input Stream from resoruce");
         }
-        XSDHelper.INSTANCE.define(is, null);
+        scope.getXSDHelper().define(is, null);
         is.close();
     }
 
@@ -103,6 +109,19 @@ public class CreatePurchaseOrder {
      *            none required.
      */
     public static void main(String[] args) {
+
+      // TODO make the default level NOVICE, once the rest of the sample has been
+      // converted to using commentary()
+      CreatePurchaseOrder sample = new CreatePurchaseOrder(INTERMEDIATE);
+      try {
+        sample.run();
+      }
+      catch (Exception e) {
+        sample.somethingUnexpectedHasHappened(e);
+      }
+    }
+    
+    public void run() throws Exception {
         try {
 
             System.out.println("***************************************");
@@ -115,9 +134,11 @@ public class CreatePurchaseOrder {
 
             System.out.println("***************************************");
 
+            scope = createScopeForTypes();
+            
             definePOTypes();
             System.out.println("Defined Types using xsd");
-            DataObject purchaseOrder = DataFactory.INSTANCE.create(SdoSampleConstants.PO_NAMESPACE, "PurchaseOrderType");
+            DataObject purchaseOrder = scope.getDataFactory().create(SdoSampleConstants.PO_NAMESPACE, "PurchaseOrderType");
             System.out.println("Created DataObject using DataFactory");
 
             purchaseOrder.setString("orderDate", "1999-10-20");
@@ -158,7 +179,7 @@ public class CreatePurchaseOrder {
             System.out.println("Created 2 items");
 
             OutputStream stream = new FileOutputStream(SdoSampleConstants.PO_XML_GENERATED);
-            XMLHelper.INSTANCE.save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder", stream);
+            scope.getXMLHelper().save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder", stream);
             System.out.println("Created file " + SdoSampleConstants.PO_XML_GENERATED);
         } catch (Exception e) {
             System.out.println("Sorry an error occured " + e.toString());

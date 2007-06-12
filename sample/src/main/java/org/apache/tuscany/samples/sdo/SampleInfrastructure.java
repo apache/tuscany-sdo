@@ -107,7 +107,7 @@ public class SampleInfrastructure {
     }
   }
   
-  protected void somethingUnexpectedHasHappened(Exception e) {
+  public void somethingUnexpectedHasHappened(Exception e) {
     banner('!',
         "Something unexpected has gone wrong with the execution of this sample program\n" +
         "Please take a look at the exception and see if its something wrong with your environment\n" +

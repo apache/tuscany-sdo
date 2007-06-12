@@ -34,7 +34,9 @@ import java.io.ObjectOutputStream;
 import java.io.IOException;
 
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
 
 /**
  * Demonstrates serializing and deserializing a DataObject to disk.
@@ -89,7 +91,12 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
  * @author Robbie Minshall
  */
 
-public class SerializingDesearializingADataObject {
+public class SerializingDesearializingADataObject  extends SampleBase {
+
+    public SerializingDesearializingADataObject(int userLevel) {
+      super(userLevel);
+    }
+
 
     /**
      * Default fileName to serialize DataObject to
@@ -110,6 +117,19 @@ public class SerializingDesearializingADataObject {
      * @param args
      */
     public static void main(String[] args) {
+      // TODO make the default level NOVICE, once the rest of the sample has been
+      // converted to using commentary()
+      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+
+      try {
+        sample.run();
+      }
+      catch (Exception e) {
+        sample.somethingUnexpectedHasHappened(e);
+      }
+    }
+
+    public void run () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample AccessingTheContentsOfASequence");
         System.out.println("***************************************");
@@ -118,14 +138,16 @@ public class SerializingDesearializingADataObject {
         
 
         try {
+            scope = createScopeForTypes();
+
             // define Types using XSDHelper and predefined xsd file
             System.out.println("Defining Types using XSD");
-            XSDHelper.INSTANCE.define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_XSD), null);
+            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_XSD), null);
             System.out.println("Type definition completed");
 
             // create company DataObject using XMLHelper which is an example of a XML DAS
             System.out.println("Creating company DataObject");
-            DataObject company = XMLHelper.INSTANCE.load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAOBJECT_XML))
+            DataObject company = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAOBJECT_XML))
                     .getRootObject();
 
             // prompt user for a fileName
@@ -156,19 +178,19 @@ public class SerializingDesearializingADataObject {
             
             System.out.println("Comparing original and deserialized DataObject");                       
             //determine if two graphs of DataObjects are equal 
-            System.out.println("DataObjects are equal: " + EqualityHelper.INSTANCE.equal(company, newDataObject));
+            System.out.println("DataObjects are equal: " + scope.getEqualityHelper().equal(company, newDataObject));
             
             //determine if two DataObjects have the same values for their datatype properties          
-            System.out.println("DataObjects have same values for their datatype properties : " + EqualityHelper.INSTANCE.equalShallow(company, newDataObject));
+            System.out.println("DataObjects have same values for their datatype properties : " + scope.getEqualityHelper().equalShallow(company, newDataObject));
                                  
             //print out xml representation
             System.out.println();
             System.out.println("Original company DataObject:");
-            System.out.println(XMLHelper.INSTANCE.save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company"));
+            System.out.println(scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company"));
             
             System.out.println();
             System.out.println("Deserialized company DataObject:");
-            System.out.println(XMLHelper.INSTANCE.save(newDataObject, SdoSampleConstants.COMPANY_NAMESPACE, "company"));                       
+            System.out.println(scope.getXMLHelper().save(newDataObject, SdoSampleConstants.COMPANY_NAMESPACE, "company"));                       
             
         } catch (Exception e) {
             System.out.println("Sorry there was an error encountered " + e.toString());

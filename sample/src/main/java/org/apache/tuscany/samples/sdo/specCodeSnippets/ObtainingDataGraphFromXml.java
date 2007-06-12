@@ -135,7 +135,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
         );
         
         scope = useDefaultScopeForTypes();
-        loadXMLSchemaFromFile(scope, SdoSampleConstants.COMPANY_XSD);
+        loadXMLSchemaFromFile(SdoSampleConstants.COMPANY_XSD);
         
 
 

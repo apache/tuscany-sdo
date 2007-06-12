@@ -21,6 +21,9 @@
 package org.apache.tuscany.samples.sdo.specExampleSection;
 
 
+import org.apache.tuscany.samples.sdo.SampleBase;
+import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
+
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.DataObject;
@@ -85,7 +88,12 @@ import commonj.sdo.Property;
  * @author Robbie Minshall
  */
 
-public class AccessingTheContentsOfASequence {
+public class AccessingTheContentsOfASequence  extends SampleBase {
+
+    public AccessingTheContentsOfASequence(int userLevel) {
+      super(userLevel);
+    }
+
 
     /**
      * previously created XSD file used
@@ -103,24 +111,39 @@ public class AccessingTheContentsOfASequence {
      * @param args
      */
     public static void main(String[] args) {
+      // TODO make the default level NOVICE, once the rest of the sample has been
+      // converted to using commentary()
+      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+
+      try {
+        sample.run();
+      }
+      catch (Exception e) {
+        sample.somethingUnexpectedHasHappened(e);
+      }
+    }
+
+    public void run () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample AccessingTheContentsOfASequence");
         System.out.println("***************************************");
         System.out.println("Demonstrates accessing the sequence from a DataObject containing mixed content.");
         System.out.println("***************************************");
 
+        scope = createScopeForTypes();
+        
         try {
             // define model
             System.out.println("Defining Types using XSD");
-            XSDHelper.INSTANCE.define(ClassLoader.getSystemResourceAsStream(LETTER_XSD), null);
+            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(LETTER_XSD), null);
 
             // define letter data object
             System.out.println("Loading Letter DataObject from XML");
-            DataObject letter = XMLHelper.INSTANCE.load(ClassLoader.getSystemResourceAsStream(LETTER_XML)).getRootObject();
+            DataObject letter = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(LETTER_XML)).getRootObject();
 
             // print letter sequence
             System.out.println("Printing sequence for " + letter);
-            System.out.println(XMLHelper.INSTANCE.save(letter, "letter.xsd", "letter"));
+            System.out.println(scope.getXMLHelper().save(letter, "letter.xsd", "letter"));
             printSequence(letter);
 
         } catch (Exception e) {
@@ -138,9 +161,9 @@ public class AccessingTheContentsOfASequence {
      * 
      * @param letter.  Letter DataObject conforming to {@link #LETTER_XSD}
      */
-    public static void printSequence(DataObject letter) {
+    public void printSequence(DataObject letter) {
         // Access the Sequence of the FormLetter
-        System.out.println("The type is for letter dataObject is mixed " + XSDHelper.INSTANCE.isMixed(letter.getType()));
+        System.out.println("The type is for letter dataObject is mixed " + scope.getXSDHelper().isMixed(letter.getType()));
         
         Sequence letterSequence = letter.getSequence();
         // Print out all the settings that contain unstructured text

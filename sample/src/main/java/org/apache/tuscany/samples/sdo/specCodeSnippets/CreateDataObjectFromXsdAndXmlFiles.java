@@ -22,6 +22,7 @@ package org.apache.tuscany.samples.sdo.specCodeSnippets;
 
 import java.io.InputStream;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.XMLDocument;
@@ -72,7 +73,12 @@ import commonj.sdo.helper.XSDHelper;
  * java org.apache.tuscany.samples.sdo.specCodeSnippets.CreateDataObjectFromXsdAndXmlFiles</LI>
  * </UL>
  */
-public class CreateDataObjectFromXsdAndXmlFiles {
+public class CreateDataObjectFromXsdAndXmlFiles extends SampleBase  {
+  
+    public CreateDataObjectFromXsdAndXmlFiles(int userLevel) {
+      super(userLevel);
+    }
+
 
 	public static boolean typesDefined = false;
 
@@ -81,7 +87,7 @@ public class CreateDataObjectFromXsdAndXmlFiles {
 	 * Loads the {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XSD_RESOURCE} resource in order to define PurchaseOrder
 	 * Types 
 	 */
-	public static void definePurchaseOrderTypeUsingXsdResource()
+	public void definePurchaseOrderTypeUsingXsdResource()
 			throws Exception {
 
 		InputStream is = null;
@@ -95,7 +101,7 @@ public class CreateDataObjectFromXsdAndXmlFiles {
 			} else {
 				System.out.println("Obtained Input Stream from resoruce");
 			}
-			XSDHelper.INSTANCE.define(is, null);
+			scope.getXSDHelper().define(is, null);
 
 		} catch (Exception e) {
 			System.out
@@ -119,7 +125,7 @@ public class CreateDataObjectFromXsdAndXmlFiles {
 	 * Uses resource {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XML_RESOURCE} to populate DataObject
 	 * @return populated purchase order DataObject
 	 */
-	public static DataObject createPurchaseOrderDataObjectUsingXmlResource()
+	public DataObject createPurchaseOrderDataObjectUsingXmlResource()
 			throws Exception {
 
 		if (! typesDefined){
@@ -140,7 +146,7 @@ public class CreateDataObjectFromXsdAndXmlFiles {
 				System.out
 						.println("Successfully obtained InputStream from resource");
 			}
-			XMLDocument xmlDoc = XMLHelper.INSTANCE.load(is);
+			XMLDocument xmlDoc = scope.getXMLHelper().load(is);
 			purchaseOrder = xmlDoc.getRootObject();
 			
 		} catch (Exception e) {
@@ -166,7 +172,20 @@ public class CreateDataObjectFromXsdAndXmlFiles {
 	/**
 	 * @param args.  No arguments required
 	 */
-	public static void main(String[] args) {
+  public static void main(String[] args) {
+    // TODO make the default level NOVICE, once the rest of the sample has been
+    // converted to using commentary()
+    AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+
+    try {
+      sample.run();
+    }
+    catch (Exception e) {
+      sample.somethingUnexpectedHasHappened(e);
+    }
+  }
+
+  public void run () throws Exception {
 		// information
 		System.out.println("***************************************");
 		System.out.println("SDO Sample CreateDataObjectFromXsdAndXmlFiles");
@@ -177,6 +196,8 @@ public class CreateDataObjectFromXsdAndXmlFiles {
 
 		try {
 			// define the types
+      scope = createScopeForTypes();
+
 			definePurchaseOrderTypeUsingXsdResource();
 
 			// create a dataObject

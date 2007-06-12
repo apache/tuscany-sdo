@@ -28,7 +28,9 @@ import commonj.sdo.Property;
 
 import java.util.List;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
 
 /**
  * Demonstrates the use of Type and Property to display and the META-DATA for and access Properties of a DataObject.
@@ -83,14 +85,32 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
  * @see org.apache.tuscany.samples.sdo.specCodeSnippets.PrintPropertiesOfDataObject
  */
 
-public class UsingTypeAndPropertyWithDataObjects {
+public class UsingTypeAndPropertyWithDataObjects  extends SampleBase {
+
+    public UsingTypeAndPropertyWithDataObjects(int userLevel) {
+      super(userLevel);
+    }
+
 
     /**
      * Execute this method in order to run the sample.
      * 
      * @param args
      */
-    public static void main(String[] args) {
+  public static void main(String[] args) {
+    // TODO make the default level NOVICE, once the rest of the sample has been
+    // converted to using commentary()
+    AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+
+    try {
+      sample.run();
+    }
+    catch (Exception e) {
+      sample.somethingUnexpectedHasHappened(e);
+    }
+  }
+
+  public void run () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample UsingTypeAndPropertyWithDataObjects");
         System.out.println("***************************************");
@@ -98,34 +118,32 @@ public class UsingTypeAndPropertyWithDataObjects {
         System.out.println("***************************************");
 
         try {
+            scope = createScopeForTypes();
+
+          
             // define Types using XSDHelper and predefined xsd file
             System.out.println("Defining company Types using XSD");
-            XSDHelper.INSTANCE.define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_XSD), null);
+            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_XSD), null);
             System.out.println("Type definition completed");
 
             // create company DataObject using XMLHelper which is an example of a XML DAS
             System.out.println("Creating company DataObject");
-            DataObject company = XMLHelper.INSTANCE.load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAOBJECT_XML))
+            DataObject company = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAOBJECT_XML))
                     .getRootObject();
 
             printDataObject(company, 0);
             
             System.out.println("Defining purchase order types");
-            XSDHelper.INSTANCE.define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);
+            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);
             System.out.println("Type definition completed");
 
             // create company DataObject using XMLHelper which is an example of a XML DAS
             System.out.println("Creating purchase order DataObject");
-            DataObject po = XMLHelper.INSTANCE.load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE))
+            DataObject po = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE))
                     .getRootObject();
 
             printDataObject(po, 0);
 
-            
-            
-            
-            
-            
             
         } catch (Exception e) {
             System.out.println("Sorry there was an error encountered " + e.toString());

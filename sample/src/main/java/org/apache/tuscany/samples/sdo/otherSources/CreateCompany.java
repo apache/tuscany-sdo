@@ -35,6 +35,7 @@ import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 import org.apache.tuscany.sdo.util.SDOUtil;
 
@@ -74,7 +75,11 @@ import org.apache.tuscany.sdo.util.SDOUtil;
  * java org.apache.tuscany.samples.sdo.otherSources.CreateCompany</LI>
  * </UL>
  */
-public class CreateCompany {
+public class CreateCompany extends SampleBase {
+
+    public CreateCompany(int userLevel) {
+      super(userLevel);
+    }
 
     /**
      * XML file generated for the company DataObject
@@ -92,8 +97,22 @@ public class CreateCompany {
      * @param args
      * @throws Exception
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
+      // TODO make the default level NOVICE, once the rest of the sample has been
+      // converted to using commentary()
+      CreateCompany sample = new CreateCompany(INTERMEDIATE);
 
+      try {
+        sample.run();
+      }
+      catch (Exception e) {
+        sample.somethingUnexpectedHasHappened(e);
+      }
+    }
+
+    public void run () throws Exception {
+      
+        
         System.out.println("***************************************");
         System.out.println("SDO Sample CreateCompany");
         System.out.println("***************************************");
@@ -102,6 +121,7 @@ public class CreateCompany {
         /**
          * Use xsd to define model
          */
+        scope = useDefaultScopeForTypes();
         defineCompanyTypes();
 
         /**
@@ -133,10 +153,10 @@ public class CreateCompany {
             /*
              * The following creates a DataObject without a DataGraph
              */
-            Type companyType = TypeHelper.INSTANCE.getType(SdoSampleConstants.COMPANY_NAMESPACE, "CompanyType");
+            Type companyType = scope.getTypeHelper().getType(SdoSampleConstants.COMPANY_NAMESPACE, "CompanyType");
             // this is equivilent to
             // DataObject company = DataFactory.INSTANCE.create(SdoSampleConstants.COMPANY_NAMESPACE, "CompanyType");            
-            company = DataFactory.INSTANCE.create(companyType);
+            company = scope.getDataFactory().create(companyType);
         }
 
         System.out.println("Populating company DataObject");
@@ -187,10 +207,10 @@ public class CreateCompany {
             FileOutputStream fos = new FileOutputStream(COMPANY_GENERATED_XML);
             System.out.println("Writing company DataObject to " + COMPANY_GENERATED_XML);
             // print the Company DataObject
-            XMLHelper.INSTANCE.save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company", fos);
+            scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company", fos);
             
             // print the company DataObject to System.out
-            String generatedXml = XMLHelper.INSTANCE.save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company");
+            String generatedXml = scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company");
             System.out.println("The generated xml for the DataObject would look like : " );
                     System.out.println(generatedXml);
         }
@@ -201,14 +221,14 @@ public class CreateCompany {
      * Defines company types using XSD.
      * @throws Exception
      */
-    private static void defineCompanyTypes() throws Exception {
+    private void defineCompanyTypes() throws Exception {
 
         System.out.println("Defining Types using XSD");
         InputStream is = null;
 
         System.out.println("Opening input stream to  " + SdoSampleConstants.COMPANY_XSD);
         is = ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_XSD);
-        List types = XSDHelper.INSTANCE.define(is, null);      
+        List types = scope.getXSDHelper().define(is, null);      
         is.close();
         System.out.println("Type definition completed");
 

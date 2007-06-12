@@ -22,6 +22,7 @@ package org.apache.tuscany.samples.sdo.specCodeSnippets;
 
 import java.util.List;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 import commonj.sdo.DataObject;
@@ -74,7 +75,11 @@ import commonj.sdo.helper.XSDHelper;
  * </UL>
  */
 
-public class PrintPropertiesOfDataObject {
+public class PrintPropertiesOfDataObject extends SampleBase  {
+
+    public PrintPropertiesOfDataObject(int userLevel) {
+      super(userLevel);
+    }
 
     /**
      * Calls recursive method to inspect and print properties of a DataObject.
@@ -140,6 +145,19 @@ public class PrintPropertiesOfDataObject {
      *            none required.
      */
     public static void main(String[] args) {
+      // TODO make the default level NOVICE, once the rest of the sample has been
+      // converted to using commentary()
+      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+
+      try {
+        sample.run();
+      }
+      catch (Exception e) {
+        sample.somethingUnexpectedHasHappened(e);
+      }
+    }
+
+    public void run () throws Exception {
         // information
         System.out.println("***************************************");
         System.out.println("SDO Sample InspectAndPrintPropertiesOfDataObject");
@@ -151,8 +169,10 @@ public class PrintPropertiesOfDataObject {
         // create a DataObejct
         DataObject purchaseOrder = null;
         try {
-            XSDHelper.INSTANCE.define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);
-            purchaseOrder = XMLHelper.INSTANCE.load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE)).getRootObject();
+            scope = createScopeForTypes();
+
+            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);
+            purchaseOrder = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE)).getRootObject();
             System.out.println("DataObject created");
         } catch (Exception e) {
             System.out.println("Error creating DataObject " + e.toString());

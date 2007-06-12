@@ -29,6 +29,7 @@ import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 /**
@@ -72,20 +73,38 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
  * </UL>
  * 
  */
-public class ReadPurchaseOrder {
+public class ReadPurchaseOrder extends SampleBase {
 
-    private static void definePOTypes() throws Exception {
+  
+    public ReadPurchaseOrder(int userLevel) {
+      super(userLevel);
+    }
+
+    private void definePOTypes() throws Exception {
         InputStream is = ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE);
         if (is == null) {
             System.out.println("InputStream is null");
         } else {
             System.out.println("Obtained Input Stream from resource");
         }
-        XSDHelper.INSTANCE.define(is, null);
+        scope.getXSDHelper().define(is, null);
         is.close();
     }
 
     public static void main(String[] args) {
+      // TODO make the default level NOVICE, once the rest of the sample has been
+      // converted to using commentary()
+      ReadPurchaseOrder sample = new ReadPurchaseOrder(INTERMEDIATE);
+
+      try {
+        sample.run();
+      }
+      catch (Exception e) {
+        sample.somethingUnexpectedHasHappened(e);
+      }
+    }
+
+    public void run () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample ReadPurchaseOrder");
         System.out.println("***************************************");
@@ -95,6 +114,9 @@ public class ReadPurchaseOrder {
         System.out.println("***************************************");
 
         try {
+          
+            scope = createScopeForTypes();
+            
             definePOTypes();
 
             FileInputStream fis = null;
@@ -107,7 +129,7 @@ public class ReadPurchaseOrder {
                 return;
             }
 
-            XMLDocument xmlDoc = XMLHelper.INSTANCE.load(fis);
+            XMLDocument xmlDoc = scope.getXMLHelper().load(fis);
 
             DataObject purchaseOrder = xmlDoc.getRootObject();
 

@@ -28,7 +28,9 @@ import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
 
 /**
  * Demonstrates programmatically creating a DataObject and generating an XML String.
@@ -85,7 +87,12 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
  * @see {@link org.apache.tuscany.samples.sdo.otherSources.CreatePurchaseOrder}
  */
 
-public class CreatingXmlFromDataObjects {
+public class CreatingXmlFromDataObjects  extends SampleBase {
+
+    public CreatingXmlFromDataObjects(int userLevel) {
+      super(userLevel);
+    }
+
 
     /**
      * Drives sample
@@ -93,7 +100,20 @@ public class CreatingXmlFromDataObjects {
      * @param args.
      *            none required.
      */
-    public static void main(String[] args) {
+  public static void main(String[] args) {
+    // TODO make the default level NOVICE, once the rest of the sample has been
+    // converted to using commentary()
+    AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+
+    try {
+      sample.run();
+    }
+    catch (Exception e) {
+      sample.somethingUnexpectedHasHappened(e);
+    }
+  }
+
+  public void run () throws Exception {
         try {
 
             System.out.println("***************************************");
@@ -102,9 +122,11 @@ public class CreatingXmlFromDataObjects {
             System.out.println("Demonstrates programmatically creating a DataObject and generating an XML String");
             System.out.println("***************************************");
 
-            XSDHelper.INSTANCE.define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);
+            scope = createScopeForTypes();
+
+            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);
             System.out.println("Defined Types using xsd");
-            DataObject purchaseOrder = DataFactory.INSTANCE.create(SdoSampleConstants.PO_NAMESPACE, "PurchaseOrderType");
+            DataObject purchaseOrder = scope.getDataFactory().create(SdoSampleConstants.PO_NAMESPACE, "PurchaseOrderType");
             System.out.println("Created DataObject using DataFactory");
 
             System.out.println("Populating purchase order data object");
@@ -145,10 +167,10 @@ public class CreatingXmlFromDataObjects {
             item2.setString("shipDate", "1999-05-21");
 
             OutputStream stream = new FileOutputStream(SdoSampleConstants.PO_XML_GENERATED);
-            XMLHelper.INSTANCE.save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder", stream);
+            scope.getXMLHelper().save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder", stream);
             System.out.println("Created file " + SdoSampleConstants.PO_XML_GENERATED);
             System.out.println("Populated with :");
-            System.out.println(XMLHelper.INSTANCE.save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder"));
+            System.out.println(scope.getXMLHelper().save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder"));
         } catch (Exception e) {
             System.out.println("Sorry an error occured " + e.toString());
             e.printStackTrace();

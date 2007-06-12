@@ -21,6 +21,8 @@ package org.apache.tuscany.samples.sdo.specCodeSnippets;
 
 import java.util.List;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
+
 import commonj.sdo.DataObject;
 import commonj.sdo.Sequence;
 import commonj.sdo.helper.XMLHelper;
@@ -66,7 +68,12 @@ import commonj.sdo.helper.XMLHelper;
  * java org.apache.tuscany.samples.sdo.specCodeSnippets.CreateDataObjectFromXmlString</LI>
  * </UL>
  */
-public class CreateDataObjectFromXmlString {
+public class CreateDataObjectFromXmlString extends SampleBase {
+  
+    public CreateDataObjectFromXmlString(int userLevel) {
+      super(userLevel);
+    }
+
 
     /**
      * String representing a PurchaseOrder in XML format
@@ -80,10 +87,10 @@ public class CreateDataObjectFromXmlString {
      * 
      * @return
      */
-    public static DataObject createDataObjectFromXmlString() {
+    public DataObject createDataObjectFromXmlString() {
 
         // TODO: do this with and without defining the schema
-        DataObject po = XMLHelper.INSTANCE.load(XML_STRING).getRootObject();
+        DataObject po = scope.getXMLHelper().load(XML_STRING).getRootObject();
         System.out.println("DataObject has been created : " + po.toString());
         return po;
     }
@@ -93,6 +100,19 @@ public class CreateDataObjectFromXmlString {
      *            None required
      */
     public static void main(String[] args) {
+      // TODO make the default level NOVICE, once the rest of the sample has been
+      // converted to using commentary()
+      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+
+      try {
+        sample.run();
+      }
+      catch (Exception e) {
+        sample.somethingUnexpectedHasHappened(e);
+      }
+    }
+
+    public void run () throws Exception {
 
         // information
         System.out.println("***************************************");
@@ -103,13 +123,14 @@ public class CreateDataObjectFromXmlString {
 
         // sample
         try {
+            scope = createScopeForTypes();
 
             System.out.println("Use the following XML String: " + XML_STRING);
             System.out.println("Creating DataObject");
             DataObject po = createDataObjectFromXmlString();
             System.out.println("The following DataObject was sucessfully created from the XML String");
 
-            System.out.println(XMLHelper.INSTANCE.save(po, "http://example.com/purchaseOrder", "purchaseOrder"));
+            System.out.println(scope.getXMLHelper().save(po, "http://example.com/purchaseOrder", "purchaseOrder"));
 
             /*
              * Without a Type definition accessing a DataObject is slightly more

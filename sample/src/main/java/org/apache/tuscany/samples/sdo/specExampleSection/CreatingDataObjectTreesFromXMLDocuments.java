@@ -24,7 +24,9 @@ import commonj.sdo.DataObject;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
 
 /**
  * Demonstrates creating a DataObject from an XML String.
@@ -84,7 +86,12 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
  * @see {@link org.apache.tuscany.samples.sdo.otherSources.CreatePurchaseOrder}
  */
 
-public class CreatingDataObjectTreesFromXMLDocuments {
+public class CreatingDataObjectTreesFromXMLDocuments  extends SampleBase {
+
+    public CreatingDataObjectTreesFromXMLDocuments(int userLevel) {
+      super(userLevel);
+    }
+
 
     /**
      * Drives sample
@@ -92,26 +99,41 @@ public class CreatingDataObjectTreesFromXMLDocuments {
      * @param args.
      *            none required.
      */
-    public static void main(String[] args) {
+  public static void main(String[] args) {
+    // TODO make the default level NOVICE, once the rest of the sample has been
+    // converted to using commentary()
+    AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+
+    try {
+      sample.run();
+    }
+    catch (Exception e) {
+      sample.somethingUnexpectedHasHappened(e);
+    }
+  }
+
+  public void run () throws Exception {
         try {
 
             System.out.println("***************************************");
             System.out.println("SDO Sample CreatingDataObjectTreesFromXMLDocuments");
             System.out.println("***************************************");
+            
+            scope = createScopeForTypes();
 
             // use xsd to define purchase order types
             System.out.println("Definging purchase order types using " + SdoSampleConstants.PO_XSD_RESOURCE);
-            XSDHelper.INSTANCE.define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);
+            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);
             System.out.println("Defined Types using xsd");
 
             System.out.println("Creating purchase order DataObject using previously created " + SdoSampleConstants.PO_XML_RESOURCE);
-            DataObject purchaseOrder = XMLHelper.INSTANCE.load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE))
+            DataObject purchaseOrder = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE))
                     .getRootObject();
 
             // To create the shipTo DataObject from XML:
             String shipToXML = "<shipTo country='US'>" + " <name>Alice Smith</name>" + " <street>123 Maple Street</street>"
                     + " <city>Mill Valley</city>" + " <state>PA</state>" + " <zip>90952</zip>" + "</shipTo>";
-            DataObject shipTo = XMLHelper.INSTANCE.load(shipToXML).getRootObject();
+            DataObject shipTo = scope.getXMLHelper().load(shipToXML).getRootObject();
 
             // Modify shipTo DataObject on purchaseOrder to value created from a
             // String
@@ -121,7 +143,7 @@ public class CreatingDataObjectTreesFromXMLDocuments {
             // Obtain and convert the billTo DataObject to XML
             System.out.println("Obtaining billTo dataObject from purchase order and converting to XML");
             DataObject billTo = purchaseOrder.getDataObject("billTo");
-            String billToXML = XMLHelper.INSTANCE.save(billTo, null, "billTo");
+            String billToXML = scope.getXMLHelper().save(billTo, null, "billTo");
             System.out.println("billTo DataObject:");
             System.out.println(billToXML);
 

@@ -27,6 +27,8 @@ import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.TypeHelper;
 import java.util.List;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
+
 /**
  * Demonstrates creating and using Types dynamically. This sample is from the <a
  * href="http://incubator.apache.org/tuscany" target="_blank"> Apache Tuscany</a>
@@ -67,7 +69,12 @@ import java.util.List;
  * java org.apache.tuscany.samples.sdo.specCodeSnippets.DynamicCustomerTypeSample</LI>
  * </UL>
  */
-public class DynamicCustomerTypeSample {
+public class DynamicCustomerTypeSample extends SampleBase {
+
+    public DynamicCustomerTypeSample(int userLevel) {
+      super(userLevel);
+    }
+
 
     /**
      * XSD file used to define the model and Types for Customer Dataobject
@@ -101,14 +108,14 @@ public class DynamicCustomerTypeSample {
     /**
      * Method dynamically defines customer types
      */
-    public static void defineCustomerTypes() {
+    public void defineCustomerTypes() {
         // get an instance of the type helper
-        TypeHelper types = TypeHelper.INSTANCE;
+        TypeHelper types = scope.getTypeHelper();
         Type intType = types.getType("commonj.sdo", "Int");
         Type stringType = types.getType("commonj.sdo", "String");
 
         // create a new Type for Customers
-        DataObject customerType = DataFactory.INSTANCE.create("commonj.sdo", "Type");
+        DataObject customerType = scope.getDataFactory().create("commonj.sdo", "Type");
         customerType.set("uri", "http://example.com/customer");
         customerType.set("name", "Customer");
 
@@ -130,7 +137,7 @@ public class DynamicCustomerTypeSample {
         // now define the Customer type so that customers can be made
         types.define(customerType);
 
-        Type testType = TypeHelper.INSTANCE.getType("http://example.com/customer", "Customer");
+        Type testType = scope.getTypeHelper().getType("http://example.com/customer", "Customer");
         List props = testType.getProperties();
         for (int i = 0; i < props.size(); i++) {
             System.out.println(props.get(i));
@@ -145,8 +152,8 @@ public class DynamicCustomerTypeSample {
      * @param lastName
      * @return
      */
-    private static DataObject createCustomer(int custNum, String firstName, String lastName) {
-        DataFactory factory = DataFactory.INSTANCE;
+    private DataObject createCustomer(int custNum, String firstName, String lastName) {
+        DataFactory factory = scope.getDataFactory();
         DataObject customer1 = factory.create("http://example.com/customer", "Customer");
         customer1.setInt("custNum", custNum);
         customer1.set("firstName", firstName);
@@ -160,13 +167,29 @@ public class DynamicCustomerTypeSample {
      * @param args
      *            no arguments required
      */
-    public static void main(String args[]) {
+    public static void main(String[] args) {
+      // TODO make the default level NOVICE, once the rest of the sample has been
+      // converted to using commentary()
+      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+
+      try {
+        sample.run();
+      }
+      catch (Exception e) {
+        sample.somethingUnexpectedHasHappened(e);
+      }
+    }
+
+    public void run () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample DynamicCustomerTypeSample");
         System.out.println("***************************************");
         System.out.println("Demonstrats creating and using Types dynamically");
         System.out.println("***************************************");
         try {
+            scope = createScopeForTypes();
+
+          
             System.out.println("Dynamically defining Customer Type");
             defineCustomerTypes();
 
@@ -175,7 +198,7 @@ public class DynamicCustomerTypeSample {
             System.out.println("Customer Created");
 
             System.out.println("converting to xml");
-            String xmlDocString = XMLHelper.INSTANCE.save(customer1, CUSTOMER_NAMESPACE, "customer");
+            String xmlDocString = scope.getXMLHelper().save(customer1, CUSTOMER_NAMESPACE, "customer");
             System.out.println(xmlDocString);
 
         } catch (Exception e) {

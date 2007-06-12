@@ -20,6 +20,7 @@
 
 package org.apache.tuscany.samples.sdo.specCodeSnippets;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 import commonj.sdo.DataObject;
@@ -63,7 +64,11 @@ import commonj.sdo.helper.XSDHelper;
  * java org.apache.tuscany.samples.sdo.specCodeSnippets.UsingXPath</LI>
  * </UL>
  */
-public class UsingXPath {
+public class UsingXPath extends SampleBase  {
+      public UsingXPath(int userLevel) {
+        super(userLevel);
+      }
+
 
     /**
      * Prints a subset of item properties to System.out where the individual item was accessed using an xPath expression
@@ -105,6 +110,19 @@ public class UsingXPath {
      *            No parameters required.
      */
     public static void main(String[] args) {
+      // TODO make the default level NOVICE, once the rest of the sample has been
+      // converted to using commentary()
+      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+
+      try {
+        sample.run();
+      }
+      catch (Exception e) {
+        sample.somethingUnexpectedHasHappened(e);
+      }
+    }
+
+    public void run () throws Exception {
 
         // information
         System.out.println("***************************************");
@@ -116,8 +134,9 @@ public class UsingXPath {
         // create a DataObejct
         DataObject purchaseOrder = null;
         try {
-            XSDHelper.INSTANCE.define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);
-            purchaseOrder = XMLHelper.INSTANCE.load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE)).getRootObject();
+            scope = createScopeForTypes();
+            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);
+            purchaseOrder = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE)).getRootObject();
             System.out.println("DataObject created");
         } catch (Exception e) {
             System.out.println("Error creating DataObject " + e.toString());

@@ -23,7 +23,9 @@ package org.apache.tuscany.samples.sdo.specExampleSection;
 import java.io.InputStream;
 import java.util.List;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
 
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
@@ -112,7 +114,12 @@ import commonj.sdo.DataObject;
  * @author Robbie Minshall
  */
 
-public class AccessingDataObjectsViaPropertyIndex {
+public class AccessingDataObjectsViaPropertyIndex  extends SampleBase {
+
+    public AccessingDataObjectsViaPropertyIndex(int userLevel) {
+      super(userLevel);
+    }
+
 
     /**
      * Predefine the property indexes.
@@ -139,18 +146,33 @@ public class AccessingDataObjectsViaPropertyIndex {
      * @param args
      */
     public static void main(String[] args) {
+      // TODO make the default level NOVICE, once the rest of the sample has been
+      // converted to using commentary()
+      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+
+      try {
+        sample.run();
+      }
+      catch (Exception e) {
+        sample.somethingUnexpectedHasHappened(e);
+      }
+    }
+
+    public void run () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample AccessingDataObjectsViaPropertyIndex");
         System.out.println("***************************************");
         System.out.println("Demonstrates accessing the properties of a DataObject using property indices.");
         System.out.println("***************************************");
 
+        scope = createScopeForTypes();
+        
         // TODO: what happens if not type is defined
         try {
             System.out.println("Defining Types using XSD");
             InputStream is = null;
             is = ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_XSD);
-            XSDHelper.INSTANCE.define(is, null);
+            scope.getXSDHelper().define(is, null);
             is.close();
             System.out.println("Type definition completed");
         } catch (Exception e) {
@@ -168,14 +190,14 @@ public class AccessingDataObjectsViaPropertyIndex {
             // Obtain the RootObject from the XMLDocument obtained from the XMLHelper
             // instance.
             // In this case the root object is a DataObject representing a company
-            DataObject company = XMLHelper.INSTANCE.load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAOBJECT_XML))
+            DataObject company = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAOBJECT_XML))
                     .getRootObject();
 
             // print out some information to show the user what the objects look like
             System.out.println("Company DataObject:");
             System.out.println(company);
 
-            String generatedXml = XMLHelper.INSTANCE.save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company");
+            String generatedXml = scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company");
             System.out.println("Company data object xml representation: ");
             System.out.println(generatedXml);
 
@@ -216,7 +238,7 @@ public class AccessingDataObjectsViaPropertyIndex {
             System.out.println("The modified company DataObject :");
             System.out.println(company);
 
-            generatedXml = XMLHelper.INSTANCE.save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company");
+            generatedXml = scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company");
             System.out.println("Company data object xml representation: ");
             System.out.println(generatedXml);
 

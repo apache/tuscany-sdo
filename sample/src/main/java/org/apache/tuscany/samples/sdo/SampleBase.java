@@ -24,7 +24,9 @@ import java.io.InputStream;
 
 import org.apache.tuscany.sdo.api.SDOUtil;
 
+import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
+import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.impl.HelperProvider;
 
@@ -32,6 +34,10 @@ public class SampleBase extends SampleInfrastructure {
 
   protected HelperContext scope;
 
+  public SampleBase()
+  {
+    super(NOVICE);
+  }
   
   public SampleBase(int userLevel) {
     super(userLevel);
@@ -78,7 +84,7 @@ public class SampleBase extends SampleInfrastructure {
   }
   
   
-  protected void loadXMLSchemaFromFile(HelperContext scope, String fileName) {
+  protected void loadXMLSchemaFromFile(String fileName) {
     commentary(NOVICE,
         "If you want to create types dynamically by loading an XML schema you\n" +
         "use an instance of XSDHelper. You get that helper from a HelperContext.\n" +
@@ -91,14 +97,45 @@ public class SampleBase extends SampleInfrastructure {
     
     XSDHelper xsdHelper = scope.getXSDHelper();
     
+    InputStream is = null;
     try {
-        InputStream is = null;
+
         is = ClassLoader.getSystemResourceAsStream(fileName);
         xsdHelper.define(is, null);
-        is.close();
      } catch (Exception e) {
         somethingUnexpectedHasHappened(e);
+     } finally {
+       try {
+         is.close();
+       } catch (Exception e) {
+         somethingUnexpectedHasHappened(e);
+       }
+   }
+  }
+  
+  public DataObject loadXMLFromFile(String filename)
+      throws Exception {
+
+    DataObject result = null;
+    InputStream is = null;
+
+    try {
+      is = ClassLoader
+          .getSystemResourceAsStream(filename);
+      XMLDocument xmlDoc = scope.getXMLHelper().load(is);
+      result = xmlDoc.getRootObject();
+
+    } catch (Exception e) {
+      somethingUnexpectedHasHappened(e);
+    } finally {
+        try {
+          is.close();
+        } catch (Exception e) {
+          somethingUnexpectedHasHappened(e);
+        }
     }
+
+    return result;
   }
 
 }

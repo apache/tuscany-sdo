@@ -22,7 +22,9 @@ package org.apache.tuscany.samples.sdo.specExampleSection;
 
 import java.util.List;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
 
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
@@ -102,19 +104,39 @@ import commonj.sdo.DataObject;
  * @see org.apache.tuscany.samples.sdo.specCodeSnippets.ObtainingDataGraphFromXml
  */
 
-public class AccessDataObjectsUsingXPath {
+public class AccessDataObjectsUsingXPath  extends SampleBase {
+
+    public AccessDataObjectsUsingXPath(int userLevel) {
+      super(userLevel);
+    }
+
 
     /**
      * Execute this method in order to run the sample.
      * 
      * @param args
      */
-    public static void main(String[] args) {
+  public static void main(String[] args) {
+    // TODO make the default level NOVICE, once the rest of the sample has been
+    // converted to using commentary()
+    AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+
+    try {
+      sample.run();
+    }
+    catch (Exception e) {
+      sample.somethingUnexpectedHasHappened(e);
+    }
+  }
+
+  public void run () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample AccessDataObjectsUsingXPath");
         System.out.println("***************************************");
         System.out.println("Demonstrates accessing the properties of a DataObject using XPath queries");
         System.out.println("***************************************");
+        
+        scope = createScopeForTypes();
         
         /**
          * In order to associate the correct Type, to the DataObjects represented in
@@ -126,7 +148,7 @@ public class AccessDataObjectsUsingXPath {
          */
         try {
             System.out.println("Defining Types using XSD");
-            XSDHelper.INSTANCE.define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_XSD), null);
+            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_XSD), null);
             System.out.println("Type definition completed");
         } catch (Exception e) {
             System.out.println("Exception caught defining types " + e.toString());
@@ -145,14 +167,14 @@ public class AccessDataObjectsUsingXPath {
              * company
              */
             
-            DataObject company = XMLHelper.INSTANCE.load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAOBJECT_XML)).getRootObject();
+            DataObject company = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAOBJECT_XML)).getRootObject();
 
             // print out some information to show the user what the objects
             // look like
             System.out.println("Company DataObject:");
             System.out.println(company);
 
-            String generatedXml = XMLHelper.INSTANCE.save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company");
+            String generatedXml = scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company");
             System.out.println("Company data object xml representation: ");
             System.out.println(generatedXml);
 
@@ -235,7 +257,7 @@ public class AccessDataObjectsUsingXPath {
             System.out.println(company);
             System.out.println();
 
-            generatedXml = XMLHelper.INSTANCE.save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company");
+            generatedXml = scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company");
             System.out.println("Company data object xml representation: ");
             System.out.println(generatedXml);
             System.out.println();
