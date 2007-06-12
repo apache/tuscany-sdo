@@ -20,11 +20,17 @@
 
 package org.apache.tuscany.samples.sdo.specCodeSnippets;
 
+import java.io.FileInputStream;
 import java.io.InputStream;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.sdo.api.SDOUtil;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
+
+import commonj.sdo.helper.HelperContext;
+import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.DataObject;
@@ -32,9 +38,9 @@ import commonj.sdo.DataGraph;
 import commonj.sdo.Sequence;
 
 /**
- * Demonstrates a variety of methods available to obtain the root DataObject
+ * This sample program demonstrates a variety of methods available to obtain the root DataObject
  * contained within an xml representation of a DataGraph. This is currently a grey
- * area of the specification and this samples demonstrates spec compliant means, as
+ * area of the specification and this sample demonstrates spec compliant methods, as
  * well as utility methods that have been added to Tuscany to address issues within
  * the specification.
  * 
@@ -88,97 +94,129 @@ import commonj.sdo.Sequence;
  * @see org.apache.tuscany.samples.sdo.specExampleSection.AccessDataObjectsUsingXPath
  */
 
-public class ObtainingDataGraphFromXml {
-
-    /**
-     * Execute this method in order to run the sample.
-     * 
-     * @param args
-     */
+public class ObtainingDataGraphFromXml extends SampleBase {
+  
+  
+   
+    public ObtainingDataGraphFromXml(int userLevel) {
+      super(userLevel);
+    }
+    
     public static void main(String[] args) {
-        System.out.println("***************************************");
-        System.out.println("SDO Sample ObtainingDataGraphFromXml");
-        System.out.println("***************************************");
-        System.out.println("Demonstrates a vareity of methods available to obtain the root DataObject"
-                + " contained within an xml representation of a DataGraph.");
-        System.out.println("***************************************");
+      
+      /*
+       * Create an instance of the sample program.  Edit the "userLevel" argument to suit
+       * your experience, NOVICE, MASTERED_THE_BASICS or ADVANCED
+       */
+      ObtainingDataGraphFromXml sample = new ObtainingDataGraphFromXml(NOVICE);
+      sample.run();
+      
+    }
+    
+    
+    public void run () {
+        banner('*',
+            "SDO Sample " + this.getClass().getName() + "\n\n" +
+
+            "This sample touches an area of the SDO API where the emphasis has changed over the various\n"+
+            "version of the specification,  and so it's important to be clear what's going on\n"+
+            "First off lets be sure of our terminology ...\n"+
+            "1) A \"data graph\" is a just collection of DataObjects, all contained within a single\n"+
+            "containment hierarchy, with a single root object, and possibly having some non-containment\n"+
+            "references\n"+
+            "2) A \"DataGraph\" is an instance of the SDO DataGraph class, used as a container for the root\n"+
+            "DataObject of a data graph, and providing a means to access a change summary for the data graph.\n\n"+
+            "More recent versions of the SDO specification have provided alternative means of containment\n"+
+            "of a data graph ...\n"+
+            "3) The graph can be contained in a DataObject of a built-in SDO Type  with namespace URI \"commonj.sdo\"\n" +
+            "and name \"DataGraph\":  so this is a modeled version of the special DataGraph class.\n"+
+            "4) The Graph can be contained in an XMLDocument instance,  which provides for things such as\n"+
+            "naming the root element of an XML instance document"
+        );
+        
+        scope = useDefaultScopeForTypes();
+        loadXMLSchemaFromFile(scope, SdoSampleConstants.COMPANY_XSD);
         
 
-        // define Types
-        try {
-            System.out.println("Defining Types using XSD");
-            InputStream is = null;
-            is = ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_XSD);
-            XSDHelper.INSTANCE.define(is, null);
-            is.close();
-            System.out.println("Type definition completed");
-        } catch (Exception e) {
-            System.out.println("Exception caught defining types " + e.toString());
-            e.printStackTrace();
-        }
 
         try {
+          
 
-            /**
-             * A DataGraph is an optional envelope for a graph of DataObjects and an
-             * associated ChangeSummary.
-             * 
-             * The specification group is currently investigating options regarding
-             * obtaining a DataGraph from an xml file as well as the role of the
-             * DataGraph within the SDO specification.
-             * 
-             * In order to obtain the rootObject contained within the specification
-             * the specification demonstrates reading in an XML file and obtaining a
-             * DataObject that represents the datagraph contained within the file.
-             * Note, that the specification does not obtain a DataGraph - there are
-             * not mechanisms within the specification for obtaining a DataGraph from
-             * xml. Obtaining the root DataObject from this datagraph representation
-             * is quite cumbersome and is demonstrated below.
-             * 
-             * In order to address this current limitation within the specification
-             * Tuscany has added a utility method to SDOUtil that allows a user to
-             * obtain an actual DataGraph from xml.
-             */
+
 
             DataObject company = null;
 
-            /**
-             * Use specification mechanism for obtaining a DataObject that represents the datagraph
-             */
-            System.out.println("Using specification methods to obtain DataObject represeenting a datagraph from xml");
+            commentary(INTERMEDIATE,
+                "Here we see the specification's example for obtaining dealing with\n"+
+                "loading a data graph which uses a method, XMLHelper.load().  This loads an XML instance document\n"+
+                "into an instance of XMLDocument ...\n\n"+
+                "XMLDocument doc = scope.getXMLHelper().load(\n"+
+                "    ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML));"
+                );
+            
+            InputStream is = ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML);
+            int x= is.available();
+            byte b[]= new byte[x];
+            is.read(b);
+            String instanceDoc = new String(b);
+            
+            System.out.println(instanceDoc);
 
-            // When the xml file represents a DataGraph the root Object
-            // of the XMLDocument is a DataGraph
-            DataObject dataObjectRepresentingDataGraph = XMLHelper.INSTANCE.load(
-                    ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML)).getRootObject();
-                                              
-            // Obtain the company DataObject from the DataObject representing the datagraph
+            XMLDocument doc = scope.getXMLHelper().load(
+                    ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML));
+            
+            commentary(INTERMEDIATE,
+                "Now we can get the wrapper for the data graph, which in this case is the DataObject\n"+
+                "of type commonj.sdo#DataGraph.  Note how there's no magic here;  no special class for\n"+
+                "DataGraph,  no special handling,  this is just a standard pattern of using a built in SDO Type.\n"+
+                "The wrapper is there purely because it was serialized\n"+
+                "into the XML document, using the standard serialization technique.\n\n" +
+                "DataObject dataObjectRepresentingDataGraph = doc.getRootObject();");
+            
+            DataObject dataObjectRepresentingDataGraph = doc.getRootObject();
+ 
+            System.out.println(dataObjectRepresentingDataGraph);
+            
+            commentary(INTERMEDIATE,
+                "If you are confused by the fact that whatt we really get is an instance of DataGraphTypeImpl\n"+
+                "This really is a DataObject,  but it is a generated class extending DataObjectImpl\n+"+
+                "representing the DataGraph model.");
+
             company = dataObjectRepresentingDataGraph.getDataObject("company");
 
-            System.out.println("Obtained DataObject representing datagraph");
-            System.out.println(dataObjectRepresentingDataGraph);
-            System.out.println("Obtained root DataObject from datagraph");
+            commentary(INTERMEDIATE,
+                "We've obtained a DataObject representing the data graph, and from that we have obtained\n"+
+                "the true root object of the business data");
+            
             System.out.println(company);            
             System.out.println();
             
-            
-            /**
-             * Use utility method to obtain an actual DataGraph from the xml
-             */                        
+            commentary(INTERMEDIATE,
+               "Using an instance of DataGraph can perhaps be seen as an older style pattern of wrapping a data graph\n"+
+               "and the first approach is likely to get more emphaissi and attention in future revisions of the spec.\n"+
+               "The SDO API has some limitations in the area of saving and loading instances of the\n"+
+               "Java DataGraph type, so Tuscany has an API for doing this ...\n\n"+
+               "DataGraph datagraph = SDOUtil.loadDataGraph(\n"+
+               "      ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML), null);"
+
+            );
+
             DataGraph datagraph = SDOUtil.loadDataGraph(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML), null);
-            // Obtain the company DataObject from the actual DataGraph
-            company = datagraph.getRootObject();
-            System.out.println("Obtained actual DataGraph:");
+
             System.out.println(datagraph);
-            System.out.println("Obtained root DataObject from DataGraph:");
+
+            commentary(INTERMEDIATE,
+                "In this case we directly receive an instance of DataGraph and can retrieve the root\n"+
+                "business object from the DataGraph\n\n"+
+                "DataObject company = datagraph.getRootObject();");
+            
+            company = datagraph.getRootObject();
             System.out.println(company);            
             System.out.println();
                       
         } catch (Exception e) {
-            System.out.println("Sorry there was an error encountered " + e.toString());
-            e.printStackTrace();
+            somethingUnexpectedHasHappened(e);
         }
-        System.out.println("GoodBye");
 
     }
 }
