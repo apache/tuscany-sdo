@@ -74,7 +74,7 @@ public class XSDHelperImpl implements XSDHelper
 {
   protected boolean extensibleNamespaces = false;
   protected ExtendedMetaData extendedMetaData;
-  protected XSDEcoreBuilder nondelegatingEcoreBuilder = null;
+  protected SDOXSDEcoreBuilder nondelegatingEcoreBuilder = null;
   protected HashMap tcclToEcoreBuilderMap = null;
   
   public XSDHelperImpl(ExtendedMetaData extendedMetaData, String redefineBuiltIn, boolean extensibleNamespaces)
@@ -82,7 +82,7 @@ public class XSDHelperImpl implements XSDHelper
     this.extendedMetaData = extendedMetaData;
     this.extensibleNamespaces = extensibleNamespaces;
     
-    XSDEcoreBuilder ecoreBuilder = createEcoreBuilder();
+    SDOXSDEcoreBuilder ecoreBuilder = createEcoreBuilder();
     
     if (extendedMetaData instanceof SDOExtendedMetaDataImpl &&
         ((SDOExtendedMetaDataImpl)extendedMetaData).getRegistry() instanceof EPackageRegistryImpl.Delegator) {
@@ -108,8 +108,8 @@ public class XSDHelperImpl implements XSDHelper
     this(((TypeHelperImpl)typeHelper).extendedMetaData, null, extensibleNamespaces);
   }
   
-  protected XSDEcoreBuilder createEcoreBuilder() {
-    XSDEcoreBuilder ecoreBuilder = new SDOXSDEcoreBuilder(extendedMetaData, extensibleNamespaces);
+  protected SDOXSDEcoreBuilder createEcoreBuilder() {
+    SDOXSDEcoreBuilder ecoreBuilder = new SDOXSDEcoreBuilder(extendedMetaData, extensibleNamespaces);
     
     // Add the built-in models to the targetNamespaceToEPackageMap so they can't be (re)defined/overridden
     for (Iterator iter = TypeHelperImpl.getBuiltInModels().iterator(); iter.hasNext(); ) {
@@ -127,14 +127,14 @@ public class XSDHelperImpl implements XSDHelper
     }
   }
   
-  protected XSDEcoreBuilder getEcoreBuilder() {
+  protected SDOXSDEcoreBuilder getEcoreBuilder() {
     if (nondelegatingEcoreBuilder != null) 
       return nondelegatingEcoreBuilder;
     
-    XSDEcoreBuilder result = null;
+    SDOXSDEcoreBuilder result = null;
     try {
       for (ClassLoader tccl = Thread.currentThread().getContextClassLoader(); tccl != null; tccl = tccl.getParent()) {
-        result = (XSDEcoreBuilder)tcclToEcoreBuilderMap.get(tccl);
+        result = (SDOXSDEcoreBuilder)tcclToEcoreBuilderMap.get(tccl);
         if (result != null)
           return result;
       } // for
@@ -241,21 +241,24 @@ public class XSDHelperImpl implements XSDHelper
   {
     try
     {
-      ResourceSet resourceSet = DataObjectUtil.createResourceSet();
-      resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XSDResourceFactoryImpl());
+      SDOXSDEcoreBuilder ecoreBuilder = getEcoreBuilder();
+      ResourceSet resourceSet = ecoreBuilder.createResourceSet();
       Resource model = resourceSet.createResource(URI.createURI(schemaLocation != null ? schemaLocation : "null.xsd"));
       ((XSDResourceImpl)model).load(inputSource, null);
       
-      XSDEcoreBuilder ecoreBuilder = getEcoreBuilder();
       List newTypes = new ArrayList();
       for (Iterator schemaIter = model.getContents().iterator(); schemaIter.hasNext(); )
       {
         XSDSchema schema = (XSDSchema)schemaIter.next();    
 
-        EPackage ePackage = extendedMetaData.getPackage(schema.getTargetNamespace());
+        String targetNamespace = schema.getTargetNamespace();
+		    EPackage ePackage = extendedMetaData.getPackage(targetNamespace);
         if (extensibleNamespaces || ePackage == null || TypeHelperImpl.getBuiltInModels().contains(ePackage))
         {
-          Collection originalEPackages = new HashSet(ecoreBuilder.getTargetNamespaceToEPackageMap().values());
+          Map targetNamespaceToEPackageMap = ecoreBuilder.getTargetNamespaceToEPackageMap();
+          targetNamespaceToEPackageMap.remove(targetNamespace);
+          
+          Collection originalEPackages = new HashSet(targetNamespaceToEPackageMap.values());
           ecoreBuilder.generate(schema);
           Collection newEPackages = ecoreBuilder.getTargetNamespaceToEPackageMap().values();
       

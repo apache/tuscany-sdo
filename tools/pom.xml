@@ -31,6 +31,13 @@
     <dependencies>
         <dependency>
             <groupId>org.apache.tuscany.sdo</groupId>
+            <artifactId>tuscany-sdo-lib</artifactId>
+            <version>${pom.version}</version>
+            <scope>compile</scope>
+        </dependency>
+    
+        <dependency>
+            <groupId>org.apache.tuscany.sdo</groupId>
             <artifactId>tuscany-sdo-impl</artifactId>
             <version>${pom.version}</version>
             <scope>compile</scope>

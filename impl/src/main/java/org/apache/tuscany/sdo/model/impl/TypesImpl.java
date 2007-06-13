@@ -106,7 +106,7 @@ public class TypesImpl extends DataObjectBase implements Types
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((ModelFactoryImpl)ModelFactory.INSTANCE).getTypes();
   }

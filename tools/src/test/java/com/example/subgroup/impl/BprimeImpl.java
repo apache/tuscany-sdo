@@ -54,7 +54,7 @@ public class BprimeImpl extends BImpl implements Bprime
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_IM_IN_TYPE_B = BImpl.IM_IN_TYPE_B;
+  public final static int INTERNAL_IM_IN_TYPE_B = BImpl.INTERNAL_IM_IN_TYPE_B;
 
   /**
    * The internal feature id for the '<em><b>Im In Type Bprime</b></em>' attribute.
@@ -129,7 +129,7 @@ public class BprimeImpl extends BImpl implements Bprime
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((SubgroupFactoryImpl)SubgroupFactory.INSTANCE).getBprime();
   }

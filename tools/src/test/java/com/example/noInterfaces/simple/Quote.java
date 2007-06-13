@@ -445,7 +445,7 @@ public class Quote extends DataObjectBase implements Serializable
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((SimpleFactory)SimpleFactory.INSTANCE).getQuote();
   }

@@ -104,7 +104,7 @@ public class XSDTypeImpl extends DataObjectBase implements XSDType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((ModelFactoryImpl)ModelFactory.INSTANCE).getXSDType();
   }

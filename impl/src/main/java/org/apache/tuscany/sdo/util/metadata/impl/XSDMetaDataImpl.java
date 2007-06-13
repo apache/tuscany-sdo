@@ -95,7 +95,7 @@ public class XSDMetaDataImpl extends DataObjectBase implements XSDMetaData
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((MetadataFactoryImpl)MetadataFactory.INSTANCE).getXSDMetaData();
   }

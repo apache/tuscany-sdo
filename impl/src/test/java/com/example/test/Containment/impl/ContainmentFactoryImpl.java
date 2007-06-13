@@ -36,13 +36,15 @@ import org.apache.tuscany.sdo.model.ModelFactory;
 
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 
+import org.apache.tuscany.sdo.model.internal.InternalFactory;
+
 import org.apache.tuscany.sdo.util.SDOUtil;
 
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
  * Generator information:
- * patternVersion=1.1; -prefix Containment
+ * patternVersion=1.2; -prefix Containment
  * <!-- end-user-doc -->
  * @generated
  */
@@ -71,7 +73,7 @@ public class ContainmentFactoryImpl extends FactoryBase implements ContainmentFa
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String PATTERN_VERSION = "1.1";
+  public static final String PATTERN_VERSION = "1.2";
   
   public static final int CONTAINMENT_TEST = 1;
   
@@ -144,9 +146,10 @@ public class ContainmentFactoryImpl extends FactoryBase implements ContainmentFa
     ContainmentFactoryImpl theContainmentFactoryImpl = new ContainmentFactoryImpl();
     isInited = true;
 
-    // Initialize simple dependencies
+    // Initialize dependencies
     SDOUtil.registerStaticTypes(SDOFactory.class);
     SDOUtil.registerStaticTypes(ModelFactory.class);
+    SDOUtil.registerStaticTypes(InternalFactory.class);
 
     // Create package meta-data objects
     theContainmentFactoryImpl.createMetaData();
@@ -190,16 +193,16 @@ public class ContainmentFactoryImpl extends FactoryBase implements ContainmentFa
 
     // Initialize types and properties
     initializeType(containmentTestType, ContainmentTest.class, "ContainmentTest", false);
-    property = getProperty(containmentTestType, ContainmentTestImpl.INTERNAL_MIXED);
+    property = getLocalProperty(containmentTestType, 0);
     initializeProperty(property, getSequence(), "mixed", null, 0, -1, ContainmentTest.class, false, false, false);
 
-    property = getProperty(containmentTestType, ContainmentTestImpl.INTERNAL_NAME);
+    property = getLocalProperty(containmentTestType, 1);
     initializeProperty(property, theModelPackageImpl.getString(), "Name", null, 1, 1, ContainmentTest.class, false, true, true);
 
-    property = getProperty(containmentTestType, ContainmentTestImpl.INTERNAL_CONTAIN);
+    property = getLocalProperty(containmentTestType, 2);
     initializeProperty(property, this.getContainmentTest(), "Contain", null, 1, 1, ContainmentTest.class, false, true, true, true , null);
 
-    property = getProperty(containmentTestType, ContainmentTestImpl.INTERNAL_CONTAIN_MANY);
+    property = getLocalProperty(containmentTestType, 3);
     initializeProperty(property, this.getContainmentTest(), "ContainMany", null, 0, -1, ContainmentTest.class, false, false, true, true , null);
 
     createXSDMetaData(theModelPackageImpl);

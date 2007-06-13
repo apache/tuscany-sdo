@@ -163,6 +163,15 @@ public interface SDOFactory extends EFactory{
   DataObject createDynamicStoreDataObject();
 
   /**
+   * Returns a new object of class '<em>Extensible Data Object</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Extensible Data Object</em>'.
+   * @generated
+   */
+  DataObject createExtensibleDataObject();
+
+  /**
    * Returns the package supported by this factory.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

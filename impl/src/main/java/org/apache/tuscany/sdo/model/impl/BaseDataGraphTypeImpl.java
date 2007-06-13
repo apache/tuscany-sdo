@@ -216,7 +216,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((ModelFactoryImpl)ModelFactory.INSTANCE).getBaseDataGraphType();
   }

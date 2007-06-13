@@ -121,7 +121,7 @@ public class AccountImpl extends DataObjectBase implements Account
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((CustomerFactoryImpl)CustomerFactory.INSTANCE).getAccount();
   }

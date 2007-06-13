@@ -146,7 +146,7 @@ public class RCTypeImpl extends DataObjectBase implements RCType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((RepchoiceFactoryImpl)RepchoiceFactory.INSTANCE).getRCType();
   }
@@ -171,8 +171,7 @@ public class RCTypeImpl extends DataObjectBase implements RCType
    */
   public List getS()
   {
-          return getList(getGroup(), getType(), S);
-
+    return getList(getGroup(), getType(), INTERNAL_S);
   }
   /**
    * <!-- begin-user-doc -->
@@ -181,8 +180,7 @@ public class RCTypeImpl extends DataObjectBase implements RCType
    */
   public List getI()
   {
-          return getList(getGroup(), getType(), I);
-
+    return getList(getGroup(), getType(), INTERNAL_I);
   }
   /**
    * <!-- begin-user-doc -->
@@ -191,8 +189,7 @@ public class RCTypeImpl extends DataObjectBase implements RCType
    */
   public List getF()
   {
-          return getList(getGroup(), getType(), F);
-
+    return getList(getGroup(), getType(), INTERNAL_F);
   }
   /**
    * <!-- begin-user-doc -->

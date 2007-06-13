@@ -444,7 +444,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((SimpleFactoryImpl)SimpleFactory.INSTANCE).getQuote();
   }
@@ -850,7 +850,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
   {
     if (quotes == null)
     {
-      quotes = createPropertyList(ListKind.CONTAINMENT, Quote.class, QUOTES);
+      quotes = createPropertyList(ListKind.CONTAINMENT, Quote.class, QUOTES, 0);
     }
     return quotes;
   }

@@ -226,7 +226,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((SequencesFactoryImpl)SequencesFactory.INSTANCE).getMixedQuote();
   }
@@ -270,7 +270,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void unsetSymbol()
   {
-        unset(getMixed(), getType(), SYMBOL);
+        unset(getMixed(), getType(), INTERNAL_SYMBOL);
   }
 
   /**
@@ -280,7 +280,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public boolean isSetSymbol()
   {
-        return isSet(getMixed(), getType(), SYMBOL);
+        return isSet(getMixed(), getType(), INTERNAL_SYMBOL);
   }
 
   /**
@@ -309,7 +309,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void unsetCompanyName()
   {
-        unset(getMixed(), getType(), COMPANY_NAME);
+        unset(getMixed(), getType(), INTERNAL_COMPANY_NAME);
   }
 
   /**
@@ -319,7 +319,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public boolean isSetCompanyName()
   {
-        return isSet(getMixed(), getType(), COMPANY_NAME);
+        return isSet(getMixed(), getType(), INTERNAL_COMPANY_NAME);
   }
 
   /**
@@ -348,7 +348,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void unsetPrice()
   {
-        unset(getMixed(), getType(), PRICE);
+        unset(getMixed(), getType(), INTERNAL_PRICE);
   }
 
   /**
@@ -358,7 +358,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public boolean isSetPrice()
   {
-        return isSet(getMixed(), getType(), PRICE);
+        return isSet(getMixed(), getType(), INTERNAL_PRICE);
   }
 
   /**
@@ -387,7 +387,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void unsetOpen1()
   {
-        unset(getMixed(), getType(), OPEN1);
+        unset(getMixed(), getType(), INTERNAL_OPEN1);
   }
 
   /**
@@ -397,7 +397,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public boolean isSetOpen1()
   {
-        return isSet(getMixed(), getType(), OPEN1);
+        return isSet(getMixed(), getType(), INTERNAL_OPEN1);
   }
 
   /**
@@ -426,7 +426,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void unsetHigh()
   {
-        unset(getMixed(), getType(), HIGH);
+        unset(getMixed(), getType(), INTERNAL_HIGH);
   }
 
   /**
@@ -436,7 +436,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public boolean isSetHigh()
   {
-        return isSet(getMixed(), getType(), HIGH);
+        return isSet(getMixed(), getType(), INTERNAL_HIGH);
   }
 
   /**
@@ -465,7 +465,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void unsetLow()
   {
-        unset(getMixed(), getType(), LOW);
+        unset(getMixed(), getType(), INTERNAL_LOW);
   }
 
   /**
@@ -475,7 +475,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public boolean isSetLow()
   {
-        return isSet(getMixed(), getType(), LOW);
+        return isSet(getMixed(), getType(), INTERNAL_LOW);
   }
 
   /**
@@ -504,7 +504,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void unsetVolume()
   {
-        unset(getMixed(), getType(), VOLUME);
+        unset(getMixed(), getType(), INTERNAL_VOLUME);
   }
 
   /**
@@ -514,7 +514,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public boolean isSetVolume()
   {
-        return isSet(getMixed(), getType(), VOLUME);
+        return isSet(getMixed(), getType(), INTERNAL_VOLUME);
   }
 
   /**
@@ -543,7 +543,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public void unsetChange1()
   {
-        unset(getMixed(), getType(), CHANGE1);
+        unset(getMixed(), getType(), INTERNAL_CHANGE1);
   }
 
   /**
@@ -553,7 +553,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public boolean isSetChange1()
   {
-        return isSet(getMixed(), getType(), CHANGE1);
+        return isSet(getMixed(), getType(), INTERNAL_CHANGE1);
   }
 
   /**
@@ -563,8 +563,7 @@ public class MixedQuoteImpl extends DataObjectBase implements MixedQuote
    */
   public List getQuotes()
   {
-          return getList(getMixed(), getType(), QUOTES);
-
+    return getList(getMixed(), getType(), INTERNAL_QUOTES);
   }
   /**
    * <!-- begin-user-doc -->

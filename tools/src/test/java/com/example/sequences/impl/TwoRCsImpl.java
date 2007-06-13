@@ -225,7 +225,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((SequencesFactoryImpl)SequencesFactory.INSTANCE).getTwoRCs();
   }
@@ -250,8 +250,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
    */
   public List getA()
   {
-          return getList(getGroup(), getType(), A);
-
+    return getList(getGroup(), getType(), INTERNAL_A);
   }
   /**
    * <!-- begin-user-doc -->
@@ -260,8 +259,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
    */
   public List getB()
   {
-          return getList(getGroup(), getType(), B);
-
+    return getList(getGroup(), getType(), INTERNAL_B);
   }
   /**
    * <!-- begin-user-doc -->
@@ -332,8 +330,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
    */
   public List getY()
   {
-          return getList(getGroup1(), getType(), Y);
-
+    return getList(getGroup1(), getType(), INTERNAL_Y);
   }
   /**
    * <!-- begin-user-doc -->
@@ -342,8 +339,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
    */
   public List getZ()
   {
-          return getList(getGroup1(), getType(), Z);
-
+    return getList(getGroup1(), getType(), INTERNAL_Z);
   }
   /**
    * <!-- begin-user-doc -->

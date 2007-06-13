@@ -142,7 +142,7 @@ public class DataGraphTypeImpl extends BaseDataGraphTypeImpl implements DataGrap
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((ModelFactoryImpl)ModelFactory.INSTANCE).getDataGraphType();
   }

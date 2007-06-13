@@ -104,7 +104,7 @@ public class ModelsTypeImpl extends DataObjectBase implements ModelsType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((ModelFactoryImpl)ModelFactory.INSTANCE).getModelsType();
   }

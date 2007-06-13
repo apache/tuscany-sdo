@@ -125,7 +125,7 @@ public class JavaMetaDataImpl extends DataObjectBase implements JavaMetaData
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((MetadataFactoryImpl)MetadataFactory.INSTANCE).getJavaMetaData();
   }

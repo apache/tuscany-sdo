@@ -44,7 +44,7 @@ import org.apache.tuscany.sdo.util.SDOUtil;
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
  * Generator information:
- * patternVersion=1.1;
+ * patternVersion=1.2;
  * <!-- end-user-doc -->
  * @generated
  */
@@ -73,7 +73,7 @@ public class OpenFactoryImpl extends FactoryBase implements OpenFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String PATTERN_VERSION = "1.1";
+  public static final String PATTERN_VERSION = "1.2";
   
   public static final int ONE_ELEMENT_AND_ANY_ATTR = 1;
   
@@ -146,7 +146,7 @@ public class OpenFactoryImpl extends FactoryBase implements OpenFactory
     OpenFactoryImpl theOpenFactoryImpl = new OpenFactoryImpl();
     isInited = true;
 
-    // Initialize simple dependencies
+    // Initialize dependencies
     SDOUtil.registerStaticTypes(SDOFactory.class);
     SDOUtil.registerStaticTypes(ModelFactory.class);
     SDOUtil.registerStaticTypes(InternalFactory.class);
@@ -191,10 +191,10 @@ public class OpenFactoryImpl extends FactoryBase implements OpenFactory
 
     // Initialize types and properties
     initializeType(oneElementAndAnyAttrType, OneElementAndAnyAttr.class, "OneElementAndAnyAttr", false);
-    property = getProperty(oneElementAndAnyAttrType, OneElementAndAnyAttrImpl.INTERNAL_NAME);
+    property = getLocalProperty(oneElementAndAnyAttrType, 0);
     initializeProperty(property, theModelPackageImpl.getString(), "name", null, 1, 1, OneElementAndAnyAttr.class, false, true, false);
 
-    property = getProperty(oneElementAndAnyAttrType, OneElementAndAnyAttrImpl.INTERNAL_ANY_ATTRIBUTE);
+    property = getLocalProperty(oneElementAndAnyAttrType, 1);
     initializeProperty(property, getSequence(), "anyAttribute", null, 0, -1, OneElementAndAnyAttr.class, false, false, false);
 
     createXSDMetaData(theModelPackageImpl);

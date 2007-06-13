@@ -121,7 +121,7 @@ public class XMLInfoImpl extends DataObjectBase implements XMLInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((XMLFactoryImpl)XMLFactory.INSTANCE).getXMLInfo();
   }

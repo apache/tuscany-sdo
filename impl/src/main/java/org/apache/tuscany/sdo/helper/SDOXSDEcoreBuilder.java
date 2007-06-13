@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.xml.XMLConstants;
@@ -33,6 +34,10 @@ import org.apache.tuscany.sdo.impl.AttributeImpl;
 import org.apache.tuscany.sdo.impl.SDOFactoryImpl.SDOEcoreFactory;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.api.SDOUtil;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notifier;
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -42,6 +47,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.util.EcoreUtil.UsageCrossReferencer;
@@ -56,6 +63,10 @@ import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTerm;
 import org.eclipse.xsd.XSDTypeDefinition;
+import org.eclipse.xsd.ecore.EcoreXMLSchemaBuilder;
+import org.eclipse.xsd.util.XSDResourceFactoryImpl;
+import org.eclipse.xsd.util.XSDResourceImpl;
+import org.eclipse.xsd.util.XSDSchemaLocator;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -153,7 +164,28 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
     }
     return (EDataType)eClassifier;
   }
+
   
+  /* (non-Javadoc)
+   * @see org.eclipse.xsd.ecore.XSDEcoreBuilder#createResourceSet()
+   */
+  protected ResourceSet createResourceSet() {
+    ResourceSet result = super.createResourceSet();
+    result.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XSDResourceFactoryImpl());
+    result.getAdapterFactories().add(new XSDSchemaAdapterFactoryImpl());
+
+    EList resources = result.getResources();
+    for (Iterator iter = targetNamespaceToEPackageMap.entrySet().iterator(); iter.hasNext();) {
+      Map.Entry mapEntry = (Map.Entry)iter.next();
+      EPackage ePackage = (EPackage)mapEntry.getValue();
+      Resource resource = ePackage.eResource();
+      if (resource != null) {
+        resources.add(resource);
+      }
+    }
+    return result;
+  }
+
   protected EClassifier getBuiltInEClassifier(String namespace, String name)
   {
       EClassifier eClassifier = null;
@@ -682,6 +714,114 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
       }
     
     return qualifiedPackageName.toString().toLowerCase(); //make sure it's lower case .. we can't work with Axis if not.
+  }
+  
+  private XSDSchema loadEPackage(EPackage ePackage)
+  {
+    XSDSchema ePackageXSDSchema = null;
+    XSDEcoreXMLSchemaBuilder xmlSchemaBuilder = new XSDEcoreXMLSchemaBuilder();
+    Collection xmlSchemas = xmlSchemaBuilder.generate(ePackage);
+    xsdComponentToEModelElementMap.putAll(xmlSchemaBuilder.getXSDComponentToEModelElementMap());
+    for (Iterator iter = xmlSchemas.iterator(); iter.hasNext();) {
+      Object xmlSchema = (Object)iter.next();
+      if (xmlSchema instanceof XSDSchema) 
+      {
+        EPackage xmlSchemaEPackage = (EPackage) xsdComponentToEModelElementMap.get(xmlSchema);
+        addEPackageToXSDSchemaMapEntry(xmlSchemaEPackage, (XSDSchema) xmlSchema);
+        if (xmlSchemaEPackage.equals(ePackage))
+        {
+          ePackageXSDSchema = (XSDSchema) xmlSchema;
+        }
+      }
+    }
+    Map ePackageToXSDSchemaMap = xmlSchemaBuilder.getEPackageToXSDSchemaMap();
+    for (Iterator iter = ePackageToXSDSchemaMap.entrySet().iterator(); iter.hasNext();) {
+      Map.Entry mapEntry = (Map.Entry)iter.next();
+      EPackage xmlSchemaEPackage = (EPackage) mapEntry.getKey();
+      XSDSchema xmlSchema = (XSDSchema) mapEntry.getValue();
+      addEPackageToXSDSchemaMapEntry(xmlSchemaEPackage, xmlSchema);
+    }
+    return ePackageXSDSchema;
+  }
+  
+  private void addEPackageToXSDSchemaMapEntry(EPackage ePackage, XSDSchema xsdSchema)
+  {
+    targetNamespaceToEPackageMap.put(ePackage.getNsURI(), ePackage);
+    populateTypeToTypeObjectMap(ePackage);
+    xsdSchemas.add(xsdSchema);
+  }
+  
+  private static class XSDEcoreXMLSchemaBuilder extends EcoreXMLSchemaBuilder
+  {
+    public XSDEcoreXMLSchemaBuilder() 
+  	{
+      super();
+  	}
+    
+    public Map getXSDComponentToEModelElementMap()
+    {
+      return xsdComponentToEModelElementMap;
+    }
+    
+    public Map getEPackageToXSDSchemaMap()
+    {
+      return ePackageToXSDSchemaMap;
+    }
+    
+    protected void additionalProcessing(EClass cls, XSDComplexTypeDefinition xsdCTDComplexTypeDefinition)
+    {
+      // remove element definition
+      for(Iterator iter = xsdComponentToEModelElementMap.entrySet().iterator(); iter.hasNext();)
+      {
+        Map.Entry mapEntry = (Map.Entry)iter.next();
+        if (mapEntry.getValue().equals(cls) &&
+            mapEntry.getKey() instanceof XSDElementDeclaration)
+        {
+          xsdComponentToEModelElementMap.remove(mapEntry.getKey());
+          break;
+        }
+      }
+    }
+  }
+  
+  class XSDSchemaAdapterFactoryImpl extends AdapterFactoryImpl
+  {
+    protected SchemaLocator schemaLocator = new SchemaLocator();
+    
+    public boolean isFactoryForType(Object type)
+    {
+      return type == XSDSchemaLocator.class;
+    }
+    
+    public Adapter adaptNew(Notifier target, Object type)
+    {
+      return schemaLocator;
+    }
+    
+    class SchemaLocator extends XSDResourceImpl.SchemaLocator
+    {
+      public XSDSchema locateSchema(XSDSchema xsdSchema, String namespaceURI,
+                                    String rawSchemaLocationURI, String resolvedSchemaLocation)
+      {
+        if (targetNamespaceToEPackageMap.containsKey(namespaceURI))
+        {
+          for (Iterator iter = xsdSchemas.iterator(); iter.hasNext();) {
+            XSDSchema schema = (XSDSchema)iter.next();
+            if (schema.getTargetNamespace().equals(namespaceURI))
+            {
+              return schema;
+            }
+          }
+        }
+        EPackage ePackage = extendedMetaData.getPackage(namespaceURI);
+        if (ePackage != null)
+        {
+          XSDSchema schema = loadEPackage(ePackage);
+          return schema;
+        }
+        return super.locateSchema(xsdSchema, namespaceURI, rawSchemaLocationURI, resolvedSchemaLocation);
+      }
+    }
   }
   
 }

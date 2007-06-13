@@ -542,7 +542,7 @@ public abstract class JavaGenerator
     
     genModel.setRootExtendsInterface("");
     genModel.setRootImplementsInterface("commonj.sdo.DataObject");
-    genModel.setRootExtendsClass("org.apache.tuscany.sdo.impl.DataObjectImpl");
+    genModel.setRootExtendsClass("org.apache.tuscany.sdo.impl.ExtensibleDataObjectImpl");
     genModel.setFeatureMapWrapperInterface("commonj.sdo.Sequence");
     genModel.setFeatureMapWrapperInternalInterface("org.apache.tuscany.sdo.util.BasicSequence");
     genModel.setFeatureMapWrapperClass("org.apache.tuscany.sdo.util.BasicSequence");

@@ -146,7 +146,7 @@ public class ContainmentTestImpl extends DataObjectBase implements ContainmentTe
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((ContainmentFactoryImpl)ContainmentFactory.INSTANCE).getContainmentTest();
   }

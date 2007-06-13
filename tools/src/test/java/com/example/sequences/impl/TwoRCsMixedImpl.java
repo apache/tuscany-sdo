@@ -198,7 +198,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((SequencesFactoryImpl)SequencesFactory.INSTANCE).getTwoRCsMixed();
   }
@@ -223,7 +223,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    */
   public Sequence getGroup()
   {
-    return createSequence(getMixed(), getType(), GROUP);
+    return createSequence(getMixed(), getType(), INTERNAL_GROUP);
   }
   /**
    * <!-- begin-user-doc -->
@@ -232,8 +232,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    */
   public List getA()
   {
-          return getList(getGroup(), getType(), A);
-
+    return getList(getGroup(), getType(), INTERNAL_A);
   }
   /**
    * <!-- begin-user-doc -->
@@ -242,8 +241,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    */
   public List getB()
   {
-          return getList(getGroup(), getType(), B);
-
+    return getList(getGroup(), getType(), INTERNAL_B);
   }
   /**
    * <!-- begin-user-doc -->
@@ -271,7 +269,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    */
   public void unsetSplit()
   {
-        unset(getMixed(), getType(), SPLIT);
+        unset(getMixed(), getType(), INTERNAL_SPLIT);
   }
 
   /**
@@ -281,7 +279,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    */
   public boolean isSetSplit()
   {
-        return isSet(getMixed(), getType(), SPLIT);
+        return isSet(getMixed(), getType(), INTERNAL_SPLIT);
   }
 
   /**
@@ -291,7 +289,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    */
   public Sequence getGroup1()
   {
-    return createSequence(getMixed(), getType(), GROUP1);
+    return createSequence(getMixed(), getType(), INTERNAL_GROUP1);
   }
   /**
    * <!-- begin-user-doc -->
@@ -300,8 +298,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    */
   public List getY()
   {
-          return getList(getGroup1(), getType(), Y);
-
+    return getList(getGroup1(), getType(), INTERNAL_Y);
   }
   /**
    * <!-- begin-user-doc -->
@@ -310,8 +307,7 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    */
   public List getZ()
   {
-          return getList(getGroup1(), getType(), Z);
-
+    return getList(getGroup1(), getType(), INTERNAL_Z);
   }
   /**
    * <!-- begin-user-doc -->

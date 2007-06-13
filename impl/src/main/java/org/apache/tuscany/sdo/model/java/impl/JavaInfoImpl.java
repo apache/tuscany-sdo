@@ -121,7 +121,7 @@ public class JavaInfoImpl extends DataObjectBase implements JavaInfo
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((JavaFactoryImpl)JavaFactory.INSTANCE).getJavaInfo();
   }

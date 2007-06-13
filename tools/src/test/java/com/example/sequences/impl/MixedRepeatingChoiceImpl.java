@@ -146,7 +146,7 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((SequencesFactoryImpl)SequencesFactory.INSTANCE).getMixedRepeatingChoice();
   }
@@ -171,7 +171,7 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
    */
   public Sequence getGroup()
   {
-    return createSequence(getMixed(), getType(), GROUP);
+    return createSequence(getMixed(), getType(), INTERNAL_GROUP);
   }
   /**
    * <!-- begin-user-doc -->
@@ -180,8 +180,7 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
    */
   public List getA()
   {
-          return getList(getGroup(), getType(), A);
-
+    return getList(getGroup(), getType(), INTERNAL_A);
   }
   /**
    * <!-- begin-user-doc -->
@@ -190,8 +189,7 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
    */
   public List getB()
   {
-          return getList(getGroup(), getType(), B);
-
+    return getList(getGroup(), getType(), INTERNAL_B);
   }
   /**
    * <!-- begin-user-doc -->

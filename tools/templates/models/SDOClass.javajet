@@ -443,7 +443,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public <%=genModel.getImportedName("commonj.sdo.Type")%> getType()
+	public <%=genModel.getImportedName("commonj.sdo.Type")%> getStaticType()
 	{
 		return ((<%=genPackage.getImportedFactoryClassName()%>)<%=genPackage.getImportedFactoryInterfaceName()%>.INSTANCE).get<%=genClass.getClassifierAccessorName()%>();
 	}

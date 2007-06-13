@@ -17,7 +17,6 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-
 package com.example.subgroup;
 
 import commonj.sdo.helper.HelperContext;

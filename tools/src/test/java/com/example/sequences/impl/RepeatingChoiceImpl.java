@@ -133,7 +133,7 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((SequencesFactoryImpl)SequencesFactory.INSTANCE).getRepeatingChoice();
   }
@@ -158,8 +158,7 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
    */
   public List getA()
   {
-          return getList(getGroup(), getType(), A);
-
+    return getList(getGroup(), getType(), INTERNAL_A);
   }
   /**
    * <!-- begin-user-doc -->
@@ -168,8 +167,7 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
    */
   public List getB()
   {
-          return getList(getGroup(), getType(), B);
-
+    return getList(getGroup(), getType(), INTERNAL_B);
   }
   /**
    * <!-- begin-user-doc -->

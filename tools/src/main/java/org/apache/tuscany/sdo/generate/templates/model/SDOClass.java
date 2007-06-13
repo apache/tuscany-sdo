@@ -161,7 +161,7 @@ public class SDOClass
   protected final String TEXT_141 = NL + "\t\tcreateChangeSummary(";
   protected final String TEXT_142 = ");";
   protected final String TEXT_143 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
-  protected final String TEXT_144 = " getType()" + NL + "\t{" + NL + "\t\treturn ((";
+  protected final String TEXT_144 = " getStaticType()" + NL + "\t{" + NL + "\t\treturn ((";
   protected final String TEXT_145 = ")";
   protected final String TEXT_146 = ".INSTANCE).get";
   protected final String TEXT_147 = "();" + NL + "\t}" + NL;

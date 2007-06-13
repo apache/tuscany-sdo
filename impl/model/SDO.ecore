@@ -977,4 +977,6 @@
       eSuperTypes="#//DataObject"/>
   <eClassifiers xsi:type="ecore:EClass" name="DynamicStoreDataObject" instanceClassName="commonj.sdo.DataObject"
       eSuperTypes="#//StoreDataObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExtensibleDataObject" instanceClassName="commonj.sdo.DataObject"
+      eSuperTypes="#//DataObject"/>
 </ecore:EPackage>

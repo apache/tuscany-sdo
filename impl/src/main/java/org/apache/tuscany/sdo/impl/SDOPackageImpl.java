@@ -182,6 +182,13 @@ public class SDOPackageImpl extends EPackageImpl implements SDOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  private EClass extensibleDataObjectEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   private EDataType eJavaListEDataType = null;
 
   /**
@@ -502,6 +509,16 @@ public class SDOPackageImpl extends EPackageImpl implements SDOPackage
    * <!-- end-user-doc -->
    * @generated
    */
+  public EClass getExtensibleDataObject()
+  {
+    return extensibleDataObjectEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public EDataType getEJavaList()
   {
     return eJavaListEDataType;
@@ -585,6 +602,8 @@ public class SDOPackageImpl extends EPackageImpl implements SDOPackage
     storeDataObjectEClass = createEClass(STORE_DATA_OBJECT);
 
     dynamicStoreDataObjectEClass = createEClass(DYNAMIC_STORE_DATA_OBJECT);
+
+    extensibleDataObjectEClass = createEClass(EXTENSIBLE_DATA_OBJECT);
 
     // Create data types
     eJavaListEDataType = createEDataType(EJAVA_LIST);
@@ -676,6 +695,7 @@ public class SDOPackageImpl extends EPackageImpl implements SDOPackage
     dynamicDataObjectEClass.getESuperTypes().add(this.getDataObject());
     storeDataObjectEClass.getESuperTypes().add(this.getDataObject());
     dynamicStoreDataObjectEClass.getESuperTypes().add(this.getStoreDataObject());
+    extensibleDataObjectEClass.getESuperTypes().add(this.getDataObject());
 
     // Initialize classes and features; add operations and parameters
     initEClass(changeSummaryEClass, ChangeSummary.class, "ChangeSummary", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
@@ -1277,6 +1297,8 @@ public class SDOPackageImpl extends EPackageImpl implements SDOPackage
     initEClass(storeDataObjectEClass, DataObject.class, "StoreDataObject", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(dynamicStoreDataObjectEClass, DataObject.class, "DynamicStoreDataObject", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
+
+    initEClass(extensibleDataObjectEClass, DataObject.class, "ExtensibleDataObject", !IS_ABSTRACT, !IS_INTERFACE, !IS_GENERATED_INSTANCE_CLASS);
 
     // Initialize data types
     initEDataType(eJavaListEDataType, List.class, "EJavaList", !IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);

@@ -121,7 +121,7 @@ public class BImpl extends DataObjectBase implements B
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((SubgroupFactoryImpl)SubgroupFactory.INSTANCE).getB();
   }

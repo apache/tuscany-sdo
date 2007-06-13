@@ -155,7 +155,7 @@ public class CustomerImpl extends DataObjectBase implements Customer
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((CustomerFactoryImpl)CustomerFactory.INSTANCE).getCustomer();
   }

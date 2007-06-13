@@ -578,5 +578,6 @@
     <genClasses ecoreClass="SDO.ecore#//DynamicDataObject"/>
     <genClasses ecoreClass="SDO.ecore#//StoreDataObject"/>
     <genClasses ecoreClass="SDO.ecore#//DynamicStoreDataObject"/>
+    <genClasses ecoreClass="SDO.ecore#//ExtensibleDataObject"/>
   </genPackages>
 </genmodel:GenModel>

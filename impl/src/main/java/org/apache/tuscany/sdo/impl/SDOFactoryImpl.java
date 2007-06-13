@@ -119,6 +119,7 @@ public class SDOFactoryImpl extends EFactoryImpl implements SDOFactory
       case SDOPackage.DYNAMIC_DATA_OBJECT: return (EObject)createDynamicDataObject();
       case SDOPackage.STORE_DATA_OBJECT: return (EObject)createStoreDataObject();
       case SDOPackage.DYNAMIC_STORE_DATA_OBJECT: return (EObject)createDynamicStoreDataObject();
+      case SDOPackage.EXTENSIBLE_DATA_OBJECT: return (EObject)createExtensibleDataObject();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -293,6 +294,17 @@ public class SDOFactoryImpl extends EFactoryImpl implements SDOFactory
   {
     DynamicStoreDataObjectImpl dynamicStoreDataObject = new DynamicStoreDataObjectImpl();
     return dynamicStoreDataObject;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public DataObject createExtensibleDataObject()
+  {
+    ExtensibleDataObjectImpl extensibleDataObject = new ExtensibleDataObjectImpl();
+    return extensibleDataObject;
   }
 
   /**

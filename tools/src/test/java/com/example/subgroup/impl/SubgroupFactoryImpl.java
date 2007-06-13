@@ -36,13 +36,15 @@ import org.apache.tuscany.sdo.model.ModelFactory;
 
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 
+import org.apache.tuscany.sdo.model.internal.InternalFactory;
+
 import org.apache.tuscany.sdo.util.SDOUtil;
 
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
  * Generator information:
- * patternVersion=1.1; -prefix Subgroup
+ * patternVersion=1.2; -prefix Subgroup
  * <!-- end-user-doc -->
  * @generated
  */
@@ -71,7 +73,7 @@ public class SubgroupFactoryImpl extends FactoryBase implements SubgroupFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String PATTERN_VERSION = "1.1";
+  public static final String PATTERN_VERSION = "1.2";
   
   public static final int A = 1;	
   public static final int B = 2;	
@@ -182,9 +184,10 @@ public class SubgroupFactoryImpl extends FactoryBase implements SubgroupFactory
     SubgroupFactoryImpl theSubgroupFactoryImpl = new SubgroupFactoryImpl();
     isInited = true;
 
-    // Initialize simple dependencies
+    // Initialize dependencies
     SDOUtil.registerStaticTypes(SDOFactory.class);
     SDOUtil.registerStaticTypes(ModelFactory.class);
+    SDOUtil.registerStaticTypes(InternalFactory.class);
 
     // Create package meta-data objects
     theSubgroupFactoryImpl.createMetaData();
@@ -227,22 +230,22 @@ public class SubgroupFactoryImpl extends FactoryBase implements SubgroupFactory
     Property property = null;
 
     // Add supertypes to types
-    addSuperType(bprimeType, bType);
+    addSuperType(bprimeType, this.getB());
 
     // Initialize types and properties
     initializeType(aType, A.class, "A", false);
-    property = getProperty(aType, AImpl.INTERNAL_GE1_GROUP);
+    property = getLocalProperty(aType, 0);
     initializeProperty(property, getSequence(), "ge1Group", null, 1, 1, A.class, false, false, false);
 
-    property = getProperty(aType, AImpl.INTERNAL_GE1);
+    property = getLocalProperty(aType, 1);
     initializeProperty(property, this.getB(), "ge1", null, 1, 1, A.class, false, true, true, true , null);
 
     initializeType(bType, B.class, "B", false);
-    property = getProperty(bType, BImpl.INTERNAL_IM_IN_TYPE_B);
+    property = getLocalProperty(bType, 0);
     initializeProperty(property, theModelPackageImpl.getString(), "imInTypeB", null, 1, 1, B.class, false, true, false);
 
     initializeType(bprimeType, Bprime.class, "Bprime", false);
-    property = getProperty(bprimeType, BprimeImpl.INTERNAL_IM_IN_TYPE_BPRIME);
+    property = getLocalProperty(bprimeType, 0);
     initializeProperty(property, theModelPackageImpl.getString(), "imInTypeBprime", null, 1, 1, Bprime.class, false, true, false);
 
     createXSDMetaData(theModelPackageImpl);

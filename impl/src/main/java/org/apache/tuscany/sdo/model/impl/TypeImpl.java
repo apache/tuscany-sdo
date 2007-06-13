@@ -456,7 +456,7 @@ public class TypeImpl extends DataObjectBase implements Type
    * <!-- end-user-doc -->
    * @generated
    */
-  public commonj.sdo.Type getType()
+  public commonj.sdo.Type getStaticType()
   {
     return ((ModelFactoryImpl)ModelFactory.INSTANCE).getType();
   }

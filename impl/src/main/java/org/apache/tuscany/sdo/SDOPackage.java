@@ -1320,6 +1320,25 @@ public interface SDOPackage extends EPackage{
   int DYNAMIC_STORE_DATA_OBJECT_FEATURE_COUNT = STORE_DATA_OBJECT_FEATURE_COUNT + 0;
 
   /**
+   * The meta object id for the '{@link org.apache.tuscany.sdo.impl.ExtensibleDataObjectImpl <em>Extensible Data Object</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see org.apache.tuscany.sdo.impl.ExtensibleDataObjectImpl
+   * @see org.apache.tuscany.sdo.impl.SDOPackageImpl#getExtensibleDataObject()
+   * @generated
+   */
+  int EXTENSIBLE_DATA_OBJECT = 17;
+
+  /**
+   * The number of structural features of the '<em>Extensible Data Object</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int EXTENSIBLE_DATA_OBJECT_FEATURE_COUNT = DATA_OBJECT_FEATURE_COUNT + 0;
+
+  /**
    * The meta object id for the '<em>EJava List</em>' data type.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1327,7 +1346,7 @@ public interface SDOPackage extends EPackage{
    * @see org.apache.tuscany.sdo.impl.SDOPackageImpl#getEJavaList()
    * @generated
    */
-  int EJAVA_LIST = 17;
+  int EJAVA_LIST = 18;
 
   /**
    * The meta object id for the '<em>EObject Stream Exception</em>' data type.
@@ -1337,7 +1356,7 @@ public interface SDOPackage extends EPackage{
    * @see org.apache.tuscany.sdo.impl.SDOPackageImpl#getEObjectStreamException()
    * @generated
    */
-  int EOBJECT_STREAM_EXCEPTION = 18;
+  int EOBJECT_STREAM_EXCEPTION = 19;
 
 
   /**
@@ -1592,6 +1611,17 @@ public interface SDOPackage extends EPackage{
    * @generated
    */
   EClass getDynamicStoreDataObject();
+
+  /**
+   * Returns the meta object for class '{@link commonj.sdo.DataObject <em>Extensible Data Object</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Extensible Data Object</em>'.
+   * @see commonj.sdo.DataObject
+   * @model instanceClass="commonj.sdo.DataObject"
+   * @generated
+   */
+  EClass getExtensibleDataObject();
 
   /**
    * Returns the meta object for data type '{@link java.util.List <em>EJava List</em>}'.

@@ -147,7 +147,7 @@ public class OneElementAndAnyAttrImpl extends DataObjectBase implements OneEleme
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((OpenFactoryImpl)OpenFactory.INSTANCE).getOneElementAndAnyAttr();
   }

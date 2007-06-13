@@ -95,7 +95,7 @@ public class TypeMetaDataImpl extends DataObjectBase implements TypeMetaData
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((MetadataFactoryImpl)MetadataFactory.INSTANCE).getTypeMetaData();
   }

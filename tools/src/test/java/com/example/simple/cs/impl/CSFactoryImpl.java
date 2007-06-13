@@ -36,13 +36,15 @@ import org.apache.tuscany.sdo.model.ModelFactory;
 
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 
+import org.apache.tuscany.sdo.model.internal.InternalFactory;
+
 import org.apache.tuscany.sdo.util.SDOUtil;
 
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
  * Generator information:
- * patternVersion=1.1; -prefix CS
+ * patternVersion=1.2; -prefix CS
  * <!-- end-user-doc -->
  * @generated
  */
@@ -71,7 +73,7 @@ public class CSFactoryImpl extends FactoryBase implements CSFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String PATTERN_VERSION = "1.1";
+  public static final String PATTERN_VERSION = "1.2";
   
   public static final int QUOTE = 1;	
   public static final int QUOTE_BASE = 2;
@@ -163,9 +165,10 @@ public class CSFactoryImpl extends FactoryBase implements CSFactory
     CSFactoryImpl theCSFactoryImpl = new CSFactoryImpl();
     isInited = true;
 
-    // Initialize simple dependencies
+    // Initialize dependencies
     SDOUtil.registerStaticTypes(SDOFactory.class);
     SDOUtil.registerStaticTypes(ModelFactory.class);
+    SDOUtil.registerStaticTypes(InternalFactory.class);
 
     // Create package meta-data objects
     theCSFactoryImpl.createMetaData();
@@ -213,39 +216,39 @@ public class CSFactoryImpl extends FactoryBase implements CSFactory
     Property property = null;
 
     // Add supertypes to types
-    addSuperType(quoteBaseType, quoteType);
+    addSuperType(quoteBaseType, this.getQuote());
 
     // Initialize types and properties
     initializeType(quoteType, Quote.class, "Quote", false);
-    property = getProperty(quoteType, QuoteImpl.INTERNAL_SYMBOL);
+    property = getLocalProperty(quoteType, 0);
     initializeProperty(property, theModelPackageImpl.getString(), "symbol", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, QuoteImpl.INTERNAL_COMPANY_NAME);
+    property = getLocalProperty(quoteType, 1);
     initializeProperty(property, theModelPackageImpl.getString(), "companyName", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, QuoteImpl.INTERNAL_PRICE);
+    property = getLocalProperty(quoteType, 2);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "price", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, QuoteImpl.INTERNAL_OPEN1);
+    property = getLocalProperty(quoteType, 3);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "open1", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, QuoteImpl.INTERNAL_HIGH);
+    property = getLocalProperty(quoteType, 4);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "high", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, QuoteImpl.INTERNAL_LOW);
+    property = getLocalProperty(quoteType, 5);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "low", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, QuoteImpl.INTERNAL_VOLUME);
+    property = getLocalProperty(quoteType, 6);
     initializeProperty(property, theModelPackageImpl.getDouble(), "volume", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, QuoteImpl.INTERNAL_CHANGE1);
+    property = getLocalProperty(quoteType, 7);
     initializeProperty(property, theModelPackageImpl.getDouble(), "change1", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, QuoteImpl.INTERNAL_QUOTES);
+    property = getLocalProperty(quoteType, 8);
     initializeProperty(property, this.getQuote(), "quotes", null, 0, -1, Quote.class, false, false, false, true , null);
 
     initializeType(quoteBaseType, QuoteBase.class, "QuoteBase", false);
-    property = getProperty(quoteBaseType, QuoteBaseImpl.INTERNAL_CHANGES);
+    property = getLocalProperty(quoteBaseType, 0);
     initializeProperty(property, theModelPackageImpl.getChangeSummaryType(), "changes", null, 1, 1, QuoteBase.class, false, true, false);
 
     createXSDMetaData(theModelPackageImpl);

@@ -118,7 +118,7 @@ public class AImpl extends DataObjectBase implements A
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((SubgroupFactoryImpl)SubgroupFactory.INSTANCE).getA();
   }
@@ -152,7 +152,7 @@ public class AImpl extends DataObjectBase implements A
    */
   public ChangeContext basicSetGe1(B newGe1, ChangeContext changeContext)
   {
-    return basicAdd(getGe1Group(), getType(), GE1, newGe1, changeContext);
+    return basicAdd(getGe1Group(), getType(), INTERNAL_GE1, newGe1, changeContext);
   }
 
   /**
@@ -187,7 +187,7 @@ public class AImpl extends DataObjectBase implements A
    */
   public void unsetGe1()
   {
-        unset(getGe1Group(), getType(), GE1);
+        unset(getGe1Group(), getType(), INTERNAL_GE1);
   }
 
   /**
@@ -197,7 +197,7 @@ public class AImpl extends DataObjectBase implements A
    */
   public boolean isSetGe1()
   {
-        return isSet(getGe1Group(), getType(), GE1);
+        return isSet(getGe1Group(), getType(), INTERNAL_GE1);
   }
 
   /**

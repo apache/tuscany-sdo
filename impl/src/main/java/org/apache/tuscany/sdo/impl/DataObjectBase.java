@@ -50,7 +50,7 @@ import commonj.sdo.Type;
 /**
  * Base implementation of the SDO DataObject interface. Used as base class for generated (static) SDO classes
  */
-public abstract class DataObjectBase extends DataObjectImpl
+public abstract class DataObjectBase extends ExtensibleDataObjectImpl
 {
   
   protected int OPPOSITE_FEATURE_BASE = EOPPOSITE_FEATURE_BASE; 
@@ -355,10 +355,10 @@ public abstract class DataObjectBase extends DataObjectImpl
   
   public EClass eStaticClass()
   {
-    return (EClass)getType();
+    return (EClass)getStaticType();
   }
   
-  public Type getType() // must be overridem in subclasses
+  public Type getStaticType() // must be overridem in subclasses
   {
     throw new UnsupportedOperationException();
   }
@@ -370,27 +370,52 @@ public abstract class DataObjectBase extends DataObjectImpl
   
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    Object result = get(internalConvertIndex(featureID), resolve);
-    if (coreType)
+    Object result = null;
+    if (isDynamic())
     {
-      if (result instanceof FeatureMap.Internal.Wrapper) result = ((FeatureMap.Internal.Wrapper)result).featureMap();
+      result = super.eGet(internalConvertIndex(featureID), resolve, coreType);
+    } else
+    {
+      result = get(internalConvertIndex(featureID), resolve);
+      if (coreType)
+      {
+        if (result instanceof FeatureMap.Internal.Wrapper) result = ((FeatureMap.Internal.Wrapper)result).featureMap();
+      }
     }
     return result;
   }
 
   public void eSet(int featureID, Object newValue)
   {
-    set(internalConvertIndex(featureID), newValue);
+    if (isDynamic())
+    {
+      super.eSet(internalConvertIndex(featureID), newValue);
+    } else 
+    {
+      set(internalConvertIndex(featureID), newValue);
+    }
   } 
 
   public void eUnset(int featureID)
   {
-    unset(internalConvertIndex(featureID));
+    if (isDynamic())
+    {
+      super.eUnset(internalConvertIndex(featureID));
+    } else 
+    {
+      unset(internalConvertIndex(featureID));
+    }
   }
   
   public boolean eIsSet(int featureID)
   {
-    return isSet(internalConvertIndex(featureID));
+    if (isDynamic())
+    {
+      return super.eIsSet(internalConvertIndex(featureID));
+    } else
+    {
+      return isSet(internalConvertIndex(featureID));
+    }
   }
   
   private class ChangeContextImpl implements ChangeContext
@@ -422,4 +447,5 @@ public abstract class DataObjectBase extends DataObjectImpl
   }
   
 } //DataObjectBase
+
 

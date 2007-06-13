@@ -106,7 +106,7 @@ public abstract class TextTypeImpl extends DataObjectBase implements TextType
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((ModelFactoryImpl)ModelFactory.INSTANCE).getTextType();
   }

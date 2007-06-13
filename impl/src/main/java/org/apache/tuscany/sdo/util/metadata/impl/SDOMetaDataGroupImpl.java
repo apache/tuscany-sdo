@@ -134,7 +134,7 @@ public class SDOMetaDataGroupImpl extends DataObjectBase implements SDOMetaDataG
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((MetadataFactoryImpl)MetadataFactory.INSTANCE).getSDOMetaDataGroup();
   }

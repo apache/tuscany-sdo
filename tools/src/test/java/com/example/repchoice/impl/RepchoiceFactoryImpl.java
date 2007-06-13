@@ -36,13 +36,15 @@ import org.apache.tuscany.sdo.model.ModelFactory;
 
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 
+import org.apache.tuscany.sdo.model.internal.InternalFactory;
+
 import org.apache.tuscany.sdo.util.SDOUtil;
 
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model <b>Factory</b>.
  * Generator information:
- * patternVersion=1.1;
+ * patternVersion=1.2;
  * <!-- end-user-doc -->
  * @generated
  */
@@ -71,7 +73,7 @@ public class RepchoiceFactoryImpl extends FactoryBase implements RepchoiceFactor
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String PATTERN_VERSION = "1.1";
+  public static final String PATTERN_VERSION = "1.2";
   
   public static final int RC_TYPE = 1;
   
@@ -144,9 +146,10 @@ public class RepchoiceFactoryImpl extends FactoryBase implements RepchoiceFactor
     RepchoiceFactoryImpl theRepchoiceFactoryImpl = new RepchoiceFactoryImpl();
     isInited = true;
 
-    // Initialize simple dependencies
+    // Initialize dependencies
     SDOUtil.registerStaticTypes(SDOFactory.class);
     SDOUtil.registerStaticTypes(ModelFactory.class);
+    SDOUtil.registerStaticTypes(InternalFactory.class);
 
     // Create package meta-data objects
     theRepchoiceFactoryImpl.createMetaData();
@@ -190,16 +193,16 @@ public class RepchoiceFactoryImpl extends FactoryBase implements RepchoiceFactor
 
     // Initialize types and properties
     initializeType(rcTypeType, RCType.class, "RCType", false);
-    property = getProperty(rcTypeType, RCTypeImpl.INTERNAL_GROUP);
+    property = getLocalProperty(rcTypeType, 0);
     initializeProperty(property, getSequence(), "group", null, 0, -1, RCType.class, false, false, false);
 
-    property = getProperty(rcTypeType, RCTypeImpl.INTERNAL_S);
+    property = getLocalProperty(rcTypeType, 1);
     initializeProperty(property, theModelPackageImpl.getString(), "s", null, 0, -1, RCType.class, false, false, true);
 
-    property = getProperty(rcTypeType, RCTypeImpl.INTERNAL_I);
+    property = getLocalProperty(rcTypeType, 2);
     initializeProperty(property, theModelPackageImpl.getInt(), "i", null, 0, -1, RCType.class, false, false, true);
 
-    property = getProperty(rcTypeType, RCTypeImpl.INTERNAL_F);
+    property = getLocalProperty(rcTypeType, 3);
     initializeProperty(property, theModelPackageImpl.getFloat(), "f", null, 0, -1, RCType.class, false, false, true);
 
     createXSDMetaData(theModelPackageImpl);

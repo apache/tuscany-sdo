@@ -55,7 +55,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_SYMBOL = QuoteImpl.SYMBOL;
+  public final static int INTERNAL_SYMBOL = QuoteImpl.INTERNAL_SYMBOL;
 
   /**
    * The internal feature id for the '<em><b>Company Name</b></em>' attribute.
@@ -64,7 +64,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_COMPANY_NAME = QuoteImpl.COMPANY_NAME;
+  public final static int INTERNAL_COMPANY_NAME = QuoteImpl.INTERNAL_COMPANY_NAME;
 
   /**
    * The internal feature id for the '<em><b>Price</b></em>' attribute.
@@ -73,7 +73,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_PRICE = QuoteImpl.PRICE;
+  public final static int INTERNAL_PRICE = QuoteImpl.INTERNAL_PRICE;
 
   /**
    * The internal feature id for the '<em><b>Open1</b></em>' attribute.
@@ -82,7 +82,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_OPEN1 = QuoteImpl.OPEN1;
+  public final static int INTERNAL_OPEN1 = QuoteImpl.INTERNAL_OPEN1;
 
   /**
    * The internal feature id for the '<em><b>High</b></em>' attribute.
@@ -91,7 +91,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_HIGH = QuoteImpl.HIGH;
+  public final static int INTERNAL_HIGH = QuoteImpl.INTERNAL_HIGH;
 
   /**
    * The internal feature id for the '<em><b>Low</b></em>' attribute.
@@ -100,7 +100,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_LOW = QuoteImpl.LOW;
+  public final static int INTERNAL_LOW = QuoteImpl.INTERNAL_LOW;
 
   /**
    * The internal feature id for the '<em><b>Volume</b></em>' attribute.
@@ -109,7 +109,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_VOLUME = QuoteImpl.VOLUME;
+  public final static int INTERNAL_VOLUME = QuoteImpl.INTERNAL_VOLUME;
 
   /**
    * The internal feature id for the '<em><b>Change1</b></em>' attribute.
@@ -118,7 +118,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_CHANGE1 = QuoteImpl.CHANGE1;
+  public final static int INTERNAL_CHANGE1 = QuoteImpl.INTERNAL_CHANGE1;
 
   /**
    * The internal feature id for the '<em><b>Quotes</b></em>' containment reference list.
@@ -127,7 +127,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_QUOTES = QuoteImpl.QUOTES;
+  public final static int INTERNAL_QUOTES = QuoteImpl.INTERNAL_QUOTES;
 
   /**
    * The internal feature id for the '<em><b>Changes</b></em>' attribute.
@@ -211,7 +211,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((CSFactoryImpl)CSFactory.INSTANCE).getQuoteBase();
   }

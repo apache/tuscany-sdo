@@ -76,7 +76,7 @@ public abstract class DataObjectImpl extends DataObjectBase implements DataObjec
    * <!-- end-user-doc -->
    * @generated
    */
-  public Type getType()
+  public Type getStaticType()
   {
     return ((ModelFactoryImpl)ModelFactory.INSTANCE).getDataObject();
   }
