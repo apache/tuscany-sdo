@@ -807,10 +807,11 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
         {
           for (Iterator iter = xsdSchemas.iterator(); iter.hasNext();) {
             XSDSchema schema = (XSDSchema)iter.next();
-            if (schema.getTargetNamespace().equals(namespaceURI))
+            String targetNamespace = schema.getTargetNamespace();
+            if (targetNamespace != null && targetNamespace.equals(namespaceURI))
             {
               return schema;
-            }
+            } 
           }
         }
         EPackage ePackage = extendedMetaData.getPackage(namespaceURI);
