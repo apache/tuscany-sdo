@@ -96,7 +96,7 @@ public class SampleInfrastructure {
         commentaryHistory.add(text);
       }
     } else {
-      commentary(userLevel, text);
+      commentary(commentLevel, text);
     }
     
   }
