@@ -25,6 +25,7 @@ import java.io.InputStream;
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 import commonj.sdo.DataObject;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
@@ -74,6 +75,8 @@ import commonj.sdo.helper.XSDHelper;
  * </UL>
  */
 public class CreateDataObjectFromXsdAndXmlFiles extends SampleBase  {
+    HelperContext scope;
+
   
     public CreateDataObjectFromXsdAndXmlFiles(int userLevel) {
       super(userLevel);

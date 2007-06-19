@@ -21,6 +21,7 @@
 package org.apache.tuscany.samples.sdo.specExampleSection;
 
 import commonj.sdo.DataObject;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
@@ -87,6 +88,8 @@ import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertie
  */
 
 public class CreatingDataObjectTreesFromXMLDocuments  extends SampleBase {
+
+    HelperContext scope;
 
     public CreatingDataObjectTreesFromXMLDocuments(int userLevel) {
       super(userLevel);

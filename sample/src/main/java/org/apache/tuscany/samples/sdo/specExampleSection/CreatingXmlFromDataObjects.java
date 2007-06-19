@@ -25,6 +25,7 @@ import java.io.OutputStream;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.DataFactory;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
@@ -89,17 +90,13 @@ import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertie
 
 public class CreatingXmlFromDataObjects  extends SampleBase {
 
+    HelperContext scope;
+
     public CreatingXmlFromDataObjects(int userLevel) {
       super(userLevel);
     }
 
 
-    /**
-     * Drives sample
-     * 
-     * @param args.
-     *            none required.
-     */
   public static void main(String[] args) {
     // TODO make the default level NOVICE, once the rest of the sample has been
     // converted to using commentary()

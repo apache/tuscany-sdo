@@ -20,6 +20,7 @@
 
 package org.apache.tuscany.samples.sdo.specExampleSection;
 
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.DataObject;
@@ -86,6 +87,10 @@ import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertie
  */
 
 public class UsingTypeAndPropertyWithDataObjects  extends SampleBase {
+  
+
+    HelperContext scope;
+
 
     public UsingTypeAndPropertyWithDataObjects(int userLevel) {
       super(userLevel);

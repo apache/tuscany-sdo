@@ -27,6 +27,7 @@ import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
 
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.DataObject;
@@ -115,6 +116,8 @@ import commonj.sdo.DataObject;
  */
 
 public class AccessingDataObjectsViaPropertyIndex  extends SampleBase {
+
+    HelperContext scope;
 
     public AccessingDataObjectsViaPropertyIndex(int userLevel) {
       super(userLevel);

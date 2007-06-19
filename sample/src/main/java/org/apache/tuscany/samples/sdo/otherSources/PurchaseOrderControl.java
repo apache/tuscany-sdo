@@ -27,6 +27,7 @@ import java.math.BigDecimal;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.ChangeSummary;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
@@ -67,6 +68,8 @@ public class PurchaseOrderControl extends SampleBase {
 
     // root DataObject
     private DataObject purchaseOrder;
+    
+    HelperContext scope;
 
     /**
      * Uses resources files included in jar file to define types (using xsd), and
@@ -111,7 +114,7 @@ public class PurchaseOrderControl extends SampleBase {
         if ((xsdFileName == null) || (xsdFileName.equals("")) || (xsdFileName.equalsIgnoreCase("null"))) {
 
             // use simple example to define type from resource
-            loadXMLSchemaFromFile(SdoSampleConstants.PO_XSD_RESOURCE);
+            loadXMLSchemaFromFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
 
         } else {
             System.out.println("Using file to access xsd in order to define types");
@@ -140,7 +143,7 @@ public class PurchaseOrderControl extends SampleBase {
 
         if ((xmlFileName == null) || (xmlFileName.equals("")) || (xmlFileName.equalsIgnoreCase("null"))) {
 
-            purchaseOrder = loadXMLFromFile(SdoSampleConstants.PO_XML_RESOURCE);
+            purchaseOrder = loadXMLFromFile(scope, SdoSampleConstants.PO_XML_RESOURCE);
         } else {
             try {
 

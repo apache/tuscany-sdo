@@ -96,7 +96,9 @@ import commonj.sdo.Sequence;
 
 public class ObtainingDataGraphFromXml extends SampleBase {
   
-  
+    HelperContext scope;
+
+
    
     public ObtainingDataGraphFromXml(int userLevel) {
       super(userLevel);
@@ -135,7 +137,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
         );
         
         scope = useDefaultScopeForTypes();
-        loadXMLSchemaFromFile(SdoSampleConstants.COMPANY_XSD);
+        loadXMLSchemaFromFile(scope, SdoSampleConstants.COMPANY_XSD);
         
 
 

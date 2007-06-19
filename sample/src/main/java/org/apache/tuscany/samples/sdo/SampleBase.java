@@ -32,7 +32,6 @@ import commonj.sdo.impl.HelperProvider;
 
 public class SampleBase extends SampleInfrastructure {
 
-  protected HelperContext scope;
 
   public SampleBase()
   {
@@ -56,7 +55,7 @@ public class SampleBase extends SampleInfrastructure {
         "So we use a Tuscany specific API to do this ...\n\n" +
         "HelperContext scope = SDOUtil.createHelperContext();",
         
-        "Setting a new HelperContext scope for types for the next sample run"
+        "Creating a new HelperContext scope for types for the next sample run"
     );
         
     HelperContext scope = SDOUtil.createHelperContext();
@@ -84,7 +83,7 @@ public class SampleBase extends SampleInfrastructure {
   }
   
   
-  protected void loadXMLSchemaFromFile(String fileName) {
+  protected void loadXMLSchemaFromFile(HelperContext scope, String fileName) {
     commentary(NOVICE,
         "If you want to create types dynamically by loading an XML schema you\n" +
         "use an instance of XSDHelper. You get that helper from a HelperContext.\n" +
@@ -113,7 +112,7 @@ public class SampleBase extends SampleInfrastructure {
    }
   }
   
-  public DataObject loadXMLFromFile(String filename)
+  public DataObject loadXMLFromFile(HelperContext scope, String filename)
       throws Exception {
 
     DataObject result = null;

@@ -27,6 +27,7 @@ import java.io.OutputStream;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.DataFactory;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
@@ -90,7 +91,7 @@ public class CreatePurchaseOrder extends SampleBase {
      * 
      * @throws Exception
      */
-    private void definePOTypes() throws Exception {
+    private void definePOTypes(HelperContext scope) throws Exception {
 
         InputStream is = ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE);
         if (is == null) {
@@ -134,9 +135,9 @@ public class CreatePurchaseOrder extends SampleBase {
 
             System.out.println("***************************************");
 
-            scope = createScopeForTypes();
+            HelperContext scope = createScopeForTypes();
             
-            definePOTypes();
+            definePOTypes(scope);
             System.out.println("Defined Types using xsd");
             DataObject purchaseOrder = scope.getDataFactory().create(SdoSampleConstants.PO_NAMESPACE, "PurchaseOrderType");
             System.out.println("Created DataObject using DataFactory");

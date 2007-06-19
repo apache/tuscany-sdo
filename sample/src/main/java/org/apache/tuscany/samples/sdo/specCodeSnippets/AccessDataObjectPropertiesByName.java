@@ -26,6 +26,7 @@ import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 import commonj.sdo.DataObject;
+import commonj.sdo.helper.HelperContext;
 
 /**
  * Demonstrates accessing a created DataObject's properties by name.
@@ -71,6 +72,8 @@ import commonj.sdo.DataObject;
  * </UL>
  */
 public class AccessDataObjectPropertiesByName extends SampleBase {
+
+    HelperContext scope;
 
     public AccessDataObjectPropertiesByName(int userLevel) {
       super(userLevel);

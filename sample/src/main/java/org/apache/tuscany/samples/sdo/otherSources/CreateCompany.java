@@ -20,30 +20,15 @@
 
 package org.apache.tuscany.samples.sdo.otherSources;
 
-import java.io.BufferedReader;
 import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-
-import java.util.List;
-
-import commonj.sdo.DataObject;
-import commonj.sdo.Type;
-import commonj.sdo.DataGraph;
-import commonj.sdo.helper.TypeHelper;
-import commonj.sdo.helper.DataFactory;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
-import org.apache.tuscany.sdo.util.SDOUtil;
+
+import commonj.sdo.DataObject;
+import commonj.sdo.helper.HelperContext;
 
 /**
- * Demonstrates creating a DataObject using the Types defined in a previously generated XML Schema ({@link SdoSampleConstants#COMPANY_XSD}) then persisting to an XML file
- * This example is useful as a reference for creating valid xml documents that conform to an existing XSD and has been used to create valid XML files for use 
- * with specification code samples.
- * <p>
  * <b>Usage:</b> <br>
  * This sample can easily be run from within Eclipse as a Java Application if Tuscany or 
  * the sample-sdo project is imported into Eclipse as an existing project.
@@ -84,13 +69,7 @@ public class CreateCompany extends SampleBase {
     /**
      * XML file generated for the company DataObject
      */    
-    public static final String COMPANY_GENERATED_XML = "companyGenerated.xml";
-
-    /**
-     * XML file generated for the company DataGraph
-     */  
-    public static final String COMPANY_DATAGRAPH_GENERATED_XML = "companyDataGraphGenerated.xml";
-
+    private static final String COMPANY_GENERATED_XML = "companyGenerated.xml";
     
     /**
      * Main method.  Execute this method in order to run sample
@@ -98,9 +77,12 @@ public class CreateCompany extends SampleBase {
      * @throws Exception
      */
     public static void main(String[] args) {
-      // TODO make the default level NOVICE, once the rest of the sample has been
-      // converted to using commentary()
-      CreateCompany sample = new CreateCompany(INTERMEDIATE);
+      /*
+       * this sample is suitable for a novice to SDO.
+       * Change the experience level argument to change
+       * the level of commentary output.
+       */
+      CreateCompany sample = new CreateCompany(NOVICE);
 
       try {
         sample.run();
@@ -112,153 +94,74 @@ public class CreateCompany extends SampleBase {
 
     public void run () throws Exception {
       
-        
-        System.out.println("***************************************");
-        System.out.println("SDO Sample CreateCompany");
-        System.out.println("***************************************");
-        System.out.println("Demonstrates creating a DataObject using the Types defined in a previously generated xsd {@link SdoSampleConstants#COMPANY_XSD} then persisting to a XML file");
-        System.out.println("***************************************");
-        /**
-         * Use xsd to define model
-         */
-        scope = useDefaultScopeForTypes();
-        defineCompanyTypes();
-
-        /**
-         * DataObjects can exist on there own or can be associated with a DataGraph. This sample allows you to create and then generate xml for a
-         * company DataObject That is either associated with a DataGraph or independent
-         */
-        boolean useDataGraph = shouldUseDataGraph();
-
-        // define these so that they will be scoped appropriately.
-        DataGraph dataGraph = null;
-        DataObject company = null;
-
-        if (useDataGraph) {
-
-            /**
-             * The SDO specification says the following about creating a DataGraph. A DataGraph is created by a DAS, which returns either an empty
-             * DataGraph, or a DataGraph filled with DataObjects. An empty DataGraph can have a root assigned by the createRootObject() methods.
-             * However, if a previous root DataObject exists then an IllegalStateException is thrown.
-             * 
-             * In order to create a simple sample which creates a DataGraph without the use of a DAS this sample will use the
-             * {@link org.apache.tuscany.sdo.util.SDOUtil} class to create a DataObject
-             */
-
-            dataGraph = SDOUtil.createDataGraph();
-            company = dataGraph.createRootObject(SdoSampleConstants.COMPANY_NAMESPACE, "CompanyType");                                         
-            
-        } else {
-
-            /*
-             * The following creates a DataObject without a DataGraph
-             */
-            Type companyType = scope.getTypeHelper().getType(SdoSampleConstants.COMPANY_NAMESPACE, "CompanyType");
-            // this is equivilent to
-            // DataObject company = DataFactory.INSTANCE.create(SdoSampleConstants.COMPANY_NAMESPACE, "CompanyType");            
-            company = scope.getDataFactory().create(companyType);
-        }
-
-        System.out.println("Populating company DataObject");
-        company.setString("name", "ACME");
-        company.setString("employeeOfTheMonth", "E0001");
-
-        System.out.println("Creating Deptartment");
-        DataObject depts = company.createDataObject("departments",SdoSampleConstants.COMPANY_NAMESPACE,"DepartmentType");
-
-        depts.setString("name", "Advanced Technologies");
-        depts.setString("location", "NY");
-        depts.setString("number", "123");
-
-        System.out.println("Creating employee John Jones");
-        DataObject johnJones = depts.createDataObject("employees",SdoSampleConstants.COMPANY_NAMESPACE, "EmployeeType");
-        johnJones.setString("name", "John Jones");
-
-        johnJones.setString("SN", "E0001");
-
-        System.out.println("Creating employee Jane Doe");
-        DataObject janeDoe = depts.createDataObject("employees",SdoSampleConstants.COMPANY_NAMESPACE, "EmployeeType");
-        janeDoe.setString("name", "Jane Doe");
-        janeDoe.setString("SN", "E0003");
-
-        System.out.println("Creating manager A Varone");
-        DataObject fVarone = depts.createDataObject("employees",SdoSampleConstants.COMPANY_NAMESPACE, "EmployeeType");
-        fVarone.setString("name", "A Varone");
-        fVarone.setString("SN", "E0004");
-        fVarone.setString("manager", "true");
-        System.out.println("DataObject creation completed");
-        System.out.println();
+        banner('*',
+               "               SDO Sample Create Company                 \n\n"+
+               "Demonstrates how to create a data graph using a model loaded\n"+
+               "from an XML Schema contained in a file on the file system");
                 
-        // print out the generated company DataObject or DataGraph according to user preferences
-        if (useDataGraph) {
-            //write the DataGraph to generated xml file
-            FileOutputStream fos = new FileOutputStream(COMPANY_DATAGRAPH_GENERATED_XML);
-            System.out.println("Writing company DataGraph to " + COMPANY_DATAGRAPH_GENERATED_XML);
-            // print the Company DataObject
-            SDOUtil.saveDataGraph(dataGraph, fos, null);
-                        
-            // print the company DataGraph to System.out
-            System.out.println("The xml for the created DataGraph would like : ");
-            SDOUtil.saveDataGraph(dataGraph, System.out, null);
-
-        } else {
+        HelperContext scope = createScopeForTypes();       
+        loadXMLSchemaFromFile(scope, SdoSampleConstants.COMPANY_XSD);
+        
+        commentary(NOVICE,
+            "Now that our type system has been loaded and made available through the scope\n"+
+            "DataObjects can be created by a DataFactory that has access to the required types.\n\n"+
+            "DataObject company = scope.getDataFactory().create(SdoSampleConstants.COMPANY_NAMESPACE, \"CompanyType\");");
+        
+        DataObject company = scope.getDataFactory().create(SdoSampleConstants.COMPANY_NAMESPACE, "CompanyType");
+        
+        populateGraph(scope, company);
             
-            //write out to a generated xml file      
-            FileOutputStream fos = new FileOutputStream(COMPANY_GENERATED_XML);
-            System.out.println("Writing company DataObject to " + COMPANY_GENERATED_XML);
-            // print the Company DataObject
-            scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company", fos);
-            
-            // print the company DataObject to System.out
-            String generatedXml = scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company");
-            System.out.println("The generated xml for the DataObject would look like : " );
-                    System.out.println(generatedXml);
-        }
+        FileOutputStream fos = new FileOutputStream(COMPANY_GENERATED_XML);
+        
+        commentary(NOVICE,
+            "The XMLHelper can be used to write an XML serialized version of the data graph\n\n"+
+            "scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, \"company\", fos);");
+        
+        scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company", fos);
+        
+        commentary(NOVICE,
+            "Similarly we can serialize the graph to an XML String using the XMLHelper\n\n"+
+            "String xml = scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, \"company\");\n");
+        
+        String xml = scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company");
+        
+        System.out.println(xml);
 
     }
     
-    /**
-     * Defines company types using XSD.
-     * @throws Exception
-     */
-    private void defineCompanyTypes() throws Exception {
+    public void populateGraph(HelperContext scope, DataObject company)
+    {
 
-        System.out.println("Defining Types using XSD");
-        InputStream is = null;
-
-        System.out.println("Opening input stream to  " + SdoSampleConstants.COMPANY_XSD);
-        is = ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_XSD);
-        List types = scope.getXSDHelper().define(is, null);      
-        is.close();
-        System.out.println("Type definition completed");
-
+      System.out.println("Populating the company DataObject");
+      company.setString("name", "ACME");
+      company.setString("employeeOfTheMonth", "E0001");
+    
+      System.out.println("Creating a Department");
+    
+      DataObject depts = company.createDataObject("departments");
+    
+      depts.setString("name", "Advanced Technologies");
+      depts.setString("location", "NY");
+      depts.setString("number", "123");
+    
+      System.out.println("Creating an employee: John Jones");
+      DataObject johnJones = depts.createDataObject("employees");
+      johnJones.setString("name", "John Jones");
+    
+      johnJones.setString("SN", "E0001");
+    
+      System.out.println("Creating an employee: Jane Doe");
+      DataObject janeDoe = depts.createDataObject("employees");
+      janeDoe.setString("name", "Jane Doe");
+      janeDoe.setString("SN", "E0003");
+    
+      System.out.println("Creating a manager: Fred Bloggs");
+      DataObject fVarone = depts.createDataObject("employees");
+      fVarone.setString("name", "Fred Bloggs");
+      fVarone.setString("SN", "E0004");
+      fVarone.setString("manager", "true");
+      System.out.println("DataObject creation completed");
+      System.out.println();
     }
-
-    /**
-     * Utility method to obtain information from the user about whether or not they would like to use a DataGraph or simply use a DataObject
-     * 
-     * @return whether or not a DataGraph should be used
-     * @throws Exception
-     */
-    private static boolean shouldUseDataGraph() throws Exception {
-
-        System.out.print("Create company DataObject associated with a DataGraph {y,n} :");
-        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-        String answer = in.readLine();
-        while ((! answer.equalsIgnoreCase("n")) && (! answer.equalsIgnoreCase("y"))) {
-            
-            System.out.println();
-            System.out.print("Sorry, please enter 'y' or 'n':");
-            answer = in.readLine();
-        }
-        System.out.println();
-
-        if (answer.equalsIgnoreCase("y")) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 
 }

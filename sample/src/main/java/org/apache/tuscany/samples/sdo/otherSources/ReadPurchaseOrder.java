@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import commonj.sdo.DataObject;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
@@ -74,13 +75,15 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
  * 
  */
 public class ReadPurchaseOrder extends SampleBase {
+  
+
 
   
     public ReadPurchaseOrder(int userLevel) {
       super(userLevel);
     }
 
-    private void definePOTypes() throws Exception {
+    private void definePOTypes(HelperContext scope) throws Exception {
         InputStream is = ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE);
         if (is == null) {
             System.out.println("InputStream is null");
@@ -115,9 +118,9 @@ public class ReadPurchaseOrder extends SampleBase {
 
         try {
           
-            scope = createScopeForTypes();
+            HelperContext scope = createScopeForTypes();
             
-            definePOTypes();
+            definePOTypes(scope);
 
             FileInputStream fis = null;
             try {

@@ -20,6 +20,7 @@
 
 package org.apache.tuscany.samples.sdo.specExampleSection;
 
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.helper.EqualityHelper;
@@ -92,6 +93,9 @@ import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertie
  */
 
 public class SerializingDesearializingADataObject  extends SampleBase {
+
+
+    HelperContext scope;
 
     public SerializingDesearializingADataObject(int userLevel) {
       super(userLevel);

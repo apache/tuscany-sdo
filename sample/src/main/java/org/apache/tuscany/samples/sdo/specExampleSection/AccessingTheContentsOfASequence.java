@@ -24,6 +24,7 @@ package org.apache.tuscany.samples.sdo.specExampleSection;
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
 
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.DataObject;
@@ -89,6 +90,9 @@ import commonj.sdo.Property;
  */
 
 public class AccessingTheContentsOfASequence  extends SampleBase {
+
+
+    HelperContext scope;
 
     public AccessingTheContentsOfASequence(int userLevel) {
       super(userLevel);

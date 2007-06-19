@@ -20,6 +20,8 @@
 
 package org.apache.tuscany.samples.sdo;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -118,7 +120,31 @@ public class SampleInfrastructure {
   }
   
 
-  
+  /**
+   * Utility method to obtain information from the user about whether or not they would like to use a DataGraph or simply use a DataObject
+   * 
+   * @return whether or not a DataGraph should be used
+   * @throws Exception
+   */
+  protected boolean yesOrNoFromUser(String question) throws Exception {
+
+      System.out.print(question + " {y,n} :");
+      BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+      String answer = in.readLine();
+      while ((! answer.equalsIgnoreCase("n")) && (! answer.equalsIgnoreCase("y"))) {
+          
+          System.out.println();
+          System.out.print("Sorry, please enter 'y' or 'n':");
+          answer = in.readLine();
+      }
+      System.out.println();
+
+      if (answer.equalsIgnoreCase("y")) {
+          return true;
+      } else {
+          return false;
+      }
+  }
   
   
 }

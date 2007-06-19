@@ -23,6 +23,7 @@ package org.apache.tuscany.samples.sdo.specCodeSnippets;
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.TypeHelper;
 import java.util.List;
@@ -70,6 +71,7 @@ import org.apache.tuscany.samples.sdo.SampleBase;
  * </UL>
  */
 public class DynamicCustomerTypeSample extends SampleBase {
+    HelperContext scope;
 
     public DynamicCustomerTypeSample(int userLevel) {
       super(userLevel);

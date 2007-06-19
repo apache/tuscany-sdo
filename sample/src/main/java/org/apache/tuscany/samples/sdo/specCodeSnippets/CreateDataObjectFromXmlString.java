@@ -25,6 +25,7 @@ import org.apache.tuscany.samples.sdo.SampleBase;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Sequence;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLHelper;
 
 /**
@@ -69,7 +70,9 @@ import commonj.sdo.helper.XMLHelper;
  * </UL>
  */
 public class CreateDataObjectFromXmlString extends SampleBase {
-  
+    HelperContext scope;
+
+
     public CreateDataObjectFromXmlString(int userLevel) {
       super(userLevel);
     }

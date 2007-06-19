@@ -24,6 +24,7 @@ import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 import commonj.sdo.DataObject;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
@@ -65,6 +66,10 @@ import commonj.sdo.helper.XSDHelper;
  * </UL>
  */
 public class UsingXPath extends SampleBase  {
+  
+      HelperContext scope;
+
+
       public UsingXPath(int userLevel) {
         super(userLevel);
       }
