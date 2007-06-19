@@ -78,7 +78,22 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
-                        <manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+                        <manifestEntries>
+                            <Extension-Name>${project.artifactId}</Extension-Name>
+                            <Specification-Title>${project.name}</Specification-Title>
+                            <Specification-Vendor>${project.organization.name}</Specification-Vendor>
+                            <Implementation-Title>${project.artifactId}</Implementation-Title>
+                            <Implementation-Vendor>${project.organization.name}</Implementation-Vendor>
+                            <Implementation-Vendor-Id>org.apache</Implementation-Vendor-Id>
+                            <Implementation-Version>${project.version}</Implementation-Version>
+                            <Bundle-ManifestVersion>2</Bundle-ManifestVersion>
+                            <Bundle-Name>${project.name}</Bundle-Name>
+                            <Bundle-SymbolicName>org.apache.tuscany.sdo.tools</Bundle-SymbolicName>
+                            <Bundle-Version>1.0.0</Bundle-Version>
+                            <Bundle-Vendor>${project.organization.name}</Bundle-Vendor>
+                            <Require-Bundle>org.eclipse.emf.common,org.eclipse.emf.ecore,org.eclipse.emf.ecore.change,org.eclipse.emf.ecore.xmi,org.eclipse.xsd,org.apache.tuscany.sdo.spec;visibility:=reexport</Require-Bundle>
+                            <Export-Package>org.apache.tuscany.sdo.generate,org.apache.tuscany.sdo.generate.util</Export-Package>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>

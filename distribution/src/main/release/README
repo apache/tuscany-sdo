@@ -1,0 +1,22 @@
+Tuscany SDO for Java M3 Binary Distribution Readme File
+
+Legal Notices
+
+See the LICENSE and NOTICE files for legal information concerning this distribution. 
+
+Release Information
+
+See the RELEASE_NOTES file for a summary of what's new with this release since the M2 release.
+
+Documentation
+
+For general documentation about the Tuscany project and the SDO for Java, see the <a href="http://incubator.apache.org/tuscany">Tuscany</a> website.
+
+This distribution contains javadoc for the SDO 2.1 API, the Tuscany SDO API,  and the Tuscany SDO samples.
+
+Samples
+
+Sample source code is included with this binary distribution. 
+
+
+

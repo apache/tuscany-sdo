@@ -79,14 +79,46 @@
         <sdo.version>${version}</sdo.version>
     </properties>
 
-    <modules>
-        <module>lib</module>
-        <module>impl</module>
-        <module>tools</module>
-        <module>plugin</module>
-        <!-- <module>sample</module>   -->
-        <!-- <module>distribution</module>  -->
-    </modules>
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>sdo-api</module>
+                <module>lib</module>
+                <module>impl</module>
+                <module>tools</module>
+                <module>plugin</module>
+                <module>sample</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>distribution</id>
+            <modules>
+                <module>sdo-api</module>
+                <module>lib</module>
+                <module>impl</module>
+                <module>tools</module>
+                <module>plugin</module>
+                <module>sample</module>
+                <module>distribution</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>eclipse</id>
+            <modules>
+                <module>sdo-api</module>
+                <module>lib</module>
+                <module>impl</module>
+                <module>tools</module>
+                <module>sample</module>
+            </modules>
+        </profile>
+    </profiles>
 
     <build>
         <defaultGoal>install</defaultGoal>
@@ -111,31 +143,7 @@
                 </configuration>
             </plugin>
             
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <!-- <version>${dependency.plugin.version}</version>  -->
-                <executions>
-                    <execution>
-                        <id>unpack-javadoc</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>commonj</groupId>
-                                    <artifactId>sdo-api-r${specVersion}</artifactId>
-                                    <classifier>javadoc</classifier>
-                                    <version>${pom.version}</version>
-                                    <outputDirectory>${project.build.directory}/javadoc/api</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>               
+               
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -150,16 +158,16 @@
 
         <pluginManagement>
             <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <aggregate>true</aggregate>
-                    <version>2.0</version>
-                    <source>1.4</source>
-                </configuration>
-            </plugin>
-        </plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<configuration>
+						<aggregate>true</aggregate>
+						<version>2.0</version>
+						<source>1.4</source>
+					</configuration>
+				</plugin>
+            </plugins>
         </pluginManagement>
 
     </build>

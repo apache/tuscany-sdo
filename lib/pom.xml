@@ -27,6 +27,7 @@
     <artifactId>tuscany-sdo-lib</artifactId>
     <name>Tuscany SDO Library</name>
     <description>Tuscany SDO implementation library.</description>
+    <packaging>jar</packaging>
 
     <repositories>
         <repository>
@@ -67,11 +68,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <!-- <overview>${basedir}/src/main/java/org/apache/tuscany/sdo/overview.html</overview>   -->
+<!-- KG TODO                    <overview>${basedir}/src/main/java/org/apache/tuscany/sdo/overview.html</overview> -->
                     <version>2.0</version>
                     <source>1.4</source>
                 </configuration>
-                <!-- <executions>
+                <executions>
                     <execution>
                         <id>package</id>
                         <phase>package</phase>
@@ -79,7 +80,7 @@
                             <goal>jar</goal>
                         </goals>
                     </execution>
-                </executions>  -->
+                </executions>
             </plugin>
 
         </plugins>

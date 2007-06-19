@@ -83,27 +83,25 @@
                     </archive>
                 </configuration>
             </plugin>
-<!--
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-    
-                <executions>
-                        <execution>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>assembly</goal>
-                            </goals>
-                        </execution>
-                </executions>
-    
+                <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-                    <descriptors>
-                        <descriptor>distribution/assembly/sdoSamples.xml</descriptor>
-                    </descriptors>
+<!-- KG TODO                    <overview>${basedir}/src/main/java/org/apache/tuscany/sdo/overview.html</overview> -->
+                    <version>2.0</version>
+                    <source>1.4</source>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>package</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
--->
+
         </plugins>
     </build>
 </project>
