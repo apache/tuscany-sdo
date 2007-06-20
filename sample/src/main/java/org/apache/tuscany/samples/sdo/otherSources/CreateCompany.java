@@ -62,8 +62,8 @@ import commonj.sdo.helper.HelperContext;
  */
 public class CreateCompany extends SampleBase {
 
-    public CreateCompany(int userLevel) {
-      super(userLevel);
+    public CreateCompany(Integer novice) {
+      super(novice);
     }
 
     /**
@@ -79,23 +79,20 @@ public class CreateCompany extends SampleBase {
     public static void main(String[] args) {
       /*
        * this sample is suitable for a novice to SDO.
-       * Change the experience level argument to change
+       * Change the experience level constructor argument to one of
+       * NOVICE, INTERMEDIATE, ADVANCED, change
        * the level of commentary output.
        */
       CreateCompany sample = new CreateCompany(NOVICE);
 
-      try {
-        sample.run();
-      }
-      catch (Exception e) {
-        sample.somethingUnexpectedHasHappened(e);
-      }
+
+      sample.run();
+
     }
 
-    public void run () throws Exception {
+    public void runSample () throws Exception {
       
         banner('*',
-               "               SDO Sample Create Company                 \n\n"+
                "Demonstrates how to create a data graph using a model loaded\n"+
                "from an XML Schema contained in a file on the file system");
                 

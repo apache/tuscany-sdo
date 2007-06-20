@@ -70,7 +70,7 @@ public class UsingXPath extends SampleBase  {
       HelperContext scope;
 
 
-      public UsingXPath(int userLevel) {
+      public UsingXPath(Integer userLevel) {
         super(userLevel);
       }
 
@@ -127,7 +127,7 @@ public class UsingXPath extends SampleBase  {
       }
     }
 
-    public void run () throws Exception {
+    public void runSample () throws Exception {
 
         // information
         System.out.println("***************************************");

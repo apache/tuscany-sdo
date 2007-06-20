@@ -109,7 +109,7 @@ public class AccessDataObjectsUsingXPath  extends SampleBase {
 
     HelperContext scope;
 
-    public AccessDataObjectsUsingXPath(int userLevel) {
+    public AccessDataObjectsUsingXPath(Integer userLevel) {
       super(userLevel);
     }
 
@@ -132,7 +132,7 @@ public class AccessDataObjectsUsingXPath  extends SampleBase {
     }
   }
 
-  public void run () throws Exception {
+  public void runSample () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample AccessDataObjectsUsingXPath");
         System.out.println("***************************************");

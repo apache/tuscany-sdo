@@ -119,7 +119,7 @@ public class AccessingDataObjectsViaPropertyIndex  extends SampleBase {
 
     HelperContext scope;
 
-    public AccessingDataObjectsViaPropertyIndex(int userLevel) {
+    public AccessingDataObjectsViaPropertyIndex(Integer userLevel) {
       super(userLevel);
     }
 
@@ -161,7 +161,7 @@ public class AccessingDataObjectsViaPropertyIndex  extends SampleBase {
       }
     }
 
-    public void run () throws Exception {
+    public void runSample () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample AccessingDataObjectsViaPropertyIndex");
         System.out.println("***************************************");

@@ -78,7 +78,7 @@ public class CreateDataObjectFromXsdAndXmlFiles extends SampleBase  {
     HelperContext scope;
 
   
-    public CreateDataObjectFromXsdAndXmlFiles(int userLevel) {
+    public CreateDataObjectFromXsdAndXmlFiles(Integer userLevel) {
       super(userLevel);
     }
 
@@ -188,7 +188,7 @@ public class CreateDataObjectFromXsdAndXmlFiles extends SampleBase  {
     }
   }
 
-  public void run () throws Exception {
+  public void runSample () throws Exception {
 		// information
 		System.out.println("***************************************");
 		System.out.println("SDO Sample CreateDataObjectFromXsdAndXmlFiles");

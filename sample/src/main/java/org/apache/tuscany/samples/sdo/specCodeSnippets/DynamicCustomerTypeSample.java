@@ -73,7 +73,7 @@ import org.apache.tuscany.samples.sdo.SampleBase;
 public class DynamicCustomerTypeSample extends SampleBase {
     HelperContext scope;
 
-    public DynamicCustomerTypeSample(int userLevel) {
+    public DynamicCustomerTypeSample(Integer userLevel) {
       super(userLevel);
     }
 
@@ -182,7 +182,7 @@ public class DynamicCustomerTypeSample extends SampleBase {
       }
     }
 
-    public void run () throws Exception {
+    public void runSample () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample DynamicCustomerTypeSample");
         System.out.println("***************************************");

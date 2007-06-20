@@ -91,7 +91,7 @@ public class CreatingDataObjectTreesFromXMLDocuments  extends SampleBase {
 
     HelperContext scope;
 
-    public CreatingDataObjectTreesFromXMLDocuments(int userLevel) {
+    public CreatingDataObjectTreesFromXMLDocuments(Integer userLevel) {
       super(userLevel);
     }
 
@@ -115,7 +115,7 @@ public class CreatingDataObjectTreesFromXMLDocuments  extends SampleBase {
     }
   }
 
-  public void run () throws Exception {
+  public void runSample () throws Exception {
         try {
 
             System.out.println("***************************************");

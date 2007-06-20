@@ -92,7 +92,7 @@ public class UsingTypeAndPropertyWithDataObjects  extends SampleBase {
     HelperContext scope;
 
 
-    public UsingTypeAndPropertyWithDataObjects(int userLevel) {
+    public UsingTypeAndPropertyWithDataObjects(Integer userLevel) {
       super(userLevel);
     }
 
@@ -115,7 +115,7 @@ public class UsingTypeAndPropertyWithDataObjects  extends SampleBase {
     }
   }
 
-  public void run () throws Exception {
+  public void runSample () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample UsingTypeAndPropertyWithDataObjects");
         System.out.println("***************************************");

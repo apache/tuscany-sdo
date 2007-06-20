@@ -94,7 +94,7 @@ public class AccessingTheContentsOfASequence  extends SampleBase {
 
     HelperContext scope;
 
-    public AccessingTheContentsOfASequence(int userLevel) {
+    public AccessingTheContentsOfASequence(Integer userLevel) {
       super(userLevel);
     }
 
@@ -127,7 +127,7 @@ public class AccessingTheContentsOfASequence  extends SampleBase {
       }
     }
 
-    public void run () throws Exception {
+    public void runSample () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample AccessingTheContentsOfASequence");
         System.out.println("***************************************");

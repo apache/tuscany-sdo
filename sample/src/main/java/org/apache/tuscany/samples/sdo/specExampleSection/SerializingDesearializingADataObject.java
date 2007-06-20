@@ -97,7 +97,7 @@ public class SerializingDesearializingADataObject  extends SampleBase {
 
     HelperContext scope;
 
-    public SerializingDesearializingADataObject(int userLevel) {
+    public SerializingDesearializingADataObject(Integer userLevel) {
       super(userLevel);
     }
 
@@ -133,7 +133,7 @@ public class SerializingDesearializingADataObject  extends SampleBase {
       }
     }
 
-    public void run () throws Exception {
+    public void runSample () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample AccessingTheContentsOfASequence");
         System.out.println("***************************************");

@@ -100,7 +100,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
 
 
    
-    public ObtainingDataGraphFromXml(int userLevel) {
+    public ObtainingDataGraphFromXml(Integer userLevel) {
       super(userLevel);
     }
     
@@ -116,7 +116,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
     }
     
     
-    public void run () {
+    public void runSample () {
         banner('*',
             "SDO Sample " + this.getClass().getName() + "\n\n" +
 

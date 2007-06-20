@@ -79,7 +79,7 @@ public class ReadPurchaseOrder extends SampleBase {
 
 
   
-    public ReadPurchaseOrder(int userLevel) {
+    public ReadPurchaseOrder(Integer userLevel) {
       super(userLevel);
     }
 
@@ -107,7 +107,7 @@ public class ReadPurchaseOrder extends SampleBase {
       }
     }
 
-    public void run () throws Exception {
+    public void runSample () throws Exception {
         System.out.println("***************************************");
         System.out.println("SDO Sample ReadPurchaseOrder");
         System.out.println("***************************************");

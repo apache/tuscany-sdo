@@ -30,7 +30,12 @@ import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.impl.HelperProvider;
 
-public class SampleBase extends SampleInfrastructure {
+/**
+ * the base function for samples is split into two classes.  This one is intended
+ * to house all the interesting SDO utility methods,  and the superclass houses
+ * all the infrastructure that the SDO user isn't interested in inspecting.
+ */
+public abstract class SampleBase extends SampleInfrastructure {
 
 
   public SampleBase()
@@ -38,7 +43,7 @@ public class SampleBase extends SampleInfrastructure {
     super(NOVICE);
   }
   
-  public SampleBase(int userLevel) {
+  public SampleBase(Integer userLevel) {
     super(userLevel);
 
   }
@@ -51,7 +56,7 @@ public class SampleBase extends SampleInfrastructure {
         "The Helper Context instance provides access to a collection of other helpers\n" +
         "that you will see exercised in the SDO samples\n" +
         "All the Helpers related to a given helper context instance know about the same set of types\n\n" +
-        "The SDO specification doesn't currently state how an SDO implementation should create a HelperContext\n" +
+        "The SDO specification doesn't state how an SDO implementation should create a HelperContext\n" +
         "So we use a Tuscany specific API to do this ...\n\n" +
         "HelperContext scope = SDOUtil.createHelperContext();",
         
@@ -89,7 +94,8 @@ public class SampleBase extends SampleInfrastructure {
         "use an instance of XSDHelper. You get that helper from a HelperContext.\n" +
         "After successful loading of a schema, the new types are available to every\n" +
         "other helper belonging to the HelperContext instance\n\n" +
-        "XSDHelper xsdHelper = scope.getXSDHelper();",
+        "XSDHelper xsdHelper = scope.getXSDHelper();\n"+
+        "xsdHelper.define(inputStream, null);",
         
         "Using an XSDHelper again to create types from an XML schema file"
         );

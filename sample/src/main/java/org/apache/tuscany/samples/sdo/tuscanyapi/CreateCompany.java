@@ -64,7 +64,7 @@ import commonj.sdo.helper.HelperContext;
  */
 public class CreateCompany extends org.apache.tuscany.samples.sdo.otherSources.CreateCompany {
 
-    public CreateCompany(int userLevel) {
+    public CreateCompany(Integer userLevel) {
       super(userLevel);
     }
 
@@ -86,16 +86,11 @@ public class CreateCompany extends org.apache.tuscany.samples.sdo.otherSources.C
        * or less commentary.
        */
       CreateCompany sample = new CreateCompany(INTERMEDIATE);
+      sample.run();
 
-      try {
-        sample.run();
-      }
-      catch (Exception e) {
-        sample.somethingUnexpectedHasHappened(e);
-      }
     }
 
-    public void run () throws Exception {
+    public void runSample () throws Exception {
       
         banner('*',
                "              SDO Sample Create Company in a DataGraph              \n\n"+

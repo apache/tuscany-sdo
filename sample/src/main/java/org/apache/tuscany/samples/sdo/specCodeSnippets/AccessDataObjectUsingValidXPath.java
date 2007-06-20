@@ -71,7 +71,7 @@ import commonj.sdo.helper.XSDHelper;
 public class AccessDataObjectUsingValidXPath extends SampleBase {
     HelperContext scope;
   
-    public AccessDataObjectUsingValidXPath(int userLevel) {
+    public AccessDataObjectUsingValidXPath(Integer userLevel) {
       super(userLevel);
     }
 
@@ -120,7 +120,7 @@ public class AccessDataObjectUsingValidXPath extends SampleBase {
       }
     }
 
-    public void run () throws Exception {
+    public void runSample () throws Exception {
 
         // information
         System.out.println("***************************************");

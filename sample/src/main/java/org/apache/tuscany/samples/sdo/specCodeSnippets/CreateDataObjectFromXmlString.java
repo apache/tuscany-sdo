@@ -73,7 +73,7 @@ public class CreateDataObjectFromXmlString extends SampleBase {
     HelperContext scope;
 
 
-    public CreateDataObjectFromXmlString(int userLevel) {
+    public CreateDataObjectFromXmlString(Integer userLevel) {
       super(userLevel);
     }
 
@@ -115,7 +115,7 @@ public class CreateDataObjectFromXmlString extends SampleBase {
       }
     }
 
-    public void run () throws Exception {
+    public void runSample () throws Exception {
 
         // information
         System.out.println("***************************************");

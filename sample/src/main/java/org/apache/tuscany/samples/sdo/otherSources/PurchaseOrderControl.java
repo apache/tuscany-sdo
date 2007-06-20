@@ -352,7 +352,26 @@ public class PurchaseOrderControl extends SampleBase {
         // for an example of accessing properties by name see
         // AccessDataObjectPropertiesByName or
         // the method below printAddressInfo
-        AccessDataObjectPropertiesByName.printPurchaseOrderSummary(purchaseOrder);
+        System.out.println("Purchase Order: ");
+        System.out.println("    Order date: " + purchaseOrder.get("orderDate"));
+        System.out.println("    Comment: " + purchaseOrder.get("comment"));
+        
+        DataObject shipTo = purchaseOrder.getDataObject("shipTo");
+        System.out.println("    Ship to name: " + shipTo.get("name"));
+        
+        DataObject billTo = purchaseOrder.getDataObject("billTo");
+        System.out.println("    Bill to name: " + billTo.get("name"));
+        
+        DataObject items = purchaseOrder.getDataObject("items");
+        List itemList = items.getList("item");
+        
+        System.out.println("    Items:");
+        for (int i = 0; i < itemList.size(); i++) {
+            DataObject item = (DataObject) itemList.get(i);
+            System.out.println("        Item " + i);
+            System.out.println("            Part num: " + item.get("partNum"));
+            System.out.println("            Product name: " + item.get("productName"));
+        }
     }
 
     /**
@@ -497,5 +516,11 @@ public class PurchaseOrderControl extends SampleBase {
 
         }// end of switch
 
+    }
+
+    public void runSample() throws Exception {
+      // TODO Auto-generated method stub
+      // FIXME make this sample fit the pattern
+      
     }
 }

@@ -73,35 +73,47 @@ import commonj.sdo.helper.HelperContext;
  */
 public class AccessDataObjectPropertiesByName extends SampleBase {
 
-    HelperContext scope;
-
-    public AccessDataObjectPropertiesByName(int userLevel) {
+    public AccessDataObjectPropertiesByName(Integer userLevel) {
       super(userLevel);
     }
 
-    /**
-     * Prints a subset of PurchaseOrder properties to System.out
-     * 
-     * @param purchaseOrder.
-     *            DataObject defined by Types in
-     *            {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XSD_RESOURCE}
-     */
-    public static void printPurchaseOrderSummary(DataObject purchaseOrder) {
 
-        // example accessing properties via property names
+    public static void main(String[] args) {
+      /*
+       * This sample is well suited to exploration by a novice user
+       */
+      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(NOVICE);
+      sample.run();
+
+    }
+
+    public void runSample () throws Exception {
+
+        banner("This sample will access a DataObject's properties by name\n"+
+            "Take a look at the sample code to see all the uses of dataObject.get(String)\n"+
+            "dataObject.getList(String) and dataobhect.getdataObject(String)");
+
+        // setting up the type system for the example,  see the utility methods for details of these operations
+        HelperContext scope = createScopeForTypes();
+        loadXMLSchemaFromFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
+
+        DataObject purchaseOrder = loadXMLFromFile(scope, SdoSampleConstants.PO_XML_RESOURCE);
+
+
+        System.out.println("Accessing properties by name");
         System.out.println("Purchase Order: ");
         System.out.println("    Order date: " + purchaseOrder.get("orderDate"));
         System.out.println("    Comment: " + purchaseOrder.get("comment"));
-
+        
         DataObject shipTo = purchaseOrder.getDataObject("shipTo");
         System.out.println("    Ship to name: " + shipTo.get("name"));
-
+        
         DataObject billTo = purchaseOrder.getDataObject("billTo");
         System.out.println("    Bill to name: " + billTo.get("name"));
-
+        
         DataObject items = purchaseOrder.getDataObject("items");
         List itemList = items.getList("item");
-
+        
         System.out.println("    Items:");
         for (int i = 0; i < itemList.size(); i++) {
             DataObject item = (DataObject) itemList.get(i);
@@ -109,64 +121,7 @@ public class AccessDataObjectPropertiesByName extends SampleBase {
             System.out.println("            Part num: " + item.get("partNum"));
             System.out.println("            Product name: " + item.get("productName"));
         }
-    }
 
-    /**
-     * Prints properties of a purchase order DataObject( properties are defined in
-     * the xsd
-     * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XSD_RESOURCE} and
-     * populated by xml
-     * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XML_RESOURCE} )
-     * 
-     * @param args.
-     *            No parameters required.
-     */
-    public static void main(String[] args) {
-      // TODO make the default level NOVICE, once the rest of the sample has been
-      // converted to using commentary()
-      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
-
-      try {
-        sample.run();
-      }
-      catch (Exception e) {
-        sample.somethingUnexpectedHasHappened(e);
-      }
-    }
-
-    public void run () throws Exception {
-
-        // information
-        System.out.println("***************************************");
-        System.out.println("SDO Sample AccessDataObjectPropertiesByName");
-        System.out.println("***************************************");
-        System.out.println("This sample will access a DataObject properties by name");
-        System.out.println("***************************************");
-
-        // create a DataObejct
-        scope = createScopeForTypes();
-        
-        DataObject purchaseOrder = null;
-        try {
-            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);           
-            purchaseOrder = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE)).getRootObject();
-            System.out.println("DataObject created");
-        } catch (Exception e) {
-            System.out.println("Error creating DataObject " + e.toString());
-            e.printStackTrace();
-            return;
-        }
-
-        // start of sample
-        try {
-            System.out.println("Accessing properties by name");
-            printPurchaseOrderSummary(purchaseOrder);
-        } catch (Exception e) {
-            System.out.println("Sorry there was an error accessing properties by name " + e.toString());
-            e.printStackTrace();
-        }
-        System.out.println("GoodBye");
-        // end of sample
     }
 
 }

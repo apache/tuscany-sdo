@@ -80,7 +80,7 @@ public class PrintPropertiesOfDataObject extends SampleBase  {
 
     HelperContext scope;
 
-    public PrintPropertiesOfDataObject(int userLevel) {
+    public PrintPropertiesOfDataObject(Integer userLevel) {
       super(userLevel);
     }
 
@@ -160,7 +160,7 @@ public class PrintPropertiesOfDataObject extends SampleBase  {
       }
     }
 
-    public void run () throws Exception {
+    public void runSample () throws Exception {
         // information
         System.out.println("***************************************");
         System.out.println("SDO Sample InspectAndPrintPropertiesOfDataObject");

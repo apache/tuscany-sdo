@@ -92,7 +92,7 @@ public class CreatingXmlFromDataObjects  extends SampleBase {
 
     HelperContext scope;
 
-    public CreatingXmlFromDataObjects(int userLevel) {
+    public CreatingXmlFromDataObjects(Integer userLevel) {
       super(userLevel);
     }
 
@@ -110,7 +110,7 @@ public class CreatingXmlFromDataObjects  extends SampleBase {
     }
   }
 
-  public void run () throws Exception {
+  public void runSample () throws Exception {
         try {
 
             System.out.println("***************************************");

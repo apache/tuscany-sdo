@@ -81,8 +81,8 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 public class CreatePurchaseOrder extends SampleBase {
 
-    public CreatePurchaseOrder(int userLevel) {
-      super(userLevel);
+    public CreatePurchaseOrder(Integer intermediate) {
+      super(intermediate);
     }
 
     /**
@@ -114,15 +114,12 @@ public class CreatePurchaseOrder extends SampleBase {
       // TODO make the default level NOVICE, once the rest of the sample has been
       // converted to using commentary()
       CreatePurchaseOrder sample = new CreatePurchaseOrder(INTERMEDIATE);
-      try {
-        sample.run();
-      }
-      catch (Exception e) {
-        sample.somethingUnexpectedHasHappened(e);
-      }
+
+      sample.run();
+
     }
     
-    public void run() throws Exception {
+    public void runSample() throws Exception {
         try {
 
             System.out.println("***************************************");

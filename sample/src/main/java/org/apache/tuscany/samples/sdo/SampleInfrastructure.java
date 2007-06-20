@@ -29,27 +29,26 @@ import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.helper.HelperContext;
 
-public class SampleInfrastructure {
+public abstract class SampleInfrastructure {
 
   
   /*
    * sample program infrastructure
    */
-  protected int userLevel = NOVICE;
-  private Set commentaryHistory = new HashSet();
+  protected int userLevel = NOVICE.intValue();
+  private static Set commentaryHistory = new HashSet();
   
-  public SampleInfrastructure (int userLevel) {
-    this.userLevel = userLevel;
+  public SampleInfrastructure (Integer novice2) {
+    this.userLevel = novice2.intValue();
   }
   
   private static String hrule = "********************************************";
-  protected static final int NOVICE = 1;
-  protected static final int INTERMEDIATE = 2;
-  protected static final int ADVANCED = 3;
+  protected static final Integer NOVICE = new Integer(0);
+  protected static final Integer INTERMEDIATE = new Integer(1);
+  protected static final Integer ADVANCED = new Integer(2);
+  protected static final Integer ALWAYS = new Integer(3);
   
-  protected static final String noviceStr = " novice ";
-  protected static final String intermediateStr = " intermediate ";
-  protected static final String advancedStr = " advanced ";
+  protected static final String[] userLevels = {"NOVICE","INTERMEDIATE","ADVANCED","ALWAYS"};
   
   public void banner(char borderChar, String text) {
     if(text == null || text.length() == 0) {
@@ -85,9 +84,9 @@ public class SampleInfrastructure {
     banner('-', text);
   }
   
-  protected void commentary(int commentLevel, String text, String repeatText) {
+  protected void commentary(Integer commentLevel, String text, String repeatText) {
 
-    if(commentLevel < userLevel) return;
+    if(commentLevel.intValue() < userLevel) return;
     
     if(repeatText != null)  {
       boolean alreadySeen = commentaryHistory.contains(text);
@@ -103,8 +102,8 @@ public class SampleInfrastructure {
     
   }
   
-  protected void commentary(int commentLevel, String text) {
-    if(commentLevel >= userLevel) {
+  protected void commentary(Integer commentLevel, String text) {
+    if(commentLevel.intValue() >= userLevel) {
       banner(text);
     }
   }
@@ -145,6 +144,26 @@ public class SampleInfrastructure {
           return false;
       }
   }
+  
+  public void run() {
+    
+    commentary(ALWAYS,"    Tuscany SDO Java Sample " + this.getClass().getName() + "    ");
+    commentary(INTERMEDIATE, "Running with commentary level for a " + userLevels[userLevel] + " user\n"+
+        "Edit the sample program's constructor argument to one from NOVICE, INTERMEDIATE or ADVANCED\n"+
+        "in order to alter the level of commentary you are seeing",
+        "");
+    
+    try {
+      runSample();
+    } catch (Exception e) {
+      somethingUnexpectedHasHappened(e);
+    }
+    finally {   
+      commentary(ALWAYS, "    End of sample "  + this.getClass().getName() + "    ");
+    }
+  }
+  
+  public abstract void runSample() throws Exception ;
   
   
 }
