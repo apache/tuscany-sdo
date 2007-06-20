@@ -73,8 +73,8 @@ import commonj.sdo.helper.HelperContext;
  */
 public class AccessDataObjectPropertiesByName extends SampleBase {
 
-    public AccessDataObjectPropertiesByName(Integer userLevel) {
-      super(userLevel);
+    public AccessDataObjectPropertiesByName(Integer commentaryLevel) {
+      super(commentaryLevel, SAMPLE_LEVEL_NOVICE);
     }
 
 
@@ -82,7 +82,7 @@ public class AccessDataObjectPropertiesByName extends SampleBase {
       /*
        * This sample is well suited to exploration by a novice user
        */
-      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(NOVICE);
+      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(COMMENTARY_FOR_NOVICE);
       sample.run();
 
     }

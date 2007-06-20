@@ -149,9 +149,9 @@ public class AccessingDataObjectsViaPropertyIndex  extends SampleBase {
      * @param args
      */
     public static void main(String[] args) {
-      // TODO make the default level NOVICE, once the rest of the sample has been
+      // TODO make the default level COMMENTARY_FOR_NOVICE, once the rest of the sample has been
       // converted to using commentary()
-      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
+      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(COMMENTARY_FOR_INTERMEDIATE);
 
       try {
         sample.run();

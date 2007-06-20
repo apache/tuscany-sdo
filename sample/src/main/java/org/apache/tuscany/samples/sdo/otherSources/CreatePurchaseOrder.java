@@ -21,18 +21,14 @@
 package org.apache.tuscany.samples.sdo.otherSources;
 
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import commonj.sdo.DataObject;
-import commonj.sdo.helper.DataFactory;
-import commonj.sdo.helper.HelperContext;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
-
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+
+import commonj.sdo.DataObject;
+import commonj.sdo.helper.HelperContext;
 
 /**
  * Demonstrates creating a purchaseOrder DataObject from an existing XSD and then
@@ -111,9 +107,9 @@ public class CreatePurchaseOrder extends SampleBase {
      */
     public static void main(String[] args) {
 
-      // TODO make the default level NOVICE, once the rest of the sample has been
+      // TODO make the default level COMMENTARY_FOR_NOVICE, once the rest of the sample has been
       // converted to using commentary()
-      CreatePurchaseOrder sample = new CreatePurchaseOrder(INTERMEDIATE);
+      CreatePurchaseOrder sample = new CreatePurchaseOrder(COMMENTARY_FOR_INTERMEDIATE);
 
       sample.run();
 

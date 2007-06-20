@@ -40,18 +40,25 @@ public abstract class SampleBase extends SampleInfrastructure {
 
   public SampleBase()
   {
-    super(NOVICE);
+    super(COMMENTARY_FOR_NOVICE);
   }
   
+  /**
+   * @deprecated use 2 Integer arg constructor
+   */
   public SampleBase(Integer userLevel) {
     super(userLevel);
 
   }
   
 
+  public SampleBase(Integer commentaryLevel, Integer sampLevel) {
+    super(commentaryLevel, sampLevel);
+  }
+
   protected HelperContext createScopeForTypes() {
     commentary(
-        NOVICE,
+        COMMENTARY_FOR_NOVICE,
         "All MetaData for SDO types can be viewed as being held in an instance of HelperContext\n" +
         "The Helper Context instance provides access to a collection of other helpers\n" +
         "that you will see exercised in the SDO samples\n" +
@@ -60,7 +67,7 @@ public abstract class SampleBase extends SampleInfrastructure {
         "So we use a Tuscany specific API to do this ...\n\n" +
         "HelperContext scope = SDOUtil.createHelperContext();",
         
-        "Creating a new HelperContext scope for types for the next sample run"
+        "Creating a new HelperContext scope for types for the next sample run as we did in previous samples"
     );
         
     HelperContext scope = SDOUtil.createHelperContext();
@@ -69,7 +76,7 @@ public abstract class SampleBase extends SampleInfrastructure {
   
   protected HelperContext useDefaultScopeForTypes() {
     commentary(
-        NOVICE,
+        COMMENTARY_FOR_NOVICE,
         "All MetaData for SDO types can be viewed as being held in an instance of HelperContext\n" +
         "The Helper Context instance provides access to a collection of other helpers\n" +
         "that you will see exercised in the SDO samples\n" +
@@ -80,7 +87,7 @@ public abstract class SampleBase extends SampleInfrastructure {
         "A case in point where the default scope must be used is when using some of the DataGraph APIs\n" +
         "which don't all support the type scoping extensions which were introduced in the SDO 2.1 specification",
         
-        "Retrieving the default HelperContext scope for types for the next sample run"
+        "Retrieving the default HelperContext scope for types for the next sample run as we saw in a previous sample"
     );
         
     HelperContext scope = HelperProvider.getDefaultContext();
@@ -89,7 +96,7 @@ public abstract class SampleBase extends SampleInfrastructure {
   
   
   protected void loadXMLSchemaFromFile(HelperContext scope, String fileName) {
-    commentary(NOVICE,
+    commentary(COMMENTARY_FOR_NOVICE,
         "If you want to create types dynamically by loading an XML schema you\n" +
         "use an instance of XSDHelper. You get that helper from a HelperContext.\n" +
         "After successful loading of a schema, the new types are available to every\n" +
@@ -97,7 +104,7 @@ public abstract class SampleBase extends SampleInfrastructure {
         "XSDHelper xsdHelper = scope.getXSDHelper();\n"+
         "xsdHelper.define(inputStream, null);",
         
-        "Using an XSDHelper again to create types from an XML schema file"
+        "Using an XSDHelper again to create types from an XML schema file as we saw in a previous sample"
         );
     
     XSDHelper xsdHelper = scope.getXSDHelper();

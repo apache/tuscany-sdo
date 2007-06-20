@@ -64,8 +64,8 @@ import commonj.sdo.helper.HelperContext;
  */
 public class CreateCompany extends org.apache.tuscany.samples.sdo.otherSources.CreateCompany {
 
-    public CreateCompany(Integer userLevel) {
-      super(userLevel);
+    public CreateCompany(Integer commentaryLevel) {
+      super(commentaryLevel, SAMPLE_LEVEL_INTERMEDIATE);
     }
 
     /**
@@ -85,7 +85,7 @@ public class CreateCompany extends org.apache.tuscany.samples.sdo.otherSources.C
        * of understanding of SDO.  Change the experience level argument to get more
        * or less commentary.
        */
-      CreateCompany sample = new CreateCompany(INTERMEDIATE);
+      CreateCompany sample = new CreateCompany(COMMENTARY_FOR_INTERMEDIATE);
       sample.run();
 
     }
@@ -102,7 +102,7 @@ public class CreateCompany extends org.apache.tuscany.samples.sdo.otherSources.C
                "If you don't have a need to use a DataGraph instance then you may want to skip this\n"+
                "sample,  or leave it until you have explored the DataObject interface fully\n");
         
-        commentary(INTERMEDIATE,
+        commentary(COMMENTARY_FOR_INTERMEDIATE,
             "As we are dealing with a DataGraph,  the SDO API has some gray areas at the moment\n"+
             "in that the DataGraph API hasn't yet been developed to deal with scopes\n"+
             "other than the default scope. So here is an occasion where we must use"+
@@ -110,13 +110,13 @@ public class CreateCompany extends org.apache.tuscany.samples.sdo.otherSources.C
         HelperContext scope = useDefaultScopeForTypes();
         loadXMLSchemaFromFile(scope, SdoSampleConstants.COMPANY_XSD);
        
-        commentary (INTERMEDIATE,
+        commentary (COMMENTARY_FOR_INTERMEDIATE,
             "Here is the use of the Tuscany API for creating a DataGraph instance\n\n"+
             "DataGraph dataGraph = SDOUtil.createDataGraph();");
 
         DataGraph dataGraph = SDOUtil.createDataGraph();
         
-        commentary(INTERMEDIATE,
+        commentary(COMMENTARY_FOR_INTERMEDIATE,
             "Now we create a root object of a selected type for the DataGraph wrapper to contain.\n"+
             "This is an example of a DataGraph interface that currently forces us to use the default scope.\n\n"+
             "company = dataGraph.createRootObject(SdoSampleConstants.COMPANY_NAMESPACE, \"CompanyType\");");
@@ -125,7 +125,7 @@ public class CreateCompany extends org.apache.tuscany.samples.sdo.otherSources.C
         
         populateGraph(scope, company);
         
-        commentary(INTERMEDIATE,
+        commentary(COMMENTARY_FOR_INTERMEDIATE,
             "Since the SDO API doesn't currently have a method for serializing the DataGraph instance\n"+
             "we again use a Tuscany specific API\n\n"+
             "SDOUtil.saveDataGraph(dataGraph, fos, null);");

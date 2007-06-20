@@ -93,6 +93,7 @@ public class PurchaseOrderControl extends SampleBase {
      * @throws Exception
      */
     public PurchaseOrderControl(String xsdFileName, String xmlFileName) throws Exception {
+        // FIXME add in the sample commentary and complexity levels
         this.xsdFileName = xsdFileName;
         this.xmlFileName = xmlFileName;
 

@@ -25,30 +25,43 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.tuscany.sdo.api.SDOUtil;
-
-import commonj.sdo.helper.HelperContext;
-
+/**
+ * One of a pair of base classes for samples.  This one contains all the
+ * infrastructure code that a person wanting to learn SDO would not want to look at.
+ */
 public abstract class SampleInfrastructure {
 
+
+  protected int sampleComplexityLevel = SAMPLE_LEVEL_NOVICE.intValue();
+  protected int commentaryLevel = COMMENTARY_FOR_NOVICE.intValue();
   
   /*
-   * sample program infrastructure
+   * keep a record of what's been said,  so that if alternative terse text is
+   * offered,  the verbose text need not be repeated for repeat actions.
    */
-  protected int userLevel = NOVICE.intValue();
   private static Set commentaryHistory = new HashSet();
   
-  public SampleInfrastructure (Integer novice2) {
-    this.userLevel = novice2.intValue();
+  public SampleInfrastructure (Integer commentaryLevel) {
+    this.commentaryLevel = commentaryLevel.intValue();
   }
   
+  public SampleInfrastructure(Integer commentaryLevel, Integer sampLevel) {
+    this.commentaryLevel = commentaryLevel.intValue();
+    this.sampleComplexityLevel = sampLevel.intValue();
+  }
+
   private static String hrule = "********************************************";
-  protected static final Integer NOVICE = new Integer(0);
-  protected static final Integer INTERMEDIATE = new Integer(1);
-  protected static final Integer ADVANCED = new Integer(2);
-  protected static final Integer ALWAYS = new Integer(3);
+  protected static final Integer SAMPLE_LEVEL_NOVICE = new Integer(0);
+  protected static final Integer SAMPLE_LEVEL_INTERMEDIATE = new Integer(1);
+  protected static final Integer SAMPLE_LEVEL_ADVANCED = new Integer(2);
   
-  protected static final String[] userLevels = {"NOVICE","INTERMEDIATE","ADVANCED","ALWAYS"};
+  
+  protected static final Integer COMMENTARY_FOR_NOVICE = new Integer(0);
+  protected static final Integer COMMENTARY_FOR_INTERMEDIATE = new Integer(1);
+  protected static final Integer COMMENTARY_FOR_ADVANCED = new Integer(2);
+  protected static final Integer COMMENTARY_ALWAYS = new Integer(3);
+  
+  protected static final String[] userLevels = {"COMMENTARY_FOR_NOVICE","COMMENTARY_FOR_INTERMEDIATE","COMMENTARY_FOR_ADVANCED","COMMENTARY_ALWAYS"};
   
   public void banner(char borderChar, String text) {
     if(text == null || text.length() == 0) {
@@ -86,7 +99,7 @@ public abstract class SampleInfrastructure {
   
   protected void commentary(Integer commentLevel, String text, String repeatText) {
 
-    if(commentLevel.intValue() < userLevel) return;
+    if(commentLevel.intValue() < commentaryLevel) return;
     
     if(repeatText != null)  {
       boolean alreadySeen = commentaryHistory.contains(text);
@@ -103,9 +116,17 @@ public abstract class SampleInfrastructure {
   }
   
   protected void commentary(Integer commentLevel, String text) {
-    if(commentLevel.intValue() >= userLevel) {
+    if(commentLevel.intValue() >= commentaryLevel) {
       banner(text);
     }
+  }
+  
+  /*
+   * convenience method to allow commentary level to default to that of
+   * the sample's compexity
+   */
+  protected void commentary(String text) {
+    commentary(new Integer(getSampleComplexityLevel()), text);
   }
   
   public void somethingUnexpectedHasHappened(Exception e) {
@@ -147,9 +168,9 @@ public abstract class SampleInfrastructure {
   
   public void run() {
     
-    commentary(ALWAYS,"    Tuscany SDO Java Sample " + this.getClass().getName() + "    ");
-    commentary(INTERMEDIATE, "Running with commentary level for a " + userLevels[userLevel] + " user\n"+
-        "Edit the sample program's constructor argument to one from NOVICE, INTERMEDIATE or ADVANCED\n"+
+    commentary(COMMENTARY_ALWAYS,"    Tuscany SDO Java Sample " + this.getClass().getName() + "    ");
+    commentary(COMMENTARY_FOR_INTERMEDIATE, "Running with commentary level for a " + userLevels[commentaryLevel] + " user\n"+
+        "Edit the sample program's constructor argument to one from COMMENTARY_FOR_NOVICE, COMMENTARY_FOR_INTERMEDIATE or COMMENTARY_FOR_ADVANCED\n"+
         "in order to alter the level of commentary you are seeing",
         "");
     
@@ -159,11 +180,19 @@ public abstract class SampleInfrastructure {
       somethingUnexpectedHasHappened(e);
     }
     finally {   
-      commentary(ALWAYS, "    End of sample "  + this.getClass().getName() + "    ");
+      commentary(COMMENTARY_ALWAYS, "    End of sample "  + this.getClass().getName() + "    ");
     }
   }
   
   public abstract void runSample() throws Exception ;
+
+  public int getSampleComplexityLevel() {
+    return sampleComplexityLevel;
+  }
+
+  public void setSampleComplexityLevel(Integer sampleComplexityLevel) {
+    this.sampleComplexityLevel = sampleComplexityLevel.intValue();
+  }
   
   
 }

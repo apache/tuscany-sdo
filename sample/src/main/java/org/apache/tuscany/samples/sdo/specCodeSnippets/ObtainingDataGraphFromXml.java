@@ -101,16 +101,16 @@ public class ObtainingDataGraphFromXml extends SampleBase {
 
    
     public ObtainingDataGraphFromXml(Integer userLevel) {
-      super(userLevel);
+      super(userLevel, SAMPLE_LEVEL_INTERMEDIATE);
     }
     
     public static void main(String[] args) {
       
       /*
-       * Create an instance of the sample program.  Edit the "userLevel" argument to suit
-       * your experience, NOVICE, INTERMEDIATE or ADVANCED
+       * Create an instance of the sample program.  Edit the "commentaryLevel" argument to suit
+       * your experience, COMMENTARY_FOR_NOVICE, COMMENTARY_FOR_INTERMEDIATE or COMMENTARY_FOR_ADVANCED
        */
-      ObtainingDataGraphFromXml sample = new ObtainingDataGraphFromXml(NOVICE);
+      ObtainingDataGraphFromXml sample = new ObtainingDataGraphFromXml(COMMENTARY_FOR_NOVICE);
       sample.run();
       
     }
@@ -148,12 +148,12 @@ public class ObtainingDataGraphFromXml extends SampleBase {
 
             DataObject company = null;
 
-            commentary(INTERMEDIATE,
+            commentary(
                 "Here we see the specification's example for obtaining dealing with\n"+
                 "loading a data graph which uses a method, XMLHelper.load().  This loads an XML instance document\n"+
                 "into an instance of XMLDocument ...\n\n"+
                 "XMLDocument doc = scope.getXMLHelper().load(\n"+
-                "    ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML));"
+                "ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML));"
                 );
             
             InputStream is = ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML);
@@ -167,7 +167,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
             XMLDocument doc = scope.getXMLHelper().load(
                     ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML));
             
-            commentary(INTERMEDIATE,
+            commentary(
                 "Now we can get the wrapper for the data graph, which in this case is the DataObject\n"+
                 "of type commonj.sdo#DataGraph.  Note how there's no magic here;  no special class for\n"+
                 "DataGraph,  no special handling,  this is just a standard pattern of using a built in SDO Type.\n"+
@@ -179,21 +179,21 @@ public class ObtainingDataGraphFromXml extends SampleBase {
  
             System.out.println(dataObjectRepresentingDataGraph);
             
-            commentary(INTERMEDIATE,
+            commentary(
                 "If you are confused by the fact that whatt we really get is an instance of DataGraphTypeImpl\n"+
                 "This really is a DataObject,  but it is a generated class extending DataObjectImpl\n+"+
                 "representing the DataGraph model.");
 
             company = dataObjectRepresentingDataGraph.getDataObject("company");
 
-            commentary(INTERMEDIATE,
+            commentary(
                 "We've obtained a DataObject representing the data graph, and from that we have obtained\n"+
                 "the true root object of the business data");
             
             System.out.println(company);            
             System.out.println();
             
-            commentary(INTERMEDIATE,
+            commentary(
                "Using an instance of DataGraph can perhaps be seen as an older style pattern of wrapping a data graph\n"+
                "and the first approach is likely to get more emphaissi and attention in future revisions of the spec.\n"+
                "The SDO API has some limitations in the area of saving and loading instances of the\n"+
@@ -207,7 +207,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
 
             System.out.println(datagraph);
 
-            commentary(INTERMEDIATE,
+            commentary(
                 "In this case we directly receive an instance of DataGraph and can retrieve the root\n"+
                 "business object from the DataGraph\n\n"+
                 "DataObject company = datagraph.getRootObject();");

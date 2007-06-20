@@ -62,10 +62,13 @@ import commonj.sdo.helper.HelperContext;
  */
 public class CreateCompany extends SampleBase {
 
-    public CreateCompany(Integer novice) {
-      super(novice);
+    public CreateCompany(Integer commentaryLevel) {
+      this(commentaryLevel, SAMPLE_LEVEL_NOVICE);
     }
 
+    public CreateCompany(Integer commentaryLevel, Integer sampleLevel) {
+      super(commentaryLevel, sampleLevel);
+    }
     /**
      * XML file generated for the company DataObject
      */    
@@ -80,11 +83,10 @@ public class CreateCompany extends SampleBase {
       /*
        * this sample is suitable for a novice to SDO.
        * Change the experience level constructor argument to one of
-       * NOVICE, INTERMEDIATE, ADVANCED, change
+       * COMMENTARY_FOR_NOVICE, COMMENTARY_FOR_INTERMEDIATE, COMMENTARY_FOR_ADVANCED, change
        * the level of commentary output.
        */
-      CreateCompany sample = new CreateCompany(NOVICE);
-
+      CreateCompany sample = new CreateCompany(COMMENTARY_FOR_NOVICE);
 
       sample.run();
 
@@ -99,7 +101,7 @@ public class CreateCompany extends SampleBase {
         HelperContext scope = createScopeForTypes();       
         loadXMLSchemaFromFile(scope, SdoSampleConstants.COMPANY_XSD);
         
-        commentary(NOVICE,
+        commentary(
             "Now that our type system has been loaded and made available through the scope\n"+
             "DataObjects can be created by a DataFactory that has access to the required types.\n\n"+
             "DataObject company = scope.getDataFactory().create(SdoSampleConstants.COMPANY_NAMESPACE, \"CompanyType\");");
@@ -110,13 +112,13 @@ public class CreateCompany extends SampleBase {
             
         FileOutputStream fos = new FileOutputStream(COMPANY_GENERATED_XML);
         
-        commentary(NOVICE,
+        commentary(
             "The XMLHelper can be used to write an XML serialized version of the data graph\n\n"+
             "scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, \"company\", fos);");
         
         scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company", fos);
         
-        commentary(NOVICE,
+        commentary(
             "Similarly we can serialize the graph to an XML String using the XMLHelper\n\n"+
             "String xml = scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, \"company\");\n");
         

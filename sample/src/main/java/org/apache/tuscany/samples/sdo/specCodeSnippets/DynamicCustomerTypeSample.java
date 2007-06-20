@@ -74,7 +74,7 @@ public class DynamicCustomerTypeSample extends SampleBase {
     HelperContext scope;
 
     public DynamicCustomerTypeSample(Integer userLevel) {
-      super(userLevel);
+      super(userLevel, SAMPLE_LEVEL_INTERMEDIATE);
     }
 
 
@@ -108,106 +108,104 @@ public class DynamicCustomerTypeSample extends SampleBase {
     public static final String CUSTOMER_XML_GENERATED = "generatedCustomer.xml";
 
     /**
-     * Method dynamically defines customer types
-     */
-    public void defineCustomerTypes() {
-        // get an instance of the type helper
-        TypeHelper types = scope.getTypeHelper();
-        Type intType = types.getType("commonj.sdo", "Int");
-        Type stringType = types.getType("commonj.sdo", "String");
-
-        // create a new Type for Customers
-        DataObject customerType = scope.getDataFactory().create("commonj.sdo", "Type");
-        customerType.set("uri", "http://example.com/customer");
-        customerType.set("name", "Customer");
-
-        // create a customer number property
-        DataObject custNumProperty = customerType.createDataObject("property");
-        custNumProperty.set("name", "custNum");
-        custNumProperty.set("type", intType);
-
-        // create a last name property
-        DataObject lastNameProperty = customerType.createDataObject("property");
-        lastNameProperty.set("name", "lastName");
-        lastNameProperty.set("type", stringType);
-
-        // create a first name property
-        DataObject firstNameProperty = customerType.createDataObject("property");
-        firstNameProperty.set("name", "firstName");
-        firstNameProperty.set("type", stringType);
-
-        // now define the Customer type so that customers can be made
-        types.define(customerType);
-
-        Type testType = scope.getTypeHelper().getType("http://example.com/customer", "Customer");
-        List props = testType.getProperties();
-        for (int i = 0; i < props.size(); i++) {
-            System.out.println(props.get(i));
-        }
-    }
-
-    /**
-     * Creates a new Customer using dynamically defined Customer Type
-     * 
-     * @param custNum
-     * @param firstName
-     * @param lastName
-     * @return
-     */
-    private DataObject createCustomer(int custNum, String firstName, String lastName) {
-        DataFactory factory = scope.getDataFactory();
-        DataObject customer1 = factory.create("http://example.com/customer", "Customer");
-        customer1.setInt("custNum", custNum);
-        customer1.set("firstName", firstName);
-        customer1.set("lastName", lastName);
-        return customer1;
-    }
-
-    /**
      * Drives sample methods
      * 
      * @param args
      *            no arguments required
      */
     public static void main(String[] args) {
-      // TODO make the default level NOVICE, once the rest of the sample has been
-      // converted to using commentary()
-      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(INTERMEDIATE);
 
-      try {
-        sample.run();
-      }
-      catch (Exception e) {
-        sample.somethingUnexpectedHasHappened(e);
-      }
+      DynamicCustomerTypeSample sample =
+        new DynamicCustomerTypeSample(COMMENTARY_FOR_INTERMEDIATE);
+      sample.run();
+
     }
 
     public void runSample () throws Exception {
-        System.out.println("***************************************");
-        System.out.println("SDO Sample DynamicCustomerTypeSample");
-        System.out.println("***************************************");
-        System.out.println("Demonstrats creating and using Types dynamically");
-        System.out.println("***************************************");
-        try {
-            scope = createScopeForTypes();
 
+      commentary(COMMENTARY_ALWAYS,
+          "Demonstrates the use of the SDO API to build types dynamically\n"+
+          "by building a data graph representing the type system and\n"+
+          "submitting that graph to TypeHelper.define()");
+      
+
+      scope = createScopeForTypes();
+
+    
+      commentary("A TypeHelper is used for both looking up types,  and later creating them\n\n"+
+          "TypeHelper typeHelper = scope.getTypeHelper();");
+      
+      TypeHelper typeHelper = scope.getTypeHelper();
+      
+      commentary("We can look up existing types to use in the creation of Properties\n\n"+
+          "Type intType = types.getType(\"commonj.sdo\", \"Int\");\n"+
+          "Type stringType = types.getType(\"commonj.sdo\", \"String\");");
+      
+      Type intType = typeHelper.getType("commonj.sdo", "Int");
+      Type stringType = typeHelper.getType("commonj.sdo", "String");
+      
+      commentary("To begin modelling the type system we create a DataObject with\n"+
+          "Type \"commonj.sdo#Type\" and set the URI and name for that type\n\n"+
           
-            System.out.println("Dynamically defining Customer Type");
-            defineCustomerTypes();
+          "DataObject customerType = scope.getDataFactory().create(\"commonj.sdo\", \"Type\");"+
+          "customerType.set(\"uri\", \"http://example.com/customer\");\n"+
+          "customerType.set(\"name\", \"Customer\");");
+      
+      DataObject customerType = scope.getDataFactory().create("commonj.sdo", "Type");
+      customerType.set("uri", "http://example.com/customer");
+      customerType.set("name", "Customer");
+      
+      commentary("Now we can create a model for the Properties for the Type\n"+
+          "and set the name and Types of those Properties\n\n"+
+          "DataObject custNumProperty = customerType.createDataObject(\"property\");"+
+          "custNumProperty.set(\"name\", \"custNum\");"+
+          "custNumProperty.set(\"type\", intType);"
+      );
+      
+      DataObject custNumProperty = customerType.createDataObject("property");
+      custNumProperty.set("name", "custNum");
+      custNumProperty.set("type", intType);
+      
+      commentary("We continue in this manner until all the Types and their Properties are modelled");
+      DataObject lastNameProperty = customerType.createDataObject("property");
+      lastNameProperty.set("name", "lastName");
+      lastNameProperty.set("type", stringType);
+      
+      DataObject firstNameProperty = customerType.createDataObject("property");
+      firstNameProperty.set("name", "firstName");
+      firstNameProperty.set("type", stringType);
+      
+      commentary("Now that our type is fully modelled we submit the model to the TypeHelper\n"+
+          "The new Type instance is retuend to us,  but is also available for lookup within\n"+
+          "the scope associated with the TypeHelper\n\n"+
+          "Type t = typeHelper.define(customerType);");
+      Type t = typeHelper.define(customerType);
+      
+      commentary("Here we see the newly created Type being accessed via the TypeHelper\n"+
+          "along with a printout of the Type's Properties\n\n"+
+          "Type testType = scope.getTypeHelper().getType(\"http://example.com/customer\", \"Customer\");");
+      
+      Type testType = scope.getTypeHelper().getType("http://example.com/customer", "Customer");
+      List props = testType.getProperties();
+      for (int i = 0; i < props.size(); i++) {
+          System.out.println(props.get(i));
+      }
 
-            System.out.println("Creating new customer DataObject");
-            DataObject customer1 = createCustomer(1, "John", "Adams");
-            System.out.println("Customer Created");
+      commentary("Now we can create an instance of the type using the DataFactory associated with the type scope\n\n"+
+          "DataFactory factory = scope.getDataFactory();"+
+          "DataObject customer1 = factory.create(\"http://example.com/customer\", \"Customer\");");
 
-            System.out.println("converting to xml");
-            String xmlDocString = scope.getXMLHelper().save(customer1, CUSTOMER_NAMESPACE, "customer");
-            System.out.println(xmlDocString);
+      DataFactory factory = scope.getDataFactory();
+      DataObject customer1 = factory.create("http://example.com/customer", "Customer");
+      customer1.setInt("custNum", 1);
+      customer1.set("firstName", "John");
+      customer1.set("lastName", "Adams");
 
-        } catch (Exception e) {
-            System.out.println("Sorry unexpected exception caught during sample execution : " + e.toString());
-            e.printStackTrace();
-        }
-        System.out.println("GoodBye");
+      commentary("Here's an XML String representing a DataObject we have created with the new type");
+      String xmlDocString = scope.getXMLHelper().save(customer1, CUSTOMER_NAMESPACE, "customer");
+      System.out.println(xmlDocString);
+
+
     }
 
 }
