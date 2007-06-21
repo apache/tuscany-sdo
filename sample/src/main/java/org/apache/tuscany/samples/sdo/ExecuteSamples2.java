@@ -28,6 +28,7 @@ import java.lang.reflect.InvocationTargetException;
 import org.apache.tuscany.samples.sdo.otherSources.CreatePurchaseOrder;
 import org.apache.tuscany.samples.sdo.otherSources.ReadPurchaseOrder;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
+import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectUsingValidXPath;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.DynamicCustomerTypeSample;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.ObtainingDataGraphFromXml;
 
@@ -38,8 +39,9 @@ public class ExecuteSamples2 {
     Class[] sampleClasses = {
       org.apache.tuscany.samples.sdo.otherSources.CreateCompany.class,
       ReadPurchaseOrder.class,
-      AccessDataObjectPropertiesByName.class,
       CreatePurchaseOrder.class,
+      AccessDataObjectPropertiesByName.class,
+      AccessDataObjectUsingValidXPath.class,
       DynamicCustomerTypeSample.class,
       ObtainingDataGraphFromXml.class,
       org.apache.tuscany.samples.sdo.tuscanyapi.CreateCompany.class 

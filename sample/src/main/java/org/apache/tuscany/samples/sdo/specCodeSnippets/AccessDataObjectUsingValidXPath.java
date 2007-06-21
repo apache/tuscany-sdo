@@ -20,7 +20,10 @@
 
 package org.apache.tuscany.samples.sdo.specCodeSnippets;
 
+import java.util.List;
+
 import org.apache.tuscany.samples.sdo.SampleBase;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 import commonj.sdo.DataObject;
@@ -72,30 +75,9 @@ public class AccessDataObjectUsingValidXPath extends SampleBase {
     HelperContext scope;
   
     public AccessDataObjectUsingValidXPath(Integer userLevel) {
-      super(userLevel);
+      super(userLevel, SampleInfrastructure.SAMPLE_LEVEL_NOVICE);
     }
 
-
-    /**
-     * Prints a subset of item properties to System.out where the individual item was
-     * accessed using an xPath expression
-     * 
-     * @param purchaseOrder.
-     *            DataObject defined by Types in
-     *            {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XSD_RESOURCE}
-     */
-    public static void accessDataObjectUsingXPath(DataObject purchaseOrder) {
-
-        System.out.println("Accessing individual item from list using xpath");
-        // TODO: use variety of xpath expressions such as items/item[1]
-        // TODO: add to junit test cases for test cases above
-        DataObject item = purchaseOrder.getDataObject("items/item[1]");
-        System.out.println("Item toString : " + item.toString());
-
-        System.out.println("Item name:" + item.get("productName"));
-        System.out.println("Part num: " + item.get("partNum"));
-
-    }
 
     /**
      * Accesses and modifies properties of a purchase order DataObject using xPath(
@@ -108,50 +90,68 @@ public class AccessDataObjectUsingValidXPath extends SampleBase {
      *            No parameters required.
      */
     public static void main(String[] args) {
-      // TODO make the default level COMMENTARY_FOR_NOVICE, once the rest of the sample has been
-      // converted to using commentary()
-      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(COMMENTARY_FOR_INTERMEDIATE);
+      AccessDataObjectUsingValidXPath sample = new AccessDataObjectUsingValidXPath(COMMENTARY_FOR_NOVICE);
+      sample.run();
 
-      try {
-        sample.run();
-      }
-      catch (Exception e) {
-        sample.somethingUnexpectedHasHappened(e);
-      }
     }
 
     public void runSample () throws Exception {
 
-        // information
-        System.out.println("***************************************");
-        System.out.println("SDO Sample AccessDataObjectUsingValidXPath");
-        System.out.println("***************************************");
-        System.out.println("Demonstrats accessing a created DataObject's properties using xPath.");
-        System.out.println("***************************************");
+        commentary("Demonstrates accessing a DataObject's properties using the XPath style getter/setter methods");
 
-        // create a DataObejct
-        DataObject purchaseOrder = null;
-        scope = createScopeForTypes();
-        try {
-            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);
-            purchaseOrder = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE)).getRootObject();
-            System.out.println("DataObject created");
-        } catch (Exception e) {
-            System.out.println("Error creating DataObject " + e.toString());
-            e.printStackTrace();
-            return;
+
+        HelperContext scope = createScopeForTypes();
+        
+        
+        commentary(
+            "First we create the type system using an XML Schema file and then create\n"+
+            "A DataObject using an XML document for convenience");
+        
+        loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
+        DataObject purchaseOrder = getDataObjectFromFile(scope, SdoSampleConstants.PO_XML_RESOURCE);
+
+
+
+        commentary(
+            "Accessing data from the purchase order using the DataObjects XPath style methods\n");
+        
+
+        System.out.println("First we use the simplest kind of path\n" +
+            "purchaseOrder.getString(\"billTo/name\")\n" +
+            "The purchase is to be paid for by .... " +
+            purchaseOrder.getString("billTo/name"));
+        
+        
+        System.out.println("\nThen we use indexing by integer starting from 1\n" +
+            "purchaseOrder.getString(\"items/item[1]/productName\"\n" +
+            "The first item in the order is a ... " +
+            purchaseOrder.getString("items/item[1]/productName"));
+        
+       
+        System.out.println("\nThe alternative style of indexing uses a . notation and starts from 0\n"+
+            "purchaseOrder.getFloat(\"items/item.0/price\")\n" +
+            "The price of this item is ... " +
+            purchaseOrder.getFloat("items/item.0/price"));
+        
+
+        System.out.println("\nDataObjects can be looked up by supplying the value of one of the contained simple valued Properties\n"+
+            "DataObject babyMonitorItem = purchaseOrder.getDataObject(\"items/item[productName=\\\"Baby Monitor\\\"]");
+                
+        DataObject babyMonitorItem = purchaseOrder.getDataObject("items/item[productName=\"Baby Monitor\"]");
+        System.out.println("The price of the Baby Monitor is .... " +
+        babyMonitorItem.getFloat("price"));
+        
+        
+        System.out.println("\nA parent DataObject can be accessed with the .. notation\n"+
+            "List onlyIfBuyingGrassSeed = purchaseOrder.getList(\"items/item[productName=GrassSeed]/../item\");");
+        List onlyIfBuyingGrassSeed = purchaseOrder.getList("items/item[productName=GrassSeed]/../item");
+        if(onlyIfBuyingGrassSeed != null) {
+          System.out.println("The purchase order included grass seed and " + new Integer(onlyIfBuyingGrassSeed.size()-1) + " other items");
+        } else {
+          System.out.println("The purchase order did not include GrassSeed");
         }
 
-        // start of sample
-        try {
 
-            accessDataObjectUsingXPath(purchaseOrder);
-        } catch (Exception e) {
-            System.out.println("Sorry there was an error accessing properties by name " + e.toString());
-            e.printStackTrace();
-        }
-        System.out.println("GoodBye");
-        // end of sample
     }
 
 }
