@@ -29,6 +29,7 @@ import org.apache.tuscany.samples.sdo.otherSources.CreatePurchaseOrder;
 import org.apache.tuscany.samples.sdo.otherSources.ReadPurchaseOrder;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectUsingValidXPath;
+import org.apache.tuscany.samples.sdo.specCodeSnippets.CreateDataObjectFromXmlString;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.DynamicCustomerTypeSample;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.ObtainingDataGraphFromXml;
 
@@ -44,8 +45,8 @@ public class ExecuteSamples2 {
       AccessDataObjectUsingValidXPath.class,
       DynamicCustomerTypeSample.class,
       ObtainingDataGraphFromXml.class,
-      org.apache.tuscany.samples.sdo.tuscanyapi.CreateCompany.class 
-
+      org.apache.tuscany.samples.sdo.tuscanyapi.CreateCompany.class,
+      CreateDataObjectFromXmlString.class
      
     };
     

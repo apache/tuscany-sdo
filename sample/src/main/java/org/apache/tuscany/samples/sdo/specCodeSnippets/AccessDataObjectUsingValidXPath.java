@@ -28,8 +28,6 @@ import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
 
 /**
  * Demonstrates accessing a created DataObject's properties using the SDO XPath like syntax.

@@ -24,12 +24,13 @@ import java.util.List;
 import org.apache.tuscany.samples.sdo.SampleBase;
 
 import commonj.sdo.DataObject;
+import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLHelper;
 
 /**
- * Demonstrates creating a DataObject from a String of XML.
+ * Demonstrates creating a DataObject from a String of XML without an explicit model.
  * 
  * The following sample is from the <a href="http://incubator.apache.org/tuscany"
  * target="_blank"> Apache Tuscany</a> project. It was written to help users
@@ -74,7 +75,7 @@ public class CreateDataObjectFromXmlString extends SampleBase {
 
 
     public CreateDataObjectFromXmlString(Integer userLevel) {
-      super(userLevel);
+      super(userLevel, SAMPLE_LEVEL_INTERMEDIATE);
     }
 
 
@@ -85,100 +86,77 @@ public class CreateDataObjectFromXmlString extends SampleBase {
             + " <street>123 Maple Street</street>" + " <city>Mill Valley</city>" + " <state>PA</state>" + " <zip>90952</zip>" + "</shipTo>"
             + "</purchaseOrder>";
 
-    /**
-     * Creates a DataObject from an Xml String
-     * 
-     * @return
-     */
-    public DataObject createDataObjectFromXmlString() {
 
-        // TODO: do this with and without defining the schema
-        DataObject po = scope.getXMLHelper().load(XML_STRING).getRootObject();
-        System.out.println("DataObject has been created : " + po.toString());
-        return po;
-    }
-
-    /**
-     * @param args
-     *            None required
-     */
     public static void main(String[] args) {
-      // TODO make the default level COMMENTARY_FOR_NOVICE, once the rest of the sample has been
-      // converted to using commentary()
-      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(COMMENTARY_FOR_INTERMEDIATE);
 
-      try {
-        sample.run();
-      }
-      catch (Exception e) {
-        sample.somethingUnexpectedHasHappened(e);
-      }
+      CreateDataObjectFromXmlString sample = new CreateDataObjectFromXmlString(COMMENTARY_FOR_NOVICE);
+      sample.run();
+ 
     }
 
     public void runSample () throws Exception {
 
-        // information
-        System.out.println("***************************************");
-        System.out.println("SDO Sample CreateDataObjectFromXmlString");
-        System.out.println("***************************************");
-        System.out.println("Demonstrates creating a DataObject from a String of XML, based upon section titled 'Creating DataObjects from XML documents'");
-        System.out.println("***************************************");
+        
+        commentary("Demonstrates creating a DataObject from a String of XML,\n" +
+            "based upon section titled 'Creating DataObjects from XML documents'\n"+
+            "This quite unassuming sample demonstrares the maxim of 'less is more'\n"+
+            "in that it might look like other samples where the XML document was loaded\n"+
+            "from a file or string,  but note that we don't define any Types before loading\n"+
+            "the document. Built in generic types are used to model the data graph");
 
-        // sample
-        try {
-            scope = createScopeForTypes();
 
-            System.out.println("Use the following XML String: " + XML_STRING);
-            System.out.println("Creating DataObject");
-            DataObject po = createDataObjectFromXmlString();
-            System.out.println("The following DataObject was sucessfully created from the XML String");
+        scope = createScopeForTypes();
 
-            System.out.println(scope.getXMLHelper().save(po, "http://example.com/purchaseOrder", "purchaseOrder"));
+        commentary("don't define any types! Just go ahead and load from the String\n\n"+
+            "DataObject purchaseOrder = scope.getXMLHelper().load(XML_STRING).getRootObject();");
+        
+        DataObject purchaseOrder = scope.getXMLHelper().load(XML_STRING).getRootObject();
+        
+        commentary("Note that the Type of the newly created DataObject has no Properties defined for it\n"+
+            "but the type is said to be \"Open\",  which means that an instance of the Type may make use of other Properties\n"+
+            "defined elsewhere.  The XMLHelper's load operation creates Properties on demand for the DataObject instance to use as it loads\n"+
+            "the document\n\n");
+        
+        
+        // FIXME I'm not sure how to explain why the top level data object is of type AnyTypeDataObject
+        // and the shipTo Property's type is DataObject
+        System.out.println("The type of the DataObject is " + purchaseOrder.getType().getName() +
+            " and has " + purchaseOrder.getType().getProperties().size() + " Properties");
+        System.out.println("The DataObject itself has " + purchaseOrder.getInstanceProperties().size() + " Properties\n");
+        Property p0 = (Property)purchaseOrder.getInstanceProperties().get(0);
+        System.out.println("The first of these instance Properties is " + p0.getName() + " and is of type " + p0.getType().getName());
 
-            /*
-             * Without a Type definition accessing a DataObject is slightly more
-             * difficult. This is because without a Type definition SDO does not know
-             * the intended multiplicity of properties. Currently the Tuscany
-             * implementation assumes that elements and attributes are lists. There
-             * is some discussion (SDO-3, also mentioned in SDO Specification JIRA SDO-22) about adding
-             * annotations to the XML (sdo:many="false") to control the indended
-             * multiplicity of DataObjects created without a model.
-             * 
-             * The following code will not work when a model/schema is not defined
-             * shipTo = purchaseOrder.getDataObject("shipTo"); assertEquals("testing
-             * ship to name", shipTo.getString("name"), "Alice Smith");
-             * assertEquals("testing ship to zip", shipTo.getString("zip"), "90952");
-             */
+        commentary(
+            "Without a Type definition accessing a DataObject is slightly\n"+
+            "different, since without a Type definition SDO does not know\n"+
+            "the intended multiplicity of properties. So every Property is assumed to\n"+
+            "be multi-valued, and must be accessed via a list\n\n"+
+            "List shipToList = purchaseOrder.getList(\"shipTo\");\n"+
+            "DataObject shipTo = (DataObject) shipToList.get(0);"); 
 
-            System.out.println("Programatically access content of DataObject - getting name of the person this is getting shipped to");
-            // access the shipTo DataObject
-            List shipToList = po.getList("shipTo");
-            DataObject shipTo = (DataObject) shipToList.get(0);
-            // access the name DataObject
+        List shipToList = purchaseOrder.getList("shipTo");
+        DataObject shipTo = (DataObject) shipToList.get(0);
+        
+        
 
-            /*
-             * This is currently quite cumbersome. In future specifications accessing
-             * the name element will be simplier and the user could simply execute:
-             * List nameList = shipTo.getList("name"); String actualName = (String)
-             * nameList.get(0);
-             * 
-             * Or if name is an attribute ("<shipTo country='US' name='Alice
-             * Smith'>") simply: String actualName = shipTo.getString("name");
-             * 
-             * There are currently more elegant means to perform this task using the xPath support
-             */
-            List nameList = shipTo.getList("name");
-            DataObject name = (DataObject) nameList.get(0);
-            // access the contents of the name DataObject
-            Sequence s = name.getSequence();
-            String actualName = (String) s.getValue(0);
-            System.out.println("Name being shipped to: " + actualName);
+        /*
+         * With no model around, this next operation is currently quite cumbersome.
+         * In future specifications accessing
+         * the name element will be simplier and the user could simply execute:
+         * List nameList = shipTo.getList("name"); String actualName = (String)
+         * nameList.get(0);
+         * 
+         * Or if name is an attribute ("<shipTo country='US' name='Alice
+         * Smith'>") simply: String actualName = shipTo.getString("name");
+         * 
+         * There are currently more elegant means to perform this task using the xPath support
+         */
+        List nameList = shipTo.getList("name");
+        DataObject name = (DataObject) nameList.get(0);
+        // access the contents of the name DataObject
+        Sequence s = name.getSequence();
+        String actualName = (String) s.getValue(0);
+        System.out.println("Name being shipped to: " + actualName);
 
-        } catch (Exception e) {
-            System.out.println("Sorry, exception caught when creating DataObject : " + e.toString());
-            e.printStackTrace();
-        }
-        // end of sample
-        System.out.println("GoodBye");
     }
 }

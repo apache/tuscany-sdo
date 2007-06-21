@@ -20,19 +20,15 @@
 
 package org.apache.tuscany.samples.sdo.otherSources;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.List;
-
-import commonj.sdo.DataObject;
-import commonj.sdo.helper.HelperContext;
-import commonj.sdo.helper.XMLDocument;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+
+import commonj.sdo.DataObject;
+import commonj.sdo.helper.HelperContext;
+import commonj.sdo.helper.XMLDocument;
 
 /**
  * Reads purchase order DataObject from XML, based upon Fuhwei Lwo's paper <A

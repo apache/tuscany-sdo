@@ -85,24 +85,6 @@ public class CreatePurchaseOrder extends SampleBase {
     }
 
     /**
-     * Defines purchase order types using
-     * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XSD_RESOURCE}
-     * 
-     * @throws Exception
-     */
-    private void definePOTypes(HelperContext scope) throws Exception {
-
-        InputStream is = ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE);
-        if (is == null) {
-            System.out.println("InputStream is null");
-        } else {
-            System.out.println("Obtained Input Stream from resoruce");
-        }
-        scope.getXSDHelper().define(is, null);
-        is.close();
-    }
-
-    /**
      * Drives sample
      * 
      * @param args.
