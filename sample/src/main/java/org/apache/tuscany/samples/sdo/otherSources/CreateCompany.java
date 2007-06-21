@@ -99,7 +99,7 @@ public class CreateCompany extends SampleBase {
                "from an XML Schema contained in a file on the file system");
                 
         HelperContext scope = createScopeForTypes();       
-        loadXMLSchemaFromFile(scope, SdoSampleConstants.COMPANY_XSD);
+        loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.COMPANY_XSD);
         
         commentary(
             "Now that our type system has been loaded and made available through the scope\n"+

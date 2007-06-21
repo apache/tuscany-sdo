@@ -115,7 +115,7 @@ public class PurchaseOrderControl extends SampleBase {
         if ((xsdFileName == null) || (xsdFileName.equals("")) || (xsdFileName.equalsIgnoreCase("null"))) {
 
             // use simple example to define type from resource
-            loadXMLSchemaFromFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
+            loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
 
         } else {
             System.out.println("Using file to access xsd in order to define types");
@@ -144,7 +144,7 @@ public class PurchaseOrderControl extends SampleBase {
 
         if ((xmlFileName == null) || (xmlFileName.equals("")) || (xmlFileName.equalsIgnoreCase("null"))) {
 
-            purchaseOrder = loadXMLFromFile(scope, SdoSampleConstants.PO_XML_RESOURCE);
+            purchaseOrder = getDataObjectFromFile(scope, SdoSampleConstants.PO_XML_RESOURCE);
         } else {
             try {
 

@@ -108,7 +108,7 @@ public class CreateCompany extends org.apache.tuscany.samples.sdo.otherSources.C
             "other than the default scope. So here is an occasion where we must use"+
             "the default singleton scope");
         HelperContext scope = useDefaultScopeForTypes();
-        loadXMLSchemaFromFile(scope, SdoSampleConstants.COMPANY_XSD);
+        loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.COMPANY_XSD);
        
         commentary (COMMENTARY_FOR_INTERMEDIATE,
             "Here is the use of the Tuscany API for creating a DataGraph instance\n\n"+

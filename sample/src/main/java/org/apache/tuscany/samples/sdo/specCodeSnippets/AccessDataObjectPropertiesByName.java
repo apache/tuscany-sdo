@@ -95,9 +95,9 @@ public class AccessDataObjectPropertiesByName extends SampleBase {
 
         // setting up the type system for the example,  see the utility methods for details of these operations
         HelperContext scope = createScopeForTypes();
-        loadXMLSchemaFromFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
+        loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
 
-        DataObject purchaseOrder = loadXMLFromFile(scope, SdoSampleConstants.PO_XML_RESOURCE);
+        DataObject purchaseOrder = getDataObjectFromFile(scope, SdoSampleConstants.PO_XML_RESOURCE);
 
 
         System.out.println("Accessing properties by name");

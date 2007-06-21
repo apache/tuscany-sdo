@@ -19,21 +19,27 @@
  */
 package org.apache.tuscany.samples.sdo;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.tuscany.samples.sdo.otherSources.CreatePurchaseOrder;
+import org.apache.tuscany.samples.sdo.otherSources.ReadPurchaseOrder;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.DynamicCustomerTypeSample;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.ObtainingDataGraphFromXml;
 
 public class ExecuteSamples2 {
   
-  public static void main(String [] args) throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException {
+  public static void main(String [] args) throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException, IOException {
 
     Class[] sampleClasses = {
       org.apache.tuscany.samples.sdo.otherSources.CreateCompany.class,
+      ReadPurchaseOrder.class,
       AccessDataObjectPropertiesByName.class,
-
+      CreatePurchaseOrder.class,
       DynamicCustomerTypeSample.class,
       ObtainingDataGraphFromXml.class,
       org.apache.tuscany.samples.sdo.tuscanyapi.CreateCompany.class 
@@ -56,14 +62,21 @@ public class ExecuteSamples2 {
      *  By default run all samples from novice level right up to advanced level.
      *  Edit this to run fewer samples.
      */
-    int sampleLevel = SampleInfrastructure.SAMPLE_LEVEL_ADVANCED.intValue(); 
+    int runSamplesUpToLevel = SampleInfrastructure.SAMPLE_LEVEL_ADVANCED.intValue(); 
     
+    BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+    
+    int sampleCount = 0;
     for (int i=0; i < sampleClasses.length; i++) {
       Constructor c = sampleClasses[i].getConstructor(constructorArgTypes);
       SampleBase sample = (SampleBase)c.newInstance(constructorArgs);
-      if(sample.getSampleComplexityLevel() <= sampleLevel) {
+      if(sample.getSampleComplexityLevel() <= runSamplesUpToLevel) {
         sample.run();
+        sampleCount++;
+        System.out.println(">>>Press Enter to continue");
+        in.readLine();
       }
     }
+    System.out.println("Ran " + sampleCount + " samples");
   }
 }

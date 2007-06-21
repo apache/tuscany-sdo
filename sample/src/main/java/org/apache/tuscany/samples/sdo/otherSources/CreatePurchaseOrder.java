@@ -25,10 +25,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 import commonj.sdo.DataObject;
+import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.HelperContext;
+import commonj.sdo.helper.XMLDocument;
 
 /**
  * Demonstrates creating a purchaseOrder DataObject from an existing XSD and then
@@ -77,8 +80,8 @@ import commonj.sdo.helper.HelperContext;
 
 public class CreatePurchaseOrder extends SampleBase {
 
-    public CreatePurchaseOrder(Integer intermediate) {
-      super(intermediate);
+    public CreatePurchaseOrder(Integer commentaryLevel) {
+      super(commentaryLevel, SampleInfrastructure.SAMPLE_LEVEL_NOVICE);
     }
 
     /**
@@ -107,78 +110,100 @@ public class CreatePurchaseOrder extends SampleBase {
      */
     public static void main(String[] args) {
 
-      // TODO make the default level COMMENTARY_FOR_NOVICE, once the rest of the sample has been
-      // converted to using commentary()
-      CreatePurchaseOrder sample = new CreatePurchaseOrder(COMMENTARY_FOR_INTERMEDIATE);
+
+      CreatePurchaseOrder sample = new CreatePurchaseOrder(COMMENTARY_FOR_NOVICE);
 
       sample.run();
 
     }
     
     public void runSample() throws Exception {
-        try {
 
-            System.out.println("***************************************");
-            System.out.println("SDO Sample CreatePurchaseOrder");
-            System.out.println("***************************************");
-            System.out.println("This sample is based upon Fuhwei Lwo's paper "
-                    + "http://www-128.ibm.com/developerworks/webservices/library/ws-sdoxmlschema/"
-                    + " and demonstrates creating a purchaseOrder DataObject from an "
-                    + " existing XSD and then persisting to disk. Uses previously defined model");
+          commentary(COMMENTARY_ALWAYS,
+              "This sample is based upon Fuhwei Lwo's paper\n"
+              + "http://www-128.ibm.com/developerworks/webservices/library/ws-sdoxmlschema/\n"
+              + "and demonstrates creating a purchaseOrder DataObject from an\n"
+              + "existing XSD and then persisting to disk. Uses previously defined model");
 
-            System.out.println("***************************************");
+          HelperContext scope = createScopeForTypes();
+          
+          loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
+          
+          
+          commentary (COMMENTARY_FOR_NOVICE,
+              "We are creating a DataObject using a DataFactory by specifying the URI and name of\n"+
+              "the Type that we want to use for the DataObject.\n\n"+
+              "DataFactory factory = scope.getDataFactory();\n"+
+              "DataObject purchaseOrder = factory.create(SdoSampleConstants.PO_NAMESPACE, \"PurchaseOrderType\");");
+          
+          DataFactory factory = scope.getDataFactory();           
+          DataObject purchaseOrder = factory.create(SdoSampleConstants.PO_NAMESPACE, "PurchaseOrderType");
 
-            HelperContext scope = createScopeForTypes();
-            
-            definePOTypes(scope);
-            System.out.println("Defined Types using xsd");
-            DataObject purchaseOrder = scope.getDataFactory().create(SdoSampleConstants.PO_NAMESPACE, "PurchaseOrderType");
-            System.out.println("Created DataObject using DataFactory");
 
-            purchaseOrder.setString("orderDate", "1999-10-20");
+          commentary(COMMENTARY_FOR_NOVICE,
+              "Now we build on the graph using the DataObject's set() and createDataObject() methods.\n"+
+              "Take a look inside the program code for the full detail of these steps");
+          
+          purchaseOrder.setString("orderDate", "1999-10-20");
+          DataObject shipTo = purchaseOrder.createDataObject("shipTo");
+          shipTo.set("country", "US");
+          shipTo.set("name", "Alice Smith");
+          shipTo.set("street", "123 Maple Street");
+          shipTo.set("city", "Mill Valley");
+          shipTo.set("state", "CA");
+          shipTo.setString("zip", "90952");
+          DataObject billTo = purchaseOrder.createDataObject("billTo");
+          billTo.set("country", "US");
+          billTo.set("name", "Robert Smith");
+          billTo.set("street", "8 Oak Avenue");
+          billTo.set("city", "Mill Valley");
+          billTo.set("state", "PA");
+          billTo.setString("zip", "95819");
+          purchaseOrder.set("comment", "Hurry, my lawn is going wild!");
 
-            DataObject shipTo = purchaseOrder.createDataObject("shipTo");
-            shipTo.set("country", "US");
-            shipTo.set("name", "Alice Smith");
-            shipTo.set("street", "123 Maple Street");
-            shipTo.set("city", "Mill Valley");
-            shipTo.set("state", "CA");
-            shipTo.setString("zip", "90952");
-            DataObject billTo = purchaseOrder.createDataObject("billTo");
-            billTo.set("country", "US");
-            billTo.set("name", "Robert Smith");
-            billTo.set("street", "8 Oak Avenue");
-            billTo.set("city", "Mill Valley");
-            billTo.set("state", "PA");
-            billTo.setString("zip", "95819");
-            purchaseOrder.set("comment", "Hurry, my lawn is going wild!");
-            System.out.println("Created orderDate, shipTo, billTo and comment properties");
+          DataObject items = purchaseOrder.createDataObject("items");
 
-            DataObject items = purchaseOrder.createDataObject("items");
+          DataObject item1 = items.createDataObject("item");
+          item1.set("partNum", "872-AA");
+          item1.set("productName", "Lawnmower");
+          item1.setInt("quantity", 1);
+          item1.setString("price", "148.95");
 
-            DataObject item1 = items.createDataObject("item");
-            item1.set("partNum", "872-AA");
-            item1.set("productName", "Lawnmower");
-            item1.setInt("quantity", 1);
-            item1.setString("price", "148.95");
+          item1.set("comment", "Confirm this is electric");
 
-            item1.set("comment", "Confirm this is electric");
+          DataObject item2 = items.createDataObject("item");
+          item2.set("partNum", "926-AA");
+          item2.set("productName", "Baby Monitor");
+          item2.setInt("quantity", 1);
+          item2.setString("price", "39.98");
+          item2.setString("shipDate", "1999-05-21");
+          System.out.println("Created 2 items");
 
-            DataObject item2 = items.createDataObject("item");
-            item2.set("partNum", "926-AA");
-            item2.set("productName", "Baby Monitor");
-            item2.setInt("quantity", 1);
-            item2.setString("price", "39.98");
-            item2.setString("shipDate", "1999-05-21");
-            System.out.println("Created 2 items");
+          commentary(COMMENTARY_FOR_NOVICE,
+              "Now we use the XMLHelper to write an XML document representing the data graph\n"+
+              "to a file.  We must supply a namespace and a name for the root element of the graph, since it is\n"+
+              "not contained in the DataObject\n\n"+
+              "OutputStream stream = new FileOutputStream(SdoSampleConstants.PO_XML_GENERATED);\n"+
+              "scope.getXMLHelper().save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, \"purchaseOrder\", stream);"
+              );
+          
+          
+          OutputStream stream = new FileOutputStream(SdoSampleConstants.PO_XML_GENERATED);
+          scope.getXMLHelper().save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder", stream);
+          stream.close();
 
-            OutputStream stream = new FileOutputStream(SdoSampleConstants.PO_XML_GENERATED);
-            scope.getXMLHelper().save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder", stream);
-            System.out.println("Created file " + SdoSampleConstants.PO_XML_GENERATED);
-        } catch (Exception e) {
-            System.out.println("Sorry an error occured " + e.toString());
-            e.printStackTrace();
-        }
-        System.out.println("GoodBye");
-    }
+          commentary(COMMENTARY_FOR_NOVICE,
+              "We could instead have created an XMLDocument instance to wrap the DataObject\n"+
+              "This has the advantage that the namespace URI and root element name are preserved in the Object\n"+
+              "This interface was introduced after Fuhwei's paper,  and has particular advantage\n"+
+              "when loading an XML document from a file\n\n"+
+              "scope.getXMLHelper().createDocument(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, \"purchaseOrder\");\n"+
+              "scope.getXMLHelper().save(doc, System.out, null);");
+          
+          
+          XMLDocument doc = scope.getXMLHelper().createDocument(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder");
+          scope.getXMLHelper().save(doc, System.out, null);
+          System.out.println();
+      }
+
 }

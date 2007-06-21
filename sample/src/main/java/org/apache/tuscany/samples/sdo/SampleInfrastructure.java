@@ -61,7 +61,7 @@ public abstract class SampleInfrastructure {
   protected static final Integer COMMENTARY_FOR_ADVANCED = new Integer(2);
   protected static final Integer COMMENTARY_ALWAYS = new Integer(3);
   
-  protected static final String[] userLevels = {"COMMENTARY_FOR_NOVICE","COMMENTARY_FOR_INTERMEDIATE","COMMENTARY_FOR_ADVANCED","COMMENTARY_ALWAYS"};
+  protected static final String[] userLevels = {"novice","intermediate","advanced"};
   
   public void banner(char borderChar, String text) {
     if(text == null || text.length() == 0) {
@@ -167,12 +167,17 @@ public abstract class SampleInfrastructure {
   }
   
   public void run() {
+ 
     
-    commentary(COMMENTARY_ALWAYS,"    Tuscany SDO Java Sample " + this.getClass().getName() + "    ");
     commentary(COMMENTARY_FOR_INTERMEDIATE, "Running with commentary level for a " + userLevels[commentaryLevel] + " user\n"+
-        "Edit the sample program's constructor argument to one from COMMENTARY_FOR_NOVICE, COMMENTARY_FOR_INTERMEDIATE or COMMENTARY_FOR_ADVANCED\n"+
+        "Edit the sample program's constructor argument to one from\n"+
+        "COMMENTARY_FOR_NOVICE\nCOMMENTARY_FOR_INTERMEDIATE or\nCOMMENTARY_FOR_ADVANCED\n"+
         "in order to alter the level of commentary you are seeing",
         "");
+    
+    commentary(COMMENTARY_ALWAYS,"    Tuscany SDO Java Sample " + this.getClass().getName() + "    \n"+
+        "    This sample is aimed at a " + userLevels[sampleComplexityLevel] + " user");
+
     
     try {
       runSample();

@@ -20,7 +20,11 @@
 
 package org.apache.tuscany.samples.sdo;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringBufferInputStream;
+import java.io.StringReader;
 
 import org.apache.tuscany.sdo.api.SDOUtil;
 
@@ -95,7 +99,7 @@ public abstract class SampleBase extends SampleInfrastructure {
   }
   
   
-  protected void loadXMLSchemaFromFile(HelperContext scope, String fileName) {
+  protected void loadTypesFromXMLSchemaFile(HelperContext scope, String fileName) {
     commentary(COMMENTARY_FOR_NOVICE,
         "If you want to create types dynamically by loading an XML schema you\n" +
         "use an instance of XSDHelper. You get that helper from a HelperContext.\n" +
@@ -125,29 +129,70 @@ public abstract class SampleBase extends SampleInfrastructure {
    }
   }
   
-  public DataObject loadXMLFromFile(HelperContext scope, String filename)
+  public DataObject getDataObjectFromFile(HelperContext scope, String filename)
       throws Exception {
 
-    DataObject result = null;
+
+    XMLDocument xmlDoc = getXMLDocumentFromFile(scope, filename);
+    commentary(COMMENTARY_FOR_NOVICE,
+        "An XMLDocument instance provides a wrapper for the root DataObject of a data graph\n" +
+        "along with other aspects of the XML nature of the document\n\n"+
+        "DataObject result = xmlDoc.getRootObject();",
+        
+        "Geting the root object from an XMLDocument as seen in previous samples"
+    );
+    DataObject result = xmlDoc.getRootObject();
+
+    return result;
+  }
+  
+  public XMLDocument getXMLDocumentFromFile(HelperContext scope,
+      String filename) throws Exception {
+
+    XMLDocument result = null;
     InputStream is = null;
 
     try {
-      is = ClassLoader
-          .getSystemResourceAsStream(filename);
-      XMLDocument xmlDoc = scope.getXMLHelper().load(is);
-      result = xmlDoc.getRootObject();
-
+      commentary(COMMENTARY_FOR_NOVICE,
+          "The XMLHelper can be used to create an SDO XMLDocument instance from a file\n\n"+
+          "inputStream = ClassLoader.getSystemResourceAsStream(filename);\n"+
+          "result = scope.getXMLHelper().load(is);",
+      
+          "Getting an XMLDocument instance from an XML file as seen in previous samples"
+      );
+      is = ClassLoader.getSystemResourceAsStream(filename);
+      result = scope.getXMLHelper().load(is);
+      
     } catch (Exception e) {
       somethingUnexpectedHasHappened(e);
     } finally {
-        try {
-          is.close();
-        } catch (Exception e) {
-          somethingUnexpectedHasHappened(e);
-        }
+      try {
+        is.close();
+      } catch (Exception e) {
+        somethingUnexpectedHasHappened(e);
+      }
     }
 
     return result;
+  }
+  
+  protected XMLDocument getXMLDocumentFromString(HelperContext scope, String xmlDoc) throws IOException {
+    XMLDocument result = null;
+    InputStream is = null;
+
+
+      commentary(COMMENTARY_FOR_NOVICE,
+          "The XMLHelper can be used to create an SDO XMLDocument instance from an\n\n"+
+          "inputStream = new ByteArrayInputStream(xmlDoc.getBytes());\n"+
+          "result = scope.getXMLHelper().load(is);",
+      
+          "Getting an XMLDocument instance from an XML file as seen in previous samples"
+      );
+      
+      is = new ByteArrayInputStream(xmlDoc.getBytes());
+      result = scope.getXMLHelper().load(is);
+      
+      return result;
   }
 
 }
