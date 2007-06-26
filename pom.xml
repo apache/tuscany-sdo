@@ -75,7 +75,7 @@
 
     <properties>
         <specVersion>2.1</specVersion>
-        <emfVersion>2.2.2</emfVersion>
+        <emfVersion>2.2.3</emfVersion>
         <sdo.version>${version}</sdo.version>
     </properties>
 
