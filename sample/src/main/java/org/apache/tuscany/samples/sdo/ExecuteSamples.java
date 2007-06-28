@@ -108,9 +108,7 @@ public class ExecuteSamples {
             DynamicCustomerTypeSample.main(args);
             System.out.println(">>>Press Enter for next sample");
             in.readLine();
-            PrintPropertiesOfDataObject.main(args);
-            System.out.println(">>>Press Enter for next sample");
-            in.readLine();
+
             ObtainingDataGraphFromXml.main(args);
 
             System.out.println();

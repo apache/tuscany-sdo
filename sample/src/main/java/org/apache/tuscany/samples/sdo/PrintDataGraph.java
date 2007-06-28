@@ -24,8 +24,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.apache.tuscany.samples.sdo.specCodeSnippets.PrintPropertiesOfDataObject;
-
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
