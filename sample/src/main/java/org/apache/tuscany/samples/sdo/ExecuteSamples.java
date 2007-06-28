@@ -92,9 +92,6 @@ public class ExecuteSamples {
             CreateDataObjectFromXmlString.main(args);
             System.out.println(">>>Press Enter for next sample");
             in.readLine();
-            CreateDataObjectFromXsdAndXmlFiles.main(args);
-            System.out.println(">>>Press Enter for next sample");
-            in.readLine();
             AccessDataObjectPropertiesByName.main(args);
             System.out.println(">>>Press Enter to continue");
             in.readLine();
@@ -112,9 +109,6 @@ public class ExecuteSamples {
             System.out.println(">>>Press Enter for next sample");
             in.readLine();
             PrintPropertiesOfDataObject.main(args);
-            System.out.println(">>>Press Enter for next sample");
-            in.readLine();
-            UsingXPath.main(args);
             System.out.println(">>>Press Enter for next sample");
             in.readLine();
             ObtainingDataGraphFromXml.main(args);
@@ -150,7 +144,7 @@ public class ExecuteSamples {
             System.out.println(">>>Press Enter for next sample");
             in.readLine();
 
-            SerializingDesearializingADataObject.main(args);
+            SerializingDeserializingADataObject.main(args);
             System.out.println(">>>Press Enter for next sample");
             in.readLine();
 

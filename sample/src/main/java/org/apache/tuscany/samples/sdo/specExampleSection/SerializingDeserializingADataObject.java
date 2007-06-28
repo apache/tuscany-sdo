@@ -86,18 +86,18 @@ import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertie
  * 
  * These jar files can be obtained by downloading and unpacking a <a href="http://cwiki.apache.org/TUSCANY/sdo-downloads.html" target="_blank">Tuscany binary distribution </a> </LI>
  * <LI>Execute: <br>
- * java org.apache.tuscany.samples.sdo.specExampleSection.SerializingDesearializingADataObject</LI>
+ * java org.apache.tuscany.samples.sdo.specExampleSection.SerializingDeserializingADataObject</LI>
  * </UL>
  * 
  * @author Robbie Minshall
  */
 
-public class SerializingDesearializingADataObject  extends SampleBase {
+public class SerializingDeserializingADataObject  extends SampleBase {
 
 
     HelperContext scope;
 
-    public SerializingDesearializingADataObject(Integer userLevel) {
+    public SerializingDeserializingADataObject(Integer userLevel) {
       super(userLevel);
     }
 

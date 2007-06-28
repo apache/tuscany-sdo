@@ -147,7 +147,7 @@ public class DynamicCustomerTypeSample extends SampleBase {
       commentary("To begin modelling the type system we create a DataObject with\n"+
           "Type \"commonj.sdo#Type\" and set the URI and name for that type\n\n"+
           
-          "DataObject customerType = scope.getDataFactory().create(\"commonj.sdo\", \"Type\");"+
+          "DataObject customerType = scope.getDataFactory().create(\"commonj.sdo\", \"Type\");\n"+
           "customerType.set(\"uri\", \"http://example.com/customer\");\n"+
           "customerType.set(\"name\", \"Customer\");");
       
@@ -157,8 +157,8 @@ public class DynamicCustomerTypeSample extends SampleBase {
       
       commentary("Now we can create a model for the Properties for the Type\n"+
           "and set the name and Types of those Properties\n\n"+
-          "DataObject custNumProperty = customerType.createDataObject(\"property\");"+
-          "custNumProperty.set(\"name\", \"custNum\");"+
+          "DataObject custNumProperty = customerType.createDataObject(\"property\");\n"+
+          "custNumProperty.set(\"name\", \"custNum\");\n"+
           "custNumProperty.set(\"type\", intType);"
       );
       
@@ -192,7 +192,7 @@ public class DynamicCustomerTypeSample extends SampleBase {
       }
 
       commentary("Now we can create an instance of the type using the DataFactory associated with the type scope\n\n"+
-          "DataFactory factory = scope.getDataFactory();"+
+          "DataFactory factory = scope.getDataFactory();\n"+
           "DataObject customer1 = factory.create(\"http://example.com/customer\", \"Customer\");");
 
       DataFactory factory = scope.getDataFactory();

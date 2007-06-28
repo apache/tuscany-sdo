@@ -341,7 +341,7 @@ public class PurchaseOrderControl extends SampleBase {
      */
     public void printPurchaseOrderProperties() throws Exception {
         // use previously created method from simple sample
-        PrintPropertiesOfDataObject.printDataObjectProperties(purchaseOrder);
+        //PrintPropertiesOfDataObject.printDataObjectProperties(purchaseOrder);
     }
 
     /**

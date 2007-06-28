@@ -99,7 +99,7 @@ public class CreateDataObjectFromXmlString extends SampleBase {
         
         commentary("Demonstrates creating a DataObject from a String of XML,\n" +
             "based upon section titled 'Creating DataObjects from XML documents'\n"+
-            "This quite unassuming sample demonstrares the maxim of 'less is more'\n"+
+            "This quite unassuming sample demonstrates the maxim of 'less is more'\n"+
             "in that it might look like other samples where the XML document was loaded\n"+
             "from a file or string,  but note that we don't define any Types before loading\n"+
             "the document. Built in generic types are used to model the data graph");

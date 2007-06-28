@@ -180,7 +180,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
             System.out.println(dataObjectRepresentingDataGraph);
             
             commentary(
-                "If you are confused by the fact that whatt we really get is an instance of DataGraphTypeImpl\n"+
+                "If you are confused by the fact that what we really get is an instance of DataGraphTypeImpl\n"+
                 "This really is a DataObject,  but it is a generated class extending DataObjectImpl\n+"+
                 "representing the DataGraph model.");
 

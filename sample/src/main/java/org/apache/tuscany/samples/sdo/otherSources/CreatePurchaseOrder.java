@@ -21,11 +21,9 @@
 package org.apache.tuscany.samples.sdo.otherSources;
 
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 import commonj.sdo.DataObject;
@@ -81,7 +79,7 @@ import commonj.sdo.helper.XMLDocument;
 public class CreatePurchaseOrder extends SampleBase {
 
     public CreatePurchaseOrder(Integer commentaryLevel) {
-      super(commentaryLevel, SampleInfrastructure.SAMPLE_LEVEL_NOVICE);
+      super(commentaryLevel, SAMPLE_LEVEL_NOVICE);
     }
 
     /**
@@ -112,7 +110,7 @@ public class CreatePurchaseOrder extends SampleBase {
           loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
           
           
-          commentary (COMMENTARY_FOR_NOVICE,
+          commentary (
               "We are creating a DataObject using a DataFactory by specifying the URI and name of\n"+
               "the Type that we want to use for the DataObject.\n\n"+
               "DataFactory factory = scope.getDataFactory();\n"+
@@ -122,7 +120,7 @@ public class CreatePurchaseOrder extends SampleBase {
           DataObject purchaseOrder = factory.create(SdoSampleConstants.PO_NAMESPACE, "PurchaseOrderType");
 
 
-          commentary(COMMENTARY_FOR_NOVICE,
+          commentary(
               "Now we build on the graph using the DataObject's set() and createDataObject() methods.\n"+
               "Take a look inside the program code for the full detail of these steps");
           
@@ -161,7 +159,7 @@ public class CreatePurchaseOrder extends SampleBase {
           item2.setString("shipDate", "1999-05-21");
           System.out.println("Created 2 items");
 
-          commentary(COMMENTARY_FOR_NOVICE,
+          commentary(
               "Now we use the XMLHelper to write an XML document representing the data graph\n"+
               "to a file.  We must supply a namespace and a name for the root element of the graph, since it is\n"+
               "not contained in the DataObject\n\n"+
@@ -174,7 +172,7 @@ public class CreatePurchaseOrder extends SampleBase {
           scope.getXMLHelper().save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder", stream);
           stream.close();
 
-          commentary(COMMENTARY_FOR_NOVICE,
+          commentary(
               "We could instead have created an XMLDocument instance to wrap the DataObject\n"+
               "This has the advantage that the namespace URI and root element name are preserved in the Object\n"+
               "This interface was introduced after Fuhwei's paper,  and has particular advantage\n"+

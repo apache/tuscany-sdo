@@ -46,7 +46,8 @@ public class ExecuteSamples2 {
       DynamicCustomerTypeSample.class,
       ObtainingDataGraphFromXml.class,
       org.apache.tuscany.samples.sdo.tuscanyapi.CreateCompany.class,
-      CreateDataObjectFromXmlString.class
+      CreateDataObjectFromXmlString.class,
+      PrintDataGraph.class
      
     };
     
