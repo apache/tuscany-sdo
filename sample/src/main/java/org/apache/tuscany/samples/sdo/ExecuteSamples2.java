@@ -33,10 +33,16 @@ import org.apache.tuscany.samples.sdo.specCodeSnippets.CreateDataObjectFromXmlSt
 import org.apache.tuscany.samples.sdo.specCodeSnippets.DynamicCustomerTypeSample;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.ObtainingDataGraphFromXml;
 
+/**
+ * A Program to execute a sequence of SDO sample programs.
+ */
 public class ExecuteSamples2 {
   
   public static void main(String [] args) throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException, IOException {
 
+    /**
+     * Here's the list of sample programs that we are going to execute,  in this sequence.
+     */
     Class[] sampleClasses = {
       org.apache.tuscany.samples.sdo.otherSources.CreateCompany.class,
       ReadPurchaseOrder.class,
@@ -53,7 +59,7 @@ public class ExecuteSamples2 {
     
     Class[] constructorArgTypes = { Integer.class };
 
-    /*
+    /**
      * Edit the value of this argument to one of COMMENTARY_FOR_NOVICE, COMMENTARY_FOR_INTERMEDIATE or COMMENTARY_FOR_ADVANCED to see
      * more or less commentary.  Note,  this value only controls the level of commentary,
      * not which samples are executed.  Use it to filter out the noise if you have already
@@ -62,7 +68,7 @@ public class ExecuteSamples2 {
     Object[] constructorArgs = { SampleInfrastructure.COMMENTARY_FOR_NOVICE };  
     
 
-    /*
+    /**
      *  By default run all samples from novice level right up to advanced level.
      *  Edit this to run fewer samples.
      */

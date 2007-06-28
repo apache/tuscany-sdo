@@ -104,17 +104,18 @@ public class PrintDataGraph extends SampleBase {
     if (dataObject.getContainer() == null) {
       commentary(
           COMMENTARY_FOR_NOVICE,
-          "We begin traversing the data graph by examining the root object of the graph's containment hierarchy\n"
+          "We begin traversing the data graph by examining the root object of the graph's containment hierarchy,\n"
               + "making a record of the values of its Properties. As we inspect the values of the Properties of this object\n"
               + "if we encounter contained DataObjects, then we will recurse through the containment hierarchy of the\n"
               + "data graph in a depth first fashion, and create a text representaation of the graph that we'll print\n"
               + "out after the graph traversal has been completed.",
 
-          "We are beginning to start to traverse another data graph from its root object, as we have seen previously");
+          "We are beginning to traverse another data graph from its root object, in the same way that we saw previously");
     } else {
       commentary(
           COMMENTARY_FOR_NOVICE,
-          "We have arrived at a contained dataObject in the graph, and will inspect its Property values,\n recursing deeper if necessary",
+          "We have arrived at a contained dataObject in the graph, and will inspect its Property values,\n"
+              + "recursing deeper if necessary",
 
           "Inspecting another contained dataObject");
     }
@@ -132,7 +133,7 @@ public class PrintDataGraph extends SampleBase {
       commentary(
           COMMENTARY_FOR_INTERMEDIATE,
           "We've encountered a DataObject in the graph for which the Type is 'Sequenced'\n"
-              + "That is to say that the order of addition of property values to the DataObject instance\n"
+              + "That is to say that the order of addition of Property values to the DataObject instance\n"
               + "is important,  and is preserved by the DataObject\n\n"
               + "dataObject.getType().isSequenced();",
 
@@ -150,7 +151,7 @@ public class PrintDataGraph extends SampleBase {
           "We access the Property values of this DataObject by first getting the list of 'Instance Properties'\n"
               + "from the DataObject.  For many DataObjects, this will be the same set of Properties that are defined\n"
               + "by the DataObject's Type.  However, if the DataObject's type is 'Open' then an instance of that Type\n"
-              + "may contain more Properties that the type itself.  The list of Instance Properties will always include\n"
+              + "may contain more Properties than the type itself.  The list of Instance Properties will always include\n"
               + "the Properties defined in the Type,  but will also include any Properties that the instance has values for\n"
               + "by virtue of it's type being 'Open'\n\n"
               + "for (int i = 0; i < dataObject.getInstanceProperties().size(); i++) {\n"
@@ -178,8 +179,8 @@ public class PrintDataGraph extends SampleBase {
     commentary(
         COMMENTARY_FOR_INTERMEDIATE,
         "The Property/Value pairs of a Sequence can be accessed via the getProperty(int) and getValue(int)\n"
-            + "accessor methods of the Sequence interface.  The size() method of the Sequence tells us how many there are\n"
-            + "If the getProperty(int) method retunes null,  then the value is text.  These values may be encountered\n"
+            + "accessor methods of the Sequence interface.  The size() method of the Sequence tells us how many there are.\n"
+            + "If the getProperty(int) method retunes null,  then the value is text.  These text values may be encountered\n"
             + "when the DataObject's type is 'mixed' (dataObject.getType().isMixed() == true). A typical example of this\n"
             + "is when the data graph represents a form letter.",
 
@@ -216,13 +217,13 @@ public class PrintDataGraph extends SampleBase {
             + "consider the nature of that Property in order to deal with it appropriately.\n"
             + "Firstly we see if the Property value has been set (dataObject.isSet(property))\n"
             + "Then we see if the Property is simple valued (property.isDataType() == true)\n"
-            + "--if not then we know it's a DataObject and we must recurse deepen into the graph's\n"
+            + "--if not then we know it's a DataObject and we must recurse deeper into the graph's\n"
             + "containment hierarchy\n"
             + "Whether or not the property value is a DataObject,  is may be single or multi-valued\n"
             + "so we must either use one of the DataObject's get*(Property) accessors for single\n"
             + "valued Properties or the getList() method for multi-valued properties.\n"
             + "Another thing we must deal with when the Property is a DataObject, is whether or not the\n"
-            + "Property is a 'containment' Property.  If it isn't then we simple record the fact that\n"
+            + "Property is a 'containment' Property.  If it isn't, then here we simply record the fact that\n"
             + "we have encountered this non-containment relationship,  and move on to the next Property",
 
         "Inspecting another property to determine how to access it's value,  as we saw before");
@@ -269,7 +270,7 @@ public class PrintDataGraph extends SampleBase {
         COMMENTARY_FOR_INTERMEDIATE,
         "We have encounted a non-containment reference to a DataObject, and so\n"
             + "we know that this DataObject will be fully inspected when encountered by the\n"
-            + "traversal of the data graph's containment hierarchy\n"
+            + "traversal of the data graph's containment hierarchy.\n"
             + "We therefore record the fact that this association has been encountered by\n"
             + "establishing the path from the root object of the data graph to the referenced\n"
             + "DataObject",
@@ -397,7 +398,7 @@ public class PrintDataGraph extends SampleBase {
     System.out.println(getBuf().toString());
 
     commentary(COMMENTARY_ALWAYS,
-        "Next we look at a graph represneting a form letter,  where the Type of the\n"
+        "Next we look at a graph representing a form letter,  where the Type of the\n"
             + "root data object is 'Sequenced'");
 
     loadTypesFromXMLSchemaFile(scope, "letter.xsd");
