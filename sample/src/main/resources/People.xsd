@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="www.example.org/people"
+	xmlns:sdo="commonj.sdo"
+    xmlns:sdoxml="commonj.sdo/xml"
+	xmlns:tns="www.example.org/people">
+
+	<!--   <import namespace="commonj.sdo/xml" schemaLocation="sdoXML.xsd" /> -->
+				
+	<complexType name="Person">
+		<sequence>
+			<element name="dob" type="date"/>
+			<element name="relative" maxOccurs="unbounded" type="tns:Relative"/>
+			<any namespace="##other" processContents="lax" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="id" type="ID"/>
+		<attribute name="name" type="string"/>
+	    <attribute name="gender" type = "tns:Gender"/>	
+	</complexType>
+	
+	<!-- <complexType name="Parent">
+	    <attribute name="parent" type="IDREF" sdoxml:propertyType="tns:Person" use="required"/>
+	    <attribute name="genetic" use="optional" type="boolean"/>
+	</complexType>  -->
+	
+	<complexType name="Relative">
+	    <attribute name="target" type="IDREF" sdoxml:propertyType="tns:Person" use="required"/>
+	    <attribute name="relationship" type="string" />
+	    <attribute name="genetic" use="optional" type="boolean"/>
+	</complexType>
+	
+	<!-- <complexType name="GeneticParent">
+		<complexContent>
+		<extension base="tns:Parent">
+		</extension>
+		</complexContent>
+	</complexType>  -->
+	
+	<complexType name="PersonSet">
+		<sequence>
+			<element name="person" type="tns:Person" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+
+	<simpleType name="Gender">
+       <restriction base="string">
+		   <enumeration value="male" />
+		   <enumeration value="female" />	
+	   </restriction>
+	</simpleType>
+
+</schema>

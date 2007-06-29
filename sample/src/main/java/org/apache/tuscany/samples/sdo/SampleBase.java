@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringBufferInputStream;
 import java.io.StringReader;
+import java.net.URL;
+import java.util.List;
 
 import org.apache.tuscany.sdo.api.SDOUtil;
 
@@ -115,9 +117,11 @@ public abstract class SampleBase extends SampleInfrastructure {
     
     InputStream is = null;
     try {
+    	
+        URL url = getClass().getResource("/"+fileName);
+        is = url.openStream();
+        xsdHelper.define(is, url.toString());
 
-        is = ClassLoader.getSystemResourceAsStream(fileName);
-        xsdHelper.define(is, null);
      } catch (Exception e) {
         somethingUnexpectedHasHappened(e);
      } finally {
