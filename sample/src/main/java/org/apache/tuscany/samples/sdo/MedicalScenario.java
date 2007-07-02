@@ -24,8 +24,10 @@ import java.util.List;
 
 import org.apache.tuscany.sdo.api.SDOUtil;
 
+
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
+import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.HelperContext;
@@ -44,7 +46,11 @@ public class MedicalScenario extends SampleBase {
 
   private static final String medicalURI = "www.example.org/MedicalTest";
 
-  boolean typesViaAPI = false;
+  boolean typesViaAPI = true;
+
+  private static final String usage = " [-api |-xsd]\n"
+      + "   -api : define the types using the SDO API\n"
+      + "   -xsd : define the types using an XML schema file";
 
   public MedicalScenario(String[] args, Integer userLevel) {
 
@@ -65,10 +71,14 @@ public class MedicalScenario extends SampleBase {
       }
     }
   }
+  
+  public MedicalScenario(Integer userLevel) {
+    super(userLevel, SAMPLE_LEVEL_INTERMEDIATE);
+  }
+  
 
   private void printUsage(String[] args) {
-    System.out.println("Usage: " + this.getClass().getCanonicalName()
-        + " [-xsd | -api]");
+    System.out.println("Usage: " + this.getClass().getCanonicalName() + usage);
   }
 
   /**
@@ -87,85 +97,174 @@ public class MedicalScenario extends SampleBase {
     HelperContext scope = SDOUtil.createHelperContext();
 
     if (typesViaAPI) {
+
       commentary("In this execution of the sample we use Types created\n"
           + "using the SDO API");
+
       createTypesViaAPI(scope);
+
     } else {
+
       commentary("In this execution of the sample we use Types created\n"
           + "by loading an XMLSchema");
+
       loadTypesFromXMLSchemaFile(scope, "MedicalTest.xsd");
+
     }
 
-    commentary(COMMENTARY_FOR_NOVICE,
+    commentary(
+        COMMENTARY_FOR_NOVICE,
         "The DataFactory associated with the scope that the types were created within\n"
-          + "can be used to create an instance of the Person Type\n\n"
-          + "DataFactory dataFactory = scope.getDataFactory();\n"
-          + "DataObject person1 = dataFactory.create(\"www.example.org/people\", \"Person\");");
-    
+            + "can be used to create an instance of the Person Type\n\n"
+            + "DataFactory dataFactory = scope.getDataFactory();\n"
+            + "DataObject person1 = dataFactory.create(\"www.example.org/people\", \"Person\");");
+
     DataFactory dataFactory = scope.getDataFactory();
     DataObject person1 = dataFactory.create("www.example.org/people", "Person");
-    
-    commentary(
-        "The setString() of dataObject method is used to set the properties of the\n"
+
+    commentary("The setString() of dataObject method is used to set the properties of the\n"
         + "new Person DataObject, including a unique identifier reference value\n"
-        + "for the Person instance.");
+        + "for the Person instance.\n\n"
+        + "person1.setString(\"id\", \"1\");\n"
+        + "person1.setString(\"name\", \"Joe Johnson Snr.\");\n"
+        + "person1.setString(\"gender\", \"male\"););");
 
     person1.setString("id", "1");
     person1.setString("name", "Joe Johnson Snr.");
     person1.setString("gender", "male");
 
+    commentary("An alternative approach to using the DataFactory directly to create\n"
+        + "all DataObjects is to use a top-down approach,  where we create the\n"
+        + "root object for a data graph,  and then use the createDataObject(String propertyName)\n"
+        + "method to create the contained DataObjects.  Here we create the overall\n"
+        + "medical test DataObject,  and then create the contained \"referrals\" DataObject\n\n"
+        + "DataObject test = dataFactory.create(\"www.example.org/MedicalTest\", \"Test\");\n"
+        + "DataObject referrals = test.createDataObject(\"referrals\");");
+
     DataObject test = dataFactory.create("www.example.org/MedicalTest", "Test");
     DataObject referrals = test.createDataObject("referrals");
+
+    commentary("Now we can add the person we created earlier into the set of people who have\n"
+        + "been referred for this medical test.\n\n"
+        + "test.set(\"referrals\", referrals);\n"
+        + "referrals.getList(\"person\").add(person1);");
+
     test.set("referrals", referrals);
     referrals.getList("person").add(person1);
 
+    commentary("Let's take a look at how the current state of the data"
+        + "graph is rendered in XML ...");
 
     System.out.println(scope.getXMLHelper().save(test,
         "www.example.org/MedicalTest", "test"));
+
+    commentary("The scenario unfolds and the Joe Johnson Snr. becomes a patient\n\n"
+        + "DataObject patients = test.createDataObject(\"patients\");\n"
+        + "patients.getList(\"person\").add(person1);");
 
     DataObject patients = test.createDataObject("patients");
 
     patients.getList("person").add(person1);
 
+    commentary("Having added Joe Johnson Snr. to the set of patients we can see\n"
+        + "the way that SDO preserves a single containment hierarchy within a\n"
+        + "datagraph.  If we look at the XML rendering of the graph again, we will\n"
+        + "see that by adding him to the set of patients he has been removed from the\n"
+        + "containment property associated with the referrals set ...");
+
     System.out.println(scope.getXMLHelper().save(test,
         "www.example.org/MedicalTest", "test"));
+
+    commentary("The 'Person' Type we are making use of here has been designed to be\n"
+        + "multi-purpose,  in that the type has been declared to be 'Open'.\n"
+        + "That means that we can make use of 'Open Content' Properties\n"
+        + "(If the type system has been defined using an XML schema\n"
+        + "then these properties will derive from global elements)\n"
+        + "We can look up open content Properties using the TypeHelper\n\n"
+        + "Property conditionProperty = scope.getTypeHelper().getOpenContentProperty(\n"
+        + "    \"www.example.org/MedicalTest\", \"condition\");");
 
     Property conditionProperty = scope.getTypeHelper().getOpenContentProperty(
         "www.example.org/MedicalTest", "condition");
 
-    // set up an instance of the type of the global property
-    DataObject condition = dataFactory.create("www.example.org/MedicalTest",
-        "Condition");
+    commentary("We can create a value of the appropriate Type for this open\n"
+        + "content Property\n\n"
+        + "DataObject condition = dataFactory.create(conditionProperty.getType());\n"
+        + "condition.setString(\"name\", \"Panar Syndrome\");");
+
+    DataObject condition = dataFactory.create(conditionProperty.getType());
     condition.setString("name", "Panar Syndrome");
 
-    // get the exisiting list of Conditions associated with patient[0] of the
-    // test set
-    // (Note that until we make this call, no such list exists, but since Person
-    // is open
-    // the List will be created on demand.
+    commentary("If you ask a DataObject that has an 'Open' Type for its list of\n"
+        + "values associated with an open content Property, and the DataObject\n"
+        + "doesn't currently have any values for the Property,  it will return\n"
+        + "an empty list. We can use the list to add values for the Property\n\n"
+        + "List conditions = person1.getList(conditionProperty);\n"
+        + "conditions.add(condition);");
 
     List conditions = person1.getList(conditionProperty);
-    // populate the with one condition
     conditions.add(condition);
+
+    commentary("A further look at the data graph in XML form shows\n"
+        + "the presence of the new condition Property's value ...");
 
     System.out.println(scope.getXMLHelper().save(test,
         "www.example.org/MedicalTest", "test"));
 
-    DataObject relatives = test.createDataObject("relatives");
+    commentary("Having looked at the way SDO handles Open content\n"
+        + "We now turn our attention to 'non-containment' relationships.\n"
+        + "To do this we first create the set of people in the test that\n"
+        + "constitute the blood relatives of patients -- 'relatives'\n"
+        + "and define a new person to be Joe Johnson Snr's child.\n\n"
+        + "DataObject relatives = test.createDataObject(\"relatives\");\n"
+        + "DataObject person2 = relatives.createDataObject(\"person\");\n"
+        + "person2.setString(\"id\", \"2\");\n"
+        + "person2.setString(\"name\", \"Joe Johnson Jnr.\");\n"
+        + "person2.setString(\"gender\", \"male\");");
 
+    DataObject relatives = test.createDataObject("relatives");
     DataObject person2 = relatives.createDataObject("person");
 
     person2.setString("id", "2");
     person2.setString("name", "Joe Johnson Jnr.");
     person2.setString("gender", "male");
 
-    DataObject relation = person1.createDataObject("relative");
-    relation.set("target", person2);
-    relation.set("relationship", "child");
+    commentary("Another quick look at the XML rendering of the graph confirms that\n"
+        + "the set of relatives now includes Joe Johnson Jnr, but we haven't yet\n"
+        + "defined who he is related to, or how.");
 
     System.out.println(scope.getXMLHelper().save(test,
         "www.example.org/MedicalTest", "test"));
 
+    commentary("The Person type has a Property 'relative'\n"
+        + "so we create a relative for Joe Johnson Snr.\n\n"
+        + "DataObject relation = person1.createDataObject(\"relative\");\n"
+        + "relation.set(\"target\", person2);\n"
+        + "relation.set(\"relationship\", \"child\");");
+
+    DataObject relation = person1.createDataObject("relative");
+    relation.set("target", person2);
+    relation.set("relationship", "child");
+
+    commentary("Now when we look at the XML rendering of the data graph\n"
+        + "we can see that the action of setting the 'target' of the\n"
+        + "relationship to Joe Johnson Jnr didn't displace him from the\n"
+        + "set of 'relatives',  because the 'target' Property is a\n"
+        + "non-containment Property.  This non-containment relationship\n"
+        + "is reflected in the XML by the reference to the unique identifier\n"
+        + "for Joe Johnson Jnr, \"2\" ...\n\n"
+        + "   ...\n    <relative target=\"2\" relationship=\"child\"/>\n   ...\n");
+
+    System.out.println(scope.getXMLHelper().save(test,
+        "www.example.org/MedicalTest", "test"));
+    
+    commentary("Now that the graph is complete we can use the PrintDataGraph sample utility\n" +
+        "to reveal the full SDO nature of the final data graph\n\n" +
+        "");
+
+    PrintDataGraph printer = new PrintDataGraph(COMMENTARY_FOR_ADVANCED);
+    printer.printDataObject(test);
+    System.out.println(printer.getBuf());
   }
 
   /**
@@ -272,27 +371,6 @@ public class MedicalScenario extends SampleBase {
     p.setBoolean("containment", true); // why is this not the default?
 
     typeHelper.defineOpenContentProperty(medicalURI, p);
-
-    // List medTypes = SDOUtil.getTypes(typeHelper, medicalURI);
-    // String xsd = scope.getXSDHelper().generate(medTypes);
-    // System.out.println("generated XSD \n" + xsd);
-    // List perTypes = SDOUtil.getTypes(typeHelper, medicalURI);
-    // xsd = scope.getXSDHelper().generate(perTypes);
-    // System.out.println("generated XSD \n" + xsd);
-
-    // DataObject root = scope.getDataFactory().create("commonj.sdo",
-    // "DataObject");
-    // Property contp = SDOUtil.createProperty(globalContainer, "typeDesc",
-    // typeHelper.getType("commonj.sdo", "Type"));
-    // SDOUtil.setMany(contp, true);
-    // SDOUtil.setContainment(contp, true);
-    // List typeList = root.getList(contp);
-    // for(Iterator it=typeDeclarations.iterator(); it.hasNext();) {
-    // DataObject dob = (DataObject)it.next();
-    // typeList.add(dob);
-    // }
-    //    
-    // XMLHelper.INSTANCE.save(root, medicalURI, "typeList", System.out);
 
   }
 

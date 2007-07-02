@@ -56,6 +56,48 @@ public class PrintDataGraph extends SampleBase {
     PrintDataGraph sample = new PrintDataGraph(COMMENTARY_FOR_NOVICE);
     sample.run();
   }
+  
+  public void runSample() throws Exception {
+    commentary("This sample demonstrates a common pattern of traversing a data graph\n"
+        + "and printing the values of its Properties.  As the sample traverses a couple of\n"
+        + "graphs it provides commentary about what it has found and what actions it\n"
+        + "is taking, whilst building up a text representation of the graph. It then\n"
+        + "shows you the results of its labours.");
+
+    HelperContext scope = createScopeForTypes();
+
+    commentary(
+        COMMENTARY_ALWAYS,
+        "First we look at a data graph of a Purchase Order which has a fairly simple XML schema\n"
+            + "and the graph's containment hierarchy has a couple of levels of depth");
+
+    loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
+
+    XMLDocument purchaseOrder = getXMLDocumentFromFile(scope,
+        SdoSampleConstants.PO_XML_RESOURCE);
+
+    printXMLDocument(purchaseOrder);
+
+    commentary(COMMENTARY_ALWAYS,
+        "And here is the resultant view of the data graph\n\n");
+    System.out.println(getBuf().toString());
+
+    commentary(COMMENTARY_ALWAYS,
+        "Next we look at a graph representing a form letter,  where the Type of the\n"
+            + "root data object is 'Sequenced'");
+
+    loadTypesFromXMLSchemaFile(scope, "letter.xsd");
+    DataObject letter = getDataObjectFromFile(scope, "letter.xml");
+
+    reset();
+    print(letter);
+
+    commentary(COMMENTARY_ALWAYS,
+        "And here is the resultant view of the data graph\n\n");
+
+    System.out.println(getBuf().toString());
+
+  }
 
   public void reset() {
     indent = 0;
@@ -166,13 +208,15 @@ public class PrintDataGraph extends SampleBase {
       for (int i = 0; i < dataObject.getInstanceProperties().size(); i++) {
         Property p = (Property) dataObject.getInstanceProperties().get(i);
         indent();
-        printPropertyValue(dataObject, p);
+        printValueOfProperty(dataObject, p);
       }
 
       decrementIndent();
     }
 
   }
+
+
 
   public void printSequence(Sequence seq) {
 
@@ -189,6 +233,7 @@ public class PrintDataGraph extends SampleBase {
     incrementIndent();
     indent();
     buf.append("Sequence: {\n");
+
     incrementIndent();
     for (int i = 0; i < seq.size(); i++) {
       Property p = seq.getProperty(i);
@@ -196,20 +241,38 @@ public class PrintDataGraph extends SampleBase {
         indent();
         buf.append("text: ").append(seq.getValue(i));
         lineBreak();
-      } else if (p.getType().isDataType()) {
-        indent();
-        buf.append("Property: ").append(p.getName()).append(": ");
-        printSimpleValue(seq.getValue(i));
-        lineBreak();
-      }
+      } else {
+        printPropertyValuePair(p, seq.getValue(i));
+     }
     }
     decrementIndent();
+
     indent();
-    buf.append('}');
+    buf.append("}\n");
     decrementIndent();
   }
 
-  private void printPropertyValue(DataObject dataObject, Property p) {
+  private void printPropertyValuePair(Property p, Object value) {
+
+    indent();
+    buf.append("Property: ").append(p.getName()).append(": ");
+    if(p.getType().isDataType()) {
+      printSimpleValue(value);
+      lineBreak();
+    } else {
+      if(p.isContainment()) {
+        incrementIndent();
+        printDataObject((DataObject)value);
+        decrementIndent();
+      } else {
+        printReferencedDataObject((DataObject)value);
+      }
+    }
+
+    
+  }
+
+  private void printValueOfProperty(DataObject dataObject, Property p) {
 
     commentary(
         COMMENTARY_FOR_INTERMEDIATE,
@@ -277,20 +340,24 @@ public class PrintDataGraph extends SampleBase {
 
         "Recording the fact that we have encountered another non-containment reference");
 
-    incrementIndent();
-    indent();
     List path = new ArrayList();
     DataObject current = dataObject;
     while (current != null) {
-      // TODO sort out indexing
-      path.add(current.getContainmentProperty().getName());
-      current = dataObject.getContainer();
+      Property containmentProperty = current.getContainmentProperty();
+      if(containmentProperty != null) {
+        if(containmentProperty.isMany()) {
+          List pValues = current.getContainer().getList(containmentProperty);
+          int index = pValues.indexOf(current)+1;
+          path.add("["+index+"]");
+        }
+        path.add("/"+current.getContainmentProperty().getName());
+      }
+      current = current.getContainer();
     }
     buf.append("reference to: ");
     for (ListIterator i = path.listIterator(path.size()); i.hasPrevious();) {
-      buf.append("/").append(i.previous());
+      buf.append(i.previous());
     }
-    decrementIndent();
   }
 
   private void printReferencedDataObjects(List list) {
@@ -314,9 +381,10 @@ public class PrintDataGraph extends SampleBase {
         COMMENTARY_FOR_NOVICE,
         "Traversing a list of DataObjects which represent the values of a multi-valued containment Property");
 
+
     lineBreak();
     indent();
-    buf.append("[\n");
+    buf.append("[");
     incrementIndent();
     for (Iterator i = list.iterator(); i.hasNext();) {
       printDataObject((DataObject) i.next());
@@ -368,52 +436,6 @@ public class PrintDataGraph extends SampleBase {
 
   public void setBuf(StringBuffer b) {
     buf = b;
-  }
-
-  public void runSample() throws Exception {
-    commentary("This sample demonstrates a common pattern of traversing a data graph\n"
-        + "and printing the values of its Properties.  As the sample traverses a couple of\n"
-        + "graphs it provides commentary about what it has found and what actions it\n"
-        + "is taking, whilst building up a text representation of the graph. It then\n"
-        + "shows you the results of its labours.");
-
-    HelperContext scope = createScopeForTypes();
-
-    commentary(
-        COMMENTARY_ALWAYS,
-        "First we look at a data graph of a Purchase Order which has a fairly simple XML schema\n"
-            + "and the graph's containment hierarchy has a couple of levels of depth");
-
-    loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
-
-    XMLDocument purchaseOrder = getXMLDocumentFromFile(scope,
-        SdoSampleConstants.PO_XML_RESOURCE);
-
-    // StringBuffer result = printXMLDocument(purchaseOrder);
-
-    printXMLDocument(purchaseOrder);
-
-    commentary(COMMENTARY_ALWAYS,
-        "And here is the resultant view of the data graph\n\n");
-    System.out.println(getBuf().toString());
-
-    commentary(COMMENTARY_ALWAYS,
-        "Next we look at a graph representing a form letter,  where the Type of the\n"
-            + "root data object is 'Sequenced'");
-
-    loadTypesFromXMLSchemaFile(scope, "letter.xsd");
-    DataObject letter = getDataObjectFromFile(scope, "letter.xml");
-
-    reset();
-    print(letter);
-
-    commentary(COMMENTARY_ALWAYS,
-        "And here is the resultant view of the data graph\n\n");
-
-    System.out.println(getBuf().toString());
-
-    // TODO add an example with non-containment
-
   }
 
 }

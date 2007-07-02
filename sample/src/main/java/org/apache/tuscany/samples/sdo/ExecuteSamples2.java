@@ -53,7 +53,8 @@ public class ExecuteSamples2 {
       ObtainingDataGraphFromXml.class,
       org.apache.tuscany.samples.sdo.tuscanyapi.CreateCompany.class,
       CreateDataObjectFromXmlString.class,
-      PrintDataGraph.class
+      PrintDataGraph.class,
+      MedicalScenario.class
      
     };
     
@@ -73,6 +74,7 @@ public class ExecuteSamples2 {
      *  Edit this to run fewer samples.
      */
     int runSamplesUpToLevel = SampleInfrastructure.SAMPLE_LEVEL_ADVANCED.intValue(); 
+    boolean pauseBetweenSamples = false;
     
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
     
@@ -83,8 +85,10 @@ public class ExecuteSamples2 {
       if(sample.getSampleComplexityLevel() <= runSamplesUpToLevel) {
         sample.run();
         sampleCount++;
-        System.out.println(">>>Press Enter to continue");
-        in.readLine();
+        if(pauseBetweenSamples) {
+          System.out.println(">>>Press Enter to continue");
+          in.readLine();
+        }
       }
     }
     System.out.println("Ran " + sampleCount + " samples");
