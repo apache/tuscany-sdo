@@ -79,10 +79,30 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
   {
     eNotify(new ENotificationImpl(this, Notification.SET, property, oldValue, newValue, isSetChange));
   }
+
+  protected void notify(int changeKind, int property, int oldIntValue, int newIntValue)
+  {
+    eNotify(new ENotificationImpl(this, Notification.SET, property, oldIntValue, newIntValue));
+  }
+  
+  protected void notify(int changeKind, int property, int oldIntValue, int newIntValue, boolean isSetChange)
+  {
+    eNotify(new ENotificationImpl(this, Notification.SET, property, oldIntValue, newIntValue, isSetChange));
+  }
+  
+  protected void notify(int changeKind, int property, double oldDoubleValue, double newDoubleValue)
+  {
+    eNotify(new ENotificationImpl(this, Notification.SET, property, oldDoubleValue, newDoubleValue));
+  }
   
   protected void notify(int changeKind, int property, double oldDoubleValue, double newDoubleValue, boolean isSetChange)
   {
     eNotify(new ENotificationImpl(this, Notification.SET, property, oldDoubleValue, newDoubleValue, isSetChange));
+  }
+  
+  protected void notify(int changeKind, int property, boolean oldBooleanValue, boolean newBooleanValue)
+  {
+    eNotify(new ENotificationImpl(this, Notification.SET, property, oldBooleanValue, newBooleanValue));
   }
   
   protected void notify(int changeKind, int property, boolean oldBooleanValue, boolean newBooleanValue, boolean isSetChange)
@@ -447,5 +467,6 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
   }
   
 } //DataObjectBase
+
 
 

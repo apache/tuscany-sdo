@@ -111,4 +111,21 @@ public class ChangeSummaryGenTestCase extends TestCase {
         assertEquals("in fact 1 Object was changed in the code", 1, changedDataObjects.size());     
     }
     
+    public void testChangeSummaryOnDataGraphWithInt() throws Exception {
+      
+      HelperContext hc = HelperProvider.getDefaultContext();
+      CustomerFactory factory = CustomerFactory.INSTANCE;
+      factory.register(hc);
+      Customer customer = factory.createCustomer();
+      Account account = factory.createAccount();
+      customer.setAccount(account);
+      DataObject customerDO = (DataObject) customer; 
+      DataGraph dg = SDOUtil.createDataGraph();
+      SDOUtil.setRootObject(dg, customerDO);
+      dg.getChangeSummary().beginLogging();
+      dg.getRootObject().getDataObject(0).delete();
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      SDOUtil.saveDataGraph(dg, baos, null);
+    }
+    
 }
