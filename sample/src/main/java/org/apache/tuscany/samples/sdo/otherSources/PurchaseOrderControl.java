@@ -20,23 +20,21 @@
 
 package org.apache.tuscany.samples.sdo.otherSources;
 
-import java.io.*;
-
-import java.util.List;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
-
-import commonj.sdo.DataObject;
-import commonj.sdo.ChangeSummary;
-import commonj.sdo.helper.HelperContext;
-import commonj.sdo.helper.XMLDocument;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
-import commonj.sdo.helper.CopyHelper;
+import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 
-import org.apache.tuscany.samples.sdo.specCodeSnippets.*;
+import commonj.sdo.ChangeSummary;
+import commonj.sdo.DataObject;
+import commonj.sdo.helper.HelperContext;
+import commonj.sdo.helper.XMLDocument;
 
 /**
  * Provides operational API for purchase order sample for SDO. It is used by
