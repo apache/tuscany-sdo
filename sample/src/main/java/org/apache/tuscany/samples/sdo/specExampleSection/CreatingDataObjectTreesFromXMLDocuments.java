@@ -86,6 +86,7 @@ import commonj.sdo.helper.HelperContext;
 
 public class CreatingDataObjectTreesFromXMLDocuments  extends SampleBase {
 
+  // FIXME decide on the fate of this sample
     HelperContext scope;
 
     public CreatingDataObjectTreesFromXMLDocuments(Integer userLevel) {

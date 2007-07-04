@@ -87,6 +87,7 @@ import commonj.sdo.helper.HelperContext;
  */
 
 public class AccessingTheContentsOfASequence  extends SampleBase {
+  // FIXME integrate this sample
 
 
     HelperContext scope;

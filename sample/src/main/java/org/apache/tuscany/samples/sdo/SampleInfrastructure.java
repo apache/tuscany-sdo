@@ -121,6 +121,11 @@ public abstract class SampleInfrastructure {
   public void banner(String text) {
     banner('-', text);
   }
+  
+  protected void commentary(String text, String repeatText) {
+    commentary(new Integer(sampleComplexityLevel), text, repeatText);
+    
+  }
 
   protected void commentary(Integer commentLevel, String text, String repeatText) {
 

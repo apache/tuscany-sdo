@@ -25,10 +25,8 @@ import java.util.List;
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.sdo.api.SDOUtil;
 
-
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
-import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.HelperContext;
@@ -47,7 +45,7 @@ public class MedicalScenario extends SampleBase {
 
   private static final String medicalURI = "www.example.org/MedicalTest";
 
-  boolean typesViaAPI = true;
+  boolean typesViaAPI = false;
 
   private static final String usage = " [-api |-xsd]\n"
       + "   -api : define the types using the SDO API\n"
@@ -252,9 +250,12 @@ public class MedicalScenario extends SampleBase {
         + "relationship to Joe Johnson Jnr didn't displace him from the\n"
         + "set of 'relatives',  because the 'target' Property is a\n"
         + "non-containment Property.  This non-containment relationship\n"
-        + "is reflected in the XML by the reference to the unique identifier\n"
-        + "for Joe Johnson Jnr, \"2\" ...\n\n"
-        + "   ...\n    <relative target=\"2\" relationship=\"child\"/>\n   ...\n");
+        + "is reflected in the XML by a reference to the Person DataObject\n"
+        + "describing Joe Johnson Jnr, \"2\" ...\n"
+        + "If the Type system has been created from an XML schema then the\n"
+        + "unique ID of the target can be used in the serialization.\n"
+        + "If however the type system was defined dynamically,  then the reference\n"
+        + "will be represented as an XPath from the root of the data graph.");
 
     System.out.println(scope.getXMLHelper().save(test,
         "www.example.org/MedicalTest", "test"));

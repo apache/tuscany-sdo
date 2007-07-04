@@ -27,6 +27,8 @@ import java.util.ListIterator;
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 
+import test.DefaultHelperProvider;
+
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -34,6 +36,7 @@ import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLDocument;
+import commonj.sdo.helper.XSDHelper;
 
 /**
  * 
@@ -46,6 +49,7 @@ import commonj.sdo.helper.XMLDocument;
 public class PrintDataGraph extends SampleBase {
 
   StringBuffer buf = null;
+  HelperContext scope = DefaultHelperProvider.getDefaultContext();
 
   private int indent;
 
@@ -118,8 +122,6 @@ public class PrintDataGraph extends SampleBase {
       printXMLDocument((XMLDocument) sdoObject);
     } else if (sdoObject instanceof DataObject) {
       printDataObject((DataObject) sdoObject);
-    } else if (sdoObject instanceof Sequence) {
-      printSequence((Sequence) sdoObject);
     }
 
   }
@@ -186,8 +188,66 @@ public class PrintDataGraph extends SampleBase {
           "We've encountered another sequenced DataObject instance, and so will traverse the Property\n"
               + "values in the order preerved by the instance, as we saw before\n\n"
               + "dataObject.getType().isSequenced();");
+      
+      commentary(
+          "There's a subtlety here which we must deal with if this sample code is to\n" +
+      		"handle both Type systems that derive from XML schema, and those that come from elsewhere,\n" +
+      		"e.g. using the SDO API.  If a Sequenced DataObject has a Type that comes from XML schema\n" +
+      		"then its Properties that derive from XML attributes are not ordered, whereas those that\n" +
+      		"derive from XML elements are ordered.  The SDO specification doesn't say whether\n" +
+      		"the attribute related Properties should appear at the start of a Sequence or not.\n" +
+      		"Currently in Tuscany we leave them out of the Sequence;  other SDO implementations may\n" +
+      		"include the XML attributes in the Sequence.  This sample code is written to deal with\n" +
+      		"either approach\n." +
+      		"We use the XSDHelper.isAttribute(Property) and isElement(Property) methods to distinguish\n" +
+      		"between the two kinds of Property",
+      		
+      		"Examining the xml attributes and elements of a Sequenced DataObject again."
+      		);
+      
+      XSDHelper xsdHelper = getScope().getXSDHelper();
+      incrementIndent();
+      for(Iterator it=dataObject.getInstanceProperties().iterator(); it.hasNext();) {
+        Property property = (Property)it.next();
+        if (xsdHelper.isAttribute(property)) {
+          indent();
+          buf.append("Property (XML Attribute): ").append(property.getName()).append(" - ").append(dataObject.get(property));
+          lineBreak();
+        }
 
-      printSequence(dataObject.getSequence());
+      }
+      decrementIndent();
+      Sequence seq = dataObject.getSequence();
+
+      commentary(
+          "The Property/Value pairs of a Sequence can be accessed via the getProperty(int) and getValue(int)\n"
+              + "accessor methods of the Sequence interface.  The size() method of the Sequence tells us how many there are.\n"
+              + "If the getProperty(int) method retunes null,  then the value is text.  These text values may be encountered\n"
+              + "when the DataObject's type is 'mixed' (dataObject.getType().isMixed() == true). A typical example of this\n"
+              + "is when the data graph represents a form letter.",
+      
+          "Inspecting the Property/Value pairs of another Sequence");
+      
+      incrementIndent();
+      indent();
+      buf.append("Sequence: {\n");
+      
+      incrementIndent();
+      for (int i = 0; i < seq.size(); i++) {
+        Property p = seq.getProperty(i);
+        if (p == null) {
+          indent();
+          buf.append("text: ").append(seq.getValue(i));
+          lineBreak();
+        } else if(!xsdHelper.isAttribute(p)){
+          printPropertyValuePair(p, seq.getValue(i));
+       }
+      }
+      decrementIndent();
+      
+      indent();
+      buf.append("}\n");
+      decrementIndent();
 
     } else {
       incrementIndent();
@@ -222,39 +282,7 @@ public class PrintDataGraph extends SampleBase {
 
 
 
-  public void printSequence(Sequence seq) {
 
-    commentary(
-        COMMENTARY_FOR_INTERMEDIATE,
-        "The Property/Value pairs of a Sequence can be accessed via the getProperty(int) and getValue(int)\n"
-            + "accessor methods of the Sequence interface.  The size() method of the Sequence tells us how many there are.\n"
-            + "If the getProperty(int) method retunes null,  then the value is text.  These text values may be encountered\n"
-            + "when the DataObject's type is 'mixed' (dataObject.getType().isMixed() == true). A typical example of this\n"
-            + "is when the data graph represents a form letter.",
-
-        "Inspecting the Property/Value pairs of another Sequence");
-
-    incrementIndent();
-    indent();
-    buf.append("Sequence: {\n");
-
-    incrementIndent();
-    for (int i = 0; i < seq.size(); i++) {
-      Property p = seq.getProperty(i);
-      if (p == null) {
-        indent();
-        buf.append("text: ").append(seq.getValue(i));
-        lineBreak();
-      } else {
-        printPropertyValuePair(p, seq.getValue(i));
-     }
-    }
-    decrementIndent();
-
-    indent();
-    buf.append("}\n");
-    decrementIndent();
-  }
 
   private void printPropertyValuePair(Property p, Object value) {
 
@@ -440,6 +468,14 @@ public class PrintDataGraph extends SampleBase {
 
   public void setBuf(StringBuffer b) {
     buf = b;
+  }
+
+  public HelperContext getScope() {
+    return scope;
+  }
+
+  public void setScope(HelperContext scope) {
+    this.scope = scope;
   }
 
 }

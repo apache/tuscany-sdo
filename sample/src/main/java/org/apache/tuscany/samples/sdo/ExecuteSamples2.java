@@ -29,11 +29,15 @@ import org.apache.tuscany.samples.sdo.advanced.MedicalScenario;
 import org.apache.tuscany.samples.sdo.advanced.ObtainingDataGraphFromXml;
 import org.apache.tuscany.samples.sdo.advanced.PrintDataGraph;
 import org.apache.tuscany.samples.sdo.basic.AccessDataObjectPropertiesByName;
+import org.apache.tuscany.samples.sdo.basic.CreateCompany;
 import org.apache.tuscany.samples.sdo.basic.CreatePurchaseOrder;
 import org.apache.tuscany.samples.sdo.basic.ReadPurchaseOrder;
 import org.apache.tuscany.samples.sdo.intermediate.AccessDataObjectUsingValidXPath;
+import org.apache.tuscany.samples.sdo.intermediate.AccessingDataObjectsViaPropertyIndex;
+import org.apache.tuscany.samples.sdo.intermediate.CreateCompanyTuscanyAPI;
 import org.apache.tuscany.samples.sdo.intermediate.CreateDataObjectFromXmlString;
 import org.apache.tuscany.samples.sdo.intermediate.DynamicCustomerTypeSample;
+import org.apache.tuscany.samples.sdo.intermediate.SerializingDeserializingADataObject;
 
 /**
  * A Program to execute a sequence of SDO sample programs.
@@ -46,15 +50,19 @@ public class ExecuteSamples2 {
      * Here's the list of sample programs that we are going to execute,  in this sequence.
      */
     Class[] sampleClasses = {
-      org.apache.tuscany.samples.sdo.basic.CreateCompany.class,
+      CreateCompany.class,
       ReadPurchaseOrder.class,
       CreatePurchaseOrder.class,
       AccessDataObjectPropertiesByName.class,
+      
       AccessDataObjectUsingValidXPath.class,
       DynamicCustomerTypeSample.class,
-      ObtainingDataGraphFromXml.class,
-      org.apache.tuscany.samples.sdo.intermediate.CreateCompanyTuscanyAPI.class,
+      CreateCompanyTuscanyAPI.class,
       CreateDataObjectFromXmlString.class,
+      SerializingDeserializingADataObject.class,
+      AccessingDataObjectsViaPropertyIndex.class,
+
+      ObtainingDataGraphFromXml.class,
       PrintDataGraph.class,
       MedicalScenario.class
      
@@ -76,6 +84,10 @@ public class ExecuteSamples2 {
      *  Edit this to run fewer samples.
      */
     int runSamplesUpToLevel = SampleInfrastructure.SAMPLE_LEVEL_ADVANCED.intValue(); 
+    /**
+     * Edit this value to cause the program to pause between each sample program
+     * and wait for the user to hit the enter key.
+     */
     boolean pauseBetweenSamples = false;
     
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
