@@ -23,7 +23,7 @@ package org.apache.tuscany.samples.sdo.basic;
 import java.io.FileOutputStream;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 
 
 import commonj.sdo.DataObject;
@@ -74,14 +74,14 @@ public class CreateCompany extends SampleBase {
                "from an XML Schema contained in a file on the file system");
                 
         HelperContext scope = createScopeForTypes();       
-        loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.COMPANY_XSD);
+        loadTypesFromXMLSchemaFile(scope, SampleInfrastructure.COMPANY_XSD);
         
         commentary(
             "Now that our type system has been loaded and made available through the scope\n"+
             "DataObjects can be created by a DataFactory that has access to the required types.\n\n"+
             "DataObject company = scope.getDataFactory().create(SdoSampleConstants.COMPANY_NAMESPACE, \"CompanyType\");");
         
-        DataObject company = scope.getDataFactory().create(SdoSampleConstants.COMPANY_NAMESPACE, "CompanyType");
+        DataObject company = scope.getDataFactory().create(SampleInfrastructure.COMPANY_NAMESPACE, "CompanyType");
         
         populateGraph(scope, company);
             
@@ -91,13 +91,13 @@ public class CreateCompany extends SampleBase {
             "The XMLHelper can be used to write an XML serialized version of the data graph\n\n"+
             "scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, \"company\", fos);");
         
-        scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company", fos);
+        scope.getXMLHelper().save(company, SampleInfrastructure.COMPANY_NAMESPACE, "company", fos);
         
         commentary(
             "Similarly we can serialize the graph to an XML String using the XMLHelper\n\n"+
             "String xml = scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, \"company\");\n");
         
-        String xml = scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, "company");
+        String xml = scope.getXMLHelper().save(company, SampleInfrastructure.COMPANY_NAMESPACE, "company");
         
         System.out.println(xml);
 

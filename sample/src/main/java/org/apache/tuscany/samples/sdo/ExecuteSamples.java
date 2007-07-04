@@ -29,9 +29,12 @@ import org.apache.tuscany.samples.sdo.basic.CreatePurchaseOrder;
 import org.apache.tuscany.samples.sdo.basic.ReadPurchaseOrder;
 import org.apache.tuscany.samples.sdo.intermediate.CreateDataObjectFromXmlString;
 import org.apache.tuscany.samples.sdo.intermediate.DynamicCustomerTypeSample;
-import org.apache.tuscany.samples.sdo.otherSources.*;
-import org.apache.tuscany.samples.sdo.specCodeSnippets.*;
-import org.apache.tuscany.samples.sdo.specExampleSection.*;
+import org.apache.tuscany.samples.sdo.intermediate.SerializingDeserializingADataObject;
+import org.apache.tuscany.samples.sdo.otherSources.PurchaseOrderCmdLine;
+import org.apache.tuscany.samples.sdo.specExampleSection.AccessingDataObjectsViaPropertyIndex;
+import org.apache.tuscany.samples.sdo.specExampleSection.AccessingTheContentsOfASequence;
+import org.apache.tuscany.samples.sdo.specExampleSection.CreatingDataObjectTreesFromXMLDocuments;
+import org.apache.tuscany.samples.sdo.specExampleSection.UsingTypeAndPropertyWithDataObjects;
 
 /**
  * Executes all command line samples. <br>
@@ -128,9 +131,7 @@ public class ExecuteSamples {
 
             System.out.println(">>>Press Enter to continue");
             in.readLine();
-            AccessDataObjectsUsingXPath.main(args);
-            System.out.println(">>>Press Enter for next sample");
-            in.readLine();
+
 
             AccessingDataObjectsViaPropertyIndex.main(args);
             System.out.println(">>>Press Enter for next sample");
@@ -141,10 +142,6 @@ public class ExecuteSamples {
             in.readLine();
 
             CreatingDataObjectTreesFromXMLDocuments.main(args);
-            System.out.println(">>>Press Enter for next sample");
-            in.readLine();
-
-            CreatingXmlFromDataObjects.main(args);
             System.out.println(">>>Press Enter for next sample");
             in.readLine();
 

@@ -24,7 +24,6 @@ import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
-import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
@@ -80,9 +79,9 @@ public class AccessDataObjectUsingValidXPath extends SampleBase {
     /**
      * Accesses and modifies properties of a purchase order DataObject using xPath(
      * properties are defined in the xsd
-     * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XSD_RESOURCE} and
+     * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#PO_XSD_RESOURCE} and
      * populated by xml
-     * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XML_RESOURCE} )
+     * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#PO_XML_RESOURCE} )
      * 
      * @param args.
      *            No parameters required.
@@ -105,8 +104,8 @@ public class AccessDataObjectUsingValidXPath extends SampleBase {
             "First we create the type system using an XML Schema file and then create\n"+
             "A DataObject using an XML document for convenience");
         
-        loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
-        DataObject purchaseOrder = getDataObjectFromFile(scope, SdoSampleConstants.PO_XML_RESOURCE);
+        loadTypesFromXMLSchemaFile(scope, SampleInfrastructure.PO_XSD_RESOURCE);
+        DataObject purchaseOrder = getDataObjectFromFile(scope, SampleInfrastructure.PO_XML_RESOURCE);
 
 
 

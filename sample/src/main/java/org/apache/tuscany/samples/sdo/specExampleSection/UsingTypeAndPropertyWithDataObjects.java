@@ -23,7 +23,7 @@ package org.apache.tuscany.samples.sdo.specExampleSection;
 import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -125,23 +125,23 @@ public class UsingTypeAndPropertyWithDataObjects  extends SampleBase {
           
             // define Types using XSDHelper and predefined xsd file
             System.out.println("Defining company Types using XSD");
-            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_XSD), null);
+            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SampleInfrastructure.COMPANY_XSD), null);
             System.out.println("Type definition completed");
 
             // create company DataObject using XMLHelper which is an example of a XML DAS
             System.out.println("Creating company DataObject");
-            DataObject company = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAOBJECT_XML))
+            DataObject company = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SampleInfrastructure.COMPANY_DATAOBJECT_XML))
                     .getRootObject();
 
             printDataObject(company, 0);
             
             System.out.println("Defining purchase order types");
-            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);
+            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SampleInfrastructure.PO_XSD_RESOURCE), null);
             System.out.println("Type definition completed");
 
             // create company DataObject using XMLHelper which is an example of a XML DAS
             System.out.println("Creating purchase order DataObject");
-            DataObject po = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE))
+            DataObject po = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SampleInfrastructure.PO_XML_RESOURCE))
                     .getRootObject();
 
             printDataObject(po, 0);

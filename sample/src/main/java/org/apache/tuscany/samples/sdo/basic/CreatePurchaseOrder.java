@@ -24,7 +24,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 
 
 import commonj.sdo.DataObject;
@@ -35,9 +35,9 @@ import commonj.sdo.helper.XMLDocument;
 /**
  * Demonstrates creating a purchaseOrder DataObject from an existing XSD and then
  * persisting to disk. Uses previously defined model
- * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XSD_RESOURCE} to
+ * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#PO_XSD_RESOURCE} to
  * define types then generates a purchase order DataObject and persists to
- * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XML_GENERATED}. This
+ * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#PO_XML_GENERATED}. This
  * sample was used to generate valid XML for Fuhwei Lwo's paper <A
  * HREF="http://www-128.ibm.com/developerworks/webservices/library/ws-sdoxmlschema/"
  * title="Me" onClick="checkLinks(this)">Create and read an XML document based on XML
@@ -102,7 +102,7 @@ public class CreatePurchaseOrder extends SampleBase {
 
           HelperContext scope = createScopeForTypes();
           
-          loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
+          loadTypesFromXMLSchemaFile(scope, SampleInfrastructure.PO_XSD_RESOURCE);
           
           
           commentary (
@@ -112,7 +112,7 @@ public class CreatePurchaseOrder extends SampleBase {
               "DataObject purchaseOrder = factory.create(SdoSampleConstants.PO_NAMESPACE, \"PurchaseOrderType\");");
           
           DataFactory factory = scope.getDataFactory();           
-          DataObject purchaseOrder = factory.create(SdoSampleConstants.PO_NAMESPACE, "PurchaseOrderType");
+          DataObject purchaseOrder = factory.create(SampleInfrastructure.PO_NAMESPACE, "PurchaseOrderType");
 
 
           commentary(
@@ -163,8 +163,8 @@ public class CreatePurchaseOrder extends SampleBase {
               );
           
           
-          OutputStream stream = new FileOutputStream(SdoSampleConstants.PO_XML_GENERATED);
-          scope.getXMLHelper().save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder", stream);
+          OutputStream stream = new FileOutputStream(SampleInfrastructure.PO_XML_GENERATED);
+          scope.getXMLHelper().save(purchaseOrder, SampleInfrastructure.PO_NAMESPACE, "purchaseOrder", stream);
           stream.close();
 
           commentary(
@@ -176,7 +176,7 @@ public class CreatePurchaseOrder extends SampleBase {
               "scope.getXMLHelper().save(doc, System.out, null);");
           
           
-          XMLDocument doc = scope.getXMLHelper().createDocument(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder");
+          XMLDocument doc = scope.getXMLHelper().createDocument(purchaseOrder, SampleInfrastructure.PO_NAMESPACE, "purchaseOrder");
           scope.getXMLHelper().save(doc, System.out, null);
           System.out.println();
       }

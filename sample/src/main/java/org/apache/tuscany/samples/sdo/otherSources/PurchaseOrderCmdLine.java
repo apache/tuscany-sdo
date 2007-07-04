@@ -21,7 +21,8 @@
 package org.apache.tuscany.samples.sdo.otherSources;
 
 import java.io.*;
-import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+
+import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 
 /**
  * Provides interactive menu based command line interface to modify, save, view purchase order DataObject.
@@ -366,8 +367,8 @@ public class PurchaseOrderCmdLine {
     private static void printUsage() {
         System.out.println("***************************************");
         System.out.println("java org.apache.tuscany.samples.sdo.otherSources.PurchaseOrderCmdLine <xsdFileName> <xmlFileName>");
-        System.out.println("If xsdFileName and xmlFileName are not specified " + SdoSampleConstants.PO_XSD_RESOURCE + " and "
-                + SdoSampleConstants.PO_XML_RESOURCE + " will be used as resources");
+        System.out.println("If xsdFileName and xmlFileName are not specified " + SampleInfrastructure.PO_XSD_RESOURCE + " and "
+                + SampleInfrastructure.PO_XML_RESOURCE + " will be used as resources");
         System.out.println("Specify null if you wish to use the appropiate resource from the jar rather specifying a fileName");
         System.out.println("***************************************");
     }

@@ -23,7 +23,7 @@ package org.apache.tuscany.samples.sdo.basic;
 import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 
 
 import commonj.sdo.DataObject;
@@ -62,9 +62,9 @@ public class AccessDataObjectPropertiesByName extends SampleBase {
 
         // setting up the type system for the example,  see the utility methods for details of these operations
         HelperContext scope = createScopeForTypes();
-        loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
+        loadTypesFromXMLSchemaFile(scope, SampleInfrastructure.PO_XSD_RESOURCE);
 
-        DataObject purchaseOrder = getDataObjectFromFile(scope, SdoSampleConstants.PO_XML_RESOURCE);
+        DataObject purchaseOrder = getDataObjectFromFile(scope, SampleInfrastructure.PO_XML_RESOURCE);
 
 
         System.out.println("Accessing properties by name");

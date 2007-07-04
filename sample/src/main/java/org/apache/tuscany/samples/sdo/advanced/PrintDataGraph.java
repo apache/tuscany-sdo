@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 
 
 import commonj.sdo.DataObject;
@@ -75,10 +75,10 @@ public class PrintDataGraph extends SampleBase {
         "First we look at a data graph of a Purchase Order which has a fairly simple XML schema\n"
             + "and the graph's containment hierarchy has a couple of levels of depth");
 
-    loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
+    loadTypesFromXMLSchemaFile(scope, SampleInfrastructure.PO_XSD_RESOURCE);
 
     XMLDocument purchaseOrder = getXMLDocumentFromFile(scope,
-        SdoSampleConstants.PO_XML_RESOURCE);
+        SampleInfrastructure.PO_XML_RESOURCE);
 
     printXMLDocument(purchaseOrder);
 

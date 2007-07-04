@@ -53,7 +53,7 @@ public class ExecuteSamples2 {
       AccessDataObjectUsingValidXPath.class,
       DynamicCustomerTypeSample.class,
       ObtainingDataGraphFromXml.class,
-      org.apache.tuscany.samples.sdo.tuscanyapi.CreateCompanyTuscanyAPI.class,
+      org.apache.tuscany.samples.sdo.intermediate.CreateCompanyTuscanyAPI.class,
       CreateDataObjectFromXmlString.class,
       PrintDataGraph.class,
       MedicalScenario.class

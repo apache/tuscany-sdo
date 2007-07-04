@@ -18,11 +18,11 @@
  *  under the License.
  */
 
-package org.apache.tuscany.samples.sdo.tuscanyapi;
+package org.apache.tuscany.samples.sdo.intermediate;
 
 import java.io.FileOutputStream;
 
-import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.DataGraph;
@@ -108,7 +108,7 @@ public class CreateCompanyTuscanyAPI extends org.apache.tuscany.samples.sdo.basi
             "other than the default scope. So here is an occasion where we must use"+
             "the default singleton scope");
         HelperContext scope = useDefaultScopeForTypes();
-        loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.COMPANY_XSD);
+        loadTypesFromXMLSchemaFile(scope, SampleInfrastructure.COMPANY_XSD);
        
         commentary (COMMENTARY_FOR_INTERMEDIATE,
             "Here is the use of the Tuscany API for creating a DataGraph instance\n\n"+
@@ -121,7 +121,7 @@ public class CreateCompanyTuscanyAPI extends org.apache.tuscany.samples.sdo.basi
             "This is an example of a DataGraph interface that currently forces us to use the default scope.\n\n"+
             "company = dataGraph.createRootObject(SdoSampleConstants.COMPANY_NAMESPACE, \"CompanyType\");");
         
-        DataObject company = dataGraph.createRootObject(SdoSampleConstants.COMPANY_NAMESPACE, "CompanyType");
+        DataObject company = dataGraph.createRootObject(SampleInfrastructure.COMPANY_NAMESPACE, "CompanyType");
         
         populateGraph(scope, company);
         

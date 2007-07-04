@@ -21,7 +21,7 @@
 package org.apache.tuscany.samples.sdo.specExampleSection;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
@@ -45,9 +45,9 @@ import commonj.sdo.helper.HelperContext;
  * XMLHelper to convert xml Strings to DataObjects. <br>
  * <br>
  * Uses previously defined model
- * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XSD_RESOURCE} to
+ * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#PO_XSD_RESOURCE} to
  * define types then generates a purchase order DataObject and persists to
- * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#PO_XML_GENERATED}
+ * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#PO_XML_GENERATED}
  * <br><br> 
  * <b>Usage:</b> <br>
  * This sample can easily be run from within Eclipse as a Java Application if tuscany or 
@@ -122,12 +122,12 @@ public class CreatingDataObjectTreesFromXMLDocuments  extends SampleBase {
             scope = createScopeForTypes();
 
             // use xsd to define purchase order types
-            System.out.println("Definging purchase order types using " + SdoSampleConstants.PO_XSD_RESOURCE);
-            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XSD_RESOURCE), null);
+            System.out.println("Defining purchase order types using " + SampleInfrastructure.PO_XSD_RESOURCE);
+            scope.getXSDHelper().define(ClassLoader.getSystemResourceAsStream(SampleInfrastructure.PO_XSD_RESOURCE), null);
             System.out.println("Defined Types using xsd");
 
-            System.out.println("Creating purchase order DataObject using previously created " + SdoSampleConstants.PO_XML_RESOURCE);
-            DataObject purchaseOrder = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.PO_XML_RESOURCE))
+            System.out.println("Creating purchase order DataObject using previously created " + SampleInfrastructure.PO_XML_RESOURCE);
+            DataObject purchaseOrder = scope.getXMLHelper().load(ClassLoader.getSystemResourceAsStream(SampleInfrastructure.PO_XML_RESOURCE))
                     .getRootObject();
 
             // To create the shipTo DataObject from XML:

@@ -126,6 +126,8 @@ public class AccessingTheContentsOfASequence  extends SampleBase {
         System.out.println("***************************************");
         System.out.println("Demonstrates accessing the sequence from a DataObject containing mixed content.");
         System.out.println("***************************************");
+        
+        // FIXME update sample, and see if it deals with xml attribute sequencing
 
         scope = createScopeForTypes();
         

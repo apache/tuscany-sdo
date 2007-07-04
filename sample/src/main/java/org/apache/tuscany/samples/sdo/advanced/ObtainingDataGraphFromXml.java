@@ -25,7 +25,6 @@ import java.io.InputStream;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
-import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 import org.apache.tuscany.sdo.api.SDOUtil;
 
 
@@ -55,9 +54,9 @@ import commonj.sdo.Sequence;
  * <br>
  * To define the correct Types for each DataObject ( CompanyType, DepartmentType etc )
  * this sample relies upon
- * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#COMPANY_XSD} which is
+ * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#COMPANY_XSD} which is
  * provided in the resources directory of these samples. The xml file
- * {@link org.apache.tuscany.samples.sdo.SdoSampleConstants#COMPANY_DATAGRAPH_XML} is
+ * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#COMPANY_DATAGRAPH_XML} is
  * used to load the DataGraph and is also located in this resources directory. <br>
  * <P>
  * <b>Usage:</b> <br>
@@ -138,7 +137,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
         );
         
         scope = useDefaultScopeForTypes();
-        loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.COMPANY_XSD);
+        loadTypesFromXMLSchemaFile(scope, SampleInfrastructure.COMPANY_XSD);
         
 
 
@@ -157,7 +156,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
                 "ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML));"
                 );
             
-            InputStream is = ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML);
+            InputStream is = ClassLoader.getSystemResourceAsStream(SampleInfrastructure.COMPANY_DATAGRAPH_XML);
             int x= is.available();
             byte b[]= new byte[x];
             is.read(b);
@@ -166,7 +165,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
             System.out.println(instanceDoc);
 
             XMLDocument doc = scope.getXMLHelper().load(
-                    ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML));
+                    ClassLoader.getSystemResourceAsStream(SampleInfrastructure.COMPANY_DATAGRAPH_XML));
             
             commentary(
                 "Now we can get the wrapper for the data graph, which in this case is the DataObject\n"+
@@ -204,7 +203,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
 
             );
 
-            DataGraph datagraph = SDOUtil.loadDataGraph(ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML), null);
+            DataGraph datagraph = SDOUtil.loadDataGraph(ClassLoader.getSystemResourceAsStream(SampleInfrastructure.COMPANY_DATAGRAPH_XML), null);
 
             System.out.println(datagraph);
 

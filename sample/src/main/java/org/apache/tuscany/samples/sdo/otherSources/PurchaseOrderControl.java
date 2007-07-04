@@ -34,7 +34,7 @@ import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.helper.CopyHelper;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 
 import org.apache.tuscany.samples.sdo.specCodeSnippets.*;
 
@@ -115,7 +115,7 @@ public class PurchaseOrderControl extends SampleBase {
         if ((xsdFileName == null) || (xsdFileName.equals("")) || (xsdFileName.equalsIgnoreCase("null"))) {
 
             // use simple example to define type from resource
-            loadTypesFromXMLSchemaFile(scope, SdoSampleConstants.PO_XSD_RESOURCE);
+            loadTypesFromXMLSchemaFile(scope, SampleInfrastructure.PO_XSD_RESOURCE);
 
         } else {
             System.out.println("Using file to access xsd in order to define types");
@@ -144,7 +144,7 @@ public class PurchaseOrderControl extends SampleBase {
 
         if ((xmlFileName == null) || (xmlFileName.equals("")) || (xmlFileName.equalsIgnoreCase("null"))) {
 
-            purchaseOrder = getDataObjectFromFile(scope, SdoSampleConstants.PO_XML_RESOURCE);
+            purchaseOrder = getDataObjectFromFile(scope, SampleInfrastructure.PO_XML_RESOURCE);
         } else {
             try {
 
@@ -297,9 +297,9 @@ public class PurchaseOrderControl extends SampleBase {
         if (this.xmlFileName != null) {
             saveAs(xmlFileName);            
         } else {
-            System.out.println("Sorry, can not save to resource within jar, will create file called " + SdoSampleConstants.PO_XML_RESOURCE
+            System.out.println("Sorry, can not save to resource within jar, will create file called " + SampleInfrastructure.PO_XML_RESOURCE
                     + " and save");
-            saveAs(SdoSampleConstants.PO_XML_RESOURCE);
+            saveAs(SampleInfrastructure.PO_XML_RESOURCE);
         }
     }
 
@@ -312,7 +312,7 @@ public class PurchaseOrderControl extends SampleBase {
      */
     public void saveAs(String fileName) throws IOException {
         OutputStream stream = new FileOutputStream(fileName);
-        scope.getXMLHelper().save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder", stream);
+        scope.getXMLHelper().save(purchaseOrder, SampleInfrastructure.PO_NAMESPACE, "purchaseOrder", stream);
         System.out.println("Saved to " + fileName);
     }
 
@@ -468,7 +468,7 @@ public class PurchaseOrderControl extends SampleBase {
      * @return XMLDocument that represents current purchase order DataObject
      */
     public XMLDocument getXMLDocuement() {
-        return scope.getXMLHelper().createDocument(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder");
+        return scope.getXMLHelper().createDocument(purchaseOrder, SampleInfrastructure.PO_NAMESPACE, "purchaseOrder");
     }
 
     /**
@@ -479,7 +479,7 @@ public class PurchaseOrderControl extends SampleBase {
         // alternativly could use the following
         // return scope.getXMLHelper().createDocument(purchaseOrder, PO_NAMESPACE,
         // "purchaseOrder").toString();
-        return scope.getXMLHelper().save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, "purchaseOrder");
+        return scope.getXMLHelper().save(purchaseOrder, SampleInfrastructure.PO_NAMESPACE, "purchaseOrder");
     }
 
     // PRIVATE HELPER METHODS
@@ -520,8 +520,7 @@ public class PurchaseOrderControl extends SampleBase {
     }
 
     public void runSample() throws Exception {
-      // TODO Auto-generated method stub
-      // FIXME make this sample fit the pattern
+      // FIXME make this sample fit the pattern or delete it
       
     }
 }
