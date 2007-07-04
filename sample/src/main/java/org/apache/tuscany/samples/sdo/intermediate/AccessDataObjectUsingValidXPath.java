@@ -18,7 +18,7 @@
  *  under the License.
  */
 
-package org.apache.tuscany.samples.sdo.specCodeSnippets;
+package org.apache.tuscany.samples.sdo.intermediate;
 
 import java.util.List;
 
@@ -73,7 +73,7 @@ public class AccessDataObjectUsingValidXPath extends SampleBase {
     HelperContext scope;
   
     public AccessDataObjectUsingValidXPath(Integer userLevel) {
-      super(userLevel, SampleInfrastructure.SAMPLE_LEVEL_NOVICE);
+      super(userLevel, SampleInfrastructure.SAMPLE_LEVEL_INTERMEDIATE);
     }
 
 

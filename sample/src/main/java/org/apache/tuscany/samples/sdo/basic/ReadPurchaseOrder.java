@@ -18,13 +18,14 @@
  *  under the License.
  */
 
-package org.apache.tuscany.samples.sdo.otherSources;
+package org.apache.tuscany.samples.sdo.basic;
 
 import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
@@ -109,7 +110,7 @@ public class ReadPurchaseOrder extends SampleBase {
     "    </po:purchaseOrder>\n";
 
     public ReadPurchaseOrder(Integer commentaryLevel) {
-      super(commentaryLevel, SampleInfrastructure.SAMPLE_LEVEL_NOVICE);
+      super(commentaryLevel, SampleInfrastructure.SAMPLE_LEVEL_BASIC);
     }
 
     public static void main(String[] args) {
@@ -138,7 +139,7 @@ public class ReadPurchaseOrder extends SampleBase {
             "then print out some of the details\n\n"+
             "DataObject purchaseOrder = xmlDoc.getRootObject();");
         
-            DataObject purchaseOrder = xmlDoc.getRootObject();
+        DataObject purchaseOrder = xmlDoc.getRootObject();
 
         System.out.println("Order date: " + purchaseOrder.get("orderDate"));
         System.out.println("Comment: " + purchaseOrder.get("comment"));

@@ -23,6 +23,12 @@ package org.apache.tuscany.samples.sdo;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import org.apache.tuscany.samples.sdo.advanced.ObtainingDataGraphFromXml;
+import org.apache.tuscany.samples.sdo.basic.AccessDataObjectPropertiesByName;
+import org.apache.tuscany.samples.sdo.basic.CreatePurchaseOrder;
+import org.apache.tuscany.samples.sdo.basic.ReadPurchaseOrder;
+import org.apache.tuscany.samples.sdo.intermediate.CreateDataObjectFromXmlString;
+import org.apache.tuscany.samples.sdo.intermediate.DynamicCustomerTypeSample;
 import org.apache.tuscany.samples.sdo.otherSources.*;
 import org.apache.tuscany.samples.sdo.specCodeSnippets.*;
 import org.apache.tuscany.samples.sdo.specExampleSection.*;

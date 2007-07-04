@@ -18,7 +18,7 @@
  *  under the License.
  */
 
-package org.apache.tuscany.samples.sdo.specCodeSnippets;
+package org.apache.tuscany.samples.sdo.intermediate;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;

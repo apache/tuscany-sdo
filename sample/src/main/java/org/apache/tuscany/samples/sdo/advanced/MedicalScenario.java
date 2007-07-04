@@ -16,12 +16,13 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package org.apache.tuscany.samples.sdo;
+package org.apache.tuscany.samples.sdo.advanced;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.sdo.api.SDOUtil;
 
 
@@ -54,7 +55,7 @@ public class MedicalScenario extends SampleBase {
 
   public MedicalScenario(String[] args, Integer userLevel) {
 
-    super(userLevel, SAMPLE_LEVEL_INTERMEDIATE);
+    super(userLevel, SAMPLE_LEVEL_ADVANCED);
 
     if (args.length > 1) {
       printUsage(args);
@@ -73,7 +74,7 @@ public class MedicalScenario extends SampleBase {
   }
   
   public MedicalScenario(Integer userLevel) {
-    super(userLevel, SAMPLE_LEVEL_INTERMEDIATE);
+    super(userLevel, SAMPLE_LEVEL_ADVANCED);
   }
   
 

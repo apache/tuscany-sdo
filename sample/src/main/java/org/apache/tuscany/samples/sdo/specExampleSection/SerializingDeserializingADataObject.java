@@ -37,7 +37,7 @@ import java.io.IOException;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
-import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
+import org.apache.tuscany.samples.sdo.basic.AccessDataObjectPropertiesByName;
 
 /**
  * Demonstrates serializing and deserializing a DataObject to disk.
@@ -123,7 +123,7 @@ public class SerializingDeserializingADataObject  extends SampleBase {
     public static void main(String[] args) {
       // TODO make the default level COMMENTARY_FOR_NOVICE, once the rest of the sample has been
       // converted to using commentary()
-      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(COMMENTARY_FOR_INTERMEDIATE);
+      SerializingDeserializingADataObject sample = new SerializingDeserializingADataObject(COMMENTARY_FOR_INTERMEDIATE);
 
       try {
         sample.run();

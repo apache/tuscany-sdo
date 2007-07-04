@@ -17,12 +17,16 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package org.apache.tuscany.samples.sdo;
+package org.apache.tuscany.samples.sdo.advanced;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import org.apache.tuscany.samples.sdo.SampleBase;
+import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -35,7 +39,7 @@ import commonj.sdo.helper.XMLDocument;
  * 
  * This sample traverses data graphs and builds up a text representation of the
  * data graph. As it traverses a graph it outputs commentary to the console
- * about what it has encounteed and how it intends to process what it finds. At
+ * about what it has encountered and how it intends to process what it finds. At
  * the end of each traversal the text representation of the graph is printed to
  * the console.
  */
@@ -48,7 +52,7 @@ public class PrintDataGraph extends SampleBase {
   private int indentIncrement = 2;
 
   public PrintDataGraph(Integer userLevel) {
-    super(userLevel, SAMPLE_LEVEL_INTERMEDIATE);
+    super(userLevel, SAMPLE_LEVEL_ADVANCED);
     buf = new StringBuffer();
   }
 

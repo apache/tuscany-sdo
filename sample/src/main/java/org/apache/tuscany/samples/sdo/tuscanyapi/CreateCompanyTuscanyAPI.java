@@ -62,9 +62,9 @@ import commonj.sdo.helper.HelperContext;
  * java org.apache.tuscany.samples.sdo.tuscanyApi.CreateCompany</LI>
  * </UL>
  */
-public class CreateCompany extends org.apache.tuscany.samples.sdo.otherSources.CreateCompany {
+public class CreateCompanyTuscanyAPI extends org.apache.tuscany.samples.sdo.basic.CreateCompany {
 
-    public CreateCompany(Integer commentaryLevel) {
+    public CreateCompanyTuscanyAPI(Integer commentaryLevel) {
       super(commentaryLevel, SAMPLE_LEVEL_INTERMEDIATE);
     }
 
@@ -85,7 +85,7 @@ public class CreateCompany extends org.apache.tuscany.samples.sdo.otherSources.C
        * of understanding of SDO.  Change the experience level argument to get more
        * or less commentary.
        */
-      CreateCompany sample = new CreateCompany(COMMENTARY_FOR_INTERMEDIATE);
+      CreateCompanyTuscanyAPI sample = new CreateCompanyTuscanyAPI(COMMENTARY_FOR_INTERMEDIATE);
       sample.run();
 
     }

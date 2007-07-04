@@ -17,7 +17,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package org.apache.tuscany.samples.sdo.specCodeSnippets;
+package org.apache.tuscany.samples.sdo.intermediate;
 
 import java.util.List;
 

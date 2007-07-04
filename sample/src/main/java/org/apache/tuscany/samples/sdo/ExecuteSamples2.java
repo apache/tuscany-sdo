@@ -25,13 +25,15 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import org.apache.tuscany.samples.sdo.otherSources.CreatePurchaseOrder;
-import org.apache.tuscany.samples.sdo.otherSources.ReadPurchaseOrder;
-import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
-import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectUsingValidXPath;
-import org.apache.tuscany.samples.sdo.specCodeSnippets.CreateDataObjectFromXmlString;
-import org.apache.tuscany.samples.sdo.specCodeSnippets.DynamicCustomerTypeSample;
-import org.apache.tuscany.samples.sdo.specCodeSnippets.ObtainingDataGraphFromXml;
+import org.apache.tuscany.samples.sdo.advanced.MedicalScenario;
+import org.apache.tuscany.samples.sdo.advanced.ObtainingDataGraphFromXml;
+import org.apache.tuscany.samples.sdo.advanced.PrintDataGraph;
+import org.apache.tuscany.samples.sdo.basic.AccessDataObjectPropertiesByName;
+import org.apache.tuscany.samples.sdo.basic.CreatePurchaseOrder;
+import org.apache.tuscany.samples.sdo.basic.ReadPurchaseOrder;
+import org.apache.tuscany.samples.sdo.intermediate.AccessDataObjectUsingValidXPath;
+import org.apache.tuscany.samples.sdo.intermediate.CreateDataObjectFromXmlString;
+import org.apache.tuscany.samples.sdo.intermediate.DynamicCustomerTypeSample;
 
 /**
  * A Program to execute a sequence of SDO sample programs.
@@ -44,14 +46,14 @@ public class ExecuteSamples2 {
      * Here's the list of sample programs that we are going to execute,  in this sequence.
      */
     Class[] sampleClasses = {
-      org.apache.tuscany.samples.sdo.otherSources.CreateCompany.class,
+      org.apache.tuscany.samples.sdo.basic.CreateCompany.class,
       ReadPurchaseOrder.class,
       CreatePurchaseOrder.class,
       AccessDataObjectPropertiesByName.class,
       AccessDataObjectUsingValidXPath.class,
       DynamicCustomerTypeSample.class,
       ObtainingDataGraphFromXml.class,
-      org.apache.tuscany.samples.sdo.tuscanyapi.CreateCompany.class,
+      org.apache.tuscany.samples.sdo.tuscanyapi.CreateCompanyTuscanyAPI.class,
       CreateDataObjectFromXmlString.class,
       PrintDataGraph.class,
       MedicalScenario.class

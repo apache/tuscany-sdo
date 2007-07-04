@@ -32,7 +32,7 @@ import java.util.Set;
 public abstract class SampleInfrastructure {
 
 
-  protected int sampleComplexityLevel = SAMPLE_LEVEL_NOVICE.intValue();
+  protected int sampleComplexityLevel = SAMPLE_LEVEL_BASIC.intValue();
   protected int commentaryLevel = COMMENTARY_FOR_NOVICE.intValue();
   
   /*
@@ -51,11 +51,20 @@ public abstract class SampleInfrastructure {
   }
 
   private static String hrule = "********************************************";
-  protected static final Integer SAMPLE_LEVEL_NOVICE = new Integer(0);
+  
+  /*
+   * Constants which allow the sample program infrastructure to understand
+   * the complexity of a sample program.
+   */
+  protected static final Integer SAMPLE_LEVEL_BASIC = new Integer(0);
   protected static final Integer SAMPLE_LEVEL_INTERMEDIATE = new Integer(1);
   protected static final Integer SAMPLE_LEVEL_ADVANCED = new Integer(2);
   
   
+  /*
+   * Constants which can be used to reduce the amount of information output
+   * by an executing sample program.
+   */
   protected static final Integer COMMENTARY_FOR_NOVICE = new Integer(0);
   protected static final Integer COMMENTARY_FOR_INTERMEDIATE = new Integer(1);
   protected static final Integer COMMENTARY_FOR_ADVANCED = new Integer(2);
@@ -123,7 +132,7 @@ public abstract class SampleInfrastructure {
   
   /*
    * convenience method to allow commentary level to default to that of
-   * the sample's compexity
+   * the sample's complexity
    */
   protected void commentary(String text) {
     commentary(new Integer(getSampleComplexityLevel()), text);

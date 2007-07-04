@@ -20,14 +20,11 @@
 
 package org.apache.tuscany.samples.sdo.specExampleSection;
 
-import commonj.sdo.DataObject;
-import commonj.sdo.helper.HelperContext;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
-
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
-import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
+
+import commonj.sdo.DataObject;
+import commonj.sdo.helper.HelperContext;
 
 /**
  * Demonstrates creating a DataObject from an XML String.
@@ -84,7 +81,7 @@ import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertie
  * </UL>
  * 
  * @author Robbie Minshall
- * @see {@link org.apache.tuscany.samples.sdo.otherSources.CreatePurchaseOrder}
+ * @see {@link org.apache.tuscany.samples.sdo.basic.CreatePurchaseOrder}
  */
 
 public class CreatingDataObjectTreesFromXMLDocuments  extends SampleBase {
@@ -105,7 +102,7 @@ public class CreatingDataObjectTreesFromXMLDocuments  extends SampleBase {
   public static void main(String[] args) {
     // TODO make the default level COMMENTARY_FOR_NOVICE, once the rest of the sample has been
     // converted to using commentary()
-    AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(COMMENTARY_FOR_INTERMEDIATE);
+    CreatingDataObjectTreesFromXMLDocuments sample = new CreatingDataObjectTreesFromXMLDocuments(COMMENTARY_FOR_INTERMEDIATE);
 
     try {
       sample.run();

@@ -18,52 +18,27 @@
  *  under the License.
  */
 
-package org.apache.tuscany.samples.sdo.otherSources;
+package org.apache.tuscany.samples.sdo.basic;
 
 import java.io.FileOutputStream;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
 
+
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
 
 /**
- * <b>Usage:</b> <br>
- * This sample can easily be run from within Eclipse as a Java Application if Tuscany or 
- * the sample-sdo project is imported into Eclipse as an existing project.
- * <br><br>
- * If executing as a standalone application please do the following: 
- * <br>
- * <UL>
- * <LI>Include the following jar files on your classpath :
- * <UL>
- * <LI>SDO API and Tuscany Implementation
- * <UL>
- * <LI>sdo-api-{version}.jar - SDO API
- * <LI>tuscany-sdo-impl-{version}.jar - Tuscany SDO implementation
- * </UL>
- * </LI>
- * <LI>EMF dependencies. 
- * <UL>
- * <LI>emf-common-{version}.jar - some common framework utility and base classes
- * <LI>emf-ecore-{version}.jar - the EMF core runtime implementation classes (the Ecore metamodel)
- * <LI>emf-ecore-change-{version}.jar - the EMF change recorder and framework
- * <LI>emf-ecore-xmi-{version}.jar - EMF's default XML (and XMI) serializer and loader
- * <LI>xsd-{version}.jar - the XML Schema model
- * </UL>
- * </LI>
- * </UL>
  * 
- * These jar files can be obtained by downloading a binary distribution of Tuscany SDO Java</LI>
- * <LI>Execute: <br>
- * java org.apache.tuscany.samples.sdo.otherSources.CreateCompany</LI>
- * </UL>
+ * <b>Usage:</b> <br>
+ * <P>
+ * <A HREF="overview.html">See here</A> for instructions on how to download 
  */
 public class CreateCompany extends SampleBase {
 
     public CreateCompany(Integer commentaryLevel) {
-      this(commentaryLevel, SAMPLE_LEVEL_NOVICE);
+      this(commentaryLevel, SAMPLE_LEVEL_BASIC);
     }
 
     public CreateCompany(Integer commentaryLevel, Integer sampleLevel) {

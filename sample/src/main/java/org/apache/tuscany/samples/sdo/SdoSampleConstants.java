@@ -37,7 +37,7 @@ public interface SdoSampleConstants {
 
     /**
      * Default file name to use when generated xml file for purchase order
-     * @see org.apache.tuscany.samples.sdo.CreatePurchaseOrder
+     * @see org.apache.tuscany.samples.sdo.basic.CreatePurchaseOrder
      */
     public static final String PO_XML_GENERATED = "temporaryPoGenerated.xml";
 
@@ -63,7 +63,7 @@ public interface SdoSampleConstants {
     public static final String COMPANY_DATAGRAPH_XML = "companyDataGraphGenerated.xml";
         
     /**
-     * Generated DataGraph {@link org.apache.tuscany.samples.sdo.otherSources.CreateCompany}
+     * Generated DataGraph {@link org.apache.tuscany.samples.sdo.basic.CreateCompany}
      */
     public static final String COMPANY_DATAOBJECT_XML = "companyGenerated.xml";
         

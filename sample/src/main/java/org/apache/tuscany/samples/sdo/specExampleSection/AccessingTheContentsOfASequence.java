@@ -22,14 +22,11 @@ package org.apache.tuscany.samples.sdo.specExampleSection;
 
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
 
-import commonj.sdo.helper.HelperContext;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
 import commonj.sdo.DataObject;
-import commonj.sdo.Sequence;
 import commonj.sdo.Property;
+import commonj.sdo.Sequence;
+import commonj.sdo.helper.HelperContext;
 
 /**
  * Demonstrates accessing the sequence from a DataObject containing mixed content.
@@ -95,7 +92,7 @@ public class AccessingTheContentsOfASequence  extends SampleBase {
     HelperContext scope;
 
     public AccessingTheContentsOfASequence(Integer userLevel) {
-      super(userLevel);
+      super(userLevel, SAMPLE_LEVEL_BASIC);
     }
 
 
@@ -117,7 +114,7 @@ public class AccessingTheContentsOfASequence  extends SampleBase {
     public static void main(String[] args) {
       // TODO make the default level COMMENTARY_FOR_NOVICE, once the rest of the sample has been
       // converted to using commentary()
-      AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(COMMENTARY_FOR_INTERMEDIATE);
+      AccessingTheContentsOfASequence sample = new AccessingTheContentsOfASequence(COMMENTARY_FOR_INTERMEDIATE);
 
       sample.run();
 

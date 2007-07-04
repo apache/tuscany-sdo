@@ -18,7 +18,7 @@
  *  under the License.
  */
 
-package org.apache.tuscany.samples.sdo.specCodeSnippets;
+package org.apache.tuscany.samples.sdo.advanced;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -101,7 +101,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
 
    
     public ObtainingDataGraphFromXml(Integer userLevel) {
-      super(userLevel, SAMPLE_LEVEL_INTERMEDIATE);
+      super(userLevel, SAMPLE_LEVEL_ADVANCED);
     }
     
     public static void main(String[] args) {
@@ -110,7 +110,8 @@ public class ObtainingDataGraphFromXml extends SampleBase {
        * Create an instance of the sample program.  Edit the "commentaryLevel" argument to suit
        * your experience, COMMENTARY_FOR_NOVICE, COMMENTARY_FOR_INTERMEDIATE or COMMENTARY_FOR_ADVANCED
        */
-      ObtainingDataGraphFromXml sample = new ObtainingDataGraphFromXml(COMMENTARY_FOR_NOVICE);
+      ObtainingDataGraphFromXml sample =
+    	  new ObtainingDataGraphFromXml(COMMENTARY_FOR_ADVANCED);
       sample.run();
       
     }

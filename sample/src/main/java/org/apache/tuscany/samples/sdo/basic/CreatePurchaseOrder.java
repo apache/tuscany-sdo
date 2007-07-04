@@ -18,13 +18,14 @@
  *  under the License.
  */
 
-package org.apache.tuscany.samples.sdo.otherSources;
+package org.apache.tuscany.samples.sdo.basic;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
+
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.DataFactory;
@@ -79,17 +80,11 @@ import commonj.sdo.helper.XMLDocument;
 public class CreatePurchaseOrder extends SampleBase {
 
     public CreatePurchaseOrder(Integer commentaryLevel) {
-      super(commentaryLevel, SAMPLE_LEVEL_NOVICE);
+      super(commentaryLevel, SAMPLE_LEVEL_BASIC);
     }
 
-    /**
-     * Drives sample
-     * 
-     * @param args.
-     *            none required.
-     */
-    public static void main(String[] args) {
 
+    public static void main(String[] args) {
 
       CreatePurchaseOrder sample = new CreatePurchaseOrder(COMMENTARY_FOR_NOVICE);
 

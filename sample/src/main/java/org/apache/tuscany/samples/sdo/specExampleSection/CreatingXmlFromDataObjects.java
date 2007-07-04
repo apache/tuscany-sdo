@@ -23,15 +23,11 @@ package org.apache.tuscany.samples.sdo.specExampleSection;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-import commonj.sdo.DataObject;
-import commonj.sdo.helper.DataFactory;
-import commonj.sdo.helper.HelperContext;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
-
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
-import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
+
+import commonj.sdo.DataObject;
+import commonj.sdo.helper.HelperContext;
 
 /**
  * Demonstrates programmatically creating a DataObject and generating an XML String.
@@ -85,7 +81,7 @@ import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertie
  * </UL>
  * 
  * @author Robbie Minshall
- * @see {@link org.apache.tuscany.samples.sdo.otherSources.CreatePurchaseOrder}
+ * @see {@link org.apache.tuscany.samples.sdo.basic.CreatePurchaseOrder}
  */
 
 public class CreatingXmlFromDataObjects  extends SampleBase {
@@ -93,14 +89,14 @@ public class CreatingXmlFromDataObjects  extends SampleBase {
     HelperContext scope;
 
     public CreatingXmlFromDataObjects(Integer userLevel) {
-      super(userLevel);
+      super(userLevel, SAMPLE_LEVEL_BASIC);
     }
 
 
   public static void main(String[] args) {
     // TODO make the default level COMMENTARY_FOR_NOVICE, once the rest of the sample has been
     // converted to using commentary()
-    AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(COMMENTARY_FOR_INTERMEDIATE);
+    CreatingXmlFromDataObjects sample = new CreatingXmlFromDataObjects(COMMENTARY_FOR_INTERMEDIATE);
 
     try {
       sample.run();

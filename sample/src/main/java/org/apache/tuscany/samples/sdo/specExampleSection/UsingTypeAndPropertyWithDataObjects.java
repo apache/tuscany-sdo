@@ -20,18 +20,15 @@
 
 package org.apache.tuscany.samples.sdo.specExampleSection;
 
-import commonj.sdo.helper.HelperContext;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
-import commonj.sdo.DataObject;
-import commonj.sdo.Type;
-import commonj.sdo.Property;
-
 import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SdoSampleConstants;
-import org.apache.tuscany.samples.sdo.specCodeSnippets.AccessDataObjectPropertiesByName;
+
+import commonj.sdo.DataObject;
+import commonj.sdo.Property;
+import commonj.sdo.Type;
+import commonj.sdo.helper.HelperContext;
 
 /**
  * Demonstrates the use of Type and Property to display and the META-DATA for and access Properties of a DataObject.
@@ -93,7 +90,7 @@ public class UsingTypeAndPropertyWithDataObjects  extends SampleBase {
 
 
     public UsingTypeAndPropertyWithDataObjects(Integer userLevel) {
-      super(userLevel);
+      super(userLevel, SAMPLE_LEVEL_BASIC);
     }
 
 
@@ -105,7 +102,7 @@ public class UsingTypeAndPropertyWithDataObjects  extends SampleBase {
   public static void main(String[] args) {
     // TODO make the default level COMMENTARY_FOR_NOVICE, once the rest of the sample has been
     // converted to using commentary()
-    AccessDataObjectPropertiesByName sample = new AccessDataObjectPropertiesByName(COMMENTARY_FOR_INTERMEDIATE);
+    UsingTypeAndPropertyWithDataObjects sample = new UsingTypeAndPropertyWithDataObjects(COMMENTARY_FOR_INTERMEDIATE);
 
     try {
       sample.run();
