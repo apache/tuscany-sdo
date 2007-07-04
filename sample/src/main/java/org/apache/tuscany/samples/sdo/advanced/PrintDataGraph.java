@@ -27,8 +27,6 @@ import java.util.ListIterator;
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 
-import test.DefaultHelperProvider;
-
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -37,6 +35,7 @@ import commonj.sdo.Type;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XSDHelper;
+import commonj.sdo.impl.HelperProvider;
 
 /**
  * 
@@ -49,7 +48,7 @@ import commonj.sdo.helper.XSDHelper;
 public class PrintDataGraph extends SampleBase {
 
   StringBuffer buf = null;
-  HelperContext scope = DefaultHelperProvider.getDefaultContext();
+  HelperContext scope = HelperProvider.getDefaultContext();
 
   private int indent;
 
