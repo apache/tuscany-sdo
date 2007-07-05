@@ -65,7 +65,7 @@ public abstract class SampleBase extends SampleInfrastructure {
   protected HelperContext createScopeForTypes() {
     commentary(
         COMMENTARY_FOR_NOVICE,
-        "All MetaData for SDO types can be viewed as being held in an instance of HelperContext\n" +
+        "All MetaData for SDO types can be viewed as being scoped within an instance of HelperContext\n" +
         "The Helper Context instance provides access to a collection of other helpers\n" +
         "that you will see exercised in the SDO samples\n" +
         "All the Helpers related to a given helper context instance know about the same set of types\n\n" +

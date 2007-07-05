@@ -25,6 +25,7 @@ import java.io.InputStream;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
 import org.apache.tuscany.sdo.api.SDOUtil;
 
 
@@ -114,6 +115,17 @@ public class ObtainingDataGraphFromXml extends SampleBase {
       sample.run();
       
     }
+    
+    /*
+     *  metadata for the sample documenting the areas of SDO that are explored
+     */
+    public static int [] CORE_FUNCTION = {
+      SDOFacets.WRAPPING_DATA_GRAPH_IN_A_DATAGRAPH_INSTANCE
+    };
+
+    public static int [] SIGNIFICANT_FUNCTION = {
+      SDOFacets.USING_BUILT_IN_TYPES
+    };
     
     
     public void runSample () {

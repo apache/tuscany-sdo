@@ -25,6 +25,21 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.tuscany.samples.sdo.advanced.MedicalScenario;
+import org.apache.tuscany.samples.sdo.advanced.ObtainingDataGraphFromXml;
+import org.apache.tuscany.samples.sdo.advanced.PrintDataGraph;
+import org.apache.tuscany.samples.sdo.basic.AccessDataObjectPropertiesByName;
+import org.apache.tuscany.samples.sdo.basic.AccessingTheContentsOfASequence;
+import org.apache.tuscany.samples.sdo.basic.CreateCompany;
+import org.apache.tuscany.samples.sdo.basic.CreatePurchaseOrder;
+import org.apache.tuscany.samples.sdo.basic.ReadPurchaseOrder;
+import org.apache.tuscany.samples.sdo.intermediate.AccessDataObjectUsingValidXPath;
+import org.apache.tuscany.samples.sdo.intermediate.AccessingDataObjectsViaPropertyIndex;
+import org.apache.tuscany.samples.sdo.intermediate.CreateCompanyTuscanyAPI;
+import org.apache.tuscany.samples.sdo.intermediate.CreateDataObjectFromXmlString;
+import org.apache.tuscany.samples.sdo.intermediate.DynamicCustomerTypeSample;
+import org.apache.tuscany.samples.sdo.intermediate.SerializingDeserializingADataObject;
+
 /**
  * One of a pair of base classes for samples. This one contains all the
  * infrastructure code that a person wanting to learn SDO would not want to look
@@ -34,6 +49,82 @@ public abstract class SampleInfrastructure {
 
   protected int sampleComplexityLevel = SAMPLE_LEVEL_BASIC.intValue();
   protected int commentaryLevel = COMMENTARY_FOR_NOVICE.intValue();
+  
+  /**
+   * Here's the list of sample programs
+   */
+  public static final Class[] sampleClasses = {
+    CreateCompany.class,
+    ReadPurchaseOrder.class,
+    CreatePurchaseOrder.class,
+    AccessDataObjectPropertiesByName.class,
+    AccessingTheContentsOfASequence.class,
+    
+    AccessDataObjectUsingValidXPath.class,
+    DynamicCustomerTypeSample.class,
+    CreateCompanyTuscanyAPI.class,
+    CreateDataObjectFromXmlString.class,
+    SerializingDeserializingADataObject.class,
+    AccessingDataObjectsViaPropertyIndex.class,
+  
+    ObtainingDataGraphFromXml.class,
+    PrintDataGraph.class,
+    MedicalScenario.class
+  
+  };
+
+  public static class SDOFacets {
+    public static final int GET_PROPERTIES_OF_DATAOBJECT_BY_NAME = 1; 
+    public static final int SET_PROPERTIES_OF_DATAOBJECT_BY_NAME = 2; 
+    public static final int CREATE_DATAOBJECTS_BY_NAME = 3; 
+    public static final int GET_SET_PROPERTIES_OF_DATAOBJECT_BY_INDEX = 4; 
+    public static final int GET_SET_PROPERTIES_BY_INSTANCE_PROPERTIES = 5; 
+    public static final int GET_SET_PROPERTIES_OF_DATAOBJECT_BY_XPATH = 6; 
+    public static final int ISMANY_PROPERTIES = 7; 
+    public static final int CONTAINMENT = 8; 
+    public static final int CREATE_TYPES_USING_THE_SDO_API = 9; 
+    public static final int CREATE_TYPES_USING_XML_SCHEMA = 10; 
+    public static final int CREATE_TYPES_USING_THE_TUSCANY_API = 11; 
+    public static final int USING_BUILT_IN_TYPES = 12; 
+    public static final int ACCESSING_VALUES_IN_A_SEQUENCE = 13; 
+    public static final int GENERIC_DATA_GRAPH_TRAVERSAL = 14; 
+    public static final int LOADING_DATA_FROM_XML = 15; 
+    public static final int SAVING_DATA_TO_XML = 16; 
+    public static final int CHANGE_MONITORING_USING_A_DATAGRAPH = 17; 
+    public static final int CHANGE_MONITORING_USING_A_CHANGESUMMARY_PROPERTY_ON_A_DATAOBJECT = 18; 
+    public static final int WRAPPING_DATA_GRAPH_IN_A_DATAGRAPH_INSTANCE = 19; 
+    public static final int OPEN_CONTENT = 20;
+    public static final int NON_CONTAINMENT = 21; 
+    public static final int CREATE_XML_SCHEMA_FROM_TYPES = 22; 
+    public static final int JAVA_SERIALIZATION_OF_DATA_GRAPH = 23; 
+    public static final int TESTING_FOR_GRAPH_EQUALITY = 24;
+    
+    public static final String [] subject_areas =  {
+      "",
+      "Get Properties of DataObject by name",
+      "Set Properties of DataObject by name",
+      "Create DataObjects by name",
+      "Get/Set Properties of DataObject by index",
+      "Get/Set Properties by Instance Properties",
+      "Get/Set Properties of DataObject by Xpath",
+      "isMany Properties","Containment",
+      "Create Types using the SDO API",
+      "Create Types using XML Schema",
+      "Create Types using the Tuscany API",
+      "Using Built-in Types",
+      "Accessing values in a Sequence",
+      "Generic data graph traversal",
+      "Loading data from XML",
+      "Saving data to XML",
+      "Change Monitoring using a DataGraph",
+      "Change Monitoring using a ChangeSummary Property on a DataObject",
+      "Wrapping data graph in a DataGraph instance",
+      "Open Content","Non-Containment",
+      "Create XML Schema from Types",
+      "Java Serialization of data graph",
+      "Testing for Graph Equality"
+    };
+  }
 
 
   /*

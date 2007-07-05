@@ -44,6 +44,14 @@ public class CreateCompany extends SampleBase {
     public CreateCompany(Integer commentaryLevel, Integer sampleLevel) {
       super(commentaryLevel, sampleLevel);
     }
+    
+    /*
+     *  metadata for the sample documenting the areas of SDO that are explored
+     */
+    public static int [] CORE_FUNCTION = {
+        SDOFacets.SET_PROPERTIES_OF_DATAOBJECT_BY_NAME
+    };
+    
     /**
      * XML file generated for the company DataObject
      */    

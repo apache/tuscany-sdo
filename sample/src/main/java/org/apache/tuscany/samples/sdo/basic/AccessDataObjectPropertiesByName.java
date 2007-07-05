@@ -25,7 +25,6 @@ import java.util.List;
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 
-
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
 
@@ -53,6 +52,13 @@ public class AccessDataObjectPropertiesByName extends SampleBase {
       sample.run();
 
     }
+    
+    /*
+     *  metadata for the sample documenting the areas of SDO that are explored
+     */
+    public static int [] CORE_FUNCTION = {
+      SDOFacets.GET_PROPERTIES_OF_DATAOBJECT_BY_NAME
+    };
 
     public void runSample () throws Exception {
 

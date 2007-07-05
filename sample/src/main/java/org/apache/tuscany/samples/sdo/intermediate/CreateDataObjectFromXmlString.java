@@ -22,6 +22,7 @@ package org.apache.tuscany.samples.sdo.intermediate;
 import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -93,6 +94,14 @@ public class CreateDataObjectFromXmlString extends SampleBase {
       sample.run();
  
     }
+    
+    /*
+     *  metadata for the sample documenting the areas of SDO that are explored
+     */
+    public static int [] CORE_FUNCTION = {
+      SDOFacets.USING_BUILT_IN_TYPES,
+      SDOFacets.LOADING_DATA_FROM_XML
+    };
 
     public void runSample () throws Exception {
 

@@ -85,6 +85,8 @@ import commonj.sdo.helper.HelperContext;
 
 public class UsingTypeAndPropertyWithDataObjects  extends SampleBase {
   
+  // FIXME decide on the fate of this example
+  
 
     HelperContext scope;
 

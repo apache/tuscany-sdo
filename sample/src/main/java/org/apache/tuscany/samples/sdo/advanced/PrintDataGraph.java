@@ -26,6 +26,7 @@ import java.util.ListIterator;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
 
 
 import commonj.sdo.DataObject;
@@ -63,6 +64,21 @@ public class PrintDataGraph extends SampleBase {
     PrintDataGraph sample = new PrintDataGraph(COMMENTARY_FOR_NOVICE);
     sample.run();
   }
+  
+  /*
+   *  metadata for the sample documenting the areas of SDO that are explored
+   */
+  public static int [] CORE_FUNCTION = {
+    SDOFacets.GENERIC_DATA_GRAPH_TRAVERSAL
+  };
+
+  public static int [] SIGNIFICANT_FUNCTION = {
+    SDOFacets.GET_SET_PROPERTIES_BY_INSTANCE_PROPERTIES,
+    SDOFacets.ISMANY_PROPERTIES,
+    SDOFacets.CREATE_TYPES_USING_THE_SDO_API,
+    SDOFacets.ACCESSING_VALUES_IN_A_SEQUENCE,
+    SDOFacets.NON_CONTAINMENT
+  };
   
   public void runSample() throws Exception {
     commentary("This sample demonstrates a common pattern of traversing a data graph\n"

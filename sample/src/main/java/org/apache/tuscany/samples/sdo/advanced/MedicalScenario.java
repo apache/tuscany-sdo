@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
 import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.DataObject;
@@ -90,6 +91,24 @@ public class MedicalScenario extends SampleBase {
     s.run();
 
   }
+  
+  /*
+   *  metadata for the sample documenting the areas of SDO that are explored
+   */
+  public static int [] CORE_FUNCTION = {
+    SDOFacets.CONTAINMENT,
+    SDOFacets.CREATE_TYPES_USING_THE_SDO_API,
+    SDOFacets.CREATE_TYPES_USING_XML_SCHEMA,
+    SDOFacets.OPEN_CONTENT,
+    SDOFacets.NON_CONTAINMENT
+  };
+  
+  public static int [] SIGNIFICANT_FUNCTION = {
+    SDOFacets.CREATE_DATAOBJECTS_BY_NAME,
+    SDOFacets.ISMANY_PROPERTIES,
+    SDOFacets.GENERIC_DATA_GRAPH_TRAVERSAL,
+    SDOFacets.SAVING_DATA_TO_XML
+  };
 
   public void runSample() throws Exception {
 

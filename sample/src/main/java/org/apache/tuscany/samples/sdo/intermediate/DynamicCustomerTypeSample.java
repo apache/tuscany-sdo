@@ -29,6 +29,7 @@ import commonj.sdo.helper.TypeHelper;
 import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
 
 /**
  * Demonstrates creating and using Types dynamically. This sample is from the <a
@@ -120,6 +121,21 @@ public class DynamicCustomerTypeSample extends SampleBase {
       sample.run();
 
     }
+    
+    /*
+     *  metadata for the sample documenting the areas of SDO that are explored
+     */
+    public static int [] CORE_FUNCTION = {
+      SDOFacets.CREATE_TYPES_USING_THE_SDO_API
+    };
+    /*
+     *  metadata for the sample documenting the areas of SDO that are explored
+     */
+    public static int [] SIGNIFICANT_FUNCTION = {
+      SDOFacets.SET_PROPERTIES_OF_DATAOBJECT_BY_NAME,
+      SDOFacets.USING_BUILT_IN_TYPES,
+      SDOFacets.SAVING_DATA_TO_XML
+    };
 
     public void runSample () throws Exception {
 

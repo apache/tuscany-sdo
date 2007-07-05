@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
 import org.apache.tuscany.samples.sdo.advanced.PrintDataGraph;
 
 import commonj.sdo.DataObject;
@@ -76,6 +77,14 @@ public class AccessingDataObjectsViaPropertyIndex  extends SampleBase {
       sample.run();
  
     }
+    
+    /*
+     *  metadata for the sample documenting the areas of SDO that are explored
+     */
+    public static int [] CORE_FUNCTION = {
+      SDOFacets.GET_SET_PROPERTIES_OF_DATAOBJECT_BY_INDEX
+    };
+
 
     public void runSample () throws Exception {
 

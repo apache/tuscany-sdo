@@ -28,6 +28,7 @@ import java.io.ObjectOutputStream;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
@@ -53,6 +54,19 @@ public class SerializingDeserializingADataObject  extends SampleBase {
 
     }
 
+    /*
+     *  metadata for the sample documenting the areas of SDO that are explored
+     */
+    public static int [] CORE_FUNCTION = {
+      SDOFacets.JAVA_SERIALIZATION_OF_DATA_GRAPH
+    };
+    /*
+     *  metadata for the sample documenting the areas of SDO that are explored
+     */
+    public static int [] SIGNIFICANT_FUNCTION = {
+      SDOFacets.TESTING_FOR_GRAPH_EQUALITY
+    };
+    
     public void runSample () throws Exception {
 
         commentary(

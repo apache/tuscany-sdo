@@ -24,6 +24,7 @@ import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
+import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
 
 
 import commonj.sdo.DataObject;
@@ -117,6 +118,19 @@ public class ReadPurchaseOrder extends SampleBase {
       sample.run();
 
     }
+    
+    /*
+     *  metadata for the sample documenting the areas of SDO that are explored
+     */
+    public static int [] CORE_FUNCTION = {
+      SDOFacets.LOADING_DATA_FROM_XML,
+      SDOFacets.SAVING_DATA_TO_XML
+    };
+    public static int [] SIGNIFICANT_FUNCTION = {
+      SDOFacets.GET_PROPERTIES_OF_DATAOBJECT_BY_NAME
+    };
+
+
 
     public void runSample () throws Exception {
         commentary(COMMENTARY_ALWAYS,
