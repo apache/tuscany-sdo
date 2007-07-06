@@ -326,6 +326,11 @@ public class DataHelperImpl implements DataHelper
   
   public synchronized Calendar toCalendar(String dateString)
   {
+    return toCalendar(dateString, null);
+  }
+  
+  public synchronized Calendar toCalendar(String dateString, Locale locale)
+  {
     if (dateString == null)
     {
       return null;
@@ -337,26 +342,7 @@ public class DataHelperImpl implements DataHelper
       return null;
     }
     
-    Calendar calendar = new GregorianCalendar();
-    calendar.setTime(date);
-    
-    return calendar;
-  }
-  
-  public synchronized Calendar toCalendar(String dateString, Locale locale)
-  {
-    if (dateString == null || locale == null)
-    {
-      return null;
-    }
-    
-    Date date = toDate(dateString);
-    if (date == null)
-    {
-      return null;
-    }
-    
-    Calendar calendar = new GregorianCalendar(locale);
+    Calendar calendar = locale != null ? new GregorianCalendar(locale) : new GregorianCalendar();
     calendar.setTime(date);
     return calendar;
   }
