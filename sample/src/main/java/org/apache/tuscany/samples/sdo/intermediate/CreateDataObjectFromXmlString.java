@@ -129,8 +129,10 @@ public class CreateDataObjectFromXmlString extends SampleBase {
         
         // FIXME I'm not sure how to explain why the top level data object is of type AnyTypeDataObject
         // and the shipTo Property's type is DataObject
+        // FIXME show that this is open and isDataType = false
         System.out.println("The type of the DataObject is " + purchaseOrder.getType().getName() +
             " and has " + purchaseOrder.getType().getProperties().size() + " Properties");
+        System.out.println("The type of the DataObject is " + purchaseOrder.getInstanceProperty("shipTo").getType().getName());
         System.out.println("The DataObject itself has " + purchaseOrder.getInstanceProperties().size() + " Properties\n");
         Property p0 = (Property)purchaseOrder.getInstanceProperties().get(0);
         System.out.println("The first of these instance Properties is " + p0.getName() + " and is of type " + p0.getType().getName());

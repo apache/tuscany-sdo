@@ -1,24 +1,26 @@
-Building SDO Releases
-=====================
-The SDO specification source distribution and the SDO implementation source distribution
-together with a computer with a live internet connection, maven 2.0.4 installed and java 1.4.2
-or above installed are all you need to build
-1) the SDO binary distribution
-2) the SDO samples source distribution 
+Building the SDO Release from a Source Distribution
+===================================================
 
-Building the SDO Java Implementation Project Binary Release from the source distribution 
-========================================================================================
-(note,  these instructions are for building the SDO binary release from
+
+Note,  these instructions are for building the SDO binary release from
 source, not for establishing a development environment.  If you wish to
 participate in sdo development, follow the instructions at 
-http://cwiki.apache.org/confluence/display/TUSCANY/Developing+SDO+Java
+http://incubator.apache.org/tuscany/developing-sdo-java.html
+
+
+Initial Setup
+-------------
+
+1) Install J2SE JDK 1.4.2 or above
+2) Install Maven:
+Download Maven 2.0.4 (download from http://maven.apache.org/download.html)
+
 
 Building
 --------
-In these instructions <archive-root> refers to the common root folder contained in all distribution archives for a particular release, for example "tuscany-sdo-1.0-incubating-M3"
 
-1) Download the corresponding SDO specification source distribution from http://cwiki.apache.org/TUSCANY/sdo-java-download.html
-2) Execute the instructions in that archive for building the SDO specification component
+
+
 Note: following this step you will have maven installed, and a Java JDK at level 1.4.2 or above installed.
 3) If you have chosen to install a JDK at level 5 then all will be fine,  but there is one value add component in the
    Tuscany SDO implementation which relies on new JDK 5.0 features.  If you do not wish to use JDK 5 for the following
@@ -27,26 +29,11 @@ Note: following this step you will have maven installed, and a Java JDK at level
 4) Change to the top level directory of the Tuscany SDO Java Implementation project (<archive-root>/sdo) of this source distribution.
 6) Execute: mvn
    This will install the sdo implementation and tools jars in your local maven repository
-5) Execute: mvn package javadoc:javadoc assembly:assembly
-   This will build the Tuscany SDO for Java binary distribution artefacts in the sdo/distribution/target
-   directory.
+cd to distribution and run mvn
 
 Note: Depending on the load being experienced by remote Maven 2.0 repositories you may have to execute mvn several
     times until required dependencies are all located in your local maven repository.  After you have completed a
     full successful build you can use "mvn -o" which builds without trying to access updated build dependencies (offline mode) and is much faster.
 
-6) Currently, due to maven configuration issues, the distribution artefacts at this point contain 2 spurious items, junit-3.8.1.jar and asm-2.2.jar.  In order for the distribution archives to be consistent with the contained license information, these jar files must be manually removed from the archives.  This step will become unnecessary once the issues with maven have been overcome/fixed.
 
 7) To run the sample programs, change directory to the <archive-root>/sdo/sample directory, and run the command "mvn".  Then look in the <archive-root>/sdo/sample/target/site/apidocs/index.html file for javadoc that describes how to run the samples.
-
-
-Building the SDO Samples Source distribution
-============================================
-
-To build the SDO Samples source distribution
-1) Build the SDO binary distribution as instructed above
-2) From the top level directory of your SDO implementation build tree change directory to the <archive-root>/sdo/sample directory and execute the command mvn javadoc:javadoc to create javadoc for the samples in the <archive-root>/sdo/sample/target/site/apidocs directory
-3) copy the <archive-root>/sdo/sample directory from the SDO implementation source distribution to a temporary location with the path <archive-root>/sample below the temporary directory location
-4) copy the site/apidocs folder created in step 2 to the temporary directory created for step 3, so that it exists at path <archive-root>/sample/javadoc
-5) create .zip and .tar.gz archives containing the sample source and javadoc using the naming convention
-apache-<archive-root>-sample.<archive-extension>, such that the archives each contain a single root folder <archive-root>
