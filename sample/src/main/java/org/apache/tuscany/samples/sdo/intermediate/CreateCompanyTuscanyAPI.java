@@ -119,7 +119,7 @@ public class CreateCompanyTuscanyAPI extends org.apache.tuscany.samples.sdo.basi
         commentary(COMMENTARY_FOR_INTERMEDIATE,
             "Now we create a root object of a selected type for the DataGraph wrapper to contain.\n"+
             "This is an example of a DataGraph interface that currently forces us to use the default scope.\n\n"+
-            "company = dataGraph.createRootObject(SdoSampleConstants.COMPANY_NAMESPACE, \"CompanyType\");");
+            "company = dataGraph.createRootObject(SampleInfrastructure.COMPANY_NAMESPACE, \"CompanyType\");");
         
         DataObject company = dataGraph.createRootObject(SampleInfrastructure.COMPANY_NAMESPACE, "CompanyType");
         

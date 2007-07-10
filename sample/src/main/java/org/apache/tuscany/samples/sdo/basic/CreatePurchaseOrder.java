@@ -119,7 +119,7 @@ public class CreatePurchaseOrder extends SampleBase {
               "We are creating a DataObject using a DataFactory by specifying the URI and name of\n"+
               "the Type that we want to use for the DataObject.\n\n"+
               "DataFactory factory = scope.getDataFactory();\n"+
-              "DataObject purchaseOrder = factory.create(SdoSampleConstants.PO_NAMESPACE, \"PurchaseOrderType\");");
+              "DataObject purchaseOrder = factory.create(SampleInfrastructure.PO_NAMESPACE, \"PurchaseOrderType\");");
           
           DataFactory factory = scope.getDataFactory();           
           DataObject purchaseOrder = factory.create(SampleInfrastructure.PO_NAMESPACE, "PurchaseOrderType");
@@ -168,8 +168,8 @@ public class CreatePurchaseOrder extends SampleBase {
               "Now we use the XMLHelper to write an XML document representing the data graph\n"+
               "to a file.  We must supply a namespace and a name for the root element of the graph, since it is\n"+
               "not contained in the DataObject\n\n"+
-              "OutputStream stream = new FileOutputStream(SdoSampleConstants.PO_XML_GENERATED);\n"+
-              "scope.getXMLHelper().save(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, \"purchaseOrder\", stream);"
+              "OutputStream stream = new FileOutputStream(SampleInfrastructure.PO_XML_GENERATED);\n"+
+              "scope.getXMLHelper().save(purchaseOrder, SampleInfrastructure.PO_NAMESPACE, \"purchaseOrder\", stream);"
               );
           
           
@@ -182,7 +182,7 @@ public class CreatePurchaseOrder extends SampleBase {
               "This has the advantage that the namespace URI and root element name are preserved in the Object\n"+
               "This interface was introduced after Fuhwei's paper,  and has particular advantage\n"+
               "when loading an XML document from a file\n\n"+
-              "scope.getXMLHelper().createDocument(purchaseOrder, SdoSampleConstants.PO_NAMESPACE, \"purchaseOrder\");\n"+
+              "scope.getXMLHelper().createDocument(purchaseOrder, SampleInfrastructure.PO_NAMESPACE, \"purchaseOrder\");\n"+
               "scope.getXMLHelper().save(doc, System.out, null);");
           
           

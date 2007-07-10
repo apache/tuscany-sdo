@@ -35,7 +35,6 @@
 			<includes>
 				<include>DISCLAIMER</include>
 				<include>README</include>
-				<include>RELEASE_NOTES</include>
 			</includes>
 		</fileSet>
 		<fileSet>
@@ -80,6 +79,24 @@
 		</fileSet>
 	</fileSets>
 
+    <files>
+        <file>
+            <source>src/main/release/bin/runsamples.bat</source>
+            <outputDirectory>tuscany-sdo-${sdo.version}/samples</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>src/main/release/bin/runsamples.sh</source>
+            <outputDirectory>tuscany-sdo-${sdo.version}/samples</outputDirectory>
+            <filtered>true</filtered>
+        </file> 
+        <file>
+            <source>src/main/release/RELEASE_NOTES</source>
+            <outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+    </files>
+
     <dependencySets>
         <dependencySet>
             <outputDirectory>tuscany-sdo-${sdo.version}/lib</outputDirectory>
@@ -87,6 +104,7 @@
                 <include>org.apache.tuscany.sdo:tuscany-sdo-lib</include>
                 <include>org.apache.tuscany.sdo:tuscany-sdo-impl</include>
                 <include>org.apache.tuscany.sdo:tuscany-sdo-tools</include>
+                <include>org.apache.tuscany.sdo:sample-sdo</include>
             </includes>
             <fileMode>644</fileMode>
         </dependencySet>

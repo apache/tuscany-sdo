@@ -165,7 +165,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
                 "loading a data graph which uses a method, XMLHelper.load().  This loads an XML instance document\n"+
                 "into an instance of XMLDocument ...\n\n"+
                 "XMLDocument doc = scope.getXMLHelper().load(\n"+
-                "ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML));"
+                "ClassLoader.getSystemResourceAsStream(SampleInfrastructure.COMPANY_DATAGRAPH_XML));"
                 );
             
             InputStream is = ClassLoader.getSystemResourceAsStream(SampleInfrastructure.COMPANY_DATAGRAPH_XML);
@@ -211,7 +211,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
                "The SDO API has some limitations in the area of saving and loading instances of the\n"+
                "Java DataGraph type, so Tuscany has an API for doing this ...\n\n"+
                "DataGraph datagraph = SDOUtil.loadDataGraph(\n"+
-               "      ClassLoader.getSystemResourceAsStream(SdoSampleConstants.COMPANY_DATAGRAPH_XML), null);"
+               "      ClassLoader.getSystemResourceAsStream(SampleInfrastructure.COMPANY_DATAGRAPH_XML), null);"
 
             );
 

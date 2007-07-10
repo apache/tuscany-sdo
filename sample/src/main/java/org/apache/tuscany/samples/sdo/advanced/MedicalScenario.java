@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
 import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.DataObject;

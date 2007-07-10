@@ -87,7 +87,7 @@ public class CreateCompany extends SampleBase {
         commentary(
             "Now that our type system has been loaded and made available through the scope\n"+
             "DataObjects can be created by a DataFactory that has access to the required types.\n\n"+
-            "DataObject company = scope.getDataFactory().create(SdoSampleConstants.COMPANY_NAMESPACE, \"CompanyType\");");
+            "DataObject company = scope.getDataFactory().create(SampleInfrastructure.COMPANY_NAMESPACE, \"CompanyType\");");
         
         DataObject company = scope.getDataFactory().create(SampleInfrastructure.COMPANY_NAMESPACE, "CompanyType");
         
@@ -97,13 +97,13 @@ public class CreateCompany extends SampleBase {
         
         commentary(
             "The XMLHelper can be used to write an XML serialized version of the data graph\n\n"+
-            "scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, \"company\", fos);");
+            "scope.getXMLHelper().save(company, SampleInfrastructure.COMPANY_NAMESPACE, \"company\", fos);");
         
         scope.getXMLHelper().save(company, SampleInfrastructure.COMPANY_NAMESPACE, "company", fos);
         
         commentary(
             "Similarly we can serialize the graph to an XML String using the XMLHelper\n\n"+
-            "String xml = scope.getXMLHelper().save(company, SdoSampleConstants.COMPANY_NAMESPACE, \"company\");\n");
+            "String xml = scope.getXMLHelper().save(company, SampleInfrastructure.COMPANY_NAMESPACE, \"company\");\n");
         
         String xml = scope.getXMLHelper().save(company, SampleInfrastructure.COMPANY_NAMESPACE, "company");
         

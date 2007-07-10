@@ -31,6 +31,17 @@ import java.util.Set;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure;
 import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
 
+/**
+ * Class to generate html documentation for the SDO Samples.
+ * The program introspects the sample programs listed in the
+ * {@link SampleInfrastructure#sampleClasses sample classes}
+ * static constant, for the values of the static CORE_FUNCTION
+ * and SIGNIFICANT_FUNCTION variables.
+ * <P>
+ * It builds indexes from
+ * sample to function and from function to sample and creates
+ * html output that displays these indexes. 
+ */
 public class DocumentSamples {
 
   private Map classToCoreFunction = new HashMap();
@@ -48,7 +59,9 @@ public class DocumentSamples {
   }
   
   private static String HTML_HEADER =
-    "<html>\n"+
+    "<html>\n" +
+    "<!-- Note -- this file is GENERATED from the samples using the\n" +
+    "Document Samples utility. Hand edits will be lost when regenerated!-->\n"+
     "<!--                                                             \n"+
     "*                                                              \n"+
     "*  Licensed to the Apache Software Foundation (ASF) under one  \n"+
@@ -69,7 +82,15 @@ public class DocumentSamples {
     "*  under the License.                                          \n"+
     "-->                                                             \n"+
     "<head><title>SDO Samples</title></head><body>\n" +
-    "  <h1>SDO Samples</h1>\n";
+    "  <h1>SDO Samples</h1>\n" +
+    "<P>\n" +
+    "The samples provided in the Tuscany SDO distribution cover many areas of\n" +
+    "the SDO API.  Here we provide two indexes into the samples.  The first lists\n" +
+    "each sample in sequence and details the central theme(s) of the sample.\n" +
+    "It also mentions if the sample significantly demonstrates other areas in passing.\n" +
+    "The second index lists all the themes that are covered by these samples, and\n" +
+    "indicates which of the samples has that subject area as a central theme or as\n" +
+    "demonstrates the subject area significant as an incidental part of the sample.";
 
   private static String CLASSES_HEADING =
     "<H2>Index by Sample Program Name</H2>\n";

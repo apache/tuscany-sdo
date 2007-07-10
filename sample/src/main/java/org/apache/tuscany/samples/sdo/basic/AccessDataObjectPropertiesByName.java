@@ -64,7 +64,7 @@ public class AccessDataObjectPropertiesByName extends SampleBase {
 
         banner("This sample will access a DataObject's properties by name\n"+
             "Take a look at the sample code to see all the uses of dataObject.get(String)\n"+
-            "dataObject.getList(String) and dataobhect.getdataObject(String)");
+            "dataObject.getList(String) and dataObject.getDataObject(String)");
 
         // setting up the type system for the example,  see the utility methods for details of these operations
         HelperContext scope = createScopeForTypes();
@@ -72,6 +72,7 @@ public class AccessDataObjectPropertiesByName extends SampleBase {
 
         DataObject purchaseOrder = getDataObjectFromFile(scope, SampleInfrastructure.PO_XML_RESOURCE);
 
+        // FIXME still converting this sample
 
         System.out.println("Accessing properties by name");
         System.out.println("Purchase Order: ");
