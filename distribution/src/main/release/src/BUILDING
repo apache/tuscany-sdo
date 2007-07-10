@@ -12,28 +12,24 @@ Initial Setup
 -------------
 
 1) Install J2SE JDK 1.4.2 or above
-2) Install Maven:
-Download Maven 2.0.4 (download from http://maven.apache.org/download.html)
-
+2) Install Maven: Download Maven 2.0.7 (download from http://maven.apache.org/download.html) Follow the maven instructions for
+configuring the JAVA_HOME environment variable, and ensuring that the "mvn" command is on your execution PATH.
 
 Building
 --------
 
-
-
-Note: following this step you will have maven installed, and a Java JDK at level 1.4.2 or above installed.
-3) If you have chosen to install a JDK at level 5 then all will be fine,  but there is one value add component in the
+1) If you have chosen to install a JDK at version 5 then all will be fine,  but there is one value add component in the
    Tuscany SDO implementation which relies on new JDK 5.0 features.  If you do not wish to use JDK 5 for the following
    build step, then you will need to delete the file
    <archive-root>/sdo/tools/src/main/java/org/apache/tuscany/sdo/generate/Interface2JavaGenerator.java before proceding
-4) Change to the top level directory of the Tuscany SDO Java Implementation project (<archive-root>/sdo) of this source distribution.
-6) Execute: mvn
+2) In a command window/shell, change to the top level directory of the Tuscany SDO Java source distribution.
+3) Execute: mvn
    This will install the sdo implementation and tools jars in your local maven repository
-cd to distribution and run mvn
+4) If you wish to rebuild the Tuscany SDO Java binary dstribution change directory to "distribution" and run mvn
+   This will create archives of the binary and source distributions in the target subdirectory of the distribution directory
 
 Note: Depending on the load being experienced by remote Maven 2.0 repositories you may have to execute mvn several
     times until required dependencies are all located in your local maven repository.  After you have completed a
     full successful build you can use "mvn -o" which builds without trying to access updated build dependencies (offline mode) and is much faster.
 
 
-7) To run the sample programs, change directory to the <archive-root>/sdo/sample directory, and run the command "mvn".  Then look in the <archive-root>/sdo/sample/target/site/apidocs/index.html file for javadoc that describes how to run the samples.
