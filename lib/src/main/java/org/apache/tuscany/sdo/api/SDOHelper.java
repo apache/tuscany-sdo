@@ -309,6 +309,11 @@ public interface SDOHelper
     public Property createProperty(Type containingType, String name, Type propertyType);
 
     /**
+     * Set a SDO property to become an XSD element or attribute
+     */
+    public void setPropertyXMLKind(Property property, boolean isXmlElement);
+
+    /**
      * Create a new open content property in the specified TypeHelper scope.
      */
     public Property createOpenContentProperty(TypeHelper scope, String uri, String name, Type type);
