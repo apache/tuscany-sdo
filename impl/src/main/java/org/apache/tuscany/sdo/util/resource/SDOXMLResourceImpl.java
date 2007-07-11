@@ -51,6 +51,9 @@ import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.api.SDOHelper;
 import org.apache.tuscany.sdo.api.SDOUtil;
 import org.apache.tuscany.sdo.util.StAX2SAXAdapter;
+import org.apache.tuscany.sdo.model.internal.InternalFactory;
+import org.apache.tuscany.sdo.model.internal.impl.InternalFactoryImpl;
+import org.eclipse.emf.common.util.EMap;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -175,8 +178,48 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
         
         private String xsdQName2SDOURI(String xsdQName) {
             org.eclipse.emf.ecore.xml.type.internal.QName qname = new org.eclipse.emf.ecore.xml.type.internal.QName(xsdQName);
+            try {
             updateQNameURI(qname);
+            }
+            catch (IllegalArgumentException e) {
+                return xsdQName;
+            }
             return qname.getNamespaceURI() + "#" + qname.getLocalPart();
+        }
+        
+        private String getPrefixFromNamespaceURI(String nsURI) {
+            String nsPrefix = null;
+
+            List prefixes = (List)urisToPrefixes.get(nsURI);
+            if (prefixes != null)
+            {
+              for (Iterator i = prefixes.iterator(); i.hasNext(); )
+              {
+                nsPrefix = (String)i.next();
+                if (nsPrefix.length() >= 0) {
+                    // When the length is 0, it's the default namespace
+                    return nsPrefix;
+                }
+              }
+            }
+            
+            nsPrefix = namespaceSupport.getPrefix(nsURI);
+            if (nsPrefix != null)
+            {
+              return nsPrefix;
+            }
+            
+            // Demand create a new package
+            EPackage ePackage = extendedMetaData.demandPackage(nsURI);
+
+            if (ExtendedMetaData.XSI_URI.equals(nsURI)) {
+                ePackage.setNsPrefix(ExtendedMetaData.XSI_PREFIX);
+            }
+            
+            // getPrefix() will make sure all mapping tables are configured correctly
+            nsPrefix = getPrefix(ePackage, true);
+            
+            return nsPrefix;
         }
         
         private String SDOURI2XsdQName(String sdoURI) {
@@ -191,17 +234,10 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
                 namespace = sdoURI.substring(0, index);
                 localPart = sdoURI.substring(index+1);
                 
-                EPackage ePackage = extendedMetaData.getPackage(namespace);
-                if (ePackage == null)
-                {
-                  ePackage = extendedMetaData.demandPackage(namespace);
-                }
+                String prefix = getPrefixFromNamespaceURI(namespace);
 
-                String prefix = getPrefix(ePackage, true);
-                if (!packages.containsKey(ePackage))
-                {
-                  packages.put(ePackage, prefix);
-                }
+                if (prefix.length() == 0)
+                    return localPart;
                 
                 return prefix + ":" + localPart;
             }
@@ -209,7 +245,7 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
         
         protected Object createFromString(EFactory eFactory, EDataType eDataType, String value) {
             Object obj = super.createFromString(eFactory, eDataType, value);
-            if (eDataType.getName().equals("QName")) {
+            if (eDataType == ((InternalFactoryImpl)InternalFactory.INSTANCE).getQName()) {
                 if (extendedMetaData != null) {
                     if (obj instanceof List) {
                         List list = (List)obj;
@@ -226,8 +262,8 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
             return obj;
         }
         
-        public String convertToString(EFactory factory, EDataType dataType, Object value) {
-            if (dataType.getName().equals("QName")) {
+        public String convertToString(EFactory factory, EDataType eDataType, Object value) {
+            if (eDataType == ((InternalFactoryImpl)InternalFactory.INSTANCE).getQName()) {
                 if (extendedMetaData != null) {
                     if (value instanceof List) {
                         List list = (List)value;
@@ -242,7 +278,7 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
                 }
             }
             
-            return super.convertToString(factory, dataType, value);
+            return super.convertToString(factory, eDataType, value);
         }
     }
 
