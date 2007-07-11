@@ -33,6 +33,8 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.tuscany.sdo.impl.AttributeImpl;
 import org.apache.tuscany.sdo.impl.ReferenceImpl;
+import org.apache.tuscany.sdo.model.internal.InternalFactory;
+import org.apache.tuscany.sdo.model.internal.impl.InternalFactoryImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -585,14 +587,42 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
                     // get the attribute pointer
                     Object attribPointer = attributes[i].getKey();
                     Object omAttribObj = attributes[i].getValue();
-                    // case one - attrib name is null
-                    // this should be the pointer to the OMAttribute then
-                    if (attribPointer instanceof String) {
-                        return (String) omAttribObj;
-                    } else if (attribPointer instanceof QName) {
-                        return (String) omAttribObj;
-                    } else {
+                    
+                    // Handle xsd:QName/SDO URI type property
+                    // Before save, convert <uri>#<local part> to <prefix>:<local part>
+                    String propertyName = null;
+                    if (attribPointer instanceof String)
+                        propertyName = (String)attribPointer;
+                    else if (attribPointer instanceof QName)
+                        propertyName = ((QName)attribPointer).getLocalPart();
+                    else
                         return null;
+                    
+                    String attrValue = (String)omAttribObj;
+
+                    Property property = dataObject.getType().getProperty(propertyName);
+                    Type propertyType = property.getType();
+                    if ("URI".equals(propertyType.getName())) {
+                        String namespace = null;
+                        String localPart = attrValue;
+                        
+                        int index = attrValue.indexOf('#');
+                        if (index == -1) {
+                            return localPart;
+                        }
+                        else {
+                            namespace = localPart.substring(0, index);
+                            localPart = localPart.substring(index+1);
+                            
+                            String prefix = namespaceContext.getPrefix(namespace);
+                            if (prefix == null || prefix.length() == 0)
+                                return localPart;
+                            
+                            return prefix + ":" + localPart;
+                        }
+                    }
+                    else {
+                        return attrValue;
                     }
                 }
             }
