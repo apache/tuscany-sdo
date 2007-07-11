@@ -61,7 +61,8 @@ public class AllTests extends TestCase {
         suite.addTestSuite(XPathTestCase.class);
         suite.addTestSuite(XSDHelperTestCase.class);
         suite.addTestSuite(XSDQNameTestCase.class);
-
+        suite.addTestSuite(XMLLoadOptionsTestCase.class);
+        suite.addTestSuite(XMLSaveOptionsTestCase.class);
         return suite;
     }
 
@@ -74,4 +75,7 @@ public class AllTests extends TestCase {
         junit.textui.TestRunner.run(suite());
     }
 }
+
+
+
 

@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.apache.tuscany.sdo.generate.adapter.SDOGenModelGeneratorAdapterFactory;
+import org.apache.tuscany.sdo.helper.HelperContextImpl;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.SDOPackageImpl;
 import org.apache.tuscany.sdo.model.ModelFactory;
@@ -308,7 +309,7 @@ public abstract class JavaGenerator
     DataObjectUtil.initRuntime();
     EPackage.Registry packageRegistry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE);
     ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(packageRegistry);
-    XSDHelper xsdHelper = new XSDHelperImpl(extendedMetaData, null);
+    XSDHelper xsdHelper = (new HelperContextImpl(extendedMetaData, false)).getXSDHelper();
 
     try
     {

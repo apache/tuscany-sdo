@@ -32,6 +32,7 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.apache.tuscany.sdo.SDOPackage;
+import org.apache.tuscany.sdo.helper.HelperContextImpl;
 import org.apache.tuscany.sdo.helper.SDOAnnotations;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.ChangeSummaryImpl;
@@ -529,8 +530,9 @@ public class ChangeSummaryStreamSerializer {
             extendedMetaData = ExtendedMetaData.INSTANCE;
             xsdHelper = XSDHelper.INSTANCE;
         }
-        else
-            xsdHelper = new XSDHelperImpl(extendedMetaData, null);
+        else{
+        	xsdHelper = (new HelperContextImpl(extendedMetaData, false)).getXSDHelper();
+        }
         Property declaration = changeSummaryElementNS == null
                              ? rootObject.getType().getProperty(changeSummaryElementName)
                              : xsdHelper.getGlobalProperty(changeSummaryElementNS, changeSummaryElementName, true);

@@ -16,12 +16,16 @@
 
 package org.apache.tuscany.sdo.util.resource;
 
+import java.util.Map;
 import javax.xml.namespace.NamespaceContext;
+import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 
+import org.apache.tuscany.sdo.api.SDOHelper;
+import org.apache.tuscany.sdo.api.SDOUtil;
 /**
  * The XMLStreamSerializer pulls events from the XMLStreamReader and dumps into the XMLStreamWriter
  */
@@ -52,6 +56,10 @@ public class XMLStreamSerializer implements XMLStreamConstants {
         serializeNode(node, writer);
     }
 
+    public void serialize(XMLStreamReader node, XMLStreamWriter writer, Map options) throws XMLStreamException {
+    	this.options = options;
+        serializeNode(node, writer);
+    }
     /**
      * Method serializeNode.
      * 
@@ -65,7 +73,12 @@ public class XMLStreamSerializer implements XMLStreamConstants {
         while (reader.hasNext()) {
             int event = reader.next();
             if (event == START_ELEMENT) {
-                serializeElement(reader, writer);
+            	if(options == null){
+            		serializeElement(reader, writer);
+            	}
+            	else{
+            		serializeElementWithOptions(reader, writer);
+            	}
                 depth++;
             } else if (event == ATTRIBUTE) {
                 serializeAttributes(reader, writer);
@@ -76,7 +89,11 @@ public class XMLStreamSerializer implements XMLStreamConstants {
             } else if (event == CDATA) {
                 serializeCData(reader, writer);
             } else if (event == END_ELEMENT) {
-                serializeEndElement(writer);
+            	if(options == null){
+            		serializeEndElement(writer);
+            	}else{
+            		serializeEndElementWithOptions(writer);
+            	}
                 depth--;
             } else if (event == START_DOCUMENT) {
                 depth++; // if a start document is found then increment the depth
@@ -84,7 +101,12 @@ public class XMLStreamSerializer implements XMLStreamConstants {
                 if (depth != 0)
                     depth--; // for the end document - reduce the depth
                 try {
-                    serializeEndElement(writer);
+                	if(options == null){
+                		serializeEndElement(writer);
+                	}
+                	else{
+                		serializeEndElementWithOptions(writer);	
+                	}                    
                 } catch (Exception e) {
                     // TODO: log exceptions
                 }
@@ -137,7 +159,71 @@ public class XMLStreamSerializer implements XMLStreamConstants {
         serializeAttributes(reader, writer);
 
     }
+    /**
+     * @param reader
+     * @param writer
+     * @throws XMLStreamException
+     */
+    protected void serializeElementWithOptions(XMLStreamReader reader, XMLStreamWriter writer) throws XMLStreamException {
+    	++nest;
+    	boolean brk=false;
+    	if(oldNest != nest){
+    		if(oldNest < nest) brk = true;
+    		oldNest = nest;    		
+    	}
+    	startElement(writer);
+        String prefix = reader.getPrefix();
+        String nameSpaceName = reader.getNamespaceURI();
+        if (nameSpaceName != null) {
+            String writer_prefix = writer.getPrefix(nameSpaceName);
+            
+            if (writer_prefix != null) {
+                if(brk && nest != 1){
+                	breakLine(writer, true, true);
+                }
+                else{
+                	breakLine(writer, false, true);
+                }
 
+                writer.writeStartElement(nameSpaceName, reader.getLocalName());                
+            } else {
+                if (prefix != null) {
+                    if(brk && nest == 1){
+                    	breakLine(writer, false, true);
+                    }                    
+                    writer.writeStartElement(prefix, reader.getLocalName(), nameSpaceName);
+                    writer.writeNamespace(prefix, nameSpaceName);
+                    writer.setPrefix(prefix, nameSpaceName);
+                } else {
+                    if(brk && nest == 1){
+                    	breakLine(writer, false, true);
+                    }                                    	
+                    writer.writeStartElement(nameSpaceName, reader.getLocalName());
+                    writer.writeDefaultNamespace(nameSpaceName);
+                    writer.setDefaultNamespace(nameSpaceName);
+                    if(brk && nest == 1){
+                    	breakLine(writer, false, true);
+                    }                    
+                }
+            }
+        } else {
+            writer.writeStartElement(reader.getLocalName());
+        }
+ 
+        // add the namespaces
+        int count = reader.getNamespaceCount();
+        String namespacePrefix;
+        for (int i = 0; i < count; i++) {
+            namespacePrefix = reader.getNamespacePrefix(i);
+            if (namespacePrefix != null && namespacePrefix.length() == 0)
+                continue;
+
+            serializeNamespace(namespacePrefix, reader.getNamespaceURI(i), writer);
+        }
+
+        // add attributes
+        serializeAttributes(reader, writer);    	
+    }
     /**
      * Method serializeEndElement.
      * 
@@ -148,6 +234,26 @@ public class XMLStreamSerializer implements XMLStreamConstants {
         writer.writeEndElement();
     }
 
+    /**
+     * Method serializeEndElement.
+     * 
+     * @param writer
+     * @throws XMLStreamException
+     */
+    protected void serializeEndElementWithOptions(XMLStreamWriter writer) throws XMLStreamException {
+        --nest;
+        if(oldNest > nest+1){
+        	nest++;
+        	breakLine(writer, false, true);
+        	writer.writeEndElement();
+        	breakLine(writer, true, false);
+        	nest--;
+        }
+        else{
+        	writer.writeEndElement();
+        	breakLine(writer, true, false);        	
+        }
+    }
     /**
      * @param reader
      * @param writer
@@ -268,5 +374,41 @@ public class XMLStreamSerializer implements XMLStreamConstants {
             writer.writeNamespace(prefix, URI);
             writer.setPrefix(prefix, URI);
         }
+    }
+    private String lineBreak, indent, margin = null;
+
+    private int nest;
+    private int oldNest;
+
+    private void breakLine(XMLStreamWriter writer, boolean breakLine, boolean others) throws XMLStreamException {
+        if (options == null || (lineBreak==null && indent==null && margin==null) )
+            return;    	
+   		if(breakLine) 
+   			writer.writeCharacters(lineBreak);
+
+        if (margin != null){
+            if(others)
+            	writer.writeCharacters(margin);
+        }
+
+        if (indent != null && others){
+            for (int count = nest; count != 1; --count){//!= 0
+                writer.writeCharacters(indent);
+            }
+        }
+    }
+
+    private Map options;
+
+    static private final String STRING_OPTION = "String option";
+    
+    void startElement(XMLStreamWriter writer) throws XMLStreamException {
+        if (options == null)
+            return;
+        lineBreak = (String) options.get(SDOHelper.XMLOptions.XML_SAVE_LINE_BREAK);
+        if (lineBreak == null)
+            return;
+       	margin = (String) options.get(SDOHelper.XMLOptions.XML_SAVE_MARGIN);
+       	indent = (String) options.get(SDOHelper.XMLOptions.XML_SAVE_INDENT);
     }
 }

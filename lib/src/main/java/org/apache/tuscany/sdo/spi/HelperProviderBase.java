@@ -31,6 +31,7 @@ import java.util.zip.GZIPOutputStream;
 
 import org.apache.tuscany.sdo.api.SDOHelper;
 import org.apache.tuscany.sdo.api.SDOUtil;
+import org.apache.tuscany.sdo.api.XMLStreamHelper;
 import org.apache.tuscany.sdo.lib.SDOObjectInputStream;
 
 import commonj.sdo.DataGraph;
@@ -68,6 +69,7 @@ public abstract class HelperProviderBase extends HelperProvider
   
   protected SDOHelper sdoHelper; // Tuscany extension APIs
 
+  protected XMLStreamHelper xmlStreamHelper;
   /**
    * Subclasses must implement this method to initialize the above Helper instance variables
    */
@@ -113,6 +115,10 @@ public abstract class HelperProviderBase extends HelperProvider
     return xmlHelper;
   }
 
+  public XMLStreamHelper xmlStreamHelper()
+  {
+    return xmlStreamHelper;
+  }
   public XSDHelper xsdHelper()
   {
     return xsdHelper;

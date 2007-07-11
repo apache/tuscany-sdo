@@ -28,6 +28,7 @@ import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
+import org.apache.tuscany.sdo.helper.HelperContextImpl;
 import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.helper.XMLStreamHelper;
 import org.apache.tuscany.sdo.helper.XMLStreamHelperImpl;
@@ -54,12 +55,14 @@ import commonj.sdo.helper.XSDHelper;
  * SDO StAX Deserializer. The instance isn't thread-safe, however it's safe to use the instance any times on the same thread.
  */
 public class SDODeserializer extends StreamDeserializer {
+	private HelperContext hc;
     protected final void initialize(XMLStreamReader stream, HelperContext scope, Object rootObject) {
+    	hc = scope;
         reader = stream;
         xsdHelper = scope.getXSDHelper();
         typeHelper = scope.getTypeHelper();
         extendedMetaData = ((TypeHelperImpl) typeHelper).getExtendedMetaData();
-        deserializer = null;
+        deserializer = (XMLStreamHelperImpl)((HelperContextImpl)scope).getXMLStreamHelper();;
         root = (EObject) rootObject;
     }
 
@@ -110,8 +113,6 @@ public class SDODeserializer extends StreamDeserializer {
     TypeHelper typeHelper;
 
     protected Object load(XMLStreamReader reader, Map options) throws XMLStreamException {
-        if (deserializer == null)
-            deserializer = new XMLStreamHelperImpl(typeHelper);
         return deserializer.loadObject(reader, options);
     }
 

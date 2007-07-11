@@ -20,6 +20,7 @@
 package org.apache.tuscany.sdo.util.resource;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Writer;
 import java.net.URL;
 import java.security.AccessController;
@@ -31,6 +32,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
@@ -46,7 +48,8 @@ import org.apache.tuscany.sdo.helper.HelperContextImpl;
 import org.apache.tuscany.sdo.helper.SDOExtendedMetaDataImpl;
 import org.apache.tuscany.sdo.helper.XMLStreamHelper;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.api.SDOHelper;
+import org.apache.tuscany.sdo.api.SDOUtil;
 import org.apache.tuscany.sdo.util.StAX2SAXAdapter;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
@@ -486,28 +489,31 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
             /*
              * Tolerates element/attribute malform unless indicated not to
              */
-            Object option = options.get(SDOUtil.XML_LOAD_LaxForm);
+            Object option = options.get(SDOHelper.XMLOptions.XML_LOAD_LAX_FORM);
             int tolerance = option == null ? loadLaxForm : ((Number) option).intValue();
             option = options.get(OPTION_EXTENDED_META_DATA);
             if (tolerance == 0) {
                 if (option instanceof SDOExtendedMetaData)
                     ((SDOExtendedMetaData) option).setFeatureNamespaceMatchingLax(false);
-            } else if (option instanceof SDOExtendedMetaData)
+            } else if (option instanceof SDOExtendedMetaData){
                 ((SDOExtendedMetaData) option).setFeatureNamespaceMatchingLax(true);
-            else
+            }
+            else{
                 options.put(OPTION_EXTENDED_META_DATA, option = new SDOExtendedMetaDataImpl()); // TODO copy (BasicExtendedMetaData)option
+            }
             /*
              * Loads schema if necessary
              */
-            if (Boolean.TRUE.equals(options.get(SDOUtil.XML_LOAD_SCHEMA))) {
+            if (Boolean.TRUE.equals(options.get(SDOHelper.XMLOptions.XML_LOAD_SCHEMA))){
                 XMLOptions xmlOptions = (XMLOptions) options.get(OPTION_XML_OPTIONS);
                 if (xmlOptions == null) {
                     xmlOptions = new XMLOptionsImpl();
                     options.put(OPTION_XML_OPTIONS, xmlOptions);
                 }
                 xmlOptions.setProcessSchemaLocations(true);
-                if (option == null)
+                if (option == null){
                     option = getDefaultLoadOptions().get(OPTION_EXTENDED_META_DATA);
+                }
                 ExtendedMetaData extendedMetaData;
                 final XSDHelper xsdHelper;
                 if (option == null) {
@@ -515,7 +521,7 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
                     xsdHelper = XSDHelper.INSTANCE;
                 } else {
                     extendedMetaData = (ExtendedMetaData) option;
-                    xsdHelper = new XSDHelperImpl(extendedMetaData, null);
+                    xsdHelper = (new HelperContextImpl(extendedMetaData, false)).getXSDHelper();
                 }
                 xmlOptions.setEcoreBuilder(new DefaultEcoreBuilder(extendedMetaData) {
                     public Collection generate(Map targetNamespaceToURI) throws IOException {
@@ -633,27 +639,27 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
         protected void init(XMLResource resource, Map options) {
             super.init(resource, options);
             int unformat = 0;
-            String lineBreak = (String) options.get(SDOUtil.XML_SAVE_LineBreak);
+            String lineBreak = (String) options.get(SDOHelper.XMLOptions.XML_SAVE_LINE_BREAK);
             if (lineBreak == null)
-                changeSummaryOptions.put(SDOUtil.XML_SAVE_LineBreak, LINE_BREAK);
+                changeSummaryOptions.put(SDOHelper.XMLOptions.XML_SAVE_LINE_BREAK, LINE_BREAK);
             else if (lineBreak.length() == 0)
                 ++unformat;
             else {
-                changeSummaryOptions.put(SDOUtil.XML_SAVE_LineBreak, LINE_BREAK);
+                changeSummaryOptions.put(SDOHelper.XMLOptions.XML_SAVE_LINE_BREAK, LINE_BREAK);
                 if (lineBreak.equals(LINE_SEPARATOR))
                     lineBreak = null;
             }
-            String indent = (String) options.get(SDOUtil.XML_SAVE_INDENT);
+            String indent = (String) options.get(SDOHelper.XMLOptions.XML_SAVE_INDENT);
             if (indent == null)
-                changeSummaryOptions.put(SDOUtil.XML_SAVE_INDENT, INDENT);
+                changeSummaryOptions.put(SDOHelper.XMLOptions.XML_SAVE_INDENT, INDENT);
             else if (indent.length() == 0)
                 ++unformat;
             else {
-                changeSummaryOptions.put(SDOUtil.XML_SAVE_INDENT, this.indent = indent);
+                changeSummaryOptions.put(SDOHelper.XMLOptions.XML_SAVE_INDENT, this.indent = indent);
                 if (indent.equals(INDENT))
                     indent = null;
             }
-            String margin = (String) options.get(SDOUtil.XML_SAVE_MARGIN);
+            String margin = (String) options.get(SDOHelper.XMLOptions.XML_SAVE_MARGIN);
             if (margin == null || margin.length() == 0) {
                 if (unformat == 2)
                     doc.setUnformatted(true);
@@ -709,7 +715,7 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
                 StringBuffer margin = new StringBuffer(this.margin);
                 for (EObject container = o.eContainer(), grandContainer; (grandContainer = container.eContainer()) != null; container = grandContainer)
                     margin.append(indent);
-                changeSummaryOptions.put(SDOUtil.XML_SAVE_MARGIN, margin.toString());
+                changeSummaryOptions.put(SDOHelper.XMLOptions.XML_SAVE_MARGIN, margin.toString());
             }
             try {
                 if (xmlStreamWriter == null) {
