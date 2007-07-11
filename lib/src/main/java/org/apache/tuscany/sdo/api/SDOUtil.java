@@ -325,6 +325,13 @@ public final class SDOUtil
   }
   
   /**
+   * @see {@link org.apache.tuscany.sdo.api.SDOHelper.MetaDataBuilder#setPropertyXMLKind(Property, boolean)}.
+   */
+  public static void setPropertyXMLKind(Property property, boolean isXmlElement) {
+      defaultSDOHelper.getMetaDataBuilder().setPropertyXMLKind(property, isXmlElement);
+  }
+  
+  /**
    * @see {@link org.apache.tuscany.sdo.api.SDOHelper.MetaDataBuilder#createOpenContentProperty(TypeHelper, String, String, Type)}.
    */
   public static Property createOpenContentProperty(TypeHelper scope, String uri, String name, Type type)

@@ -29,14 +29,17 @@ import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.internal.InternalFactory;
 import org.apache.tuscany.sdo.model.java.JavaFactory;
 import org.apache.tuscany.sdo.model.xml.XMLFactory;
+import org.apache.tuscany.sdo.model.xml.impl.XMLFactoryImpl;
 import org.apache.tuscany.sdo.api.SDOUtil;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
+import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
@@ -251,7 +254,26 @@ public class TypeHelperImpl implements TypeHelper {
             String aliasName = (String)iter.next();
             SDOUtil.addAliasName(newProperty, aliasName);
         }
-        if (!newProperty.getType().isDataType()) {
+    
+    if (newProperty.getType().isDataType()) {
+        // Setting xmlElement to FALSE only makes sense here
+        Boolean isXmlElement = Boolean.TRUE;    // By default, a SDO property is an XSD element
+        Sequence anyAttr = modeledProperty.getAnyAttribute();
+        for (int i=0; i<anyAttr.size(); i++) {
+            Property anyProp = anyAttr.getProperty(i);
+            if (XMLFactoryImpl.NAMESPACE_URI.equals(anyProp.getContainingType().getURI())) {
+                String propName = anyProp.getName();
+                if ("xmlElement".equals(propName)) {
+                    isXmlElement = (Boolean)anyAttr.getValue(i);
+                }
+            }
+        }
+        if (!isXmlElement.booleanValue()) {
+            SDOUtil.setPropertyXMLKind(newProperty, false);
+        }
+    }
+    else
+    {
             SDOUtil.setContainment(newProperty, modeledProperty.isContainment());
             if (modeledProperty.getOpposite_() != null) {
                 SDOUtil.setOpposite(newProperty, getDefinedProperty(modeledProperty.getOpposite_()));

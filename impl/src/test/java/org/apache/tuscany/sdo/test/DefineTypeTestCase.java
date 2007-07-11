@@ -27,7 +27,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -63,27 +63,32 @@ public class DefineTypeTestCase extends TestCase
     Type intType = types.getType("commonj.sdo", "Int");
     Type stringType = types.getType("commonj.sdo", "String");
     
+    Property xmlElementProp = hc.getXSDHelper().getGlobalProperty("commonj.sdo/xml", "xmlElement", false); 
+    
     // create a new Type for Customers
     DataObject customerType = factory.create("commonj.sdo",
     "Type");
     customerType.set("uri", "http://example.com/customer");
     customerType.set("name", "Customer");
     
-    // create a customer number property
+    // create a customer number property as an XSD attribute
     DataObject custNumProperty = customerType.createDataObject("property");
     custNumProperty.set("name", "custNum");
     custNumProperty.set("type", intType);
+    custNumProperty.setBoolean(xmlElementProp, false);
      
-    // create a first name property
+    // create a first name property as an XSD attribute
     DataObject firstNameProperty =
     customerType.createDataObject("property");
     firstNameProperty.set("name", "firstName");
     firstNameProperty.set("type", stringType);
+    firstNameProperty.setBoolean(xmlElementProp, false);
 
-    // create a last name property
+    // create a last name property as an XSD attribute
     DataObject lastNameProperty = customerType.createDataObject("property");
     lastNameProperty.set("name", "lastName");
     lastNameProperty.set("type", stringType);
+    lastNameProperty.setBoolean(xmlElementProp, false);
 
     ByteArrayOutputStream baos = new ByteArrayOutputStream();
     xmlHelper.save(customerType, "commonj.sdo", "type", baos);
@@ -156,6 +161,8 @@ public class DefineTypeTestCase extends TestCase
     Type intType = types.getType("commonj.sdo", "Int");
     Type stringType = types.getType("commonj.sdo", "String");
     
+    Property xmlElementProp = hc.getXSDHelper().getGlobalProperty("commonj.sdo/xml", "xmlElement", false); 
+    
     // create a new Type for Customers
     DataObject customerType = factory.create("commonj.sdo",
     "Type");
@@ -166,17 +173,20 @@ public class DefineTypeTestCase extends TestCase
     DataObject custNumProperty = customerType.createDataObject("property");
     custNumProperty.set("name", "custNum");
     custNumProperty.set("type", intType);
+    custNumProperty.setBoolean(xmlElementProp, false);
 
     // create a first name property
     DataObject firstNameProperty =
     customerType.createDataObject("property");
     firstNameProperty.set("name", "firstName");
     firstNameProperty.set("type", stringType);
+    firstNameProperty.setBoolean(xmlElementProp, false);
 
     // create a last name property
     DataObject lastNameProperty = customerType.createDataObject("property");
     lastNameProperty.set("name", "lastName");
     lastNameProperty.set("type", stringType);
+    lastNameProperty.setBoolean(xmlElementProp, false);
 
     // now define the Customer type so that customers can be made
     types.define(customerType);
@@ -244,6 +254,7 @@ public class DefineTypeTestCase extends TestCase
     XMLHelper xmlHelper = hc.getXMLHelper();
     XSDHelper xsdHelper = hc.getXSDHelper();
 
+    Property xmlElementProp = hc.getXSDHelper().getGlobalProperty("commonj.sdo/xml", "xmlElement", false);
     Property javaClassProperty = xsdHelper.getGlobalProperty("commonj.sdo/java", "javaClass", false);
     
     // create a data types
@@ -269,17 +280,20 @@ public class DefineTypeTestCase extends TestCase
     DataObject custNumProperty = customerType.createDataObject("property");
     custNumProperty.set("name", "custNum");
     custNumProperty.set("type", intType);
+    custNumProperty.setBoolean(xmlElementProp, false);
 
     // create a first name property
     DataObject firstNameProperty =
     customerType.createDataObject("property");
     firstNameProperty.set("name", "firstName");
     firstNameProperty.set("type", stringType);
+    firstNameProperty.setBoolean(xmlElementProp, false);
 
     // create a last name property
     DataObject lastNameProperty = customerType.createDataObject("property");
     lastNameProperty.set("name", "lastName");
     lastNameProperty.set("type", stringType);
+    lastNameProperty.setBoolean(xmlElementProp, false);
 
     // now define the Customer type so that customers can be made
     types.define(customerType);
@@ -355,13 +369,16 @@ public class DefineTypeTestCase extends TestCase
     Type customerType = SDOUtil.createType(types, "http://example.com/customer", "Customer", false);
 
     // create a customer number property
-    SDOUtil.createProperty(customerType, "custNum", intType);
+    Property custNumProperty = SDOUtil.createProperty(customerType, "custNum", intType);
+    SDOUtil.setPropertyXMLKind(custNumProperty, false);
 
     // create a first name property
-    SDOUtil.createProperty(customerType, "firstName", stringType);
+    Property firstNameProperty = SDOUtil.createProperty(customerType, "firstName", stringType);
+    SDOUtil.setPropertyXMLKind(firstNameProperty, false);
 
     // create a last name property
-    SDOUtil.createProperty(customerType, "lastName", stringType);
+    Property lastNameProperty = SDOUtil.createProperty(customerType, "lastName", stringType);
+    SDOUtil.setPropertyXMLKind(lastNameProperty, false);
 
     DataObject customer1 = factory.create("http://example.com/customer",
     "Customer");
@@ -572,6 +589,8 @@ public class DefineTypeTestCase extends TestCase
     Type stringType = types.getType("commonj.sdo", "String");
     Type decimalType = types.getType("commonj.sdo", "Decimal");
     
+    Property xmlElementProp = hc.getXSDHelper().getGlobalProperty("commonj.sdo/xml", "xmlElement", false);
+    
     // Define a new open type - OpenQuote
     DataObject openQuoteType = factory.create("commonj.sdo", "Type");
     openQuoteType.set("uri", "http://www.example.com/open");
@@ -586,11 +605,12 @@ public class DefineTypeTestCase extends TestCase
     companyType.set("uri", "http://www.example.com/open");
     companyType.set("name", "CompanyType");
     
-    // Create CompanyType property - "name"
+    // Create CompanyType property - "name" as an XSD attribute
     DataObject nameProperty = companyType.createDataObject("property");
     nameProperty.set("name", "name");
     nameProperty.set("type", stringType);
     nameProperty.set("containment", Boolean.TRUE);
+    nameProperty.setBoolean(xmlElementProp, false);
     
     types.define(companyType);
     

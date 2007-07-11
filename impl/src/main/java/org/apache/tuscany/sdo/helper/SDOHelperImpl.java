@@ -357,38 +357,46 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
     }
 
     public Property createProperty(Type containingType, String name, Type propertyType) {
-        EStructuralFeature eStructuralFeature =
+      EStructuralFeature eStructuralFeature = 
             propertyType.isDataType() ? (EStructuralFeature)SDOFactory.eINSTANCE.createAttribute()
                 : (EStructuralFeature)SDOFactory.eINSTANCE.createReference();
 
-        eStructuralFeature.setName(name);
-        eStructuralFeature.setEType((EClassifier)propertyType);
-        ((EClass)containingType).getEStructuralFeatures().add(eStructuralFeature);
+      eStructuralFeature.setName(name);
+      eStructuralFeature.setEType((EClassifier)propertyType);
+      ((EClass)containingType).getEStructuralFeatures().add(eStructuralFeature);
 
         if ("".equals(ExtendedMetaData.INSTANCE.getName((EClass)containingType))) // DocumentRoot
                                                                                     // containingType?
-        {
-            ExtendedMetaData.INSTANCE.setNamespace(eStructuralFeature, containingType.getURI());
-            // FB???eStructuralFeature.setUnique(false);
-            // FB???eStructuralFeature.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
-        }
-
-        if (ExtendedMetaData.INSTANCE.getMixedFeature((EClass)containingType) != null) {
-            eStructuralFeature.setDerived(true);
-            eStructuralFeature.setTransient(true);
-            eStructuralFeature.setVolatile(true);
-            ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
-        } else {
-            // FB TBD ... figure out how to decide whether to use
-            // ELEMENT_FEATURE or ATTRIBUTE_FEATURE
-            // ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature,
-            // ExtendedMetaData.ELEMENT_FEATURE);
-        }
-
-        return (Property)eStructuralFeature;
+      {
+        ExtendedMetaData.INSTANCE.setNamespace(eStructuralFeature, containingType.getURI());
+        //FB???eStructuralFeature.setUnique(false);
+        //FB???eStructuralFeature.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
+      }
+      
+      if (ExtendedMetaData.INSTANCE.getMixedFeature((EClass)containingType) != null) {
+        eStructuralFeature.setDerived(true);
+        eStructuralFeature.setTransient(true);
+        eStructuralFeature.setVolatile(true);
+        ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
+      } else {
+          // By default, a SDO property is an XSD element
+          ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
+      }
+      
+      return (Property)eStructuralFeature;
     }
 
-    public Property createOpenContentProperty(TypeHelper scope, String uri, String name, Type type) {
+  public void setPropertyXMLKind(Property property, boolean isXmlElement) {
+      if (isXmlElement) {
+          ExtendedMetaData.INSTANCE.setFeatureKind((EStructuralFeature)property, ExtendedMetaData.ELEMENT_FEATURE);
+      }
+      else {
+          ExtendedMetaData.INSTANCE.setFeatureKind((EStructuralFeature)property, ExtendedMetaData.ATTRIBUTE_FEATURE);
+      }
+  }
+  
+  public Property createOpenContentProperty(TypeHelper scope, String uri, String name, Type type)
+  {
         ExtendedMetaData extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
 
         // get/create document root
