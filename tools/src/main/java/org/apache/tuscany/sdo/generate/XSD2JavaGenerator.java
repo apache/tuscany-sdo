@@ -30,6 +30,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.tuscany.sdo.helper.HelperContextImpl;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
@@ -47,6 +48,7 @@ import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.xsd.XSDSchema;
 
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XSDHelper;
 
 public class XSD2JavaGenerator extends JavaGenerator
@@ -166,7 +168,10 @@ public class XSD2JavaGenerator extends JavaGenerator
     GenModel genModel = null;  
       
     DataObjectUtil.initRuntime();
-    XSDHelper xsdHelper = new XSDHelperImpl(extendedMetaData, regenerateBuiltIn);
+    HelperContext hc = new HelperContextImpl(extendedMetaData, false);
+    XSDHelper xsdHelper = hc.getXSDHelper();
+    ((XSDHelperImpl)xsdHelper).setRedefineBuiltIn(regenerateBuiltIn);
+    
     try
     {
       File inputFile = new File(xsdFileName).getAbsoluteFile();

@@ -75,431 +75,387 @@ import commonj.sdo.helper.CopyHelper;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 
-public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper.MetaDataBuilder
-{
-  public DataObject createDataTypeWrapper(Type dataType, Object value)
-  {
-    SimpleAnyTypeDataObject simpleAnyType = SDOFactory.eINSTANCE.createSimpleAnyTypeDataObject();
-    simpleAnyType.setInstanceType((EDataType)dataType);
-    simpleAnyType.setValue(value);
-    return simpleAnyType;
-  }
-  
-  public Object createFromString(Type dataType, String literal)
-  {
-    return EcoreUtil.createFromString((EDataType)dataType, literal);
-  }
-  
-  public String convertToString(Type dataType, Object value)
-  {
-    return EcoreUtil.convertToString((EDataType)dataType, value);
-  }
-
-  public Type getXSDSDOType(String xsdType)
-  {    
-    Type type = null;
-    String name = (String)xsdToSdoMappings.get(xsdType);
-    if (name != null) type = (Type)((ModelFactoryImpl)ModelFactory.INSTANCE).getEClassifier(name);
-    return type;
-  }
-  
-  public Sequence getSubstitutionValues(DataObject dataObject, Property head)
-  {
-    final EStructuralFeature  group = ExtendedMetaData.INSTANCE.getGroup((EStructuralFeature)head);
-    return null == group
-      ? null
-      : (Sequence)((FeatureMap.Internal)((EObject)dataObject).eGet(group)).getWrapper();
-  }
-  
-  public Type getJavaSDOType(Class javaClass)
-  {    
-    String name = (String)javaToSdoMappings.get(javaClass);
-    if (name != null)
-    {
-      return (Type)((ModelFactoryImpl)ModelFactory.INSTANCE).getEClassifier(name);
-    }
-    return null;
-  }
-
-  public boolean isRequired(Property property)
-  {
-    return ((EStructuralFeature)property).isRequired();
-  }
-  
-  public int getUpperBound(Property property)
-  {
-    return ((EStructuralFeature) property).getUpperBound();
-  }
-
-  public boolean isMany(Property property, DataObject context) 
-  {
-    return FeatureMapUtil.isMany((EObject) context, (EStructuralFeature) property);
-  }
-
-  public DataGraph createDataGraph()
-  {
-    return SDOFactory.eINSTANCE.createDataGraph();
-  }
-  
-  public void setRootObject(DataGraph dataGraph, DataObject rootObject)
-  {
-    ((DataGraphImpl)dataGraph).setERootObject((EObject)rootObject);
-  }
-  
-  public static DataGraph loadDataGraph(InputStream inputStream, Map options) throws IOException
-  {
-    ResourceSet resourceSet = DataObjectUtil.createResourceSet();
-    Resource resource = resourceSet.createResource(URI.createURI("all.datagraph"));
-    resource.load(inputStream, options);
-    return (DataGraph)resource.getContents().get(0);
-  }
-  
-  static final Object LOADING_SCOPE = XMLResource.OPTION_EXTENDED_META_DATA;
-
-  protected void registerLoadingScope(Map options, TypeHelper scope)
-  {
-    Object extendedMetaData = ((TypeHelperImpl) scope).getExtendedMetaData();
-    options.put(LOADING_SCOPE, extendedMetaData);
-  }
-
-  public DataGraph loadDataGraph(InputStream inputStream, Map options, TypeHelper scope) throws IOException
-  {
-    DataGraph result = null;
-    if (scope == null || scope == TypeHelper.INSTANCE) {
-      result = loadDataGraph(inputStream, options);
-    } else if (options == null) {
-      options = new HashMap();
-      registerLoadingScope(options, scope);
-      result = loadDataGraph(inputStream, options);
-    } else if (options.containsKey(LOADING_SCOPE)) {
-      Object restore = options.get(LOADING_SCOPE);
-      registerLoadingScope(options, scope);
-      try
-      {
-        result = loadDataGraph(inputStream, options);
-      }
-      finally
-      {
-        options.put(LOADING_SCOPE, restore);
-      }
-    } else {
-      registerLoadingScope(options, scope);
-      try
-      {
-        result = loadDataGraph(inputStream, options);
-      }
-      finally
-      {
-        options.remove(LOADING_SCOPE);
-      }
-    }
-    return result;
-  }
-  
-  public void saveDataGraph(DataGraph dataGraph, OutputStream outputStream, Map options) throws IOException
-  {
-    ((DataGraphImpl)dataGraph).getDataGraphResource().save(outputStream, options);
-  }
-  
-  public void registerDataGraphTypes(DataGraph dataGraph, List/*Type*/ types)
-  {
-    //if (types == null)
-    //  types = SDOUtil.getDataGraphTypes(dataGraph);
-    
-    Set/*EPackage*/ packages = new HashSet(); 
-    for (final Iterator iterator = types.iterator(); iterator.hasNext(); ) {
-      EClassifier type = (EClassifier)iterator.next();  
-      packages.add(type.getEPackage());
+public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper.MetaDataBuilder {
+    public DataObject createDataTypeWrapper(Type dataType, Object value) {
+        SimpleAnyTypeDataObject simpleAnyType = SDOFactory.eINSTANCE.createSimpleAnyTypeDataObject();
+        simpleAnyType.setInstanceType((EDataType)dataType);
+        simpleAnyType.setValue(value);
+        return simpleAnyType;
     }
 
-    ResourceSet resourceSet = ((DataGraphImpl)dataGraph).getResourceSet();
-
-    for (Iterator iterator = packages.iterator(); iterator.hasNext(); ) {
-      EPackage typePackage = (EPackage)iterator.next();
-      Resource resource = typePackage.eResource();
-      if (resource == null) {
-        resource = resourceSet.createResource(URI.createURI(".ecore"));
-        resource.setURI(URI.createURI(typePackage.getNsURI()));
-        resource.getContents().add(typePackage);
-      }
-      else if (resource.getResourceSet() != resourceSet)
-        resourceSet.getResources().add(resource);
-    }
-  }
-  
-  public HelperContext createHelperContext(boolean extensibleNamespaces)
-  {
-    return new HelperContextImpl(extensibleNamespaces);
-  }
-  
-  public CopyHelper createCrossScopeCopyHelper(TypeHelper targetScope) 
-  {
-    return new CrossScopeCopyHelperImpl(targetScope); 
-  }
-  
-  public XMLStreamHelper createXMLStreamHelper(TypeHelper scope)
-  {
-    return new XMLStreamHelperImpl(scope);
-  }
-  
-  public List getTypes(TypeHelper scope, String uri) {
-
-      EPackage ePackage = ((TypeHelperImpl) scope).getExtendedMetaData().getPackage(uri);
-      if (ePackage != null) {
-        return new ArrayList(ePackage.getEClassifiers());
-      }
-      return null;
-  }
-  
-  public List getOpenContentProperties(DataObject dataObject)
-  {
-    List result = new UniqueEList();
-    ((ClassImpl)dataObject.getType()).addOpenProperties((EObject)dataObject, result);
-    return result;
-  }
-
-  public boolean isDocumentRoot(Type type)
-  {
-    return "".equals(SDOExtendedMetaData.INSTANCE.getName((EClassifier)type));
-  }
-  
-  public Type createType(TypeHelper scope, String uri, String name, boolean isDataType)
-  {
-    ExtendedMetaData extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
-    if ("".equals(uri)) uri = null; //FB
-    
-    EPackage ePackage = extendedMetaData.getPackage(uri);
-    if (ePackage == null)
-    {
-      ePackage = EcoreFactory.eINSTANCE.createEPackage();
-      ePackage.setEFactoryInstance(new DynamicDataObjectImpl.FactoryImpl());
-      ePackage.setNsURI(uri);
-      String packagePrefix = uri != null ? URI.createURI(uri).trimFileExtension().lastSegment() : ""; //FB
-      ePackage.setName(packagePrefix);
-      ePackage.setNsPrefix(packagePrefix);
-      extendedMetaData.putPackage(uri, ePackage);
+    public Object createFromString(Type dataType, String literal) {
+        return EcoreUtil.createFromString((EDataType)dataType, literal);
     }
 
-    EClassifier eClassifier = ePackage.getEClassifier(name);
-    if (eClassifier != null) // already defined?
-    {
-      //throw new IllegalArgumentException();
-      return null;
-    }
-    
-    if (name != null)
-    { 
-      eClassifier = isDataType ? (EClassifier)SDOFactory.eINSTANCE.createDataType() : (EClassifier)SDOFactory.eINSTANCE.createClass();
-      eClassifier.setName(name);
-    }
-    else
-    {
-      eClassifier = DataObjectUtil.createDocumentRoot();
-    }
-    
-    ePackage.getEClassifiers().add(eClassifier);
-
-    return (Type)eClassifier;
-  }
-  
-  public void addBaseType(Type type, Type baseType)
-  {
-    ((EClass)type).getESuperTypes().add(baseType);
-  }
-  
-  public void addAliasName(Type type, String aliasName)
-  {
-    throw new UnsupportedOperationException(); // TODO: implement this method properly
-    //type.getAliasNames().add(aliasName);
-  }
-  
-  public void setOpen(Type type, boolean isOpen)
-  {
-    if (isOpen == type.isOpen()) return;
-
-    if (isOpen)
-    {
-      EAttribute eAttribute = (EAttribute)SDOFactory.eINSTANCE.createAttribute();
-      ((EClass)type).getEStructuralFeatures().add(eAttribute);
-
-      eAttribute.setName("any");
-      eAttribute.setUnique(false);
-      eAttribute.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
-      eAttribute.setEType(EcorePackage.eINSTANCE.getEFeatureMapEntry());
-      ExtendedMetaData.INSTANCE.setFeatureKind(eAttribute, ExtendedMetaData.ELEMENT_WILDCARD_FEATURE);
-      ExtendedMetaData.INSTANCE.setProcessingKind(eAttribute, ExtendedMetaData.LAX_PROCESSING);
-      ExtendedMetaData.INSTANCE.setWildcards(eAttribute, Collections.singletonList("##any"));
-      
-      //FB TBD Add an "anyAttribute" EAttribute as well.
-      
-      if (ExtendedMetaData.INSTANCE.getMixedFeature((EClass)type) != null) {
-        eAttribute.setDerived(true);
-        eAttribute.setTransient(true);
-        eAttribute.setVolatile(true);
-      }
-    }
-    else
-    {
-      EClass eClass = (EClass)type;
-      EAttribute any = (EAttribute)eClass.getEStructuralFeature("any");
-      eClass.getEStructuralFeatures().remove(any);  
-    }
-  }
-  
-  public void setSequenced(Type type, boolean isSequenced)
-  {
-    // currently, we require setSequenced to be called first, before anything else is added to the type.
-    if (type.isDataType() || !type.getProperties().isEmpty())
-    {
-      if (type.getName() != "DocumentRoot") // document root is a special case
-        throw new IllegalArgumentException();
-    }
-    
-    if (isSequenced) {
-      EClass eClass = (EClass)type;
-      ExtendedMetaData.INSTANCE.setContentKind(eClass, ExtendedMetaData.MIXED_CONTENT);
-      EAttribute mixedFeature = (EAttribute)SDOFactory.eINSTANCE.createAttribute();
-      mixedFeature.setName("mixed");
-      mixedFeature.setUnique(false);
-      mixedFeature.setEType(EcorePackage.eINSTANCE.getEFeatureMapEntry());
-      mixedFeature.setLowerBound(0);
-      mixedFeature.setUpperBound(-1);
-      //eClass.getEStructuralFeatures().add(mixedFeature);
-      ((ClassImpl)eClass).setSequenceFeature(mixedFeature);
-      ExtendedMetaData.INSTANCE.setFeatureKind(mixedFeature, ExtendedMetaData.ELEMENT_WILDCARD_FEATURE);
-      ExtendedMetaData.INSTANCE.setName(mixedFeature, ":mixed"); 
-    }
-    else
-    {
-      // nothing to do, because of current restriction that setSequence must be called first.
-    }
-  }
-  
-  public void setAbstract(Type type, boolean isAbstract)
-  {
-    ((EClass)type).setAbstract(isAbstract);
-  }
-  
-  public void setJavaClassName(Type type, String javaClassName)
-  {
-    ((EClassifier)type).setInstanceClassName(javaClassName);
-  }
-  
-  public Property createProperty(Type containingType, String name, Type propertyType)
-  {
-    EStructuralFeature eStructuralFeature = 
-      propertyType.isDataType() ? 
-        (EStructuralFeature)SDOFactory.eINSTANCE.createAttribute() :
-        (EStructuralFeature)SDOFactory.eINSTANCE.createReference();
-
-    eStructuralFeature.setName(name);
-    eStructuralFeature.setEType((EClassifier)propertyType);
-    ((EClass)containingType).getEStructuralFeatures().add(eStructuralFeature);
-
-    if ("".equals(ExtendedMetaData.INSTANCE.getName((EClass)containingType))) // DocumentRoot containingType?
-    {
-      ExtendedMetaData.INSTANCE.setNamespace(eStructuralFeature, containingType.getURI());
-      //FB???eStructuralFeature.setUnique(false);
-      //FB???eStructuralFeature.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
-    }
-    
-    if (ExtendedMetaData.INSTANCE.getMixedFeature((EClass)containingType) != null) {
-      eStructuralFeature.setDerived(true);
-      eStructuralFeature.setTransient(true);
-      eStructuralFeature.setVolatile(true);
-      ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
-    }
-    else
-    {
-      //FB TBD ... figure out how to decide whether to use ELEMENT_FEATURE or ATTRIBUTE_FEATURE
-      //ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
-    }
-    
-    return (Property)eStructuralFeature;
-  }
-  
-  public Property createOpenContentProperty(TypeHelper scope, String uri, String name, Type type)
-  {
-    ExtendedMetaData extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
-
-    // get/create document root
-    EPackage ePackage = extendedMetaData.getPackage(uri);
-    Type documentRoot = ePackage != null ? (Type)extendedMetaData.getType(ePackage, "") : null;
-    if (documentRoot == null) 
-    {
-      documentRoot = createType(scope, uri, null, false);
+    public String convertToString(Type dataType, Object value) {
+        return EcoreUtil.convertToString((EDataType)dataType, value);
     }
 
-    // Determine if property already exists
-    Property newProperty = documentRoot.getProperty(name);
-    if (newProperty == null)
-    {
-      // Create the new property 'under' the document root.....
-      newProperty = createProperty(documentRoot, name, type);
+    public Type getXSDSDOType(String xsdType) {
+        Type type = null;
+        String name = (String)xsdToSdoMappings.get(xsdType);
+        if (name != null)
+            type = (Type)((ModelFactoryImpl)ModelFactory.INSTANCE).getEClassifier(name);
+        return type;
     }
-    else
-    {
-      // if property already exists, validate the expected type
-      if (!newProperty.getType().equals(type))
-        throw new IllegalArgumentException();
-    }
-    return newProperty;
-  }
-  
-  public void addAliasName(Property property, String aliasName)
-  {
-    throw new UnsupportedOperationException(); // TODO: implement this method properly
-    //property.getAliasNames().add(aliasName);
-  }
- 
-  public void setMany(Property property, boolean isMany)
-  {
-    ((EStructuralFeature)property).setUpperBound(isMany ? EStructuralFeature.UNBOUNDED_MULTIPLICITY : 1);
-  }
-  
-  public void setContainment(Property property, boolean isContainment)
-  {
-    ((EReference)property).setContainment(isContainment);
-  }
 
-  public void setDefault(Property property, String defaultValue)
-  {
-    ((EStructuralFeature)property).setDefaultValueLiteral(defaultValue);
-  }
-  
-  public void setReadOnly(Property property, boolean isReadOnly)
-  {
-    ((EStructuralFeature)property).setChangeable(!isReadOnly);
-  }
-  
-  public void setOpposite(Property property, Property opposite)
-  {
-    ((EReference)property).setEOpposite((EReference)opposite);
-  }
-  
-  public void addTypeInstanceProperty(Type definedType, Property instanceProperty, Object value)
-  {
-    addInstanceProperty((EModelElement)definedType, instanceProperty, value);
-  }
-
-  public void addPropertyInstanceProperty(Property definedProperty, Property instanceProperty, Object value)
-  {
-    addInstanceProperty((EModelElement)definedProperty, instanceProperty, value);
-  }
-  
-  protected void addInstanceProperty(EModelElement metaObject, Property property, Object value)
-  {
-    String uri = property.getContainingType().getURI();
-    EAnnotation eAnnotation = metaObject.getEAnnotation(uri);
-    if (eAnnotation == null)
-    {
-      eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
-      eAnnotation.setSource(uri);
-      metaObject.getEAnnotations().add(eAnnotation);
+    public Sequence getSubstitutionValues(DataObject dataObject, Property head) {
+        final EStructuralFeature group = ExtendedMetaData.INSTANCE.getGroup((EStructuralFeature)head);
+        return null == group ? null : (Sequence)((FeatureMap.Internal)((EObject)dataObject).eGet(group)).getWrapper();
     }
-    //TODO if (property.isMany()) ... // convert list of values
-    String stringValue = convertToString(property.getType(), value);
-    eAnnotation.getDetails().put(property.getName(), stringValue);
-  }
-  
+
+    public Type getJavaSDOType(Class javaClass) {
+        String name = (String)javaToSdoMappings.get(javaClass);
+        if (name != null) {
+            return (Type)((ModelFactoryImpl)ModelFactory.INSTANCE).getEClassifier(name);
+        }
+        return null;
+    }
+
+    public boolean isRequired(Property property) {
+        return ((EStructuralFeature)property).isRequired();
+    }
+
+    public int getUpperBound(Property property) {
+        return ((EStructuralFeature)property).getUpperBound();
+    }
+
+    public boolean isMany(Property property, DataObject context) {
+        return FeatureMapUtil.isMany((EObject)context, (EStructuralFeature)property);
+    }
+
+    public DataGraph createDataGraph() {
+        return SDOFactory.eINSTANCE.createDataGraph();
+    }
+
+    public void setRootObject(DataGraph dataGraph, DataObject rootObject) {
+        ((DataGraphImpl)dataGraph).setERootObject((EObject)rootObject);
+    }
+
+    public static DataGraph loadDataGraph(InputStream inputStream, Map options) throws IOException {
+        ResourceSet resourceSet = DataObjectUtil.createResourceSet();
+        Resource resource = resourceSet.createResource(URI.createURI("all.datagraph"));
+        resource.load(inputStream, options);
+        return (DataGraph)resource.getContents().get(0);
+    }
+
+    static final Object LOADING_SCOPE = XMLResource.OPTION_EXTENDED_META_DATA;
+
+    protected void registerLoadingScope(Map options, TypeHelper scope) {
+        Object extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
+        options.put(LOADING_SCOPE, extendedMetaData);
+    }
+
+    public DataGraph loadDataGraph(InputStream inputStream, Map options, TypeHelper scope) throws IOException {
+        DataGraph result = null;
+        if (scope == null || scope == TypeHelper.INSTANCE) {
+            result = loadDataGraph(inputStream, options);
+        } else if (options == null) {
+            options = new HashMap();
+            registerLoadingScope(options, scope);
+            result = loadDataGraph(inputStream, options);
+        } else if (options.containsKey(LOADING_SCOPE)) {
+            Object restore = options.get(LOADING_SCOPE);
+            registerLoadingScope(options, scope);
+            try {
+                result = loadDataGraph(inputStream, options);
+            } finally {
+                options.put(LOADING_SCOPE, restore);
+            }
+        } else {
+            registerLoadingScope(options, scope);
+            try {
+                result = loadDataGraph(inputStream, options);
+            } finally {
+                options.remove(LOADING_SCOPE);
+            }
+        }
+        return result;
+    }
+
+    public void saveDataGraph(DataGraph dataGraph, OutputStream outputStream, Map options) throws IOException {
+        ((DataGraphImpl)dataGraph).getDataGraphResource().save(outputStream, options);
+    }
+
+    public void registerDataGraphTypes(DataGraph dataGraph, List/* Type */types) {
+        // if (types == null)
+        // types = SDOUtil.getDataGraphTypes(dataGraph);
+
+        Set/* EPackage */packages = new HashSet();
+        for (final Iterator iterator = types.iterator(); iterator.hasNext();) {
+            EClassifier type = (EClassifier)iterator.next();
+            packages.add(type.getEPackage());
+        }
+
+        ResourceSet resourceSet = ((DataGraphImpl)dataGraph).getResourceSet();
+
+        for (Iterator iterator = packages.iterator(); iterator.hasNext();) {
+            EPackage typePackage = (EPackage)iterator.next();
+            Resource resource = typePackage.eResource();
+            if (resource == null) {
+                resource = resourceSet.createResource(URI.createURI(".ecore"));
+                resource.setURI(URI.createURI(typePackage.getNsURI()));
+                resource.getContents().add(typePackage);
+            } else if (resource.getResourceSet() != resourceSet)
+                resourceSet.getResources().add(resource);
+        }
+    }
+
+    public HelperContext createHelperContext(boolean extensibleNamespaces) {
+        return new HelperContextImpl(extensibleNamespaces);
+    }
+
+    public HelperContext createHelperContext(boolean extensibleNamespaces, Map options) {
+        return new HelperContextImpl(extensibleNamespaces, options);
+    }
+
+    public CopyHelper createCrossScopeCopyHelper(TypeHelper targetScope) {
+        return new CrossScopeCopyHelperImpl(targetScope);
+    }
+
+
+    public XMLStreamHelper createXMLStreamHelper(TypeHelper scope) {
+        return (new HelperContextImpl(scope)).getXMLStreamHelper();
+    }
+
+
+    public XMLStreamHelper createXMLStreamHelper(TypeHelper scope, Map options) {
+        HelperContext helperContextImpl = new HelperContextImpl(scope, options);
+        return ((HelperContextImpl)helperContextImpl).getXMLStreamHelper();
+    }
+
+    public List getTypes(TypeHelper scope, String uri) {
+
+        EPackage ePackage = ((TypeHelperImpl)scope).getExtendedMetaData().getPackage(uri);
+        if (ePackage != null) {
+            return new ArrayList(ePackage.getEClassifiers());
+        }
+        return null;
+    }
+
+    public List getOpenContentProperties(DataObject dataObject) {
+        List result = new UniqueEList();
+        ((ClassImpl)dataObject.getType()).addOpenProperties((EObject)dataObject, result);
+        return result;
+    }
+
+    public boolean isDocumentRoot(Type type) {
+        return "".equals(SDOExtendedMetaData.INSTANCE.getName((EClassifier)type));
+    }
+
+    public Type createType(TypeHelper scope, String uri, String name, boolean isDataType) {
+        ExtendedMetaData extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
+        if ("".equals(uri))
+            uri = null; // FB
+
+        EPackage ePackage = extendedMetaData.getPackage(uri);
+        if (ePackage == null) {
+            ePackage = EcoreFactory.eINSTANCE.createEPackage();
+            ePackage.setEFactoryInstance(new DynamicDataObjectImpl.FactoryImpl());
+            ePackage.setNsURI(uri);
+            String packagePrefix = uri != null ? URI.createURI(uri).trimFileExtension().lastSegment() : ""; // FB
+            ePackage.setName(packagePrefix);
+            ePackage.setNsPrefix(packagePrefix);
+            extendedMetaData.putPackage(uri, ePackage);
+        }
+
+        EClassifier eClassifier = ePackage.getEClassifier(name);
+        if (eClassifier != null) // already defined?
+        {
+            // throw new IllegalArgumentException();
+            return null;
+        }
+
+        if (name != null) {
+            eClassifier =
+                isDataType ? (EClassifier)SDOFactory.eINSTANCE.createDataType() : (EClassifier)SDOFactory.eINSTANCE
+                    .createClass();
+            eClassifier.setName(name);
+        } else {
+            eClassifier = DataObjectUtil.createDocumentRoot();
+        }
+
+        ePackage.getEClassifiers().add(eClassifier);
+
+        return (Type)eClassifier;
+    }
+
+    public void addBaseType(Type type, Type baseType) {
+        ((EClass)type).getESuperTypes().add(baseType);
+    }
+
+    public void addAliasName(Type type, String aliasName) {
+        throw new UnsupportedOperationException(); // TODO: implement this
+                                                    // method properly
+        // type.getAliasNames().add(aliasName);
+    }
+
+    public void setOpen(Type type, boolean isOpen) {
+        if (isOpen == type.isOpen())
+            return;
+
+        if (isOpen) {
+            EAttribute eAttribute = (EAttribute)SDOFactory.eINSTANCE.createAttribute();
+            ((EClass)type).getEStructuralFeatures().add(eAttribute);
+
+            eAttribute.setName("any");
+            eAttribute.setUnique(false);
+            eAttribute.setUpperBound(ETypedElement.UNBOUNDED_MULTIPLICITY);
+            eAttribute.setEType(EcorePackage.eINSTANCE.getEFeatureMapEntry());
+            ExtendedMetaData.INSTANCE.setFeatureKind(eAttribute, ExtendedMetaData.ELEMENT_WILDCARD_FEATURE);
+            ExtendedMetaData.INSTANCE.setProcessingKind(eAttribute, ExtendedMetaData.LAX_PROCESSING);
+            ExtendedMetaData.INSTANCE.setWildcards(eAttribute, Collections.singletonList("##any"));
+
+            // FB TBD Add an "anyAttribute" EAttribute as well.
+
+            if (ExtendedMetaData.INSTANCE.getMixedFeature((EClass)type) != null) {
+                eAttribute.setDerived(true);
+                eAttribute.setTransient(true);
+                eAttribute.setVolatile(true);
+            }
+        } else {
+            EClass eClass = (EClass)type;
+            EAttribute any = (EAttribute)eClass.getEStructuralFeature("any");
+            eClass.getEStructuralFeatures().remove(any);
+        }
+    }
+
+    public void setSequenced(Type type, boolean isSequenced) {
+        // currently, we require setSequenced to be called first, before
+        // anything else is added to the type.
+        if (type.isDataType() || !type.getProperties().isEmpty()) {
+            if (type.getName() != "DocumentRoot") // document root is a
+                                                    // special case
+                throw new IllegalArgumentException();
+        }
+
+        if (isSequenced) {
+            EClass eClass = (EClass)type;
+            ExtendedMetaData.INSTANCE.setContentKind(eClass, ExtendedMetaData.MIXED_CONTENT);
+            EAttribute mixedFeature = (EAttribute)SDOFactory.eINSTANCE.createAttribute();
+            mixedFeature.setName("mixed");
+            mixedFeature.setUnique(false);
+            mixedFeature.setEType(EcorePackage.eINSTANCE.getEFeatureMapEntry());
+            mixedFeature.setLowerBound(0);
+            mixedFeature.setUpperBound(-1);
+            // eClass.getEStructuralFeatures().add(mixedFeature);
+            ((ClassImpl)eClass).setSequenceFeature(mixedFeature);
+            ExtendedMetaData.INSTANCE.setFeatureKind(mixedFeature, ExtendedMetaData.ELEMENT_WILDCARD_FEATURE);
+            ExtendedMetaData.INSTANCE.setName(mixedFeature, ":mixed");
+        } else {
+            // nothing to do, because of current restriction that setSequence
+            // must be called first.
+        }
+    }
+
+    public void setAbstract(Type type, boolean isAbstract) {
+        ((EClass)type).setAbstract(isAbstract);
+    }
+
+    public void setJavaClassName(Type type, String javaClassName) {
+        ((EClassifier)type).setInstanceClassName(javaClassName);
+    }
+
+    public Property createProperty(Type containingType, String name, Type propertyType) {
+        EStructuralFeature eStructuralFeature =
+            propertyType.isDataType() ? (EStructuralFeature)SDOFactory.eINSTANCE.createAttribute()
+                : (EStructuralFeature)SDOFactory.eINSTANCE.createReference();
+
+        eStructuralFeature.setName(name);
+        eStructuralFeature.setEType((EClassifier)propertyType);
+        ((EClass)containingType).getEStructuralFeatures().add(eStructuralFeature);
+
+        if ("".equals(ExtendedMetaData.INSTANCE.getName((EClass)containingType))) // DocumentRoot
+                                                                                    // containingType?
+        {
+            ExtendedMetaData.INSTANCE.setNamespace(eStructuralFeature, containingType.getURI());
+            // FB???eStructuralFeature.setUnique(false);
+            // FB???eStructuralFeature.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
+        }
+
+        if (ExtendedMetaData.INSTANCE.getMixedFeature((EClass)containingType) != null) {
+            eStructuralFeature.setDerived(true);
+            eStructuralFeature.setTransient(true);
+            eStructuralFeature.setVolatile(true);
+            ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature, ExtendedMetaData.ELEMENT_FEATURE);
+        } else {
+            // FB TBD ... figure out how to decide whether to use
+            // ELEMENT_FEATURE or ATTRIBUTE_FEATURE
+            // ExtendedMetaData.INSTANCE.setFeatureKind(eStructuralFeature,
+            // ExtendedMetaData.ELEMENT_FEATURE);
+        }
+
+        return (Property)eStructuralFeature;
+    }
+
+    public Property createOpenContentProperty(TypeHelper scope, String uri, String name, Type type) {
+        ExtendedMetaData extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
+
+        // get/create document root
+        EPackage ePackage = extendedMetaData.getPackage(uri);
+        Type documentRoot = ePackage != null ? (Type)extendedMetaData.getType(ePackage, "") : null;
+        if (documentRoot == null) {
+            documentRoot = createType(scope, uri, null, false);
+        }
+
+        // Determine if property already exists
+        Property newProperty = documentRoot.getProperty(name);
+        if (newProperty == null) {
+            // Create the new property 'under' the document root.....
+            newProperty = createProperty(documentRoot, name, type);
+        } else {
+            // if property already exists, validate the expected type
+            if (!newProperty.getType().equals(type))
+                throw new IllegalArgumentException();
+        }
+        return newProperty;
+    }
+
+    public void addAliasName(Property property, String aliasName) {
+        throw new UnsupportedOperationException(); // TODO: implement this
+                                                    // method properly
+        // property.getAliasNames().add(aliasName);
+    }
+
+    public void setMany(Property property, boolean isMany) {
+        ((EStructuralFeature)property).setUpperBound(isMany ? EStructuralFeature.UNBOUNDED_MULTIPLICITY : 1);
+    }
+
+    public void setContainment(Property property, boolean isContainment) {
+        ((EReference)property).setContainment(isContainment);
+    }
+
+    public void setDefault(Property property, String defaultValue) {
+        ((EStructuralFeature)property).setDefaultValueLiteral(defaultValue);
+    }
+
+    public void setReadOnly(Property property, boolean isReadOnly) {
+        ((EStructuralFeature)property).setChangeable(!isReadOnly);
+    }
+
+    public void setOpposite(Property property, Property opposite) {
+        ((EReference)property).setEOpposite((EReference)opposite);
+    }
+
+    public void addTypeInstanceProperty(Type definedType, Property instanceProperty, Object value) {
+        addInstanceProperty((EModelElement)definedType, instanceProperty, value);
+    }
+
+    public void addPropertyInstanceProperty(Property definedProperty, Property instanceProperty, Object value) {
+        addInstanceProperty((EModelElement)definedProperty, instanceProperty, value);
+    }
+
+    protected void addInstanceProperty(EModelElement metaObject, Property property, Object value) {
+        String uri = property.getContainingType().getURI();
+        EAnnotation eAnnotation = metaObject.getEAnnotation(uri);
+        if (eAnnotation == null) {
+            eAnnotation = EcoreFactory.eINSTANCE.createEAnnotation();
+            eAnnotation.setSource(uri);
+            metaObject.getEAnnotations().add(eAnnotation);
+        }
+        // TODO if (property.isMany()) ... // convert list of values
+        String stringValue = convertToString(property.getType(), value);
+        eAnnotation.getDetails().put(property.getName(), stringValue);
+    }
+
 }

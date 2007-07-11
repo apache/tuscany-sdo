@@ -44,6 +44,6 @@ public class HelperProviderImpl extends HelperProviderBase
     equalityHelper = new EqualityHelperImpl();
     dataHelper = new DataHelperImpl();
     sdoHelper = new SDOHelperImpl();
-  }
-  
+    xmlStreamHelper = ((HelperContextImpl)hc).getXMLStreamHelper();
+  }  
 }

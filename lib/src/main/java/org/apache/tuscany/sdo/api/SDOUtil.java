@@ -37,6 +37,7 @@ import commonj.sdo.Type;
 import commonj.sdo.helper.CopyHelper;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
+import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.impl.HelperProvider;
 
 /**
@@ -167,6 +168,12 @@ public final class SDOUtil
   }
   
   /**
+   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createHelperContext(boolean,Map)}.
+   */  
+  public static HelperContext createHelperContext(boolean extensibleNamespaces,Map options){
+	  return defaultSDOHelper.createHelperContext(extensibleNamespaces, options);
+  }
+  /**
    * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createHelperContext(boolean)}.
    */
   public static HelperContext createHelperContext(boolean extensibleNamespaces)
@@ -198,6 +205,13 @@ public final class SDOUtil
     return defaultSDOHelper.createXMLStreamHelper(scope);
   }
   
+  /**
+   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createXMLStreamHelper(TypeHelper, Map)}.
+   */
+  public static XMLStreamHelper createXMLStreamHelper(TypeHelper scope, Map options)
+  {
+    return defaultSDOHelper.createXMLStreamHelper(scope, options);
+  }
   /**
    * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createObjectInputStream(InputStream, HelperContext)}.
    */

@@ -55,6 +55,14 @@ public interface SDOHelper
   public HelperContext createHelperContext();
 
   /**
+   * Create a non-extensible HelperContext to provide access to a consistent set of Helpers which make use
+   * of a new TypeHelper instance to provide scope for type definitions.
+   * @param options Map of default XMLOptions
+   * @return the new HelperContext
+   * @see #createHelperContext(boolean)
+   */
+  public HelperContext createHelperContext(boolean extensibleNamespaces,Map options);
+  /**
    * Create a HelperContext to provide access to a consistent set of Helpers which make use of a new
    * TypeHelper instance to provide scope for type definitions.
    * @param extensibleNamespaces true if the contents of a namespaces should be incrementally modifiable over time
@@ -195,6 +203,13 @@ public interface SDOHelper
    */
   public XMLStreamHelper createXMLStreamHelper(TypeHelper scope);
   
+  /**
+   * Create a new XMLStreamHelper, with visibility to types in the specified TypeHelper scope.
+   * @param scope the TypeHelper to use for locating types.
+   * @param options Map of XMLOptions.
+   * @return the new XMLStreamHelper.
+   */
+  public XMLStreamHelper createXMLStreamHelper(TypeHelper scope, Map options);
   /**
    * Create a new ObjectInputStream in the specifice HelperContext scope.
    * @param inputStream the inputStream with which to create the ObjectInputStream.

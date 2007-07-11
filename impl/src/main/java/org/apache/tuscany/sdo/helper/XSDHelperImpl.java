@@ -19,7 +19,6 @@
  */
 package org.apache.tuscany.sdo.helper;
 
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Reader;
@@ -60,296 +59,269 @@ import org.xml.sax.InputSource;
 
 import commonj.sdo.Property;
 import commonj.sdo.Type;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XSDHelper;
 
-
 /**
- * Provides access to additional information when the 
- * Type or Property is defined by an XML Schema (XSD).
- * Methods return null/false otherwise or if the information is unavailable.
- * Defines Types from an XSD.
+ * Provides access to additional information when the Type or Property is
+ * defined by an XML Schema (XSD). Methods return null/false otherwise or if the
+ * information is unavailable. Defines Types from an XSD.
  */
-public class XSDHelperImpl implements XSDHelper
-{
-  protected boolean extensibleNamespaces = false;
-  protected ExtendedMetaData extendedMetaData;
-  protected SDOXSDEcoreBuilder nondelegatingEcoreBuilder = null;
-  protected HashMap tcclToEcoreBuilderMap = null;
-  
-  public XSDHelperImpl(ExtendedMetaData extendedMetaData, String redefineBuiltIn, boolean extensibleNamespaces)
-  {
-    this.extendedMetaData = extendedMetaData;
-    this.extensibleNamespaces = extensibleNamespaces;
-    
-    SDOXSDEcoreBuilder ecoreBuilder = createEcoreBuilder();
-    
-    if (extendedMetaData instanceof SDOExtendedMetaDataImpl &&
-        ((SDOExtendedMetaDataImpl)extendedMetaData).getRegistry() instanceof EPackageRegistryImpl.Delegator) {
-      tcclToEcoreBuilderMap = new HashMap();
-      putTCCLEcoreBuilder(ecoreBuilder);
-    }
-    else {
-      nondelegatingEcoreBuilder = ecoreBuilder;
-    }
-    
-    if (redefineBuiltIn != null) { // Redefining/regenerating this built-in model
-      ecoreBuilder.getTargetNamespaceToEPackageMap().remove(redefineBuiltIn);
-    }
-  }
-  
-  public XSDHelperImpl(ExtendedMetaData extendedMetaData, String redefineBuiltIn)
-  {
-    this(extendedMetaData, redefineBuiltIn, false);
-  }
-  
-  public XSDHelperImpl(TypeHelper typeHelper, boolean extensibleNamespaces)
-  {
-    this(((TypeHelperImpl)typeHelper).extendedMetaData, null, extensibleNamespaces);
-  }
-  
-  protected SDOXSDEcoreBuilder createEcoreBuilder() {
-    SDOXSDEcoreBuilder ecoreBuilder = new SDOXSDEcoreBuilder(extendedMetaData, extensibleNamespaces);
-    
-    // Add the built-in models to the targetNamespaceToEPackageMap so they can't be (re)defined/overridden
-    for (Iterator iter = TypeHelperImpl.getBuiltInModels().iterator(); iter.hasNext(); ) {
-      EPackage ePackage = (EPackage)iter.next();
-      ecoreBuilder.getTargetNamespaceToEPackageMap().put(ePackage.getNsURI(), ePackage);
-    }
-    
-    return ecoreBuilder;
-  }
-  
-  protected void putTCCLEcoreBuilder(XSDEcoreBuilder ecoreBuilder) {
-    ClassLoader tccl = Thread.currentThread().getContextClassLoader();
-    if (tcclToEcoreBuilderMap.get(tccl) == null) {
-        tcclToEcoreBuilderMap.put(tccl, ecoreBuilder);
-    }
-  }
-  
-  protected SDOXSDEcoreBuilder getEcoreBuilder() {
-    if (nondelegatingEcoreBuilder != null) 
-      return nondelegatingEcoreBuilder;
-    
-    SDOXSDEcoreBuilder result = null;
-    try {
-      for (ClassLoader tccl = Thread.currentThread().getContextClassLoader(); tccl != null; tccl = tccl.getParent()) {
-        result = (SDOXSDEcoreBuilder)tcclToEcoreBuilderMap.get(tccl);
-        if (result != null)
-          return result;
-      } // for
-    }
-    catch (SecurityException exception) {
-      //exception.printStackTrace();
-    }
+public class XSDHelperImpl implements XSDHelper {
+    protected boolean extensibleNamespaces = false;
+    protected HelperContext helperContext;
+    protected SDOXSDEcoreBuilder nondelegatingEcoreBuilder = null;
+    protected HashMap tcclToEcoreBuilderMap = null;
+    private ExtendedMetaData extendedMetaData;
 
-    result = createEcoreBuilder();
-    putTCCLEcoreBuilder(result);
-    
-    return result;
-  }
-  
-  public String getLocalName(Type type)
-  {
-    return extendedMetaData.getName((EClassifier)type);
-  }
+    public XSDHelperImpl(HelperContext hc, String redefineBuiltIn, boolean extensibleNamespaces) {
+        this.helperContext = hc;
+        this.extensibleNamespaces = extensibleNamespaces;
+        extendedMetaData = ((HelperContextImpl)helperContext).extendedMetaData;
 
-  public String getLocalName(Property property)
-  {
-    return extendedMetaData.getName((EStructuralFeature)property);
-  }
+        SDOXSDEcoreBuilder ecoreBuilder = createEcoreBuilder();
 
-  public String getNamespaceURI(Property property)
-  {
-    return extendedMetaData.getNamespace((EStructuralFeature)property);
-  }
-
-  public boolean isAttribute(Property property)
-  {
-    return extendedMetaData.getFeatureKind((EStructuralFeature)property) == ExtendedMetaData.ATTRIBUTE_FEATURE;
-  }
-
-  public boolean isElement(Property property)
-  {
-    return extendedMetaData.getFeatureKind((EStructuralFeature)property) == ExtendedMetaData.ELEMENT_FEATURE;
-  }
-
-  public boolean isMixed(Type type)
-  {
-    if (type instanceof EClass)
-    {
-      return extendedMetaData.getContentKind((EClass)type) == ExtendedMetaData.MIXED_CONTENT;
-    }
-    else
-    {
-      return false;
-    }
-  }
-
-  public boolean isXSD(Type type)
-  {
-    return ((EModelElement)type).getEAnnotation(ExtendedMetaData.ANNOTATION_URI) != null;
-  }
-
-  public Property getGlobalProperty(String uri, String propertyName, boolean isElement)
-  {
-    if (isElement)
-    {
-      return (Property)extendedMetaData.getElement(uri, propertyName);
-    }
-    else
-    {
-      return (Property)extendedMetaData.getAttribute(uri, propertyName);
-    }
-  }
-
-  public String getAppinfo(Type type, String source)
-  {
-    return getAppinfo((EModelElement)type, source);
-  }
-
-  public String getAppinfo(Property property, String source)
-  {
-    return getAppinfo((EModelElement)property, source);
-  }
-
-  protected String getAppinfo(EModelElement eModelElement, String source)
-  {
-    return (String)eModelElement.getEAnnotation(source).getDetails().get("appinfo");
-  }
-
-  public List /*Type*/define(String xsd)
-  {
-    InputStream inputStream = new ByteArrayInputStream(xsd.getBytes());
-    return define(inputStream, "*.xsd");
-  }
-
-  public List /*Type*/define(Reader xsdReader, String schemaLocation)
-  {
-    InputSource inputSource = new InputSource(xsdReader);
-    return define(inputSource, schemaLocation);
-
-  }
-
-  public List /*Type*/define(InputStream xsdInputStream, String schemaLocation)
-  {
-    InputSource inputSource = new InputSource(xsdInputStream);
-    return define(inputSource, schemaLocation);
-  }
-
-  protected List /*Type*/define(InputSource inputSource, String schemaLocation)
-  {
-    try
-    {
-      SDOXSDEcoreBuilder ecoreBuilder = getEcoreBuilder();
-      ResourceSet resourceSet = ecoreBuilder.createResourceSet();
-      Resource model = resourceSet.createResource(URI.createURI(schemaLocation != null ? schemaLocation : "null.xsd"));
-      ((XSDResourceImpl)model).load(inputSource, null);
-      
-      List newTypes = new ArrayList();
-      for (Iterator schemaIter = model.getContents().iterator(); schemaIter.hasNext(); )
-      {
-        XSDSchema schema = (XSDSchema)schemaIter.next();    
-
-        String targetNamespace = schema.getTargetNamespace();
-		    EPackage ePackage = extendedMetaData.getPackage(targetNamespace);
-        if (extensibleNamespaces || ePackage == null || TypeHelperImpl.getBuiltInModels().contains(ePackage))
-        {
-          Map targetNamespaceToEPackageMap = ecoreBuilder.getTargetNamespaceToEPackageMap();
-          targetNamespaceToEPackageMap.remove(targetNamespace);
-          
-          Collection originalEPackages = new HashSet(targetNamespaceToEPackageMap.values());
-          ecoreBuilder.generate(schema);
-          Collection newEPackages = ecoreBuilder.getTargetNamespaceToEPackageMap().values();
-      
-          for (Iterator iter = newEPackages.iterator(); iter.hasNext();)
-          {
-            EPackage currentPackage = (EPackage)iter.next();
-            if (!originalEPackages.contains(currentPackage))
-            {
-              currentPackage.setEFactoryInstance(new DynamicDataObjectImpl.FactoryImpl());
-              EcoreUtil.freeze(currentPackage);
-              newTypes.addAll(currentPackage.getEClassifiers());
-            }
-          }
+        if (extendedMetaData instanceof SDOExtendedMetaDataImpl && ((SDOExtendedMetaDataImpl)extendedMetaData)
+            .getRegistry() instanceof EPackageRegistryImpl.Delegator) {
+            tcclToEcoreBuilderMap = new HashMap();
+            putTCCLEcoreBuilder(ecoreBuilder);
+        } else {
+            nondelegatingEcoreBuilder = ecoreBuilder;
         }
-      }
-      
-      return newTypes;
+
+        if (redefineBuiltIn != null) { // Redefining/regenerating this built-in
+                                        // model
+            ecoreBuilder.getTargetNamespaceToEPackageMap().remove(redefineBuiltIn);
+        }
     }
-    catch (Exception e)
-    {
-      e.printStackTrace();
-      throw new IllegalArgumentException(e.getMessage());
+
+    public XSDHelperImpl(HelperContext hc) {
+        this(hc, null, false);
     }
-  }
 
-  public String generate(List /*Type*/types) throws IllegalArgumentException
-  {
-    return generate(types, new Hashtable());
-  }
+    /**
+     * Redefine/regenerating the built-in model
+     * @param redefineBuiltIn
+     */
+    public void setRedefineBuiltIn(String redefineBuiltIn) {
+        if (redefineBuiltIn != null) {
+            getEcoreBuilder().getTargetNamespaceToEPackageMap().remove(redefineBuiltIn);
+        }
+    }
+    
+    public void setExtensibleNamespaces(boolean extensibleNamespaces) {
+        this.extensibleNamespaces = extensibleNamespaces;
+    }
 
-  public String generate(List /*Type*/types, Map /*String, String*/namespaceToSchemaLocation) throws IllegalArgumentException
-  {
-      if ( types != null && !types.isEmpty() )
-      {
-         Hashtable schemaMap = new Hashtable();
-         Hashtable nsPrefixMap = new Hashtable();
-         TypeTable typeTable = new TypeTable();
-         
-         SchemaBuilder schemaBuilder = new SchemaBuilder( schemaMap,
-                                                          nsPrefixMap,
-                                                          typeTable,
-                                                          namespaceToSchemaLocation);
-          
-         Iterator iterator = types.iterator();
-         Type dataType = null;
-         
-         try
-         {
-             while ( iterator.hasNext() )
-             {
-                 dataType = (Type)iterator.next();
-                 schemaBuilder.buildSchema(dataType);
-             }
-             
-             XSDSchema xmlSchema = null;
-             iterator = schemaMap.values().iterator();
-             StringWriter writer = new StringWriter();
-             
-             TransformerFactory transformerFactory = TransformerFactory.newInstance();
-             Transformer transformer = transformerFactory.newTransformer();
-             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-             transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-             
-             while ( iterator.hasNext() )
-             {
-                 xmlSchema = (XSDSchema)iterator.next();
+    protected SDOXSDEcoreBuilder createEcoreBuilder() {
+        SDOXSDEcoreBuilder ecoreBuilder = new SDOXSDEcoreBuilder(extendedMetaData, extensibleNamespaces);
 
-                 if(xmlSchema.getElement() == null)
-                 {
-                     xmlSchema.updateElement();
-                 }
+        // Add the built-in models to the targetNamespaceToEPackageMap so they
+        // can't be (re)defined/overridden
+        for (Iterator iter = TypeHelperImpl.getBuiltInModels().iterator(); iter.hasNext();) {
+            EPackage ePackage = (EPackage)iter.next();
+            ecoreBuilder.getTargetNamespaceToEPackageMap().put(ePackage.getNsURI(), ePackage);
+        }
 
-                 transformer.transform(new DOMSource(xmlSchema.getElement().getOwnerDocument()), 
-                         new StreamResult(writer));
-             }
-             writer.close();
-             return writer.getBuffer().toString();
-         }
-         catch ( Exception e )
-         {
-             //System.out.println("Unable to generate schema due to ..." + e);
-             //e.printStackTrace();
-             throw new IllegalArgumentException(e.getMessage());
-         }
-      }
-      else
-      {
-          //System.out.println("No SDO Types to generate schema ...");
-          return "";
-      }
-  }
+        return ecoreBuilder;
+    }
 
+    protected void putTCCLEcoreBuilder(XSDEcoreBuilder ecoreBuilder) {
+        ClassLoader tccl = Thread.currentThread().getContextClassLoader();
+        if (tcclToEcoreBuilderMap.get(tccl) == null) {
+            tcclToEcoreBuilderMap.put(tccl, ecoreBuilder);
+        }
+    }
+
+    protected SDOXSDEcoreBuilder getEcoreBuilder() {
+        if (nondelegatingEcoreBuilder != null)
+            return nondelegatingEcoreBuilder;
+
+        SDOXSDEcoreBuilder result = null;
+        try {
+            for (ClassLoader tccl = Thread.currentThread().getContextClassLoader(); tccl != null; tccl =
+                tccl.getParent()) {
+                result = (SDOXSDEcoreBuilder)tcclToEcoreBuilderMap.get(tccl);
+                if (result != null)
+                    return result;
+            } // for
+        } catch (SecurityException exception) {
+            // exception.printStackTrace();
+        }
+
+        result = createEcoreBuilder();
+        putTCCLEcoreBuilder(result);
+
+        return result;
+    }
+
+    public String getLocalName(Type type) {
+        return extendedMetaData.getName((EClassifier)type);
+    }
+
+    public String getLocalName(Property property) {
+        return extendedMetaData.getName((EStructuralFeature)property);
+    }
+
+    public String getNamespaceURI(Property property) {
+        return extendedMetaData.getNamespace((EStructuralFeature)property);
+    }
+
+    public boolean isAttribute(Property property) {
+        return extendedMetaData.getFeatureKind((EStructuralFeature)property) == ExtendedMetaData.ATTRIBUTE_FEATURE;
+    }
+
+    public boolean isElement(Property property) {
+        return extendedMetaData.getFeatureKind((EStructuralFeature)property) == ExtendedMetaData.ELEMENT_FEATURE;
+    }
+
+    public boolean isMixed(Type type) {
+        if (type instanceof EClass) {
+            return extendedMetaData.getContentKind((EClass)type) == ExtendedMetaData.MIXED_CONTENT;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean isXSD(Type type) {
+        return ((EModelElement)type).getEAnnotation(ExtendedMetaData.ANNOTATION_URI) != null;
+    }
+
+    public Property getGlobalProperty(String uri, String propertyName, boolean isElement) {
+        if (isElement) {
+            return (Property)extendedMetaData.getElement(uri, propertyName);
+        } else {
+            return (Property)extendedMetaData.getAttribute(uri, propertyName);
+        }
+    }
+
+    public String getAppinfo(Type type, String source) {
+        return getAppinfo((EModelElement)type, source);
+    }
+
+    public String getAppinfo(Property property, String source) {
+        return getAppinfo((EModelElement)property, source);
+    }
+
+    protected String getAppinfo(EModelElement eModelElement, String source) {
+        return (String)eModelElement.getEAnnotation(source).getDetails().get("appinfo");
+    }
+
+    public List /* Type */define(String xsd) {
+        InputStream inputStream = new ByteArrayInputStream(xsd.getBytes());
+        return define(inputStream, "*.xsd");
+    }
+
+    public List /* Type */define(Reader xsdReader, String schemaLocation) {
+        InputSource inputSource = new InputSource(xsdReader);
+        return define(inputSource, schemaLocation);
+
+    }
+
+    public List /* Type */define(InputStream xsdInputStream, String schemaLocation) {
+        InputSource inputSource = new InputSource(xsdInputStream);
+        return define(inputSource, schemaLocation);
+    }
+
+    protected List /* Type */define(InputSource inputSource, String schemaLocation) {
+        try {
+            SDOXSDEcoreBuilder ecoreBuilder = getEcoreBuilder();
+            ResourceSet resourceSet = ecoreBuilder.createResourceSet();
+            Resource model =
+                resourceSet.createResource(URI.createURI(schemaLocation != null ? schemaLocation : "null.xsd"));
+            ((XSDResourceImpl)model).load(inputSource, null);
+
+            List newTypes = new ArrayList();
+            for (Iterator schemaIter = model.getContents().iterator(); schemaIter.hasNext();) {
+                XSDSchema schema = (XSDSchema)schemaIter.next();
+
+                String targetNamespace = schema.getTargetNamespace();
+                EPackage ePackage = extendedMetaData.getPackage(targetNamespace);
+                if (extensibleNamespaces || ePackage == null || TypeHelperImpl.getBuiltInModels().contains(ePackage)) {
+                    Map targetNamespaceToEPackageMap = ecoreBuilder.getTargetNamespaceToEPackageMap();
+                    targetNamespaceToEPackageMap.remove(targetNamespace);
+
+                    Collection originalEPackages = new HashSet(targetNamespaceToEPackageMap.values());
+                    ecoreBuilder.generate(schema);
+                    Collection newEPackages = ecoreBuilder.getTargetNamespaceToEPackageMap().values();
+
+                    for (Iterator iter = newEPackages.iterator(); iter.hasNext();) {
+                        EPackage currentPackage = (EPackage)iter.next();
+                        if (!originalEPackages.contains(currentPackage)) {
+                            currentPackage.setEFactoryInstance(new DynamicDataObjectImpl.FactoryImpl());
+                            EcoreUtil.freeze(currentPackage);
+                            newTypes.addAll(currentPackage.getEClassifiers());
+                        }
+                    }
+                }
+            }
+
+            return newTypes;
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
+    public String generate(List /* Type */types) throws IllegalArgumentException {
+        return generate(types, new Hashtable());
+    }
+
+    public String generate(List /* Type */types, Map /* String, String */namespaceToSchemaLocation)
+        throws IllegalArgumentException {
+        if (types != null && !types.isEmpty()) {
+            Hashtable schemaMap = new Hashtable();
+            Hashtable nsPrefixMap = new Hashtable();
+            TypeTable typeTable = new TypeTable();
+
+            SchemaBuilder schemaBuilder =
+                new SchemaBuilder(schemaMap, nsPrefixMap, typeTable, namespaceToSchemaLocation);
+
+            Iterator iterator = types.iterator();
+            Type dataType = null;
+
+            try {
+                while (iterator.hasNext()) {
+                    dataType = (Type)iterator.next();
+                    schemaBuilder.buildSchema(dataType);
+                }
+
+                XSDSchema xmlSchema = null;
+                iterator = schemaMap.values().iterator();
+                StringWriter writer = new StringWriter();
+
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+                transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+
+                while (iterator.hasNext()) {
+                    xmlSchema = (XSDSchema)iterator.next();
+
+                    if (xmlSchema.getElement() == null) {
+                        xmlSchema.updateElement();
+                    }
+
+                    transformer.transform(new DOMSource(xmlSchema.getElement().getOwnerDocument()),
+                                          new StreamResult(writer));
+                }
+                writer.close();
+                return writer.getBuffer().toString();
+            } catch (Exception e) {
+                // System.out.println("Unable to generate schema due to ..." +
+                // e);
+                // e.printStackTrace();
+                throw new IllegalArgumentException(e.getMessage());
+            }
+        } else {
+            // System.out.println("No SDO Types to generate schema ...");
+            return "";
+        }
+    }
+
+    public HelperContext getHelperContext() {
+        return helperContext;
+    }
 }

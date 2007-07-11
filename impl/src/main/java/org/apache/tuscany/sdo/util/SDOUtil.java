@@ -33,6 +33,7 @@ import java.util.Map;
 
 import org.apache.tuscany.sdo.api.SDOHelper.XMLOptions;
 import org.apache.tuscany.sdo.helper.DataFactoryImpl;
+import org.apache.tuscany.sdo.helper.HelperContextImpl;
 import org.apache.tuscany.sdo.helper.SDOExtendedMetaDataImpl;
 import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.helper.XMLHelperImpl;
@@ -107,7 +108,8 @@ public final class SDOUtil
   {
     EPackage.Registry registry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE);
     ExtendedMetaData extendedMetaData = new SDOExtendedMetaDataImpl(registry); //TODO create subclass that makes demand() methods synchronous
-    return new TypeHelperImpl(extendedMetaData);
+    //return new TypeHelperImpl(extendedMetaData);
+    return (new HelperContextImpl(extendedMetaData, false)).getTypeHelper();
   }
 
   /**
@@ -118,7 +120,7 @@ public final class SDOUtil
    */
   public static DataFactory createDataFactory(TypeHelper scope)
   {
-    return new DataFactoryImpl(scope);
+	  return ((TypeHelperImpl)scope).getHelperContext().getDataFactory();
   }
 
   /**
@@ -129,7 +131,7 @@ public final class SDOUtil
    */
   public static XMLHelper createXMLHelper(TypeHelper scope)
   {
-    return new XMLHelperImpl(scope);
+	  return ((TypeHelperImpl)scope).getHelperContext().getXMLHelper();
   }
   
   /**
@@ -140,7 +142,7 @@ public final class SDOUtil
    */
   public static XSDHelper createXSDHelper(TypeHelper scope)
   {
-    return new XSDHelperImpl(scope, false);
+	  return ((TypeHelperImpl)scope).getHelperContext().getXSDHelper();
   }
   
   /**

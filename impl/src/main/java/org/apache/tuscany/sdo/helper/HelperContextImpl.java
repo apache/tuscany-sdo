@@ -20,7 +20,9 @@
 
 package org.apache.tuscany.sdo.helper;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
@@ -35,64 +37,144 @@ import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
-public class HelperContextImpl implements HelperContext
-{
-	private DataFactory dataFactory;
-	private TypeHelper typeHelper;
-	private XMLHelper xmlHelper;
-	private XSDHelper xsdHelper;
+import org.apache.tuscany.sdo.api.XMLStreamHelper;
 
-	public HelperContextImpl(ExtendedMetaData extendedMetaData, boolean extensibleNamespaces) {
-        typeHelper = new TypeHelperImpl(extendedMetaData);
-        dataFactory = new DataFactoryImpl(typeHelper);
-        xmlHelper = new XMLHelperImpl(typeHelper);
-        xsdHelper = new XSDHelperImpl(typeHelper, extensibleNamespaces);
+public class HelperContextImpl implements HelperContext {
+    /*
+     * Relationship: HelperContext*Impl* ---1:1---> ExtendedMetaData ---1:1--->
+     * Map (:defaultOption) <---1:1---> TypeHelper <---1:1---> XMLHelper
+     * <---1:1---> XMLStreamHelper <---1:1---> XSDHelper <---1:1---> DataFactory
+     */
+
+    protected ExtendedMetaData extendedMetaData;
+    protected DataFactory dataFactory;
+    protected TypeHelper typeHelper;
+    protected XMLHelper xmlHelper;
+    protected XSDHelper xsdHelper;
+    protected XMLStreamHelper xmlStreamHelper;
+    protected Map defaultOptions;
+
+    public HelperContextImpl(ExtendedMetaData extendedMetaData, boolean extensibleNamespaces) {
+        this.defaultOptions = null;
+        this.extendedMetaData = extendedMetaData;
+        typeHelper = new TypeHelperImpl(this);
+        dataFactory = new DataFactoryImpl(this);
+        xmlHelper = new XMLHelperImpl(this);
+        xsdHelper = new XSDHelperImpl(this, null, extensibleNamespaces);
+        xmlStreamHelper = new XMLStreamHelperImpl(this);
+    }
+    
+
+    public HelperContextImpl(ExtendedMetaData extendedMetaData, boolean extensibleNamespaces, Map options) {
+        this.defaultOptions = options;
+        this.extendedMetaData = extendedMetaData;
+        typeHelper = new TypeHelperImpl(this);
+        dataFactory = new DataFactoryImpl(this);
+        xmlHelper = new XMLHelperImpl(this);
+        xsdHelper = new XSDHelperImpl(this, null, extensibleNamespaces);
+        xmlStreamHelper = new XMLStreamHelperImpl(this);
+    }
+
+    // many places this is called in existing code
+    // This is used for supporting the deprecated util -
+    // org.apache.tuscany.sdo.util.SDOUtil
+    // Once we conpletely remove this deprecated util, we can remove the below
+    // constructor
+    public HelperContextImpl(TypeHelper scope) {
+        this(scope, null);
+    }
+
+
+    public HelperContextImpl(TypeHelper scope, Map options) {
+        this.defaultOptions = options;
+        typeHelper = scope;
+        this.extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
+        dataFactory = new DataFactoryImpl(this);
+        xmlHelper = new XMLHelperImpl(this);
+        xsdHelper = new XSDHelperImpl(this);
+        xmlStreamHelper = new XMLStreamHelperImpl(this);
     }
 
     public HelperContextImpl(boolean extensibleNamespaces) {
         this(new SDOExtendedMetaDataImpl(new EPackageRegistryImpl(getBuiltInModelRegistry())), extensibleNamespaces);
     }
-    
-    static protected EPackage.Registry builtInModelRegistry = null;
-    static protected EPackage.Registry getBuiltInModelRegistry()
-    {
-      if (builtInModelRegistry == null) {
-        builtInModelRegistry = new EPackageRegistryImpl();
-        for (Iterator iter = TypeHelperImpl.getBuiltInModels().iterator(); iter.hasNext(); )
-        {
-          EPackage ePackage = (EPackage)iter.next();
-          builtInModelRegistry.put(ePackage.getNsURI(), ePackage);
-        }
-      }
-      return builtInModelRegistry;
+
+
+    public HelperContextImpl(boolean extensibleNamespaces, Map options) {
+        this(new SDOExtendedMetaDataImpl(new EPackageRegistryImpl(getBuiltInModelRegistry())), extensibleNamespaces,
+             options);
     }
-    
-	public CopyHelper getCopyHelper() {
-		return CopyHelper.INSTANCE;
-	}
 
-	public DataFactory getDataFactory() {
-		return dataFactory;
-	}
+    static protected EPackage.Registry builtInModelRegistry = null;
 
-	public DataHelper getDataHelper() {
-		return DataHelper.INSTANCE;
-	}
+    static protected EPackage.Registry getBuiltInModelRegistry() {
+        if (builtInModelRegistry == null) {
+            builtInModelRegistry = new EPackageRegistryImpl();
+            for (Iterator iter = TypeHelperImpl.getBuiltInModels().iterator(); iter.hasNext();) {
+                EPackage ePackage = (EPackage)iter.next();
+                builtInModelRegistry.put(ePackage.getNsURI(), ePackage);
+            }
+        }
+        return builtInModelRegistry;
+    }
 
-	public EqualityHelper getEqualityHelper() {
-		return EqualityHelper.INSTANCE;
-	}
+    public CopyHelper getCopyHelper() {
+        return CopyHelper.INSTANCE;
+    }
 
-	public TypeHelper getTypeHelper() {
-		return typeHelper;
-	}
+    public DataFactory getDataFactory() {
+        return dataFactory;
+    }
 
-	public XMLHelper getXMLHelper() {
-		return xmlHelper;
-	}
+    public DataHelper getDataHelper() {
+        return DataHelper.INSTANCE;
+    }
 
-	public XSDHelper getXSDHelper() {
-		return xsdHelper;
-	}
+    public EqualityHelper getEqualityHelper() {
+        return EqualityHelper.INSTANCE;
+    }
 
+    public TypeHelper getTypeHelper() {
+        return typeHelper;
+    }
+
+    public XMLHelper getXMLHelper() {
+        return xmlHelper;
+    }
+
+    public XMLStreamHelper getXMLStreamHelper() {
+        return xmlStreamHelper;
+    }
+
+    public XSDHelper getXSDHelper() {
+        return xsdHelper;
+    }
+
+    public void setOptions(Map options) {
+        this.defaultOptions = options;
+    }
+
+    public Map getOptions() {
+        return this.defaultOptions;
+    }
+
+    public Map getMergedOption(Map options) {
+        Map mergedOptions = null;// copy to be used for merge
+
+        if (defaultOptions == null) {
+            return options;
+        }
+        
+        mergedOptions = new HashMap(defaultOptions);
+        if (options == null) {
+            return mergedOptions;
+        }
+        mergedOptions.putAll(options);
+        
+        return mergedOptions;
+    }
+
+    public ExtendedMetaData getExtendedMetaData() {
+        return extendedMetaData;
+    }
 }
