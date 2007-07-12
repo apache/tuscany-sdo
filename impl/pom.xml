@@ -90,7 +90,6 @@
             <artifactId>stax-api</artifactId>
             <version>1.0.1</version>
             <scope>provided</scope>
-            <optional>true</optional>
         </dependency>
 
        <!-- dependencies for test cases -->
