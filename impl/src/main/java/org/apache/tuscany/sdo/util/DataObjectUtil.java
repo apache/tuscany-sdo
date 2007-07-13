@@ -2468,13 +2468,15 @@ public final class DataObjectUtil
   public static Property getProperty(DataObject dataObject, int propertyIndex)
   {
     List typeProperties = dataObject.getType().getProperties();
+    try {
+      Property property = propertyIndex < typeProperties.size() ?
+          (Property)typeProperties.get(propertyIndex) :
+          (Property)dataObject.getInstanceProperties().get(propertyIndex);
     
-    Property property = propertyIndex < typeProperties.size() ?
-        (Property)typeProperties.get(propertyIndex) :
-        (Property)dataObject.getInstanceProperties().get(propertyIndex);
-    
-    //FB maybe should catch bad index exception and throw IllegalArgumentException?
-    return property;
+      return property;
+      } catch (IndexOutOfBoundsException e) {
+        throw new IllegalArgumentException();
+      }
   }
 
   public static Property getContainmentProperty(Property property)

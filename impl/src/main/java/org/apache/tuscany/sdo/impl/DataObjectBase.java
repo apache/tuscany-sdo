@@ -270,6 +270,16 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
     return null;
   }
   
+  public void set(int featureID, Object newValue)
+  {
+    throw new UnsupportedOperationException();
+  }
+ 
+  public void unset(int propertyIndex)
+  {
+    throw new UnsupportedOperationException();
+  }
+  
   private ChangeContextImpl initializeChangeContext(ChangeContext changeContext)
   {
     ChangeContextImpl changeContextImpl;
@@ -467,6 +477,8 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
   }
   
 } //DataObjectBase
+
+
 
 
 
