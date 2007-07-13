@@ -156,7 +156,11 @@ public class DynamicDataObjectImpl extends DataObjectImpl implements DataObject,
     if (featureID < eClass().getFeatureCount())
     {
       EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
-      eDynamicSet(featureID, eFeature, newValue);
+      try {
+        eDynamicSet(featureID, eFeature, newValue); 
+      } catch (IllegalArgumentException e) {
+        throw new UnsupportedOperationException(e.getMessage());
+      }
     }
     else
     {
@@ -169,7 +173,11 @@ public class DynamicDataObjectImpl extends DataObjectImpl implements DataObject,
     if (featureID < eClass().getFeatureCount())
     {
       EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
-      eDynamicUnset(featureID, eFeature);
+      try {
+        eDynamicUnset(featureID, eFeature);
+      } catch (IllegalArgumentException e) {
+        throw new UnsupportedOperationException(e.getMessage());
+      }
     }
     else
     {
