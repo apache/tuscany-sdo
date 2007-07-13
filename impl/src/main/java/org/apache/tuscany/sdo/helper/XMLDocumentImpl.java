@@ -43,6 +43,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -175,23 +176,26 @@ public class XMLDocumentImpl implements XMLDocument
   protected void save(OutputStream outputStream, Document document, Object options) throws IOException
   {
     EObject oldContainer = null;
+    Resource oldResource = null;
     EReference oldContainmentReference = null;
     int oldContainmentIndex = -1;
 
     if (documentRoot != null)
     {
-      //TODO also check if rootObject is directly contained in a resource
       oldContainer = rootObject.eContainer();
       if (oldContainer != null)
-      {
         oldContainmentReference = rootObject.eContainmentFeature();
-      }
+      else
+        oldResource = rootObject.eResource();
       if (oldContainer != documentRoot || oldContainmentReference != rootElement)
       {
-        if (oldContainmentReference != null && FeatureMapUtil.isMany(oldContainer, oldContainmentReference))
+        if (oldResource != null)
         {
-          oldContainmentIndex = ((List)oldContainer.eGet(oldContainmentReference)).indexOf(rootObject);
+          oldContainmentIndex = oldResource.getContents().indexOf(rootObject);
+          oldResource.getContents().remove(oldContainmentIndex);
         }
+        else if (oldContainmentReference != null && FeatureMapUtil.isMany(oldContainer, oldContainmentReference))
+          oldContainmentIndex = ((List)oldContainer.eGet(oldContainmentReference)).indexOf(rootObject);
         
         Object rootValue =
           rootElement instanceof EAttribute && rootObject instanceof SimpleAnyTypeDataObject ?
@@ -206,23 +210,26 @@ public class XMLDocumentImpl implements XMLDocument
     else // if (document != null)
       resource.save(document, (Map)options, null);
 
-    if (oldContainer != null)
+    if (oldResource != null)
     {
-      if (oldContainer != documentRoot || oldContainmentReference != rootElement)
+      oldResource.getContents().add(oldContainmentIndex, rootObject);
+    }
+    if (rootElement instanceof EReference)
+    {
+      if (oldContainer != null)
       {
-        if (FeatureMapUtil.isMany(oldContainer, oldContainmentReference))
+        if (oldContainer != documentRoot || oldContainmentReference != rootElement)
         {
-          ((List)oldContainer.eGet(oldContainmentReference)).add(oldContainmentIndex, rootObject);
-        }
-        else
-        {
-          oldContainer.eSet(oldContainmentReference, rootObject);
+          if (FeatureMapUtil.isMany(oldContainer, oldContainmentReference))
+            ((List)oldContainer.eGet(oldContainmentReference)).add(oldContainmentIndex, rootObject);
+          else
+            oldContainer.eSet(oldContainmentReference, rootObject);
         }
       }
-    }
-    else if (documentRoot != null)
-    {
-      documentRoot.eSet(rootElement, null);
+      else if (documentRoot != null)
+      {
+        documentRoot.eSet(rootElement, null);
+      }
     }
   }
 
