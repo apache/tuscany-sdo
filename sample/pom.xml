@@ -33,8 +33,8 @@
     <name>Tuscany SDO Sample</name>
     <dependencies>
         <dependency>
-            <groupId>commonj</groupId>
-            <artifactId>sdo-api-r${specVersion}</artifactId>
+            <groupId>org.apache.tuscany.sdo</groupId>
+            <artifactId>tuscany-sdo-api-r${specVersion}</artifactId>
         </dependency>
 
         <dependency>
