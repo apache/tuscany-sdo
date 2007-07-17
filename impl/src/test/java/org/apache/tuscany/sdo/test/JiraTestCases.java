@@ -15,8 +15,8 @@
  *   "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
  *   KIND, either express or implied.  See the License for the
  *   specific language governing permissions and limitations
- *   under the License.    
- *  
+ *   under the License.
+ *
  */
 package org.apache.tuscany.sdo.test;
 
@@ -32,9 +32,7 @@ import java.util.HashMap;
 /**
  * The follow test cases are based upon code snipets in the SDO specification.
  * They are also implemented as working samples in the sample-sdo artifact
- * 
- * @author Robbie Minshall
- * 
+ *
  */
 public class JiraTestCases extends TestCase {
 
@@ -164,7 +162,7 @@ public class JiraTestCases extends TestCase {
 			// put into a HashMap for easy lookup
 			HashMap typeLookup = new HashMap();
 			for (int i = 0; i < actualTypes.size(); i++) {
-				Type type = (Type) actualTypes.get(i);			
+				Type type = (Type) actualTypes.get(i);
 				typeLookup.put(type.getName(), type);
 			}
 
