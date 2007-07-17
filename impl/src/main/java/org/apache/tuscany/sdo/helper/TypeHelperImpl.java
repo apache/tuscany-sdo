@@ -19,6 +19,7 @@
  */
 package org.apache.tuscany.sdo.helper;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -34,7 +35,6 @@ import org.apache.tuscany.sdo.api.SDOUtil;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
 
 import commonj.sdo.DataObject;
@@ -96,47 +96,57 @@ public class TypeHelperImpl implements TypeHelper {
         return null;
     }
 
-
+    private Method getGetStaticTypeMethod(Class classObj) {
+        try {
+            Method method = classObj.getMethod("getStaticType", null);
+            return method;
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+    
     public Type getType(Class interfaceClass) {
         Type type = SDOUtil.getJavaSDOType(interfaceClass);
         if (type != null) {
             return type;
         }
         
-        SDOExtendedMetaDataImpl sdoExtendedMetaData = (SDOExtendedMetaDataImpl)extendedMetaData;
-
-        // TODO more efficient implementation ... this is a really bad one!
-
-        // check the local scope package registry
-        for (Iterator iter = sdoExtendedMetaData.getRegistry().values().iterator(); iter.hasNext();) {
-            Object value = iter.next();
-            if (value instanceof EPackage) {
-                EPackage ePackage = (EPackage)value;
-                for (Iterator iter2 = ePackage.getEClassifiers().iterator(); iter2.hasNext();) {
-                    EClassifier eClassifier = (EClassifier)iter2.next();
-                    if (eClassifier.getInstanceClass() == interfaceClass) {
-                        return (Type)eClassifier;
-                    }
+        Class sdoTypeImplClass = interfaceClass;
+        Method getStaticTypeMethod = getGetStaticTypeMethod(interfaceClass);
+        if (getStaticTypeMethod == null) {
+            String sdoTypeImplClassName = interfaceClass.getName();
+            if (sdoTypeImplClassName.endsWith("Impl") == false) {
+                int index = sdoTypeImplClassName.lastIndexOf('.');
+                if (index == -1) {
+                    sdoTypeImplClassName = "impl." + sdoTypeImplClassName + "Impl";
+                }
+                else {
+                    sdoTypeImplClassName = sdoTypeImplClassName.substring(0, index) + ".impl" + sdoTypeImplClassName.substring(index) + "Impl";
+                }
+                try {
+                    sdoTypeImplClass = Class.forName(sdoTypeImplClassName);
+                }
+                catch (Exception e) {
+                    return null;
+                }
+                getStaticTypeMethod = getGetStaticTypeMethod(sdoTypeImplClass);
+                if (getStaticTypeMethod == null) {
+                    return null;
                 }
             }
-        }
-
-        // if it wasnt in the local scope look in the EMF global package
-        // registry
-        for (Iterator iter = EPackage.Registry.INSTANCE.values().iterator(); iter.hasNext();) {
-            Object value = iter.next();
-            if (value instanceof EPackage) {
-                EPackage ePackage = (EPackage)value;
-                for (Iterator iter2 = ePackage.getEClassifiers().iterator(); iter2.hasNext();) {
-                    EClassifier eClassifier = (EClassifier)iter2.next();
-                    if (eClassifier.getInstanceClass() == interfaceClass) {
-                        return (Type)eClassifier;
-                    }
-                }
+            else {
+                return null;
             }
         }
-
-        return null;
+        
+        try {
+            Object implInstance = sdoTypeImplClass.newInstance();
+            return (Type)getStaticTypeMethod.invoke(implInstance, null);
+        }
+        catch (Exception e) {
+            return null;
+        }
     }
 
     public Type define(DataObject type) {
