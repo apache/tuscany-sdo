@@ -398,6 +398,12 @@ public interface SDOHelper
      * To tolerate malformed elements and attributes (default unless set by System property XML.load.form.lax). 0 not to.  
      */
     final String XML_LOAD_LAX_FORM = "load malform";
+    
+    /**
+     * Allows you to record unknown features during deserialization/loading. 
+     * The default is Boolean.FALSE unless set to Boolean.TRUE explicitly. 
+     */
+    final String XML_LOAD_UNKNOWN_PROPERTIES = "load unknown properties";
   }
 
 }
