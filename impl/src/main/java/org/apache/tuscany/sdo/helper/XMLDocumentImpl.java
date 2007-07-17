@@ -267,6 +267,14 @@ public class XMLDocumentImpl implements XMLDocument
     initLoadedRoot();
   }
 
+  /**
+   * @return a Map object with key-value pair where key is the DataObject and value contains the info 
+   * about the unknown properties for the DataObject
+   */
+  public Map getUnknownProperties(){
+      return resource.getEObjectToExtensionMap();
+  }
+  
   private void initLoadedRoot()
   {
     rootObject = null;

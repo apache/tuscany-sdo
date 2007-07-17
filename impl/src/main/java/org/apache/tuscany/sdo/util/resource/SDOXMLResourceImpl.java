@@ -570,7 +570,12 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
                     }
                 });
             }
-        } else if (loadLaxForm != 0) {
+            
+            if (Boolean.TRUE.equals(options.get(SDOHelper.XMLOptions.XML_LOAD_UNKNOWN_PROPERTIES))) {
+                options.put(OPTION_RECORD_UNKNOWN_FEATURE , Boolean.TRUE);
+            }
+        }
+        else if (loadLaxForm != 0) {
             /*
              * Tolerates element/attribute malform
              */
