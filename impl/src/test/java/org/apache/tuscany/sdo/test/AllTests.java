@@ -65,6 +65,7 @@ public class AllTests extends TestCase {
         suite.addTestSuite(XMLSaveOptionsTestCase.class);
         suite.addTestSuite(XMLUnknownPropertiesTestCase.class);
         suite.addTestSuite(ExpectedExceptionsTestCase.class);
+        suite.addTestSuite(TypeHelperTestCase.class);
         return suite;
     }
 
