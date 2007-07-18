@@ -17,7 +17,7 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package org.apache.tuscany.samples.sdo.util;
+package org.apache.tuscany.samples.sdo.internal;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -28,8 +28,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tuscany.samples.sdo.SampleInfrastructure;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
+import org.apache.tuscany.samples.sdo.internal.SampleInfrastructure.SDOFacets;
+
 
 /**
  * Class to generate html documentation for the SDO Samples.

@@ -23,7 +23,7 @@ package org.apache.tuscany.samples.sdo.basic;
 import java.io.FileOutputStream;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure;
+import org.apache.tuscany.samples.sdo.internal.SampleInfrastructure;
 
 
 import commonj.sdo.DataObject;

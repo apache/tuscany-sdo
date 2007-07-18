@@ -18,7 +18,7 @@
  *  under the License.
  */
 
-package org.apache.tuscany.samples.sdo;
+package org.apache.tuscany.samples.sdo.internal;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

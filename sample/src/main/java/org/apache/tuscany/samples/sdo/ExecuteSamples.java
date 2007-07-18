@@ -25,6 +25,9 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.tuscany.samples.sdo.SampleBase;
+import org.apache.tuscany.samples.sdo.internal.SampleInfrastructure;
+
 
 /**
  * A program to execute a sequence of SDO sample programs. The program executes
@@ -41,7 +44,7 @@ import java.lang.reflect.InvocationTargetException;
  * will be much more output than if set to one of the other values. 
  * 
  */
-public class ExecuteSamples {
+public class ExecuteSamples extends SampleBase {
 
   /**
    * Edit this value to cause the program to pause between each sample program
@@ -65,10 +68,16 @@ public class ExecuteSamples {
   
   
   public static void main(String [] args) throws SecurityException, NoSuchMethodException, IllegalArgumentException, InstantiationException, IllegalAccessException, InvocationTargetException, IOException {
+    ExecuteSamples sample = new ExecuteSamples(COMMENTARY_FOR_NOVICE);
+    sample.run();
+  }
+  
+  public ExecuteSamples(Integer userLevel) {
+    super(userLevel, SAMPLE_LEVEL_BASIC);
+  }
 
-
-    
-    Class[] constructorArgTypes = { Integer.class };
+  public void runSample() throws Exception {
+   Class[] constructorArgTypes = { Integer.class };
 
     
     BufferedReader in = new BufferedReader(new InputStreamReader(System.in));

@@ -23,11 +23,9 @@ package org.apache.tuscany.samples.sdo;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringBufferInputStream;
-import java.io.StringReader;
 import java.net.URL;
-import java.util.List;
 
+import org.apache.tuscany.samples.sdo.internal.SampleInfrastructure;
 import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.DataObject;

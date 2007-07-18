@@ -20,16 +20,15 @@
 
 package org.apache.tuscany.samples.sdo.intermediate;
 
+import java.util.List;
+
+import org.apache.tuscany.samples.sdo.SampleBase;
+
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.HelperContext;
-import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.TypeHelper;
-import java.util.List;
-
-import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
 
 /**
  * Demonstrates creating and using Types dynamically. This sample is from the <a

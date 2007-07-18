@@ -22,7 +22,6 @@ package org.apache.tuscany.samples.sdo.basic;
 
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
