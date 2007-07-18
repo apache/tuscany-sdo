@@ -660,9 +660,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
           <%if (genFeature.isEffectiveContains()) {%>
 				<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%> new<%=genFeature.getCapName()%> = (<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>;
           <%if (!genFeature.isBidirectional()) {%>
-				ChangeContext changeContext = old<%=genFeature.getCapName()%>.inverseRemove(this, EOPPOSITE_FEATURE_BASE - <%=genFeature.getUpperName()%>, null, null);
+				ChangeContext changeContext = old<%=genFeature.getCapName()%>.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - <%=genFeature.getUpperName()%>, null, null);
           <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
-				<%=genModel.getImportedName("org.eclipse.emf.common.notify.ChangeContext")%> changeContext =  old<%=genFeature.getCapName()%>.inverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, null);
+				<%=genModel.getImportedName("org.eclipse.emf.common.notify.ChangeContext")%> changeContext =  old<%=genFeature.getCapName()%>.eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, null);
           <%}%>
 				if (new<%=genFeature.getCapName()%>.eInternalContainer() == null)
 				{
@@ -678,7 +678,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
           <%}%>
           <%if (!genModel.isSuppressNotification()) {%>
 				if (isNotifying())
-					notify(ChangeKind.RESOLVE, <%=genFeature.getUpperName()%>, old<%=genFeature.getCapName()%>, <%=genFeature.getSafeName()%>);
+					notify(ChangeKind.RESOLVE, INTERNAL_<%=genFeature.getUpperName()%>, old<%=genFeature.getCapName()%>, <%=genFeature.getSafeName()%>);
           <%}%>
 			}
 		}
@@ -800,9 +800,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 		if (isNotifying())
 		{
          <%if (genFeature.isUnsettable()) {%>
-			addNotification(this, ChangeKind.SET, <%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, new<%=genFeature.getCapName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange<%} else {%>!old<%=genFeature.getCapName()%>_set_<%}%>, changeContext);
+			addNotification(this, ChangeKind.SET, INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, new<%=genFeature.getCapName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange<%} else {%>!old<%=genFeature.getCapName()%>_set_<%}%>, changeContext);
          <%} else {%>
-			addNotification(this, ChangeKind.SET, <%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, new<%=genFeature.getCapName()%>, changeContext);
+			addNotification(this, ChangeKind.SET, INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, new<%=genFeature.getCapName()%>, changeContext);
          <%}%>
 		}
       <%}%>
@@ -884,7 +884,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 		}
         <%if (!genModel.isSuppressNotification()) {%>
 		else if (isNotifying())
-			notify(ChangeKind.SET, <%=genFeature.getUpperName()%>, new<%=genFeature.getCapName()%>, new<%=genFeature.getCapName()%>);
+			notify(ChangeKind.SET, INTERNAL_<%=genFeature.getUpperName()%>, new<%=genFeature.getCapName()%>, new<%=genFeature.getCapName()%>);
         <%}%>
       <%} else if (genFeature.isBidirectional() || genFeature.isEffectiveContains()) {%>
         <%if (genModel.isVirtualDelegation()) {%>
@@ -895,20 +895,20 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 			ChangeContext changeContext = null;
 			if (<%=genFeature.getSafeName()%> != null)
         <%if (!genFeature.isBidirectional()) {%>
-				changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, OPPOSITE_FEATURE_BASE - <%=genFeature.getUpperName()%>, null, changeContext);
+				changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, OPPOSITE_FEATURE_BASE - INTERNAL_<%=genFeature.getUpperName()%>, null, changeContext);
 			if (new<%=genFeature.getCapName()%> != null)
-				changeContext = inverseAdd(new<%=genFeature.getCapName()%>, this, OPPOSITE_FEATURE_BASE - <%=genFeature.getUpperName()%>, null, changeContext);
+				changeContext = inverseAdd(new<%=genFeature.getCapName()%>, this, OPPOSITE_FEATURE_BASE - INTERNAL_<%=genFeature.getUpperName()%>, null, changeContext);
         <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
-				changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
+				changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, <%=SDOGenUtil.getQualifiedInternalPropertyID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
 			if (new<%=genFeature.getCapName()%> != null)
-				changeContext = inverseAdd(new<%=genFeature.getCapName()%>, this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
+				changeContext = inverseAdd(new<%=genFeature.getCapName()%>, this, <%=SDOGenUtil.getQualifiedInternalPropertyID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
         <%}%>
 			changeContext = basicSet<%=genFeature.getAccessorName()%>(<%=genFeature.getInternalTypeCast()%>new<%=genFeature.getCapName()%>, changeContext);
 			if (changeContext != null) dispatch(changeContext);
 		}
         <%if (genFeature.isUnsettable()) {%>
 		else
-    	{
+		{
           <%if (genModel.isVirtualDelegation()) {%>
 			boolean old<%=genFeature.getCapName()%>_set_ = eVirtualIsSet(<%=genFeature.getUpperName()%>);
           <%} else if (genClass.isESetFlag(genFeature)) {%>
@@ -924,13 +924,13 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
           <%}%>
           <%if (!genModel.isSuppressNotification()) {%>
 			if (isNotifying())
-				notify(ChangeKind.SET, <%=genFeature.getUpperName()%>, new<%=genFeature.getCapName()%>, new<%=genFeature.getCapName()%>, !old<%=genFeature.getCapName()%>_set_);
+				notify(ChangeKind.SET, INTERNAL_<%=genFeature.getUpperName()%>, new<%=genFeature.getCapName()%>, new<%=genFeature.getCapName()%>, !old<%=genFeature.getCapName()%>_set_);
           <%}%>
-    	}
+		}
         <%} else {%>
           <%if (!genModel.isSuppressNotification()) {%>
 		else if (isNotifying())
-			notify(ChangeKind.SET, <%=genFeature.getUpperName()%>, new<%=genFeature.getCapName()%>, new<%=genFeature.getCapName()%>);
+			notify(ChangeKind.SET, INTERNAL_<%=genFeature.getUpperName()%>, new<%=genFeature.getCapName()%>, new<%=genFeature.getCapName()%>);
           <%}%>
         <%}%>
       <%} else {%>
@@ -978,12 +978,12 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
           <%}%>
           <%if (!genModel.isSuppressNotification()) {%>
 		if (isNotifying())
-			notify(ChangeKind.SET, <%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>isSetChange ? <%if (genFeature.isReferenceType()) {%>null<%} else {%><%=genFeature.getUpperName()%>_DEFAULT_<%}%> : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, <%if (genClass.isFlag(genFeature)) {%>new<%=genFeature.getCapName()%><%} else {%><%=genFeature.getSafeName()%><%}%>, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>isSetChange<%} else {%>!old<%=genFeature.getCapName()%>_set_<%}%>);
+			notify(ChangeKind.SET, INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>isSetChange ? <%if (genFeature.isReferenceType()) {%>null<%} else {%><%=genFeature.getUpperName()%>_DEFAULT_<%}%> : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, <%if (genClass.isFlag(genFeature)) {%>new<%=genFeature.getCapName()%><%} else {%><%=genFeature.getSafeName()%><%}%>, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>isSetChange<%} else {%>!old<%=genFeature.getCapName()%>_set_<%}%>);
           <%}%>
         <%} else {%>
           <%if (!genModel.isSuppressNotification()) {%>
 		if (isNotifying())
-			notify(ChangeKind.SET, <%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE ? <%if (genFeature.isReferenceType()) {%>null<%} else {%><%=genFeature.getUpperName()%>_DEFAULT_<%}%> : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, <%if (genClass.isFlag(genFeature)) {%>new<%=genFeature.getCapName()%><%} else {%><%=genFeature.getSafeName()%><%}%>);
+			notify(ChangeKind.SET, INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE ? <%if (genFeature.isReferenceType()) {%>null<%} else {%><%=genFeature.getUpperName()%>_DEFAULT_<%}%> : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, <%if (genClass.isFlag(genFeature)) {%>new<%=genFeature.getCapName()%><%} else {%><%=genFeature.getSafeName()%><%}%>);
           <%}%>
         <%}%>
       <%}%>
@@ -1037,9 +1037,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 		if (isNotifying())
 		{
             <%if (genFeature.isUnsettable()) {%>
-			addNotification(this, ChangeKind.UNSET, <%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, null, <%if (genModel.isVirtualDelegation()) {%>isSetChange<%} else {%>!old<%=genFeature.getCapName()%>_set_<%}%>, changeContext);
+			addNotification(this, ChangeKind.UNSET, INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, null, <%if (genModel.isVirtualDelegation()) {%>isSetChange<%} else {%>!old<%=genFeature.getCapName()%>_set_<%}%>, changeContext);
             <%} else {%>
-			addNotification(this, ChangeKind.UNSET, <%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, null, changeContext);
+			addNotification(this, ChangeKind.UNSET, INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, null, changeContext);
             <%}%>
 		}
         <%}%>
@@ -1102,9 +1102,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 		{
 			ChangeContext changeContext = null;
             <%if (!genFeature.isBidirectional()) {%>
-			changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, EOPPOSITE_FEATURE_BASE - <%=genFeature.getUpperName()%>, null, changeContext);
+			changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, EOPPOSITE_FEATURE_BASE - INTERNAL_<%=genFeature.getUpperName()%>, null, changeContext);
             <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
-			changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
+			changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, <%=SDOGenUtil.getQualifiedInternalPropertyID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
         <%}%>
 			changeContext = basicUnset<%=genFeature.getAccessorName()%>(changeContext);
 			if (changeContext != null) dispatch(changeContext);
@@ -1126,7 +1126,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
         <%}%>
         <%if (!genModel.isSuppressNotification()) {%>
 			if (isNotifying())
-				notify(ChangeKind.UNSET, <%=genFeature.getUpperName()%>, null, null, old<%=genFeature.getCapName()%>_set_);
+				notify(ChangeKind.UNSET, INTERNAL_<%=genFeature.getUpperName()%>, null, null, old<%=genFeature.getCapName()%>_set_);
         <%}%>
     	}
       <%} else {%>
@@ -1161,7 +1161,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
           <%}%>
           <%if (!genModel.isSuppressNotification()) {%>
 		if (isNotifying())
-			notify(ChangeKind.UNSET, <%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange ? old<%=genFeature.getCapName()%> : null<%} else {%>old<%=genFeature.getCapName()%><%}%>, null, <%if (genModel.isVirtualDelegation()) {%>isSetChange<%} else {%>old<%=genFeature.getCapName()%>_set_<%}%>);
+			notify(ChangeKind.UNSET, INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange ? old<%=genFeature.getCapName()%> : null<%} else {%>old<%=genFeature.getCapName()%><%}%>, null, <%if (genModel.isVirtualDelegation()) {%>isSetChange<%} else {%>old<%=genFeature.getCapName()%>_set_<%}%>);
           <%}%>
         <%} else {%>
           <%if (genClass.isFlag(genFeature)) {%>
@@ -1178,7 +1178,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
           <%}%>
           <%if (!genModel.isSuppressNotification()) {%>
 		if (isNotifying())
-			notify(ChangeKind.UNSET, <%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>isSetChange ? old<%=genFeature.getCapName()%> : <%=genFeature.getUpperName()%>_DEFAULT_<%} else {%>old<%=genFeature.getCapName()%><%}%>, <%=genFeature.getUpperName()%>_DEFAULT_, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>isSetChange<%} else {%>old<%=genFeature.getCapName()%>_set_<%}%>);
+			notify(ChangeKind.UNSET, INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>isSetChange ? old<%=genFeature.getCapName()%> : <%=genFeature.getUpperName()%>_DEFAULT_<%} else {%>old<%=genFeature.getCapName()%><%}%>, <%=genFeature.getUpperName()%>_DEFAULT_, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>isSetChange<%} else {%>old<%=genFeature.getCapName()%>_set_<%}%>);
           <%}%>
         <%}%>
       <%}%>
@@ -1370,9 +1370,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
       <%}%>
 				if (<%=genFeature.getSafeName()%> != null)
       <%if (genFeature.isEffectiveContains()) {%>
-					changeContext = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).inverseRemove(this, EOPPOSITE_FEATURE_BASE - <%=genFeature.getUpperName()%>, null, changeContext);
+					changeContext = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - <%=genFeature.getUpperName()%>, null, changeContext);
       <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
-					changeContext = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).inverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
+					changeContext = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
       <%}%>
 				return basicSet<%=genFeature.getAccessorName()%>((<%=genFeature.getImportedType()%>)otherEnd, changeContext);
     <%}%>
@@ -1440,7 +1440,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
   <%GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
   <%if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {%>
 			case <%=genFeature.getUpperName()%>:
-				return eInternalContainer().inverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
+				return eInternalContainer().eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
   <%}%>
 <%}%>
 		}

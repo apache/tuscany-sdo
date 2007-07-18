@@ -192,6 +192,11 @@ public class SDOGenUtil {
       return getChangeSummaryProperty(genClass) != null;
     }
     
+    public static String getQualifiedInternalPropertyID(GenFeature genFeature)
+    {
+      return genFeature.getGenClass().getImportedClassName() + ".INTERNAL_" + genFeature.getUpperName();
+    }
+    
     public static String getChangeSummaryProperty(GenClass genClass)
     {
       Type csType = ((ModelFactoryImpl)ModelFactory.INSTANCE).getChangeSummaryType();

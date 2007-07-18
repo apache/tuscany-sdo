@@ -457,9 +457,9 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
   }
   
   //FB TODO ... review this? ... what about eInverseAdd?
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int propertyNumber, NotificationChain msgs)
+  public NotificationChain eInverseRemove(InternalEObject otherEnd, int internalIndex, NotificationChain msgs)
   {
-    return ((ChangeContextImpl)inverseRemove(otherEnd, propertyNumber, new ChangeContextImpl(msgs))).notificationChain;
+    return ((ChangeContextImpl)inverseRemove(otherEnd, internalIndex, new ChangeContextImpl(msgs))).notificationChain;
   }
   
   public String toString()

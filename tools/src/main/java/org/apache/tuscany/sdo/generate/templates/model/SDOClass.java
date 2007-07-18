@@ -17,7 +17,7 @@ public class SDOClass
     return result;
   }
 
-  protected final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
+  public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = "";
   protected final String TEXT_2 = "/**" + NL + " * <copyright>" + NL + " * </copyright>" + NL + " *" + NL + " * ";
   protected final String TEXT_3 = "Id";
@@ -341,11 +341,11 @@ public class SDOClass
   protected final String TEXT_321 = ")";
   protected final String TEXT_322 = ";";
   protected final String TEXT_323 = NL + "\t\t\t\tChangeContext changeContext = old";
-  protected final String TEXT_324 = ".inverseRemove(this, EOPPOSITE_FEATURE_BASE - ";
+  protected final String TEXT_324 = ".eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ";
   protected final String TEXT_325 = ", null, null);";
   protected final String TEXT_326 = NL + "\t\t\t\t";
   protected final String TEXT_327 = " changeContext =  old";
-  protected final String TEXT_328 = ".inverseRemove(this, ";
+  protected final String TEXT_328 = ".eInverseRemove(this, ";
   protected final String TEXT_329 = ", ";
   protected final String TEXT_330 = ".class, null);";
   protected final String TEXT_331 = NL + "\t\t\t\tif (new";
@@ -361,7 +361,7 @@ public class SDOClass
   protected final String TEXT_341 = NL + "\t\t\t\teVirtualSet(";
   protected final String TEXT_342 = ", ";
   protected final String TEXT_343 = ");";
-  protected final String TEXT_344 = NL + "\t\t\t\tif (isNotifying())" + NL + "\t\t\t\t\tnotify(ChangeKind.RESOLVE, ";
+  protected final String TEXT_344 = NL + "\t\t\t\tif (isNotifying())" + NL + "\t\t\t\t\tnotify(ChangeKind.RESOLVE, INTERNAL_";
   protected final String TEXT_345 = ", old";
   protected final String TEXT_346 = ", ";
   protected final String TEXT_347 = ");";
@@ -475,7 +475,7 @@ public class SDOClass
   protected final String TEXT_455 = "_set_;" + NL + "\t\t";
   protected final String TEXT_456 = "_set_ = true;";
   protected final String TEXT_457 = NL + "\t\tif (isNotifying())" + NL + "\t\t{";
-  protected final String TEXT_458 = NL + "\t\t\taddNotification(this, ChangeKind.SET, ";
+  protected final String TEXT_458 = NL + "\t\t\taddNotification(this, ChangeKind.SET, INTERNAL_";
   protected final String TEXT_459 = ", ";
   protected final String TEXT_460 = "isSetChange ? null : old";
   protected final String TEXT_461 = "old";
@@ -485,7 +485,7 @@ public class SDOClass
   protected final String TEXT_465 = "!old";
   protected final String TEXT_466 = "_set_";
   protected final String TEXT_467 = ", changeContext);";
-  protected final String TEXT_468 = NL + "\t\t\taddNotification(this, ChangeKind.SET, ";
+  protected final String TEXT_468 = NL + "\t\t\taddNotification(this, ChangeKind.SET, INTERNAL_";
   protected final String TEXT_469 = ", ";
   protected final String TEXT_470 = "old";
   protected final String TEXT_471 = " == EVIRTUAL_NO_VALUE ? null : old";
@@ -552,7 +552,7 @@ public class SDOClass
   protected final String TEXT_532 = ")new";
   protected final String TEXT_533 = ", ";
   protected final String TEXT_534 = ", changeContext);" + NL + "\t\t\tif (changeContext != null) dispatch(changeContext);" + NL + "\t\t}";
-  protected final String TEXT_535 = NL + "\t\telse if (isNotifying())" + NL + "\t\t\tnotify(ChangeKind.SET, ";
+  protected final String TEXT_535 = NL + "\t\telse if (isNotifying())" + NL + "\t\t\tnotify(ChangeKind.SET, INTERNAL_";
   protected final String TEXT_536 = ", new";
   protected final String TEXT_537 = ", new";
   protected final String TEXT_538 = ");";
@@ -566,10 +566,10 @@ public class SDOClass
   protected final String TEXT_546 = ")" + NL + "\t\t{" + NL + "\t\t\tChangeContext changeContext = null;" + NL + "\t\t\tif (";
   protected final String TEXT_547 = " != null)";
   protected final String TEXT_548 = NL + "\t\t\t\tchangeContext = inverseRemove(";
-  protected final String TEXT_549 = ", this, OPPOSITE_FEATURE_BASE - ";
+  protected final String TEXT_549 = ", this, OPPOSITE_FEATURE_BASE - INTERNAL_";
   protected final String TEXT_550 = ", null, changeContext);" + NL + "\t\t\tif (new";
   protected final String TEXT_551 = " != null)" + NL + "\t\t\t\tchangeContext = inverseAdd(new";
-  protected final String TEXT_552 = ", this, OPPOSITE_FEATURE_BASE - ";
+  protected final String TEXT_552 = ", this, OPPOSITE_FEATURE_BASE - INTERNAL_";
   protected final String TEXT_553 = ", null, changeContext);";
   protected final String TEXT_554 = NL + "\t\t\t\tchangeContext = inverseRemove(";
   protected final String TEXT_555 = ", this, ";
@@ -583,7 +583,7 @@ public class SDOClass
   protected final String TEXT_563 = "(";
   protected final String TEXT_564 = "new";
   protected final String TEXT_565 = ", changeContext);" + NL + "\t\t\tif (changeContext != null) dispatch(changeContext);" + NL + "\t\t}";
-  protected final String TEXT_566 = NL + "\t\telse" + NL + "    \t{";
+  protected final String TEXT_566 = NL + "\t\telse" + NL + "\t\t{";
   protected final String TEXT_567 = NL + "\t\t\tboolean old";
   protected final String TEXT_568 = "_set_ = eVirtualIsSet(";
   protected final String TEXT_569 = ");";
@@ -599,13 +599,13 @@ public class SDOClass
   protected final String TEXT_579 = "_set_;";
   protected final String TEXT_580 = NL + "\t\t\t";
   protected final String TEXT_581 = "_set_ = true;";
-  protected final String TEXT_582 = NL + "\t\t\tif (isNotifying())" + NL + "\t\t\t\tnotify(ChangeKind.SET, ";
+  protected final String TEXT_582 = NL + "\t\t\tif (isNotifying())" + NL + "\t\t\t\tnotify(ChangeKind.SET, INTERNAL_";
   protected final String TEXT_583 = ", new";
   protected final String TEXT_584 = ", new";
   protected final String TEXT_585 = ", !old";
   protected final String TEXT_586 = "_set_);";
-  protected final String TEXT_587 = NL + "    \t}";
-  protected final String TEXT_588 = NL + "\t\telse if (isNotifying())" + NL + "\t\t\tnotify(ChangeKind.SET, ";
+  protected final String TEXT_587 = NL + "\t\t}";
+  protected final String TEXT_588 = NL + "\t\telse if (isNotifying())" + NL + "\t\t\tnotify(ChangeKind.SET, INTERNAL_";
   protected final String TEXT_589 = ", new";
   protected final String TEXT_590 = ", new";
   protected final String TEXT_591 = ");";
@@ -662,7 +662,7 @@ public class SDOClass
   protected final String TEXT_642 = "_set_;";
   protected final String TEXT_643 = NL + "\t\t";
   protected final String TEXT_644 = "_set_ = true;";
-  protected final String TEXT_645 = NL + "\t\tif (isNotifying())" + NL + "\t\t\tnotify(ChangeKind.SET, ";
+  protected final String TEXT_645 = NL + "\t\tif (isNotifying())" + NL + "\t\t\tnotify(ChangeKind.SET, INTERNAL_";
   protected final String TEXT_646 = ", ";
   protected final String TEXT_647 = "isSetChange ? ";
   protected final String TEXT_648 = "null";
@@ -676,7 +676,7 @@ public class SDOClass
   protected final String TEXT_656 = "!old";
   protected final String TEXT_657 = "_set_";
   protected final String TEXT_658 = ");";
-  protected final String TEXT_659 = NL + "\t\tif (isNotifying())" + NL + "\t\t\tnotify(ChangeKind.SET, ";
+  protected final String TEXT_659 = NL + "\t\tif (isNotifying())" + NL + "\t\t\tnotify(ChangeKind.SET, INTERNAL_";
   protected final String TEXT_660 = ", ";
   protected final String TEXT_661 = "old";
   protected final String TEXT_662 = " == EVIRTUAL_NO_VALUE ? ";
@@ -731,7 +731,7 @@ public class SDOClass
   protected final String TEXT_711 = "_set_;" + NL + "\t\t";
   protected final String TEXT_712 = "_set_ = false;";
   protected final String TEXT_713 = NL + "\t\tif (isNotifying())" + NL + "\t\t{";
-  protected final String TEXT_714 = NL + "\t\t\taddNotification(this, ChangeKind.UNSET, ";
+  protected final String TEXT_714 = NL + "\t\t\taddNotification(this, ChangeKind.UNSET, INTERNAL_";
   protected final String TEXT_715 = ", ";
   protected final String TEXT_716 = "isSetChange ? null : old";
   protected final String TEXT_717 = "old";
@@ -740,7 +740,7 @@ public class SDOClass
   protected final String TEXT_720 = "!old";
   protected final String TEXT_721 = "_set_";
   protected final String TEXT_722 = ", changeContext);";
-  protected final String TEXT_723 = NL + "\t\t\taddNotification(this, ChangeKind.UNSET, ";
+  protected final String TEXT_723 = NL + "\t\t\taddNotification(this, ChangeKind.UNSET, INTERNAL_";
   protected final String TEXT_724 = ", ";
   protected final String TEXT_725 = "old";
   protected final String TEXT_726 = " == EVIRTUAL_NO_VALUE ? null : old";
@@ -783,7 +783,7 @@ public class SDOClass
   protected final String TEXT_763 = NL + "\t\tif (";
   protected final String TEXT_764 = " != null)" + NL + "\t\t{" + NL + "\t\t\tChangeContext changeContext = null;";
   protected final String TEXT_765 = NL + "\t\t\tchangeContext = inverseRemove(";
-  protected final String TEXT_766 = ", this, EOPPOSITE_FEATURE_BASE - ";
+  protected final String TEXT_766 = ", this, EOPPOSITE_FEATURE_BASE - INTERNAL_";
   protected final String TEXT_767 = ", null, changeContext);";
   protected final String TEXT_768 = NL + "\t\t\tchangeContext = inverseRemove(";
   protected final String TEXT_769 = ", this, ";
@@ -806,7 +806,7 @@ public class SDOClass
   protected final String TEXT_786 = "_set_;";
   protected final String TEXT_787 = NL + "\t\t\t";
   protected final String TEXT_788 = "_set_ = false;";
-  protected final String TEXT_789 = NL + "\t\t\tif (isNotifying())" + NL + "\t\t\t\tnotify(ChangeKind.UNSET, ";
+  protected final String TEXT_789 = NL + "\t\t\tif (isNotifying())" + NL + "\t\t\t\tnotify(ChangeKind.UNSET, INTERNAL_";
   protected final String TEXT_790 = ", null, null, old";
   protected final String TEXT_791 = "_set_);";
   protected final String TEXT_792 = NL + "    \t}";
@@ -838,7 +838,7 @@ public class SDOClass
   protected final String TEXT_818 = "_ESETFLAG;";
   protected final String TEXT_819 = NL + "\t\t";
   protected final String TEXT_820 = "_set_ = false;";
-  protected final String TEXT_821 = NL + "\t\tif (isNotifying())" + NL + "\t\t\tnotify(ChangeKind.UNSET, ";
+  protected final String TEXT_821 = NL + "\t\tif (isNotifying())" + NL + "\t\t\tnotify(ChangeKind.UNSET, INTERNAL_";
   protected final String TEXT_822 = ", ";
   protected final String TEXT_823 = "isSetChange ? old";
   protected final String TEXT_824 = " : null";
@@ -862,7 +862,7 @@ public class SDOClass
   protected final String TEXT_842 = "_ESETFLAG;";
   protected final String TEXT_843 = NL + "\t\t";
   protected final String TEXT_844 = "_set_ = false;";
-  protected final String TEXT_845 = NL + "\t\tif (isNotifying())" + NL + "\t\t\tnotify(ChangeKind.UNSET, ";
+  protected final String TEXT_845 = NL + "\t\tif (isNotifying())" + NL + "\t\t\tnotify(ChangeKind.UNSET, INTERNAL_";
   protected final String TEXT_846 = ", ";
   protected final String TEXT_847 = "isSetChange ? old";
   protected final String TEXT_848 = " : ";
@@ -989,11 +989,11 @@ public class SDOClass
   protected final String TEXT_969 = " != null)";
   protected final String TEXT_970 = NL + "\t\t\t\t\tchangeContext = ((";
   protected final String TEXT_971 = ")";
-  protected final String TEXT_972 = ").inverseRemove(this, EOPPOSITE_FEATURE_BASE - ";
+  protected final String TEXT_972 = ").eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ";
   protected final String TEXT_973 = ", null, changeContext);";
   protected final String TEXT_974 = NL + "\t\t\t\t\tchangeContext = ((";
   protected final String TEXT_975 = ")";
-  protected final String TEXT_976 = ").inverseRemove(this, ";
+  protected final String TEXT_976 = ").eInverseRemove(this, ";
   protected final String TEXT_977 = ", ";
   protected final String TEXT_978 = ".class, changeContext);";
   protected final String TEXT_979 = NL + "\t\t\t\treturn basicSet";
@@ -1028,7 +1028,7 @@ public class SDOClass
   protected final String TEXT_1008 = NL + "\t}" + NL;
   protected final String TEXT_1009 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ChangeContext eBasicRemoveFromContainerFeature(ChangeContext changeContext)" + NL + "\t{" + NL + "\t\tswitch (eContainerFeatureID)" + NL + "\t\t{";
   protected final String TEXT_1010 = NL + "\t\t\tcase ";
-  protected final String TEXT_1011 = ":" + NL + "\t\t\t\treturn eInternalContainer().inverseRemove(this, ";
+  protected final String TEXT_1011 = ":" + NL + "\t\t\t\treturn eInternalContainer().eInverseRemove(this, ";
   protected final String TEXT_1012 = ", ";
   protected final String TEXT_1013 = ".class, changeContext);";
   protected final String TEXT_1014 = NL + "\t\t}";
@@ -2642,7 +2642,7 @@ public class SDOClass
     stringBuffer.append(TEXT_554);
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_555);
-    stringBuffer.append(targetClass.getQualifiedFeatureID(reverseFeature));
+    stringBuffer.append(SDOGenUtil.getQualifiedInternalPropertyID(reverseFeature));
     stringBuffer.append(TEXT_556);
     stringBuffer.append(targetClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_557);
@@ -2650,7 +2650,7 @@ public class SDOClass
     stringBuffer.append(TEXT_558);
     stringBuffer.append(genFeature.getCapName());
     stringBuffer.append(TEXT_559);
-    stringBuffer.append(targetClass.getQualifiedFeatureID(reverseFeature));
+    stringBuffer.append(SDOGenUtil.getQualifiedInternalPropertyID(reverseFeature));
     stringBuffer.append(TEXT_560);
     stringBuffer.append(targetClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_561);
@@ -3132,7 +3132,7 @@ public class SDOClass
     stringBuffer.append(TEXT_768);
     stringBuffer.append(genFeature.getSafeName());
     stringBuffer.append(TEXT_769);
-    stringBuffer.append(targetClass.getQualifiedFeatureID(reverseFeature));
+    stringBuffer.append(SDOGenUtil.getQualifiedInternalPropertyID(reverseFeature));
     stringBuffer.append(TEXT_770);
     stringBuffer.append(targetClass.getImportedInterfaceName());
     stringBuffer.append(TEXT_771);
