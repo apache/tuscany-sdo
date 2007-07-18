@@ -45,7 +45,7 @@
 			</includes>
 		</fileSet>
         <fileSet>
-            <directory>src/main/release/bin</directory>
+            <directory>src/main/release/bin/samples</directory>
             <outputDirectory>tuscany-sdo-${sdo.version}/docs/javadoc/sdo-samples</outputDirectory>
             <includes>
                 <include>sampleProgramContents.html</include>
@@ -96,12 +96,17 @@
             <filtered>true</filtered>
         </file>
         <file>
-            <source>src/main/release/bin/runsamples.bat</source>
+            <source>src/main/release/bin/samples/runsamples.bat</source>
             <outputDirectory>tuscany-sdo-${sdo.version}/samples</outputDirectory>
             <filtered>true</filtered>
         </file>
         <file>
-            <source>src/main/release/bin/runsamples.sh</source>
+            <source>src/main/release/bin/samples/runsamples.sh</source>
+            <outputDirectory>tuscany-sdo-${sdo.version}/samples</outputDirectory>
+            <filtered>true</filtered>
+        </file> 
+        <file>
+            <source>src/main/release/bin/samples/README</source>
             <outputDirectory>tuscany-sdo-${sdo.version}/samples</outputDirectory>
             <filtered>true</filtered>
         </file> 
