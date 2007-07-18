@@ -601,8 +601,8 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
                     String attrValue = (String)omAttribObj;
 
                     Property property = dataObject.getType().getProperty(propertyName);
-                    Type propertyType = property.getType();
-                    if ("URI".equals(propertyType.getName())) {
+                    // property can be null for xsi:type
+                    if (property != null && "URI".equals(property.getType().getName())) {
                         String namespace = null;
                         String localPart = attrValue;
                         
