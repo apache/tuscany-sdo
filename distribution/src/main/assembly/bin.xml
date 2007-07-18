@@ -33,10 +33,7 @@
 			<directory>src/main/release</directory>
 			<outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
 			<includes>
-                <include>CHANGES</include>
                 <include>DISCLAIMER</include>
-                <include>RELEASE_NOTES</include>
-                <include>NOTICE</include>
 			</includes>
 		</fileSet>
 		<fileSet>
@@ -44,7 +41,7 @@
 			<outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
 			<includes>
 				<include>INSTALL</include>
-				<include>LICENSE</include>
+                <include>NOTICE</include>
 			</includes>
 		</fileSet>
         <fileSet>
@@ -89,6 +86,16 @@
 
     <files>
         <file>
+            <source>src/main/release/RELEASE_NOTES</source>
+            <outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>src/main/release/bin/README</source>
+            <outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
             <source>src/main/release/bin/runsamples.bat</source>
             <outputDirectory>tuscany-sdo-${sdo.version}/samples</outputDirectory>
             <filtered>true</filtered>
@@ -99,12 +106,7 @@
             <filtered>true</filtered>
         </file> 
         <file>
-            <source>src/main/release/RELEASE_NOTES</source>
-            <outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
-            <filtered>true</filtered>
-        </file>
-        <file>
-            <source>src/main/release/bin/README</source>
+            <source>src/main/release/bin/LICENSE</source>
             <outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
             <filtered>true</filtered>
         </file>
