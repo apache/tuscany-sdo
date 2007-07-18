@@ -84,8 +84,7 @@ public class XMLLoadOptionsTestCase extends TestCase {
          * turn off default behaviour of tolerating malformed xml
          * tests using this option and bad xml should demonstrate failure to load
          */
-    	 //SDOHelper.XMLOptions.XML_LOAD_LAX_FORM
-    	options.put(org.apache.tuscany.sdo.util.SDOUtil.XML_LOAD_LaxForm, new Integer(0));
+    	options.put(SDOHelper.XMLOptions.XML_LOAD_LAX_FORM, new Integer(0));
     	HelperContext hc = SDOUtil.createHelperContext(true, options);
         hc.getXSDHelper().define(
         		"<schema xmlns=\"http://www.w3.org/2001/XMLSchema\" targetNamespace=\"testNS\">"+
