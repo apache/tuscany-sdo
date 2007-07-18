@@ -20,6 +20,8 @@
 package org.apache.tuscany.sdo.helper;
 
 import java.lang.reflect.Method;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -106,6 +108,24 @@ public class TypeHelperImpl implements TypeHelper {
         }
     }
     
+    public Class loadClass(final ClassLoader classLoader, final String className) {
+        Class returnClass = null;
+        try {
+            returnClass = (Class)AccessController.doPrivileged(
+                                                               new PrivilegedExceptionAction() {
+                                                                   public Object run() throws Exception {
+                                                                       return classLoader.loadClass(className);
+                                                                   }
+                                                               }
+            );
+        }
+        catch (Exception e) {
+            return null;
+        }
+
+        return returnClass;
+    }
+    
     public Type getType(Class interfaceClass) {
         Type type = SDOUtil.getJavaSDOType(interfaceClass);
         if (type != null) {
@@ -124,12 +144,11 @@ public class TypeHelperImpl implements TypeHelper {
                 else {
                     sdoTypeImplClassName = sdoTypeImplClassName.substring(0, index) + ".impl" + sdoTypeImplClassName.substring(index) + "Impl";
                 }
-                try {
-                    sdoTypeImplClass = Class.forName(sdoTypeImplClassName);
-                }
-                catch (Exception e) {
+                sdoTypeImplClass = loadClass(interfaceClass.getClassLoader(), sdoTypeImplClassName);
+                if (sdoTypeImplClass == null) {
                     return null;
                 }
+                
                 getStaticTypeMethod = getGetStaticTypeMethod(sdoTypeImplClass);
                 if (getStaticTypeMethod == null) {
                     return null;
