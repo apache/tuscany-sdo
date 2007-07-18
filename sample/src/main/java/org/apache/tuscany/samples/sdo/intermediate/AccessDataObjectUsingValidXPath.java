@@ -23,8 +23,7 @@ package org.apache.tuscany.samples.sdo.intermediate;
 import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
+import org.apache.tuscany.samples.sdo.internal.SampleInfrastructure;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
@@ -80,9 +79,9 @@ public class AccessDataObjectUsingValidXPath extends SampleBase {
     /**
      * Accesses and modifies properties of a purchase order DataObject using xPath(
      * properties are defined in the xsd
-     * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#PO_XSD_RESOURCE} and
+     * {@link org.apache.tuscany.samples.sdo.internal.SampleInfrastructure#PO_XSD_RESOURCE} and
      * populated by xml
-     * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#PO_XML_RESOURCE} )
+     * {@link org.apache.tuscany.samples.sdo.internal.SampleInfrastructure#PO_XML_RESOURCE} )
      * 
      * @param args.
      *            No parameters required.

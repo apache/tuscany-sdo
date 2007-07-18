@@ -75,6 +75,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <overview>${basedir}/src/main/java/org/apache/tuscany/samples/sdo/overview.html</overview> 
+                         <excludePackageNames>*.internal</excludePackageNames>
                     <version>2.0</version>
                 </configuration>
                 <executions>

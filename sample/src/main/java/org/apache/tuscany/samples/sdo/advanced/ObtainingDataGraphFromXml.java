@@ -20,22 +20,16 @@
 
 package org.apache.tuscany.samples.sdo.advanced;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
+import org.apache.tuscany.samples.sdo.internal.SampleInfrastructure;
 import org.apache.tuscany.sdo.api.SDOUtil;
 
-
+import commonj.sdo.DataGraph;
+import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLDocument;
-import commonj.sdo.helper.XMLHelper;
-import commonj.sdo.helper.XSDHelper;
-import commonj.sdo.DataObject;
-import commonj.sdo.DataGraph;
-import commonj.sdo.Sequence;
 
 /**
  * This sample program demonstrates a variety of methods available to obtain the root DataObject
@@ -55,9 +49,9 @@ import commonj.sdo.Sequence;
  * <br>
  * To define the correct Types for each DataObject ( CompanyType, DepartmentType etc )
  * this sample relies upon
- * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#COMPANY_XSD} which is
+ * {@link org.apache.tuscany.samples.sdo.internal.SampleInfrastructure#COMPANY_XSD} which is
  * provided in the resources directory of these samples. The xml file
- * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#COMPANY_DATAGRAPH_XML} is
+ * {@link org.apache.tuscany.samples.sdo.internal.SampleInfrastructure#COMPANY_DATAGRAPH_XML} is
  * used to load the DataGraph and is also located in this resources directory. <br>
  * <P>
  * <b>Usage:</b> <br>

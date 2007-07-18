@@ -24,9 +24,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
-
+import org.apache.tuscany.samples.sdo.internal.SampleInfrastructure;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.DataFactory;
@@ -36,9 +34,9 @@ import commonj.sdo.helper.XMLDocument;
 /**
  * Demonstrates creating a purchaseOrder DataObject from an existing XSD and then
  * persisting to disk. Uses previously defined model
- * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#PO_XSD_RESOURCE} to
+ * {@link org.apache.tuscany.samples.sdo.internal.SampleInfrastructure#PO_XSD_RESOURCE} to
  * define types then generates a purchase order DataObject and persists to
- * {@link org.apache.tuscany.samples.sdo.SampleInfrastructure#PO_XML_GENERATED}. This
+ * {@link org.apache.tuscany.samples.sdo.internal.SampleInfrastructure#PO_XML_GENERATED}. This
  * sample was used to generate valid XML for Fuhwei Lwo's paper <A
  * HREF="http://www-128.ibm.com/developerworks/webservices/library/ws-sdoxmlschema/"
  * title="Me" onClick="checkLinks(this)">Create and read an XML document based on XML

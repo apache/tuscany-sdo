@@ -22,7 +22,7 @@ package org.apache.tuscany.samples.sdo.intermediate;
 
 import java.io.FileOutputStream;
 
-import org.apache.tuscany.samples.sdo.SampleInfrastructure;
+import org.apache.tuscany.samples.sdo.internal.SampleInfrastructure;
 import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.DataGraph;

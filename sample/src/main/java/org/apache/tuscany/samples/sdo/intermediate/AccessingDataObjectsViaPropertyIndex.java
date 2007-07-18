@@ -23,9 +23,8 @@ package org.apache.tuscany.samples.sdo.intermediate;
 import java.util.List;
 
 import org.apache.tuscany.samples.sdo.SampleBase;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure;
-import org.apache.tuscany.samples.sdo.SampleInfrastructure.SDOFacets;
 import org.apache.tuscany.samples.sdo.advanced.PrintDataGraph;
+import org.apache.tuscany.samples.sdo.internal.SampleInfrastructure;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
