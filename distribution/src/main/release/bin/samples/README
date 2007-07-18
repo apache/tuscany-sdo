@@ -1,0 +1,11 @@
+Apache Tuscany SDO Java Sample Programs
+
+Documentation for these samples may be found in the docs/javadoc/sdo-samples directory
+of this distribution.
+
+The runsamples.sh and runsamples.bat scripts in their unedited form
+provide a way to run all of the samples sequentially.  If you run these scripts
+from within the directory they are found in, they will run correctly.
+If you run them from elsewhere you will need to edit the scripts and set the
+BINARY_BASE variable to the path in your filesystem where you unpacked the
+SDO distribution.

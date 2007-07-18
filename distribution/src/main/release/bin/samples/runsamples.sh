@@ -18,5 +18,5 @@
 export BINARY_BASE=change this value to be a valid path to your binary distribution root
 export RELEASE=${sdo.version}
 export LIB=$BINARY_BASE/lib
-export CLASSPATH=$LIB/sample-sdo-$RELEASE.jar;$LIB/tuscany-sdo-api-r2.1-$RELEASE.jar;$LIB/tuscany-sdo-lib-$RELEASE.jar;$LIB/tuscany-sdo-impl-$RELEASE.jar;$LIB/tuscany-sdo-tools-$RELEASE.jar;$LIB/codegen-ecore-2.2.3.jar;$LIB/codegen-2.2.3.jar;$LIB/ecore-2.2.3.jar;$LIB/ecore-change-2.2.3.jar;$LIB/ecore-xmi-2.2.3.jar;$LIB/common-2.2.3.jar;$LIB/xsd-2.2.3.jar;$LIB/stax-api-1.0.1.jar
+export CLASSPATH=$LIB/sample-sdo-$RELEASE.jar;$LIB/sdo-api-r2.1-$RELEASE.jar;$LIB/tuscany-sdo-lib-$RELEASE.jar;$LIB/tuscany-sdo-impl-$RELEASE.jar;$LIB/tuscany-sdo-tools-$RELEASE.jar;$LIB/codegen-ecore-2.2.3.jar;$LIB/codegen-2.2.3.jar;$LIB/ecore-2.2.3.jar;$LIB/ecore-change-2.2.3.jar;$LIB/ecore-xmi-2.2.3.jar;$LIB/common-2.2.3.jar;$LIB/xsd-2.2.3.jar;$LIB/stax-api-1.0.1.jar
 java org.apache.tuscany.samples.sdo.ExecuteSamples
