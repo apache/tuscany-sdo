@@ -16,9 +16,26 @@ Anything in ${sdo.previousversion} is also in ${sdo.version}, but ${sdo.version}
 features and bugfixes not present in ${sdo.previousversion} release.
 
 Downloading
-  http://incubator.apache.org/tuscany/sdo-java-releases.html
+===========
+
+Please visit  http://incubator.apache.org/tuscany/sdo-java-releases.html
+
+Binary Artifact Changes
+=======================
+
+PLEASE NOTE that
+Since the 1.0-incubating-beta release the following binary artifacts have been renamed
+
+The maven groupId of the SDO API binary artifact has changed from "commonj" to "org.apache.tuscany.sdo"
+
+The maven artifactId for the SDO API binary artifact has changed from "sdo-api-r2.1" to "tuscany-sdo-api-r2.1"
+
+The jar file containing the SDO API has a new "tuscany-" prefix,  so what was ..
+sdo-api-r2.1-1.0-incubating-beta1.jar in the beta1 release becomes
+tuscany-sdo-api-r2.1-1.0-incubating.jar in this release.
 
 New Features and Fixes
+======================
 
 For more detail on these fixes and features please see ...
 https://issues.apache.org/jira/secure/IssueNavigator.jspa?reset=true&&pid=12310210&fixfor=12312521&resolution=1&sorter/field=issuekey&sorter/order=DESC&sorter/field=issuetype&sorter/order=DESC
