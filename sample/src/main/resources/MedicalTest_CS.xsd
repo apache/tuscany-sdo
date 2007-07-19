@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:people="www.example.org/people" xmlns:sdo="commonj.sdo"
+	xmlns:sdoxml="commonj.sdo/xml"
+	xmlns:tns="www.example.org/MedicalTest"
+	targetNamespace="www.example.org/MedicalTest">
+
+	<import namespace="www.example.org/people"
+		schemaLocation="People.xsd" />
+
+	<element name="test" type="tns:Test" />
+	<element name="condition" type="tns:Condition" />
+
+	<complexType name="Test">
+		<sequence>
+			<element name="referrals" type="people:PersonSet" />
+			<element name="patients" type="people:PersonSet" />
+			<element name="relatives" type="people:PersonSet" />
+            <element name="changes" type="sdo:ChangeSummaryType" />
+		</sequence>
+	</complexType>
+
+	<complexType name="Condition">
+		<sequence>
+			<element name="diagnosed" type="date" />
+		</sequence>
+		<attribute name="name" type="tns:ConditionName" />
+	</complexType>
+
+	<simpleType name="ConditionName">
+		<restriction base="string">
+			<enumeration value="Rigellian fever" />
+			<enumeration value="Vegan choriomeningitis" />
+			<enumeration value="Scrofungulus" />
+			<enumeration value="Panar Syndrome" />
+		</restriction>
+	</simpleType>
+
+
+</schema>
