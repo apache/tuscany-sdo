@@ -174,7 +174,7 @@ public class TypeHelperImpl implements TypeHelper {
         org.apache.tuscany.sdo.model.Type modeledType = (org.apache.tuscany.sdo.model.Type)type;
 
         boolean isDataType = modeledType.isDataType();
-        Type definedType = SDOUtil.createType(this, modeledType.getUri(), modeledType.getName(), isDataType);
+        Type definedType = SDOUtil.createType(helperContext, modeledType.getUri(), modeledType.getName(), isDataType);
         if (definedType == null) {
             // If type already defined, return existing Type.
             return getType(modeledType.getUri(), modeledType.getName());
@@ -214,7 +214,7 @@ public class TypeHelperImpl implements TypeHelper {
                     propertyName = propertyName.substring(0, 1).toLowerCase() + propertyName.substring(1);
                 }
                 Property globalProperty =
-                    SDOUtil.createOpenContentProperty(this, definedType.getURI(), propertyName, definedType);
+                    SDOUtil.createOpenContentProperty(helperContext, definedType.getURI(), propertyName, definedType);
                 SDOUtil.setContainment(globalProperty, true);
             }
         } // if (!isDataType)
@@ -323,7 +323,7 @@ public class TypeHelperImpl implements TypeHelper {
         if (uri == null)
             uri = TUSCANY_NO_URI;
 
-        Property newProperty = SDOUtil.createOpenContentProperty(this, uri, modeledProperty.getName(), propertyType);
+        Property newProperty = SDOUtil.createOpenContentProperty(helperContext, uri, modeledProperty.getName(), propertyType);
 
         // Propagate the modeled property's attributes
         initializeProperty(newProperty, modeledProperty);

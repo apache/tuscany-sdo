@@ -344,7 +344,7 @@ public final class SDOUtil
    */
   public static DataGraph loadDataGraph(InputStream inputStream, Map options) throws IOException
   {
-    return org.apache.tuscany.sdo.api.SDOUtil.loadDataGraph(inputStream, options, null);
+    return org.apache.tuscany.sdo.api.SDOUtil.loadDataGraph(inputStream, options, (HelperContext)null);
   }
   
   /**

@@ -52,8 +52,8 @@ public class HelperContextImpl implements HelperContext {
     protected XMLHelper xmlHelper;
     protected XSDHelper xsdHelper;
     protected XMLStreamHelper xmlStreamHelper;
-    protected Map defaultOptions;
-
+    protected Map defaultOptions = null;
+    
     public HelperContextImpl(ExtendedMetaData extendedMetaData, boolean extensibleNamespaces) {
         this.defaultOptions = null;
         this.extendedMetaData = extendedMetaData;

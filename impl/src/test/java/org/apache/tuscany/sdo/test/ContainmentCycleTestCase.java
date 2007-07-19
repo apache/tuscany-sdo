@@ -21,8 +21,9 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 import commonj.sdo.helper.HelperContext;
-import org.apache.tuscany.sdo.helper.XMLStreamHelper;
-import org.apache.tuscany.sdo.util.SDOUtil;
+
+import org.apache.tuscany.sdo.api.XMLStreamHelper;
+import org.apache.tuscany.sdo.api.SDOUtil;
 
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -66,7 +67,7 @@ public class ContainmentCycleTestCase extends TestCase {
 	// the StackOverflowException to occur.  The catcher is catching RuntimeException, so it does
 	// not matter which Exception is thrown by the SDO code.
     public void atestStaticOneMemberSingleValueSetDataObject() {           
-        DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
         
         dataObj1.setString("Name", "dataObj1");      
         
@@ -79,9 +80,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * and verify the behavior of serialization.  This is the static version of this test case.
      */
     public void atestStaticNMemberSingleValueSetDataObject() {
-        DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
 
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
@@ -97,9 +98,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * and verify the behavior of serialization.  This is the static version of this test case.
      */
     public void atestStaticOneMemberMultiValueSetDataObject() {
-        DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
          
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
@@ -114,9 +115,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * and verify the behavior of serialization.  This is the static version of this test case.
      */
     public void atestStaticNMemberMultiValueSetDataObject() {
-        DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
          
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
@@ -132,7 +133,7 @@ public class ContainmentCycleTestCase extends TestCase {
      * of this test case.
      */
     public void atestStaticOneMemberReturnedList() {      
-        DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
          
         dataObj1.setString("Name", "dataObj1");
         
@@ -146,9 +147,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * of this test case.
      */
     public void atestStaticNMemberReturnedList() {
-        DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
          
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
@@ -164,7 +165,7 @@ public class ContainmentCycleTestCase extends TestCase {
      * serialization.  This is the static version of this test case.
      */
     public void atestStaticOneMemberSingleValueSequence() {
-        DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
          
         dataObj1.setString("Name", "dataObj1");
         
@@ -178,9 +179,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * serialization.  This is the static version of this test case.
      */
     public void atestStaticNMemberSingleValueSequence() {
-        DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
          
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
@@ -196,9 +197,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * serialization.  This is the static version of this test case.
      */
     public void atestStaticOneMemberMultiValueSequence() {
-        DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
          
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
@@ -214,9 +215,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * serialization.  This is the static version of this test case.
      */
     public void atestStaticNMemberMultiValueSequence() {
-        DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
-        DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj1 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj2 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
+        final DataObject dataObj3 = (DataObject) ContainmentFactory.INSTANCE.createContainmentTest();
          
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
@@ -233,7 +234,7 @@ public class ContainmentCycleTestCase extends TestCase {
     public void testHybridOneMemberSingleValueSetDataObject() {        
     	assertTrue("Test case cannot proceed due to error creating Type.", mixedCreated);
     	
-        DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
 
@@ -248,11 +249,11 @@ public class ContainmentCycleTestCase extends TestCase {
     public void testHybridNMemberSingleValueSetDataObject() {
     	assertTrue("Test case cannot proceed due to error creating Type.", mixedCreated);
         
-        DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
-        DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
-        DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
@@ -269,11 +270,11 @@ public class ContainmentCycleTestCase extends TestCase {
     public void testHybridOneMemberMultiValueSetDataObject() {
     	assertTrue("Test case cannot proceed due to error creating Type.", mixedCreated);
         
-        DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
-        DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
-        DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
          
         dataObj1.setString("Name", "dataObj1");
@@ -291,11 +292,11 @@ public class ContainmentCycleTestCase extends TestCase {
     public void testHybridNMemberMultiValueSetDataObject() {
     	assertTrue("Test case cannot proceed due to error creating Type.", mixedCreated);
        
-        DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
-        DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
-        DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
@@ -313,7 +314,7 @@ public class ContainmentCycleTestCase extends TestCase {
     public void testHybridOneMemberReturnedList() {
     	assertTrue("Test case cannot proceed due to error creating Type.", mixedCreated);
         
-        DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
 
@@ -329,11 +330,11 @@ public class ContainmentCycleTestCase extends TestCase {
     public void testHybridNMemberReturnedList() {
     	assertTrue("Test case cannot proceed due to error creating Type.", mixedCreated);
         
-        DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
-        DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
-        DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
@@ -351,7 +352,7 @@ public class ContainmentCycleTestCase extends TestCase {
     public void testHybridOneMemberSingleValueSequence() {
     	assertTrue("Test case cannot proceed due to error creating Type.", mixedCreated);
         
-        DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
 
@@ -367,11 +368,11 @@ public class ContainmentCycleTestCase extends TestCase {
     public void testHybridNMemberSingleValueSequence() {
     	assertTrue("Test case cannot proceed due to error creating Type.", mixedCreated);
         
-        DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
-        DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
-        DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
@@ -389,9 +390,9 @@ public class ContainmentCycleTestCase extends TestCase {
     public void testHybridOneMemberMultiValueSequence() {
     	assertTrue("Test case cannot proceed due to error creating Type.", mixedCreated);
         
-        DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
         dataObj3.setString("Name", "dataObj3");
@@ -408,9 +409,9 @@ public class ContainmentCycleTestCase extends TestCase {
     public void testHybridNMemberMultiValueSequence() {
     	assertTrue("Test case cannot proceed due to error creating Type.", mixedCreated);
         
-        DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj1 = mixedScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj2 = mixedScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj3 = mixedScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
         dataObj3.setString("Name", "dataObj3");
@@ -424,7 +425,7 @@ public class ContainmentCycleTestCase extends TestCase {
      * and verify the behavior of serialization.  This is the dynamic version of this test case.
      */
     public void testDynamicOneMemberSingleValueSetDataObject() {
-        DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI,
+        final DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI,
                                                           CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
 
@@ -437,9 +438,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * and verify the behavior of serialization.  This is the dynamic version of this test case.
      */
     public void testDynamicNMemberSingleValueSetDataObject() {
-        DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
         dataObj3.setString("Name", "dataObj3");
@@ -453,9 +454,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * and verify the behavior of serialization.  This is the dynamic version of this test case.
      */
     public void testDynamicOneMemberMultiValueSetDataObject() {
-        DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
         dataObj3.setString("Name", "dataObj3");
@@ -469,9 +470,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * and verify the behavior of serialization.  This is the dynamic version of this test case.
      */
     public void testDynamicNMemberMultiValueSetDataObject() {
-        DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
         dataObj3.setString("Name", "dataObj3");
@@ -486,7 +487,7 @@ public class ContainmentCycleTestCase extends TestCase {
      * of this test case.
      */
     public void testDynamicOneMemberReturnedList() {
-        DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
 
         returnedListOneMember(dataObj1);
@@ -499,9 +500,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * of this test case.
      */
     public void testDynamicNMemberReturnedList() {
-        DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
         dataObj3.setString("Name", "dataObj3");
@@ -516,7 +517,7 @@ public class ContainmentCycleTestCase extends TestCase {
      * serialization.  This is the dynamic version of this test case.
      */
     public void testDynamicOneMemberSingleValueSequence() {
-        DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
 
         sequenceSingleValueOneMember(dataObj1);
@@ -529,9 +530,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * serialization.  This is the dynamic version of this test case.
      */
     public void testDynamicNMemberSingleValueSequence() {
-        DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
         dataObj3.setString("Name", "dataObj3");
@@ -546,9 +547,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * serialization.  This is the dynamic version of this test case.
      */
     public void testDynamicOneMemberMultiValueSequence() {
-        DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
         dataObj3.setString("Name", "dataObj3");
@@ -563,9 +564,9 @@ public class ContainmentCycleTestCase extends TestCase {
      * serialization.  This is the dynamic version of this test case.
      */
     public void testDynamicNMemberMultiValueSequence() {
-        DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
-        DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj1 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj2 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
+        final DataObject dataObj3 = dynamicScope.getDataFactory().create(CONTAIN_URI, CONTAIN_TYPE);
         dataObj1.setString("Name", "dataObj1");
         dataObj2.setString("Name", "dataObj2");
         dataObj3.setString("Name", "dataObj3");
@@ -579,14 +580,14 @@ public class ContainmentCycleTestCase extends TestCase {
      * and Java serialization.
      * @param dataObj
      */
-    private void attemptSerialization(DataObject dataObj, HelperContext scope) {
+    private void attemptSerialization(final DataObject dataObj, final HelperContext scope) {
         
         assertTrue("Containment cycle was not established.", 
                 containmentCycleExists(dataObj));
         
     	try {
             serializeDataObjectXML(dataObj, scope);
-    	} catch (Exception e) {
+    	} catch (final Exception e) {
     		fail("XML serialization of a containment cycle resulted in a(n) " + e.getClass().getName() + ".");
     		e.printStackTrace();
     	}
@@ -597,7 +598,7 @@ public class ContainmentCycleTestCase extends TestCase {
     	try {
              serializeDataObjectJava(dataObj); 
              fail("Java serialization of a containment cycle should result in an IllegalStateException.");
-    	} catch (Exception e) {
+    	} catch (final Exception e) {
     		// Do nothing.  An Exception is expected in this case.
     	}
     	
@@ -606,7 +607,7 @@ public class ContainmentCycleTestCase extends TestCase {
         
     	try {
           serializeDataObjectStream(dataObj, scope);	
-    	} catch (Exception e) {
+    	} catch (final Exception e) {
        		fail("XMLStreamHelper serialization of a containment cycle resulted in a(n) " + e.getClass().getName() + ".");
     		e.printStackTrace();
     	}
@@ -620,14 +621,14 @@ public class ContainmentCycleTestCase extends TestCase {
      * @param fileName
      * @throws IOException
      */
-    private static void serializeDataObjectXML(DataObject dataObject, HelperContext scope) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        Type type = dataObject.getType();
+    private static void serializeDataObjectXML(final DataObject dataObject, final HelperContext scope) {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        final Type type = dataObject.getType();
 
         try {
             scope.getXMLHelper().save(dataObject, type.getURI(), type.getName(), baos);
         }
-        catch (IOException e) {
+        catch (final IOException e) {
             fail("Could not complete test case due to IOException.");
         }
     }
@@ -639,18 +640,18 @@ public class ContainmentCycleTestCase extends TestCase {
      * @param fileName
      * @throws IOException
      */
-    private static void serializeDataObjectStream(DataObject dataObject, HelperContext scope) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    private static void serializeDataObjectStream(final DataObject dataObject, final HelperContext scope) {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        XMLOutputFactory factory = XMLOutputFactory.newInstance();
+        final XMLOutputFactory factory = XMLOutputFactory.newInstance();
         XMLStreamWriter serializer;
-        XMLStreamHelper xmlStreamHelper = SDOUtil.createXMLStreamHelper(scope.getTypeHelper());
+        final XMLStreamHelper xmlStreamHelper = SDOUtil.createXMLStreamHelper(scope);
         try {
             serializer = factory.createXMLStreamWriter(baos);
             xmlStreamHelper.saveObject(dataObject, serializer);
             serializer.flush();
         }
-        catch (XMLStreamException e) {
+        catch (final XMLStreamException e) {
             fail("Exception encountered during XMLStreamHelper serialization.");
             e.printStackTrace();
         }
@@ -663,15 +664,15 @@ public class ContainmentCycleTestCase extends TestCase {
      * @param fileName
      * @throws IOException
      */
-    private static void serializeDataObjectJava(DataObject dataObject) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    private static void serializeDataObjectJava(final DataObject dataObject) {
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         
         try {
-            ObjectOutputStream out = new ObjectOutputStream(baos);
+            final ObjectOutputStream out = new ObjectOutputStream(baos);
             out.writeObject(dataObject);
             out.close();
         }
-        catch (IOException e) {
+        catch (final IOException e) {
             fail("Could not complete test case due to IOException.");
         }
     }
@@ -682,14 +683,15 @@ public class ContainmentCycleTestCase extends TestCase {
      * @param root
      * @return
      */
-    private static boolean containmentCycleExists (DataObject root)
+    private static boolean containmentCycleExists (final DataObject root)
     {
         DataObject curr = root.getContainer();
         
         while (curr != null)
         {
-            if (curr == root)
+            if (curr == root) {
                 return true;
+            }
             
             curr = curr.getContainer();
         }
@@ -700,7 +702,7 @@ public class ContainmentCycleTestCase extends TestCase {
      * Use setDataObject to create a one member containment cycle.  
      * @param dataObj1
      */
-    private void setSingleValueOneMember(DataObject dataObj1) {
+    private void setSingleValueOneMember(final DataObject dataObj1) {
         dataObj1.setDataObject("Contain", dataObj1);
     }
     
@@ -710,7 +712,7 @@ public class ContainmentCycleTestCase extends TestCase {
      * @param dataObj2
      * @param dataobj3
      */
-    private void setSingleValueNMember(DataObject dataObj1, DataObject dataObj2, DataObject dataObj3) {
+    private void setSingleValueNMember(final DataObject dataObj1, final DataObject dataObj2, final DataObject dataObj3) {
         dataObj1.setDataObject("Contain", dataObj2);
         dataObj2.setDataObject("Contain", dataObj3);
         dataObj3.setDataObject("Contain", dataObj1);
@@ -722,8 +724,8 @@ public class ContainmentCycleTestCase extends TestCase {
      * @param dataObj2
      * @param dataObj3
      */
-    private void setMultiValueOneMember(DataObject dataObj1, DataObject dataObj2, DataObject dataObj3) {
-        List addList = new ArrayList();
+    private void setMultiValueOneMember(final DataObject dataObj1, final DataObject dataObj2, final DataObject dataObj3) {
+        final List addList = new ArrayList();
         
         addList.add(dataObj2);
         addList.add(dataObj1);
@@ -737,8 +739,8 @@ public class ContainmentCycleTestCase extends TestCase {
      * @param dataObj2
      * @param dataObj3
      */
-    private void setManyValueNMember(DataObject dataObj1, DataObject dataObj2, DataObject dataObj3) {
-        List addList = new ArrayList();
+    private void setManyValueNMember(final DataObject dataObj1, final DataObject dataObj2, final DataObject dataObj3) {
+        final List addList = new ArrayList();
         
         dataObj1.setDataObject("Contain", dataObj2);
         dataObj2.setDataObject("Contain", dataObj3);
@@ -750,8 +752,8 @@ public class ContainmentCycleTestCase extends TestCase {
      * Create a 1-member containment cycle by making updates to a returned List.  
      * @param dataObj1
      */
-    private void returnedListOneMember(DataObject dataObj1) {
-        List returnedList = dataObj1.getList("ContainMany");
+    private void returnedListOneMember(final DataObject dataObj1) {
+        final List returnedList = dataObj1.getList("ContainMany");
 
         returnedList.add(dataObj1);
     }
@@ -762,11 +764,11 @@ public class ContainmentCycleTestCase extends TestCase {
      * @param dataObj2
      * @param dataobj3
      */
-    private void returnedListNMember(DataObject dataObj1, DataObject dataObj2, DataObject dataObj3) {
+    private void returnedListNMember(final DataObject dataObj1, final DataObject dataObj2, final DataObject dataObj3) {
         dataObj1.setDataObject("Contain", dataObj2);
         dataObj2.setDataObject("Contain", dataObj3);
         
-        List returnedList = dataObj3.getList("ContainMany");
+        final List returnedList = dataObj3.getList("ContainMany");
 
         returnedList.add(dataObj1);
     }
@@ -778,10 +780,10 @@ public class ContainmentCycleTestCase extends TestCase {
      * @param dataObj2
      * @param dataObj3
      */
-    private void sequenceSingleValueOneMember(DataObject dataObj1) {
+    private void sequenceSingleValueOneMember(final DataObject dataObj1) {
         assertTrue("DataObject is not Sequenced.  Test case may not proceed.", dataObj1.getType().isSequenced());
         
-        Sequence sequence = dataObj1.getSequence();
+        final Sequence sequence = dataObj1.getSequence();
 
         sequence.add("Contain", dataObj1);
     }
@@ -793,12 +795,12 @@ public class ContainmentCycleTestCase extends TestCase {
      * @param dataObj2
      * @param dataObj3
      */
-    private void sequenceSingleValueNMember(DataObject dataObj1, DataObject dataObj2, DataObject dataObj3) {
+    private void sequenceSingleValueNMember(final DataObject dataObj1, final DataObject dataObj2, final DataObject dataObj3) {
         assertTrue("DataObject is not Sequenced.  Test case may not proceed.", dataObj1.getType().isSequenced());
 
-        Sequence sequence1 = dataObj1.getSequence();
-        Sequence sequence2 = dataObj2.getSequence();
-        Sequence sequence3 = dataObj3.getSequence();
+        final Sequence sequence1 = dataObj1.getSequence();
+        final Sequence sequence2 = dataObj2.getSequence();
+        final Sequence sequence3 = dataObj3.getSequence();
 
         sequence1.add("Contain", (Object) dataObj2);
         sequence2.add("Contain", (Object) dataObj3);
@@ -813,10 +815,10 @@ public class ContainmentCycleTestCase extends TestCase {
      * @param dataObj2
      * @param dataObj3
      */
-    private void sequenceMultiValueOneMember(DataObject dataObj1, DataObject dataObj2, DataObject dataObj3) {
+    private void sequenceMultiValueOneMember(final DataObject dataObj1, final DataObject dataObj2, final DataObject dataObj3) {
         assertTrue("DataObject is not Sequenced.  Test case may not proceed.", dataObj1.getType().isSequenced());
 
-        Sequence sequence = dataObj1.getSequence();
+        final Sequence sequence = dataObj1.getSequence();
         
         sequence.add("ContainMany", dataObj2);
         sequence.add("ContainMany", dataObj3);
@@ -830,10 +832,10 @@ public class ContainmentCycleTestCase extends TestCase {
      * @param dataObj2
      * @param dataObj3
      */
-    private void sequenceManyValueNMember(DataObject dataObj1, DataObject dataObj2, DataObject dataObj3) {
+    private void sequenceManyValueNMember(final DataObject dataObj1, final DataObject dataObj2, final DataObject dataObj3) {
         assertTrue("DataObject is not Sequenced.  Test case may not proceed.", dataObj1.getType().isSequenced());
 
-        List addList = new ArrayList();
+        final List addList = new ArrayList();
         
         addList.add(dataObj2);
         dataObj1.setList("ContainMany", addList);
@@ -842,7 +844,7 @@ public class ContainmentCycleTestCase extends TestCase {
         addList.add(dataObj3);
         dataObj2.setList("ContainMany", addList);
 
-        Sequence sequence = dataObj3.getSequence();
+        final Sequence sequence = dataObj3.getSequence();
 
         sequence.add("ContainMany", dataObj1);
     }

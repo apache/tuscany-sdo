@@ -37,7 +37,6 @@ import commonj.sdo.Type;
 import commonj.sdo.helper.CopyHelper;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
-import commonj.sdo.helper.XSDHelper;
 
 /**
  * This interface provides helper functions which are not included in the SDO specification itself.
@@ -61,7 +60,8 @@ public interface SDOHelper
    * @return the new HelperContext
    * @see #createHelperContext(boolean)
    */
-  public HelperContext createHelperContext(boolean extensibleNamespaces,Map options);
+  public HelperContext createHelperContext(boolean extensibleNamespaces, Map options);
+  
   /**
    * Create a HelperContext to provide access to a consistent set of Helpers which make use of a new
    * TypeHelper instance to provide scope for type definitions.
@@ -69,6 +69,13 @@ public interface SDOHelper
    * @return the new HelperContext
    */
   public HelperContext createHelperContext(boolean extensibleNamespaces);
+  
+  /**
+   * create a non-extensible HelperContext with default load/save options
+   * @param options default load/save options from XMLOptions
+   * @return the new HelperContext
+   */
+  public HelperContext createHelperContext(Map options);
 
   /**
    * Creates an instance of a data type from the specified string.
@@ -166,9 +173,22 @@ public interface SDOHelper
    *              creating DataObject instances, or null for default TypeHelper.
    * @return the de-serialized data graph.
    * @throws IOException
+   * @deprecated Replaced by loadDataGraph(InptuStream, Map, HelperContext)
    */
-  public DataGraph loadDataGraph(InputStream inputStream, Map options, TypeHelper scope) throws IOException;
+ public DataGraph loadDataGraph(InputStream inputStream, Map options, TypeHelper scope) throws IOException;
 
+  /**
+   * Load a serialized data graph from the specified insputStream.
+   * 
+   * @param inputStream the inputStream of the data graph.
+   * @param options loader control options, or null.
+   * @param hc the HelperContext in which to register deserialized Types and to find Types when
+   *              creating DataObject instances, or null for default HelperContext.
+   * @return the de-serialized data graph.
+   * @throws IOException
+   */
+  public DataGraph loadDataGraph(InputStream inputStream, Map options, HelperContext hc) throws IOException;
+  
   /**
    * Serialize the specified data graph to the specified outputStream.
    * @param dataGraph the data graph to save.
@@ -193,23 +213,32 @@ public interface SDOHelper
    * Create a new cross scope CopyHelper.
    * @param targetScope the TypeHelper containing the Types to use to create the copy objects.
    * @return the new CopyHelper.
+   * @deprecated
    */
   public CopyHelper createCrossScopeCopyHelper(TypeHelper targetScope);
+  
+  /**
+   * Create a new cross scope CopyHelper.
+   * @param hc the HelperContext containing the Types to use to create the copy objects.
+   * @return the new CopyHelper.
+   */
+  public CopyHelper createCrossScopeCopyHelper(HelperContext targetScope);
 
   /**
    * Create a new XMLStreamHelper, with visibility to types in the specified TypeHelper scope.
    * @param scope the TypeHelper to use for locating types.
    * @return the new XMLStreamHelper.
+   * @deprecated
    */
   public XMLStreamHelper createXMLStreamHelper(TypeHelper scope);
   
   /**
-   * Create a new XMLStreamHelper, with visibility to types in the specified TypeHelper scope.
-   * @param scope the TypeHelper to use for locating types.
-   * @param options Map of XMLOptions.
+   * Create a new XMLStreamHelper, with visibility to types in the specified HelperContext scope.
+   * @param hc the HelperContext to use for locating types.
    * @return the new XMLStreamHelper.
    */
-  public XMLStreamHelper createXMLStreamHelper(TypeHelper scope, Map options);
+  public XMLStreamHelper createXMLStreamHelper(HelperContext hc);
+  
   /**
    * Create a new ObjectInputStream in the specifice HelperContext scope.
    * @param inputStream the inputStream with which to create the ObjectInputStream.
@@ -231,8 +260,17 @@ public interface SDOHelper
    * @param scope the TypeHelper to use for locating types.
    * @param uri the URI of the Types
    * @return a List containing instances of Type, null if uri is not found.
+   * @deprecated
    */
   public List getTypes(TypeHelper scope, String uri);
+  
+  /**
+   * Gets all of the types associated with a uri.
+   * @param hc the HelperContext to use for locating types.
+   * @param uri the URI of the Types
+   * @return a List containing instances of Type, null if uri is not found.
+   */
+  public List getTypes(HelperContext hc, String uri);
 
   /**
    * Gets the open content subset of the specified DataObject's instance properties.
@@ -270,8 +308,15 @@ public interface SDOHelper
     /**
      * Create a Type in the specified TypeHelper scope.
      * @return the new Type.
+     * @deprecated
      */
     public Type createType(TypeHelper scope, String uri, String name, boolean isDataType);
+
+    /**
+     * Create a Type in the specified TypeHelper scope.
+     * @return the new Type.
+     */
+    public Type createType(HelperContext hc, String uri, String name, boolean isDataType);
 
     /**
      * Add a baseType to the specified type.
@@ -315,8 +360,14 @@ public interface SDOHelper
 
     /**
      * Create a new open content property in the specified TypeHelper scope.
+     * @deprecated
      */
     public Property createOpenContentProperty(TypeHelper scope, String uri, String name, Type type);
+    
+    /**
+     * Create a new open content property in the specified TypeHelper scope.
+     */
+    public Property createOpenContentProperty(HelperContext hc, String uri, String name, Type type);
 
     /**
      * Add an aliasName to the specified property.

@@ -26,8 +26,8 @@ import java.net.URL;
 
 import javax.xml.stream.*;
 
-import org.apache.tuscany.sdo.helper.XMLStreamHelper;
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.api.XMLStreamHelper;
+import org.apache.tuscany.sdo.api.SDOUtil;
 
 import junit.framework.TestCase;
 
@@ -45,9 +45,9 @@ public class XMLStreamHelperPerformanceTestCase extends TestCase {
      * Simple Dynamic SDO 2 test.
      */
     public void testDynamic() throws Exception {
-        TypeHelper typeHelper = hc.getTypeHelper();
-        Type quoteType = typeHelper.getType(TEST_NAMESPACE, "Quote");
-        DataObject quote = hc.getDataFactory().create(quoteType);
+        final TypeHelper typeHelper = hc.getTypeHelper();
+        final Type quoteType = typeHelper.getType(TEST_NAMESPACE, "Quote");
+        final DataObject quote = hc.getDataFactory().create(quoteType);
 
         quote.setString("symbol", "fbnt");
         quote.setString("companyName", "FlyByNightTechnology");
@@ -58,19 +58,19 @@ public class XMLStreamHelperPerformanceTestCase extends TestCase {
         quote.setDouble("volume", 1000);
         quote.setDouble("change1", 1000);
 
-        DataObject child = quote.createDataObject("quotes");
+        final DataObject child = quote.createDataObject("quotes");
         child.setBigDecimal("price", new BigDecimal("2000.0"));
         
-        DataObject quote3 = quote.createDataObject("quotes3");
+        final DataObject quote3 = quote.createDataObject("quotes3");
         quote3.setString("symbol3", "IBM");
         quote3.setString("company3", "IBM Corp.");
         
-        XMLStreamHelper streamHelper = SDOUtil.createXMLStreamHelper(typeHelper);
-        XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-        StringWriter writer = new StringWriter();
-        XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
+        final XMLStreamHelper streamHelper = SDOUtil.createXMLStreamHelper(hc);
+        final XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+        final StringWriter writer = new StringWriter();
+        final XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
         
-        XMLDocument doc = hc.getXMLHelper().createDocument(quote, TEST_NAMESPACE, "stockQuote");
+        final XMLDocument doc = hc.getXMLHelper().createDocument(quote, TEST_NAMESPACE, "stockQuote");
         streamHelper.save(doc, streamWriter);
         streamWriter.flush();
         assertEquals("<p0:stockQuote xmlns:p0=\"http://www.example.com/simple\" xmlns:p1=\"http://www.example.com/simple3\"><p0:symbol>fbnt</p0:symbol><p0:companyName>FlyByNightTechnology</p0:companyName><p0:price>1000.0</p0:price><p0:open1>1000.0</p0:open1><p0:high>1000.0</p0:high><p0:low>1000.0</p0:low><p0:volume>1000.0</p0:volume><p0:change1>1000.0</p0:change1><p0:quotes><p0:price>2000.0</p0:price></p0:quotes><p0:quotes3><p1:symbol3>IBM</p1:symbol3><p1:company3>IBM Corp.</p1:company3></p0:quotes3></p0:stockQuote>",writer.toString());
@@ -81,8 +81,8 @@ public class XMLStreamHelperPerformanceTestCase extends TestCase {
         hc = SDOUtil.createHelperContext();
 
         // Populate the meta data for the test (Stock Quote) model
-        URL url = getClass().getResource(TEST_MODEL);
-        InputStream inputStream = url.openStream();
+        final URL url = getClass().getResource(TEST_MODEL);
+        final InputStream inputStream = url.openStream();
         hc.getXSDHelper().define(inputStream, url.toString());
         inputStream.close();
 

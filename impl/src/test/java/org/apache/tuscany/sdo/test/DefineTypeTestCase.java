@@ -366,7 +366,7 @@ public class DefineTypeTestCase extends TestCase
     Type stringType = types.getType("commonj.sdo", "String");
     
     // create a new Type for Customers
-    Type customerType = SDOUtil.createType(types, "http://example.com/customer", "Customer", false);
+    Type customerType = SDOUtil.createType(hc, "http://example.com/customer", "Customer", false);
 
     // create a customer number property
     Property custNumProperty = SDOUtil.createProperty(customerType, "custNum", intType);

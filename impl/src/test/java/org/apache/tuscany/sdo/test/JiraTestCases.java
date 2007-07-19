@@ -25,8 +25,9 @@ import java.util.List;
 import junit.framework.TestCase;
 import commonj.sdo.*;
 import commonj.sdo.helper.*;
+import commonj.sdo.impl.HelperProvider;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.api.SDOUtil;
 import java.util.HashMap;
 
 /**
@@ -81,13 +82,14 @@ public class JiraTestCases extends TestCase {
 	 * with a specific URI
 	 */
 	public void test_TUSCANY583() {
-
+	    HelperContext hc = HelperProvider.getDefaultContext();
+            XSDHelper xsdHelper = hc.getXSDHelper();
 		// define some types
 		try {
-			XSDHelper.INSTANCE.define(getClass().getResourceAsStream(
+			xsdHelper.define(getClass().getResourceAsStream(
 					PO_XSD_RESOURCE), null);
 
-			XSDHelper.INSTANCE.define(getClass().getResourceAsStream(
+			xsdHelper.define(getClass().getResourceAsStream(
 					COMPANY_XSD), null);
 
 			createDynamicType();
@@ -148,10 +150,10 @@ public class JiraTestCases extends TestCase {
 	}
 
 	private void confirmTypes(String uri, String[] expectedTypeNames) {
-
+            HelperContext hc = HelperProvider.getDefaultContext();
 		try {
 
-			List actualTypes = SDOUtil.getTypes(TypeHelper.INSTANCE, uri);
+			List actualTypes = SDOUtil.getTypes(hc, uri);
 			assertNotNull("Testing that list of types for " + uri
 					+ " is not null", actualTypes);
 

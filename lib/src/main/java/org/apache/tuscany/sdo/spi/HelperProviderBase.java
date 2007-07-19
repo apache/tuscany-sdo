@@ -40,6 +40,7 @@ import commonj.sdo.helper.CopyHelper;
 import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.DataHelper;
 import commonj.sdo.helper.EqualityHelper;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
@@ -73,11 +74,11 @@ public abstract class HelperProviderBase extends HelperProvider
   /**
    * Subclasses must implement this method to initialize the above Helper instance variables
    */
-  protected abstract void createDefaultHelpers();
+  protected abstract HelperContext createDefaultHelpers();
   
   public HelperProviderBase()
   {
-    createDefaultHelpers();
+    defaultContext = createDefaultHelpers();
   }
   
   public SDOHelper sdoHelper()
