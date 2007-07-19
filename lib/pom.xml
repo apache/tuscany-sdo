@@ -74,7 +74,7 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
-<!-- KG TODO                    <overview>${basedir}/src/main/java/org/apache/tuscany/sdo/overview.html</overview> -->
+                    <overview>${basedir}/src/main/java/org/apache/tuscany/sdo/api/overview.html</overview>
                     <version>2.0</version>
                     <source>1.4</source>
                     <excludePackageNames>org.apache.tuscany.sdo.lib:org.apache.tuscany.sdo.spi</excludePackageNames>

@@ -37,7 +37,6 @@ import commonj.sdo.Type;
 import commonj.sdo.helper.CopyHelper;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
-import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.impl.HelperProvider;
 
 /**
