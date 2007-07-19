@@ -85,49 +85,31 @@ public class AccessingTheContentsOfASequence  extends SampleBase {
         DataObject letter = getDataObjectFromFile(scope, LETTER_XML);
 
         // print letter sequence
-        commentary("We've loaded a documet from an XML file that contains mixed content.\n" +
+        commentary("We've loaded a document from an XML file that contains mixed content.\n" +
         		"Here's how the XML looks ...\n");
         System.out.println(scope.getXMLHelper().save(letter, "letter.xsd", "letter"));
  
-        
-        
-        System.out.println("\nThe Type for the letter DataObject is mixed: " + scope.getXSDHelper().isMixed(letter.getType()));
+        commentary("We can iterate over the sequence,  getting the Property / Value pairs\n" +
+        		"using the Sequence.getProperty(int) and Sequence.getValue(int) methods.\n" +
+        		"The model for this document is \"mixed\", i.e.\n" +
+        		"letter.getType().isMixed() returns \"true\".\n" +
+        		"Let's take a look at the Properties in this sequence.");
         
         Sequence letterSequence = letter.getSequence();
 
-// FIXME -- sort out how this should be -- i think it is confusing
-        
-        System.out.println("Unstructured text:");
         for (int i = 0; i < letterSequence.size(); i++) {
             Property prop = letterSequence.getProperty(i);                                 
             if (prop == null) {
                 String text = (String) letterSequence.getValue(i);
-                System.out.println("\t(" + text + ")");
+                System.out.println("Unstructured text (" + text + ")");
+            } else {
+                System.out.println("Property: " + prop.getName() + " Value : " + letterSequence.getValue(i));
             }
         }
         
-        // Verify that the lastName property of the DataObject has the same
-        // value as the lastName property for the Sequence.
-        String dataObjectLastName = letter.getString("lastName");
-        for (int i = 0; i < letterSequence.size(); i++) {
-        
-            /*
-             * The following line has been corrected from the 2.0 specification
-             * According to the SDO API sequence.getProperty will return null if the content is mixed.
-             * We want to check that the content is not mixed, and then check that it it is the property which 
-             * we are looking for
-             */
-            Property property = letterSequence.getProperty(i);
-            
-            if ( (property != null) && ("lastName".equals(property.getName()))) {
-                String sequenceLastName = (String) letterSequence.getValue(i);
-                if (dataObjectLastName == sequenceLastName)
-                    System.out.println("Last Name property matches");
-                break;
-            }
-        }
-
+        commentary("The values of the modeled Properties are still accessible through the DataObject\n" +
+        		"getter and setter methods,  but only through the Sequence API can we get to the untructured\n" +
+        		"text and see the ordering of the instance document");
 
     }
-
 }

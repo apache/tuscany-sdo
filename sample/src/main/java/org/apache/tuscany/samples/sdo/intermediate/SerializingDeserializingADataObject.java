@@ -40,7 +40,6 @@ import commonj.sdo.helper.HelperContext;
  * sample.
  */
 public class SerializingDeserializingADataObject  extends SampleBase {
-// TODO reference central build instructions
     HelperContext scope;
 
     public SerializingDeserializingADataObject(Integer userLevel) {
