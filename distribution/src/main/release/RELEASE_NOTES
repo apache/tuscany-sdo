@@ -34,6 +34,17 @@ The jar file containing the SDO API has a new "tuscany-" prefix,  so what was ..
 sdo-api-r2.1-1.0-incubating-beta1.jar in the beta1 release becomes
 tuscany-sdo-api-r2.1-1.0-incubating.jar in this release.
 
+In addition a new maven artifact and jar has appeared.
+
+maven groupId=org.apache.tuscany.sdo
+maven artifactId=tuscany-sdo-lib
+jar archive=tuscany-sdo-lib-${sdo.version}
+
+This artifact provides a cleear distinction between Tuscany SDO implementation,  and the Tuscany
+API which extends the SDO API.  See the javadoc contained in the binary release for details of
+the function provded by this artifact.
+
+
 New Features and Fixes
 ======================
 
