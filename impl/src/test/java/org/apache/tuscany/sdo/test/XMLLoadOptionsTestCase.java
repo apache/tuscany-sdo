@@ -24,7 +24,6 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -40,7 +39,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
-import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
 
@@ -54,27 +52,27 @@ public class XMLLoadOptionsTestCase extends TestCase {
     
 	//SDOUtil->SDOHelper->SDOHelperImpl->HelperContextImpl->XMLHelperImpl
     public void testXMLOptionsSchema1() throws IOException{
-    	String TEST_XML_DOCUMENT = "/SchemaLocationTestCase.xml";
+    	final String TEST_XML_DOCUMENT = "/SchemaLocationTestCase.xml";
     	
     	options = new HashMap();
     	options.put(SDOHelper.XMLOptions.XML_LOAD_SCHEMA, Boolean.TRUE);
     	
-    	XMLHelper xmlHelper = SDOUtil.createHelperContext(true, options).getXMLHelper();
+    	final XMLHelper xmlHelper = SDOUtil.createHelperContext(true, options).getXMLHelper();
     	
-    	XMLDocument xmlDoc = xmlHelper.load(getClass().getResourceAsStream(TEST_XML_DOCUMENT), "whatever", null);
-    	DataObject root = xmlDoc.getRootObject();
+    	final XMLDocument xmlDoc = xmlHelper.load(getClass().getResourceAsStream(TEST_XML_DOCUMENT), "whatever", null);
+    	final DataObject root = xmlDoc.getRootObject();
         assertNotSame(root.getType(), SDOPackage.eINSTANCE.getAnyTypeDataObject());   
     }
     
 //  SDOUtil->SDOHelper->SDOHelperImpl->HelperContextImpl->XMLHelperImpl
     public void testXMLOptionsSchema2() throws IOException{
-    	String TEST_XML_DOCUMENT = "/SchemaLocationTestCase.xml";
+    	final String TEST_XML_DOCUMENT = "/SchemaLocationTestCase.xml";
     	
     	options = new HashMap();
     	options.put(SDOHelper.XMLOptions.XML_LOAD_SCHEMA, Boolean.FALSE);
-    	XMLHelper xmlHelper = SDOUtil.createHelperContext(true, options).getXMLHelper();
-    	XMLDocument xmlDoc = xmlHelper.load(getClass().getResourceAsStream(TEST_XML_DOCUMENT), "whatever", null);
-    	DataObject root = xmlDoc.getRootObject();
+    	final XMLHelper xmlHelper = SDOUtil.createHelperContext(true, options).getXMLHelper();
+    	final XMLDocument xmlDoc = xmlHelper.load(getClass().getResourceAsStream(TEST_XML_DOCUMENT), "whatever", null);
+    	final DataObject root = xmlDoc.getRootObject();
         assertSame(root.getType(), SDOPackage.eINSTANCE.getAnyTypeDataObject());    
     }
     
@@ -85,7 +83,7 @@ public class XMLLoadOptionsTestCase extends TestCase {
          * tests using this option and bad xml should demonstrate failure to load
          */
     	options.put(SDOHelper.XMLOptions.XML_LOAD_LAX_FORM, new Integer(0));
-    	HelperContext hc = SDOUtil.createHelperContext(true, options);
+    	final HelperContext hc = SDOUtil.createHelperContext(true, options);
         hc.getXSDHelper().define(
         		"<schema xmlns=\"http://www.w3.org/2001/XMLSchema\" targetNamespace=\"testNS\">"+
         		  "<element name=\"root\">"+
@@ -100,7 +98,7 @@ public class XMLLoadOptionsTestCase extends TestCase {
         		  "</element>"+
         		"</schema>");   	
 
-        String xml="<p:root xmlns:p=\"testNS\">"+
+        final String xml="<p:root xmlns:p=\"testNS\">"+
   "<p:unqualifiedElement/>"+
 "</p:root>";
 
@@ -111,7 +109,7 @@ public class XMLLoadOptionsTestCase extends TestCase {
       try{
         hc.getXMLHelper().load(new StringReader(xml), null, null);
        fail();
-    } catch (Resource.IOWrappedException featureNotFound) {
+    } catch (final Resource.IOWrappedException featureNotFound) {
     	assertTrue(true);
     }
     
@@ -124,7 +122,7 @@ public class XMLLoadOptionsTestCase extends TestCase {
          * tests using this option and bad xml will load
          */
     	options.put(SDOHelper.XMLOptions.XML_LOAD_LAX_FORM, new Integer(1));
-    	HelperContext hc = SDOUtil.createHelperContext(true, options);
+    	final HelperContext hc = SDOUtil.createHelperContext(true, options);
         hc.getXSDHelper().define(
         		"<schema xmlns=\"http://www.w3.org/2001/XMLSchema\" targetNamespace=\"testNS\">"+
         		"<element name=\"root\">"+
@@ -139,7 +137,7 @@ public class XMLLoadOptionsTestCase extends TestCase {
         		"</element>"+
         		"</schema>");    	
 
-        String xml="<p:root xmlns:p=\"testNS\" p:unqualifiedAttribute=\"u\" qualifiedAttribute=\"q\">"+
+        final String xml="<p:root xmlns:p=\"testNS\" p:unqualifiedAttribute=\"u\" qualifiedAttribute=\"q\">"+
         "<p:unqualifiedElement/>"+
         "<qualifiedElement/>"+
       "</p:root>";
@@ -158,9 +156,8 @@ public class XMLLoadOptionsTestCase extends TestCase {
          * tests using this option and bad xml will load
          */
     	options.put(SDOHelper.XMLOptions.XML_LOAD_LAX_FORM, new Integer(1));
-    	HelperContext hc = SDOUtil.createHelperContext(false, options);
-    	TypeHelper th = hc.getTypeHelper();
-        XMLStreamHelper streamHelper = SDOUtil.createXMLStreamHelper(th, options);
+    	final HelperContext hc = SDOUtil.createHelperContext(false, options);
+        final XMLStreamHelper streamHelper = SDOUtil.createXMLStreamHelper(hc);
         hc.getXSDHelper().define(
         "<schema xmlns=\"http://www.w3.org/2001/XMLSchema\" targetNamespace=\"testNS\">"+
 		"<element name=\"root\">"+
@@ -175,18 +172,18 @@ public class XMLLoadOptionsTestCase extends TestCase {
 		"</element>"+
 		"</schema>");
         
-        String xml="<p:root xmlns:p=\"testNS\" p:unqualifiedAttribute=\"u\" qualifiedAttribute=\"q\">"+
+        final String xml="<p:root xmlns:p=\"testNS\" p:unqualifiedAttribute=\"u\" qualifiedAttribute=\"q\">"+
         "<p:unqualifiedElement/>"+
         "<qualifiedElement/>"+
       "</p:root>";
         
-        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-        XMLStreamReader reader1 = inputFactory.createXMLStreamReader(new StringReader(xml));
+        final XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+        final XMLStreamReader reader1 = inputFactory.createXMLStreamReader(new StringReader(xml));
         int event = reader1.getEventType();
         while (!(event == XMLStreamConstants.START_ELEMENT)){
         	event = reader1.next();
         }
-        DataObject dataObject = streamHelper.loadObject(reader1);
+        final DataObject dataObject = streamHelper.loadObject(reader1);
         /*
          * this malformed xml will load, as lax is forced ON
          */

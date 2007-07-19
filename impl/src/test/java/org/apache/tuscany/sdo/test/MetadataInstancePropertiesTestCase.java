@@ -25,7 +25,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -42,6 +42,7 @@ public class MetadataInstancePropertiesTestCase extends TestCase
   private final String TEST_NAMESPACE = "http://www.example.com/metadata/retrievaltest";
   private final String DYNAMIC_TEST_NAMESPACE = "http://www.example.com/metadata/dynamicmetadata";
 
+  private HelperContext helperContext;
   private TypeHelper typeHelper;
   private XSDHelper xsdHelper;
   private DataFactory dataFactory;
@@ -141,7 +142,7 @@ public class MetadataInstancePropertiesTestCase extends TestCase
   {
     super.setUp();
 
-    HelperContext helperContext = SDOUtil.createHelperContext();
+    helperContext = SDOUtil.createHelperContext();
     
     typeHelper = helperContext.getTypeHelper();
     xsdHelper = helperContext.getXSDHelper();
@@ -201,7 +202,7 @@ public class MetadataInstancePropertiesTestCase extends TestCase
 
   public void displayInstanceProperties(String namespace)
   {
-    List types = SDOUtil.getTypes(typeHelper, namespace);
+    List types = SDOUtil.getTypes(helperContext, namespace);
     for (int i = 0; i < types.size(); i++)
     {
       Type type = (Type)types.get(i);

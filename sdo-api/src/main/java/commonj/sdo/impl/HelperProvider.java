@@ -384,7 +384,9 @@ public abstract class HelperProvider {
       return defaultContext;
     }
       
-    static HelperContext defaultContext = new DefaultHelperContext();
+//    static HelperContext defaultContext = new DefaultHelperContext();
+//  TODO: Feed back to spec -- Tuscany SDO implementation specific to create a special implementation of HelperContext
+    protected static HelperContext defaultContext;
 
     static class DefaultHelperContext implements HelperContext
     {

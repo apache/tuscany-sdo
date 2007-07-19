@@ -81,6 +81,7 @@ import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 import commonj.sdo.helper.DataHelper;
+import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.impl.HelperProvider;
 
@@ -1834,7 +1835,7 @@ public final class DataObjectUtil
       propertyType = ((ModelFactoryImpl)ModelFactory.INSTANCE).getObject();
     }
     
-    Property newProperty = SDOUtil.createOpenContentProperty(TypeHelper.INSTANCE, uri, name, propertyType);
+    Property newProperty = SDOUtil.createOpenContentProperty(HelperProvider.getDefaultContext(), uri, name, propertyType);
     if (isMany)
       SDOUtil.setMany(newProperty, isMany);
     if (isContainment)
@@ -2797,7 +2798,8 @@ public final class DataObjectUtil
   public static List getMetaObjectInstanceProperties(EModelElement metaObject) 
   {
     // Use the default helper context for now
-    TypeHelper typeHelper = HelperProvider.getDefaultContext().getTypeHelper();
+//    TypeHelper typeHelper = HelperProvider.getDefaultContext().getTypeHelper();
+      HelperContext hc = HelperProvider.getDefaultContext();
       
     List result = new UniqueEList();
     List annotations = metaObject.getEAnnotations();
@@ -2812,7 +2814,7 @@ public final class DataObjectUtil
         EStringToStringMapEntryImpl entry = (EStringToStringMapEntryImpl)iter.next();
         String propertyName = entry.getTypedKey();
         
-        Property globalProperty = getGlobalProperty(typeHelper, propertyURI, propertyName);
+        Property globalProperty = getGlobalProperty(hc, propertyURI, propertyName);
         if (globalProperty != null)
         {
           result.add(globalProperty);
@@ -2835,7 +2837,7 @@ public final class DataObjectUtil
     //TODO if (property.isMany()) ... // create list of values from from string
     return SDOUtil.createFromString(property.getType(), value);
   }
-
+/*
   protected static Property getGlobalProperty(TypeHelper typeHelper, String uri, String name)
   {
     Property property;
@@ -2874,5 +2876,43 @@ public final class DataObjectUtil
     }
     return property;
   }
-
+*/
+  protected static Property getGlobalProperty(HelperContext hc, String uri, String name)
+  {
+    Property property;
+    if (ExtendedMetaData.ANNOTATION_URI.equals(uri)) {
+      if ("minExclusive".equals(name) ||
+          "minInclusive".equals(name) ||
+          "maxExclusive".equals(name) ||
+          "maxInclusive".equals(name) ||
+          "totalDigits".equals(name) ||
+          "fractionDigits".equals(name) ||
+          "length".equals(name) ||
+          "minLength".equals(name) ||
+          "maxLength".equals(name) ||
+          "enumeration".equals(name) ||
+          "whiteSpace".equals(name) ||
+          "pattern".equals(name))
+      {
+        //TODO Use standard facet properties, once SDO defines them
+        //TODO property = getSDOFacetProperty(name);
+        //TEMP For now just expose a string property for the EMF (ExtendedMetaData) facets
+        property = SDOUtil.createOpenContentProperty(hc, uri, name, ((ModelFactoryImpl)ModelFactory.INSTANCE).getString());
+      }
+      else
+      {
+        //TODO Should we consider exposing more ExtendedMetaData?
+        property = null;
+      }
+    }
+    else
+    {
+      property = hc.getTypeHelper().getOpenContentProperty(uri, name);
+      if (property == null)
+      {
+        property = SDOUtil.createOpenContentProperty(hc, uri, name, ((ModelFactoryImpl)ModelFactory.INSTANCE).getString());
+      }
+    }
+    return property;
+  }
 }

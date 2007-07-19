@@ -23,19 +23,20 @@ package org.apache.tuscany.sdo.helper;
 import org.apache.tuscany.sdo.spi.HelperProviderBase;
 
 import commonj.sdo.helper.HelperContext;
+import commonj.sdo.impl.HelperProvider;
 
 
 /**
  * Create and manage all the default helper INSTANCEs
  */
 public class HelperProviderImpl extends HelperProviderBase
-{
-  public void createDefaultHelpers()
+{   
+  public HelperContext createDefaultHelpers()
   {
     //FB HelperContext hc = SDOUtil.createHelperContext();
     //FB The defulat HelperContext must use EMF's ClassLoader-delegating EPackage.Registry.INSTANCE, until we provide
     //FB another way to get (ClassLoader scope) support for HelperContext.
-    HelperContext hc = new HelperContextImpl(new SDOExtendedMetaDataImpl(), false);
+      HelperContext hc = new HelperContextImpl(new SDOExtendedMetaDataImpl(), false);
     typeHelper = hc.getTypeHelper();
     dataFactory = hc.getDataFactory();
     xmlHelper = hc.getXMLHelper();
@@ -45,5 +46,7 @@ public class HelperProviderImpl extends HelperProviderBase
     dataHelper = new DataHelperImpl();
     sdoHelper = new SDOHelperImpl();
     xmlStreamHelper = ((HelperContextImpl)hc).getXMLStreamHelper();
+    
+    return hc;
   }  
 }

@@ -29,7 +29,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataGraph;
@@ -53,7 +53,7 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
     Type cst = th.getType("commonj.sdo","ChangeSummaryType");
     Type strt = th.getType("commonj.sdo", "String");
     
-    Type newt = SDOUtil.createType(th, "testcases.changesummary", "simpleCS", false);
+    Type newt = SDOUtil.createType(hc, "testcases.changesummary", "simpleCS", false);
     Property strProp = SDOUtil.createProperty(newt, "strElem", strt);
     SDOUtil.createProperty(newt, "changeSummary", cst);
     
@@ -67,7 +67,7 @@ public class ChangeSummaryOnDataObjectTestCase extends TestCase {
     Type strt = th.getType("commonj.sdo", "String");
     
 
-    Type newt = SDOUtil.createType(th, "testcases.changesummary", "simpleNOCS", false);
+    Type newt = SDOUtil.createType(hc, "testcases.changesummary", "simpleNOCS", false);
     Property strProp = SDOUtil.createProperty(newt, "strElem", strt);
 
     DataGraph graph = SDOUtil.createDataGraph();

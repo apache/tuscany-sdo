@@ -26,7 +26,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
@@ -115,7 +115,7 @@ public class SerializeTypesTestCase extends TestCase {
 
         byte[] serialized = baos.toByteArray();
         ByteArrayInputStream bais = new ByteArrayInputStream(serialized);
-        DataGraph loadedDataGraph = SDOUtil.loadDataGraph(bais, null, SDOUtil.createTypeHelper());
+        DataGraph loadedDataGraph = SDOUtil.loadDataGraph(bais, null, hc);
 
         DataObject loadedRootObject = loadedDataGraph.getRootObject();
         assertNotSame(loadedRootObject.getType(), customer1.getType());

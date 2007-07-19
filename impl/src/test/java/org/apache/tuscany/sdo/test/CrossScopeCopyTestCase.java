@@ -28,7 +28,7 @@ import java.util.Vector;
 
 import junit.framework.TestCase;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -73,7 +73,7 @@ public class CrossScopeCopyTestCase extends TestCase
     
    public void testCrossScopeCopy() throws IOException 
    {
-       CopyHelper copyHelperB = SDOUtil.createCrossScopeCopyHelper(scopeB);
+       CopyHelper copyHelperB = SDOUtil.createCrossScopeCopyHelper(hcb);
        
        // Perform Shallow Copy Test 
        DataObject copiedSDO = copyHelperB.copyShallow(bankSDO);

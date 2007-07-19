@@ -31,8 +31,8 @@ import javax.xml.stream.XMLStreamWriter;
 
 import junit.framework.TestCase;
 
-import org.apache.tuscany.sdo.helper.XMLStreamHelper;
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.api.XMLStreamHelper;
+import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -53,8 +53,8 @@ public class AnyTypeTest extends TestCase {
     private static final String TEST_NAMESPACE = "http://www.example.com/anytype";
 
     public void testAnySimpleType() throws Exception {
-        Property property = typeHelper.getOpenContentProperty(TEST_NAMESPACE, "globalElement");
-        Type propertyType = property.getType();
+        final Property property = typeHelper.getOpenContentProperty(TEST_NAMESPACE, "globalElement");
+        final Type propertyType = property.getType();
 
         DataObject dataObject = dataFactory.create(TEST_NAMESPACE, "Person");
         dataObject.set("firstName", "Fuhwei");
@@ -67,17 +67,17 @@ public class AnyTypeTest extends TestCase {
         rootObject.set("personElement", dataObject);
 
         // XMLStreamHelper.saveObject has a problem to serialize the any type
-        XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
-        StringWriter writer = new StringWriter();
-        XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
+        final XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
+        final StringWriter writer = new StringWriter();
+        final XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
         streamHelper.saveObject(rootObject, streamWriter);
         streamWriter.flush();
         // System.out.println(writer.toString());
 
-        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
-        StringReader reader = new StringReader(writer.toString());
-        XMLStreamReader streamReader = inputFactory.createXMLStreamReader(reader);
-        XMLDocument doc = streamHelper.load(streamReader);
+        final XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+        final StringReader reader = new StringReader(writer.toString());
+        final XMLStreamReader streamReader = inputFactory.createXMLStreamReader(reader);
+        final XMLDocument doc = streamHelper.load(streamReader);
         rootObject = doc.getRootObject();
         DataObject testObject = rootObject.getDataObject("anyTypeElement");
         // System.out.println("anyTypeElement dataobject: " + testObject);
@@ -87,24 +87,24 @@ public class AnyTypeTest extends TestCase {
     
     public void testAbstractTypeFails() {
     	try {
-    		DataObject abstractObj = dataFactory.create("commonj.sdo","DataObject");
+    		final DataObject abstractObj = dataFactory.create("commonj.sdo","DataObject");
     		assertTrue("Should not succeed", false);
     	}
-    	catch ( IllegalArgumentException e) {
+    	catch ( final IllegalArgumentException e) {
 			// expected result
 		}
     }
 
     protected void setUp() throws Exception {
-        HelperContext hc = SDOUtil.createHelperContext();
+        final HelperContext hc = SDOUtil.createHelperContext();
         typeHelper = hc.getTypeHelper();
         dataFactory = hc.getDataFactory();
         xsdHelper = hc.getXSDHelper();
-        streamHelper = SDOUtil.createXMLStreamHelper(typeHelper);
+        streamHelper = SDOUtil.createXMLStreamHelper(hc);
 
         // Populate the meta data for the test (Stock Quote) model
-        URL url = getClass().getResource(TEST_MODEL);
-        InputStream inputStream = url.openStream();
+        final URL url = getClass().getResource(TEST_MODEL);
+        final InputStream inputStream = url.openStream();
         xsdHelper.define(inputStream, url.toString());
         inputStream.close();
     }

@@ -139,15 +139,15 @@ public final class SDOUtil
    */
   public static DataGraph loadDataGraph(InputStream inputStream, Map options) throws IOException
   {
-    return defaultSDOHelper.loadDataGraph(inputStream, options, null);
+    return defaultSDOHelper.loadDataGraph(inputStream, options, (HelperContext)null);
   }
   
   /**
-   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#loadDataGraph(InputStream, Map, TypeHelper)}.
+   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#loadDataGraph(InputStream, Map, HelperContext)}.
    */
-  public static DataGraph loadDataGraph(InputStream inputStream, Map options, TypeHelper scope) throws IOException
+  public static DataGraph loadDataGraph(InputStream inputStream, Map options, HelperContext hc) throws IOException
   {
-    return defaultSDOHelper.loadDataGraph(inputStream, options, scope);
+    return defaultSDOHelper.loadDataGraph(inputStream, options, hc);
   }
   
   /**
@@ -183,34 +183,37 @@ public final class SDOUtil
   /**
    * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createHelperContext}.
    */
+  public static HelperContext createHelperContext(Map options)
+  {
+    return defaultSDOHelper.createHelperContext(options);
+  }
+  
+  /**
+   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createHelperContext}.
+   */
   public static HelperContext createHelperContext()
   {
     return defaultSDOHelper.createHelperContext();
   }
   
-  /**
-   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createCrossScopeCopyHelper(TypeHelper)}.
-   */
-  public static CopyHelper createCrossScopeCopyHelper(TypeHelper targetScope) 
-  {
-    return defaultSDOHelper.createCrossScopeCopyHelper(targetScope); 
-  }
   
   /**
-   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createXMLStreamHelper(TypeHelper)}.
+   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createCrossScopeCopyHelper(HelperContext)}.
    */
-  public static XMLStreamHelper createXMLStreamHelper(TypeHelper scope)
+  public static CopyHelper createCrossScopeCopyHelper(HelperContext hc) 
   {
-    return defaultSDOHelper.createXMLStreamHelper(scope);
+    return defaultSDOHelper.createCrossScopeCopyHelper(hc); 
   }
   
+  
   /**
-   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createXMLStreamHelper(TypeHelper, Map)}.
+   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createXMLStreamHelper(HelperContext)}.
    */
-  public static XMLStreamHelper createXMLStreamHelper(TypeHelper scope, Map options)
+  public static XMLStreamHelper createXMLStreamHelper(HelperContext hc)
   {
-    return defaultSDOHelper.createXMLStreamHelper(scope, options);
+    return defaultSDOHelper.createXMLStreamHelper(hc);
   }
+  
   /**
    * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createObjectInputStream(InputStream, HelperContext)}.
    */
@@ -228,11 +231,11 @@ public final class SDOUtil
   }
   
   /**
-   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#getTypes(TypeHelper, String)}.
+   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#getTypes(HelperContext, String)}.
    */
-  public static List getTypes(TypeHelper scope, String uri) {
+  public static List getTypes(HelperContext hc, String uri) {
 
-    return defaultSDOHelper.getTypes(scope, uri);
+    return defaultSDOHelper.getTypes(hc, uri);
   }
   
   /**
@@ -260,11 +263,11 @@ public final class SDOUtil
   }
   
   /**
-   * @see {@link org.apache.tuscany.sdo.api.SDOHelper.MetaDataBuilder#createType(TypeHelper, String, String, boolean)}.
+   * @see {@link org.apache.tuscany.sdo.api.SDOHelper.MetaDataBuilder#createType(HelperContext, String, String, boolean)}.
    */
-  public static Type createType(TypeHelper scope, String uri, String name, boolean isDataType)
+  public static Type createType(HelperContext hc, String uri, String name, boolean isDataType)
   {
-    return defaultSDOHelper.getMetaDataBuilder().createType(scope, uri, name, isDataType);
+    return defaultSDOHelper.getMetaDataBuilder().createType(hc, uri, name, isDataType);
   }
   
   /**
@@ -333,9 +336,9 @@ public final class SDOUtil
   /**
    * @see {@link org.apache.tuscany.sdo.api.SDOHelper.MetaDataBuilder#createOpenContentProperty(TypeHelper, String, String, Type)}.
    */
-  public static Property createOpenContentProperty(TypeHelper scope, String uri, String name, Type type)
+  public static Property createOpenContentProperty(HelperContext hc, String uri, String name, Type type)
   {
-    return defaultSDOHelper.getMetaDataBuilder().createOpenContentProperty(scope, uri, name, type);
+    return defaultSDOHelper.getMetaDataBuilder().createOpenContentProperty(hc, uri, name, type);
   }
   
   /**

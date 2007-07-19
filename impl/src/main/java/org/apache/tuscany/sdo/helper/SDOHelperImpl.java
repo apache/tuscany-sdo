@@ -66,6 +66,7 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
+import commonj.sdo.impl.HelperProvider;
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -146,31 +147,36 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
         options.put(LOADING_SCOPE, extendedMetaData);
     }
 
-    public DataGraph loadDataGraph(InputStream inputStream, Map options, TypeHelper scope) throws IOException {
-        DataGraph result = null;
-        if (scope == null || scope == TypeHelper.INSTANCE) {
-            result = loadDataGraph(inputStream, options);
-        } else if (options == null) {
-            options = new HashMap();
-            registerLoadingScope(options, scope);
-            result = loadDataGraph(inputStream, options);
-        } else if (options.containsKey(LOADING_SCOPE)) {
-            Object restore = options.get(LOADING_SCOPE);
-            registerLoadingScope(options, scope);
-            try {
-                result = loadDataGraph(inputStream, options);
-            } finally {
-                options.put(LOADING_SCOPE, restore);
-            }
-        } else {
-            registerLoadingScope(options, scope);
-            try {
-                result = loadDataGraph(inputStream, options);
-            } finally {
-                options.remove(LOADING_SCOPE);
-            }
+    
+    public DataGraph loadDataGraph(InputStream inputStream, Map options, HelperContext scope) throws IOException {
+        if (scope == null) {
+            scope = HelperProvider.getDefaultContext();
         }
-        return result;
+        TypeHelper th = scope.getTypeHelper();
+        DataGraph result = null;
+		if (th == null || th == TypeHelper.INSTANCE) {
+		    result = loadDataGraph(inputStream, options);
+		} else if (options == null) {
+		    options = new HashMap();
+		    registerLoadingScope(options, th);
+		    result = loadDataGraph(inputStream, options);
+		} else if (options.containsKey(LOADING_SCOPE)) {
+		    Object restore = options.get(LOADING_SCOPE);
+		    registerLoadingScope(options, th);
+		    try {
+		        result = loadDataGraph(inputStream, options);
+		    } finally {
+		        options.put(LOADING_SCOPE, restore);
+		    }
+		} else {
+		    registerLoadingScope(options, th);
+		    try {
+		        result = loadDataGraph(inputStream, options);
+		    } finally {
+		        options.remove(LOADING_SCOPE);
+		    }
+		}
+		return result;
     }
 
     public void saveDataGraph(DataGraph dataGraph, OutputStream outputStream, Map options) throws IOException {
@@ -201,32 +207,36 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
         }
     }
 
+    public HelperContext createHelperContext() {
+        return new HelperContextImpl(false, null);
+    }
+    
     public HelperContext createHelperContext(boolean extensibleNamespaces) {
         return new HelperContextImpl(extensibleNamespaces);
+    }
+    
+    public HelperContext createHelperContext(Map options) {
+        return new HelperContextImpl(false, options);
     }
 
     public HelperContext createHelperContext(boolean extensibleNamespaces, Map options) {
         return new HelperContextImpl(extensibleNamespaces, options);
     }
 
-    public CopyHelper createCrossScopeCopyHelper(TypeHelper targetScope) {
-        return new CrossScopeCopyHelperImpl(targetScope);
+
+    public CopyHelper createCrossScopeCopyHelper(HelperContext hc) {
+        return new CrossScopeCopyHelperImpl(hc.getTypeHelper());
     }
 
-
-    public XMLStreamHelper createXMLStreamHelper(TypeHelper scope) {
-        return (new HelperContextImpl(scope)).getXMLStreamHelper();
+    
+    public XMLStreamHelper createXMLStreamHelper(HelperContext hc) {
+        return ((HelperContextImpl)hc).getXMLStreamHelper();
     }
 
+    
+    public List getTypes(HelperContext hc, String uri) {
 
-    public XMLStreamHelper createXMLStreamHelper(TypeHelper scope, Map options) {
-        HelperContext helperContextImpl = new HelperContextImpl(scope, options);
-        return ((HelperContextImpl)helperContextImpl).getXMLStreamHelper();
-    }
-
-    public List getTypes(TypeHelper scope, String uri) {
-
-        EPackage ePackage = ((TypeHelperImpl)scope).getExtendedMetaData().getPackage(uri);
+        EPackage ePackage = ((HelperContextImpl)hc).getExtendedMetaData().getPackage(uri);
         if (ePackage != null) {
             return new ArrayList(ePackage.getEClassifiers());
         }
@@ -243,8 +253,10 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
         return "".equals(SDOExtendedMetaData.INSTANCE.getName((EClassifier)type));
     }
 
-    public Type createType(TypeHelper scope, String uri, String name, boolean isDataType) {
-        ExtendedMetaData extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
+
+    
+    public Type createType(HelperContext hc, String uri, String name, boolean isDataType) {
+        ExtendedMetaData extendedMetaData = ((HelperContextImpl)hc).getExtendedMetaData();
         if ("".equals(uri))
             uri = null; // FB
 
@@ -395,15 +407,16 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
       }
   }
   
-  public Property createOpenContentProperty(TypeHelper scope, String uri, String name, Type type)
+  
+  public Property createOpenContentProperty(HelperContext hc, String uri, String name, Type type)
   {
-        ExtendedMetaData extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
+        ExtendedMetaData extendedMetaData = ((HelperContextImpl)hc).getExtendedMetaData();
 
         // get/create document root
         EPackage ePackage = extendedMetaData.getPackage(uri);
         Type documentRoot = ePackage != null ? (Type)extendedMetaData.getType(ePackage, "") : null;
         if (documentRoot == null) {
-            documentRoot = createType(scope, uri, null, false);
+            documentRoot = createType(hc, uri, null, false);
         }
 
         // Determine if property already exists
@@ -418,6 +431,7 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
         }
         return newProperty;
     }
+
 
     public void addAliasName(Property property, String aliasName) {
         throw new UnsupportedOperationException(); // TODO: implement this

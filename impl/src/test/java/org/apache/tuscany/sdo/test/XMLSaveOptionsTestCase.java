@@ -36,7 +36,6 @@ import org.apache.tuscany.sdo.api.SDOUtil;
 import org.apache.tuscany.sdo.api.XMLStreamHelper;
 
 import commonj.sdo.helper.HelperContext;
-import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
@@ -89,9 +88,9 @@ public class XMLSaveOptionsTestCase extends TestCase {
 	   MARGIN+INDENT+"<change1>1000.0</change1>"  +LINE_BREAK+
 	   MARGIN+"</p0:stockQuote>"		    +LINE_BREAK;
 	  	  
-	  void define(String model) throws IOException {
+	  void define(final String model) throws IOException {
 	    // Populate the meta data for the test model
-	    URL url = getClass().getResource(model);
+	    final URL url = getClass().getResource(model);
 	    xsdHelper.define(url.openStream(), url.toString());
 	  }
 	  
@@ -105,7 +104,7 @@ public class XMLSaveOptionsTestCase extends TestCase {
 
 	  //use XMLHelper
 	  public void testSaveXMLDocumentXMLHelper() throws IOException {
-		    HashMap options = new HashMap();
+		    final HashMap options = new HashMap();
 		    options.put(org.apache.tuscany.sdo.api.SDOHelper.XMLOptions.XML_SAVE_INDENT, INDENT);
 		    options.put(org.apache.tuscany.sdo.api.SDOHelper.XMLOptions.XML_SAVE_MARGIN, MARGIN);
 		    options.put(org.apache.tuscany.sdo.api.SDOHelper.XMLOptions.XML_SAVE_LINE_BREAK, LINE_BREAK);
@@ -115,32 +114,31 @@ public class XMLSaveOptionsTestCase extends TestCase {
   
 		    // Populate the meta data for the test (Stock Quote) model
 		    define("/simpleWithChangeSummary.xsd");
-		    XMLDocument doc = xmlh.load(getClass().getResource("/simpleWithChangeSummary.xml").openStream());
-		    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		    final XMLDocument doc = xmlh.load(getClass().getResource("/simpleWithChangeSummary.xml").openStream());
+		    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		    xmlh.save(xmlh.createDocument(doc.getRootObject(), doc.getRootElementURI(), doc.getRootElementName()), baos, null);
 		    assertEquals(formatted1, baos.toString());
 	  }
 	  
 	  //use XMLStreamHelper
 	  public void testSaveXMLDocumentXMLStreamHelper() throws Exception {	  
-		  	HashMap options = new HashMap();
+		  	final HashMap options = new HashMap();
 		    options.put(SDOHelper.XMLOptions.XML_LOAD_SCHEMA, Boolean.FALSE);
 		    options.put(org.apache.tuscany.sdo.api.SDOHelper.XMLOptions.XML_SAVE_INDENT, INDENT);
 		    options.put(org.apache.tuscany.sdo.api.SDOHelper.XMLOptions.XML_SAVE_MARGIN, MARGIN);
 		    options.put(org.apache.tuscany.sdo.api.SDOHelper.XMLOptions.XML_SAVE_LINE_BREAK, LINE_BREAK);
-		    HelperContext hc = SDOUtil.createHelperContext(false, options);
-		    TypeHelper th = hc.getTypeHelper();
-		    xmlStreamHelper = SDOUtil.createXMLStreamHelper(th, options); //both load and save options passed at same time  
+		    final HelperContext hc = SDOUtil.createHelperContext(false, options);
+                    xmlStreamHelper = SDOUtil.createXMLStreamHelper(hc);
 		    
 		    xsdHelper = hc.getXSDHelper();
 			define("/simple.xsd");
 	  	
-			InputStream inStrm = getClass().getResourceAsStream("/shallowquote.xml");
-		    XMLDocument document = hc.getXMLHelper().load(inStrm, null, null);
+			final InputStream inStrm = getClass().getResourceAsStream("/shallowquote.xml");
+		    final XMLDocument document = hc.getXMLHelper().load(inStrm, null, null);
 		    
-		    XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();	    
-	        StringWriter writer = new StringWriter();
-	        XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
+		    final XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();	    
+	        final StringWriter writer = new StringWriter();
+	        final XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
 	        
 	        xmlStreamHelper.save(document, streamWriter, null);
 	        streamWriter.flush();

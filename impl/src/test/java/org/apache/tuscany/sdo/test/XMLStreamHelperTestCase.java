@@ -34,9 +34,8 @@ import javax.xml.stream.XMLStreamWriter;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.apache.tuscany.sdo.helper.XMLStreamHelper;
-import org.apache.tuscany.sdo.util.SDOUtil;
-
+import org.apache.tuscany.sdo.api.XMLStreamHelper;
+import org.apache.tuscany.sdo.api.SDOUtil;
 import commonj.sdo.DataObject;
 import commonj.sdo.helper.*;
 
@@ -50,11 +49,11 @@ public class XMLStreamHelperTestCase extends TestCase {
 
     private XMLOutputFactory outputFactory;
 
-    private QName module = new QName("http://foo", "module");
+    private final QName module = new QName("http://foo", "module");
 
-    private QName name = new QName("http://bar", "implementation.mock");
+    private final QName name = new QName("http://bar", "implementation.mock");
 
-    private String testName = "foo-ext";
+    private final String testName = "foo-ext";
     // private String testName = "complex";
 
     private String xml;
@@ -67,7 +66,7 @@ public class XMLStreamHelperTestCase extends TestCase {
         super.setUp();
         
         hc = SDOUtil.createHelperContext();
-        streamHelper = SDOUtil.createXMLStreamHelper(hc.getTypeHelper());
+        streamHelper = SDOUtil.createXMLStreamHelper(hc);
 
         URL url = getClass().getClassLoader().getResource(testName + ".xsd");
         hc.getXSDHelper().define(url.openStream(), url.toExternalForm());
@@ -78,84 +77,85 @@ public class XMLStreamHelperTestCase extends TestCase {
         outputFactory = XMLOutputFactory.newInstance();
         
         url = getClass().getClassLoader().getResource(testName + ".xml");
-        InputStreamReader reader = new InputStreamReader(url.openStream());
-        StringBuffer stringBuffer = new StringBuffer();
-        char buf[] = new char[1024];
+        final InputStreamReader reader = new InputStreamReader(url.openStream());
+        final StringBuffer stringBuffer = new StringBuffer();
+        final char buf[] = new char[1024];
         int size;
-        while ((size = reader.read(buf)) != -1)
+        while ((size = reader.read(buf)) != -1) {
             stringBuffer.append(buf, 0, size);
+        }
         xml = stringBuffer.toString();
         reader.close();
     }
 
     public void testLoadObject() throws Exception {
-        XMLStreamReader reader = inputFactory.createXMLStreamReader(new StringReader(xml));
+        final XMLStreamReader reader = inputFactory.createXMLStreamReader(new StringReader(xml));
         int event = reader.getEventType();
-        while (!(event == XMLStreamConstants.START_ELEMENT && reader.getName().equals(name)) && reader.hasNext()) {
+        while (!((event == XMLStreamConstants.START_ELEMENT) && reader.getName().equals(name)) && reader.hasNext()) {
             event = reader.next();
         }
-        DataObject dataObject = streamHelper.loadObject(reader);
+        final DataObject dataObject = streamHelper.loadObject(reader);
         Assert.assertNotNull(dataObject);
         Assert.assertTrue(dataObject.getString("myAttr").equals("helloworld.HelloWorldImpl"));
     }
 
     public void testLoadUnqualifiedObject() throws Exception {
-        XMLStreamReader reader = inputFactory.createXMLStreamReader(new StringReader(xml.replaceAll("bar:", "")));
+        final XMLStreamReader reader = inputFactory.createXMLStreamReader(new StringReader(xml.replaceAll("bar:", "")));
         int event = reader.getEventType();
-        while (!(event == XMLStreamConstants.START_ELEMENT && reader.getName().getLocalPart().equals(name.getLocalPart())) && reader.hasNext()) {
+        while (!((event == XMLStreamConstants.START_ELEMENT) && reader.getName().getLocalPart().equals(name.getLocalPart())) && reader.hasNext()) {
             event = reader.next();
         }
-        Map options = new HashMap();
+        final Map options = new HashMap();
         options.put(XMLStreamHelper.OPTION_DEFAULT_ROOT_TYPE, hc.getTypeHelper().getType(name.getNamespaceURI(), "MockImplementation"));
-        DataObject dataObject = streamHelper.loadObject(reader, options);
+        final DataObject dataObject = streamHelper.loadObject(reader, options);
         Assert.assertNotNull(dataObject);
         Assert.assertTrue(dataObject.getString("myAttr").equals("helloworld.HelloWorldImpl"));
     }
 
     public void testLoad() throws Exception {
-        XMLStreamReader reader = inputFactory.createXMLStreamReader(new StringReader(xml));
-        XMLDocument document = streamHelper.load(reader);
+        final XMLStreamReader reader = inputFactory.createXMLStreamReader(new StringReader(xml));
+        final XMLDocument document = streamHelper.load(reader);
         Assert.assertNotNull(document);
         Assert.assertEquals(document.getRootElementURI(), module.getNamespaceURI());
         Assert.assertEquals(document.getRootElementName(), module.getLocalPart());
-        DataObject moduleObject = document.getRootObject();
-        List components = moduleObject.getList("component");
-        DataObject componentObject = (DataObject) components.get(0);
-        DataObject implObject = componentObject.getDataObject("implementation.mock");
+        final DataObject moduleObject = document.getRootObject();
+        final List components = moduleObject.getList("component");
+        final DataObject componentObject = (DataObject) components.get(0);
+        final DataObject implObject = componentObject.getDataObject("implementation.mock");
         Assert.assertTrue(implObject.getString("myAttr").equals("helloworld.HelloWorldImpl"));
     }
 
     public void testSave() throws XMLStreamException {
-        XMLDocument document = hc.getXMLHelper().load(xml);
-        StringWriter writer = new StringWriter();
-        XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
+        final XMLDocument document = hc.getXMLHelper().load(xml);
+        final StringWriter writer = new StringWriter();
+        final XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
         streamHelper.save(document, streamWriter);
         streamWriter.flush();
-        String xmlStr = writer.toString();
+        final String xmlStr = writer.toString();
         //System.out.println(xmlStr);
         Assert.assertTrue(xmlStr.indexOf("myAttr=\"helloworld.HelloWorldImpl\"")!=-1);
     }
 
     public void testSaveObject() throws XMLStreamException {
-        XMLDocument document = hc.getXMLHelper().load(xml);
-        DataObject moduleObject = document.getRootObject();
-        List components = moduleObject.getList("component");
-        DataObject componentObject = (DataObject) components.get(0);
-        StringWriter writer = new StringWriter();
-        XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
+        final XMLDocument document = hc.getXMLHelper().load(xml);
+        final DataObject moduleObject = document.getRootObject();
+        final List components = moduleObject.getList("component");
+        final DataObject componentObject = (DataObject) components.get(0);
+        final StringWriter writer = new StringWriter();
+        final XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
         streamHelper.saveObject(componentObject, streamWriter);
         streamWriter.flush();
         Assert.assertTrue(writer.toString().indexOf("myAttr=\"helloworld.HelloWorldImpl\"")!=-1);
     }
 
     public void testSaveSequence() throws IOException, XMLStreamException {
-        DataObject quote = hc.getDataFactory().create("http://www.example.com/mixed", "MixedQuote");
+        final DataObject quote = hc.getDataFactory().create("http://www.example.com/mixed", "MixedQuote");
         quote.setString("symbol", "fbnt");
         quote.getSequence().addText(0, "testing");
         quote.getSequence().addText("more testing");
 
-        StringWriter writer = new StringWriter();
-        XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
+        final StringWriter writer = new StringWriter();
+        final XMLStreamWriter streamWriter = outputFactory.createXMLStreamWriter(writer);
         streamHelper.saveObject(quote, streamWriter);
         streamWriter.flush();
         //System.out.println(writer);
