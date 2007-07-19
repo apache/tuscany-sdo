@@ -814,11 +814,14 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
             } 
           }
         }
-        EPackage ePackage = extendedMetaData.getPackage(namespaceURI);
-        if (ePackage != null)
+        if (namespaceURI != null && !namespaceURI.equals(xsdSchema.getTargetNamespace()))
         {
-          XSDSchema schema = loadEPackage(ePackage);
-          return schema;
+          EPackage ePackage = extendedMetaData.getPackage(namespaceURI);
+          if (ePackage != null)
+          {
+            XSDSchema schema = loadEPackage(ePackage);
+            return schema;
+          }
         }
         return super.locateSchema(xsdSchema, namespaceURI, rawSchemaLocationURI, resolvedSchemaLocation);
       }
