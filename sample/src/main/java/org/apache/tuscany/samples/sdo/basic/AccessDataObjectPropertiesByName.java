@@ -30,15 +30,10 @@ import commonj.sdo.helper.HelperContext;
 
 /**
  * Demonstrates accessing a DataObject's Property values by name.
- * 
- * This sample is from the <a href="http://incubator.apache.org/tuscany"
- * target="_blank"> Apache Tuscany</a> project. It was written to help users
- * understand and experiment with SDO. It is based upon code snippets contained
- * within, and is meant for use with, and reference to the <a
- * href="http://osoa.org/download/attachments/36/Java-SDO-Spec-v2.1.0-FINAL.pdf?version=1"
- * target="_bank">SDO Specification</a>.
- * <P>
- * <A HREF="overview.html">See here</A> for instructions on how to download
+ * <p>
+ * <h3>Running this Sample</h3> See <A HREF="../../../../../../index.html" 
+ * target="_top">the main overview</A> for instructions on how to run this 
+ * sample.
  */
 public class AccessDataObjectPropertiesByName extends SampleBase {
 

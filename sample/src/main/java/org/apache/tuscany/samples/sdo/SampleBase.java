@@ -47,14 +47,6 @@ public abstract class SampleBase extends SampleInfrastructure {
     super(COMMENTARY_FOR_NOVICE);
   }
   
-  /**
-   * @deprecated use 2 Integer arg constructor
-   */
-  public SampleBase(Integer userLevel) {
-    super(userLevel);
-
-  }
-  
 
   public SampleBase(Integer commentaryLevel, Integer sampLevel) {
     super(commentaryLevel, sampLevel);

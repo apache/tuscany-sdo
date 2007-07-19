@@ -33,47 +33,14 @@ import commonj.sdo.helper.XMLDocument;
 
 /**
  * Demonstrates creating a purchaseOrder DataObject from an existing XSD and then
- * persisting to disk. Uses previously defined model
- * {@link org.apache.tuscany.samples.sdo.internal.SampleInfrastructure#PO_XSD_RESOURCE} to
- * define types then generates a purchase order DataObject and persists to
- * {@link org.apache.tuscany.samples.sdo.internal.SampleInfrastructure#PO_XML_GENERATED}. This
+ * persisting to disk. This
  * sample was used to generate valid XML for Fuhwei Lwo's paper <A
- * HREF="http://www-128.ibm.com/developerworks/webservices/library/ws-sdoxmlschema/"
- * title="Me" onClick="checkLinks(this)">Create and read an XML document based on XML
- * Schema</A>
+ * HREF="http://www-128.ibm.com/developerworks/webservices/library/ws-sdoxmlschema/">
+ * Create and read an XML document based on XML Schema</A>
  * <p>
- * <b>Usage:</b> <br>
- * This sample can easily be run from within Eclipse as a Java Application if tuscany or 
- * the sample-sdo project is imported into Eclipse as an existing project.
- * <br><br>
- * If executing as a standalone application please do the following: 
- * <br>
- * <UL>
- * <LI>Include the following jar files on your classpath :
- * <UL>
- * <LI>SDO API and Tuscany Implementation
- * <UL>
- * <LI>sdo-api-{version}.jar - SDO API
- * <LI>tuscany-sdo-impl-{version}.jar - Tuscany SDO implementation
- * </UL>
- * </LI>
- * <LI>EMF dependencies. 
- * <UL>
- * <LI>emf-common-{version}.jar - some common framework utility and base classes
- * <LI>emf-ecore-{version}.jar - the EMF core runtime implementation classes (the Ecore metamodel)
- * <LI>emf-ecore-change-{version}.jar - the EMF change recorder and framework
- * <LI>emf-ecore-xmi-{version}.jar - EMF's default XML (and XMI) serializer and loader
- * <LI>xsd-{version}.jar - the XML Schema model
- * </UL>
- * </LI>
- * </UL>
- * 
- * These jar files can be obtained by downloading and unpacking a <a href="http://cwiki.apache.org/TUSCANY/sdo-downloads.html" target="_blank">Tuscany binary distribution</a></LI>
- * <LI>Execute: <br>
- * java org.apache.tuscany.samples.sdo.otherSources.CreatePurchaseOrder</LI>
- * </UL>
- * @see ReadPurchaseOrder
- * @see org.apache.tuscany.samples.sdo.specExampleSection.CreatingXmlFromDataObjects
+ * <h3>Running this Sample</h3> See <A HREF="../../../../../../index.html" 
+ * target="_top">the main overview</A> for instructions on how to run this 
+ * sample.
  */
 
 public class CreatePurchaseOrder extends SampleBase {
@@ -106,7 +73,7 @@ public class CreatePurchaseOrder extends SampleBase {
               "This sample is based upon Fuhwei Lwo's paper\n"
               + "http://www-128.ibm.com/developerworks/webservices/library/ws-sdoxmlschema/\n"
               + "and demonstrates creating a purchaseOrder DataObject from an\n"
-              + "existing XSD and then persisting to disk. Uses previously defined model");
+              + "existing XSD and then persisting to disk.");
 
           HelperContext scope = createScopeForTypes();
           

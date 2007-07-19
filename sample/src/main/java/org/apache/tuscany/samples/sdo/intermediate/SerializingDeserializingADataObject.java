@@ -34,6 +34,10 @@ import commonj.sdo.helper.HelperContext;
 /**
  * Demonstrates serializing and deserializing a DataObject to disk
  * using java serialization.
+ * <p>
+ * <h3>Running this Sample</h3> See <A HREF="../../../../../../index.html" 
+ * target="_top">the main overview</A> for instructions on how to run this 
+ * sample.
  */
 public class SerializingDeserializingADataObject  extends SampleBase {
 // TODO reference central build instructions

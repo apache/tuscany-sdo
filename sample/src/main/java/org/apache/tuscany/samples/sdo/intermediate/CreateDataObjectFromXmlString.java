@@ -30,44 +30,10 @@ import commonj.sdo.helper.HelperContext;
 
 /**
  * Demonstrates creating a DataObject from a String of XML without an explicit model.
- * 
- * The following sample is from the <a href="http://incubator.apache.org/tuscany"
- * target="_blank"> Apache Tuscany</a> project. It was written to help users
- * understand and experiment with SDO. It is based upon code snippets contained
- * within, and is meant for use with, and reference to the <a
- * href="http://osoa.org/download/attachments/36/Java-SDO-Spec-v2.1.0-FINAL.pdf?version=1"
- * target="_blank">SDO Specification</a>. Specifically this sample is based upon section titled "Creating DataObjects from XML documents" <br>
- * <br>
- * <b>Usage:</b> <br>
- * This sample can easily be run from within Eclipse as a Java Application if Tuscany or 
- * the sample-sdo project is imported into Eclipse as an existing project.
- * <br><br>
- * If executing as a standalone application please do the following: 
- * <br>
- * <UL>
- * <LI>Include the following jar files on your classpath :
- * <UL>
- * <LI>SDO API and Tuscany Implementation
- * <UL>
- * <LI>sdo-api-{version}.jar - SDO API
- * <LI>tuscany-sdo-impl-{version}.jar - Tuscany SDO implementation
- * </UL>
- * </LI>
- * <LI>EMF dependencies. 
- * <UL>
- * <LI>emf-common-{version}.jar - some common framework utility and base classes
- * <LI>emf-ecore-{version}.jar - the EMF core runtime implementation classes (the Ecore metamodel)
- * <LI>emf-ecore-change-{version}.jar - the EMF change recorder and framework
- * <LI>emf-ecore-xmi-{version}.jar - EMF's default XML (and XMI) serializer and loader
- * <LI>xsd-{version}.jar - the XML Schema model
- * </UL>
- * </LI>
- * </UL>
- * 
- * These jar files can be obtained by downloading and unpacking a <a href="http://cwiki.apache.org/TUSCANY/sdo-downloads.html" target="_blank">Tuscany binary distribution </a> </LI>
- * <LI>Execute: <br>
- * java org.apache.tuscany.samples.sdo.specCodeSnippets.CreateDataObjectFromXmlString</LI>
- * </UL>
+ * <p>
+ * <h3>Running this Sample</h3> See <A HREF="../../../../../../index.html" 
+ * target="_top">the main overview</A> for instructions on how to run this 
+ * sample.
  */
 public class CreateDataObjectFromXmlString extends SampleBase {
     HelperContext scope;

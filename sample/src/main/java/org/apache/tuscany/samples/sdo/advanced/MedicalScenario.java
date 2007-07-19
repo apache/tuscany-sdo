@@ -36,6 +36,10 @@ import commonj.sdo.helper.TypeHelper;
  * This sample is based on a 2 part article by Kelvin Goodson and Geoffrey Winn.
  * See <A href="http://soa.sys-con.com/read/313547.htm">Part1</A> and <A
  * href="http://soa.sys-con.com/read/358059.htm">Part 2</A> of the article.
+ * <p>
+ * <h3>Running this Sample</h3> See <A HREF="../../../../../../index.html" 
+ * target="_top">the main overview</A> for instructions on how to run this 
+ * sample.
  */
 public class MedicalScenario extends SampleBase {
 

@@ -30,7 +30,11 @@ import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
 
 /**
- * Demonstrates accessing the properties of a DataObject using property indices.
+ * Demonstrates accessing the properties of a DataObject using integer property indices.
+ * <p>
+ * <h3>Running this Sample</h3> See <A HREF="../../../../../../index.html" 
+ * target="_top">the main overview</A> for instructions on how to run this 
+ * sample.
  */
 
 public class AccessingDataObjectsViaPropertyIndex  extends SampleBase {
