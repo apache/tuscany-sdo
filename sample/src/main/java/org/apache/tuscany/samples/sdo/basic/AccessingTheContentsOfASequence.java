@@ -30,6 +30,10 @@ import commonj.sdo.helper.HelperContext;
 
 /**
  * Demonstrates accessing the sequence from a DataObject containing mixed content.
+ * <p>
+ * <h3>Running this Sample</h3> See <A HREF="../../../../../../index.html" 
+ * target="_top">the main overview</A> for instructions on how to run this 
+ * sample.
  */
 
 public class AccessingTheContentsOfASequence  extends SampleBase {

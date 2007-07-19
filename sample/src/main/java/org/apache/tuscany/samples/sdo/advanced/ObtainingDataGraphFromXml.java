@@ -53,39 +53,10 @@ import commonj.sdo.helper.XMLDocument;
  * provided in the resources directory of these samples. The xml file
  * {@link org.apache.tuscany.samples.sdo.internal.SampleInfrastructure#COMPANY_DATAGRAPH_XML} is
  * used to load the DataGraph and is also located in this resources directory. <br>
- * <P>
- * <b>Usage:</b> <br>
- * This sample can easily be run from within Eclipse as a Java Application if tuscany or 
- * the sample-sdo project is imported into Eclipse as an existing project.
- * <br><br>
- * If executing as a standalone application please do the following: 
- * <br>
- * <UL>
- * <LI>Include the following jar files on your classpath :
- * <UL>
- * <LI>SDO API and Tuscany Implementation
- * <UL>
- * <LI>sdo-api-{version}.jar - SDO API
- * <LI>tuscany-sdo-impl-{version}.jar - Tuscany SDO implementation
- * </UL>
- * </LI>
- * <LI>EMF dependencies. 
- * <UL>
- * <LI>emf-common-{version}.jar - some common framework utility and base classes
- * <LI>emf-ecore-{version}.jar - the EMF core runtime implementation classes (the Ecore metamodel)
- * <LI>emf-ecore-change-{version}.jar - the EMF change recorder and framework
- * <LI>emf-ecore-xmi-{version}.jar - EMF's default XML (and XMI) serializer and loader
- * <LI>xsd-{version}.jar - the XML Schema model
- * </UL>
- * </LI>
- * </UL>
- * 
- * These jar files can be obtained by downloading and unpacking a <a href="http://cwiki.apache.org/TUSCANY/sdo-downloads.html" target="_blank">Tuscany binary distribution</a>  </LI>
- * <LI>Execute: <br>
- * java org.apache.tuscany.samples.sdo.specCodeSnippets.ObtainingDataGraphFromXml</LI>
- * </UL>
- * 
- * @see org.apache.tuscany.samples.sdo.specExampleSection.AccessDataObjectsUsingXPath
+ * <p>
+ * <h3>Running this Sample</h3> See <A HREF="../../../../../../index.html" 
+ * target="_top">the main overview</A> for instructions on how to run this 
+ * sample.
  */
 
 public class ObtainingDataGraphFromXml extends SampleBase {

@@ -38,11 +38,15 @@ import commonj.sdo.impl.HelperProvider;
 
 /**
  * 
- * This sample traverses data graphs and builds up a text representation of the
+ * This sample program traverses data graphs and builds up a text representation of the
  * data graph. As it traverses a graph it outputs commentary to the console
  * about what it has encountered and how it intends to process what it finds. At
  * the end of each traversal the text representation of the graph is printed to
  * the console.
+ * <p>
+ * <h3>Running this Sample</h3> See <A HREF="../../../../../../index.html" 
+ * target="_top">the main overview</A> for instructions on how to run this 
+ * sample.
  */
 public class PrintDataGraph extends SampleBase {
 

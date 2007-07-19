@@ -30,10 +30,12 @@ import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
 
 /**
- * 
- * <b>Usage:</b> <br>
- * <P>
- * <A HREF="overview.html">See here</A> for instructions on how to download 
+ * This sample uses the scenario of building a description of a company to demonstrate
+ * primarily the setting of data using strings to name Properties.
+ * <p>
+ * <h3>Running this Sample</h3> See <A HREF="../../../../../../index.html" 
+ * target="_top">the main overview</A> for instructions on how to run this 
+ * sample.
  */
 public class CreateCompany extends SampleBase {
 

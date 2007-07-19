@@ -30,37 +30,12 @@ import commonj.sdo.DataObject;
 import commonj.sdo.helper.HelperContext;
 
 /**
+ * This sample is a variant of the CreateCompany sample where the graph of DataObjects
+ * is contained in an instance of DataGraph.
  * <p>
- * <b>Usage:</b> <br>
- * This sample can easily be run from within Eclipse as a Java Application if Tuscany or 
- * the sample-sdo project is imported into Eclipse as an existing project.
- * <br><br>
- * If executing as a standalone application please do the following: 
- * <br>
- * <UL>
- * <LI>Include the following jar files on your classpath :
- * <UL>
- * <LI>SDO API and Tuscany Implementation
- * <UL>
- * <LI>sdo-api-{version}.jar - SDO API
- * <LI>tuscany-sdo-impl-{version}.jar - Tuscany SDO implementation
- * </UL>
- * </LI>
- * <LI>EMF dependencies. 
- * <UL>
- * <LI>emf-common-{version}.jar - some common framework utility and base classes
- * <LI>emf-ecore-{version}.jar - the EMF core runtime implementation classes (the Ecore metamodel)
- * <LI>emf-ecore-change-{version}.jar - the EMF change recorder and framework
- * <LI>emf-ecore-xmi-{version}.jar - EMF's default XML (and XMI) serializer and loader
- * <LI>xsd-{version}.jar - the XML Schema model
- * </UL>
- * </LI>
- * </UL>
- * 
- * These jar files can be obtained by downloading a binary distribution of Tuscany SDO Java</LI>
- * <LI>Execute: <br>
- * java org.apache.tuscany.samples.sdo.tuscanyApi.CreateCompany</LI>
- * </UL>
+ * <h3>Running this Sample</h3> See <A HREF="../../../../../../index.html" 
+ * target="_top">the main overview</A> for instructions on how to run this 
+ * sample.
  */
 public class CreateCompanyTuscanyAPI extends org.apache.tuscany.samples.sdo.basic.CreateCompany {
 
