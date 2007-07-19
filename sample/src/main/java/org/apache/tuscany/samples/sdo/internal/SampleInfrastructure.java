@@ -26,6 +26,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.tuscany.samples.sdo.advanced.MedicalScenario;
+import org.apache.tuscany.samples.sdo.advanced.MedicalScenarioWithChangeMonitoring;
 import org.apache.tuscany.samples.sdo.advanced.ObtainingDataGraphFromXml;
 import org.apache.tuscany.samples.sdo.advanced.PrintDataGraph;
 import org.apache.tuscany.samples.sdo.basic.AccessDataObjectPropertiesByName;
@@ -69,7 +70,8 @@ public abstract class SampleInfrastructure {
   
     ObtainingDataGraphFromXml.class,
     PrintDataGraph.class,
-    MedicalScenario.class
+    MedicalScenario.class,
+    MedicalScenarioWithChangeMonitoring.class
   
   };
 
