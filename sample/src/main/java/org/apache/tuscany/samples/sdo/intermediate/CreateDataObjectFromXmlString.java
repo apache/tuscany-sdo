@@ -88,18 +88,14 @@ public class CreateDataObjectFromXmlString extends SampleBase {
         commentary("Note that the Type of the newly created DataObject has no Properties defined for it\n"+
             "but the type is said to be \"Open\",  which means that an instance of the Type may make use of other Properties\n"+
             "defined elsewhere.  The XMLHelper's load operation creates Properties on demand for the DataObject instance to use as it loads\n"+
-            "the document\n\n");
+            "the document\n\n" +
+            "purchaseOrder.getType().isOpen returns true\n" +
+            "purchaseOrder.getType().getProperty(\"shipTo\") returns null and\n" +
+            "purchaseOrder.getInstanceProperty(\"shipTo\") returns a Property");
         
-        
-        // FIXME I'm not sure how to explain why the top level data object is of type AnyTypeDataObject
-        // and the shipTo Property's type is DataObject
-        // FIXME show that this is open and isDataType = false
-        System.out.println("The type of the DataObject is " + purchaseOrder.getType().getName() +
-            " and has " + purchaseOrder.getType().getProperties().size() + " Properties");
-        System.out.println("The type of the DataObject is " + purchaseOrder.getInstanceProperty("shipTo").getType().getName());
-        System.out.println("The DataObject itself has " + purchaseOrder.getInstanceProperties().size() + " Properties\n");
-        Property p0 = (Property)purchaseOrder.getInstanceProperties().get(0);
-        System.out.println("The first of these instance Properties is " + p0.getName() + " and is of type " + p0.getType().getName());
+        System.out.println("DataObject's type is open?: " + purchaseOrder.getType().isOpen());
+        System.out.println("Data Object's type has a propery shipTo?: " + (purchaseOrder.getType().getProperty("shipTo") != null));
+        System.out.println("Data Object instance has a propery shipTo?: " + (purchaseOrder.getInstanceProperty("shipTo") != null));
 
         commentary(
             "Without a Type definition accessing a DataObject is slightly\n"+

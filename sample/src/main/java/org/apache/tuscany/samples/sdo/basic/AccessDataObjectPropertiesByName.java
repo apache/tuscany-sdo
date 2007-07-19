@@ -67,28 +67,31 @@ public class AccessDataObjectPropertiesByName extends SampleBase {
 
         DataObject purchaseOrder = getDataObjectFromFile(scope, SampleInfrastructure.PO_XML_RESOURCE);
 
-        // FIXME still converting this sample
-
-        System.out.println("Accessing properties by name");
+        System.out.println("Accessing properties of purchaseOrder by name");
         System.out.println("Purchase Order: ");
-        System.out.println("    Order date: " + purchaseOrder.get("orderDate"));
-        System.out.println("    Comment: " + purchaseOrder.get("comment"));
+        System.out.println("    purchaseOrder.get(\"orderDate\"): " + purchaseOrder.get("orderDate"));
+        System.out.println("    purchaseOrder.get(\"comment\"): " + purchaseOrder.get("comment"));
         
+        System.out.println("    DataObject shipTo = purchaseOrder.getDataObject(\"shipTo\");");
         DataObject shipTo = purchaseOrder.getDataObject("shipTo");
-        System.out.println("    Ship to name: " + shipTo.get("name"));
+        System.out.println("    shipTo.get(\"name\"): " + shipTo.get("name"));
         
+        System.out.println("    DataObject billTo = purchaseOrder.getDataObject(\"billTo\");");
         DataObject billTo = purchaseOrder.getDataObject("billTo");
-        System.out.println("    Bill to name: " + billTo.get("name"));
+        System.out.println("    billTo.get(\"name\"): " + billTo.get("name"));
         
+        System.out.println("    DataObject items = purchaseOrder.getDataObject(\"items\");\n" +
+        		               "    List itemList = items.getList(\"item\");\n" +
+        		               "    DataObject item = (DataObject) itemList.get(i);");
         DataObject items = purchaseOrder.getDataObject("items");
         List itemList = items.getList("item");
         
         System.out.println("    Items:");
         for (int i = 0; i < itemList.size(); i++) {
             DataObject item = (DataObject) itemList.get(i);
-            System.out.println("        Item " + i);
-            System.out.println("            Part num: " + item.get("partNum"));
-            System.out.println("            Product name: " + item.get("productName"));
+            System.out.println("        item[" + i + "]");
+            System.out.println("            item.get(\"partNum\"): " + item.get("partNum"));
+            System.out.println("            item.get(\"productName\"): " + item.get("productName"));
         }
 
     }
