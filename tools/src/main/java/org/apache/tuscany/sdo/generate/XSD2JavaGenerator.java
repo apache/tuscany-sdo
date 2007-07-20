@@ -34,6 +34,7 @@ import org.apache.tuscany.sdo.helper.HelperContextImpl;
 import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
+import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.URI;
@@ -167,7 +168,6 @@ public class XSD2JavaGenerator extends JavaGenerator
   {
     GenModel genModel = null;  
       
-    DataObjectUtil.initRuntime();
     HelperContext hc = new HelperContextImpl(extendedMetaData, false);
     XSDHelper xsdHelper = hc.getXSDHelper();
     ((XSDHelperImpl)xsdHelper).setRedefineBuiltIn(regenerateBuiltIn);
@@ -384,36 +384,34 @@ public class XSD2JavaGenerator extends JavaGenerator
       for (Iterator iterClass = genClasses.iterator(); iterClass.hasNext();)
       {
         GenClass genClass = (GenClass)iterClass.next();
-        if( !("DocumentRoot".equals(genClass.getInterfaceName())))
-        {
           String name  = extendedMetaData.getName(genClass.getEcoreClass());
           String className = genPackage.getInterfacePackageName() + "." + genClass.getInterfaceName();
           classes.add( new PackageClassInfo( name, className, false, null ) );
-          EClass documentRoot = extendedMetaData.getDocumentRoot(ePackage);
-          if( documentRoot != null )
+        List features = genClass.getGenFeatures();
+        for (Iterator iterFeatures = features.iterator(); iterFeatures.hasNext();)
           {
-            List rootElements = extendedMetaData.getElements(documentRoot);
-            for (Iterator iterRoot = rootElements.iterator(); iterRoot.hasNext();)
-            {
-              EStructuralFeature element = (EStructuralFeature)iterRoot.next();
+          GenFeature feature = (GenFeature)iterFeatures.next();
+          EStructuralFeature element = feature.getEcoreFeature();
               EClassifier elementType = element.getEType();
               if( elementType instanceof EClass )
               {
                 // complex type
                 EClass eClass = (EClass)elementType;
                 GenClass genEClass = (GenClass)eclassGenClassMap.get(elementType);
+            if( genEClass != null )
+            {    
                 name = extendedMetaData.getName(element);
                 String interfaceName = genEClass.getGenPackage().getInterfacePackageName()
                        + '.' + genEClass.getInterfaceName();
                 boolean anonymous = extendedMetaData.isAnonymous(eClass);
                             
-                // Build list of property class names
+              // Build list of property names
                 List propertyClassNames = new ArrayList();
                 List properties = eClass.getEStructuralFeatures(); 
                 for (Iterator iterProperties = properties.iterator(); iterProperties.hasNext();)
                 {
-                  EStructuralFeature feature = (EStructuralFeature)iterProperties.next();
-                  EClassifier propertyType = feature.getEType();
+                EStructuralFeature property = (EStructuralFeature)iterProperties.next();
+                EClassifier propertyType = property.getEType();
                   if (propertyType instanceof EClass) 
                   {
                     GenClass propertyGenClass = (GenClass)eclassGenClassMap.get(propertyType);
@@ -432,6 +430,7 @@ public class XSD2JavaGenerator extends JavaGenerator
                 }
                 classes.add( new PackageClassInfo( name, interfaceName, anonymous, propertyClassNames ) );
               }
+          }    
               else
               {
                 // simple type
@@ -442,8 +441,6 @@ public class XSD2JavaGenerator extends JavaGenerator
             }    
           }
         }
-      }   
-    }
       
     public class PackageClassInfo
     {
