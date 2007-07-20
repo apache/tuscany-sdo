@@ -1,3 +1,4 @@
+@echo off
 REM Licensed to the Apache Software Foundation (ASF) under one
 REM or more contributor license agreements.  See the NOTICE file
 REM distributed with this work for additional information
@@ -14,7 +15,6 @@ REM "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
 REM KIND, either express or implied.  See the License for the
 REM specific language governing permissions and limitations
 REM under the License.
-@echo off
 set BINARY_BASE=..
 set RELEASE=${sdo.version}
 echo SDO Sample Programs.  Running with BINARY_BASE set to %BINARY_BASE%
