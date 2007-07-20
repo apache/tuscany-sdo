@@ -58,8 +58,6 @@ public class FactoryBase extends EPackageImpl
 
     createResource(namespaceURI);
     setNsURI(namespaceURI);
-    //FIXME ... figure out proper (scoped) way to register static packages
-    EPackage.Registry.INSTANCE.put(namespaceURI, this);
     
     ((SDOEFactoryImpl)getEFactoryInstance()).sdoFactory = this;
   }
@@ -75,15 +73,6 @@ public class FactoryBase extends EPackageImpl
 
     createResource(namespaceURI);
     setNsURI(namespaceURI);
-    
-    // TODO this is a big kludge until we figure out how to connect type scopes
-    if("commonj.sdo".equals(namespaceURI) ||
-       "commonj.sdo/java".equals(namespaceURI) ||
-       "commonj.sdo/xml".equals(namespaceURI) ||
-       "http://www.apache.org/tuscany/commonj.sdo.internal".equals(namespaceURI))
-    {
-      EPackage.Registry.INSTANCE.put(namespaceURI, this);
-    }
     
     ((SDOEFactoryImpl)getEFactoryInstance()).sdoFactory = this;
   }
@@ -245,8 +234,15 @@ public class FactoryBase extends EPackageImpl
 	((EClass)subType).getESuperTypes().add((EClass)superType);
   }
   
-  //public static FactoryBase getStaticFactory(String namespaceURI)
-  // temporarily return Object - until everything is gen'd with new codegen pattern
+ /***
+   * @param namespaceURI
+   * @return Static factory (from the global scope) for the provided URI
+   * 
+   * @deprecated - Use of the global scope is no longer encouraged.  This method uses the
+   * global scope for retrieving the URI's factory.  Instead, it is now possible to simply 
+   * access SomeFactoryInterface.INSTANCE object directly.
+   * 
+   */
   public static Object getStaticFactory(String namespaceURI)
   {
     EPackage ePackage = EPackage.Registry.INSTANCE.getEPackage(namespaceURI);

@@ -150,13 +150,21 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
-	 */	
-	public void register(HelperContext scope) {
-    if(scope == null) {
-       throw new IllegalArgumentException("Scope can not be null");
-    } 
-    TypeHelperImpl th = (TypeHelperImpl)scope.getTypeHelper();
-    th.getExtendedMetaData().putPackage(NAMESPACE_URI, this);
+	 */
+	public void register(HelperContext scope) 
+	{
+		if(scope == null) {
+			throw new IllegalArgumentException("Scope can not be null");
+		}
+    
+		//Register dependent packages with provided scope
+        <%for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
+		<%=dep.getImportedFactoryInterfaceName()%>.INSTANCE.register(scope);
+        <%}%>
+    
+		// Initialize this package   
+		TypeHelperImpl th = (TypeHelperImpl)scope.getTypeHelper();
+		th.getExtendedMetaData().putPackage(NAMESPACE_URI, this);
   }
 	
 	/**
@@ -250,38 +258,27 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 
 <%} }%>	
 
-	private static boolean isInited = false;
-
+	private static <%=factoryType%> instance = null; 
 	public static <%=factoryType%> init()
 	{
-		if (isInited) return (<%=factoryType%>)FactoryBase.getStaticFactory(<%=factoryType%>.NAMESPACE_URI);
-		<%=factoryType%> the<%=factoryType%> = new <%=factoryType%>();
-		isInited = true;
+		if (instance != null ) return instance;
+		instance = new <%=factoryType%>();
 
-		// Initialize dependencies
-  <%
-		List packages = new ArrayList(genPackage.getPackageSimpleDependencies());
-		for (Iterator pidi=genPackage.getPackageInitializationDependencies().iterator(); pidi.hasNext();) {
-			Object pkg = pidi.next();
-			if(!packages.contains(pkg)) {
-				packages.add(pkg);
-			}
-		}
-  %>
-  <%for (Iterator p=packages.iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
-		<%=genModel.getImportedName("org.apache.tuscany.sdo.util.SDOUtil")%>.registerStaticTypes(<%=dep.getImportedFactoryInterfaceName()%>.class);
-  <%}%>
-
+		// Initialize dependent packages
+        <%for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
+		<%=dep.getImportedFactoryInterfaceName()%> <%=dep.getImportedFactoryInterfaceName()%>Instance = <%=dep.getImportedFactoryInterfaceName()%>.INSTANCE;
+        <%}%>
+		
 		// Create package meta-data objects
-		the<%=factoryType%>.createMetaData();
+		instance.createMetaData();
 
 		// Initialize created meta-data
-		the<%=factoryType%>.initializeMetaData();
-
+		instance.initializeMetaData();
+		
 		// Mark meta-data to indicate it can't be changed
 		//the<%=factoryType%>.freeze(); //FB do we need to freeze / should we freeze ????
 
-		return the<%=factoryType%>;
+		return instance;
 	}
   
 	private boolean isCreated = false;
@@ -295,7 +292,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 		// Create types and their properties
       <%for (Iterator c=genPackage.getGenClasses().iterator(); c.hasNext();) { GenClass genClass = (GenClass)c.next();%>
         <%if (!genClass.isDynamic()) {%>
-          <%=genClass.getSafeUncapName()%>Type = createType(false, <%=genPackage.getClassifierID(genClass)%>);
+		<%=genClass.getSafeUncapName()%>Type = createType(false, <%=genPackage.getClassifierID(genClass)%>);
           <%for (Iterator j=genClass.getGenFeatures().iterator(); j.hasNext();) { GenFeature genFeature = (GenFeature)j.next();%>
 		createProperty(<%=!genFeature.isReferenceType()%>, <%=genClass.getSafeUncapName()%>Type,<%=genClass.getClassName()%>.INTERNAL_<%=genFeature.getUpperName()%>); 
           <%}%>
@@ -321,7 +318,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 
 		// Obtain other dependent packages
         <%for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
-		<%=dep.getImportedFactoryClassName()%> <%=genPackage.getPackageInstanceVariable(dep)%> = (<%=dep.getImportedFactoryClassName()%>)FactoryBase.getStaticFactory(<%=dep.getImportedFactoryClassName()%>.NAMESPACE_URI);
+		<%=dep.getImportedFactoryClassName()%> <%=genPackage.getPackageInstanceVariable(dep)%> = (<%=dep.getImportedFactoryClassName()%>)<%=dep.getImportedFactoryInterfaceName()%>.INSTANCE;
         <%}%>
       <%}%>
       <%List annotationSources = genPackage.getAnnotationSources();%>

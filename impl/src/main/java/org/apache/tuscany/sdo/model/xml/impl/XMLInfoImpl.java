@@ -147,7 +147,7 @@ public class XMLInfoImpl extends DataObjectBase implements XMLInfo
     boolean oldXmlElement_set_ = xmlElement_set_;
     xmlElement_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, XML_ELEMENT, oldXmlElement, xmlElement, !oldXmlElement_set_);
+      notify(ChangeKind.SET, INTERNAL_XML_ELEMENT, oldXmlElement, xmlElement, !oldXmlElement_set_);
   }
 
   /**
@@ -162,7 +162,7 @@ public class XMLInfoImpl extends DataObjectBase implements XMLInfo
     xmlElement = XML_ELEMENT_DEFAULT_;
     xmlElement_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, XML_ELEMENT, oldXmlElement, XML_ELEMENT_DEFAULT_, oldXmlElement_set_);
+      notify(ChangeKind.UNSET, INTERNAL_XML_ELEMENT, oldXmlElement, XML_ELEMENT_DEFAULT_, oldXmlElement_set_);
   }
 
   /**

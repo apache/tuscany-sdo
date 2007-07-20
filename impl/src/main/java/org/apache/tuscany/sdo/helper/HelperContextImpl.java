@@ -112,7 +112,7 @@ public class HelperContextImpl implements HelperContext {
 
     static protected EPackage.Registry builtInModelRegistry = null;
 
-    static protected EPackage.Registry getBuiltInModelRegistry() {
+    static public EPackage.Registry getBuiltInModelRegistry() {
         if (builtInModelRegistry == null) {
             EPackageRegistryImpl registry = new EPackageRegistryImpl();
             for (Iterator iter = TypeHelperImpl.getBuiltInModels().iterator(); iter.hasNext();) {

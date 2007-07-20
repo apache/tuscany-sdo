@@ -55,7 +55,7 @@ public class DataGraphTypeImpl extends BaseDataGraphTypeImpl implements DataGrap
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_MODELS = BaseDataGraphTypeImpl.MODELS;
+  public final static int INTERNAL_MODELS = BaseDataGraphTypeImpl.INTERNAL_MODELS;
 
   /**
    * The internal feature id for the '<em><b>Xsd</b></em>' containment reference.
@@ -64,7 +64,7 @@ public class DataGraphTypeImpl extends BaseDataGraphTypeImpl implements DataGrap
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_XSD = BaseDataGraphTypeImpl.XSD;
+  public final static int INTERNAL_XSD = BaseDataGraphTypeImpl.INTERNAL_XSD;
 
   /**
    * The internal feature id for the '<em><b>Change Summary</b></em>' attribute.
@@ -73,7 +73,7 @@ public class DataGraphTypeImpl extends BaseDataGraphTypeImpl implements DataGrap
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_CHANGE_SUMMARY = BaseDataGraphTypeImpl.CHANGE_SUMMARY;
+  public final static int INTERNAL_CHANGE_SUMMARY = BaseDataGraphTypeImpl.INTERNAL_CHANGE_SUMMARY;
 
   /**
    * The internal feature id for the '<em><b>Any Attribute</b></em>' attribute list.
@@ -82,7 +82,7 @@ public class DataGraphTypeImpl extends BaseDataGraphTypeImpl implements DataGrap
    * @generated
    * @ordered
    */ 
-  public final static int INTERNAL_ANY_ATTRIBUTE = BaseDataGraphTypeImpl.ANY_ATTRIBUTE;
+  public final static int INTERNAL_ANY_ATTRIBUTE = BaseDataGraphTypeImpl.INTERNAL_ANY_ATTRIBUTE;
 
   /**
    * The internal feature id for the '<em><b>Any</b></em>' attribute list.

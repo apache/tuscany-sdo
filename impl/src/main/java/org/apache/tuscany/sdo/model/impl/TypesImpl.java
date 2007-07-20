@@ -201,7 +201,7 @@ public class TypesImpl extends DataObjectBase implements Types
     }
     return super.isSet(propertyIndex);
   }
-
+  
   public List getTypeList()
   {
     return getType_();

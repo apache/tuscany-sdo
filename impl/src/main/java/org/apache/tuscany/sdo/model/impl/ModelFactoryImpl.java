@@ -19,33 +19,28 @@
  */
 package org.apache.tuscany.sdo.model.impl;
 
+import commonj.sdo.helper.DataHelper;
+import commonj.sdo.helper.HelperContext;
+
+import org.apache.tuscany.sdo.SDOFactory;
+import org.apache.tuscany.sdo.helper.TypeHelperImpl;
+
+import commonj.sdo.ChangeSummary;
+import commonj.sdo.DataObject;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.apache.tuscany.sdo.SDOFactory;
-import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 import org.apache.tuscany.sdo.impl.FactoryBase;
-import org.apache.tuscany.sdo.model.BaseDataGraphType;
-import org.apache.tuscany.sdo.model.DataGraphType;
-import org.apache.tuscany.sdo.model.ModelFactory;
-import org.apache.tuscany.sdo.model.ModelsType;
-import org.apache.tuscany.sdo.model.Property;
-import org.apache.tuscany.sdo.model.TextType;
-import org.apache.tuscany.sdo.model.Type;
-import org.apache.tuscany.sdo.model.Types;
-import org.apache.tuscany.sdo.model.XSDType;
-import org.apache.tuscany.sdo.util.SDOUtil;
+
+import org.apache.tuscany.sdo.model.*;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
-
-import commonj.sdo.ChangeSummary;
-import commonj.sdo.DataObject;
-import commonj.sdo.helper.DataHelper;
-import commonj.sdo.helper.HelperContext;
 
 /**
  * <!-- begin-user-doc -->
@@ -70,7 +65,8 @@ import commonj.sdo.helper.HelperContext;
  *         initializeType(dataObjectType, commonj.sdo.DataObject.class, "DataObject", true); // generated as org.apache.tuscany.sdo.model.DataObject.class
  *   8. Add the following case to the generated create() method:
  *         case DATA_OBJECT: return SDOFactory.eINSTANCE.createAnyTypeDataObject();
- *   9. Move this JavaDoc comment into the newly generated ModelFactoryImpl class.
+ *   9. Make sure the top of each generated file contains the ASF License.      
+ *  10. Move this JavaDoc comment into the newly generated ModelFactoryImpl class.
  * <!-- end-user-doc -->
  * @generated
  */
@@ -99,7 +95,7 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String PATTERN_VERSION = "1.1";
+  public static final String PATTERN_VERSION = "1.2";
   
   public static final int BASE_DATA_GRAPH_TYPE = 1;	
   public static final int DATA_GRAPH_TYPE = 2;	
@@ -162,11 +158,16 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
-   */	
-  public void register(HelperContext scope) {
+   */
+  public void register(HelperContext scope) 
+  {
     if(scope == null) {
-       throw new IllegalArgumentException("Scope can not be null");
-    } 
+      throw new IllegalArgumentException("Scope can not be null");
+    }
+    
+    //Register dependent packages with provided scope
+    
+    // Initialize this package   
     TypeHelperImpl th = (TypeHelperImpl)scope.getTypeHelper();
     th.getExtendedMetaData().putPackage(NAMESPACE_URI, this);
   }
@@ -719,28 +720,24 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
   }
   
 
-  private static boolean isInited = false;
-
+  private static ModelFactoryImpl instance = null; 
   public static ModelFactoryImpl init()
   {
-    if (isInited) return (ModelFactoryImpl)FactoryBase.getStaticFactory(ModelFactoryImpl.NAMESPACE_URI);
-    ModelFactoryImpl theModelFactoryImpl = new ModelFactoryImpl();
-    isInited = true;
+    if (instance != null ) return instance;
+    instance = new ModelFactoryImpl();
 
-    // Initialize simple dependencies
-    SDOUtil.registerStaticTypes(SDOFactory.class);
-    //SDOUtil.registerStaticTypes(ModelFactory.class);
-
+    // Initialize dependent packages
+    
     // Create package meta-data objects
-    theModelFactoryImpl.createMetaData();
+    instance.createMetaData();
 
     // Initialize created meta-data
-    theModelFactoryImpl.initializeMetaData();
-
+    instance.initializeMetaData();
+    
     // Mark meta-data to indicate it can't be changed
     //theModelFactoryImpl.freeze(); //FB do we need to freeze / should we freeze ????
 
-    return theModelFactoryImpl;
+    return instance;
   }
   
   private boolean isCreated = false;
@@ -751,17 +748,17 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
     isCreated = true;	
 
     // Create types and their properties
-          baseDataGraphTypeType = createType(false, BASE_DATA_GRAPH_TYPE);
+    baseDataGraphTypeType = createType(false, BASE_DATA_GRAPH_TYPE);
     createProperty(false, baseDataGraphTypeType,BaseDataGraphTypeImpl.INTERNAL_MODELS); 
     createProperty(false, baseDataGraphTypeType,BaseDataGraphTypeImpl.INTERNAL_XSD); 
     createProperty(true, baseDataGraphTypeType,BaseDataGraphTypeImpl.INTERNAL_CHANGE_SUMMARY); 
     createProperty(true, baseDataGraphTypeType,BaseDataGraphTypeImpl.INTERNAL_ANY_ATTRIBUTE); 
-          dataGraphTypeType = createType(false, DATA_GRAPH_TYPE);
+    dataGraphTypeType = createType(false, DATA_GRAPH_TYPE);
     createProperty(true, dataGraphTypeType,DataGraphTypeImpl.INTERNAL_ANY); 
-          dataObjectType = createType(false, DATA_OBJECT);
-          modelsTypeType = createType(false, MODELS_TYPE);
+    dataObjectType = createType(false, DATA_OBJECT);
+    modelsTypeType = createType(false, MODELS_TYPE);
     createProperty(true, modelsTypeType,ModelsTypeImpl.INTERNAL_ANY); 
-          propertyType = createType(false, PROPERTY);
+    propertyType = createType(false, PROPERTY);
     createProperty(true, propertyType,PropertyImpl.INTERNAL_ALIAS_NAME); 
     createProperty(true, propertyType,PropertyImpl.INTERNAL_ANY); 
     createProperty(true, propertyType,PropertyImpl.INTERNAL_NAME); 
@@ -773,9 +770,9 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
     createProperty(false, propertyType,PropertyImpl.INTERNAL_OPPOSITE); 
     createProperty(true, propertyType,PropertyImpl.INTERNAL_NULLABLE); 
     createProperty(true, propertyType,PropertyImpl.INTERNAL_ANY_ATTRIBUTE); 
-          textTypeType = createType(false, TEXT_TYPE);
+    textTypeType = createType(false, TEXT_TYPE);
     createProperty(true, textTypeType,TextTypeImpl.INTERNAL_TEXT); 
-          typeType = createType(false, TYPE);
+    typeType = createType(false, TYPE);
     createProperty(false, typeType,TypeImpl.INTERNAL_BASE_TYPE); 
     createProperty(false, typeType,TypeImpl.INTERNAL_PROPERTY); 
     createProperty(true, typeType,TypeImpl.INTERNAL_ALIAS_NAME); 
@@ -787,9 +784,9 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
     createProperty(true, typeType,TypeImpl.INTERNAL_SEQUENCED); 
     createProperty(true, typeType,TypeImpl.INTERNAL_ABSTRACT); 
     createProperty(true, typeType,TypeImpl.INTERNAL_ANY_ATTRIBUTE); 
-          typesType = createType(false, TYPES);
+    typesType = createType(false, TYPES);
     createProperty(false, typesType,TypesImpl.INTERNAL_TYPE); 
-          xsdTypeType = createType(false, XSD_TYPE);
+    xsdTypeType = createType(false, XSD_TYPE);
     createProperty(true, xsdTypeType,XSDTypeImpl.INTERNAL_ANY); 
 
     // Create data types
@@ -838,113 +835,113 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
     commonj.sdo.Property property = null;
 
     // Add supertypes to types
-    addSuperType(dataGraphTypeType, baseDataGraphTypeType);
+    addSuperType(dataGraphTypeType, this.getBaseDataGraphType());
 
     // Initialize types and properties
     initializeType(baseDataGraphTypeType, BaseDataGraphType.class, "BaseDataGraphType", true);
-    property = getProperty(baseDataGraphTypeType, BaseDataGraphTypeImpl.INTERNAL_MODELS);
+    property = getLocalProperty(baseDataGraphTypeType, 0);
     initializeProperty(property, this.getModelsType(), "models", null, 0, 1, BaseDataGraphType.class, false, true, false, true , null);
 
-    property = getProperty(baseDataGraphTypeType, BaseDataGraphTypeImpl.INTERNAL_XSD);
+    property = getLocalProperty(baseDataGraphTypeType, 1);
     initializeProperty(property, this.getXSDType(), "xsd", null, 0, 1, BaseDataGraphType.class, false, true, false, true , null);
 
-    property = getProperty(baseDataGraphTypeType, BaseDataGraphTypeImpl.INTERNAL_CHANGE_SUMMARY);
+    property = getLocalProperty(baseDataGraphTypeType, 2);
     initializeProperty(property, this.getChangeSummaryType(), "changeSummary", null, 0, 1, BaseDataGraphType.class, false, true, false);
 
-    property = getProperty(baseDataGraphTypeType, BaseDataGraphTypeImpl.INTERNAL_ANY_ATTRIBUTE);
+    property = getLocalProperty(baseDataGraphTypeType, 3);
     initializeProperty(property, getSequence(), "anyAttribute", null, 0, -1, BaseDataGraphType.class, false, false, false);
 
     initializeType(dataGraphTypeType, DataGraphType.class, "DataGraphType", false);
-    property = getProperty(dataGraphTypeType, DataGraphTypeImpl.INTERNAL_ANY);
+    property = getLocalProperty(dataGraphTypeType, 0);
     initializeProperty(property, getSequence(), "any", null, 0, 1, DataGraphType.class, false, false, false);
 
-    initializeType(dataObjectType, commonj.sdo.DataObject.class, "DataObject", true);
+    initializeType(dataObjectType, commonj.sdo.DataObject.class, "DataObject", true); // generated as org.apache.tuscany.sdo.model.DataObject.class
     initializeType(modelsTypeType, ModelsType.class, "ModelsType", false);
-    property = getProperty(modelsTypeType, ModelsTypeImpl.INTERNAL_ANY);
+    property = getLocalProperty(modelsTypeType, 0);
     initializeProperty(property, getSequence(), "any", null, 0, -1, ModelsType.class, false, false, false);
 
     initializeType(propertyType, Property.class, "Property", false);
-    property = getProperty(propertyType, PropertyImpl.INTERNAL_ALIAS_NAME);
+    property = getLocalProperty(propertyType, 0);
     initializeProperty(property, this.getString(), "aliasName", null, 0, -1, Property.class, false, false, false);
 
-    property = getProperty(propertyType, PropertyImpl.INTERNAL_ANY);
+    property = getLocalProperty(propertyType, 1);
     initializeProperty(property, getSequence(), "any", null, 0, -1, Property.class, false, false, false);
 
-    property = getProperty(propertyType, PropertyImpl.INTERNAL_NAME);
+    property = getLocalProperty(propertyType, 2);
     initializeProperty(property, this.getString(), "name", null, 0, 1, Property.class, false, true, false);
 
-    property = getProperty(propertyType, PropertyImpl.INTERNAL_MANY);
+    property = getLocalProperty(propertyType, 3);
     initializeProperty(property, this.getBoolean(), "many", null, 0, 1, Property.class, false, true, false);
 
-    property = getProperty(propertyType, PropertyImpl.INTERNAL_CONTAINMENT);
+    property = getLocalProperty(propertyType, 4);
     initializeProperty(property, this.getBoolean(), "containment", null, 0, 1, Property.class, false, true, false);
 
-    property = getProperty(propertyType, PropertyImpl.INTERNAL_DEFAULT);
+    property = getLocalProperty(propertyType, 5);
     initializeProperty(property, this.getString(), "default", null, 0, 1, Property.class, false, true, false);
 
-    property = getProperty(propertyType, PropertyImpl.INTERNAL_READ_ONLY);
+    property = getLocalProperty(propertyType, 6);
     initializeProperty(property, this.getBoolean(), "readOnly", null, 0, 1, Property.class, false, true, false);
 
-    property = getProperty(propertyType, PropertyImpl.INTERNAL_TYPE);
+    property = getLocalProperty(propertyType, 7);
     initializeProperty(property, this.getType(), "type", null, 0, 1, Property.class, false, true, false, false , null);
     setInstanceProperty (property, "commonj.sdo/xml", "propertyType", "sdo:Type");
 
-    property = getProperty(propertyType, PropertyImpl.INTERNAL_OPPOSITE);
+    property = getLocalProperty(propertyType, 8);
     initializeProperty(property, this.getProperty(), "opposite", null, 0, 1, Property.class, false, true, false, false , null);
     setInstanceProperty (property, "commonj.sdo/xml", "propertyType", "sdo:Property");
 
-    property = getProperty(propertyType, PropertyImpl.INTERNAL_NULLABLE);
+    property = getLocalProperty(propertyType, 9);
     initializeProperty(property, this.getBoolean(), "nullable", null, 0, 1, Property.class, false, true, false);
 
-    property = getProperty(propertyType, PropertyImpl.INTERNAL_ANY_ATTRIBUTE);
+    property = getLocalProperty(propertyType, 10);
     initializeProperty(property, getSequence(), "anyAttribute", null, 0, -1, Property.class, false, false, false);
 
     initializeType(textTypeType, TextType.class, "TextType", true);
-    property = getProperty(textTypeType, TextTypeImpl.INTERNAL_TEXT);
+    property = getLocalProperty(textTypeType, 0);
     initializeProperty(property, this.getString(), "text", null, 0, -1, TextType.class, false, false, false);
 
     initializeType(typeType, Type.class, "Type", false);
-    property = getProperty(typeType, TypeImpl.INTERNAL_BASE_TYPE);
+    property = getLocalProperty(typeType, 0);
     initializeProperty(property, this.getType(), "baseType", null, 0, -1, Type.class, false, false, false, false , null);
     setInstanceProperty (property, "commonj.sdo/xml", "propertyType", "sdo:Type");
 
-    property = getProperty(typeType, TypeImpl.INTERNAL_PROPERTY);
+    property = getLocalProperty(typeType, 1);
     initializeProperty(property, this.getProperty(), "property", null, 0, -1, Type.class, false, false, false, true , null);
 
-    property = getProperty(typeType, TypeImpl.INTERNAL_ALIAS_NAME);
+    property = getLocalProperty(typeType, 2);
     initializeProperty(property, this.getString(), "aliasName", null, 0, -1, Type.class, false, false, false);
 
-    property = getProperty(typeType, TypeImpl.INTERNAL_ANY);
+    property = getLocalProperty(typeType, 3);
     initializeProperty(property, getSequence(), "any", null, 0, -1, Type.class, false, false, false);
 
-    property = getProperty(typeType, TypeImpl.INTERNAL_NAME);
+    property = getLocalProperty(typeType, 4);
     initializeProperty(property, this.getString(), "name", null, 0, 1, Type.class, false, true, false);
     setInstanceProperty (property, "commonj.sdo/xml", "dataType", "sdo:String");
 
-    property = getProperty(typeType, TypeImpl.INTERNAL_URI);
+    property = getLocalProperty(typeType, 5);
     initializeProperty(property, this.getURI(), "uri", null, 0, 1, Type.class, false, true, false);
 
-    property = getProperty(typeType, TypeImpl.INTERNAL_DATA_TYPE);
+    property = getLocalProperty(typeType, 6);
     initializeProperty(property, this.getBoolean(), "dataType", null, 0, 1, Type.class, false, true, false);
 
-    property = getProperty(typeType, TypeImpl.INTERNAL_OPEN);
+    property = getLocalProperty(typeType, 7);
     initializeProperty(property, this.getBoolean(), "open", null, 0, 1, Type.class, false, true, false);
 
-    property = getProperty(typeType, TypeImpl.INTERNAL_SEQUENCED);
+    property = getLocalProperty(typeType, 8);
     initializeProperty(property, this.getBoolean(), "sequenced", null, 0, 1, Type.class, false, true, false);
 
-    property = getProperty(typeType, TypeImpl.INTERNAL_ABSTRACT);
+    property = getLocalProperty(typeType, 9);
     initializeProperty(property, this.getBoolean(), "abstract", null, 0, 1, Type.class, false, true, false);
 
-    property = getProperty(typeType, TypeImpl.INTERNAL_ANY_ATTRIBUTE);
+    property = getLocalProperty(typeType, 10);
     initializeProperty(property, getSequence(), "anyAttribute", null, 0, -1, Type.class, false, false, false);
 
     initializeType(typesType, Types.class, "Types", false);
-    property = getProperty(typesType, TypesImpl.INTERNAL_TYPE);
+    property = getLocalProperty(typesType, 0);
     initializeProperty(property, this.getType(), "type", null, 0, -1, Types.class, false, false, false, true , null);
 
     initializeType(xsdTypeType, XSDType.class, "XSDType", false);
-    property = getProperty(xsdTypeType, XSDTypeImpl.INTERNAL_ANY);
+    property = getLocalProperty(xsdTypeType, 0);
     initializeProperty(property, getSequence(), "any", null, 0, -1, XSDType.class, false, false, false);
 
     // Initialize data types
@@ -2398,5 +2395,7 @@ public class ModelFactoryImpl extends FactoryBase implements ModelFactory
   {
       return (String)instanceValue;
   }
+
+
 
 } //ModelFactoryImpl
