@@ -26,11 +26,7 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 
-import org.apache.tuscany.sdo.SDOFactory;
-
 import org.apache.tuscany.sdo.impl.FactoryBase;
-
-import org.apache.tuscany.sdo.model.ModelFactory;
 
 import org.apache.tuscany.sdo.model.internal.*;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
@@ -45,7 +41,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
  *   2. Delete all the createXXXFromString() and convertXXXToString() methods in the newly generated InternalFactoryImpl and
  *      replace them with the ones from this file (resolve any missing imports).
  *   3. Comment out all simple depedencies (SDOUtil.registerStaticTypes calls) in the init() method.
- *   4. Move this JavaDoc comment into the newly generated ModelFactoryImpl class.
+ *   4. Make sure the top of each generated file contains the ASF License.      
+ *   5. Move this JavaDoc comment into the newly generated ModelFactoryImpl class.
  * <!-- end-user-doc -->
  * @generated
  */
@@ -96,11 +93,16 @@ public class InternalFactoryImpl extends FactoryBase implements InternalFactory
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
-   */	
-  public void register(HelperContext scope) {
+   */
+  public void register(HelperContext scope) 
+  {
     if(scope == null) {
-       throw new IllegalArgumentException("Scope can not be null");
-    } 
+      throw new IllegalArgumentException("Scope can not be null");
+    }
+    
+    //Register dependent packages with provided scope
+    
+    // Initialize this package   
     TypeHelperImpl th = (TypeHelperImpl)scope.getTypeHelper();
     th.getExtendedMetaData().putPackage(NAMESPACE_URI, this);
   }
@@ -171,28 +173,24 @@ public class InternalFactoryImpl extends FactoryBase implements InternalFactory
   }
   
 
-  private static boolean isInited = false;
-
+  private static InternalFactoryImpl instance = null; 
   public static InternalFactoryImpl init()
   {
-    if (isInited) return (InternalFactoryImpl)FactoryBase.getStaticFactory(InternalFactoryImpl.NAMESPACE_URI);
-    InternalFactoryImpl theInternalFactoryImpl = new InternalFactoryImpl();
-    isInited = true;
+    if (instance != null ) return instance;
+    instance = new InternalFactoryImpl();
 
-    //  Initialize simple dependencies
-    //SDOUtil.registerStaticTypes(SDOFactory.class);
-    //SDOUtil.registerStaticTypes(ModelFactory.class);
+    // Initialize dependent packages
     
     // Create package meta-data objects
-    theInternalFactoryImpl.createMetaData();
+    instance.createMetaData();
 
     // Initialize created meta-data
-    theInternalFactoryImpl.initializeMetaData();
-
+    instance.initializeMetaData();
+    
     // Mark meta-data to indicate it can't be changed
     //theInternalFactoryImpl.freeze(); //FB do we need to freeze / should we freeze ????
 
-    return theInternalFactoryImpl;
+    return instance;
   }
   
   private boolean isCreated = false;

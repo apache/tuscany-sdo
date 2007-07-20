@@ -37,6 +37,7 @@ import org.apache.tuscany.sdo.SDOExtendedMetaData;
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.api.SDOUtil;
+import org.apache.tuscany.sdo.helper.HelperContextImpl;
 import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.model.ModelFactory;
@@ -55,6 +56,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -2537,6 +2539,7 @@ public final class DataObjectUtil
   protected static void configureResourceSet(ResourceSet resourceSet)
   {
     resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().putAll(getRegistrations());
+    resourceSet.setPackageRegistry(new EPackageRegistryImpl(HelperContextImpl.getBuiltInModelRegistry()));      
 //    resourceSet.setURIConverter(new SDOURIConverterImpl());
   }
   

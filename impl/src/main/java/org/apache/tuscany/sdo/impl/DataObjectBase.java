@@ -23,13 +23,18 @@ package org.apache.tuscany.sdo.impl;
 import java.util.List;
 
 import org.apache.tuscany.sdo.SDOFactory;
+import org.apache.tuscany.sdo.helper.HelperContextImpl;
 import org.apache.tuscany.sdo.util.BasicSequence;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
@@ -375,7 +380,24 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
   
   protected Object resolveProxy(Object proxy)
   {
-    return EcoreUtil.resolve((EObject)proxy, this);
+    Resource resource = this.eResource();
+    ResourceSet resourceSet = resource != null ? resource.getResourceSet() : null;
+    if (resourceSet != null) return EcoreUtil.resolve((EObject)proxy, resourceSet);
+      
+    URI proxyURI = ((InternalEObject)proxy).eProxyURI();
+    if (proxyURI != null)
+    {
+      EPackage ePackage = HelperContextImpl.getBuiltInModelRegistry().getEPackage(proxyURI.trimFragment().toString());
+      if (ePackage != null)
+      {
+        resource = ePackage.eResource();
+        if (resource != null)
+        {
+          return resource.getEObject(proxyURI.fragment().toString());
+        }
+      }
+    }
+    return null;
   }
   
 
@@ -477,6 +499,8 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
   }
   
 } //DataObjectBase
+
+
 
 
 

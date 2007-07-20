@@ -525,7 +525,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     boolean oldName_set_ = name_set_;
     name_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, NAME, oldName, name, !oldName_set_);
+      notify(ChangeKind.SET, INTERNAL_NAME, oldName, name, !oldName_set_);
   }
 
   /**
@@ -540,7 +540,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     name = NAME_DEFAULT_;
     name_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, NAME, oldName, NAME_DEFAULT_, oldName_set_);
+      notify(ChangeKind.UNSET, INTERNAL_NAME, oldName, NAME_DEFAULT_, oldName_set_);
   }
 
   /**
@@ -574,7 +574,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     boolean oldMany_set_ = many_set_;
     many_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, MANY, oldMany, many, !oldMany_set_);
+      notify(ChangeKind.SET, INTERNAL_MANY, oldMany, many, !oldMany_set_);
   }
 
   /**
@@ -589,7 +589,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     many = MANY_DEFAULT_;
     many_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, MANY, oldMany, MANY_DEFAULT_, oldMany_set_);
+      notify(ChangeKind.UNSET, INTERNAL_MANY, oldMany, MANY_DEFAULT_, oldMany_set_);
   }
 
   /**
@@ -623,7 +623,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     boolean oldContainment_set_ = containment_set_;
     containment_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, CONTAINMENT, oldContainment, containment, !oldContainment_set_);
+      notify(ChangeKind.SET, INTERNAL_CONTAINMENT, oldContainment, containment, !oldContainment_set_);
   }
 
   /**
@@ -638,7 +638,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     containment = CONTAINMENT_DEFAULT_;
     containment_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, CONTAINMENT, oldContainment, CONTAINMENT_DEFAULT_, oldContainment_set_);
+      notify(ChangeKind.UNSET, INTERNAL_CONTAINMENT, oldContainment, CONTAINMENT_DEFAULT_, oldContainment_set_);
   }
 
   /**
@@ -672,7 +672,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     boolean oldDefault_set_ = default_set_;
     default_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, DEFAULT, oldDefault, default_, !oldDefault_set_);
+      notify(ChangeKind.SET, INTERNAL_DEFAULT, oldDefault, default_, !oldDefault_set_);
   }
 
   /**
@@ -687,7 +687,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     default_ = DEFAULT_DEFAULT_;
     default_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, DEFAULT, oldDefault, DEFAULT_DEFAULT_, oldDefault_set_);
+      notify(ChangeKind.UNSET, INTERNAL_DEFAULT, oldDefault, DEFAULT_DEFAULT_, oldDefault_set_);
   }
 
   /**
@@ -721,7 +721,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     boolean oldReadOnly_set_ = readOnly_set_;
     readOnly_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, READ_ONLY, oldReadOnly, readOnly, !oldReadOnly_set_);
+      notify(ChangeKind.SET, INTERNAL_READ_ONLY, oldReadOnly, readOnly, !oldReadOnly_set_);
   }
 
   /**
@@ -736,7 +736,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     readOnly = READ_ONLY_DEFAULT_;
     readOnly_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, READ_ONLY, oldReadOnly, READ_ONLY_DEFAULT_, oldReadOnly_set_);
+      notify(ChangeKind.UNSET, INTERNAL_READ_ONLY, oldReadOnly, READ_ONLY_DEFAULT_, oldReadOnly_set_);
   }
 
   /**
@@ -763,7 +763,7 @@ public class PropertyImpl extends DataObjectBase implements Property
       if (type != oldType)
       {
         if (isNotifying())
-          notify(ChangeKind.RESOLVE, TYPE, oldType, type);
+          notify(ChangeKind.RESOLVE, INTERNAL_TYPE, oldType, type);
       }
     }
     return type;
@@ -790,7 +790,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     boolean oldType_set_ = type_set_;
     type_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, TYPE, oldType, type, !oldType_set_);
+      notify(ChangeKind.SET, INTERNAL_TYPE, oldType, type, !oldType_set_);
   }
 
   /**
@@ -805,7 +805,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     type = null;
     type_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, TYPE, oldType, null, oldType_set_);
+      notify(ChangeKind.UNSET, INTERNAL_TYPE, oldType, null, oldType_set_);
   }
 
   /**
@@ -832,7 +832,7 @@ public class PropertyImpl extends DataObjectBase implements Property
       if (opposite != oldOpposite)
       {
         if (isNotifying())
-          notify(ChangeKind.RESOLVE, OPPOSITE, oldOpposite, opposite);
+          notify(ChangeKind.RESOLVE, INTERNAL_OPPOSITE, oldOpposite, opposite);
       }
     }
     return opposite;
@@ -859,7 +859,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     boolean oldOpposite_set_ = opposite_set_;
     opposite_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, OPPOSITE, oldOpposite, opposite, !oldOpposite_set_);
+      notify(ChangeKind.SET, INTERNAL_OPPOSITE, oldOpposite, opposite, !oldOpposite_set_);
   }
 
   /**
@@ -874,7 +874,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     opposite = null;
     opposite_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, OPPOSITE, oldOpposite, null, oldOpposite_set_);
+      notify(ChangeKind.UNSET, INTERNAL_OPPOSITE, oldOpposite, null, oldOpposite_set_);
   }
 
   /**
@@ -908,7 +908,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     boolean oldNullable_set_ = nullable_set_;
     nullable_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, NULLABLE, oldNullable, nullable, !oldNullable_set_);
+      notify(ChangeKind.SET, INTERNAL_NULLABLE, oldNullable, nullable, !oldNullable_set_);
   }
 
   /**
@@ -923,7 +923,7 @@ public class PropertyImpl extends DataObjectBase implements Property
     nullable = NULLABLE_DEFAULT_;
     nullable_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, NULLABLE, oldNullable, NULLABLE_DEFAULT_, oldNullable_set_);
+      notify(ChangeKind.UNSET, INTERNAL_NULLABLE, oldNullable, NULLABLE_DEFAULT_, oldNullable_set_);
   }
 
   /**

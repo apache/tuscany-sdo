@@ -26,8 +26,6 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 
-import org.apache.tuscany.sdo.SDOFactory;
-
 import org.apache.tuscany.sdo.impl.FactoryBase;
 
 import org.apache.tuscany.sdo.model.ModelFactory;
@@ -35,8 +33,6 @@ import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 
 import org.apache.tuscany.sdo.model.java.*;
-
-import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
 
@@ -49,10 +45,12 @@ import org.eclipse.emf.ecore.xml.type.util.XMLTypeUtil;
  *         XSD2JavaGenerator -generateBuiltIn commonj.sdo/java -targetDirectory <temp-dir> -javaPackage org.apache.tuscany.sdo.model.java <sdo-api-dir>/src/main/resources/xml/sdoJava.xsd
  *   2. Delete all the createXXXFromString() and convertXXXToString() methods in the newly generated JavaFactoryImpl and
  *      replace them with the ones from this file.
- *   3. Move this JavaDoc comment into the newly generated JavaFactoryImpl class.
+ *   3. Make sure the top of each generated file contains the ASF License.      
+ *   4. Move this JavaDoc comment into the newly generated JavaFactoryImpl class.
  * <!-- end-user-doc -->
  * @generated
  */
+
 public class JavaFactoryImpl extends FactoryBase implements JavaFactory
 {
 
@@ -78,7 +76,7 @@ public class JavaFactoryImpl extends FactoryBase implements JavaFactory
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String PATTERN_VERSION = "1.1";
+  public static final String PATTERN_VERSION = "1.2";
   
   public static final int JAVA_INFO = 1;	
   public static final int BOOLEAN_OBJECT = 2;	
@@ -107,11 +105,17 @@ public class JavaFactoryImpl extends FactoryBase implements JavaFactory
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
-   */	
-  public void register(HelperContext scope) {
+   */
+  public void register(HelperContext scope) 
+  {
     if(scope == null) {
-       throw new IllegalArgumentException("Scope can not be null");
-    } 
+      throw new IllegalArgumentException("Scope can not be null");
+    }
+    
+    //Register dependent packages with provided scope
+    ModelFactory.INSTANCE.register(scope);
+    
+    // Initialize this package   
     TypeHelperImpl th = (TypeHelperImpl)scope.getTypeHelper();
     th.getExtendedMetaData().putPackage(NAMESPACE_URI, this);
   }
@@ -266,28 +270,25 @@ public class JavaFactoryImpl extends FactoryBase implements JavaFactory
   }
   
 
-  private static boolean isInited = false;
-
+  private static JavaFactoryImpl instance = null; 
   public static JavaFactoryImpl init()
   {
-    if (isInited) return (JavaFactoryImpl)FactoryBase.getStaticFactory(JavaFactoryImpl.NAMESPACE_URI);
-    JavaFactoryImpl theJavaFactoryImpl = new JavaFactoryImpl();
-    isInited = true;
+    if (instance != null ) return instance;
+    instance = new JavaFactoryImpl();
 
-    // Initialize simple dependencies
-    SDOUtil.registerStaticTypes(SDOFactory.class);
-    SDOUtil.registerStaticTypes(ModelFactory.class);
-
+    // Initialize dependent packages
+    ModelFactory ModelFactoryInstance = ModelFactory.INSTANCE;
+    
     // Create package meta-data objects
-    theJavaFactoryImpl.createMetaData();
+    instance.createMetaData();
 
     // Initialize created meta-data
-    theJavaFactoryImpl.initializeMetaData();
-
+    instance.initializeMetaData();
+    
     // Mark meta-data to indicate it can't be changed
     //theJavaFactoryImpl.freeze(); //FB do we need to freeze / should we freeze ????
 
-    return theJavaFactoryImpl;
+    return instance;
   }
   
   private boolean isCreated = false;
@@ -298,7 +299,7 @@ public class JavaFactoryImpl extends FactoryBase implements JavaFactory
     isCreated = true;	
 
     // Create types and their properties
-          javaInfoType = createType(false, JAVA_INFO);
+    javaInfoType = createType(false, JAVA_INFO);
     createProperty(true, javaInfoType,JavaInfoImpl.INTERNAL_JAVA_CLASS); 
 
     // Create data types
@@ -320,14 +321,14 @@ public class JavaFactoryImpl extends FactoryBase implements JavaFactory
     isInitialized = true;
 
     // Obtain other dependent packages
-    ModelFactoryImpl theModelPackageImpl = (ModelFactoryImpl)FactoryBase.getStaticFactory(ModelFactoryImpl.NAMESPACE_URI);
+    ModelFactoryImpl theModelPackageImpl = (ModelFactoryImpl)ModelFactory.INSTANCE;
     Property property = null;
 
     // Add supertypes to types
 
     // Initialize types and properties
     initializeType(javaInfoType, JavaInfo.class, "JavaInfo", false);
-    property = getProperty(javaInfoType, JavaInfoImpl.INTERNAL_JAVA_CLASS);
+    property = getLocalProperty(javaInfoType, 0);
     initializeProperty(property, theModelPackageImpl.getString(), "javaClass", null, 0, 1, JavaInfo.class, false, true, false);
 
     // Initialize data types

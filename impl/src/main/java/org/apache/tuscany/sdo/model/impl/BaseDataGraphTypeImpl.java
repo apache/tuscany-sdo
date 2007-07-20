@@ -243,7 +243,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     models_set_ = true;
     if (isNotifying())
     {
-      addNotification(this, ChangeKind.SET, MODELS, oldModels, newModels, !oldModels_set_, changeContext);
+      addNotification(this, ChangeKind.SET, INTERNAL_MODELS, oldModels, newModels, !oldModels_set_, changeContext);
     }
     return changeContext;
   }
@@ -259,19 +259,19 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     {
       ChangeContext changeContext = null;
       if (models != null)
-        changeContext = inverseRemove(models, this, OPPOSITE_FEATURE_BASE - MODELS, null, changeContext);
+        changeContext = inverseRemove(models, this, OPPOSITE_FEATURE_BASE - INTERNAL_MODELS, null, changeContext);
       if (newModels != null)
-        changeContext = inverseAdd(newModels, this, OPPOSITE_FEATURE_BASE - MODELS, null, changeContext);
+        changeContext = inverseAdd(newModels, this, OPPOSITE_FEATURE_BASE - INTERNAL_MODELS, null, changeContext);
       changeContext = basicSetModels(newModels, changeContext);
       if (changeContext != null) dispatch(changeContext);
     }
     else
-    	{
+    {
       boolean oldModels_set_ = models_set_;
       models_set_ = true;
       if (isNotifying())
-        notify(ChangeKind.SET, MODELS, newModels, newModels, !oldModels_set_);
-    	}
+        notify(ChangeKind.SET, INTERNAL_MODELS, newModels, newModels, !oldModels_set_);
+    }
   }
 
   /**
@@ -287,7 +287,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     models_set_ = false;
     if (isNotifying())
     {
-      addNotification(this, ChangeKind.UNSET, MODELS, oldModels, null, !oldModels_set_, changeContext);
+      addNotification(this, ChangeKind.UNSET, INTERNAL_MODELS, oldModels, null, !oldModels_set_, changeContext);
     }
     return changeContext;
   }
@@ -302,7 +302,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     if (models != null)
     {
       ChangeContext changeContext = null;
-      changeContext = inverseRemove(models, this, EOPPOSITE_FEATURE_BASE - MODELS, null, changeContext);
+      changeContext = inverseRemove(models, this, EOPPOSITE_FEATURE_BASE - INTERNAL_MODELS, null, changeContext);
       changeContext = basicUnsetModels(changeContext);
       if (changeContext != null) dispatch(changeContext);
     }
@@ -311,7 +311,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
       boolean oldModels_set_ = models_set_;
       models_set_ = false;
       if (isNotifying())
-        notify(ChangeKind.UNSET, MODELS, null, null, oldModels_set_);
+        notify(ChangeKind.UNSET, INTERNAL_MODELS, null, null, oldModels_set_);
     	}
   }
 
@@ -347,7 +347,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     xsd_set_ = true;
     if (isNotifying())
     {
-      addNotification(this, ChangeKind.SET, XSD, oldXsd, newXsd, !oldXsd_set_, changeContext);
+      addNotification(this, ChangeKind.SET, INTERNAL_XSD, oldXsd, newXsd, !oldXsd_set_, changeContext);
     }
     return changeContext;
   }
@@ -363,19 +363,19 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     {
       ChangeContext changeContext = null;
       if (xsd != null)
-        changeContext = inverseRemove(xsd, this, OPPOSITE_FEATURE_BASE - XSD, null, changeContext);
+        changeContext = inverseRemove(xsd, this, OPPOSITE_FEATURE_BASE - INTERNAL_XSD, null, changeContext);
       if (newXsd != null)
-        changeContext = inverseAdd(newXsd, this, OPPOSITE_FEATURE_BASE - XSD, null, changeContext);
+        changeContext = inverseAdd(newXsd, this, OPPOSITE_FEATURE_BASE - INTERNAL_XSD, null, changeContext);
       changeContext = basicSetXsd(newXsd, changeContext);
       if (changeContext != null) dispatch(changeContext);
     }
     else
-    	{
+    {
       boolean oldXsd_set_ = xsd_set_;
       xsd_set_ = true;
       if (isNotifying())
-        notify(ChangeKind.SET, XSD, newXsd, newXsd, !oldXsd_set_);
-    	}
+        notify(ChangeKind.SET, INTERNAL_XSD, newXsd, newXsd, !oldXsd_set_);
+    }
   }
 
   /**
@@ -391,7 +391,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     xsd_set_ = false;
     if (isNotifying())
     {
-      addNotification(this, ChangeKind.UNSET, XSD, oldXsd, null, !oldXsd_set_, changeContext);
+      addNotification(this, ChangeKind.UNSET, INTERNAL_XSD, oldXsd, null, !oldXsd_set_, changeContext);
     }
     return changeContext;
   }
@@ -406,7 +406,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     if (xsd != null)
     {
       ChangeContext changeContext = null;
-      changeContext = inverseRemove(xsd, this, EOPPOSITE_FEATURE_BASE - XSD, null, changeContext);
+      changeContext = inverseRemove(xsd, this, EOPPOSITE_FEATURE_BASE - INTERNAL_XSD, null, changeContext);
       changeContext = basicUnsetXsd(changeContext);
       if (changeContext != null) dispatch(changeContext);
     }
@@ -415,7 +415,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
       boolean oldXsd_set_ = xsd_set_;
       xsd_set_ = false;
       if (isNotifying())
-        notify(ChangeKind.UNSET, XSD, null, null, oldXsd_set_);
+        notify(ChangeKind.UNSET, INTERNAL_XSD, null, null, oldXsd_set_);
     	}
   }
 
@@ -450,7 +450,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     boolean oldChangeSummary_set_ = changeSummary_set_;
     changeSummary_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, CHANGE_SUMMARY, oldChangeSummary, changeSummary, !oldChangeSummary_set_);
+      notify(ChangeKind.SET, INTERNAL_CHANGE_SUMMARY, oldChangeSummary, changeSummary, !oldChangeSummary_set_);
   }
 
   /**
@@ -465,7 +465,7 @@ public abstract class BaseDataGraphTypeImpl extends DataObjectBase implements Ba
     changeSummary = CHANGE_SUMMARY_DEFAULT_;
     changeSummary_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, CHANGE_SUMMARY, oldChangeSummary, CHANGE_SUMMARY_DEFAULT_, oldChangeSummary_set_);
+      notify(ChangeKind.UNSET, INTERNAL_CHANGE_SUMMARY, oldChangeSummary, CHANGE_SUMMARY_DEFAULT_, oldChangeSummary_set_);
   }
 
   /**

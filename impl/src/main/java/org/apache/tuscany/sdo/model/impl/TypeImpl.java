@@ -19,17 +19,19 @@
  */
 package org.apache.tuscany.sdo.model.impl;
 
+import commonj.sdo.Sequence;
+import commonj.sdo.helper.TypeHelper;
+
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.tuscany.sdo.impl.DataObjectBase;
+
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.Property;
 import org.apache.tuscany.sdo.model.Type;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
-
-import commonj.sdo.Sequence;
 
 /**
  * <!-- begin-user-doc -->
@@ -534,7 +536,7 @@ public class TypeImpl extends DataObjectBase implements Type
     boolean oldName_set_ = name_set_;
     name_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, NAME, oldName, name, !oldName_set_);
+      notify(ChangeKind.SET, INTERNAL_NAME, oldName, name, !oldName_set_);
   }
 
   /**
@@ -549,7 +551,7 @@ public class TypeImpl extends DataObjectBase implements Type
     name = NAME_DEFAULT_;
     name_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, NAME, oldName, NAME_DEFAULT_, oldName_set_);
+      notify(ChangeKind.UNSET, INTERNAL_NAME, oldName, NAME_DEFAULT_, oldName_set_);
   }
 
   /**
@@ -583,7 +585,7 @@ public class TypeImpl extends DataObjectBase implements Type
     boolean oldUri_set_ = uri_set_;
     uri_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, URI, oldUri, uri, !oldUri_set_);
+      notify(ChangeKind.SET, INTERNAL_URI, oldUri, uri, !oldUri_set_);
   }
 
   /**
@@ -598,7 +600,7 @@ public class TypeImpl extends DataObjectBase implements Type
     uri = URI_DEFAULT_;
     uri_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, URI, oldUri, URI_DEFAULT_, oldUri_set_);
+      notify(ChangeKind.UNSET, INTERNAL_URI, oldUri, URI_DEFAULT_, oldUri_set_);
   }
 
   /**
@@ -632,7 +634,7 @@ public class TypeImpl extends DataObjectBase implements Type
     boolean oldDataType_set_ = dataType_set_;
     dataType_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, DATA_TYPE, oldDataType, dataType, !oldDataType_set_);
+      notify(ChangeKind.SET, INTERNAL_DATA_TYPE, oldDataType, dataType, !oldDataType_set_);
   }
 
   /**
@@ -647,7 +649,7 @@ public class TypeImpl extends DataObjectBase implements Type
     dataType = DATA_TYPE_DEFAULT_;
     dataType_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, DATA_TYPE, oldDataType, DATA_TYPE_DEFAULT_, oldDataType_set_);
+      notify(ChangeKind.UNSET, INTERNAL_DATA_TYPE, oldDataType, DATA_TYPE_DEFAULT_, oldDataType_set_);
   }
 
   /**
@@ -681,7 +683,7 @@ public class TypeImpl extends DataObjectBase implements Type
     boolean oldOpen_set_ = open_set_;
     open_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, OPEN, oldOpen, open, !oldOpen_set_);
+      notify(ChangeKind.SET, INTERNAL_OPEN, oldOpen, open, !oldOpen_set_);
   }
 
   /**
@@ -696,7 +698,7 @@ public class TypeImpl extends DataObjectBase implements Type
     open = OPEN_DEFAULT_;
     open_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, OPEN, oldOpen, OPEN_DEFAULT_, oldOpen_set_);
+      notify(ChangeKind.UNSET, INTERNAL_OPEN, oldOpen, OPEN_DEFAULT_, oldOpen_set_);
   }
 
   /**
@@ -730,7 +732,7 @@ public class TypeImpl extends DataObjectBase implements Type
     boolean oldSequenced_set_ = sequenced_set_;
     sequenced_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, SEQUENCED, oldSequenced, sequenced, !oldSequenced_set_);
+      notify(ChangeKind.SET, INTERNAL_SEQUENCED, oldSequenced, sequenced, !oldSequenced_set_);
   }
 
   /**
@@ -745,7 +747,7 @@ public class TypeImpl extends DataObjectBase implements Type
     sequenced = SEQUENCED_DEFAULT_;
     sequenced_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, SEQUENCED, oldSequenced, SEQUENCED_DEFAULT_, oldSequenced_set_);
+      notify(ChangeKind.UNSET, INTERNAL_SEQUENCED, oldSequenced, SEQUENCED_DEFAULT_, oldSequenced_set_);
   }
 
   /**
@@ -779,7 +781,7 @@ public class TypeImpl extends DataObjectBase implements Type
     boolean oldAbstract_set_ = abstract_set_;
     abstract_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, ABSTRACT, oldAbstract, abstract_, !oldAbstract_set_);
+      notify(ChangeKind.SET, INTERNAL_ABSTRACT, oldAbstract, abstract_, !oldAbstract_set_);
   }
 
   /**
@@ -794,7 +796,7 @@ public class TypeImpl extends DataObjectBase implements Type
     abstract_ = ABSTRACT_DEFAULT_;
     abstract_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, ABSTRACT, oldAbstract, ABSTRACT_DEFAULT_, oldAbstract_set_);
+      notify(ChangeKind.UNSET, INTERNAL_ABSTRACT, oldAbstract, ABSTRACT_DEFAULT_, oldAbstract_set_);
   }
 
   /**
@@ -1040,15 +1042,14 @@ public class TypeImpl extends DataObjectBase implements Type
     return result.toString();
   }
 
-  EStructuralFeature javaClassFeature = null;
+EStructuralFeature javaClassFeature = null;
 
-  public String getInstanceClassName()
+public String getInstanceClassName()
   {
-    //FB EStructuralFeature javaClassFeature = JavaFactory.getGlobal_JavaClass();
-    //FB TODO figure out proper way to access global properties
     if (javaClassFeature == null)
     {
-      javaClassFeature = BasicExtendedMetaData.INSTANCE.getAttribute("commonj.sdo/java", "javaClass");
+      //FB TODO figure out what helper to use
+      javaClassFeature = (EStructuralFeature)TypeHelper.INSTANCE.getOpenContentProperty("commonj.sdo/java", "javaClass");
     }
 
     Sequence anyAttribute = getAnyAttribute();
@@ -1061,7 +1062,7 @@ public class TypeImpl extends DataObjectBase implements Type
         return (String)anyAttribute.getValue(i);
       }
     }
-    return null;
+    return null; 
   }
-
+  
 } //TypeImpl

@@ -147,7 +147,7 @@ public class JavaInfoImpl extends DataObjectBase implements JavaInfo
     boolean oldJavaClass_set_ = javaClass_set_;
     javaClass_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, JAVA_CLASS, oldJavaClass, javaClass, !oldJavaClass_set_);
+      notify(ChangeKind.SET, INTERNAL_JAVA_CLASS, oldJavaClass, javaClass, !oldJavaClass_set_);
   }
 
   /**
@@ -162,7 +162,7 @@ public class JavaInfoImpl extends DataObjectBase implements JavaInfo
     javaClass = JAVA_CLASS_DEFAULT_;
     javaClass_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, JAVA_CLASS, oldJavaClass, JAVA_CLASS_DEFAULT_, oldJavaClass_set_);
+      notify(ChangeKind.UNSET, INTERNAL_JAVA_CLASS, oldJavaClass, JAVA_CLASS_DEFAULT_, oldJavaClass_set_);
   }
 
   /**
