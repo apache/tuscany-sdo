@@ -24,9 +24,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.apache.tuscany.sdo.SDOPackage;
+import org.apache.tuscany.sdo.api.XMLStreamHelper;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.change.ChangePackage;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage;
+import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 import commonj.sdo.helper.CopyHelper;
 import commonj.sdo.helper.DataFactory;
@@ -36,8 +42,6 @@ import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
-
-//import org.apache.tuscany.sdo.api.XMLStreamHelper;
 
 public class HelperContextImpl implements HelperContext {
     /*
@@ -109,11 +113,18 @@ public class HelperContextImpl implements HelperContext {
 
     static protected EPackage.Registry getBuiltInModelRegistry() {
         if (builtInModelRegistry == null) {
-            builtInModelRegistry = new EPackageRegistryImpl();
+            EPackageRegistryImpl registry = new EPackageRegistryImpl();
             for (Iterator iter = TypeHelperImpl.getBuiltInModels().iterator(); iter.hasNext();) {
                 EPackage ePackage = (EPackage)iter.next();
-                builtInModelRegistry.put(ePackage.getNsURI(), ePackage);
+                registry.put(ePackage.getNsURI(), ePackage);
             }
+            registry.put(EcorePackage.eNS_URI, EcorePackage.eINSTANCE);
+            registry.put(XMLTypePackage.eNS_URI, XMLTypePackage.eINSTANCE);
+            registry.put(ChangePackage.eNS_URI, ChangePackage.eINSTANCE);
+            registry.put(XMLNamespacePackage.eNS_URI, XMLNamespacePackage.eINSTANCE);
+            registry.put(SDOPackage.eNS_URI, SDOPackage.eINSTANCE);
+            
+            builtInModelRegistry = registry;
         }
         return builtInModelRegistry;
     }

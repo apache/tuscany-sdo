@@ -44,7 +44,7 @@ public class SDOExtendedMetaDataImpl
 {
  
   public SDOExtendedMetaDataImpl() {
-    this(EPackage.Registry.INSTANCE);
+      this(HelperContextImpl.getBuiltInModelRegistry());
   }
 
   public SDOExtendedMetaDataImpl(Registry registry) {
