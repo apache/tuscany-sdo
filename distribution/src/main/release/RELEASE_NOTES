@@ -52,40 +52,47 @@ For more detail on these fixes and features please see ...
 https://issues.apache.org/jira/secure/IssueNavigator.jspa?reset=true&&pid=12310210&fixfor=12312521&resolution=1&sorter/field=issuekey&sorter/order=DESC&sorter/field=issuetype&sorter/order=DESC
 
 New Feature
-        TUSCANY-1317	Provide a way to set default XML load options to be used during Java deserialization
-	TUSCANY-1214	SDO 2.1 feature: XMLHelper.load(Source) and XMLHelper.save(Result)
 	TUSCANY-1213	SDO 2.1 feature: DataHelper.convert()
 	TUSCANY-1212	SDO 2.1 feature: Property.isNullable() and Property.isOpenContent()
+	TUSCANY-1214	SDO 2.1 feature: XMLHelper.load(Source) and XMLHelper.save(Result)
 	TUSCANY-1197	Sequence composition
+	TUSCANY-1317	Provide a way to set default XML load options to be used during Java deserialization
 Improvement
-        TUSCANY-1391	Provide capability to load and save XML with unknown features
-	TUSCANY-1284	Manifest version number in Java SDO Impl and Tools jars
-	TUSCANY-1233	Enhance SDO static codegen (XSD2Java) to support multiple namespaces in a single pass.
+	TUSCANY-1350	Reorganise SDO build / distribution layout
+	TUSCANY-1459	Remove package registry delegation to EPackage.Registry.INSTANCE
 	TUSCANY-1110	Improve the performance of TypeHelperImpl.getType(Class)
+	TUSCANY-1391	Provide capability to load and save XML with unknown features
+	TUSCANY-1284	Manifest version number in Java SDO Impl and Tools jars
 	TUSCANY-513	Implement support for dynamic subclasses of statically generated types
-Bug	
-        TUSCANY-1436	TypeHelper.getType(java.util.List.class) throws ClassCastException
+	TUSCANY-1233	Enhance SDO static codegen (XSD2Java) to support multiple namespaces in a single pass.
+Bug
+	TUSCANY-1143	Generated code should separate metadata creation from registration to permit proper scoping
+	TUSCANY-1428	XSD2JavaGenerator.GeneratePackage information is invalid
+	TUSCANY-1429	Using default helper context got ClassCastException due to T-1317
+	TUSCANY-1446	Java SDO samples don't compile with JDK 1.4.2
+	TUSCANY-1457	Unable to code gen SDOModel.xsd
 	TUSCANY-1430	SDO codegen is needs to use internal property numbers for inverseAdd, inverseRemove, and notify calls
-	TUSCANY-1421	XMLHelper.save on root object of DataGraph gives serialization of href="root.xml#/"
-	TUSCANY-1410	DataHelperImpl.toCalendar() with null locale should use default locale
-	TUSCANY-1408	Cannot programmatically define a SDO property matching to XSD element
-	TUSCANY-1393	ClassCastException saving codegen-based DataGraph with ChangeSummary containing an xsd:int
-	TUSCANY-1385	Duplicate namespace was serialized when SDO QName property value containing existing namespace
-	TUSCANY-1369	EMF 2.2.2 Dependencies from ISU are Stale
-	TUSCANY-1352	NPE in SDOXSDEcoreBuilder.XSDSchemaAdapterFactoryImpl.SchemaLocator.locateSchema
-	TUSCANY-1333	[Java SDO] ClassCastException when defining schema file without .xsd extension
-	TUSCANY-1325	Property value with xsd:QName type is not deserialized and serialized correctly
-	TUSCANY-1324	DeserializationNoSchemaTestCase took a long time to run
-	TUSCANY-1322	Static code gen objects not deleting contained children successfully
-	TUSCANY-1305	Changesummary of datagraph using static interfaces.
-	TUSCANY-1254	Codegen on a type inheriting from a type in different namespace will result in mis-mapping the feature IDs
-	TUSCANY-1251	Code generated from xsd:base64Binary types fail to compile
-	TUSCANY-1250	Static SDO generator generates an erroneous factory class, when inheritance and different Java packages are used
-	TUSCANY-1223	XSD base64Binary type mapping to wrong SDO type
 	TUSCANY-1207	TCCL-specific EcoreBuilders must be used by default XSDHelper
 	TUSCANY-1127	ObtainingDataGraphFromXml, and maybe other samples, incorrectly accessing xsd:any content
-	TUSCANY-1122	TypeConversionTestCase fails for JDK 1.4.2
+	TUSCANY-1254	Codegen on a type inheriting from a type in different namespace will result in mis-mapping the feature IDs
 	TUSCANY-993	Problems with sdoModelExtended.xsd
-	TUSCANY-578	Exceptions thrown by SDO runtime not the same as defined in the spec	
+	TUSCANY-1223	XSD base64Binary type mapping to wrong SDO type
+	TUSCANY-1251	Code generated from xsd:base64Binary types fail to compile
+	TUSCANY-1333	[Java SDO] ClassCastException when defining schema file without .xsd extension
+	TUSCANY-1410	DataHelperImpl.toCalendar() with null locale should use default locale
+	TUSCANY-1324	DeserializationNoSchemaTestCase took a long time to run
+	TUSCANY-1369	EMF 2.2.2 Dependencies from ISU are Stale
+	TUSCANY-1352	NPE in SDOXSDEcoreBuilder.XSDSchemaAdapterFactoryImpl.SchemaLocator.locateSchema
+	TUSCANY-1325	Property value with xsd:QName type is not deserialized and serialized correctly
+	TUSCANY-1250	Static SDO generator generates an erroneous factory class, when inheritance and different Java packages are used
+	TUSCANY-578	Exceptions thrown by SDO runtime not the same as defined in the spec
+	TUSCANY-1421	XMLHelper.save on root object of DataGraph gives serialization of href="root.xml#/"
+	TUSCANY-1436	TypeHelper.getType(java.util.List.class) throws ClassCastException
+	TUSCANY-1385	Duplicate namespace was serialized when SDO QName property value containing existing namespace
+	TUSCANY-1122	TypeConversionTestCase fails for JDK 1.4.2
+	TUSCANY-1408	Cannot programmatically define a SDO property matching to XSD element
+	TUSCANY-1393	ClassCastException saving codegen-based DataGraph with ChangeSummary containing an xsd:int
+	TUSCANY-1305	Changesummary of datagraph using static interfaces.
+
 	
 	
