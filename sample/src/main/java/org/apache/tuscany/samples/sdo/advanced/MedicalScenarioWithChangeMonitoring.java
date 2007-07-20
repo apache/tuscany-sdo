@@ -84,7 +84,7 @@ public class MedicalScenarioWithChangeMonitoring extends SampleBase {
   
 
   private void printUsage(String[] args) {
-    System.out.println("Usage: " + this.getClass().getCanonicalName() + usage);
+    System.out.println("Usage: " + this.getClass().getName() + usage);
   }
 
   /**

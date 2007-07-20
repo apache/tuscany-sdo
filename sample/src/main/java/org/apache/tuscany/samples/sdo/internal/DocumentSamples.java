@@ -132,7 +132,7 @@ public class DocumentSamples {
     doc.append(CLASSES_HEADING);
     Class [] classes = SampleInfrastructure.sampleClasses;
     for(int i=0; i < classes.length;i++) {
-      doc.append("<h3>Sample Program " + classes[i].getSimpleName() + "</h3>\n");
+      doc.append("<h3>Sample Program " + getSimpleName(classes[i]) + "</h3>\n");
       doc.append("<b>Core function:</b><br/>\n");
       int [] functions = (int[])classToCoreFunction.get(classes[i]);
       for(int j=0;j<functions.length;j++) {
@@ -170,7 +170,7 @@ public class DocumentSamples {
         Set classesWithFunction = (Set)coreFunctionToClass.get(fobj);
         for(Iterator cwf = classesWithFunction.iterator(); cwf.hasNext();) {
           Class c = (Class)cwf.next();
-          doc.append(c.getSimpleName()).append("<br/>\n");
+          doc.append(getSimpleName(c)).append("<br/>\n");
         }
       }
       if(significantFunctionToClass.keySet().contains(fobj)) {
@@ -178,7 +178,7 @@ public class DocumentSamples {
         Set classesWithFunction = (Set)significantFunctionToClass.get(fobj);
         for(Iterator cwf = classesWithFunction.iterator(); cwf.hasNext();) {
           Class c = (Class)cwf.next();
-          doc.append(c.getSimpleName()).append("<br/>\n");
+          doc.append(getSimpleName(c)).append("<br/>\n");
         }
       }
       
@@ -204,5 +204,14 @@ public class DocumentSamples {
       functionToClass.put(iobj, new HashSet());
     }
     ((Set) (functionToClass.get(iobj))).add(c);
+  }
+  
+  private String getSimpleName(Class c) {
+    String result = c.getName();
+    int lastDot = result.lastIndexOf('.');
+    if(lastDot != -1) {
+      result = result.substring(lastDot+1);
+    }
+    return result;
   }
 }
