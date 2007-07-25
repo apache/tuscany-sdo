@@ -17,7 +17,7 @@ public class SDOClass
     return result;
   }
 
-  public final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
+  protected final String NL = nl == null ? (System.getProperties().getProperty("line.separator")) : nl;
   protected final String TEXT_1 = "";
   protected final String TEXT_2 = "/**" + NL + " * <copyright>" + NL + " * </copyright>" + NL + " *" + NL + " * ";
   protected final String TEXT_3 = "Id";
@@ -1479,9 +1479,9 @@ public class SDOClass
          int baseCount = base.getFeatureCount();    
          if (g < baseCount)
          {
-           featureValue = base.getClassName() + "." + genFeature.getUpperName();
+           featureValue = base.getImportedClassName() + "." + genFeature.getUpperName();
          } else {
-           String baseCountID = base.getClassName() + "." + "SDO_PROPERTY_COUNT";
+           String baseCountID = base.getImportedClassName() + "." + "SDO_PROPERTY_COUNT";
            featureValue =  baseCountID + " + " + Integer.toString(declaredProperties.indexOf(genFeature.getEcoreFeature()));
           }
        }
@@ -1503,9 +1503,9 @@ public class SDOClass
          int baseCount = base.getFeatureCount();    
          if (g < baseCount)
          {
-           featureValue = base.getClassName() + "." + genFeature.getUpperName();
+           featureValue = base.getImportedClassName() + "." + genFeature.getUpperName();
          } else {
-           String baseCountID = base.getClassName() + "." + "EXTENDED_PROPERTY_COUNT";
+           String baseCountID = base.getImportedClassName() + "." + "EXTENDED_PROPERTY_COUNT";
            featureValue =  baseCountID + " + " + Integer.toString(-1 - extendedProperties.indexOf(genFeature.getEcoreFeature()));
           }
        }
@@ -1523,7 +1523,7 @@ public class SDOClass
     featureCount = Integer.toString(declaredPropertiesCount);
     }
     else {
-    String baseCountID = base.getClassName() + "." + "SDO_PROPERTY_COUNT";
+    String baseCountID = base.getImportedClassName() + "." + "SDO_PROPERTY_COUNT";
     featureCount = baseCountID + " + " + Integer.toString(declaredPropertiesCount);
     }
     stringBuffer.append(TEXT_68);
@@ -1536,7 +1536,7 @@ public class SDOClass
     featureCount = Integer.toString(extendedPropertiesCount*-1);
     }
     else {
-    String baseCountID = base.getClassName() + "." + "EXTENDED_PROPERTY_COUNT";
+    String baseCountID = base.getImportedClassName() + "." + "EXTENDED_PROPERTY_COUNT";
     featureCount = baseCountID + " - " + Integer.toString(extendedPropertiesCount);
     }
     stringBuffer.append(TEXT_70);
@@ -1559,9 +1559,9 @@ public class SDOClass
     int baseCount = base.getFeatureCount();
     if (g < baseCount)
     {
-    featureValue = base.getClassName() + ".INTERNAL_" + genFeature.getUpperName();
+    featureValue = base.getImportedClassName() + ".INTERNAL_" + genFeature.getUpperName();
     } else {
-    String baseCountID = base.getClassName() + "." + "INTERNAL_PROPERTY_COUNT";
+    String baseCountID = base.getImportedClassName() + "." + "INTERNAL_PROPERTY_COUNT";
     featureValue =  baseCountID + " + " + Integer.toString(g - baseCount);
     }
     }
@@ -1579,7 +1579,7 @@ public class SDOClass
       featureCount = Integer.toString(genClass.getFeatureCount());
     } 
     else {
-      String baseCountID = base.getClassName() + "." + "INTERNAL_PROPERTY_COUNT";
+      String baseCountID = base.getImportedClassName() + "." + "INTERNAL_PROPERTY_COUNT";
       featureCount = baseCountID + " + " + Integer.toString(genClass.getFeatureCount() - base.getFeatureCount());
     }
     stringBuffer.append(TEXT_79);
