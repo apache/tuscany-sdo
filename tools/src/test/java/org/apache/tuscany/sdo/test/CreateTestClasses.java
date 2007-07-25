@@ -19,6 +19,7 @@
  */
 package org.apache.tuscany.sdo.test;
 
+import org.apache.tuscany.sdo.generate.JavaGenerator;
 import org.apache.tuscany.sdo.generate.XSD2JavaGenerator;
 
 /**
@@ -38,8 +39,16 @@ public class CreateTestClasses {
   }
 
   private void run() {
-
-    XSD2JavaGenerator.generateFromXMLSchema(getClass().getResource("/simpleWithChangeSummary.xsd").getFile(), "http://www.example.com/simpleCS", "src/test/java/", "org.example.simple.cs", "CS", 0);
+    XSD2JavaGenerator.generateFromXMLSchema(getClass().getResource("/CustomerAccount.xsd").getFile(), null, "src/test/java/", null, null, 0);
+    XSD2JavaGenerator.generateFromXMLSchema(getClass().getResource("/extensible/customer.xsd").getFile(), null, "src/test/java/", null, null, 0);
+    XSD2JavaGenerator.generateFromXMLSchema(getClass().getResource("/open.xsd").getFile(), null, "src/test/java/", null, null, 0);
+    XSD2JavaGenerator.generateFromXMLSchema(getClass().getResource("/simpleWithChangeSummary.xsd").getFile(), "http://www.example.com/simpleCS", "src/test/java/", "com.example.simple.cs", "CS", 0);
+    XSD2JavaGenerator.generateFromXMLSchema(getClass().getResource("/simple.xsd").getFile(), null, "src/test/java/", null, null, 0);
+    XSD2JavaGenerator.generateFromXMLSchema(getClass().getResource("/simple.xsd").getFile(), null, "src/test/java/", "com.example.noInterfaces.simple", null, JavaGenerator.OPTION_NO_INTERFACES);
+    
+    XSD2JavaGenerator.generateFromXMLSchema(getClass().getResource("/repeatingChoice.xsd").getFile(), null, "src/test/java/", null, null, 0);
+    XSD2JavaGenerator.generateFromXMLSchema(getClass().getResource("/sequences.xsd").getFile(), null, "src/test/java/", null, null, 0);
+    XSD2JavaGenerator.generateFromXMLSchema(getClass().getResource("/subgroup.xsd").getFile(), null, "src/test/java/", null, null, 0);
             
   }
 

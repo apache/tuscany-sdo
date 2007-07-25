@@ -28,17 +28,11 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 
-import org.apache.tuscany.sdo.SDOFactory;
-
 import org.apache.tuscany.sdo.impl.FactoryBase;
 
 import org.apache.tuscany.sdo.model.ModelFactory;
 
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
-
-import org.apache.tuscany.sdo.model.internal.InternalFactory;
-
-import org.apache.tuscany.sdo.util.SDOUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -94,11 +88,17 @@ public class OpenFactoryImpl extends FactoryBase implements OpenFactory
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
-   */	
-  public void register(HelperContext scope) {
+   */
+  public void register(HelperContext scope) 
+  {
     if(scope == null) {
-       throw new IllegalArgumentException("Scope can not be null");
-    } 
+      throw new IllegalArgumentException("Scope can not be null");
+    }
+    
+    //Register dependent packages with provided scope
+    ModelFactory.INSTANCE.register(scope);
+    
+    // Initialize this package   
     TypeHelperImpl th = (TypeHelperImpl)scope.getTypeHelper();
     th.getExtendedMetaData().putPackage(NAMESPACE_URI, this);
   }
@@ -138,29 +138,25 @@ public class OpenFactoryImpl extends FactoryBase implements OpenFactory
   }
   
 
-  private static boolean isInited = false;
-
+  private static OpenFactoryImpl instance = null; 
   public static OpenFactoryImpl init()
   {
-    if (isInited) return (OpenFactoryImpl)FactoryBase.getStaticFactory(OpenFactoryImpl.NAMESPACE_URI);
-    OpenFactoryImpl theOpenFactoryImpl = new OpenFactoryImpl();
-    isInited = true;
+    if (instance != null ) return instance;
+    instance = new OpenFactoryImpl();
 
-    // Initialize dependencies
-    SDOUtil.registerStaticTypes(SDOFactory.class);
-    SDOUtil.registerStaticTypes(ModelFactory.class);
-    SDOUtil.registerStaticTypes(InternalFactory.class);
-
+    // Initialize dependent packages
+    ModelFactory ModelFactoryInstance = ModelFactory.INSTANCE;
+    
     // Create package meta-data objects
-    theOpenFactoryImpl.createMetaData();
+    instance.createMetaData();
 
     // Initialize created meta-data
-    theOpenFactoryImpl.initializeMetaData();
-
+    instance.initializeMetaData();
+    
     // Mark meta-data to indicate it can't be changed
     //theOpenFactoryImpl.freeze(); //FB do we need to freeze / should we freeze ????
 
-    return theOpenFactoryImpl;
+    return instance;
   }
   
   private boolean isCreated = false;
@@ -171,7 +167,7 @@ public class OpenFactoryImpl extends FactoryBase implements OpenFactory
     isCreated = true;	
 
     // Create types and their properties
-          oneElementAndAnyAttrType = createType(false, ONE_ELEMENT_AND_ANY_ATTR);
+    oneElementAndAnyAttrType = createType(false, ONE_ELEMENT_AND_ANY_ATTR);
     createProperty(true, oneElementAndAnyAttrType,OneElementAndAnyAttrImpl.INTERNAL_NAME); 
     createProperty(true, oneElementAndAnyAttrType,OneElementAndAnyAttrImpl.INTERNAL_ANY_ATTRIBUTE); 
   }
@@ -184,7 +180,7 @@ public class OpenFactoryImpl extends FactoryBase implements OpenFactory
     isInitialized = true;
 
     // Obtain other dependent packages
-    ModelFactoryImpl theModelPackageImpl = (ModelFactoryImpl)FactoryBase.getStaticFactory(ModelFactoryImpl.NAMESPACE_URI);
+    ModelFactoryImpl theModelPackageImpl = (ModelFactoryImpl)ModelFactory.INSTANCE;
     Property property = null;
 
     // Add supertypes to types

@@ -225,7 +225,7 @@ public class CustomerTypeImpl extends DataObjectBase implements CustomerType
     boolean oldName_set_ = name_set_;
     name_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, NAME, oldName, name, !oldName_set_);
+      notify(ChangeKind.SET, INTERNAL_NAME, oldName, name, !oldName_set_);
   }
 
   /**
@@ -240,7 +240,7 @@ public class CustomerTypeImpl extends DataObjectBase implements CustomerType
     name = NAME_DEFAULT_;
     name_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, NAME, oldName, NAME_DEFAULT_, oldName_set_);
+      notify(ChangeKind.UNSET, INTERNAL_NAME, oldName, NAME_DEFAULT_, oldName_set_);
   }
 
   /**
@@ -274,7 +274,7 @@ public class CustomerTypeImpl extends DataObjectBase implements CustomerType
     boolean oldNumber_set_ = number_set_;
     number_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, NUMBER, oldNumber, number, !oldNumber_set_);
+      notify(ChangeKind.SET, INTERNAL_NUMBER, oldNumber, number, !oldNumber_set_);
   }
 
   /**
@@ -289,7 +289,7 @@ public class CustomerTypeImpl extends DataObjectBase implements CustomerType
     number = NUMBER_DEFAULT_;
     number_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, NUMBER, oldNumber, NUMBER_DEFAULT_, oldNumber_set_);
+      notify(ChangeKind.UNSET, INTERNAL_NUMBER, oldNumber, NUMBER_DEFAULT_, oldNumber_set_);
   }
 
   /**
@@ -324,7 +324,7 @@ public class CustomerTypeImpl extends DataObjectBase implements CustomerType
     info_set_ = true;
     if (isNotifying())
     {
-      addNotification(this, ChangeKind.SET, INFO, oldInfo, newInfo, !oldInfo_set_, changeContext);
+      addNotification(this, ChangeKind.SET, INTERNAL_INFO, oldInfo, newInfo, !oldInfo_set_, changeContext);
     }
     return changeContext;
   }
@@ -340,19 +340,19 @@ public class CustomerTypeImpl extends DataObjectBase implements CustomerType
     {
       ChangeContext changeContext = null;
       if (info != null)
-        changeContext = inverseRemove(info, this, OPPOSITE_FEATURE_BASE - INFO, null, changeContext);
+        changeContext = inverseRemove(info, this, OPPOSITE_FEATURE_BASE - INTERNAL_INFO, null, changeContext);
       if (newInfo != null)
-        changeContext = inverseAdd(newInfo, this, OPPOSITE_FEATURE_BASE - INFO, null, changeContext);
+        changeContext = inverseAdd(newInfo, this, OPPOSITE_FEATURE_BASE - INTERNAL_INFO, null, changeContext);
       changeContext = basicSetInfo(newInfo, changeContext);
       if (changeContext != null) dispatch(changeContext);
     }
     else
-    	{
+    {
       boolean oldInfo_set_ = info_set_;
       info_set_ = true;
       if (isNotifying())
-        notify(ChangeKind.SET, INFO, newInfo, newInfo, !oldInfo_set_);
-    	}
+        notify(ChangeKind.SET, INTERNAL_INFO, newInfo, newInfo, !oldInfo_set_);
+    }
   }
 
   /**
@@ -368,7 +368,7 @@ public class CustomerTypeImpl extends DataObjectBase implements CustomerType
     info_set_ = false;
     if (isNotifying())
     {
-      addNotification(this, ChangeKind.UNSET, INFO, oldInfo, null, !oldInfo_set_, changeContext);
+      addNotification(this, ChangeKind.UNSET, INTERNAL_INFO, oldInfo, null, !oldInfo_set_, changeContext);
     }
     return changeContext;
   }
@@ -383,7 +383,7 @@ public class CustomerTypeImpl extends DataObjectBase implements CustomerType
     if (info != null)
     {
       ChangeContext changeContext = null;
-      changeContext = inverseRemove(info, this, EOPPOSITE_FEATURE_BASE - INFO, null, changeContext);
+      changeContext = inverseRemove(info, this, EOPPOSITE_FEATURE_BASE - INTERNAL_INFO, null, changeContext);
       changeContext = basicUnsetInfo(changeContext);
       if (changeContext != null) dispatch(changeContext);
     }
@@ -392,7 +392,7 @@ public class CustomerTypeImpl extends DataObjectBase implements CustomerType
       boolean oldInfo_set_ = info_set_;
       info_set_ = false;
       if (isNotifying())
-        notify(ChangeKind.UNSET, INFO, null, null, oldInfo_set_);
+        notify(ChangeKind.UNSET, INTERNAL_INFO, null, null, oldInfo_set_);
     	}
   }
 

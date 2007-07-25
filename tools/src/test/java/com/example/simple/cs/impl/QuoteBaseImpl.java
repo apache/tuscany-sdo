@@ -237,7 +237,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
     boolean oldChanges_set_ = changes_set_;
     changes_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, CHANGES, oldChanges, changes, !oldChanges_set_);
+      notify(ChangeKind.SET, INTERNAL_CHANGES, oldChanges, changes, !oldChanges_set_);
   }
 
   /**
@@ -252,7 +252,7 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
     changes = CHANGES_DEFAULT_;
     changes_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, CHANGES, oldChanges, CHANGES_DEFAULT_, oldChanges_set_);
+      notify(ChangeKind.UNSET, INTERNAL_CHANGES, oldChanges, CHANGES_DEFAULT_, oldChanges_set_);
   }
 
   /**

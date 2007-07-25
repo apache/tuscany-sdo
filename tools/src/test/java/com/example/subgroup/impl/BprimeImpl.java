@@ -155,7 +155,7 @@ public class BprimeImpl extends BImpl implements Bprime
     boolean oldImInTypeBprime_set_ = imInTypeBprime_set_;
     imInTypeBprime_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, IM_IN_TYPE_BPRIME, oldImInTypeBprime, imInTypeBprime, !oldImInTypeBprime_set_);
+      notify(ChangeKind.SET, INTERNAL_IM_IN_TYPE_BPRIME, oldImInTypeBprime, imInTypeBprime, !oldImInTypeBprime_set_);
   }
 
   /**
@@ -170,7 +170,7 @@ public class BprimeImpl extends BImpl implements Bprime
     imInTypeBprime = IM_IN_TYPE_BPRIME_DEFAULT_;
     imInTypeBprime_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, IM_IN_TYPE_BPRIME, oldImInTypeBprime, IM_IN_TYPE_BPRIME_DEFAULT_, oldImInTypeBprime_set_);
+      notify(ChangeKind.UNSET, INTERNAL_IM_IN_TYPE_BPRIME, oldImInTypeBprime, IM_IN_TYPE_BPRIME_DEFAULT_, oldImInTypeBprime_set_);
   }
 
   /**

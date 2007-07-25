@@ -147,7 +147,7 @@ public class BImpl extends DataObjectBase implements B
     boolean oldImInTypeB_set_ = imInTypeB_set_;
     imInTypeB_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, IM_IN_TYPE_B, oldImInTypeB, imInTypeB, !oldImInTypeB_set_);
+      notify(ChangeKind.SET, INTERNAL_IM_IN_TYPE_B, oldImInTypeB, imInTypeB, !oldImInTypeB_set_);
   }
 
   /**
@@ -162,7 +162,7 @@ public class BImpl extends DataObjectBase implements B
     imInTypeB = IM_IN_TYPE_B_DEFAULT_;
     imInTypeB_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, IM_IN_TYPE_B, oldImInTypeB, IM_IN_TYPE_B_DEFAULT_, oldImInTypeB_set_);
+      notify(ChangeKind.UNSET, INTERNAL_IM_IN_TYPE_B, oldImInTypeB, IM_IN_TYPE_B_DEFAULT_, oldImInTypeB_set_);
   }
 
   /**
