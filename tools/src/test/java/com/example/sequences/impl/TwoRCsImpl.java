@@ -282,7 +282,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
     boolean oldSplit_set_ = split_set_;
     split_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, SPLIT, oldSplit, split, !oldSplit_set_);
+      notify(ChangeKind.SET, INTERNAL_SPLIT, oldSplit, split, !oldSplit_set_);
   }
 
   /**
@@ -297,7 +297,7 @@ public class TwoRCsImpl extends DataObjectBase implements TwoRCs
     split = SPLIT_DEFAULT_;
     split_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, SPLIT, oldSplit, SPLIT_DEFAULT_, oldSplit_set_);
+      notify(ChangeKind.UNSET, INTERNAL_SPLIT, oldSplit, SPLIT_DEFAULT_, oldSplit_set_);
   }
 
   /**

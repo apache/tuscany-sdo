@@ -1,4 +1,19 @@
-What's New in SDO Java ${sdo.version}
+Service Data Objects (SDO) Java version ${sdo.version} Release Notes
+
+The Service Data Objects (SDO) API simplifies and unifies Service Oriented Architecture
+(SOA) data access and code.
+
+SDO offers both a static and a dynamic programming model for data access.
+Choosing to generate static classes to repreent your data model gives you
+the ease and intuitive nature of the static programming model,  backed up
+by the power of the dynamic model too.
+
+SDO also offers the capacity to track changes to data. If a graph of data
+includes a change summary property, then additions, modifications, and deletions
+made to the graph within the scope of that change summary will be recorded.
+  
+What's new in this Release
+==========================
 
 Apache Tuscany's SDO Java Release ${sdo.version} is the first such release
 with full coverage of the SDO 2.1 specification.
@@ -6,7 +21,8 @@ with full coverage of the SDO 2.1 specification.
 In addition to adding the few remaining SDO 2.1 features not included in the
 ${sdo.previousversion} release and fixing a number of bugs (see below for detail)
 there are a number of new features relating to XML serialization, and new
-support for handling dynamic derivation from static classes.
+support for handling dynamic derivation from static classes.  There has also
+been significant focus on making the SDO sample programs more accessible.
 
 For previous revision history, take a look at
 http://svn.apache.org/viewvc/incubator/tuscany/tags/java/sdo/${sdo.previousversion}/sdo/distribution/RELEASE_NOTES.txt

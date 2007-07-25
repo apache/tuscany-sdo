@@ -1,5 +1,4 @@
 /**
-/**
  *
  *  Licensed to the Apache Software Foundation (ASF) under one
  *  or more contributor license agreements.  See the NOTICE file
@@ -173,7 +172,7 @@ public class OneElementAndAnyAttrImpl extends DataObjectBase implements OneEleme
     boolean oldName_set_ = name_set_;
     name_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, NAME, oldName, name, !oldName_set_);
+      notify(ChangeKind.SET, INTERNAL_NAME, oldName, name, !oldName_set_);
   }
 
   /**
@@ -188,7 +187,7 @@ public class OneElementAndAnyAttrImpl extends DataObjectBase implements OneEleme
     name = NAME_DEFAULT_;
     name_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, NAME, oldName, NAME_DEFAULT_, oldName_set_);
+      notify(ChangeKind.UNSET, INTERNAL_NAME, oldName, NAME_DEFAULT_, oldName_set_);
   }
 
   /**

@@ -147,7 +147,7 @@ public class AccountImpl extends DataObjectBase implements Account
     boolean oldAccountNum_set_ = accountNum_set_;
     accountNum_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, ACCOUNT_NUM, oldAccountNum, accountNum, !oldAccountNum_set_);
+      notify(ChangeKind.SET, INTERNAL_ACCOUNT_NUM, oldAccountNum, accountNum, !oldAccountNum_set_);
   }
 
   /**
@@ -162,7 +162,7 @@ public class AccountImpl extends DataObjectBase implements Account
     accountNum = ACCOUNT_NUM_DEFAULT_;
     accountNum_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, ACCOUNT_NUM, oldAccountNum, ACCOUNT_NUM_DEFAULT_, oldAccountNum_set_);
+      notify(ChangeKind.UNSET, INTERNAL_ACCOUNT_NUM, oldAccountNum, ACCOUNT_NUM_DEFAULT_, oldAccountNum_set_);
   }
 
   /**

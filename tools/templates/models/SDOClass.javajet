@@ -189,9 +189,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
          int baseCount = base.getFeatureCount();    
          if (g < baseCount)
          {
-           featureValue = base.getClassName() + "." + genFeature.getUpperName();
+           featureValue = base.getImportedClassName() + "." + genFeature.getUpperName();
          } else {
-           String baseCountID = base.getClassName() + "." + "SDO_PROPERTY_COUNT";
+           String baseCountID = base.getImportedClassName() + "." + "SDO_PROPERTY_COUNT";
            featureValue =  baseCountID + " + " + Integer.toString(declaredProperties.indexOf(genFeature.getEcoreFeature()));
           }
        }%>
@@ -210,9 +210,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
          int baseCount = base.getFeatureCount();    
          if (g < baseCount)
          {
-           featureValue = base.getClassName() + "." + genFeature.getUpperName();
+           featureValue = base.getImportedClassName() + "." + genFeature.getUpperName();
          } else {
-           String baseCountID = base.getClassName() + "." + "EXTENDED_PROPERTY_COUNT";
+           String baseCountID = base.getImportedClassName() + "." + "EXTENDED_PROPERTY_COUNT";
            featureValue =  baseCountID + " + " + Integer.toString(-1 - extendedProperties.indexOf(genFeature.getEcoreFeature()));
           }
        }%>
@@ -227,7 +227,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
        <%featureCount = Integer.toString(declaredPropertiesCount);%>
      <%}%>
      <%else {%>
-       <%String baseCountID = base.getClassName() + "." + "SDO_PROPERTY_COUNT";%>
+       <%String baseCountID = base.getImportedClassName() + "." + "SDO_PROPERTY_COUNT";%>
        <%featureCount = baseCountID + " + " + Integer.toString(declaredPropertiesCount);%>
      <%}%>
 	public final static int SDO_PROPERTY_COUNT = <%=featureCount%>;
@@ -239,7 +239,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
        <%featureCount = Integer.toString(extendedPropertiesCount*-1);%>
      <%}%>
      <%else {%>
-       <%String baseCountID = base.getClassName() + "." + "EXTENDED_PROPERTY_COUNT";%>
+       <%String baseCountID = base.getImportedClassName() + "." + "EXTENDED_PROPERTY_COUNT";%>
        <%featureCount = baseCountID + " - " + Integer.toString(extendedPropertiesCount);%>
      <%}%>
 	public final static int EXTENDED_PROPERTY_COUNT = <%=featureCount%>;
@@ -264,9 +264,9 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
       <%int baseCount = base.getFeatureCount();%>
       <%if (g < baseCount)%>
       <%{%>
-        <%featureValue = base.getClassName() + ".INTERNAL_" + genFeature.getUpperName();%>
+        <%featureValue = base.getImportedClassName() + ".INTERNAL_" + genFeature.getUpperName();%>
       <%} else {%>
-        <%String baseCountID = base.getClassName() + "." + "INTERNAL_PROPERTY_COUNT";%>
+        <%String baseCountID = base.getImportedClassName() + "." + "INTERNAL_PROPERTY_COUNT";%>
         <%featureValue =  baseCountID + " + " + Integer.toString(g - baseCount);%>
        <%}%>
      <%}%> 
@@ -287,7 +287,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
       featureCount = Integer.toString(genClass.getFeatureCount());
     } 
     else {
-      String baseCountID = base.getClassName() + "." + "INTERNAL_PROPERTY_COUNT";
+      String baseCountID = base.getImportedClassName() + "." + "INTERNAL_PROPERTY_COUNT";
       featureCount = baseCountID + " + " + Integer.toString(genClass.getFeatureCount() - base.getFeatureCount());
     }%>
 	public final static int INTERNAL_PROPERTY_COUNT = <%=featureCount%>;

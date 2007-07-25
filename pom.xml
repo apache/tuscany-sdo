@@ -118,6 +118,18 @@
                 <module>sample</module>
             </modules>
         </profile>
+
+        <profile>
+            <id>deploy</id> <!-- things to be deployed to remote maven repository -->
+            <modules>
+                <module>sdo-api</module>
+                <module>lib</module>
+                <module>impl</module>
+                <module>tools</module>
+                <module>plugin</module>
+            </modules>
+        </profile> 
+
     </profiles>
 
     <build>

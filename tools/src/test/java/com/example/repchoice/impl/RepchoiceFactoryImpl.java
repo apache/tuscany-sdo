@@ -28,17 +28,11 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 
-import org.apache.tuscany.sdo.SDOFactory;
-
 import org.apache.tuscany.sdo.impl.FactoryBase;
 
 import org.apache.tuscany.sdo.model.ModelFactory;
 
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
-
-import org.apache.tuscany.sdo.model.internal.InternalFactory;
-
-import org.apache.tuscany.sdo.util.SDOUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -94,11 +88,17 @@ public class RepchoiceFactoryImpl extends FactoryBase implements RepchoiceFactor
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
-   */	
-  public void register(HelperContext scope) {
+   */
+  public void register(HelperContext scope) 
+  {
     if(scope == null) {
-       throw new IllegalArgumentException("Scope can not be null");
-    } 
+      throw new IllegalArgumentException("Scope can not be null");
+    }
+    
+    //Register dependent packages with provided scope
+    ModelFactory.INSTANCE.register(scope);
+    
+    // Initialize this package   
     TypeHelperImpl th = (TypeHelperImpl)scope.getTypeHelper();
     th.getExtendedMetaData().putPackage(NAMESPACE_URI, this);
   }
@@ -138,29 +138,25 @@ public class RepchoiceFactoryImpl extends FactoryBase implements RepchoiceFactor
   }
   
 
-  private static boolean isInited = false;
-
+  private static RepchoiceFactoryImpl instance = null; 
   public static RepchoiceFactoryImpl init()
   {
-    if (isInited) return (RepchoiceFactoryImpl)FactoryBase.getStaticFactory(RepchoiceFactoryImpl.NAMESPACE_URI);
-    RepchoiceFactoryImpl theRepchoiceFactoryImpl = new RepchoiceFactoryImpl();
-    isInited = true;
+    if (instance != null ) return instance;
+    instance = new RepchoiceFactoryImpl();
 
-    // Initialize dependencies
-    SDOUtil.registerStaticTypes(SDOFactory.class);
-    SDOUtil.registerStaticTypes(ModelFactory.class);
-    SDOUtil.registerStaticTypes(InternalFactory.class);
-
+    // Initialize dependent packages
+    ModelFactory ModelFactoryInstance = ModelFactory.INSTANCE;
+    
     // Create package meta-data objects
-    theRepchoiceFactoryImpl.createMetaData();
+    instance.createMetaData();
 
     // Initialize created meta-data
-    theRepchoiceFactoryImpl.initializeMetaData();
-
+    instance.initializeMetaData();
+    
     // Mark meta-data to indicate it can't be changed
     //theRepchoiceFactoryImpl.freeze(); //FB do we need to freeze / should we freeze ????
 
-    return theRepchoiceFactoryImpl;
+    return instance;
   }
   
   private boolean isCreated = false;
@@ -171,7 +167,7 @@ public class RepchoiceFactoryImpl extends FactoryBase implements RepchoiceFactor
     isCreated = true;	
 
     // Create types and their properties
-          rcTypeType = createType(false, RC_TYPE);
+    rcTypeType = createType(false, RC_TYPE);
     createProperty(true, rcTypeType,RCTypeImpl.INTERNAL_GROUP); 
     createProperty(true, rcTypeType,RCTypeImpl.INTERNAL_S); 
     createProperty(true, rcTypeType,RCTypeImpl.INTERNAL_I); 
@@ -186,7 +182,7 @@ public class RepchoiceFactoryImpl extends FactoryBase implements RepchoiceFactor
     isInitialized = true;
 
     // Obtain other dependent packages
-    ModelFactoryImpl theModelPackageImpl = (ModelFactoryImpl)FactoryBase.getStaticFactory(ModelFactoryImpl.NAMESPACE_URI);
+    ModelFactoryImpl theModelPackageImpl = (ModelFactoryImpl)ModelFactory.INSTANCE;
     Property property = null;
 
     // Add supertypes to types
