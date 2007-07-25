@@ -215,6 +215,34 @@ conditions of the following licenses.
 
 License for the Service Data Objects JavaDoc and Interface Definition files. (tuscany-sdo-api-r2.1-${sdo.version}.jar)
 
+These files being ...
+commonj/sdo/ChangeSummary$Setting.class
+commonj/sdo/ChangeSummary.class
+commonj/sdo/DataGraph.class
+commonj/sdo/DataObject.class
+commonj/sdo/helper/CopyHelper.class
+commonj/sdo/helper/DataFactory.class
+commonj/sdo/helper/DataHelper.class
+commonj/sdo/helper/EqualityHelper.class
+commonj/sdo/helper/HelperContext.class
+commonj/sdo/helper/TypeHelper.class
+commonj/sdo/helper/XMLDocument.class
+commonj/sdo/helper/XMLHelper.class
+commonj/sdo/helper/XSDHelper.class
+commonj/sdo/impl/ExternalizableDelegator$Resolvable.class
+commonj/sdo/impl/ExternalizableDelegator.class
+commonj/sdo/Property.class
+commonj/sdo/Sequence.class
+commonj/sdo/Type.class
+xml/datagraph.xsd
+xml/sdoJava.xml
+xml/sdoJava.xsd
+xml/sdoModel.xml
+xml/sdoModel.xsd
+xml/sdoXML.xml
+xml/sdoXML.xsd
+
+
 Permission to copy, make derivative works of, and distribute the Service Data Objects 
 JavaDoc and Interface Definition Files files in any medium without fee or royalty as part 
 of a compliant implementation of the Service Data Objects Specification is hereby granted.  
@@ -240,6 +268,19 @@ written prior permission. Title to copyright in the Service Data Objects Specifi
 JavaDoc and Interface Definition Files will at all times remain with the Authors.
 
 No other rights are granted by implication, estoppel or otherwise.
+
+
+
+=================================================================================================================
+Note that the remaining files in the jar tuscany-sdo-api-r2.1-${sdo.version}.jar ....
+commonj/sdo/impl/HelperProvider$1.class
+commonj/sdo/impl/HelperProvider$2.class
+commonj/sdo/impl/HelperProvider$DefaultHelperContext.class
+commonj/sdo/impl/HelperProvider.class
+commonj/sdo/impl/NoHelperProviderException.class
+
+are licensed by the Apache License Version 2.0, January 2004 as laid out above
+
 
 =================================================================================================================
 
