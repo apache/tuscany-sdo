@@ -26,22 +26,18 @@ import commonj.sdo.DataObject;
 import commonj.sdo.Property;
 import commonj.sdo.Type;
 
-import org.apache.tuscany.sdo.SDOFactory;
-
 import org.apache.tuscany.sdo.impl.FactoryBase;
 
 import org.apache.tuscany.sdo.model.ModelFactory;
 
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
-
 /**
  * <!-- begin-user-doc -->
  * The <b>Factory</b> for the model.
  * It provides a create method for each non-abstract class of the model.
  * <!-- end-user-doc -->
- * patternVersion=1.1; -noInterfaces
+ * patternVersion=1.2; -noInterfaces
  * @generated
  */
 public class SimpleFactory extends FactoryBase
@@ -77,7 +73,7 @@ public class SimpleFactory extends FactoryBase
    * <!-- end-user-doc -->
    * @generated
    */
-  public static final String PATTERN_VERSION = "1.1";
+  public static final String PATTERN_VERSION = "1.2";
   
   public static final int QUOTE = 1;
   
@@ -98,11 +94,17 @@ public class SimpleFactory extends FactoryBase
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
-   */	
-  public void register(HelperContext scope) {
+   */
+  public void register(HelperContext scope) 
+  {
     if(scope == null) {
-       throw new IllegalArgumentException("Scope can not be null");
-    } 
+      throw new IllegalArgumentException("Scope can not be null");
+    }
+    
+    //Register dependent packages with provided scope
+    ModelFactory.INSTANCE.register(scope);
+    
+    // Initialize this package   
     TypeHelperImpl th = (TypeHelperImpl)scope.getTypeHelper();
     th.getExtendedMetaData().putPackage(NAMESPACE_URI, this);
   }
@@ -142,28 +144,25 @@ public class SimpleFactory extends FactoryBase
   }
   
 
-  private static boolean isInited = false;
-
+  private static SimpleFactory instance = null; 
   public static SimpleFactory init()
   {
-    if (isInited) return (SimpleFactory)FactoryBase.getStaticFactory(SimpleFactory.NAMESPACE_URI);
-    SimpleFactory theSimpleFactory = new SimpleFactory();
-    isInited = true;
+    if (instance != null ) return instance;
+    instance = new SimpleFactory();
 
-    // Initialize simple dependencies
-    SDOUtil.registerStaticTypes(SDOFactory.class);
-    SDOUtil.registerStaticTypes(ModelFactory.class);
-
+    // Initialize dependent packages
+    ModelFactory ModelFactoryInstance = ModelFactory.INSTANCE;
+    
     // Create package meta-data objects
-    theSimpleFactory.createMetaData();
+    instance.createMetaData();
 
     // Initialize created meta-data
-    theSimpleFactory.initializeMetaData();
-
+    instance.initializeMetaData();
+    
     // Mark meta-data to indicate it can't be changed
     //theSimpleFactory.freeze(); //FB do we need to freeze / should we freeze ????
 
-    return theSimpleFactory;
+    return instance;
   }
   
   private boolean isCreated = false;
@@ -174,7 +173,7 @@ public class SimpleFactory extends FactoryBase
     isCreated = true;	
 
     // Create types and their properties
-          quoteType = createType(false, QUOTE);
+    quoteType = createType(false, QUOTE);
     createProperty(true, quoteType,Quote.INTERNAL_SYMBOL); 
     createProperty(true, quoteType,Quote.INTERNAL_COMPANY_NAME); 
     createProperty(true, quoteType,Quote.INTERNAL_PRICE); 
@@ -194,38 +193,38 @@ public class SimpleFactory extends FactoryBase
     isInitialized = true;
 
     // Obtain other dependent packages
-    ModelFactoryImpl theModelPackageImpl = (ModelFactoryImpl)FactoryBase.getStaticFactory(ModelFactoryImpl.NAMESPACE_URI);
+    ModelFactoryImpl theModelPackageImpl = (ModelFactoryImpl)ModelFactory.INSTANCE;
     Property property = null;
 
     // Add supertypes to types
 
     // Initialize types and properties
     initializeType(quoteType, Quote.class, "Quote", false);
-    property = getProperty(quoteType, Quote.INTERNAL_SYMBOL);
+    property = getLocalProperty(quoteType, 0);
     initializeProperty(property, theModelPackageImpl.getString(), "symbol", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, Quote.INTERNAL_COMPANY_NAME);
+    property = getLocalProperty(quoteType, 1);
     initializeProperty(property, theModelPackageImpl.getString(), "companyName", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, Quote.INTERNAL_PRICE);
+    property = getLocalProperty(quoteType, 2);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "price", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, Quote.INTERNAL_OPEN1);
+    property = getLocalProperty(quoteType, 3);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "open1", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, Quote.INTERNAL_HIGH);
+    property = getLocalProperty(quoteType, 4);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "high", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, Quote.INTERNAL_LOW);
+    property = getLocalProperty(quoteType, 5);
     initializeProperty(property, theModelPackageImpl.getDecimal(), "low", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, Quote.INTERNAL_VOLUME);
+    property = getLocalProperty(quoteType, 6);
     initializeProperty(property, theModelPackageImpl.getDouble(), "volume", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, Quote.INTERNAL_CHANGE1);
+    property = getLocalProperty(quoteType, 7);
     initializeProperty(property, theModelPackageImpl.getDouble(), "change1", null, 1, 1, Quote.class, false, true, false);
 
-    property = getProperty(quoteType, Quote.INTERNAL_QUOTES);
+    property = getLocalProperty(quoteType, 8);
     initializeProperty(property, this.getQuote(), "quotes", null, 0, -1, Quote.class, false, false, false, true , null);
 
     createXSDMetaData(theModelPackageImpl);

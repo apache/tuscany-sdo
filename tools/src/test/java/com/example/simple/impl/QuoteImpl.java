@@ -470,7 +470,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     boolean oldSymbol_set_ = symbol_set_;
     symbol_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, SYMBOL, oldSymbol, symbol, !oldSymbol_set_);
+      notify(ChangeKind.SET, INTERNAL_SYMBOL, oldSymbol, symbol, !oldSymbol_set_);
   }
 
   /**
@@ -485,7 +485,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     symbol = SYMBOL_DEFAULT_;
     symbol_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, SYMBOL, oldSymbol, SYMBOL_DEFAULT_, oldSymbol_set_);
+      notify(ChangeKind.UNSET, INTERNAL_SYMBOL, oldSymbol, SYMBOL_DEFAULT_, oldSymbol_set_);
   }
 
   /**
@@ -519,7 +519,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     boolean oldCompanyName_set_ = companyName_set_;
     companyName_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, COMPANY_NAME, oldCompanyName, companyName, !oldCompanyName_set_);
+      notify(ChangeKind.SET, INTERNAL_COMPANY_NAME, oldCompanyName, companyName, !oldCompanyName_set_);
   }
 
   /**
@@ -534,7 +534,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     companyName = COMPANY_NAME_DEFAULT_;
     companyName_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, COMPANY_NAME, oldCompanyName, COMPANY_NAME_DEFAULT_, oldCompanyName_set_);
+      notify(ChangeKind.UNSET, INTERNAL_COMPANY_NAME, oldCompanyName, COMPANY_NAME_DEFAULT_, oldCompanyName_set_);
   }
 
   /**
@@ -568,7 +568,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     boolean oldPrice_set_ = price_set_;
     price_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, PRICE, oldPrice, price, !oldPrice_set_);
+      notify(ChangeKind.SET, INTERNAL_PRICE, oldPrice, price, !oldPrice_set_);
   }
 
   /**
@@ -583,7 +583,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     price = PRICE_DEFAULT_;
     price_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, PRICE, oldPrice, PRICE_DEFAULT_, oldPrice_set_);
+      notify(ChangeKind.UNSET, INTERNAL_PRICE, oldPrice, PRICE_DEFAULT_, oldPrice_set_);
   }
 
   /**
@@ -617,7 +617,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     boolean oldOpen1_set_ = open1_set_;
     open1_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, OPEN1, oldOpen1, open1, !oldOpen1_set_);
+      notify(ChangeKind.SET, INTERNAL_OPEN1, oldOpen1, open1, !oldOpen1_set_);
   }
 
   /**
@@ -632,7 +632,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     open1 = OPEN1_DEFAULT_;
     open1_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, OPEN1, oldOpen1, OPEN1_DEFAULT_, oldOpen1_set_);
+      notify(ChangeKind.UNSET, INTERNAL_OPEN1, oldOpen1, OPEN1_DEFAULT_, oldOpen1_set_);
   }
 
   /**
@@ -666,7 +666,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     boolean oldHigh_set_ = high_set_;
     high_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, HIGH, oldHigh, high, !oldHigh_set_);
+      notify(ChangeKind.SET, INTERNAL_HIGH, oldHigh, high, !oldHigh_set_);
   }
 
   /**
@@ -681,7 +681,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     high = HIGH_DEFAULT_;
     high_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, HIGH, oldHigh, HIGH_DEFAULT_, oldHigh_set_);
+      notify(ChangeKind.UNSET, INTERNAL_HIGH, oldHigh, HIGH_DEFAULT_, oldHigh_set_);
   }
 
   /**
@@ -715,7 +715,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     boolean oldLow_set_ = low_set_;
     low_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, LOW, oldLow, low, !oldLow_set_);
+      notify(ChangeKind.SET, INTERNAL_LOW, oldLow, low, !oldLow_set_);
   }
 
   /**
@@ -730,7 +730,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     low = LOW_DEFAULT_;
     low_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, LOW, oldLow, LOW_DEFAULT_, oldLow_set_);
+      notify(ChangeKind.UNSET, INTERNAL_LOW, oldLow, LOW_DEFAULT_, oldLow_set_);
   }
 
   /**
@@ -764,7 +764,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     boolean oldVolume_set_ = volume_set_;
     volume_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, VOLUME, oldVolume, volume, !oldVolume_set_);
+      notify(ChangeKind.SET, INTERNAL_VOLUME, oldVolume, volume, !oldVolume_set_);
   }
 
   /**
@@ -779,7 +779,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     volume = VOLUME_DEFAULT_;
     volume_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, VOLUME, oldVolume, VOLUME_DEFAULT_, oldVolume_set_);
+      notify(ChangeKind.UNSET, INTERNAL_VOLUME, oldVolume, VOLUME_DEFAULT_, oldVolume_set_);
   }
 
   /**
@@ -813,7 +813,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     boolean oldChange1_set_ = change1_set_;
     change1_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, CHANGE1, oldChange1, change1, !oldChange1_set_);
+      notify(ChangeKind.SET, INTERNAL_CHANGE1, oldChange1, change1, !oldChange1_set_);
   }
 
   /**
@@ -828,7 +828,7 @@ public class QuoteImpl extends DataObjectBase implements Quote
     change1 = CHANGE1_DEFAULT_;
     change1_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, CHANGE1, oldChange1, CHANGE1_DEFAULT_, oldChange1_set_);
+      notify(ChangeKind.UNSET, INTERNAL_CHANGE1, oldChange1, CHANGE1_DEFAULT_, oldChange1_set_);
   }
 
   /**

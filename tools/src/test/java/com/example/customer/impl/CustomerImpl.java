@@ -182,7 +182,7 @@ public class CustomerImpl extends DataObjectBase implements Customer
     account_set_ = true;
     if (isNotifying())
     {
-      addNotification(this, ChangeKind.SET, ACCOUNT, oldAccount, newAccount, !oldAccount_set_, changeContext);
+      addNotification(this, ChangeKind.SET, INTERNAL_ACCOUNT, oldAccount, newAccount, !oldAccount_set_, changeContext);
     }
     return changeContext;
   }
@@ -198,19 +198,19 @@ public class CustomerImpl extends DataObjectBase implements Customer
     {
       ChangeContext changeContext = null;
       if (account != null)
-        changeContext = inverseRemove(account, this, OPPOSITE_FEATURE_BASE - ACCOUNT, null, changeContext);
+        changeContext = inverseRemove(account, this, OPPOSITE_FEATURE_BASE - INTERNAL_ACCOUNT, null, changeContext);
       if (newAccount != null)
-        changeContext = inverseAdd(newAccount, this, OPPOSITE_FEATURE_BASE - ACCOUNT, null, changeContext);
+        changeContext = inverseAdd(newAccount, this, OPPOSITE_FEATURE_BASE - INTERNAL_ACCOUNT, null, changeContext);
       changeContext = basicSetAccount(newAccount, changeContext);
       if (changeContext != null) dispatch(changeContext);
     }
     else
-    	{
+    {
       boolean oldAccount_set_ = account_set_;
       account_set_ = true;
       if (isNotifying())
-        notify(ChangeKind.SET, ACCOUNT, newAccount, newAccount, !oldAccount_set_);
-    	}
+        notify(ChangeKind.SET, INTERNAL_ACCOUNT, newAccount, newAccount, !oldAccount_set_);
+    }
   }
 
   /**
@@ -226,7 +226,7 @@ public class CustomerImpl extends DataObjectBase implements Customer
     account_set_ = false;
     if (isNotifying())
     {
-      addNotification(this, ChangeKind.UNSET, ACCOUNT, oldAccount, null, !oldAccount_set_, changeContext);
+      addNotification(this, ChangeKind.UNSET, INTERNAL_ACCOUNT, oldAccount, null, !oldAccount_set_, changeContext);
     }
     return changeContext;
   }
@@ -241,7 +241,7 @@ public class CustomerImpl extends DataObjectBase implements Customer
     if (account != null)
     {
       ChangeContext changeContext = null;
-      changeContext = inverseRemove(account, this, EOPPOSITE_FEATURE_BASE - ACCOUNT, null, changeContext);
+      changeContext = inverseRemove(account, this, EOPPOSITE_FEATURE_BASE - INTERNAL_ACCOUNT, null, changeContext);
       changeContext = basicUnsetAccount(changeContext);
       if (changeContext != null) dispatch(changeContext);
     }
@@ -250,7 +250,7 @@ public class CustomerImpl extends DataObjectBase implements Customer
       boolean oldAccount_set_ = account_set_;
       account_set_ = false;
       if (isNotifying())
-        notify(ChangeKind.UNSET, ACCOUNT, null, null, oldAccount_set_);
+        notify(ChangeKind.UNSET, INTERNAL_ACCOUNT, null, null, oldAccount_set_);
     	}
   }
 
@@ -285,7 +285,7 @@ public class CustomerImpl extends DataObjectBase implements Customer
     boolean oldFirstName_set_ = firstName_set_;
     firstName_set_ = true;
     if (isNotifying())
-      notify(ChangeKind.SET, FIRST_NAME, oldFirstName, firstName, !oldFirstName_set_);
+      notify(ChangeKind.SET, INTERNAL_FIRST_NAME, oldFirstName, firstName, !oldFirstName_set_);
   }
 
   /**
@@ -300,7 +300,7 @@ public class CustomerImpl extends DataObjectBase implements Customer
     firstName = FIRST_NAME_DEFAULT_;
     firstName_set_ = false;
     if (isNotifying())
-      notify(ChangeKind.UNSET, FIRST_NAME, oldFirstName, FIRST_NAME_DEFAULT_, oldFirstName_set_);
+      notify(ChangeKind.UNSET, INTERNAL_FIRST_NAME, oldFirstName, FIRST_NAME_DEFAULT_, oldFirstName_set_);
   }
 
   /**
