@@ -24,8 +24,8 @@
         <artifactId>parent</artifactId>
         <version>2-incubating-SNAPSHOT</version>
     </parent>
-    <groupId>commonj</groupId>
-    <artifactId>sdo-api-r${specVersion}</artifactId>
+    <groupId>org.apache.tuscany.sdo</groupId>
+    <artifactId>tuscany-sdo-api-r${specVersion}</artifactId>
     <packaging>osgi-bundle</packaging>
     <version>1.0-incubating-SNAPSHOT</version>
     <name>SDO API</name>
@@ -117,7 +117,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.3-SNAPSHOT</version>
                 <configuration>
                     <version>2.0</version>
                 </configuration>
