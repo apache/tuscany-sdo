@@ -169,19 +169,6 @@ public interface SDOHelper
    * 
    * @param inputStream the inputStream of the data graph.
    * @param options loader control options, or null.
-   * @param scope the TypeHelper in which to register deserialized Types and to find Types when
-   *              creating DataObject instances, or null for default TypeHelper.
-   * @return the de-serialized data graph.
-   * @throws IOException
-   * @deprecated Replaced by loadDataGraph(InptuStream, Map, HelperContext)
-   */
- public DataGraph loadDataGraph(InputStream inputStream, Map options, TypeHelper scope) throws IOException;
-
-  /**
-   * Load a serialized data graph from the specified insputStream.
-   * 
-   * @param inputStream the inputStream of the data graph.
-   * @param options loader control options, or null.
    * @param hc the HelperContext in which to register deserialized Types and to find Types when
    *              creating DataObject instances, or null for default HelperContext.
    * @return the de-serialized data graph.
@@ -208,14 +195,6 @@ public interface SDOHelper
    * types used by the objects in the DataGraph).
    */
   public void registerDataGraphTypes(DataGraph dataGraph, List/*Type*/types);
-
-  /**
-   * Create a new cross scope CopyHelper.
-   * @param targetScope the TypeHelper containing the Types to use to create the copy objects.
-   * @return the new CopyHelper.
-   * @deprecated
-   */
-  public CopyHelper createCrossScopeCopyHelper(TypeHelper targetScope);
   
   /**
    * Create a new cross scope CopyHelper.
@@ -224,13 +203,6 @@ public interface SDOHelper
    */
   public CopyHelper createCrossScopeCopyHelper(HelperContext targetScope);
 
-  /**
-   * Create a new XMLStreamHelper, with visibility to types in the specified TypeHelper scope.
-   * @param scope the TypeHelper to use for locating types.
-   * @return the new XMLStreamHelper.
-   * @deprecated
-   */
-  public XMLStreamHelper createXMLStreamHelper(TypeHelper scope);
   
   /**
    * Create a new XMLStreamHelper, with visibility to types in the specified HelperContext scope.
@@ -254,15 +226,6 @@ public interface SDOHelper
    * @return the new ObjectOutputStream.
    */
   public ObjectOutputStream createObjectOutputStream(OutputStream outputStream, HelperContext helperContext) throws IOException;
-
-  /**
-   * Gets all of the types associated with a uri.
-   * @param scope the TypeHelper to use for locating types.
-   * @param uri the URI of the Types
-   * @return a List containing instances of Type, null if uri is not found.
-   * @deprecated
-   */
-  public List getTypes(TypeHelper scope, String uri);
   
   /**
    * Gets all of the types associated with a uri.
@@ -305,12 +268,6 @@ public interface SDOHelper
    */
   public interface MetaDataBuilder
   {
-    /**
-     * Create a Type in the specified TypeHelper scope.
-     * @return the new Type.
-     * @deprecated
-     */
-    public Type createType(TypeHelper scope, String uri, String name, boolean isDataType);
 
     /**
      * Create a Type in the specified TypeHelper scope.
@@ -358,12 +315,6 @@ public interface SDOHelper
      */
     public void setPropertyXMLKind(Property property, boolean isXmlElement);
 
-    /**
-     * Create a new open content property in the specified TypeHelper scope.
-     * @deprecated
-     */
-    public Property createOpenContentProperty(TypeHelper scope, String uri, String name, Type type);
-    
     /**
      * Create a new open content property in the specified TypeHelper scope.
      */

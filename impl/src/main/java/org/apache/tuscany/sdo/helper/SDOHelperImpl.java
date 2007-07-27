@@ -147,42 +147,35 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
         options.put(LOADING_SCOPE, extendedMetaData);
     }
 
-    /**
-     * @deprecated Replaced by loadDataGraph(InptuStream, Map, HelperContext)
-     */
-    public DataGraph loadDataGraph(InputStream inputStream, Map options, TypeHelper scope) throws IOException {
+    public DataGraph loadDataGraph(InputStream inputStream, Map options, HelperContext scope) throws IOException {
+        if (scope == null) {
+            scope = HelperProvider.getDefaultContext();
+        }
+        TypeHelper th = scope.getTypeHelper();
         DataGraph result = null;
-        if (scope == null || scope == TypeHelper.INSTANCE) {
-            result = loadDataGraph(inputStream, options);
-        } else if (options == null) {
-            options = new HashMap();
-            registerLoadingScope(options, scope);
-            result = loadDataGraph(inputStream, options);
-        } else if (options.containsKey(LOADING_SCOPE)) {
-            Object restore = options.get(LOADING_SCOPE);
-            registerLoadingScope(options, scope);
-            try {
-                result = loadDataGraph(inputStream, options);
-            } finally {
-                options.put(LOADING_SCOPE, restore);
-            }
-        } else {
-            registerLoadingScope(options, scope);
-            try {
-                result = loadDataGraph(inputStream, options);
-            } finally {
-                options.remove(LOADING_SCOPE);
-            }
-        }
-        return result;
-    }
-    
-    public DataGraph loadDataGraph(InputStream inputStream, Map options, HelperContext hc) throws IOException {
-        if (hc == null) {
-            hc = HelperProvider.getDefaultContext();
-        }
-        TypeHelper scope = hc.getTypeHelper();
-        return loadDataGraph(inputStream, options, scope);
+		if (th == null || th == TypeHelper.INSTANCE) {
+		    result = loadDataGraph(inputStream, options);
+		} else if (options == null) {
+		    options = new HashMap();
+		    registerLoadingScope(options, th);
+		    result = loadDataGraph(inputStream, options);
+		} else if (options.containsKey(LOADING_SCOPE)) {
+		    Object restore = options.get(LOADING_SCOPE);
+		    registerLoadingScope(options, th);
+		    try {
+		        result = loadDataGraph(inputStream, options);
+		    } finally {
+		        options.put(LOADING_SCOPE, restore);
+		    }
+		} else {
+		    registerLoadingScope(options, th);
+		    try {
+		        result = loadDataGraph(inputStream, options);
+		    } finally {
+		        options.remove(LOADING_SCOPE);
+		    }
+		}
+		return result;
     }
 
     public void saveDataGraph(DataGraph dataGraph, OutputStream outputStream, Map options) throws IOException {
@@ -229,39 +222,16 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
         return new HelperContextImpl(extensibleNamespaces, options);
     }
 
-    /**
-     * @deprecated Replaced by createCrossScopeCopyHelper(HelperContext)
-     */
-    public CopyHelper createCrossScopeCopyHelper(TypeHelper targetScope) {
-        return new CrossScopeCopyHelperImpl(targetScope);
-    }
 
     public CopyHelper createCrossScopeCopyHelper(HelperContext hc) {
         return new CrossScopeCopyHelperImpl(hc.getTypeHelper());
     }
 
-    /**
-     * @deprecated Replaced by createXMLStreamHelper(HelperContext)
-     */
-    public XMLStreamHelper createXMLStreamHelper(TypeHelper scope) {
-        return (new HelperContextImpl(scope)).getXMLStreamHelper();
-    }
     
     public XMLStreamHelper createXMLStreamHelper(HelperContext hc) {
         return ((HelperContextImpl)hc).getXMLStreamHelper();
     }
 
-    /**
-     * @deprecated
-     */
-    public List getTypes(TypeHelper scope, String uri) {
-
-        EPackage ePackage = ((TypeHelperImpl)scope).getExtendedMetaData().getPackage(uri);
-        if (ePackage != null) {
-            return new ArrayList(ePackage.getEClassifiers());
-        }
-        return null;
-    }
     
     public List getTypes(HelperContext hc, String uri) {
 
@@ -282,45 +252,6 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
         return "".equals(SDOExtendedMetaData.INSTANCE.getName((EClassifier)type));
     }
 
-    /**
-     * @deprecated
-     */
-    public Type createType(TypeHelper scope, String uri, String name, boolean isDataType) {
-        ExtendedMetaData extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
-        if ("".equals(uri))
-            uri = null; // FB
-
-        EPackage ePackage = extendedMetaData.getPackage(uri);
-        if (ePackage == null) {
-            ePackage = EcoreFactory.eINSTANCE.createEPackage();
-            ePackage.setEFactoryInstance(new DynamicDataObjectImpl.FactoryImpl());
-            ePackage.setNsURI(uri);
-            String packagePrefix = uri != null ? URI.createURI(uri).trimFileExtension().lastSegment() : ""; // FB
-            ePackage.setName(packagePrefix);
-            ePackage.setNsPrefix(packagePrefix);
-            extendedMetaData.putPackage(uri, ePackage);
-        }
-
-        EClassifier eClassifier = ePackage.getEClassifier(name);
-        if (eClassifier != null) // already defined?
-        {
-            // throw new IllegalArgumentException();
-            return null;
-        }
-
-        if (name != null) {
-            eClassifier =
-                isDataType ? (EClassifier)SDOFactory.eINSTANCE.createDataType() : (EClassifier)SDOFactory.eINSTANCE
-                    .createClass();
-            eClassifier.setName(name);
-        } else {
-            eClassifier = DataObjectUtil.createDocumentRoot();
-        }
-
-        ePackage.getEClassifiers().add(eClassifier);
-
-        return (Type)eClassifier;
-    }
     
     public Type createType(HelperContext hc, String uri, String name, boolean isDataType) {
         ExtendedMetaData extendedMetaData = ((HelperContextImpl)hc).getExtendedMetaData();
@@ -474,32 +405,6 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
       }
   }
   
-  /**
-   * @deprecated replaced by createOpenContentProperty(HelperContext, String, String, Type)
-   */
-  public Property createOpenContentProperty(TypeHelper scope, String uri, String name, Type type)
-  {
-        ExtendedMetaData extendedMetaData = ((TypeHelperImpl)scope).getExtendedMetaData();
-
-        // get/create document root
-        EPackage ePackage = extendedMetaData.getPackage(uri);
-        Type documentRoot = ePackage != null ? (Type)extendedMetaData.getType(ePackage, "") : null;
-        if (documentRoot == null) {
-            documentRoot = createType(scope, uri, null, false);
-        }
-
-        // Determine if property already exists
-        Property newProperty = documentRoot.getProperty(name);
-        if (newProperty == null) {
-            // Create the new property 'under' the document root.....
-            newProperty = createProperty(documentRoot, name, type);
-        } else {
-            // if property already exists, validate the expected type
-            if (!newProperty.getType().equals(type))
-                throw new IllegalArgumentException();
-        }
-        return newProperty;
-    }
   
   public Property createOpenContentProperty(HelperContext hc, String uri, String name, Type type)
   {

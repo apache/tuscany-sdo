@@ -144,15 +144,6 @@ public final class SDOUtil
   
   /**
    * @see {@link org.apache.tuscany.sdo.api.SDOHelper#loadDataGraph(InputStream, Map, HelperContext)}.
-   * @deprecated
-   */
-  public static DataGraph loadDataGraph(InputStream inputStream, Map options, TypeHelper scope) throws IOException
-  {
-    return defaultSDOHelper.loadDataGraph(inputStream, options, scope);
-  }
-  
-  /**
-   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#loadDataGraph(InputStream, Map, HelperContext)}.
    */
   public static DataGraph loadDataGraph(InputStream inputStream, Map options, HelperContext hc) throws IOException
   {
@@ -205,14 +196,6 @@ public final class SDOUtil
     return defaultSDOHelper.createHelperContext();
   }
   
-  /**
-   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createCrossScopeCopyHelper(TypeHelper)}.
-   * @deprecated replaced by createCrossScopeCopyHelper(HelperContext)
-   */
-  public static CopyHelper createCrossScopeCopyHelper(TypeHelper targetScope) 
-  {
-    return defaultSDOHelper.createCrossScopeCopyHelper(targetScope); 
-  }
   
   /**
    * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createCrossScopeCopyHelper(HelperContext)}.
@@ -222,14 +205,6 @@ public final class SDOUtil
     return defaultSDOHelper.createCrossScopeCopyHelper(hc); 
   }
   
-  /**
-   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createXMLStreamHelper(TypeHelper)}.
-   * @deprecated Replaced by createXMLStreamHelper(HelperContext)
-   */
-  public static XMLStreamHelper createXMLStreamHelper(TypeHelper scope)
-  {
-    return defaultSDOHelper.createXMLStreamHelper(scope);
-  }
   
   /**
    * @see {@link org.apache.tuscany.sdo.api.SDOHelper#createXMLStreamHelper(HelperContext)}.
@@ -253,15 +228,6 @@ public final class SDOUtil
   public static ObjectOutputStream createObjectOutputStream(OutputStream outputStream, HelperContext helperContext) throws IOException
   {
     return defaultSDOHelper.createObjectOutputStream(outputStream, helperContext);
-  }
-  
-  /**
-   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#getTypes(TypeHelper, String)}.
-   * @deprecated replaced by getTypes(HelperContext, String)
-   */
-  public static List getTypes(TypeHelper scope, String uri) {
-
-    return defaultSDOHelper.getTypes(scope, uri);
   }
   
   /**
@@ -294,15 +260,6 @@ public final class SDOUtil
   public static String getXPath(DataObject dataObject) 
   {
     return defaultSDOHelper.getXPath(dataObject);
-  }
-  
-  /**
-   * @see {@link org.apache.tuscany.sdo.api.SDOHelper.MetaDataBuilder#createType(TypeHelper, String, String, boolean)}.
-   * @deprecated replaced by createType(HelperContext, String, String, boolean)
-   */
-  public static Type createType(TypeHelper scope, String uri, String name, boolean isDataType)
-  {
-    return defaultSDOHelper.getMetaDataBuilder().createType(scope, uri, name, isDataType);
   }
   
   /**
@@ -374,15 +331,6 @@ public final class SDOUtil
    */
   public static void setPropertyXMLKind(Property property, boolean isXmlElement) {
       defaultSDOHelper.getMetaDataBuilder().setPropertyXMLKind(property, isXmlElement);
-  }
-  
-  /**
-   * @see {@link org.apache.tuscany.sdo.api.SDOHelper.MetaDataBuilder#createOpenContentProperty(TypeHelper, String, String, Type)}.
-   * @deprecated replaced by createOpenContentProperty(HelperContext, String, String, Type)
-   */
-  public static Property createOpenContentProperty(TypeHelper scope, String uri, String name, Type type)
-  {
-    return defaultSDOHelper.getMetaDataBuilder().createOpenContentProperty(scope, uri, name, type);
   }
   
   /**

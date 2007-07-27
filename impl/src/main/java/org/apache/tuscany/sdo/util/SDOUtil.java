@@ -353,7 +353,7 @@ public final class SDOUtil
    */
   public static DataGraph loadDataGraph(InputStream inputStream, Map options, TypeHelper scope) throws IOException
   {
-    return org.apache.tuscany.sdo.api.SDOUtil.loadDataGraph(inputStream, options, scope);
+    return org.apache.tuscany.sdo.api.SDOUtil.loadDataGraph(inputStream, options, ((TypeHelperImpl)scope).getHelperContext());
   }
   
   /**
@@ -398,7 +398,7 @@ public final class SDOUtil
    */
   public static CopyHelper createCrossScopeCopyHelper(TypeHelper targetScope) 
   {
-    return org.apache.tuscany.sdo.api.SDOUtil.createCrossScopeCopyHelper(targetScope); 
+    return org.apache.tuscany.sdo.api.SDOUtil.createCrossScopeCopyHelper(((TypeHelperImpl)targetScope).getHelperContext()); 
   }
   
   /**
@@ -407,7 +407,7 @@ public final class SDOUtil
    */
   public static XMLStreamHelper createXMLStreamHelper(TypeHelper scope)
   {
-    return (XMLStreamHelper)org.apache.tuscany.sdo.api.SDOUtil.createXMLStreamHelper(scope);
+    return (XMLStreamHelper)org.apache.tuscany.sdo.api.SDOUtil.createXMLStreamHelper(((TypeHelperImpl)scope).getHelperContext());
   }
   
   /**
@@ -434,7 +434,7 @@ public final class SDOUtil
    */
   public static List getTypes(TypeHelper scope, String uri) {
 
-    return org.apache.tuscany.sdo.api.SDOUtil.getTypes(scope, uri);
+    return org.apache.tuscany.sdo.api.SDOUtil.getTypes(((TypeHelperImpl)scope).getHelperContext(), uri);
   }
   
   /**
@@ -461,7 +461,7 @@ public final class SDOUtil
    */
   public static Type createType(TypeHelper scope, String uri, String name, boolean isDataType)
   {
-    return org.apache.tuscany.sdo.api.SDOUtil.createType(scope, uri, name, isDataType);
+    return org.apache.tuscany.sdo.api.SDOUtil.createType(((TypeHelperImpl)scope).getHelperContext(), uri, name, isDataType);
   }
   
   /**
@@ -533,7 +533,7 @@ public final class SDOUtil
    */
   public static Property createGlobalProperty(TypeHelper scope, String uri, String name, Type type)
   {
-    return org.apache.tuscany.sdo.api.SDOUtil.createOpenContentProperty(scope, uri, name, type);
+    return org.apache.tuscany.sdo.api.SDOUtil.createOpenContentProperty(((TypeHelperImpl)scope).getHelperContext(), uri, name, type);
   }
   
   /**
