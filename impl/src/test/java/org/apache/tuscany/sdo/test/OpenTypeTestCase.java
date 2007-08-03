@@ -91,7 +91,36 @@ public class OpenTypeTestCase extends TestCase {
       // allows is to use the !isMany getters and setters for open content
       quote.set(priceProperty, new BigDecimal("1000.0"));
       
-   }
+    }
+
+    /**
+     * Although this behavior is not mandated by the SDO 2.1 specification it should be possible
+     * to demand-create DataObject properties by calling createDataObject(String name).
+     * The behavior should be the same as that specified in section 9.10 for parsing XML that has
+     * no types defined e.g. the property should be created as an open, sequenced type with many=true.
+     *
+     * See https://issues.apache.org/jira/browse/TUSCANY-1397 for more information.
+     *
+     * @throws Exception
+     */
+    public void testOnDemandCreateDataObject() throws Exception {
+        // define an open type with no properties
+        DataObject typeDef = df.create( "commonj.sdo", "Type" );
+        typeDef.set( "uri", TEST_NAMESPACE );
+        typeDef.set( "name", "testOnDemandCreateDataObjectType" );
+        typeDef.setBoolean( "open", true );
+        Type t = th.define( typeDef );
+    
+        // create a DataObject that uses this type
+        DataObject testDO = df.create(t);
+
+        // create an on-demand property
+        DataObject foo = testDO.createDataObject( "foo" );
+        assertNotNull( "createDataObject() demand created a DataObject", foo );
+        assertTrue( "DataObject is open", foo.getType().isOpen() );
+        assertTrue( "DataObject is sequenced", foo.getType().isSequenced() );
+    }
+
 
     protected void setUp() throws Exception {
         super.setUp();

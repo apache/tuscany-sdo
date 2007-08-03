@@ -449,8 +449,27 @@ public final class DataObjectUtil
   public static DataObject createDataObject(DataObject dataObject, String propertyName, String namespaceURI, String typeName)
   {
     Property property = getInstanceProperty(dataObject, propertyName);
-    Type type = DataObjectUtil.getType(dataObject, namespaceURI, typeName);
-    return createDataObject(dataObject, property, type);
+    if (property != null) {
+      Type type = DataObjectUtil.getType(dataObject, namespaceURI, typeName);
+      return createDataObject(dataObject, property, type);
+    }
+    else {
+      if (dataObject.getType().isOpen()) {
+        HelperContext ctx = HelperProvider.getDefaultContext();
+        Type propertyType = ctx.getTypeHelper().getType( namespaceURI, typeName );
+        if (propertyType == null) {
+          throw new IllegalStateException( "type does not exist: uri=" + namespaceURI + ", name=" + typeName );
+        }
+        DataObject value = ctx.getDataFactory().create( propertyType );
+        List list = new ArrayList(1);
+        list.add(value);
+        dataObject.setList( propertyName, list );
+        return value;
+      }
+      else {
+        throw new IllegalArgumentException( "property '" + propertyName + "' does not exist" );
+      }
+    }
   }
   
   public static DataObject createDataObject(DataObject dataObject, Property property)
@@ -469,8 +488,13 @@ public final class DataObjectUtil
   public static DataObject createDataObject(DataObject dataObject, String propertyName)
   {
     Property property = (Property)getInstanceProperty(dataObject, propertyName);
-    Type type = property.getType();
-    return createDataObject(dataObject,property, type);
+    if (property != null) {
+      Type type = property.getType();
+      return createDataObject(dataObject,property, type);
+    }
+    else {
+      return createDataObject(dataObject, propertyName, "http://www.apache.org/tuscany/2005/SDO", "AnyTypeDataObject" );
+    }
   }
   
   public static void setString(DataObject dataObject, String path, String value)
