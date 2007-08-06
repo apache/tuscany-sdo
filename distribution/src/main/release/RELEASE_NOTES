@@ -4,7 +4,7 @@ The Service Data Objects (SDO) API simplifies and unifies Service Oriented Archi
 (SOA) data access and code.
 
 SDO offers both a static and a dynamic programming model for data access.
-Choosing to generate static classes to repreent your data model gives you
+Choosing to generate static classes to represent your data model gives you
 the ease and intuitive nature of the static programming model,  backed up
 by the power of the dynamic model too.
 
