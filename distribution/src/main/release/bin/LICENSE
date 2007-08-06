@@ -293,13 +293,13 @@ are licensed by the Apache License Version 2.0, January 2004 as laid out above
 =================================================================================================================
 
 For the Eclipse EMF components
-(codegen-2.2.2.jar
-codegen-ecore-2.2.2.jar
-common-2.2.2.jar
-ecore-2.2.2.jar
-ecore-change-2.2.2.jar
-ecore-xmi-2.2.2.jar
-xsd-2.2.2.jar)
+(codegen-2.2.3.jar
+codegen-ecore-2.2.3.jar
+common-2.2.3.jar
+ecore-2.2.3.jar
+ecore-change-2.2.3.jar
+ecore-xmi-2.2.3.jar
+xsd-2.2.3.jar)
 
 
 Eclipse Public License - v 1.0
