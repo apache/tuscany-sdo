@@ -104,6 +104,7 @@
             <source>src/main/release/bin/samples/runsamples.sh</source>
             <outputDirectory>tuscany-sdo-${sdo.version}/samples</outputDirectory>
             <filtered>true</filtered>
+            <fileMode>0755</fileMode>
         </file> 
         <file>
             <source>src/main/release/bin/samples/README</source>
@@ -126,7 +127,7 @@
                 <include>org.apache.tuscany.sdo:tuscany-sdo-tools</include>
                 <include>org.apache.tuscany.sdo:sample-sdo</include>
             </includes>
-            <fileMode>644</fileMode>
+            <fileMode>0644</fileMode>
         </dependencySet>
 
     </dependencySets>
