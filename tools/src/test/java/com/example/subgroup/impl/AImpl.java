@@ -128,6 +128,16 @@ public class AImpl extends DataObjectBase implements A
    * <!-- end-user-doc -->
    * @generated
    */
+  public int getStaticPropertyCount()
+  {
+    return INTERNAL_PROPERTY_COUNT;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public Sequence getGe1Group()
   {
     if (ge1Group == null)

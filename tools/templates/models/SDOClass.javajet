@@ -448,6 +448,16 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 		return ((<%=genPackage.getImportedFactoryClassName()%>)<%=genPackage.getImportedFactoryInterfaceName()%>.INSTANCE).get<%=genClass.getClassifierAccessorName()%>();
 	}
 
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getStaticPropertyCount()
+	{
+		return INTERNAL_PROPERTY_COUNT;
+	}
+
 <%}%>
 <%/*%>
 <% * Output getter and setter interfaces / impls%>

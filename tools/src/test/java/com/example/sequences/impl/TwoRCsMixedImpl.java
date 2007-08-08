@@ -208,6 +208,16 @@ public class TwoRCsMixedImpl extends DataObjectBase implements TwoRCsMixed
    * <!-- end-user-doc -->
    * @generated
    */
+  public int getStaticPropertyCount()
+  {
+    return INTERNAL_PROPERTY_COUNT;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public Sequence getMixed()
   {
     if (mixed == null)

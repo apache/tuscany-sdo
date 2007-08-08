@@ -143,6 +143,16 @@ public class RepeatingChoiceImpl extends DataObjectBase implements RepeatingChoi
    * <!-- end-user-doc -->
    * @generated
    */
+  public int getStaticPropertyCount()
+  {
+    return INTERNAL_PROPERTY_COUNT;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public Sequence getGroup()
   {
     if (group == null)

@@ -117,6 +117,16 @@ public class CustomersTypeImpl extends DataObjectBase implements CustomersType
    * <!-- end-user-doc -->
    * @generated
    */
+  public int getStaticPropertyCount()
+  {
+    return INTERNAL_PROPERTY_COUNT;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public List getCustomer()
   {
     if (customer == null)

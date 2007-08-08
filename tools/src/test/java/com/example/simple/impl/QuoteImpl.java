@@ -454,6 +454,16 @@ public class QuoteImpl extends DataObjectBase implements Quote
    * <!-- end-user-doc -->
    * @generated
    */
+  public int getStaticPropertyCount()
+  {
+    return INTERNAL_PROPERTY_COUNT;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public String getSymbol()
   {
     return symbol;

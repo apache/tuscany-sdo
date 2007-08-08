@@ -164,7 +164,7 @@ public class SDOClass
   protected final String TEXT_144 = " getStaticType()" + NL + "\t{" + NL + "\t\treturn ((";
   protected final String TEXT_145 = ")";
   protected final String TEXT_146 = ".INSTANCE).get";
-  protected final String TEXT_147 = "();" + NL + "\t}" + NL;
+  protected final String TEXT_147 = "();" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic int getStaticPropertyCount()" + NL + "\t{" + NL + "\t\treturn INTERNAL_PROPERTY_COUNT;" + NL + "\t}" + NL;
   protected final String TEXT_148 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */";
   protected final String TEXT_149 = NL + "\t";
   protected final String TEXT_150 = "[] ";

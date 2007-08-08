@@ -156,6 +156,16 @@ public class MixedRepeatingChoiceImpl extends DataObjectBase implements MixedRep
    * <!-- end-user-doc -->
    * @generated
    */
+  public int getStaticPropertyCount()
+  {
+    return INTERNAL_PROPERTY_COUNT;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public Sequence getMixed()
   {
     if (mixed == null)

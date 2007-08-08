@@ -139,6 +139,16 @@ public class BprimeImpl extends BImpl implements Bprime
    * <!-- end-user-doc -->
    * @generated
    */
+  public int getStaticPropertyCount()
+  {
+    return INTERNAL_PROPERTY_COUNT;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public String getImInTypeBprime()
   {
     return imInTypeBprime;

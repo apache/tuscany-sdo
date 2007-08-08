@@ -81,4 +81,14 @@ public class InfoTypeImpl extends DataObjectBase implements InfoType
     return ((CustomerFactoryImpl)CustomerFactory.INSTANCE).getInfoType();
   }
 
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getStaticPropertyCount()
+  {
+    return INTERNAL_PROPERTY_COUNT;
+  }
+
 } //InfoTypeImpl

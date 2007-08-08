@@ -270,21 +270,6 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
     return changeContextImpl;
   }
   
-  protected Object get(int featureID, boolean resolve)
-  {
-    return null;
-  }
-  
-  public void set(int featureID, Object newValue)
-  {
-    throw new UnsupportedOperationException();
-  }
- 
-  public void unset(int propertyIndex)
-  {
-    throw new UnsupportedOperationException();
-  }
-  
   private ChangeContextImpl initializeChangeContext(ChangeContext changeContext)
   {
     ChangeContextImpl changeContextImpl;
@@ -410,7 +395,17 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
     return (EClass)getStaticType();
   }
   
-  public Type getStaticType() // must be overridem in subclasses
+  public Type getStaticType() // must be overridden in subclasses
+  {
+    throw new UnsupportedOperationException();
+  }
+  
+  public int eStaticFeatureCount()
+  {
+    return getStaticPropertyCount();  
+  }
+  
+  public int getStaticPropertyCount() // must be overridden in subclasses
   {
     throw new UnsupportedOperationException();
   }
@@ -422,52 +417,27 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
   
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    Object result = null;
-    if (isDynamic())
+    Object result = get(internalConvertIndex(featureID), resolve);
+    if (coreType)
     {
-      result = super.eGet(internalConvertIndex(featureID), resolve, coreType);
-    } else
-    {
-      result = get(internalConvertIndex(featureID), resolve);
-      if (coreType)
-      {
-        if (result instanceof FeatureMap.Internal.Wrapper) result = ((FeatureMap.Internal.Wrapper)result).featureMap();
-      }
+      if (result instanceof FeatureMap.Internal.Wrapper) result = ((FeatureMap.Internal.Wrapper)result).featureMap();
     }
     return result;
   }
 
   public void eSet(int featureID, Object newValue)
   {
-    if (isDynamic())
-    {
-      super.eSet(internalConvertIndex(featureID), newValue);
-    } else 
-    {
-      set(internalConvertIndex(featureID), newValue);
-    }
+    set(internalConvertIndex(featureID), newValue);
   } 
 
   public void eUnset(int featureID)
   {
-    if (isDynamic())
-    {
-      super.eUnset(internalConvertIndex(featureID));
-    } else 
-    {
-      unset(internalConvertIndex(featureID));
-    }
+    unset(internalConvertIndex(featureID));
   }
   
   public boolean eIsSet(int featureID)
   {
-    if (isDynamic())
-    {
-      return super.eIsSet(internalConvertIndex(featureID));
-    } else
-    {
-      return isSet(internalConvertIndex(featureID));
-    }
+    return isSet(internalConvertIndex(featureID));
   }
   
   private class ChangeContextImpl implements ChangeContext
@@ -499,6 +469,7 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
   }
   
 } //DataObjectBase
+
 
 
 

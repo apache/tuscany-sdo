@@ -185,7 +185,7 @@ public class StAX2SAXAdapter {
      * @return the StAX attributes converted to org.xml.sax.Attributes
      */
     private Attributes getAttributes(XMLStreamReader reader) {
-        assert reader.getEventType() == XMLStreamConstants.START_ELEMENT;
+        // assert reader.getEventType() == XMLStreamConstants.START_ELEMENT;
 
         AttributesImpl attrs = new AttributesImpl();
 

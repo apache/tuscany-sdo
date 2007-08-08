@@ -131,6 +131,16 @@ public class BImpl extends DataObjectBase implements B
    * <!-- end-user-doc -->
    * @generated
    */
+  public int getStaticPropertyCount()
+  {
+    return INTERNAL_PROPERTY_COUNT;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public String getImInTypeB()
   {
     return imInTypeB;

@@ -112,6 +112,61 @@ public class ExtensibleDataObjectImpl extends DataObjectImpl implements DataObje
   {
     return (eClass != null);
   }
+
+  public Object get(int featureID, boolean resolve)
+  {
+    return get(featureID, resolve, true);  
+  }
+  
+  public Object get(int featureID, boolean resolve, boolean coreType)
+  {
+    Object result = null;
+    if (isDynamic() || featureID >= eStaticFeatureCount())
+    {
+      result = super.eGet(featureID, resolve, coreType);
+    } 
+    else
+    {
+      result = super.get(featureID);
+    }
+    return result;
+  }
+  
+  public void set(int featureID, Object newValue)
+  {
+    if (isDynamic() || featureID >= eStaticFeatureCount())
+    {
+      super.eSet(featureID, newValue);
+    } 
+    else 
+    {
+      super.set(featureID, newValue);
+    }
+  } 
+
+  public void unset(int featureID)
+  {
+    if (isDynamic() || featureID >= eStaticFeatureCount())
+    {
+      super.eUnset(featureID);
+    } 
+    else 
+    {
+      super.unset(featureID);
+    }
+  }
+  
+  public boolean isSet(int featureID)
+  {
+    if (isDynamic() || featureID >= eStaticFeatureCount())
+    {
+      return super.eIsSet(featureID);
+    } 
+    else
+    {
+      return super.isSet(featureID);
+    }
+  }
   
   public EClass eClass()
   {
@@ -140,53 +195,57 @@ public class ExtensibleDataObjectImpl extends DataObjectImpl implements DataObje
   
   public Object eDynamicGet(int featureID, boolean resolve, boolean coreType)
   {
+    int dynamicFeatureID = featureID - eStaticFeatureCount();
     if (featureID < eClass().getFeatureCount())
     {
       EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
-      return eSettingDelegate(eFeature).dynamicGet(this, eSettings(), featureID, resolve, coreType);
+      return eSettingDelegate(eFeature).dynamicGet(this, eSettings(), dynamicFeatureID, resolve, coreType);
     }
     else
     {
-      return super.eDynamicGet(featureID, resolve, coreType);
+      return super.eDynamicGet(dynamicFeatureID, resolve, coreType);
     }
   }
   
   public void eDynamicSet(int featureID, Object newValue)
   {
+    int dynamicFeatureID = featureID - eStaticFeatureCount();
     if (featureID < eClass().getFeatureCount())
     {
       EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
-      eDynamicSet(featureID, eFeature, newValue);
+      eDynamicSet(dynamicFeatureID, eFeature, newValue);
     }
     else
     {
-      super.eDynamicSet(featureID, newValue);
+      super.eDynamicSet(dynamicFeatureID, newValue);
     }
   }
 
   public void eDynamicUnset(int featureID)
   {
+    int dynamicFeatureID = featureID - eStaticFeatureCount();
     if (featureID < eClass().getFeatureCount())
     {
       EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
-      eDynamicUnset(featureID, eFeature);
+      eDynamicUnset(dynamicFeatureID, eFeature);
     }
     else
     {
-      super.eDynamicUnset(featureID);
+      super.eDynamicUnset(dynamicFeatureID);
     }
   }
 
   public boolean eDynamicIsSet(int featureID)
   {
+    int dynamicFeatureID = featureID - eStaticFeatureCount();
     if (featureID < eClass().getFeatureCount())
     {
       EStructuralFeature eFeature = eClass().getEStructuralFeature(featureID);
-      return eSettingDelegate(eFeature).dynamicIsSet(this, eSettings(), featureID);
+      return eSettingDelegate(eFeature).dynamicIsSet(this, eSettings(), dynamicFeatureID);
     }
     else
     {
-      return super.eDynamicIsSet(featureID);
+      return super.eDynamicIsSet(dynamicFeatureID);
     }
   }
 

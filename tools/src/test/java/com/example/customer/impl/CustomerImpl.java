@@ -165,6 +165,16 @@ public class CustomerImpl extends DataObjectBase implements Customer
    * <!-- end-user-doc -->
    * @generated
    */
+  public int getStaticPropertyCount()
+  {
+    return INTERNAL_PROPERTY_COUNT;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public Account getAccount()
   {
     return account;

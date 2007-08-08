@@ -451,6 +451,16 @@ public class Quote extends DataObjectBase implements Serializable
   }
 
   /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public int getStaticPropertyCount()
+  {
+    return INTERNAL_PROPERTY_COUNT;
+  }
+
+  /**
    * Returns the value of the '<em><b>Symbol</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <p>

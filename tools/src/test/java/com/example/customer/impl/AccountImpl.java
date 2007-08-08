@@ -131,6 +131,16 @@ public class AccountImpl extends DataObjectBase implements Account
    * <!-- end-user-doc -->
    * @generated
    */
+  public int getStaticPropertyCount()
+  {
+    return INTERNAL_PROPERTY_COUNT;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public int getAccountNum()
   {
     return accountNum;

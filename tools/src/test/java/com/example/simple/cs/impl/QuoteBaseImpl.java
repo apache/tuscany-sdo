@@ -221,6 +221,16 @@ public class QuoteBaseImpl extends QuoteImpl implements QuoteBase
    * <!-- end-user-doc -->
    * @generated
    */
+  public int getStaticPropertyCount()
+  {
+    return INTERNAL_PROPERTY_COUNT;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
   public ChangeSummary getChanges()
   {
     return changes;

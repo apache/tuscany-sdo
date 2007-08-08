@@ -29,6 +29,7 @@
 			<xsd:extension base="customer:InfoType">
 				<xsd:sequence>
 					<xsd:element name="zipcode" type="xsd:string" />
+					<xsd:element name="suffix" type="xsd:string" />
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

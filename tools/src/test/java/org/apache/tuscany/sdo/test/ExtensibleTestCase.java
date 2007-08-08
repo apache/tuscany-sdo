@@ -22,14 +22,21 @@ package org.apache.tuscany.sdo.test;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.apache.tuscany.sdo.api.SDOUtil;
 
 import com.example.extensible.customer.CustomerFactory;
+import com.example.extensible.customer.CustomerType;
 import com.example.extensible.customer.CustomersType;
 import com.example.extensible.customer.InfoType;
+import commonj.sdo.DataObject;
+import commonj.sdo.Property;
+import commonj.sdo.Type;
+import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.XMLDocument;
 
@@ -76,6 +83,40 @@ public class ExtensibleTestCase extends TestCase {
 			assertTrue(strdoc.indexOf(">" + valuePrefix) != -1);
 		}
 	}
+	
+  public void testPropertyManagement() throws IOException {
+    Type customersType = scope.getTypeHelper().getType(CustomersType.class);
+    
+    Property customerProperty = customersType.getProperty("customer");
+    CustomerType customer = CustomerFactory.INSTANCE.createCustomerType();
+    List customerList = Arrays.asList(new CustomerType[] {customer});
+
+    Type zipcodeInfoType = scope.getTypeHelper().getType(
+        "http://www.example.com/extensible/info/zipcode", "InfoType");
+    Property zipcodeInfoProperty = 
+        SDOUtil.createProperty(customersType, "zipcodeInfo", zipcodeInfoType);
+    DataObject zipcodeInfo = DataFactory.INSTANCE.create(zipcodeInfoType);
+    zipcodeInfo.setString("zipcode", "21043");
+    
+    Property zipcodeInfoSuffixProperty = zipcodeInfoType.getProperty("suffix");
+    String zipcodeInfoSuffix = "0539";
+    
+    XMLDocument doc = scope.getXMLHelper().load(getClass().getResourceAsStream(CUSTOMERS_XML));
+
+    DataObject[] dataObjects = new DataObject[] {doc.getRootObject(), doc.getRootObject(), zipcodeInfo}; 
+    Property[] props = new Property[] {customerProperty, zipcodeInfoProperty, zipcodeInfoSuffixProperty};
+    Object[] values = new Object[] {customerList, zipcodeInfo, zipcodeInfoSuffix};
+    for (int i = 0; i < dataObjects.length; i++) {
+      DataObject dataObject = dataObjects[i];
+      Property prop = props[i];
+      Object value = values[i];
+      dataObject.unset(prop);
+      assertFalse(dataObject.isSet(prop));
+      dataObject.set(prop, value);
+      assertTrue(dataObject.isSet(prop));
+      assertNotNull(dataObject.get(prop));
+    }
+  }
 	
 	protected void setUp() throws Exception {
 		super.setUp();
