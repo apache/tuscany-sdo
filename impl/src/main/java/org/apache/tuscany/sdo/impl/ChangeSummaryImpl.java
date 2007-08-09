@@ -38,13 +38,23 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.UniqueEList;
-import org.eclipse.emf.ecore.*;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.FeatureChange;
 import org.eclipse.emf.ecore.change.impl.ChangeDescriptionImpl;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.*;
+import org.eclipse.emf.ecore.util.BasicExtendedMetaData;
+import org.eclipse.emf.ecore.util.DelegatingFeatureMap;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 import commonj.sdo.ChangeSummary;
 import commonj.sdo.DataGraph;
@@ -83,7 +93,7 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
   
   protected Set cachedDeletedObjects = null;
   protected List cachedCreatedObjects = null;
-  protected HashMap cachedSDOObjectChanges = new HashMap();  
+  protected Map cachedSDOObjectChanges = null;  
   protected boolean isStale = false;
 
   /**
@@ -94,6 +104,7 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
   protected ChangeSummaryImpl()
   {
     super();
+    cachedSDOObjectChanges = createThreadSafeMap();
   }
 
   /**
@@ -795,6 +806,71 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     }
 
     return (DataObject)oldDataObject;
+  }
+  
+  private static Class concurrentHashMapClazz = null;
+  private static boolean isThreadSafeMapClazzIdentified = false;
+
+  private Map createThreadSafeMap() 
+  {
+    if (!isThreadSafeMapClazzIdentified) 
+    {
+      concurrentHashMapClazz = loadConcurrentHashMapClazz();
+      isThreadSafeMapClazzIdentified = true;
+    }
+    Map threadSafeMap = null;
+    if (concurrentHashMapClazz == null) 
+    {
+      threadSafeMap = Collections.synchronizedMap(new HashMap());
+    } 
+    else 
+    {
+      try 
+      {
+        threadSafeMap = (Map)concurrentHashMapClazz.newInstance();
+      } 
+      catch (InstantiationException e) 
+      {
+        throw new RuntimeException(e);
+      } 
+      catch (IllegalAccessException e) 
+      {
+        throw new RuntimeException(e);
+      }
+    }
+    return threadSafeMap;
+  }
+
+  private static String[] concurrentHashMapClazzNames = new String[] {
+      "java.util.concurrent.ConcurrentHashMap", 
+      "edu.emory.mathcs.backport.java.util.concurrent.ConcurrentHashMap"};
+
+  private static Class loadConcurrentHashMapClazz() 
+  {
+    Class mapClazz = null;
+    for (int i = 0; i < concurrentHashMapClazzNames.length; i++) 
+    {
+      String concurrentHashMapClazzName = concurrentHashMapClazzNames[i];
+      try 
+      {
+        mapClazz = Class.forName(concurrentHashMapClazzName, true, Thread.currentThread().getContextClassLoader());
+      } 
+      catch (Exception ignored) {}
+      if (mapClazz != null) 
+      {
+        break;
+      }
+      try 
+      {
+        mapClazz = Class.forName(concurrentHashMapClazzName);
+      } 
+      catch (Exception ignored) {}
+      if (mapClazz != null) 
+      {
+        break;
+      }
+    }
+    return mapClazz;
   }
   
 } //ChangeSummaryImpl
