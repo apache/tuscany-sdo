@@ -49,16 +49,16 @@ public class DataHelperImpl implements DataHelper
    */
   public synchronized Date toDate(String dateString)
   {
+    if (dateString == null)
+    {
+      return null;
+    }
+      
     SimpleDateFormat format;
     Date result = null;
     boolean negative = false;
     String formatString;
     dateString = dateString.trim();
-    
-    if (dateString == null)
-    {
-      return null;
-    }
     
     // Determine if it is a negative Date, DateTime, or Duration
     
