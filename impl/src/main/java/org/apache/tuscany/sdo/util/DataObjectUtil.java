@@ -22,6 +22,8 @@ package org.apache.tuscany.sdo.util;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.security.AccessController;
+import java.security.PrivilegedExceptionAction;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -2518,7 +2520,16 @@ public final class DataObjectUtil
 
   public static DataObject create(Type type)
   {
-    return (DataObject)EcoreUtil.create((EClass)type);
+    //return (DataObject)EcoreUtil.create((EClass)type);
+    if ((type instanceof EClass) && !type.isAbstract()) {
+      EClass eClass = (EClass)type;
+      try {
+          return (DataObject)EcoreUtil.create(eClass);
+      } catch (ClassCastException e) {
+          throw new IllegalArgumentException();
+      }
+    }
+    throw new IllegalArgumentException();
   }
   
   public static ResourceSet createResourceSet()
@@ -2942,4 +2953,46 @@ public final class DataObjectUtil
     }
     return property;
   }
+  
+  protected static Class loadClass(final ClassLoader classLoader, final String className) {
+    Class returnClass = null;
+    try
+    {
+      returnClass = (Class)AccessController.doPrivileged(new PrivilegedExceptionAction()
+        {
+          public Object run() throws Exception
+          {
+            return classLoader.loadClass(className);
+          }
+        });
+    }
+    catch (Exception e)
+    {
+      return null;
+    }
+
+    return returnClass;
+  }
+  
+  public static Class getImplementationClass(Class instanceClass, boolean concrete)
+  {
+    if (instanceClass.isInterface())
+    {
+      String sdoTypeImplClassName = instanceClass.getName();
+      int index = sdoTypeImplClassName.lastIndexOf('.');
+      if (index == -1) {
+        sdoTypeImplClassName = "impl." + sdoTypeImplClassName + "Impl";
+      }
+      else {
+        sdoTypeImplClassName = sdoTypeImplClassName.substring(0, index) + ".impl" + sdoTypeImplClassName.substring(index) + "Impl";
+      }
+      if (concrete) sdoTypeImplClassName += "$ConcreteBase";
+      return loadClass(instanceClass.getClassLoader(), sdoTypeImplClassName);
+    }
+    else
+    {
+      return instanceClass;
+    }
+  }     
+
 }

@@ -1251,36 +1251,38 @@ public class SDOClass
   protected final String TEXT_1231 = NL + "\t\tresult.append(";
   protected final String TEXT_1232 = ");";
   protected final String TEXT_1233 = NL + "\t\tresult.append(')');" + NL + "\t\treturn result.toString();" + NL + "\t}" + NL;
-  protected final String TEXT_1234 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected int hash = -1;" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + " \t * @generated" + NL + " \t */" + NL + "\tpublic int getHash()" + NL + "\t{" + NL + "\t\tif (hash == -1)" + NL + "\t\t{" + NL + "\t\t\tObject theKey = getKey();" + NL + "\t\t\thash = (theKey == null ? 0 : theKey.hashCode());" + NL + "\t\t}" + NL + "\t\treturn hash;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + " \t * <!-- begin-user-doc -->" + NL + " \t * <!-- end-user-doc -->" + NL + " \t * @generated" + NL + " \t */" + NL + "\tpublic void setHash(int hash)" + NL + "\t{" + NL + "\t\tthis.hash = hash;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + " \t * <!-- begin-user-doc -->" + NL + " \t * <!-- end-user-doc -->" + NL + " \t * @generated" + NL + " \t */" + NL + "\tpublic Object getKey()" + NL + "\t{" + NL + "  \t";
-  protected final String TEXT_1235 = NL + "\t\treturn new ";
-  protected final String TEXT_1236 = "(getTypedKey());" + NL + " \t";
-  protected final String TEXT_1237 = NL + "\t\treturn getTypedKey();" + NL + "  \t";
-  protected final String TEXT_1238 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic void setKey(Object key)" + NL + "\t{";
-  protected final String TEXT_1239 = NL + "\t\tgetTypedKey().addAll((";
-  protected final String TEXT_1240 = ")key);";
-  protected final String TEXT_1241 = NL + "\t\tsetTypedKey(((";
-  protected final String TEXT_1242 = ")key).";
-  protected final String TEXT_1243 = "());";
-  protected final String TEXT_1244 = NL + "\t\tsetTypedKey((";
-  protected final String TEXT_1245 = ")key);";
-  protected final String TEXT_1246 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic Object getValue()" + NL + "\t{" + NL + " \t";
-  protected final String TEXT_1247 = NL + "\t\treturn new ";
-  protected final String TEXT_1248 = "(getTypedValue());" + NL + " \t";
-  protected final String TEXT_1249 = NL + "\t\treturn getTypedValue();" + NL + " \t";
-  protected final String TEXT_1250 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic Object setValue(Object value)" + NL + "\t{" + NL + "\t\tObject oldValue = getValue();" + NL + "  \t";
-  protected final String TEXT_1251 = NL + "\t\tgetTypedValue().clear();" + NL + "\t\tgetTypedValue().addAll((";
-  protected final String TEXT_1252 = ")value);" + NL + "  \t";
-  protected final String TEXT_1253 = NL + "\t\tsetTypedValue(((";
-  protected final String TEXT_1254 = ")value).";
-  protected final String TEXT_1255 = "());" + NL + "  \t";
-  protected final String TEXT_1256 = NL + "\t\tsetTypedValue((";
-  protected final String TEXT_1257 = ")value);" + NL + "  \t";
-  protected final String TEXT_1258 = NL + "\t\treturn oldValue;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
-  protected final String TEXT_1259 = " getEMap()" + NL + "\t{" + NL + "\t\t";
-  protected final String TEXT_1260 = " container = eContainer();" + NL + "\t\treturn container == null ? null : (";
-  protected final String TEXT_1261 = ")container.get(eContainmentFeature());" + NL + "\t}";
-  protected final String TEXT_1262 = NL + "} //";
-  protected final String TEXT_1263 = NL;
+  protected final String TEXT_1234 = NL + "\tpublic static class ConcreteBase extends ";
+  protected final String TEXT_1235 = NL + "\t{" + NL + "\t\tpublic ConcreteBase()" + NL + "\t\t{" + NL + "\t\t\tsuper();" + NL + "\t\t}" + NL + "\t}" + NL + "\t";
+  protected final String TEXT_1236 = NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tprotected int hash = -1;" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + " \t * @generated" + NL + " \t */" + NL + "\tpublic int getHash()" + NL + "\t{" + NL + "\t\tif (hash == -1)" + NL + "\t\t{" + NL + "\t\t\tObject theKey = getKey();" + NL + "\t\t\thash = (theKey == null ? 0 : theKey.hashCode());" + NL + "\t\t}" + NL + "\t\treturn hash;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + " \t * <!-- begin-user-doc -->" + NL + " \t * <!-- end-user-doc -->" + NL + " \t * @generated" + NL + " \t */" + NL + "\tpublic void setHash(int hash)" + NL + "\t{" + NL + "\t\tthis.hash = hash;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + " \t * <!-- begin-user-doc -->" + NL + " \t * <!-- end-user-doc -->" + NL + " \t * @generated" + NL + " \t */" + NL + "\tpublic Object getKey()" + NL + "\t{" + NL + "  \t";
+  protected final String TEXT_1237 = NL + "\t\treturn new ";
+  protected final String TEXT_1238 = "(getTypedKey());" + NL + " \t";
+  protected final String TEXT_1239 = NL + "\t\treturn getTypedKey();" + NL + "  \t";
+  protected final String TEXT_1240 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic void setKey(Object key)" + NL + "\t{";
+  protected final String TEXT_1241 = NL + "\t\tgetTypedKey().addAll((";
+  protected final String TEXT_1242 = ")key);";
+  protected final String TEXT_1243 = NL + "\t\tsetTypedKey(((";
+  protected final String TEXT_1244 = ")key).";
+  protected final String TEXT_1245 = "());";
+  protected final String TEXT_1246 = NL + "\t\tsetTypedKey((";
+  protected final String TEXT_1247 = ")key);";
+  protected final String TEXT_1248 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic Object getValue()" + NL + "\t{" + NL + " \t";
+  protected final String TEXT_1249 = NL + "\t\treturn new ";
+  protected final String TEXT_1250 = "(getTypedValue());" + NL + " \t";
+  protected final String TEXT_1251 = NL + "\t\treturn getTypedValue();" + NL + " \t";
+  protected final String TEXT_1252 = NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic Object setValue(Object value)" + NL + "\t{" + NL + "\t\tObject oldValue = getValue();" + NL + "  \t";
+  protected final String TEXT_1253 = NL + "\t\tgetTypedValue().clear();" + NL + "\t\tgetTypedValue().addAll((";
+  protected final String TEXT_1254 = ")value);" + NL + "  \t";
+  protected final String TEXT_1255 = NL + "\t\tsetTypedValue(((";
+  protected final String TEXT_1256 = ")value).";
+  protected final String TEXT_1257 = "());" + NL + "  \t";
+  protected final String TEXT_1258 = NL + "\t\tsetTypedValue((";
+  protected final String TEXT_1259 = ")value);" + NL + "  \t";
+  protected final String TEXT_1260 = NL + "\t\treturn oldValue;" + NL + "\t}" + NL + "" + NL + "\t/**" + NL + "\t * <!-- begin-user-doc -->" + NL + "\t * <!-- end-user-doc -->" + NL + "\t * @generated" + NL + "\t */" + NL + "\tpublic ";
+  protected final String TEXT_1261 = " getEMap()" + NL + "\t{" + NL + "\t\t";
+  protected final String TEXT_1262 = " container = eContainer();" + NL + "\t\treturn container == null ? null : (";
+  protected final String TEXT_1263 = ")container.get(eContainmentFeature());" + NL + "\t}";
+  protected final String TEXT_1264 = NL + "} //";
+  protected final String TEXT_1265 = NL;
 
   public String generate(Object argument)
   {
@@ -4214,68 +4216,73 @@ public class SDOClass
     }
     stringBuffer.append(TEXT_1233);
     }
-    if (isImplementation && genClass.isMapEntry()) { GenFeature keyFeature = genClass.getMapEntryKeyFeature(); GenFeature valueFeature = genClass.getMapEntryValueFeature();
+    if (isImplementation && !genModel.isReflectiveDelegation() && genClass.isAbstract()) {
     stringBuffer.append(TEXT_1234);
-    if (keyFeature.isPrimitiveType()) {
+    stringBuffer.append(genClass.getClassName());
     stringBuffer.append(TEXT_1235);
-    stringBuffer.append(keyFeature.getObjectType());
+    }
+    if (isImplementation && genClass.isMapEntry()) { GenFeature keyFeature = genClass.getMapEntryKeyFeature(); GenFeature valueFeature = genClass.getMapEntryValueFeature();
     stringBuffer.append(TEXT_1236);
-    } else {
+    if (keyFeature.isPrimitiveType()) {
     stringBuffer.append(TEXT_1237);
-    }
-    stringBuffer.append(TEXT_1238);
-    if (keyFeature.isListType()) {
-    stringBuffer.append(TEXT_1239);
-    stringBuffer.append(genModel.getImportedName("java.util.Collection"));
-    stringBuffer.append(TEXT_1240);
-    } else if (keyFeature.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1241);
     stringBuffer.append(keyFeature.getObjectType());
-    stringBuffer.append(TEXT_1242);
-    stringBuffer.append(keyFeature.getPrimitiveValueFunction());
-    stringBuffer.append(TEXT_1243);
+    stringBuffer.append(TEXT_1238);
     } else {
-    stringBuffer.append(TEXT_1244);
-    stringBuffer.append(keyFeature.getImportedType());
-    stringBuffer.append(TEXT_1245);
+    stringBuffer.append(TEXT_1239);
     }
-    stringBuffer.append(TEXT_1246);
-    if (valueFeature.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1247);
-    stringBuffer.append(valueFeature.getObjectType());
-    stringBuffer.append(TEXT_1248);
-    } else {
-    stringBuffer.append(TEXT_1249);
-    }
-    stringBuffer.append(TEXT_1250);
-    if (valueFeature.isListType()) {
-    stringBuffer.append(TEXT_1251);
+    stringBuffer.append(TEXT_1240);
+    if (keyFeature.isListType()) {
+    stringBuffer.append(TEXT_1241);
     stringBuffer.append(genModel.getImportedName("java.util.Collection"));
-    stringBuffer.append(TEXT_1252);
-    } else if (valueFeature.isPrimitiveType()) {
-    stringBuffer.append(TEXT_1253);
-    stringBuffer.append(valueFeature.getObjectType());
-    stringBuffer.append(TEXT_1254);
-    stringBuffer.append(valueFeature.getPrimitiveValueFunction());
-    stringBuffer.append(TEXT_1255);
+    stringBuffer.append(TEXT_1242);
+    } else if (keyFeature.isPrimitiveType()) {
+    stringBuffer.append(TEXT_1243);
+    stringBuffer.append(keyFeature.getObjectType());
+    stringBuffer.append(TEXT_1244);
+    stringBuffer.append(keyFeature.getPrimitiveValueFunction());
+    stringBuffer.append(TEXT_1245);
     } else {
-    stringBuffer.append(TEXT_1256);
-    stringBuffer.append(valueFeature.getImportedType());
-    stringBuffer.append(TEXT_1257);
+    stringBuffer.append(TEXT_1246);
+    stringBuffer.append(keyFeature.getImportedType());
+    stringBuffer.append(TEXT_1247);
     }
+    stringBuffer.append(TEXT_1248);
+    if (valueFeature.isPrimitiveType()) {
+    stringBuffer.append(TEXT_1249);
+    stringBuffer.append(valueFeature.getObjectType());
+    stringBuffer.append(TEXT_1250);
+    } else {
+    stringBuffer.append(TEXT_1251);
+    }
+    stringBuffer.append(TEXT_1252);
+    if (valueFeature.isListType()) {
+    stringBuffer.append(TEXT_1253);
+    stringBuffer.append(genModel.getImportedName("java.util.Collection"));
+    stringBuffer.append(TEXT_1254);
+    } else if (valueFeature.isPrimitiveType()) {
+    stringBuffer.append(TEXT_1255);
+    stringBuffer.append(valueFeature.getObjectType());
+    stringBuffer.append(TEXT_1256);
+    stringBuffer.append(valueFeature.getPrimitiveValueFunction());
+    stringBuffer.append(TEXT_1257);
+    } else {
     stringBuffer.append(TEXT_1258);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.EMap"));
+    stringBuffer.append(valueFeature.getImportedType());
     stringBuffer.append(TEXT_1259);
-    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EObject"));
+    }
     stringBuffer.append(TEXT_1260);
     stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.EMap"));
     stringBuffer.append(TEXT_1261);
-    }
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.ecore.EObject"));
     stringBuffer.append(TEXT_1262);
+    stringBuffer.append(genModel.getImportedName("org.eclipse.emf.common.util.EMap"));
+    stringBuffer.append(TEXT_1263);
+    }
+    stringBuffer.append(TEXT_1264);
     stringBuffer.append(isInterface ? " " + genClass.getInterfaceName() : genClass.getClassName());
     // TODO fix the space above
     genModel.emitSortedImports();
-    stringBuffer.append(TEXT_1263);
+    stringBuffer.append(TEXT_1265);
     return stringBuffer.toString();
   }
 }

@@ -1845,6 +1845,16 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	}
 
 <%}%>
+<%if (isImplementation && !genModel.isReflectiveDelegation() && genClass.isAbstract()) {%>
+	public static class ConcreteBase extends <%=genClass.getClassName()%>
+	{
+		public ConcreteBase()
+		{
+			super();
+		}
+	}
+	
+<%}%>
 <%if (isImplementation && genClass.isMapEntry()) { GenFeature keyFeature = genClass.getMapEntryKeyFeature(); GenFeature valueFeature = genClass.getMapEntryValueFeature();%>
 	/**
 	 * <!-- begin-user-doc -->

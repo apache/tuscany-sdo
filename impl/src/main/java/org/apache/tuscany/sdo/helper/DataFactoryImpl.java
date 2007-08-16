@@ -19,8 +19,7 @@
  */
 package org.apache.tuscany.sdo.helper;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.apache.tuscany.sdo.util.DataObjectUtil;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
@@ -50,15 +49,7 @@ public class DataFactoryImpl implements DataFactory {
     }
 
     public DataObject create(Type type) {
-        if ((type instanceof EClass) && !type.isAbstract()) {
-            EClass eClass = (EClass)type;
-            try {
-                return (DataObject)EcoreUtil.create(eClass);
-            } catch (ClassCastException e) {
-                throw new IllegalArgumentException();
-            }
-        }
-        throw new IllegalArgumentException();
+        return DataObjectUtil.create(type);
     }
 
     public HelperContext getHelperContext() {

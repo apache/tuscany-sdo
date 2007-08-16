@@ -20,20 +20,19 @@
 package org.apache.tuscany.sdo.helper;
 
 import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.tuscany.sdo.api.SDOUtil;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.internal.InternalFactory;
 import org.apache.tuscany.sdo.model.java.JavaFactory;
 import org.apache.tuscany.sdo.model.xml.XMLFactory;
 import org.apache.tuscany.sdo.model.xml.impl.XMLFactoryImpl;
-import org.apache.tuscany.sdo.api.SDOUtil;
+import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EPackage;
@@ -108,24 +107,6 @@ public class TypeHelperImpl implements TypeHelper {
         }
     }
     
-    public Class loadClass(final ClassLoader classLoader, final String className) {
-        Class returnClass = null;
-        try {
-            returnClass = (Class)AccessController.doPrivileged(
-                                                               new PrivilegedExceptionAction() {
-                                                                   public Object run() throws Exception {
-                                                                       return classLoader.loadClass(className);
-                                                                   }
-                                                               }
-            );
-        }
-        catch (Exception e) {
-            return null;
-        }
-
-        return returnClass;
-    }
-    
     public Type getType(Class interfaceClass) {
         Type type = SDOUtil.getJavaSDOType(interfaceClass);
         if (type != null) {
@@ -137,14 +118,7 @@ public class TypeHelperImpl implements TypeHelper {
         if (getStaticTypeMethod == null) {
             String sdoTypeImplClassName = interfaceClass.getName();
             if (sdoTypeImplClassName.endsWith("Impl") == false) {
-                int index = sdoTypeImplClassName.lastIndexOf('.');
-                if (index == -1) {
-                    sdoTypeImplClassName = "impl." + sdoTypeImplClassName + "Impl";
-                }
-                else {
-                    sdoTypeImplClassName = sdoTypeImplClassName.substring(0, index) + ".impl" + sdoTypeImplClassName.substring(index) + "Impl";
-                }
-                sdoTypeImplClass = loadClass(interfaceClass.getClassLoader(), sdoTypeImplClassName);
+                sdoTypeImplClass = DataObjectUtil.getImplementationClass(interfaceClass, false);
                 if (sdoTypeImplClass == null) {
                     return null;
                 }

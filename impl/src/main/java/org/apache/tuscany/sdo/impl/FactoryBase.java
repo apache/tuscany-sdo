@@ -265,6 +265,17 @@ public class FactoryBase extends EPackageImpl
     {
       DataObject result = sdoFactory.create(eClass.getClassifierID());
       if (result == null) {
+        if (eClass.isAbstract()) {
+          Class instanceClass = eClass.getInstanceClass();
+          try {
+            Class concreteInstanceClass = DataObjectUtil.getImplementationClass(instanceClass, true);
+            return (EObject)concreteInstanceClass.newInstance();          
+          }
+          catch (Exception e)
+          {
+            //System.out.println("Error: " + e);
+          }
+        }
         return super.create(eClass);
       }
       return (EObject)result;
