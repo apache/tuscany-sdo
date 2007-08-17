@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ASCII"?>
+<sv:testObject xmlns:sv="http://www.apache.org/tuscany/SubstitutionValues">
+	<sv:groupMember>gm</sv:groupMember>
+	<sv:nonGroupHead>ngh</sv:nonGroupHead>
+</sv:testObject>

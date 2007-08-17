@@ -19,6 +19,7 @@
     specific language governing permissions and limitations
     under the License.    
   -->
+  <element name="testObject" type="sv:TestObject"/>
   <element name="groupHead" type="string"/>
   <complexType name="TestObject">
     <sequence>

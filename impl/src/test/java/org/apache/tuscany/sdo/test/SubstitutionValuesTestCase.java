@@ -19,29 +19,65 @@
  */
 package org.apache.tuscany.sdo.test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
 
 import junit.framework.TestCase;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.DataObject;
+import commonj.sdo.Property;
+import commonj.sdo.Sequence;
 import commonj.sdo.Type;
-import commonj.sdo.helper.DataFactory;
+import commonj.sdo.helper.HelperContext;
+import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
 
 public final class SubstitutionValuesTestCase extends TestCase
 {
   public void test() throws IOException
   {
+    HelperContext hc = SDOUtil.createHelperContext();
     URL url = getClass().getResource("/SubstitutionValues.xsd");
-    XSDHelper.INSTANCE.define(url.openStream(), url.toString());
+    XSDHelper xsdHelper = hc.getXSDHelper();
+    xsdHelper.define(url.openStream(), url.toString());
 
-    final DataObject  object = DataFactory.INSTANCE.create("http://www.apache.org/tuscany/SubstitutionValues", "TestObject");
-    final Type  type = object.getType();
+    XMLHelper xmlHelper = hc.getXMLHelper();
+    DataObject loadedObject = 
+        xmlHelper.load(getClass().getResourceAsStream("/substitutionValues1.xml")).getRootObject();
+    Type type = loadedObject.getType();
+    Sequence groupHeadSubstitutionValues = SDOUtil.getSubstitutionValues(loadedObject, type.getProperty("groupHead"));
+    assertNotNull(groupHeadSubstitutionValues);
+    assertNull(SDOUtil.getSubstitutionValues(loadedObject, type.getProperty("nonGroupHead")));
     
-    assertNotNull( SDOUtil.getSubstitutionValues(object, type.getProperty("groupHead")));
-    assertNull( SDOUtil.getSubstitutionValues(object, type.getProperty("nonGroupHead")));
+    String nsURI = "http://www.apache.org/tuscany/SubstitutionValues";
+    DataObject createdObject = hc.getDataFactory().create(nsURI, "TestObject");
+    Property groupMemberProperty = xsdHelper.getGlobalProperty(nsURI, "groupMember", true);
+    createdObject.set(groupMemberProperty, groupHeadSubstitutionValues.getValue(0));
+    createdObject.setString("nonGroupHead", loadedObject.getString("nonGroupHead"));
+   
+    assertTrue(hc.getEqualityHelper().equal(loadedObject, createdObject));
+    
+    ByteArrayOutputStream loadedBaos = new ByteArrayOutputStream();
+    xmlHelper.save(loadedObject, nsURI, "testObject", loadedBaos);
+    ByteArrayOutputStream createdBaos = new ByteArrayOutputStream();
+    xmlHelper.save(createdObject, nsURI, "testObject", createdBaos);
+    assertTrue(
+        TestUtil.equalXmlFiles(
+            new ByteArrayInputStream(loadedBaos.toByteArray()), 
+            new ByteArrayInputStream(createdBaos.toByteArray())));
+    
+    loadedObject = 
+      xmlHelper.load(getClass().getResourceAsStream("/substitutionValues2.xml")).getRootObject();
+    groupHeadSubstitutionValues = SDOUtil.getSubstitutionValues(loadedObject, type.getProperty("groupHead"));
+    
+    createdObject = hc.getDataFactory().create(nsURI, "TestObject");
+    createdObject.set("groupHead", groupHeadSubstitutionValues.getValue(0));
+    createdObject.setString("nonGroupHead", loadedObject.getString("nonGroupHead"));
+    
+    assertTrue(hc.getEqualityHelper().equal(loadedObject, createdObject));
   }
 }
