@@ -79,6 +79,48 @@ public class BaseSDOXSDEcoreBuilder extends XSDEcoreBuilder
   {
     super(extendedMetaData);
   }
+  
+  private void createDocumentRoot(XSDSchema xsdSchema, EPackage ePackage) {
+      EClass documentEClass = ecoreFactory.createEClass();
+      String name = getEcoreAttribute(xsdSchema, "documentRoot");
+      if (name == null)
+      {
+        name = "DocumentRoot";
+      }
+      documentEClass.setName(name);
+
+      extendedMetaData.setDocumentRoot(documentEClass);
+
+      ePackage.getEClassifiers().add(documentEClass);
+
+      createFeature
+        (documentEClass,
+         "mixed",
+         ecorePackage.getEFeatureMapEntry(),
+         null,
+         0,
+         -1);
+
+      EStructuralFeature xmlnsPrefixMapFeature =
+        createFeature
+          (documentEClass,
+           "xMLNSPrefixMap",
+           ecorePackage.getEStringToStringMapEntry(),
+           null,
+           0,
+           -1);
+      extendedMetaData.setName(xmlnsPrefixMapFeature, "xmlns:prefix");
+
+      EStructuralFeature xsiSchemaLocationMapFeature =
+        createFeature
+          (documentEClass,
+           "xSISchemaLocation",
+           ecorePackage.getEStringToStringMapEntry(),
+           null,
+           0,
+           -1);
+      extendedMetaData.setName(xsiSchemaLocationMapFeature, "xsi:schemaLocation");
+  }
 
   public EPackage getEPackage(XSDNamedComponent xsdNamedComponent)
   {
@@ -139,6 +181,8 @@ public class BaseSDOXSDEcoreBuilder extends XSDEcoreBuilder
       extendedMetaData.putPackage(targetNamespace, ePackage);
 
       targetNamespaceToEPackageMap.put(targetNamespace, ePackage);
+      
+      createDocumentRoot(xsdNamedComponent.getSchema(), ePackage);
     }
 
     return ePackage;
@@ -1414,46 +1458,7 @@ public class BaseSDOXSDEcoreBuilder extends XSDEcoreBuilder
       EClass documentEClass = extendedMetaData.getDocumentRoot(ePackage);
       if (documentEClass == null)
       {
-        // documentEClass = extendedMetaData.demandDocumentRoot(ePackage);
-        documentEClass = ecoreFactory.createEClass();
-        String name = getEcoreAttribute(xsdFeature.getSchema(), "documentRoot");
-        if (name == null)
-        {
-          name = "DocumentRoot";
-        }
-        documentEClass.setName(name);
-
-        extendedMetaData.setDocumentRoot(documentEClass);
-
-        ePackage.getEClassifiers().add(documentEClass);
-
-        createFeature
-          (documentEClass,
-           "mixed",
-           ecorePackage.getEFeatureMapEntry(),
-           null,
-           0,
-           -1);
-
-        EStructuralFeature xmlnsPrefixMapFeature =
-          createFeature
-            (documentEClass,
-             "xMLNSPrefixMap",
-             ecorePackage.getEStringToStringMapEntry(),
-             null,
-             0,
-             -1);
-        extendedMetaData.setName(xmlnsPrefixMapFeature, "xmlns:prefix");
-
-        EStructuralFeature xsiSchemaLocationMapFeature =
-          createFeature
-            (documentEClass,
-             "xSISchemaLocation",
-             ecorePackage.getEStringToStringMapEntry(),
-             null,
-             0,
-             -1);
-        extendedMetaData.setName(xsiSchemaLocationMapFeature, "xsi:schemaLocation");
+          createDocumentRoot(xsdFeature.getSchema(), ePackage);
       }
 
       String name = getEcoreAttribute(xsdFeature, "name");
