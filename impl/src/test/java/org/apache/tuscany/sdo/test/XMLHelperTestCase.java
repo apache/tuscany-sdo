@@ -188,10 +188,8 @@ MARGIN+  "</cs:openQuote>");
           "</quotes>" +
       "</simple:stockQuote>";
 
-  public void dontTestLoadDOMSource() throws IOException, ParserConfigurationException, SAXException
+  public void testLoadDOMSource() throws IOException, ParserConfigurationException, SAXException
   {
-      //TODO Enable this test when we move to EMF 2.2.3 
-
       DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
       dFactory.setNamespaceAware(true);
 
