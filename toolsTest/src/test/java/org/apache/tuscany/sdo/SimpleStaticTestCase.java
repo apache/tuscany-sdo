@@ -65,7 +65,7 @@ public class SimpleStaticTestCase extends TestCase
       quote.getQuotes().add(child);
       child.setPrice(new BigDecimal("2000.0"));
 
-      scope.getXMLHelper().save((DataObject)quote, "http://www.example.com/simple", "stockQuote", System.out);
+      // scope.getXMLHelper().save((DataObject)quote, "http://www.example.com/simple", "stockQuote", System.out);
     }
     catch (Exception e)
     {
