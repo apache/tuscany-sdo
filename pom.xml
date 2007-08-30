@@ -92,6 +92,7 @@
                 <module>tools</module>
                 <module>plugin</module>
                 <module>sample</module>
+                <module>toolsTest</module>
             </modules>
         </profile>
 
