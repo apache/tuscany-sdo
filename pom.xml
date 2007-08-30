@@ -117,6 +117,7 @@
                 <module>impl</module>
                 <module>tools</module>
                 <module>sample</module>
+                <module>toolsTest</module>
             </modules>
         </profile>
     </profiles>

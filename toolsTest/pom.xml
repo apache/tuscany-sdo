@@ -65,8 +65,26 @@
                         <id>simple</id>
                         <configuration>
                             <schemaFile>${basedir}/src/main/resources/simple.xsd</schemaFile>
-                            <noNotification>true</noNotification>
-                            <noUnsettable>true</noUnsettable>
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>simpleWithChangeSummary</id>
+                        <configuration>
+                            <schemaFile>${basedir}/src/main/resources/simpleWithChangeSummary.xsd</schemaFile>
+                            <prefix>CS</prefix>
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>customer</id>
+                        <configuration>
+                            <schemaFile>${basedir}/src/main/resources/CustomerAccount.xsd</schemaFile>
+                            <prefix>Customer</prefix>
                         </configuration>
                         <goals>
                             <goal>generate</goal>
