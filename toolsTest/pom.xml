@@ -81,10 +81,30 @@
                         </goals>
                     </execution>
                     <execution>
+                        <id>simpleNoInterfaces</id>
+                        <configuration>
+                            <schemaFile>${basedir}/src/main/resources/simpleNoIF.xsd</schemaFile>
+                            <javaPackage>com.example.noInterfaces.simple</javaPackage>
+                            <noInterfaces>true</noInterfaces>
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>customer</id>
                         <configuration>
                             <schemaFile>${basedir}/src/main/resources/CustomerAccount.xsd</schemaFile>
                             <prefix>Customer</prefix>
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>extensible</id>
+                        <configuration>
+                            <schemaFile>${basedir}/src/main/resources/extensible/customer.xsd</schemaFile>
                         </configuration>
                         <goals>
                             <goal>generate</goal>
