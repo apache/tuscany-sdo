@@ -19,54 +19,47 @@
  */
 package org.apache.tuscany.sdo.test;
 
-import java.math.BigDecimal;
+import java.io.IOException;
 
 import junit.framework.TestCase;
 
 import org.apache.tuscany.sdo.api.SDOUtil;
 
-import com.example.simple.Quote;
-import com.example.simple.SimpleFactory;
+import com.example.open.OneElementAndAnyAttr;
+import com.example.open.OpenFactory;
+import commonj.sdo.DataObject;
+import commonj.sdo.Property;
+import commonj.sdo.Sequence;
 import commonj.sdo.helper.HelperContext;
 
 
-public class SimpleStaticTestCase extends TestCase
+public class OpenContentTestCase extends TestCase
 {
   
   HelperContext scope;
-  /**
-   * Simple Static SDO 2 test.
-   */
-  public void testSimpleStatic()
+
+  public void testAnyAttribute() throws IOException
   {
-    try
-    {
-      SimpleFactory.INSTANCE.register(scope);
-      // System.out.println(SimpleFactoryImpl.PATTERN_VERSION);
-      
-      //Quote quote = (Quote)DataFactory.INSTANCE.create(Quote.class);
-      Quote quote = SimpleFactory.INSTANCE.createQuote();
-      
-      quote.setSymbol("fbnt");
-      quote.setCompanyName("FlyByNightTechnology");
-      quote.setPrice(new BigDecimal("1000.0"));
-      quote.setOpen1(new BigDecimal("1000.0"));
-      quote.setHigh(new BigDecimal("1000.0"));
-      quote.setLow(new BigDecimal("1000.0"));
-      quote.setVolume(1000);
-      quote.setChange1(1000);
 
-      //Quote child = (Quote)((DataObject)quote).createDataObject(8);
-      Quote child = SimpleFactory.INSTANCE.createQuote();
-      quote.getQuotes().add(child);
-      child.setPrice(new BigDecimal("2000.0"));
+      OpenFactory.INSTANCE.register(scope);
+      DataObject dob = scope.getDataFactory().create(OneElementAndAnyAttr.class);
+      OneElementAndAnyAttr staticDob = (OneElementAndAnyAttr)dob;
 
-      // scope.getXMLHelper().save((DataObject)quote, "http://www.example.com/simple", "stockQuote", System.out);
-    }
-    catch (Exception e)
-    {
-      e.printStackTrace();
-    }
+      staticDob.setName("fred");
+      
+      assertEquals(1, dob.getInstanceProperties().size());
+      Sequence s = ((OneElementAndAnyAttr)dob).getAnyAttribute();
+
+      assertFalse(dob.getType().isSequenced());
+      assertTrue(dob.getType().isOpen());
+      assertNull(dob.getSequence());
+      
+      Property prop = scope.getTypeHelper().getOpenContentProperty("http://www.example.com/open", "globAttribute");
+      s.add(prop, "foo");
+      assertEquals(2, dob.getInstanceProperties().size());
+      assertTrue(dob.getInstanceProperties().contains(prop));
+
+      // scope.getXMLHelper().save((DataObject)dob, "http://www.example.com/open", "bar", System.out);
   }
 
   protected void setUp() throws Exception {

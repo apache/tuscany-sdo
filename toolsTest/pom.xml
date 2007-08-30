@@ -110,6 +110,24 @@
                             <goal>generate</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>subgroup</id>
+                        <configuration>
+                            <schemaFile>${basedir}/src/main/resources/subgroup.xsd</schemaFile>
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>openContent</id>
+                        <configuration>
+                            <schemaFile>${basedir}/src/main/resources/Open.xsd</schemaFile>
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
