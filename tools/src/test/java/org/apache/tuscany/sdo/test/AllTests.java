@@ -29,12 +29,6 @@ public class AllTests extends TestCase {
 
         TestSuite suite = new TestSuite();
       
-        suite.addTestSuite(ChangeSummaryGenTestCase.class);
-        suite.addTestSuite(ExtensibleTestCase.class);
-        suite.addTestSuite(GenPatternsTestCase.class);
-        suite.addTestSuite(InheritanceTestCase.class);
-        suite.addTestSuite(OpenContentTestCase.class);
-        suite.addTestSuite(SimpleStaticTestCase.class);
         suite.addTestSuite(GeneratedPackagesTestCase.class);
 
         return suite;
