@@ -30,7 +30,6 @@ public class AllTests extends TestCase {
         TestSuite suite = new TestSuite();
       
         suite.addTestSuite(GeneratedPackagesTestCase.class);
-        suite.addTestSuite(MixedTypesTestCase.class);
 
         return suite;
     }
