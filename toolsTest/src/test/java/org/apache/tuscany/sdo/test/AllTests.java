@@ -35,6 +35,7 @@ public class AllTests extends TestCase {
         suite.addTestSuite(InheritanceTestCase.class);
         suite.addTestSuite(OpenContentTestCase.class);
         suite.addTestSuite(SimpleStaticTestCase.class);
+        suite.addTestSuite(MixedTypesTestCase.class);
 
         return suite;
     }

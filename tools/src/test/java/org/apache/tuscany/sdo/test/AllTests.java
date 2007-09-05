@@ -30,6 +30,7 @@ public class AllTests extends TestCase {
         TestSuite suite = new TestSuite();
       
         suite.addTestSuite(GeneratedPackagesTestCase.class);
+        suite.addTestSuite(MixedTypesTestCase.class);
 
         return suite;
     }
@@ -43,5 +44,6 @@ public class AllTests extends TestCase {
         junit.textui.TestRunner.run(suite());
     }
 }
+
 
 
