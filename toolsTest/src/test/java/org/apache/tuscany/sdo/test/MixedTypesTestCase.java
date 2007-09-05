@@ -36,7 +36,7 @@ import commonj.sdo.helper.HelperContext;
 public class MixedTypesTestCase extends TestCase {
 
 	private final String[] MODELS = new String[] {
-			"/mixedtypesDynamic.xsd"
+			"/mixedTypesDynamic.xsd"
 	};
 
     private final String NS_DYNAMIC = "http://www.example.com/mixedtypes/dynamictypes";
