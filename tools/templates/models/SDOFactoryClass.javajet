@@ -452,7 +452,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
             <%}%>
           <%} else {%>
 		addXSDMapping
-			(getProperty(<%=genClassifier.getSafeUncapName()%>Type, <%=genClass.getClassName()%>.INTERNAL_<%=genFeature.getUpperName()%>),
+			(getLocalProperty(<%=genClassifier.getSafeUncapName()%>Type, <%=genClass.getLocalFeatureIndex(genFeature)%>),
 			 new String[]
 			 {
             <%for (Iterator k = featureAnnotation.getDetails().iterator(); k.hasNext();) { Map.Entry detail = (Map.Entry)k.next(); String key = Literals.toStringLiteral((String)detail.getKey(), genModel); String value = Literals.toStringLiteral((String)detail.getValue(), genModel);%>
