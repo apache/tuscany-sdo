@@ -492,6 +492,10 @@ public abstract class JavaGenerator
   {
     Resource resource = genModel.eResource();
 
+    // Return if nothing is found 
+    if( resource == null )
+        return;
+    
     if (targetDirectory != null)
     {
       resource.getResourceSet().getURIConverter().getURIMap().put(

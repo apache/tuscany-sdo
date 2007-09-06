@@ -236,7 +236,12 @@ public class XSD2JavaGenerator extends JavaGenerator
     File inputFile = new File(xsdFileName).getAbsoluteFile();
     Resource model = resourceSet.getResource(URI.createURI(inputFile.toURI().toString()), true);
     XSDSchema schema = (XSDSchema)model.getContents().get(0);
-    return schema.getTargetNamespace();
+    String targetNS = schema.getTargetNamespace();
+    if (targetNS == null) {
+    	targetNS = schema.getSchemaLocation();
+    }
+    
+    return targetNS;
   }
 
   protected static void printUsage()
@@ -320,7 +325,7 @@ public class XSD2JavaGenerator extends JavaGenerator
     {
         if( schemaNamespace != null )
             packageInfoTable.put(schemaNamespace, new PackageInfo(javaPackage, prefix, schemaNamespace, null ));
-        else
+        else if( packageURI != null )
             packageInfoTable.put(packageURI, new PackageInfo(javaPackage, prefix, null, null ));
     }    
     return packageInfoTable;

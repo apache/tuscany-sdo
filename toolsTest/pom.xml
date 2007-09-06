@@ -137,6 +137,15 @@
                             <goal>generate</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>SimpleNoTns</id>
+                        <configuration>
+                            <schemaFile>${basedir}/src/main/resources/simpleNoTns.xsd</schemaFile>
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>
