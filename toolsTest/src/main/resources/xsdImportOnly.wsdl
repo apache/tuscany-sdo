@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://xsdImportOnly/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="EchoService" targetNamespace="http://xsdImportOnly/">
+  <types>
+    <xsd:schema>
+      <xsd:import namespace="http://xsdImportOnly/" schemaLocation="xsdImportOnly_1.xsd"/>
+    </xsd:schema>
+  </types>
+  <message name="echo">
+    <part element="tns:echo" name="parameters"/>
+  </message>
+  <message name="echoResponse">
+    <part element="tns:echoResponse" name="parameters"/>
+  </message>
+  <portType name="Echo">
+    <operation name="echo">
+      <input message="tns:echo"/>
+      <output message="tns:echoResponse"/>
+    </operation>
+  </portType>
+  <binding name="EchoPortBinding" type="tns:Echo">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="echo">
+      <soap:operation soapAction=""/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="EchoService">
+    <port binding="tns:EchoPortBinding" name="EchoPort">
+      <soap:address location="http://localhost:9080/w1/EchoService"/>
+    </port>
+  </service>
+</definitions> 

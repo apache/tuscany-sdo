@@ -100,6 +100,12 @@ public class SchemaFileOption {
      */
     private Boolean interfaceDataObject;
 
+    /**
+     * The namespace to generate Java codes from.
+     * Setting to "all" will generate all namespaces.
+     */
+    private String schemaNamespace;
+
     public SchemaFileOption() {
     }
 
@@ -189,6 +195,14 @@ public class SchemaFileOption {
 
 	public void setInterfaceDataObject(Boolean interfaceDataObject) {
 		this.interfaceDataObject = interfaceDataObject;
+	}
+	
+	public String getSchemaNamespace() {
+    	return schemaNamespace;
+    }
+	
+	public void setSchemaNamespace(String schemaNamespace) {
+		this.schemaNamespace = schemaNamespace;
 	}
 
 }

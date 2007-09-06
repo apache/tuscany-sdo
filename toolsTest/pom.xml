@@ -146,6 +146,16 @@
                             <goal>generate</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>XSDImportOnly</id>
+                        <configuration>
+                            <schemaFile>${basedir}/src/main/resources/xsdImportOnly.wsdl</schemaFile>
+                            <schemaNamespace>all</schemaNamespace>
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
                 </executions>
             </plugin>
         </plugins>

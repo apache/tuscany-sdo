@@ -152,6 +152,14 @@ public class GeneratorMojo extends AbstractMojo {
      * @parameter
      */
     private SchemaFileOption[] schemaFiles;
+    
+    /**
+     * The namespace to generate Java codes from.
+     * Setting to "all" will generate all namespaces.
+     * 
+     * @parameter
+     */
+    private String schemaNamespace;
 
     public void execute() throws MojoExecutionException {
 
@@ -166,6 +174,9 @@ public class GeneratorMojo extends AbstractMojo {
                 }
                 if (null == sf.getJavaPackage()) {
                     sf.setJavaPackage(javaPackage);
+                }
+                if (null == sf.getSchemaNamespace()) {
+                	sf.setSchemaNamespace(schemaNamespace);
                 }
                 if (null == sf.isNoInterfaces()) {
                     sf.setNoInterfaces(noInterfaces);
@@ -218,6 +229,7 @@ public class GeneratorMojo extends AbstractMojo {
                     schemaFiles[i].setNoUnsettable(noUnsettable);
                     schemaFiles[i].setPrefix(prefix);
                     schemaFiles[i].setTargetDirectory(targetDirectory);
+                    schemaFiles[i].setSchemaNamespace(schemaNamespace);
                 }
             } else {
                 schemaFiles = new SchemaFileOption[] {new SchemaFileOption()};
@@ -233,6 +245,7 @@ public class GeneratorMojo extends AbstractMojo {
                 schemaFiles[0].setNoUnsettable(noUnsettable);
                 schemaFiles[0].setPrefix(prefix);
                 schemaFiles[0].setTargetDirectory(targetDirectory);
+                schemaFiles[0].setSchemaNamespace(schemaNamespace);
             }
         }
 
@@ -268,7 +281,7 @@ public class GeneratorMojo extends AbstractMojo {
                 }
 
                 XSD2JavaGenerator.generateFromXMLSchema(file.toString(),
-                                                        null,
+                                                        schemaFiles[i].getSchemaNamespace(),
                                                         schemaFiles[i].getTargetDirectory(),
                                                         schemaFiles[i].getJavaPackage(),
                                                         schemaFiles[i].getPrefix(),

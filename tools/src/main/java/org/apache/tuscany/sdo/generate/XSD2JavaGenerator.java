@@ -147,13 +147,32 @@ public class XSD2JavaGenerator extends JavaGenerator
     generateFromXMLSchema(xsdFileName, packageRegistry, extendedMetaData, targetDirectory, packageInfoTable, genOptions, generateBuiltIn, allNamespaces);
   }
 
+  /**
+   * This method was invoked by the SDO Mojo plugin
+   * 
+   * @param xsdFileName
+   * @param namespace
+   * @param targetDirectory
+   * @param javaPackage
+   * @param prefix
+   * @param genOptions
+   */
   public static void generateFromXMLSchema(String xsdFileName, String namespace, String targetDirectory, String javaPackage, String prefix, int genOptions)
   {
+	  boolean allNamespaces = false;
+	  
+	  // Need to process the passed-in schemaNamespace value from Mojo plugin the same as the command line
+	  if( "all".equalsIgnoreCase(namespace))
+      {
+        namespace = null;
+        allNamespaces = true;
+      }
+	  
     EPackage.Registry packageRegistry = new EPackageRegistryImpl(EPackage.Registry.INSTANCE);
     ExtendedMetaData extendedMetaData = new BasicExtendedMetaData(packageRegistry);
     String packageURI = getSchemaNamespace(xsdFileName);
     Hashtable packageInfoTable = createPackageInfoTable(packageURI, namespace, javaPackage, prefix, null );
-    generateFromXMLSchema(xsdFileName, packageRegistry, extendedMetaData, targetDirectory, packageInfoTable, genOptions, null, false );
+    generateFromXMLSchema(xsdFileName, packageRegistry, extendedMetaData, targetDirectory, packageInfoTable, genOptions, null, allNamespaces);
   }
 
   
