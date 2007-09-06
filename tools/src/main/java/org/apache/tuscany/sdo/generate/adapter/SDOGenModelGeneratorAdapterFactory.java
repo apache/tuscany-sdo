@@ -51,4 +51,13 @@ public class SDOGenModelGeneratorAdapterFactory extends
 	    }
 	    return genPackageGeneratorAdapter;
 	  }
+
+    public Adapter createGenModelAdapter()
+    {
+      if (genModelGeneratorAdapter == null)
+      {
+        genModelGeneratorAdapter = new SDOGenModelGeneratorAdapter(this);
+      }
+      return genModelGeneratorAdapter;
+    }
 }
