@@ -25,7 +25,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apache.tuscany.sdo</groupId>
-    <artifactId>toolsTest</artifactId>
+    <artifactId>tuscany-sdo-tools-test</artifactId>
     <name>Test the SDO Generator Tools and Tool Outputs</name>
 
         <dependencies>

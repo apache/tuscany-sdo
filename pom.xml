@@ -92,7 +92,7 @@
                 <module>tools</module>
                 <module>plugin</module>
                 <module>sample</module>
-                <module>toolsTest</module>
+                <module>tools-test</module>
             </modules>
         </profile>
 
@@ -117,7 +117,7 @@
                 <module>impl</module>
                 <module>tools</module>
                 <module>sample</module>
-                <module>toolsTest</module>
+                <module>tools-test</module>
             </modules>
         </profile>
     </profiles>
