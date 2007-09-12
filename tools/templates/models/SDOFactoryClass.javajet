@@ -32,6 +32,7 @@ package <%=genPackage.getClassPackageName()%>;
 <%}%>
 
 import commonj.sdo.helper.HelperContext;
+import org.apache.tuscany.sdo.helper.HelperContextImpl;
 <%if (!isInterface || genModel.isSuppressInterfaces()) {%>
 import org.apache.tuscany.sdo.helper.TypeHelperImpl;
 <%}%>
@@ -156,15 +157,17 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 		if(scope == null) {
 			throw new IllegalArgumentException("Scope can not be null");
 		}
+
+		if (((HelperContextImpl)scope).getExtendedMetaData().getPackage(NAMESPACE_URI) != null)
+			return;
     
+		// Register this package with provided scope   
+		((HelperContextImpl)scope).getExtendedMetaData().putPackage(NAMESPACE_URI, this);
+		
 		//Register dependent packages with provided scope
         <%for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
 		<%=dep.getImportedFactoryInterfaceName()%>.INSTANCE.register(scope);
         <%}%>
-    
-		// Initialize this package   
-		TypeHelperImpl th = (TypeHelperImpl)scope.getTypeHelper();
-		th.getExtendedMetaData().putPackage(NAMESPACE_URI, this);
   }
 	
 	/**
@@ -264,11 +267,6 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 		if (instance != null ) return instance;
 		instance = new <%=factoryType%>();
 
-		// Initialize dependent packages
-        <%for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
-		<%=dep.getImportedFactoryInterfaceName()%> <%=dep.getImportedFactoryInterfaceName()%>Instance = <%=dep.getImportedFactoryInterfaceName()%>.INSTANCE;
-        <%}%>
-		
 		// Create package meta-data objects
 		instance.createMetaData();
 
@@ -318,7 +316,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
 
 		// Obtain other dependent packages
         <%for (Iterator p=genPackage.getPackageInitializationDependencies().iterator(); p.hasNext();) { GenPackage dep = (GenPackage)p.next();%>
-		<%=dep.getImportedFactoryClassName()%> <%=genPackage.getPackageInstanceVariable(dep)%> = (<%=dep.getImportedFactoryClassName()%>)<%=dep.getImportedFactoryInterfaceName()%>.INSTANCE;
+		<%=dep.getImportedFactoryClassName()%> <%=genPackage.getPackageInstanceVariable(dep)%> = (<%=dep.getImportedFactoryClassName()%>)<%=dep.getImportedFactoryClassName()%>.init();
         <%}%>
       <%}%>
       <%List annotationSources = genPackage.getAnnotationSources();%>

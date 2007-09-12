@@ -111,6 +111,15 @@
                         </goals>
                     </execution>
                     <execution>
+                        <id>extensible_infostreet</id>
+                        <configuration>
+                            <schemaFile>${basedir}/src/main/resources/extensible/infostreet.xsd</schemaFile>
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                    <execution>
                         <id>subgroup</id>
                         <configuration>
                             <schemaFile>${basedir}/src/main/resources/subgroup.xsd</schemaFile>
