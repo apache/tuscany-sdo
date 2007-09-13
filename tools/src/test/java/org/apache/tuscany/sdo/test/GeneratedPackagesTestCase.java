@@ -44,33 +44,27 @@ public class GeneratedPackagesTestCase extends TestCase
             assertTrue(expectedNamespace.equals(packageInfo.getNamespace()));
             
             String name;
-            boolean validatedDocRoot = false;
             boolean validatedMixedQuote = false;
-            boolean validatedSymbol = false;
+            boolean validatedRC = false;
             for (Iterator iterClass = packageInfo.getClasses().iterator(); iterClass.hasNext();)
             {
                 XSD2JavaGenerator.GeneratedPackage.PackageClassInfo classInfo = (XSD2JavaGenerator.GeneratedPackage.PackageClassInfo)iterClass.next();
                 name = classInfo.getName();
                 
-                if( "MixedQuote".equals(name))
+                if( "mixedStockQuote".equals(name))
                 {
                     assertTrue("com.example.sequences.MixedQuote".equals(classInfo.getClassName()));
                     validatedMixedQuote = true;
                 }
-                if( "".equals(name))
+                
+                if( "rc".equals(name))
                 {
-                    assertTrue("com.example.sequences.DocumentRoot".equals(classInfo.getClassName()));
-                    validatedDocRoot = true;
-                }
-                if( "symbol".equals(name))
-                {
-                    assertTrue("java.lang.String".equals(classInfo.getClassName()));
-                    validatedSymbol = true;
+                    assertTrue("com.example.sequences.RepeatingChoice".equals(classInfo.getClassName()));
+                    validatedRC = true;
                 }
             }
             assertTrue(validatedMixedQuote);
-            assertTrue(validatedDocRoot);
-            assertTrue(validatedSymbol);
+            assertTrue(validatedRC);
         }    
     }
 }

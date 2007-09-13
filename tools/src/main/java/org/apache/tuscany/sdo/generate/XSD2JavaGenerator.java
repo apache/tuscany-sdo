@@ -391,15 +391,15 @@ public class XSD2JavaGenerator extends JavaGenerator
   
   public class GeneratedPackage
   {
-    private String namespace;
-    private List   classes;
+    private String  namespace;
+    private Hashtable classes;
     
     public String getNamespace() {return namespace;}
-    public List getClasses() {return classes;}
+    public List getClasses() {return new ArrayList(classes.values());}
     
     GeneratedPackage(GenPackage genPackage, ExtendedMetaData extendedMetaData, Hashtable eclassGenClassMap )
     {
-      classes = new ArrayList();
+      classes = new Hashtable();
          
       EPackage ePackage = genPackage.getEcorePackage();
       namespace     = extendedMetaData.getNamespace(ePackage);
@@ -408,64 +408,71 @@ public class XSD2JavaGenerator extends JavaGenerator
       for (Iterator iterClass = genClasses.iterator(); iterClass.hasNext();)
       {
         GenClass genClass = (GenClass)iterClass.next();
-          String name  = extendedMetaData.getName(genClass.getEcoreClass());
-          String className = genPackage.getInterfacePackageName() + "." + genClass.getInterfaceName();
-          classes.add( new PackageClassInfo( name, className, false, null ) );
-        List features = genClass.getGenFeatures();
-        for (Iterator iterFeatures = features.iterator(); iterFeatures.hasNext();)
+        if ("DocumentRoot".equals(genClass.getEcoreClass().getName())) {
+	        List features = genClass.getGenFeatures();
+	        for (Iterator iterFeatures = features.iterator(); iterFeatures.hasNext();)
+	        {
+	          GenFeature feature = (GenFeature)iterFeatures.next();
+	          addGlobalElement(feature.getEcoreFeature(),extendedMetaData, eclassGenClassMap);
+	        }
+        }
+      }
+    }
+    
+    private void addGlobalElement(EStructuralFeature eFeature, ExtendedMetaData extendedMetaData, Hashtable eclassGenClassMap )
+    {
+        
+      String name               = eFeature.getName();
+      String classname          = "";
+      boolean anonymous         = false;
+      List propertyClassNames   = null;
+          
+      EClassifier eClassifier = eFeature.getEType();
+      
+      if( eClassifier instanceof EClass )
+      {
+        // complex type
+        EClass eClass = (EClass)eClassifier;
+        GenClass genEClass = (GenClass)eclassGenClassMap.get(eClassifier);
+        if( genEClass != null )
+        {    
+          classname = genEClass.getGenPackage().getInterfacePackageName()
+                 + '.' + genEClass.getInterfaceName();
+          anonymous = extendedMetaData.isAnonymous(eClass);
+                        
+          // Build list of property names
+          propertyClassNames = new ArrayList();
+          List properties = eClass.getEStructuralFeatures(); 
+          for (Iterator iterProperties = properties.iterator(); iterProperties.hasNext();)
           {
-          GenFeature feature = (GenFeature)iterFeatures.next();
-          EStructuralFeature element = feature.getEcoreFeature();
-              EClassifier elementType = element.getEType();
-              if( elementType instanceof EClass )
-              {
-                // complex type
-                EClass eClass = (EClass)elementType;
-                GenClass genEClass = (GenClass)eclassGenClassMap.get(elementType);
-            if( genEClass != null )
-            {    
-                name = extendedMetaData.getName(element);
-                String interfaceName = genEClass.getGenPackage().getInterfacePackageName()
-                       + '.' + genEClass.getInterfaceName();
-                boolean anonymous = extendedMetaData.isAnonymous(eClass);
-                            
-              // Build list of property names
-                List propertyClassNames = new ArrayList();
-                List properties = eClass.getEStructuralFeatures(); 
-                for (Iterator iterProperties = properties.iterator(); iterProperties.hasNext();)
-                {
-                EStructuralFeature property = (EStructuralFeature)iterProperties.next();
-                EClassifier propertyType = property.getEType();
-                  if (propertyType instanceof EClass) 
-                  {
-                    GenClass propertyGenClass = (GenClass)eclassGenClassMap.get(propertyType);
-                    if( propertyGenClass != null )
-                    {    
-                      String propertyClassName =  propertyGenClass.getGenPackage().getInterfacePackageName() + '.'
-                                                  + propertyGenClass.getInterfaceName();
-                      propertyClassNames.add(propertyClassName);
-                    }        
-                  } 
-                  else if (propertyType instanceof EClassifier) 
-                  {
-                    String propertyClassName = propertyType.getInstanceClass().getName();
-                    propertyClassNames.add(propertyClassName);
-                  }
-                }
-                classes.add( new PackageClassInfo( name, interfaceName, anonymous, propertyClassNames ) );
-              }
-          }    
-              else
-              {
-                // simple type
-                name  = extendedMetaData.getName(element);
-                className = elementType.getInstanceClass().getName();
-                classes.add( new PackageClassInfo( name, className, false, null ) );
-              }
-            }    
+            EStructuralFeature property = (EStructuralFeature)iterProperties.next();
+            EClassifier propertyType = property.getEType();
+            if (propertyType instanceof EClass) 
+            {
+              GenClass propertyGenClass = (GenClass)eclassGenClassMap.get(propertyType);
+              if( propertyGenClass != null )
+              {    
+                String propertyClassName =  propertyGenClass.getGenPackage().getInterfacePackageName() + '.'
+                                            + propertyGenClass.getInterfaceName();
+                propertyClassNames.add(propertyClassName);
+              }        
+            } 
+            else if (propertyType instanceof EClassifier) 
+            {
+              String propertyClassName = propertyType.getInstanceClass().getName();
+              propertyClassNames.add(propertyClassName);
+            }
           }
         }
-      
+      }
+      else
+      {
+          // simple type
+          classname = eClassifier.getInstanceClass().getName();
+      }
+      classes.put( name, new PackageClassInfo( name, classname, anonymous, propertyClassNames ) );
+    }
+    
     public class PackageClassInfo
     {
       private String name;
