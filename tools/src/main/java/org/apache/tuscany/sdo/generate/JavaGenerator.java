@@ -50,6 +50,7 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.codegen.ecore.genmodel.GenResourceKind;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenBaseGeneratorAdapter;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenModelGeneratorAdapterFactory;
+import org.eclipse.emf.codegen.merge.java.JControlModel;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.common.util.BasicMonitor;
 import org.eclipse.emf.common.util.Diagnostic;
@@ -508,7 +509,19 @@ public abstract class JavaGenerator
     GeneratorAdapterFactory.Descriptor.Registry.INSTANCE.addDescriptor
     (GenModelPackage.eNS_URI, GenModelGeneratorAdapterFactory.DESCRIPTOR);
     
-    Generator generator = new Generator();
+    //Generator generator = new Generator();
+    Generator generator = new Generator()
+    {
+      public JControlModel getJControlModel()
+      {
+        if (jControlModel == null)
+        {
+          jControlModel = new JControlModel();
+        }
+        return jControlModel;
+      }
+    };
+
 
     //if ((genOptions & OPTION_USE_EMF_PATTERNS) == 0)
     {

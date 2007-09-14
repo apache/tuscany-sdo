@@ -21,6 +21,7 @@ package org.apache.tuscany.sdo.generate.adapter;
 
 import org.eclipse.emf.codegen.ecore.generator.GeneratorAdapterFactory;
 import org.eclipse.emf.codegen.ecore.genmodel.generator.GenClassGeneratorAdapter;
+import org.eclipse.emf.common.util.Monitor;
 
 public class SDOGenClassGeneratorAdapter extends GenClassGeneratorAdapter {
 	
@@ -42,5 +43,11 @@ public class SDOGenClassGeneratorAdapter extends GenClassGeneratorAdapter {
 	  }
 	    return jetEmitterDescriptors;
 	}
-	
+
+        protected void ensureProjectExists(String workspacePath, Object object,
+                                           Object projectType, boolean force, Monitor monitor) 
+        {
+              // Do nothing -- this avoids differential behaviour according to whether we
+              // are running in Eclipse or not
+        }        
 }

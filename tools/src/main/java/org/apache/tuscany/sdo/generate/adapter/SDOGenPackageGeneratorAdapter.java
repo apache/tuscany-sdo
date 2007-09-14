@@ -49,4 +49,11 @@ public class SDOGenPackageGeneratorAdapter extends GenPackageGeneratorAdapter
 	{
 		// do nothing
 	}
+        
+        protected void ensureProjectExists(String workspacePath, Object object,
+                                           Object projectType, boolean force, Monitor monitor) 
+        {
+                // Do nothing -- this avoids differential behaviour according to whether we
+                // are running in Eclipse or not
+        }        
 }
