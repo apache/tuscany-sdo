@@ -33,8 +33,6 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.tuscany.sdo.impl.AttributeImpl;
 import org.apache.tuscany.sdo.impl.ReferenceImpl;
-import org.apache.tuscany.sdo.model.internal.InternalFactory;
-import org.apache.tuscany.sdo.model.internal.impl.InternalFactoryImpl;
 import org.apache.tuscany.sdo.util.SDOUtil;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -241,6 +239,7 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         // FIXME: We need to deal with non-containment properties
         if (value == null) {
             // Creating xsi:nil="true" for elements
+            registerNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
             Map.Entry entry = new NameValuePair(qname, null);
             propertyList.add(entry);
         } else if (propertyType.isDataType()) {
@@ -283,7 +282,8 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
                 if (typeName != null) {
                     QName realTypeName = namespaceContext.createQName(type.getURI(), typeName);
                     String typeQName = realTypeName.getPrefix() + ":" + realTypeName.getLocalPart();
-                    declaredNamespaceMap.put(realTypeName.getPrefix(), realTypeName.getNamespaceURI());
+                    registerNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+                    registerNamespace(realTypeName.getPrefix(), realTypeName.getNamespaceURI());
                     attributeList.add(new NameValuePair(XSI_TYPE_QNAME, typeQName));
                 }
             }
