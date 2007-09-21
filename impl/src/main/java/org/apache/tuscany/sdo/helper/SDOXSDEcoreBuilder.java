@@ -47,6 +47,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -173,16 +174,8 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
     ResourceSet result = super.createResourceSet();
     result.getResourceFactoryRegistry().getExtensionToFactoryMap().put("*", new XSDResourceFactoryImpl());
     result.getAdapterFactories().add(new XSDSchemaAdapterFactoryImpl());
-
-    EList resources = result.getResources();
-    for (Iterator iter = targetNamespaceToEPackageMap.entrySet().iterator(); iter.hasNext();) {
-      Map.Entry mapEntry = (Map.Entry)iter.next();
-      EPackage ePackage = (EPackage)mapEntry.getValue();
-      Resource resource = ePackage.eResource();
-      if (resource != null) {
-        resources.add(resource);
-      }
-    }
+    result.setPackageRegistry(new EPackageRegistryImpl(HelperContextImpl.getBuiltInModelRegistry()));     
+    
     return result;
   }
 
