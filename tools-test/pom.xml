@@ -165,6 +165,15 @@
                             <goal>generate</goal>
                         </goals>
                     </execution>
+                    <execution>
+                        <id>listAccess</id>
+                        <configuration>
+                            <schemaFile>${basedir}/src/main/resources/listAccess.xsd</schemaFile>
+                        </configuration>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>                    
                 </executions>
             </plugin>
         </plugins>

@@ -23,17 +23,21 @@ package org.apache.tuscany.sdo.impl;
 import java.io.ObjectStreamException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.impl.ChangeSummaryImpl.SDOChangeRecorder;
+import org.apache.tuscany.sdo.lib.UnknownPropertyList;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.apache.tuscany.sdo.util.VirtualSequence;
+import org.apache.tuscany.sdo.util.DataObjectUtil.Accessor;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.EStructuralFeature.Internal.DynamicValueHolder;
@@ -372,7 +376,12 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
    */
   public List getList(String path)
   {
-    return (List)get(path);
+    List result = (List)get(path);
+    if (result == null) {
+    	result = new UnknownPropertyList(this, path);
+    }
+    
+    return result;
   }
 
   /**
@@ -1525,4 +1534,6 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
   */
 
 } //DataObjectImpl
+
+
 
