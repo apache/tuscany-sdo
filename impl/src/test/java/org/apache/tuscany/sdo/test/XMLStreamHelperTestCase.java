@@ -19,9 +19,14 @@
  */
 package org.apache.tuscany.sdo.test;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.URL;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLInputFactory;
@@ -34,10 +39,12 @@ import javax.xml.stream.XMLStreamWriter;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.apache.tuscany.sdo.api.XMLStreamHelper;
 import org.apache.tuscany.sdo.api.SDOUtil;
+import org.apache.tuscany.sdo.api.XMLStreamHelper;
+
 import commonj.sdo.DataObject;
-import commonj.sdo.helper.*;
+import commonj.sdo.helper.HelperContext;
+import commonj.sdo.helper.XMLDocument;
 
 public class XMLStreamHelperTestCase extends TestCase {
 
@@ -160,6 +167,25 @@ public class XMLStreamHelperTestCase extends TestCase {
         streamWriter.flush();
         //System.out.println(writer);
         assertTrue(writer.toString().indexOf("<symbol>fbnt</symbol>") != -1);
+    }
+    
+    // Test case for TUSCANY-1788
+    public void testXSIType() throws Exception {
+        URL ipo = getClass().getResource("/ipo.xsd");
+        hc.getXSDHelper().define(ipo.openStream(), ipo.toString());
+        DataObject d = hc.getDataFactory().create("http://www.example.com/IPO", "PurchaseOrderType");
+        DataObject billTo = hc.getDataFactory().create("http://www.example.com/IPO", "USAddress");
+        billTo.setString("city", "San Jose");
+        billTo.setString("state", "CA");
+        d.setDataObject("billTo", billTo);
+        XMLDocument ipoDoc = hc.getXMLHelper().createDocument(d, "http://www.example.com/IPO", "purchaseOrder");
+        final StringWriter writer = new StringWriter();
+        final XMLStreamWriter xmlWriter = outputFactory.createXMLStreamWriter(writer);
+        streamHelper.save(ipoDoc, xmlWriter, null);
+        xmlWriter.close();
+        String xml = writer.toString();
+        assertTrue(xml.indexOf("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"") != -1);
+        assertTrue(xml.indexOf("xsi:type") != -1);
     }
 
     protected void tearDown() throws Exception {
