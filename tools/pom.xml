@@ -32,17 +32,31 @@
         <dependency>
             <groupId>org.apache.tuscany.sdo</groupId>
             <artifactId>tuscany-sdo-lib</artifactId>
-            <version>${pom.version}</version>
+            <version>${sdo.version}</version>
             <scope>compile</scope>
         </dependency>
     
         <dependency>
             <groupId>org.apache.tuscany.sdo</groupId>
             <artifactId>tuscany-sdo-impl</artifactId>
-            <version>${pom.version}</version>
+            <version>${sdo.version}</version>
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.eclipse.emf</groupId>
+            <artifactId>common</artifactId>
+            <version>${emfVersion}</version>
+            <scope>compile</scope>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.eclipse.emf</groupId>
+            <artifactId>ecore</artifactId>
+            <version>${emfVersion}</version>
+            <scope>compile</scope>
+        </dependency>
+        
         <dependency>
             <groupId>org.eclipse.emf</groupId>
             <artifactId>codegen</artifactId>
@@ -58,8 +72,16 @@
         </dependency>
 
         <dependency>
+            <groupId>org.eclipse.xsd</groupId>
+            <artifactId>xsd</artifactId>
+            <version>${emfVersion}</version>
+            <scope>compile</scope>
+        </dependency>        
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>3.8.1</version>
         </dependency>
 
         <!-- this is needed because test program calls XMLHelper.save() and SDOXMLResourceImpl (in the sdo/impl project) uses StAX ??? -->

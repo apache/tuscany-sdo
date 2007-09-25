@@ -174,7 +174,6 @@
 
     </build>
 
-    <dependencyManagement>
         <dependencies>
             <dependency>
                 <groupId>org.apache.tuscany.sdo</groupId>
@@ -189,5 +188,4 @@
                 <scope>test</scope>
             </dependency>
         </dependencies>
-    </dependencyManagement>
 </project>

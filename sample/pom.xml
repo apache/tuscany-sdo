@@ -35,15 +35,23 @@
         <dependency>
             <groupId>org.apache.tuscany.sdo</groupId>
             <artifactId>tuscany-sdo-api-r${specVersion}</artifactId>
+            <version>${sdo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.tuscany.sdo</groupId>
             <artifactId>tuscany-sdo-impl</artifactId>
-            <version>${pom.version}</version>
+            <version>${sdo.version}</version>
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.tuscany.sdo</groupId>
+            <artifactId>tuscany-sdo-lib</artifactId>
+            <version>${sdo.version}</version>
+            <scope>compile</scope>
+        </dependency>
+        
         <dependency>
             <groupId>stax</groupId>
             <artifactId>stax-api</artifactId>
