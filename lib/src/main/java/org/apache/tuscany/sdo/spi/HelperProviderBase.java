@@ -33,6 +33,7 @@ import org.apache.tuscany.sdo.api.SDOHelper;
 import org.apache.tuscany.sdo.api.SDOUtil;
 import org.apache.tuscany.sdo.api.XMLStreamHelper;
 import org.apache.tuscany.sdo.lib.SDOObjectInputStream;
+import org.apache.tuscany.sdo.lib.SDOObjectOutputStream;
 
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
@@ -188,9 +189,9 @@ public abstract class HelperProviderBase extends HelperProvider
         ByteArrayOutputStream compressedByteArrayOutputStream = new ByteArrayOutputStream();
         GZIPOutputStream gzipOutputStream = new GZIPOutputStream(compressedByteArrayOutputStream);
         XMLHelper xmlHelperLocal = xmlHelper;
-        if(objectOutput instanceof SDOObjectInputStream)
+        if(objectOutput instanceof SDOObjectOutputStream)
         {
-            xmlHelperLocal = ((SDOObjectInputStream)objectOutput).getHelperContext().getXMLHelper();
+            xmlHelperLocal = ((SDOObjectOutputStream)objectOutput).getHelperContext().getXMLHelper();
         }
         xmlHelperLocal.save(dataObject, "commonj.sdo", "dataObject", gzipOutputStream);
         gzipOutputStream.close(); // Flush the contents
