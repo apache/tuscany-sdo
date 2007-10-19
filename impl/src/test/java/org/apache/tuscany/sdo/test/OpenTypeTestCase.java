@@ -28,7 +28,7 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.util.Iterator;
 
-import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.api.SDOUtil;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -61,7 +61,7 @@ public class OpenTypeTestCase extends TestCase {
         quote.setString("symbol", "s1");
 
         for (Iterator iter = quote.getInstanceProperties().iterator(); iter.hasNext();) {
-            Property property = (Property) iter.next();
+            iter.next();
         }
 
         Property companyProperty = xsdh.getGlobalProperty(TEST_NAMESPACE, "company", true);
@@ -72,7 +72,7 @@ public class OpenTypeTestCase extends TestCase {
         quote.getList(priceProperty).add(new BigDecimal("1000.0"));
 
         for (Iterator iter = quote.getInstanceProperties().iterator(); iter.hasNext();) {
-            Property property = (Property) iter.next();
+            iter.next();
         }
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

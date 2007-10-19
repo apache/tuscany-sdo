@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
@@ -34,7 +33,6 @@ import java.util.StringTokenizer;
 
 import org.apache.tuscany.sdo.generate.adapter.SDOGenModelGeneratorAdapterFactory;
 import org.apache.tuscany.sdo.helper.HelperContextImpl;
-import org.apache.tuscany.sdo.helper.XSDHelperImpl;
 import org.apache.tuscany.sdo.impl.SDOPackageImpl;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.internal.InternalFactory;
