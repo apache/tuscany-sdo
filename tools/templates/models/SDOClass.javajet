@@ -343,7 +343,7 @@ public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends
 	 * @generated
 	 * @ordered
 	 */
-	protected static final <%=genFeature.getImportedType()%> <%=genFeature.getUpperName()%>_DEFAULT_ = <%=genFeature.getStaticDefaultValue()%>;<%=genModel.getNonNLS(genFeature.getStaticDefaultValue())%>
+	protected static final <%=genFeature.getImportedType()%> <%=genFeature.getUpperName()%>_DEFAULT_ = <%=SDOGenUtil.getStaticDefaultValue(genFeature)%>;<%=genModel.getNonNLS(genFeature.getStaticDefaultValue())%>
 
       <%}%>
       <%if (genClass.isField(genFeature)) {%>

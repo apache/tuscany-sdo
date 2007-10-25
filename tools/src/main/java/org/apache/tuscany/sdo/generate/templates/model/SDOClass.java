@@ -1642,7 +1642,7 @@ public class SDOClass
     stringBuffer.append(TEXT_104);
     stringBuffer.append(genFeature.getUpperName());
     stringBuffer.append(TEXT_105);
-    stringBuffer.append(genFeature.getStaticDefaultValue());
+    stringBuffer.append(SDOGenUtil.getStaticDefaultValue(genFeature));
     stringBuffer.append(TEXT_106);
     stringBuffer.append(genModel.getNonNLS(genFeature.getStaticDefaultValue()));
     stringBuffer.append(TEXT_107);

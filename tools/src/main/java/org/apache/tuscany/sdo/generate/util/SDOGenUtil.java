@@ -25,12 +25,17 @@ import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClass;
 import org.eclipse.emf.codegen.ecore.genmodel.GenClassifier;
+import org.eclipse.emf.codegen.ecore.genmodel.GenDataType;
 import org.eclipse.emf.codegen.ecore.genmodel.GenDelegationKind;
 import org.eclipse.emf.codegen.ecore.genmodel.GenFeature;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
+import org.eclipse.emf.codegen.ecore.genmodel.impl.GenFeatureImpl;
+import org.eclipse.emf.codegen.ecore.genmodel.impl.Literals;
 import org.eclipse.emf.codegen.util.CodeGenUtil;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EcorePackage;
 
 import commonj.sdo.Type;
 
@@ -246,5 +251,76 @@ public class SDOGenUtil {
     	
     	return result.toString();
     }
-
+    
+    /*
+     * EMF doesn't do what we want in all cases,  so filter the cases we need to handle
+     * and drop through to EMF for all others.
+     */
+    public static String getStaticDefaultValue(GenFeature genFeature) {
+      String result = "null";
+      boolean defaultFound = false;
+  
+      String defaultString = genFeature.getEcoreFeature()
+          .getDefaultValueLiteral();
+      EClassifier eType = genFeature.getEcoreFeature().getEType();
+      if (eType instanceof EDataType) {
+        GenPackage genPackage = ((GenFeatureImpl) genFeature)
+            .findGenPackage(genFeature.getEcoreFeature().getEType().getEPackage());
+        GenDataType gdt = null;
+        if (genPackage != null) {
+          for (Iterator iter = genPackage.getGenDataTypes().iterator(); iter
+              .hasNext()
+              && gdt == null;) {
+            GenDataType genDataType = (GenDataType) iter.next();
+            if (eType.getName().equals(genDataType.getEcoreDataType().getName())) {
+              gdt = genDataType;
+            }
+          }
+        }
+        EClassifier eDataType = gdt.getEcoreDataType();
+        if (eDataType.getEPackage() != EcorePackage.eINSTANCE
+            && defaultString != null) {
+          boolean replaced = false;
+          for (Iterator i = EcorePackage.eINSTANCE.getEClassifiers().iterator(); i
+              .hasNext();) {
+            EClassifier eClassifier = (EClassifier) i.next();
+            if (eClassifier instanceof EDataType
+                && eClassifier.getInstanceClassName().equals(
+                    eDataType.getInstanceClassName())
+                && ((EDataType) eClassifier).isSerializable()
+                && eClassifier != EcorePackage.eINSTANCE.getEDate()) {
+              replaced = true;
+              eDataType = eClassifier;
+              break;
+            }
+          }
+          if (!replaced) {
+            result = "((" + genPackage.getFactoryClassName() + ")"
+                + genPackage.getFactoryInterfaceName() + "."
+                + genPackage.getFactoryInstanceName() + ")." + "create"
+                + gdt.getName() + "FromString("
+                + Literals.toLiteral(defaultString) + ")";
+            
+  
+            if (gdt.isPrimitiveType())
+            {
+              result = "((" + gdt.getObjectInstanceClassName() + ")" + result
+                  + ")." + gdt.getPrimitiveValueFunction() + "()";
+            } else if (!gdt.isObjectType()) {
+              result = "(" + gdt.getImportedInstanceClassName() + ")" + result;
+            }
+  
+            defaultFound = true;
+          }
+        }
+      }
+  
+      if (!defaultFound) {
+        // the input didn't match any special case that we want to handle differently
+        // from EMF's default approach,  so go ahead and get EMF to do it
+        result = genFeature.getStaticDefaultValue();
+      }
+  
+      return result;
+    }
 }
