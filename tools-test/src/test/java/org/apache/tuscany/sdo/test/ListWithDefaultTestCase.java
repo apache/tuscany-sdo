@@ -24,8 +24,8 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.apache.tuscany.sdo.api.SDOUtil;
-import org.apache.tuscany.sdo.test.xsdlistwitdefault.SubCategoryType;
-import org.apache.tuscany.sdo.test.xsdlistwitdefault.XsdlistwitdefaultFactory;
+import org.example.address.with.list.LIFactory;
+import org.example.address.with.list.SubCategoryType;
 
 import commonj.sdo.helper.HelperContext;
 
@@ -44,7 +44,7 @@ public class ListWithDefaultTestCase extends TestCase {
     super.setUp();
     scope = SDOUtil.createHelperContext();
 
-    XsdlistwitdefaultFactory.INSTANCE.register(scope);
+    LIFactory.INSTANCE.register(scope);
   }
 
   protected void tearDown() throws Exception {
