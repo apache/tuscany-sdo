@@ -274,18 +274,17 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
         List elementList = new ArrayList();
         List attributeList = new ArrayList();
         Type type = dataObject.getType();
-        if (rootElement != null) {
-            Type modelType = rootElement.getType();
-            if (type != modelType) {
-                // FIXME: XSDHelper.getLocalName() for annoymous type returns null?
-                String typeName = xsdHelper.getLocalName(type);
-                if (typeName != null) {
-                    QName realTypeName = namespaceContext.createQName(type.getURI(), typeName);
-                    String typeQName = realTypeName.getPrefix() + ":" + realTypeName.getLocalPart();
-                    registerNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-                    registerNamespace(realTypeName.getPrefix(), realTypeName.getNamespaceURI());
-                    attributeList.add(new NameValuePair(XSI_TYPE_QNAME, typeQName));
-                }
+        
+        // Add xsi:type if rootElement doesn't exist or the type is different
+        if (rootElement == null || (rootElement != null && rootElement.getType() != type)) {
+            // FIXME: XSDHelper.getLocalName() for annoymous type returns null?
+            String typeName = xsdHelper.getLocalName(type);
+            if (typeName != null) {
+                QName realTypeName = namespaceContext.createQName(type.getURI(), typeName);
+                String typeQName = realTypeName.getPrefix() + ":" + realTypeName.getLocalPart();
+                registerNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+                registerNamespace(realTypeName.getPrefix(), realTypeName.getNamespaceURI());
+                attributeList.add(new NameValuePair(XSI_TYPE_QNAME, typeQName));
             }
         }
         
