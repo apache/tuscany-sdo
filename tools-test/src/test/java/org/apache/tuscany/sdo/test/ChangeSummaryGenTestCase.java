@@ -111,7 +111,7 @@ public class ChangeSummaryGenTestCase extends TestCase {
         assertEquals("in fact 1 Object was changed in the code", 1, changedDataObjects.size());     
     }
     
-    public void testChangeSummaryOnDataGraphWithInt() throws Exception {
+    public void testChangeSummaryOnDataGraphWithIntAndFloat() throws Exception {
       
       HelperContext hc = HelperProvider.getDefaultContext();
       CustomerFactory factory = CustomerFactory.INSTANCE;

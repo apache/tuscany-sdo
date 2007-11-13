@@ -25,6 +25,7 @@ import java.util.List;
 import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.helper.HelperContextImpl;
 import org.apache.tuscany.sdo.util.BasicSequence;
+import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.URI;
@@ -32,6 +33,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.EStructuralFeature.Setting;
+import org.eclipse.emf.ecore.EStructuralFeature.Internal.SettingDelegate;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -48,6 +51,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 
+import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
 
@@ -75,24 +79,38 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
     int RESOLVE = Notification.RESOLVE;
   }
 
-  protected void notify(int changeKind, int property, Object oldValue, Object newValue)
+  /**
+   * notify methods for types: boolean, byte, char, double, float, int, long, short, and Object 
+   */
+  
+  protected void notify(int changeKind, int property, boolean oldBooleanValue, boolean newBooleanValue)
   {
-    eNotify(new ENotificationImpl(this, Notification.SET, property, oldValue, newValue));
-  }
-
-  protected void notify(int changeKind, int property, Object oldValue, Object newValue, boolean isSetChange)
-  {
-    eNotify(new ENotificationImpl(this, Notification.SET, property, oldValue, newValue, isSetChange));
-  }
-
-  protected void notify(int changeKind, int property, int oldIntValue, int newIntValue)
-  {
-    eNotify(new ENotificationImpl(this, Notification.SET, property, oldIntValue, newIntValue));
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldBooleanValue, newBooleanValue));
   }
   
-  protected void notify(int changeKind, int property, int oldIntValue, int newIntValue, boolean isSetChange)
+  protected void notify(int changeKind, int property, boolean oldBooleanValue, boolean newBooleanValue, boolean isSetChange)
   {
-    eNotify(new ENotificationImpl(this, Notification.SET, property, oldIntValue, newIntValue, isSetChange));
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldBooleanValue, newBooleanValue, isSetChange));
+  }
+  
+  protected void notify(int changeKind, int property, byte oldByteValue, byte newByteValue)
+  {
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldByteValue, newByteValue));
+  }
+  
+  protected void notify(int changeKind, int property, byte oldByteValue, byte newByteValue, boolean isSetChange)
+  {
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldByteValue, newByteValue, isSetChange));
+  }
+  
+  protected void notify(int changeKind, int property, char oldCharValue, char newCharValue)
+  {
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldCharValue, newCharValue));
+  }
+  
+  protected void notify(int changeKind, int property, char oldCharValue, char newCharValue, boolean isSetChange)
+  {
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldCharValue, newCharValue, isSetChange));
   }
   
   protected void notify(int changeKind, int property, double oldDoubleValue, double newDoubleValue)
@@ -105,14 +123,54 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
     eNotify(new ENotificationImpl(this, Notification.SET, property, oldDoubleValue, newDoubleValue, isSetChange));
   }
   
-  protected void notify(int changeKind, int property, boolean oldBooleanValue, boolean newBooleanValue)
+  protected void notify(int changeKind, int property, float oldFloatValue, float newFloatValue)
   {
-    eNotify(new ENotificationImpl(this, Notification.SET, property, oldBooleanValue, newBooleanValue));
+    eNotify(new ENotificationImpl(this, Notification.SET, property, oldFloatValue, newFloatValue));
   }
   
-  protected void notify(int changeKind, int property, boolean oldBooleanValue, boolean newBooleanValue, boolean isSetChange)
+  protected void notify(int changeKind, int property, float oldFloatValue, float newFloatValue, boolean isSetChange)
   {
-    eNotify(new ENotificationImpl(this, Notification.SET, property, oldBooleanValue, newBooleanValue, isSetChange));
+    eNotify(new ENotificationImpl(this, Notification.SET, property, oldFloatValue, newFloatValue, isSetChange));
+  }
+  
+  protected void notify(int changeKind, int property, int oldIntValue, int newIntValue)
+  {
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldIntValue, newIntValue));
+  }
+  
+  protected void notify(int changeKind, int property, int oldIntValue, int newIntValue, boolean isSetChange)
+  {
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldIntValue, newIntValue, isSetChange));
+  }
+  
+  protected void notify(int changeKind, int property, long oldLongValue, long newLongValue)
+  {
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldLongValue, newLongValue));
+  }
+  
+  protected void notify(int changeKind, int property, long oldLongValue, long newLongValue, boolean isSetChange)
+  {
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldLongValue, newLongValue, isSetChange));
+  }
+  
+  protected void notify(int changeKind, int property, short oldShortValue, short newShortValue)
+  {
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldShortValue, newShortValue));
+  }
+  
+  protected void notify(int changeKind, int property, short oldShortValue, short newShortValue, boolean isSetChange)
+  {
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldShortValue, newShortValue, isSetChange));
+  }
+  
+  protected void notify(int changeKind, int property, Object oldValue, Object newValue)
+  {
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldValue, newValue));
+  }
+  
+  protected void notify(int changeKind, int property, Object oldValue, Object newValue, boolean isSetChange)
+  {
+  	eNotify(new ENotificationImpl(this, Notification.SET, property, oldValue, newValue, isSetChange));
   }
   
   public interface ListKind
@@ -469,6 +527,7 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
   }
   
 } //DataObjectBase
+
 
 
 
