@@ -30,14 +30,13 @@ import java.util.Map.Entry;
 import javax.xml.XMLConstants;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
+import org.apache.tuscany.sdo.api.SDOUtil;
 import org.apache.tuscany.sdo.impl.AttributeImpl;
 import org.apache.tuscany.sdo.impl.SDOFactoryImpl.SDOEcoreFactory;
 import org.apache.tuscany.sdo.model.ModelFactory;
-import org.apache.tuscany.sdo.api.SDOUtil;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -48,7 +47,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
@@ -64,7 +62,7 @@ import org.eclipse.xsd.XSDSchema;
 import org.eclipse.xsd.XSDSimpleTypeDefinition;
 import org.eclipse.xsd.XSDTerm;
 import org.eclipse.xsd.XSDTypeDefinition;
-import org.eclipse.xsd.ecore.EcoreXMLSchemaBuilder;
+import org.eclipse.xsd.ecore.EcoreSchemaBuilder;
 import org.eclipse.xsd.util.XSDResourceFactoryImpl;
 import org.eclipse.xsd.util.XSDResourceImpl;
 import org.eclipse.xsd.util.XSDSchemaLocator;
@@ -514,12 +512,22 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
       if (container instanceof XSDNamedComponent)
       {
         result = getAliasName((XSDNamedComponent)container);
+        if (container instanceof XSDTypeDefinition)
+        {
+          result = "_" + result;
+        }
       }
+
     }
-    return result;
+    return result; 
   }
   
-  protected XSDTypeDefinition getEffectiveTypeDefinition(XSDComponent xsdComponent, XSDFeature xsdFeature) {
+  protected XSDTypeDefinition getEffectiveTypeDefinition(XSDComponent xsdComponent, XSDFeature xsdFeature) 
+  {
+    if (xsdFeature == null)
+    {
+      return super.getEffectiveTypeDefinition(xsdComponent, xsdFeature);
+    }
     XSDTypeDefinition typeDef = getEcoreTypeQNameAttribute(xsdComponent, "dataType");
 
     String isString = getEcoreAttribute(xsdComponent, xsdFeature, "string");
@@ -712,68 +720,25 @@ public class SDOXSDEcoreBuilder extends BaseSDOXSDEcoreBuilder
   private XSDSchema loadEPackage(EPackage ePackage)
   {
     XSDSchema ePackageXSDSchema = null;
-    XSDEcoreXMLSchemaBuilder xmlSchemaBuilder = new XSDEcoreXMLSchemaBuilder();
-    Collection xmlSchemas = xmlSchemaBuilder.generate(ePackage);
-    xsdComponentToEModelElementMap.putAll(xmlSchemaBuilder.getXSDComponentToEModelElementMap());
-    for (Iterator iter = xmlSchemas.iterator(); iter.hasNext();) {
-      Object xmlSchema = (Object)iter.next();
-      if (xmlSchema instanceof XSDSchema) 
-      {
-        EPackage xmlSchemaEPackage = (EPackage) xsdComponentToEModelElementMap.get(xmlSchema);
-        addEPackageToXSDSchemaMapEntry(xmlSchemaEPackage, (XSDSchema) xmlSchema);
-        if (xmlSchemaEPackage.equals(ePackage))
-        {
-          ePackageXSDSchema = (XSDSchema) xmlSchema;
-        }
-      }
-    }
-    Map ePackageToXSDSchemaMap = xmlSchemaBuilder.getEPackageToXSDSchemaMap();
-    for (Iterator iter = ePackageToXSDSchemaMap.entrySet().iterator(); iter.hasNext();) {
-      Map.Entry mapEntry = (Map.Entry)iter.next();
-      EPackage xmlSchemaEPackage = (EPackage) mapEntry.getKey();
-      XSDSchema xmlSchema = (XSDSchema) mapEntry.getValue();
-      addEPackageToXSDSchemaMapEntry(xmlSchemaEPackage, xmlSchema);
-    }
+    XSDEcoreSchemaBuilder schemaBuilder = new XSDEcoreSchemaBuilder(extendedMetaData);
+    ePackageXSDSchema = schemaBuilder.getSchema(ePackage);
+    xsdComponentToEModelElementMap.putAll(schemaBuilder.getXSDComponentToEModelElementMap());
+    targetNamespaceToEPackageMap.put(ePackage.getNsURI(), ePackage);
+    populateTypeToTypeObjectMap(ePackage);
+    xsdSchemas.add(ePackageXSDSchema);
     return ePackageXSDSchema;
   }
   
-  private void addEPackageToXSDSchemaMapEntry(EPackage ePackage, XSDSchema xsdSchema)
+  private static class XSDEcoreSchemaBuilder extends EcoreSchemaBuilder
   {
-    targetNamespaceToEPackageMap.put(ePackage.getNsURI(), ePackage);
-    populateTypeToTypeObjectMap(ePackage);
-    xsdSchemas.add(xsdSchema);
-  }
-  
-  private static class XSDEcoreXMLSchemaBuilder extends EcoreXMLSchemaBuilder
-  {
-    public XSDEcoreXMLSchemaBuilder() 
-  	{
-      super();
-  	}
+    public XSDEcoreSchemaBuilder(ExtendedMetaData extendedMetaData) 
+    {
+      super(extendedMetaData);
+    }
     
     public Map getXSDComponentToEModelElementMap()
     {
       return xsdComponentToEModelElementMap;
-    }
-    
-    public Map getEPackageToXSDSchemaMap()
-    {
-      return ePackageToXSDSchemaMap;
-    }
-    
-    protected void additionalProcessing(EClass cls, XSDComplexTypeDefinition xsdCTDComplexTypeDefinition)
-    {
-      // remove element definition
-      for(Iterator iter = xsdComponentToEModelElementMap.entrySet().iterator(); iter.hasNext();)
-      {
-        Map.Entry mapEntry = (Map.Entry)iter.next();
-        if (mapEntry.getValue().equals(cls) &&
-            mapEntry.getKey() instanceof XSDElementDeclaration)
-        {
-          xsdComponentToEModelElementMap.remove(mapEntry.getKey());
-          break;
-        }
-      }
     }
   }
   

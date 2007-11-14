@@ -46,12 +46,16 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 import org.eclipse.xsd.XSDAnnotation;
 import org.eclipse.xsd.XSDAttributeDeclaration;
 import org.eclipse.xsd.XSDAttributeUse;
+import org.eclipse.xsd.XSDComplexTypeContent;
 import org.eclipse.xsd.XSDComplexTypeDefinition;
 import org.eclipse.xsd.XSDComponent;
 import org.eclipse.xsd.XSDContentTypeCategory;
 import org.eclipse.xsd.XSDDerivationMethod;
 import org.eclipse.xsd.XSDElementDeclaration;
 import org.eclipse.xsd.XSDFeature;
+import org.eclipse.xsd.XSDLengthFacet;
+import org.eclipse.xsd.XSDMaxLengthFacet;
+import org.eclipse.xsd.XSDMinLengthFacet;
 import org.eclipse.xsd.XSDModelGroup;
 import org.eclipse.xsd.XSDModelGroupDefinition;
 import org.eclipse.xsd.XSDNamedComponent;
@@ -474,15 +478,28 @@ public class BaseSDOXSDEcoreBuilder extends XSDEcoreBuilder
     if (xsdComplexTypeDefinition.getContentTypeCategory() == XSDContentTypeCategory.SIMPLE_LITERAL)
     {
       extendedMetaData.setContentKind(eClass, ExtendedMetaData.SIMPLE_CONTENT);
-      if (eClass.getEAllStructuralFeatures().isEmpty())
+      if (!"SimpleAnyType".equals(eClass.getName()) || !XMLTypePackage.eNS_URI.equals(eClass.getEPackage().getNsURI()))
       {
-        createFeature
-          (eClass,
-           "value",
-           getEClassifier(xsdComplexTypeDefinition.getSimpleType()),
-           null,
-           0,
-           1);
+        if (eClass.getEAllStructuralFeatures().isEmpty())
+        {
+          XSDComplexTypeContent xsdComplexTypeContent = xsdComplexTypeDefinition.getContent();
+          String name = getEcoreAttribute(xsdComplexTypeContent, "name");
+          if (name == null)
+          {
+            name = "value";
+          }
+          createFeature
+            (eClass,
+             null,
+             name,
+             xsdComplexTypeContent,
+             false);
+        }
+        else
+        {
+          XSDSimpleTypeDefinition xsdSimpleTypeDefinition = xsdComplexTypeDefinition.getSimpleType();
+          getEClassifier(xsdSimpleTypeDefinition);
+        }
       }
     }
     else 
@@ -1098,10 +1115,11 @@ public class BaseSDOXSDEcoreBuilder extends XSDEcoreBuilder
       eReference.setUpperBound(maxOccurs);
 
       eClass.getEStructuralFeatures().add(eReference);
-      if (xsdComponent == null)
+      if (xsdComponent == null || xsdComponent instanceof XSDSimpleTypeDefinition)
       {
         extendedMetaData.setName(eReference, ":" + eClass.getEAllStructuralFeatures().indexOf(eReference));
         extendedMetaData.setFeatureKind(eReference, ExtendedMetaData.SIMPLE_FEATURE);
+        eReference.setResolveProxies(!isLocalReferenceType((XSDSimpleTypeDefinition)xsdComponent));
       }
       else 
       {
@@ -1230,7 +1248,7 @@ public class BaseSDOXSDEcoreBuilder extends XSDEcoreBuilder
       eAttribute.setUpperBound(maxOccurs);
       eClass.getEStructuralFeatures().add(eAttribute);
 
-      if (xsdComponent == null)
+      if (xsdComponent == null || xsdComponent instanceof XSDSimpleTypeDefinition)
       {
         extendedMetaData.setName(eAttribute, ":" + eClass.getEAllStructuralFeatures().indexOf(eAttribute));
         extendedMetaData.setFeatureKind(eAttribute, ExtendedMetaData.SIMPLE_FEATURE);
@@ -1365,6 +1383,12 @@ public class BaseSDOXSDEcoreBuilder extends XSDEcoreBuilder
     }
   }
 
+  protected XSDTypeDefinition getEffectiveTypeDefinition(XSDComponent xsdComponent, XSDFeature xsdFeature) 
+  {
+    return xsdFeature == null ? 
+        ((XSDComplexTypeDefinition)xsdComponent.eContainer()).getSimpleType() : xsdFeature.getType();
+  }
+  
   protected EStructuralFeature createFeature
    (EClass eClass, XSDElementDeclaration xsdElementDeclaration, String name, XSDComponent xsdComponent, int minOccurs, int maxOccurs)
   {
@@ -1448,6 +1472,139 @@ public class BaseSDOXSDEcoreBuilder extends XSDEcoreBuilder
     }
   }
 
+  protected EStructuralFeature createFeature
+    (EClass eClass, XSDAttributeDeclaration xsdAttributeDeclaration, String name, XSDComponent xsdComponent, boolean isRequired)
+  {
+    XSDSimpleTypeDefinition attributeTypeDefinition = (XSDSimpleTypeDefinition)getEffectiveTypeDefinition(xsdComponent, xsdAttributeDeclaration);
+    if (attributeTypeDefinition == null)
+    {
+      attributeTypeDefinition = xsdComponent.getSchema().getSchemaForSchema().resolveSimpleTypeDefinition("anySimpleType");
+    }
+  
+    XSDTypeDefinition referenceType = getEcoreTypeQNameAttribute(xsdComponent, "reference");
+    if (referenceType == null && xsdAttributeDeclaration != null)
+    {
+      referenceType = getEcoreTypeQNameAttribute(xsdAttributeDeclaration, "reference");
+    }
+    if (referenceType != null)
+    {
+      int lowerBound = isRequired ? 1 : 0;
+      int upperBound = 1;
+      if (attributeTypeDefinition.getVariety() == XSDVariety.LIST_LITERAL)
+      {
+        XSDLengthFacet xsdLengthFacet = attributeTypeDefinition.getEffectiveLengthFacet();
+        if (isRequired)
+        {
+          if (xsdLengthFacet != null)
+          {
+            lowerBound = xsdLengthFacet.getValue();
+          }
+          else
+          {
+            XSDMinLengthFacet xsdMinLengthFacet = attributeTypeDefinition.getEffectiveMinLengthFacet();
+            if (xsdMinLengthFacet != null)
+            {
+              lowerBound = xsdMinLengthFacet.getValue();
+            }
+          }
+        }
+        if (xsdLengthFacet != null)
+        {
+          upperBound = xsdLengthFacet.getValue();
+        }
+        else
+        {
+          XSDMaxLengthFacet xsdMaxLengthFacet = attributeTypeDefinition.getEffectiveMaxLengthFacet();
+          if (xsdMaxLengthFacet != null)
+          {
+            upperBound = xsdMaxLengthFacet.getValue();
+          }
+          else
+          {
+            upperBound = -1;
+          }
+        }
+      }
+  
+      EClassifier referenceClassifier = getEClassifier(referenceType);
+      EStructuralFeature result =
+        createFeature
+          (eClass,
+           name,
+           referenceClassifier,
+           xsdComponent,
+           lowerBound,
+           upperBound);
+      initialize(result, xsdAttributeDeclaration, xsdComponent);
+      return result;
+    }
+    else
+    {
+      boolean isMany = 
+          attributeTypeDefinition.getVariety() == XSDVariety.LIST_LITERAL &&
+          xsdComponent instanceof XSDAttributeUse && 
+          "true".equals(getEcoreAttribute(xsdComponent, "many"));
+      if (isMany)
+      {
+        EDataType eDataType = getEDataType(attributeTypeDefinition.getItemTypeDefinition());
+        XSDLengthFacet xsdLengthFacet = attributeTypeDefinition.getEffectiveLengthFacet();
+        int lowerBound = isRequired ? 1 : 0;
+        int upperBound = -1;
+        if (isRequired)
+        {
+          if (xsdLengthFacet != null)
+          {
+            lowerBound = xsdLengthFacet.getValue();
+          }
+          else
+          {
+            XSDMinLengthFacet xsdMinLengthFacet = attributeTypeDefinition.getEffectiveMinLengthFacet();
+            if (xsdMinLengthFacet != null)
+            {
+              lowerBound = xsdMinLengthFacet.getValue();
+            }
+          }
+        }
+        if (xsdLengthFacet != null)
+        {
+          upperBound = xsdLengthFacet.getValue();
+        }
+        else
+        {
+          XSDMaxLengthFacet xsdMaxLengthFacet = attributeTypeDefinition.getEffectiveMaxLengthFacet();
+          if (xsdMaxLengthFacet != null)
+          {
+            upperBound = xsdMaxLengthFacet.getValue();
+          }
+        }
+        EStructuralFeature result =
+          createFeature
+            (eClass,
+             name,
+             eDataType,
+             xsdComponent,
+             lowerBound,
+             upperBound);
+        initialize(result, xsdAttributeDeclaration, xsdComponent);
+        return result;
+      }
+      else
+      {
+        EDataType eDataType = getEDataType(attributeTypeDefinition);
+        EStructuralFeature result =
+          createFeature
+            (eClass,
+             name,
+             eDataType,
+             xsdComponent,
+             isRequired ? 1 : 0,
+             1);
+        initialize(result, xsdAttributeDeclaration, xsdComponent);
+        return result;
+      }
+    }
+  }
+  
   public EStructuralFeature getEStructuralFeature(XSDFeature xsdFeature)
   {
     if ("true".equals(getEcoreAttribute(xsdFeature, "ignore"))) return null;

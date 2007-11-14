@@ -231,6 +231,18 @@
 							<goal>generate</goal>
 						</goals>
 					</execution>
+					<execution>
+					  <id>SubstitutionWithExtensionValues</id>
+					  <configuration>
+					    <schemaFile>
+					      ${basedir}/src/main/resources/SubstitutionWithExtensionValues.xsd
+					    </schemaFile>
+					    <prefix>SEV</prefix>
+					  </configuration>
+					  <goals>
+					    <goal>generate</goal>
+					  </goals>
+					</execution>
 				</executions>
 			</plugin>
 		</plugins>

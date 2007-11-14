@@ -20,6 +20,7 @@
 package org.apache.tuscany.sdo.helper;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -124,8 +125,27 @@ public class SDOExtendedMetaDataImpl
     return featureNamespaceMatchingLax;
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * Eagerly pre-cache the "holder"s for static packages.
+   * 
+   * @see org.eclipse.emf.ecore.util.BasicExtendedMetaData#putPackage(java.lang.String,
+   *      org.eclipse.emf.ecore.EPackage)
+   */
+  public void putPackage(String namespace, EPackage ePackage) {
+    for (Iterator iterator = ePackage.eAllContents(); iterator.hasNext();) {
+      Object object = iterator.next();
+      if (object instanceof EClassifier) {
+        this.getName((EClassifier) object);
+      } else if (object instanceof EStructuralFeature) {
+        this.getName((EStructuralFeature) object);
+      }
+    }
+    super.putPackage(namespace, ePackage);
+  }
   
-  /****************************************************************************************************** 
+	/****************************************************************************************************** 
    * Following methods, getLocalAttribute & getLocalElement, ARE TEMPORARY COPIES FROM THE BASE CLASS. 
    * One line (the last line)in each method is changed to support lax namespace matching. 
    * DO NOT EDIT THESE METHODS. THEY WILL BE REMOVED WHEN WE MOVE TO EMF 2.3, WHICH FIXES THE PROBLEM.
