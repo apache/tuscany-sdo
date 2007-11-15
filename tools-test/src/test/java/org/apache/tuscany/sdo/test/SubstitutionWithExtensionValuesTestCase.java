@@ -127,8 +127,7 @@ public final class SubstitutionWithExtensionValuesTestCase extends TestCase
     assertEquals(20, extendedMetaData.getMaxLengthFacet(commentSimpleType));
   }
 
-  // FIXME Test disable pending fix of TUSCANY-1842
-  public void dontTestComplexTypeWithSimpleContentExtensionChangeSummary() throws IOException 
+  public void testComplexTypeWithSimpleContentExtensionChangeSummary() throws IOException 
   {
     DataGraph dg = SDOUtil.createDataGraph();
     SDOUtil.setRootObject(dg, dataObject);

@@ -624,6 +624,12 @@ public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
                 }
                 isInModels = false;
               }
+              // TODO The following 3 lines of code are a temporary work-around for JIRA issue TUSCANY-1862. 
+              // These lines of code should be removed when TUSCANY-1862 is resolved.
+              if ("".equals(uri) && "objectsToAttach".equals(name) && text != null && text.length() == 0)
+              {
+                text = null;
+              }              
               super.endElement(uri, localName, name);
             }
 
