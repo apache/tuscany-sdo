@@ -179,12 +179,16 @@ public class SDOXMLResourceImpl extends XMLResourceImpl {
         private String xsdQName2SDOURI(String xsdQName) {
             org.eclipse.emf.ecore.xml.type.internal.QName qname = new org.eclipse.emf.ecore.xml.type.internal.QName(xsdQName);
             try {
-            updateQNameURI(qname);
+                updateQNameURI(qname);
             }
             catch (IllegalArgumentException e) {
                 return xsdQName;
             }
-            return qname.getNamespaceURI() + "#" + qname.getLocalPart();
+            String uri = qname.getNamespaceURI();
+            if (uri != "")
+              return uri + "#" + qname.getLocalPart();
+            else
+              return qname.getLocalPart();
         }
         
         private String getPrefixFromNamespaceURI(String nsURI) {
