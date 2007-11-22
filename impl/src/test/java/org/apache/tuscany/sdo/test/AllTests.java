@@ -43,6 +43,7 @@ public class AllTests extends TestCase {
         suite.addTestSuite(FormTestCase.class);
         suite.addTestSuite(HelperContextTestCase.class);
         suite.addTestSuite(IsManyTestCase.class);
+        suite.addTestSuite(BoundsTestCase.class);
         suite.addTestSuite(JavaSerializeDeserializeTestCase.class);
         suite.addTestSuite(MixedTypeTestCase.class);
         suite.addTestSuite(NeverStaleChangeSummaryTestCase.class);

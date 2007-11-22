@@ -121,6 +121,10 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
         return ((EStructuralFeature)property).getUpperBound();
     }
 
+    public int getLowerBound(Property property) {
+        return ((EStructuralFeature)property).getLowerBound();
+    }
+    
     public boolean isMany(Property property, DataObject context) {
         return FeatureMapUtil.isMany((EObject)context, (EStructuralFeature)property);
     }

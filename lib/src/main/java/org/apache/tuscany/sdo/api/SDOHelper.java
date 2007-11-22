@@ -144,6 +144,13 @@ public interface SDOHelper
   public int getUpperBound(Property property);
 
   /**
+   * Return the lower bound of the specified property or 1 by default
+   * @param the property in question.
+   * @return the lower bound.
+   */
+  public int getLowerBound(Property property);
+  
+  /**
    * Returns whether the Property is many-valued given the specified context.
    * @param property The Property in question
    * @param context The context to check whether the specified Property is many-valued

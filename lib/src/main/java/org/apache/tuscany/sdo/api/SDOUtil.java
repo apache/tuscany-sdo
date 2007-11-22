@@ -111,6 +111,14 @@ public final class SDOUtil
   }
 
   /**
+   * @see {@link org.apache.tuscany.sdo.api.SDOHelper#getLowerBound(Property)}.
+   */
+  public static int getLowerBound(Property property)
+  {
+    return defaultSDOHelper.getLowerBound(property);
+  }
+  
+  /**
    * @see {@link org.apache.tuscany.sdo.api.SDOHelper#isMany(Property, DataObject)}.
    */
   public static boolean isMany(Property property, DataObject context) 
