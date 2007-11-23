@@ -21,7 +21,9 @@
   xmlns:bounds="http://www.example.com/bounds" 
   xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
   targetNamespace="http://www.example.com/bounds"> 
-  
+
+   <xsd:element name="price" type="xsd:decimal"/>
+     
    <xsd:complexType name="OpenQuote">
        <xsd:sequence>
           <xsd:element name="symbol" type="xsd:string"  maxOccurs="2" minOccurs="0" />

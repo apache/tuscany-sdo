@@ -45,6 +45,9 @@ import commonj.sdo.helper.TypeHelper;
  */
 public interface SDOHelper
 {
+	final int UNBOUNDED = -1; //return value from getUpperBound() when maxOccurs="unbounded"
+	final int UNSPECIFIED = -2; //return value from getUpperBound() for global property
+	
   /**
    * Create a non-extensible HelperContext to provide access to a consistent set of Helpers which make use
    * of a new TypeHelper instance to provide scope for type definitions.

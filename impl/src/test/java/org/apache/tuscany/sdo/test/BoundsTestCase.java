@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.apache.tuscany.sdo.api.SDOUtil;
+import org.apache.tuscany.sdo.api.SDOHelper;
 
 import junit.framework.TestCase;
 
@@ -33,21 +34,30 @@ public class BoundsTestCase extends TestCase {
     private final String TEST_MODEL = "/bounds.xsd";
     private final String TEST_NAMESPACE = "http://www.example.com/bounds";
 
+    private TypeHelper typeHelper;
+    private XSDHelper xsdHelper;
+    private DataFactory dataFactory;
+
     public void testBounds() {
-        Type quoteType = TypeHelper.INSTANCE.getType(TEST_NAMESPACE, "OpenQuote");
-        DataObject quote = DataFactory.INSTANCE.create(quoteType);
+    	Property priceProperty = typeHelper.getOpenContentProperty(TEST_NAMESPACE, "price");
+        assertTrue(priceProperty.isOpenContent());
+        assertEquals(SDOHelper.UNSPECIFIED, SDOUtil.getUpperBound(priceProperty));
+        assertEquals(0, SDOUtil.getLowerBound(priceProperty));
+        
+        Type quoteType = typeHelper.getType(TEST_NAMESPACE, "OpenQuote");
+        DataObject quote = dataFactory.create(quoteType);
         assertEquals(2, SDOUtil.getUpperBound(quote.getInstanceProperty("symbol")));
         assertEquals(0, SDOUtil.getLowerBound(quote.getInstanceProperty("symbol")));
         
         //XSD default value of maxOccurs and minOccurs is 1, unbounded returns -1 for maxOccurs
-        Type quoteType2 = TypeHelper.INSTANCE.getType(TEST_NAMESPACE, "OpenQuote2");
-        DataObject quote2 = DataFactory.INSTANCE.create(quoteType2);
-        assertEquals(-1, SDOUtil.getUpperBound(quote2.getInstanceProperty("symbol")));
+        Type quoteType2 = typeHelper.getType(TEST_NAMESPACE, "OpenQuote2");
+        DataObject quote2 = dataFactory.create(quoteType2);
+        assertEquals(SDOHelper.UNBOUNDED, SDOUtil.getUpperBound(quote2.getInstanceProperty("symbol")));
         assertEquals(1, SDOUtil.getLowerBound(quote2.getInstanceProperty("symbol")));
         
         //XSD default value of maxOccurs and minOccurs is 1
-        Type quoteType3 = TypeHelper.INSTANCE.getType(TEST_NAMESPACE, "OpenQuote3");
-        DataObject quote3 = DataFactory.INSTANCE.create(quoteType3);
+        Type quoteType3 = typeHelper.getType(TEST_NAMESPACE, "OpenQuote3");
+        DataObject quote3 = dataFactory.create(quoteType3);
         assertEquals(1, SDOUtil.getUpperBound(quote3.getInstanceProperty("symbol")));
         assertEquals(1, SDOUtil.getLowerBound(quote3.getInstanceProperty("symbol")));        
     }
@@ -55,10 +65,15 @@ public class BoundsTestCase extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
 
+        HelperContext hc = SDOUtil.createHelperContext();
+        typeHelper = hc.getTypeHelper();
+        dataFactory = hc.getDataFactory();
+        xsdHelper = hc.getXSDHelper();
+        
         // Populate the meta data for the test (Stock Quote) model
         URL url = getClass().getResource(TEST_MODEL);
         InputStream inputStream = url.openStream();
-        XSDHelper.INSTANCE.define(inputStream, url.toString());
+        xsdHelper.define(inputStream, url.toString());
         inputStream.close();
     }
 }
