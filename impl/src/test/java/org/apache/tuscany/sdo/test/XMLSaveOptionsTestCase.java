@@ -46,7 +46,7 @@ public class XMLSaveOptionsTestCase extends TestCase {
 	  XMLHelper xmlh;
 	  XMLStreamHelper xmlStreamHelper;
 	  static final String INDENT = " ", MARGIN = " ", LINE_BREAK = "\n";
-	  String formatted1 = 	MARGIN+  "<?xml version=\"1.0\" encoding=\"ASCII\"?>"  +LINE_BREAK+
+	  String formatted1 = 	MARGIN+  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"  +LINE_BREAK+
 		MARGIN+  "<cs:stockQuote xmlns:cs=\"http://www.example.com/simpleCS\">"  +LINE_BREAK+
 		MARGIN+INDENT+  "<symbol>FBNT</symbol>"  +LINE_BREAK+
 		MARGIN+INDENT+  "<companyName>FlyByNightTechnology</companyName>"  +LINE_BREAK+

@@ -182,7 +182,9 @@ public class XMLHelperImpl implements XMLHelper {
     }
 
     public XMLDocument createDocument(DataObject dataObject, String rootElementURI, String rootElementName) {
-        return new XMLDocumentImpl(extendedMetaData, dataObject, rootElementURI, rootElementName);
+        XMLDocument xmlDocument = new XMLDocumentImpl(extendedMetaData, dataObject, rootElementURI, rootElementName);
+        xmlDocument.setEncoding("UTF-8");
+        return xmlDocument;
     }
 
     public HelperContext getHelperContext() {

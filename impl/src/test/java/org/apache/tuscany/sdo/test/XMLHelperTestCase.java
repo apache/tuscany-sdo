@@ -40,10 +40,13 @@ import org.xml.sax.SAXException;
 
 import commonj.sdo.DataObject;
 import commonj.sdo.Type;
+import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.HelperContext;
+import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
+import commonj.sdo.impl.HelperProvider;
 
 public class XMLHelperTestCase extends TestCase {
 
@@ -283,4 +286,29 @@ MARGIN+  "</cs:openQuote>");
           fail(e.toString());
       }
   }
+  
+  public void testEncoding() throws IOException 
+  {
+      TypeHelper types = hc.getTypeHelper();
+      Type stringType = types.getType("commonj.sdo", "String");
+      DataObject customerType = hc.getDataFactory().create("commonj.sdo", "Type");
+      customerType.set("uri", "http://example.com/simple");
+      customerType.set("name", "Simple");
+      DataObject multiProperty = customerType.createDataObject("property");
+      multiProperty.set("name", "name");
+      multiProperty.set("type", stringType);
+      types.define(customerType);
+      DataObject obj = hc.getDataFactory().create("http://example.com/simple", 
+      "Simple");
+      obj.set("name", "John Smith");
+      
+      ByteArrayOutputStream baos = new ByteArrayOutputStream();
+      hc.getXMLHelper().save(obj, "http://www.example.com/company" , "company", baos);
+      ByteArrayInputStream bais = new ByteArrayInputStream(baos.toString().getBytes());
+      XMLDocument xmlDoc = hc.getXMLHelper().load(bais);
+      if( !"UTF-8".equals(xmlDoc.getEncoding()) )
+      {
+          fail("Encoding ('" + xmlDoc.getEncoding() +"' is not correct.  UTF-8 is the expected encoding.");
+      }
+   }
 }
