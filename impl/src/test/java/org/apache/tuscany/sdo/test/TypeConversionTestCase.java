@@ -68,23 +68,23 @@ public class TypeConversionTestCase extends TestCase
     // The following variables are Method arrays.  Each array refers to a specific get<Type>, but within
     // the array exist the get<Type>(index), get<Type>(property), and get<Type>(path).  Rather than
     // referring to each of the three in every circumstance, the more compact array appears.
-    
-    private static ConversionType TO_BOOLEAN = new ConversionType("getBoolean");
-    private static ConversionType TO_BYTE = new ConversionType("getByte");
-    private static ConversionType TO_CHAR = new ConversionType("getChar");
-    private static ConversionType TO_DOUBLE = new ConversionType("getDouble");
-    private static ConversionType TO_FLOAT = new ConversionType("getFloat");
-    private static ConversionType TO_INT = new ConversionType("getInt");
-    private static ConversionType TO_LONG = new ConversionType("getLong");
-    private static ConversionType TO_SHORT = new ConversionType("getShort");
-    private static ConversionType TO_BYTES = new ConversionType("getBytes");
-    private static ConversionType TO_BIGDECIMAL = new ConversionType("getBigDecimal");
-    private static ConversionType TO_BIGINTEGER = new ConversionType("getBigInteger");
-    private static ConversionType TO_DATAOBJECT = new ConversionType("getDataObject");
-    private static ConversionType TO_DATE = new ConversionType("getDate");
-    private static ConversionType TO_STRING = new ConversionType("getString");
-    private static ConversionType TO_LIST = new ConversionType("getList");
-    private static ConversionType TO_SEQUENCE = new ConversionType("getSequence");
+    private static ConversionType TO_BOOLEAN = new ConversionType("Boolean", boolean.class );
+    private static ConversionType TO_BYTE = new ConversionType("Byte", byte.class );
+    private static ConversionType TO_CHAR = new ConversionType("Char", char.class );
+    private static ConversionType TO_DOUBLE = new ConversionType("Double", double.class );
+    private static ConversionType TO_FLOAT = new ConversionType("Float", float.class );
+    private static ConversionType TO_INT = new ConversionType("Int", int.class );
+    private static ConversionType TO_LONG = new ConversionType("Long", long.class );
+    private static ConversionType TO_SHORT = new ConversionType("Short", short.class );
+    private static ConversionType TO_BYTES = new ConversionType("Bytes", byte[].class );
+    private static ConversionType TO_BIGDECIMAL = new ConversionType("BigDecimal", java.math.BigDecimal.class );
+    private static ConversionType TO_BIGINTEGER = new ConversionType("BigInteger", java.math.BigInteger.class );
+    private static ConversionType TO_DATAOBJECT = new ConversionType("DataObject", commonj.sdo.DataObject.class );
+    private static ConversionType TO_DATE = new ConversionType("Date", java.util.Date.class );
+    private static ConversionType TO_STRING = new ConversionType("String", java.lang.String.class );
+    private static ConversionType TO_LIST = new ConversionType("List", java.util.List.class );
+    // There is no setXXXX methods for sequence...
+    private static ConversionType TO_SEQUENCE = new ConversionType("Sequence", null );
     
     private static GeneralComparator COMPARE_ANY;
     
@@ -106,6 +106,7 @@ public class TypeConversionTestCase extends TestCase
         inputStream.close();
 
         API_TEST_TYPE = TypeHelper.INSTANCE.getType(TEST_NAMESPACE, "APITest");
+ 
     }
     
     private static class ConversionType
@@ -113,43 +114,81 @@ public class TypeConversionTestCase extends TestCase
         // The following constants are used because the getMethod function requires an Class
         // array describing the parameters to the functions.  
         
-        private static final Class[] INT_CLASS_ARRAY = {int.class};
-        private static final Class[] PROPERTY_CLASS_ARRAY = {Property.class};
-        private static final Class[] STRING_CLASS_ARRAY = {String.class};
+        private static final Class[] GET_INT_CLASS_ARRAY = {int.class};
+        private static final Class[] GET_PROPERTY_CLASS_ARRAY = {Property.class};
+        private static final Class[] GET_STRING_CLASS_ARRAY = {String.class};
+        private static final Class[] SET_INT_CLASS_ARRAY = {int.class, Class.class};
+        private static final Class[] SET_PROPERTY_CLASS_ARRAY = {Property.class, Class.class};
+        private static final Class[] SET_STRING_CLASS_ARRAY = {String.class, Class.class};
         
-        Method index_method;
-        Method property_method;
-        Method path_method;
+        Method get_index_method;
+        Method get_property_method;
+        Method get_path_method;
+        Method set_index_method;
+        Method set_property_method;
+        Method set_path_method;
         
-        public ConversionType (String method_name)
+        public ConversionType (String method_name, Class type )
         {
             try
             {
-                this.index_method = DataObject.class.getMethod(method_name, INT_CLASS_ARRAY);
-                this.property_method = DataObject.class.getMethod(method_name, PROPERTY_CLASS_ARRAY);
-                this.path_method = DataObject.class.getMethod(method_name, STRING_CLASS_ARRAY);
+                this.get_index_method = DataObject.class.getMethod("get"+method_name, GET_INT_CLASS_ARRAY);
+                this.get_property_method = DataObject.class.getMethod("get"+method_name, GET_PROPERTY_CLASS_ARRAY);
+                this.get_path_method = DataObject.class.getMethod("get"+method_name, GET_STRING_CLASS_ARRAY);
+                if( type != null )
+                {
+                    SET_INT_CLASS_ARRAY[1] = type;
+                    this.set_index_method = DataObject.class.getMethod("set"+method_name, SET_INT_CLASS_ARRAY);
+                    SET_PROPERTY_CLASS_ARRAY[1] = type;
+                    this.set_property_method = DataObject.class.getMethod("set"+method_name, SET_PROPERTY_CLASS_ARRAY);
+                    SET_STRING_CLASS_ARRAY[1] = type;
+                    this.set_path_method = DataObject.class.getMethod("set"+method_name, SET_STRING_CLASS_ARRAY);
+                }
+                else
+                {
+                    this.set_index_method = null;
+                    this.set_property_method = null;
+                    this.set_path_method = null;
+                }
             }
             catch (NoSuchMethodException e)
             {
-                this.index_method = null;
-                this.property_method = null;
-                this.path_method = null;
+                this.get_index_method = null;
+                this.get_property_method = null;
+                this.get_path_method = null;
+                this.set_index_method = null;
+                this.set_property_method = null;
+                this.set_path_method = null;
             }
         }
         
-        public Method getIndexMethod()
+        public Method getIndexGetMethod()
         {
-            return this.index_method;
+            return this.get_index_method;
         }
         
-        public Method getPropertyMethod()
+        public Method getPropertyGetMethod()
         {
-            return this.property_method;
+            return this.get_property_method;
         }
         
-        public Method getPathMethod()
+        public Method getPathGetMethod()
         {
-            return this.path_method;
+            return this.get_path_method;
+        }
+        public Method getIndexSetMethod()
+        {
+            return this.set_index_method;
+        }
+        
+        public Method getPropertySetMethod()
+        {
+            return this.set_property_method;
+        }
+        
+        public Method getPathSetMethod()
+        {
+            return this.set_path_method;
         }
     }
  
@@ -159,11 +198,15 @@ public class TypeConversionTestCase extends TestCase
     private static class Test
     {
         DataObject test_obj;
-        Object[] index_parm;
-        Object[] property_parm;
-        Object[] path_parm;
+        Object[] get_index_parm;
+        Object[] get_property_parm;
+        Object[] get_path_parm;
+        Object[] set_index_parm;
+        Object[] set_property_parm;
+        Object[] set_path_parm;
         Object expected_value;
         String from_type;
+        Class  from_type_class;
 
         // The constructor prepares a test DataObject and determines how to access the field
         // in three different ways - index, property, and path.
@@ -171,9 +214,12 @@ public class TypeConversionTestCase extends TestCase
         Test(String path, int index)
         {
             this.test_obj = DataFactory.INSTANCE.create(API_TEST_TYPE);
-            this.index_parm = new Object[] {new Integer(index)};
-            this.property_parm = new Object[] {API_TEST_TYPE.getProperty(path)};
-            this.path_parm = new Object[] {path};
+            this.get_index_parm = new Object[] {new Integer(index)};
+            this.get_property_parm = new Object[] {API_TEST_TYPE.getProperty(path)};
+            this.get_path_parm = new Object[] {path};
+            this.set_index_parm = new Object[] {new Integer(index), null};
+            this.set_property_parm = new Object[] {API_TEST_TYPE.getProperty(path), null};
+            this.set_path_parm = new Object[] {path, null};
             this.expected_value = null;
         }
         
@@ -181,13 +227,19 @@ public class TypeConversionTestCase extends TestCase
         
         public void initialize(Class type, String type_name, Object initial_value) throws Exception
         {
-            Class[] classArray = {int.class, type};
-            Object[] initValueArray = new Object[] {this.index_parm[0], initial_value};
-            
-            Method setter = DataObject.class.getMethod("set" + type_name, classArray);
-            setter.invoke(test_obj, initValueArray);
             this.expected_value = initial_value;    
             this.from_type = type_name;
+            this.from_type_class = type;
+            
+            setDefaultValue();
+        }
+        
+        private void setDefaultValue() throws Exception
+        {
+            Class[] classArray = {int.class, from_type_class};
+            Object[] initValueArray = new Object[] {this.get_index_parm[0], expected_value};
+            Method setter = DataObject.class.getMethod("set" + from_type, classArray);
+            setter.invoke(test_obj, initValueArray);  
         }
         
         // Attempts the conversion to the specified type, using DataObject.get____().
@@ -196,53 +248,83 @@ public class TypeConversionTestCase extends TestCase
         
         public void attemptConversion(ConversionType to_type) throws Exception
         {     
-            performConversion(to_type.getIndexMethod(), this.index_parm);
-            performConversion(to_type.getPathMethod(), this.path_parm);
-            performConversion(to_type.getPropertyMethod(), this.property_parm);
+            performConversion(to_type.getIndexGetMethod(), this.get_index_parm, to_type.getIndexSetMethod(), this.set_index_parm);
+            performConversion(to_type.getPathGetMethod(), this.get_path_parm, to_type.getPathSetMethod(), this.set_path_parm );
+            performConversion(to_type.getPropertyGetMethod(), this.get_property_parm, to_type.getPropertySetMethod(), this.set_property_parm );
         }
         
         public void checkConversionException(ConversionType to_type, Class expected_exception) throws Exception
         {
             boolean index_err, path_err, property_err, consistency_err = false;
             
-            index_err = executeExceptionCase(to_type.getIndexMethod(), this.index_parm, expected_exception);
-            path_err = executeExceptionCase(to_type.getPathMethod(), this.path_parm, expected_exception);
-            property_err = executeExceptionCase(to_type.getPropertyMethod(), this.property_parm, expected_exception);
+            index_err = executeExceptionCase(to_type.getIndexGetMethod(), this.get_index_parm, expected_exception);
+            path_err = executeExceptionCase(to_type.getPathGetMethod(), this.get_path_parm, expected_exception);
+            property_err = executeExceptionCase(to_type.getPropertyGetMethod(), this.get_property_parm, expected_exception);
             
             if (index_err != path_err || path_err != property_err)
                 consistency_err = true;
             else if (index_err == false)
                 attemptConversion(to_type);
             
-            assertFalse("An exception inconsistency exists for " + to_type.getPathMethod().getName() + " when called " 
+            assertFalse("An exception inconsistency exists for " + to_type.getPathGetMethod().getName() + " when called " 
                     + "for a " + this.from_type + " property.", consistency_err);
         }
         
-        private void performConversion (Method convert, Object[] parm) throws Exception
-        {
+        private void performConversion (Method getMeth, Object[] getParm, Method setMeth, Object[] setParm ) throws Exception
+        {       
+            // First use the set
             try
             {
-                assertTrue("Conversion did not yield expected value for " + convert.getName() + " on a " + this.from_type + " property.",
-                         COMPARE_ANY.compare(convert.invoke(test_obj, parm), this.expected_value) == 0);
+                // get the set value 
+                setParm[1] = getMeth.invoke(test_obj, getParm);;
+                // now set it...
+                setMeth.invoke(test_obj, setParm);
             }
             catch (Exception e)
             {
                 Throwable cause = e.getCause();
                 if (cause == null)
                 {
-                    System.err.println("An exception of type " + e.getClass() + " occurred while performing " + convert.getName()
+                    System.err.println("An exception of type " + e.getClass() + " occurred while performing " + setMeth.getName()
                           + " on a " + this.from_type + " property.");
                 }
                 else
                 {
-                    System.err.println("An exception of type " + cause.getClass() + " occurred while performing " + convert.getName()
+                    System.err.println("An exception of type " + cause.getClass() + " occurred while performing " + setMeth.getName()
                           + " on a " + this.from_type + " property.");
                 }
                   
                 throw e;
             }
-    
+            
+            try
+            {
+                
+                assertTrue("Conversion did not yield expected value for get" + getMeth.getName() + " on a " + this.from_type + " property.",
+                         COMPARE_ANY.compare(getMeth.invoke(test_obj, getParm), this.expected_value) == 0);
+            }
+            catch (Exception e)
+            {
+                Throwable cause = e.getCause();
+                if (cause == null)
+                {
+                    System.err.println("An exception of type " + e.getClass() + " occurred while performing " + getMeth.getName()
+                          + " on a " + this.from_type + " property.");
+                }
+                else
+                {
+                    System.err.println("An exception of type " + cause.getClass() + " occurred while performing " + getMeth.getName()
+                          + " on a " + this.from_type + " property.");
+                }
+                  
+                throw e;
+            }
+
+            // reset to default
+            setDefaultValue();
         }
+        
+
         
         private boolean executeExceptionCase (Method convert, Object[] parm, Class expected_exception) throws Exception
         {
@@ -281,6 +363,35 @@ public class TypeConversionTestCase extends TestCase
                     return 0;
                 else
                     return 1;
+            }
+            
+            else if ( (obj1.getClass() == byte[].class && obj2.getClass() == String.class) ||
+                 (obj2.getClass() == byte[].class && obj1.getClass() == String.class) )
+            {
+                String strVal;
+                byte [] byteVal; 
+                
+                if( obj1.getClass() == String.class )
+                {
+                    strVal = (String)obj1;
+                    byteVal = (byte [])obj2;
+                }
+                else
+                {
+                    strVal = (String)obj2;
+                    byteVal = (byte [])obj1;
+                }
+                
+                if( strVal.length()/2 != byteVal.length )
+                    return -1;
+                
+                for( int i=0; i<byteVal.length; i++ )
+                {
+                    if( byteVal[i] != (Byte.decode("0x"+strVal.substring(i*2,(i*2)+2))).byteValue() )
+                        return -1;
+                }
+                
+                return 0; 
             }
             
             else if (obj1.getClass() == Date.class)
@@ -741,6 +852,9 @@ public class TypeConversionTestCase extends TestCase
 
         FromString.initialize(String.class, "String", "1999-07-25T8:50:14.33Z");
         FromString.attemptConversion(TO_DATE);
+        
+        FromString.initialize(String.class, "String", "0A64");
+        FromString.attemptConversion(TO_BYTES);
     }
 
     public void testStringExceptions() throws Exception
@@ -763,6 +877,7 @@ public class TypeConversionTestCase extends TestCase
         
         FromBytes.attemptConversion(TO_BYTES);
         FromBytes.attemptConversion(TO_BIGINTEGER);
+        FromBytes.attemptConversion(TO_STRING);
     }
 
     public void testBytesExceptions() throws Exception

@@ -1091,6 +1091,11 @@ public final class DataObjectUtil
       return ((BigInteger)value).toByteArray();
     }
 
+    if (value instanceof String)
+    {
+        return (XMLTypeFactory.eINSTANCE.createHexBinary((String)value));
+    }
+    
     if (value == null)
     {
       return null;
@@ -1118,7 +1123,12 @@ public final class DataObjectUtil
     {
       return new BigInteger(value);
     }
-
+    
+    if (name == "java.lang.String" )
+    {
+      return XMLTypeFactory.eINSTANCE.convertHexBinary((byte[])value);
+    }
+    
     //Instead of throwing an ClassCastException we will pass the value to the property
     return value;
   }
@@ -1777,6 +1787,11 @@ public final class DataObjectUtil
     if (name == "java.lang.Boolean" || name == "boolean")
     {
       return Boolean.valueOf(value);
+    }
+    
+    if (name == "byte[]")
+    {
+        return XMLTypeFactory.eINSTANCE.createHexBinary(value);
     }
 
     // Instead of throwing an ClassCastException we will pass the value to the property
