@@ -1,25 +1,26 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<!-- Note -- this file is GENERATED from the samples using the
-Document Samples utility. Hand edits will be lost when regenerated!-->
-<!--                                                             
-*                                                              
-*  Licensed to the Apache Software Foundation (ASF) under one  
+<!-- Note: This file is GENERATED from the samples using the
+Document Samples utility. Hand edits will be lost when regenerated! -->
+<!--
+*
+*  Licensed to the Apache Software Foundation (ASF) under one
 *  or more contributor license agreements.  See the NOTICE file
-*  distributed with this work for additional information       
-*  regarding copyright ownership.  The ASF licenses this file  
-*  to you under the Apache License, Version 2.0 (the           
-*  "License"); you may not use this file except in compliance  
-*  with the License.  You may obtain a copy of the License at  
-*                                                              
-*    http://www.apache.org/licenses/LICENSE-2.0                
-*                                                              
-*  Unless required by applicable law or agreed to in writing,  
-*  software distributed under the License is distributed on an 
-*  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY      
-*  KIND, either express or implied.  See the License for the   
-*  specific language governing permissions and limitations     
-*  under the License.                                          
--->                                                             
+*  distributed with this work for additional information
+*  regarding copyright ownership.  The ASF licenses this file
+*  to you under the Apache License, Version 2.0 (the
+*  "License"); you may not use this file except in compliance
+*  with the License.  You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+*  Unless required by applicable law or agreed to in writing,
+*  software distributed under the License is distributed on an
+*  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+*  KIND, either express or implied.  See the License for the
+*  specific language governing permissions and limitations
+*  under the License.
+-->
 <head><title>SDO Samples</title></head><body>
   <h1>SDO Samples</h1>
 <P>
@@ -100,6 +101,19 @@ demonstrates the subject area significant as an incidental part of the sample.<H
 <a href="#facet7">isMany Properties</a><br/>
 <a href="#facet14">Generic data graph traversal</a><br/>
 <a href="#facet16">Saving data to XML</a><br/>
+<h3>Sample Program MedicalScenarioWithChangeMonitoring</h3>
+<b>Core function:</b><br/>
+<a href="#facet8">Containment</a><br/>
+<a href="#facet9">Create Types using the SDO API</a><br/>
+<a href="#facet10">Create Types using XML Schema</a><br/>
+<a href="#facet20">Open Content</a><br/>
+<a href="#facet21">Non-Containment</a><br/>
+<a href="#facet18">Change Monitoring using a ChangeSummary Property on a DataObject</a><br/>
+<br/><b>Also demonstrates:</b><br/>
+<a href="#facet3">Create DataObjects by name</a><br/>
+<a href="#facet7">isMany Properties</a><br/>
+<a href="#facet14">Generic data graph traversal</a><br/>
+<a href="#facet16">Saving data to XML</a><br/>
 <H2>Index by function</H2>
 <a name="facet0"/>
 <h3></h3>
@@ -119,6 +133,7 @@ DynamicCustomerTypeSample<br/>
 <a name="facet3"/>
 <h3>Create DataObjects by name</h3>
 <b>Samples which demonstrate this in addition to their core function</b><br/>
+MedicalScenarioWithChangeMonitoring<br/>
 MedicalScenario<br/>
 <a name="facet4"/>
 <h3>Get/Set Properties of DataObject by index</h3>
@@ -135,22 +150,26 @@ AccessDataObjectUsingValidXPath<br/>
 <a name="facet7"/>
 <h3>isMany Properties</h3>
 <b>Samples which demonstrate this in addition to their core function</b><br/>
-MedicalScenario<br/>
 PrintDataGraph<br/>
+MedicalScenarioWithChangeMonitoring<br/>
+MedicalScenario<br/>
 <a name="facet8"/>
 <h3>Containment</h3>
 <b>Samples which demonstrate this as their core function</b><br/>
+MedicalScenarioWithChangeMonitoring<br/>
 MedicalScenario<br/>
 <a name="facet9"/>
 <h3>Create Types using the SDO API</h3>
 <b>Samples which demonstrate this as their core function</b><br/>
-MedicalScenario<br/>
+MedicalScenarioWithChangeMonitoring<br/>
 DynamicCustomerTypeSample<br/>
+MedicalScenario<br/>
 <b>Samples which demonstrate this in addition to their core function</b><br/>
 PrintDataGraph<br/>
 <a name="facet10"/>
 <h3>Create Types using XML Schema</h3>
 <b>Samples which demonstrate this as their core function</b><br/>
+MedicalScenarioWithChangeMonitoring<br/>
 MedicalScenario<br/>
 <a name="facet11"/>
 <h3>Create Types using the Tuscany API</h3>
@@ -172,25 +191,29 @@ PrintDataGraph<br/>
 <b>Samples which demonstrate this as their core function</b><br/>
 PrintDataGraph<br/>
 <b>Samples which demonstrate this in addition to their core function</b><br/>
+MedicalScenarioWithChangeMonitoring<br/>
 MedicalScenario<br/>
 <a name="facet15"/>
 <h3>Loading data from XML</h3>
 <b>Samples which demonstrate this as their core function</b><br/>
 CreateDataObjectFromXmlString<br/>
-CreatePurchaseOrder<br/>
 ReadPurchaseOrder<br/>
+CreatePurchaseOrder<br/>
 <a name="facet16"/>
 <h3>Saving data to XML</h3>
 <b>Samples which demonstrate this as their core function</b><br/>
-CreatePurchaseOrder<br/>
 ReadPurchaseOrder<br/>
+CreatePurchaseOrder<br/>
 <b>Samples which demonstrate this in addition to their core function</b><br/>
-MedicalScenario<br/>
+MedicalScenarioWithChangeMonitoring<br/>
 DynamicCustomerTypeSample<br/>
+MedicalScenario<br/>
 <a name="facet17"/>
 <h3>Change Monitoring using a DataGraph</h3>
 <a name="facet18"/>
 <h3>Change Monitoring using a ChangeSummary Property on a DataObject</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+MedicalScenarioWithChangeMonitoring<br/>
 <a name="facet19"/>
 <h3>Wrapping data graph in a DataGraph instance</h3>
 <b>Samples which demonstrate this as their core function</b><br/>
@@ -198,10 +221,12 @@ ObtainingDataGraphFromXml<br/>
 <a name="facet20"/>
 <h3>Open Content</h3>
 <b>Samples which demonstrate this as their core function</b><br/>
+MedicalScenarioWithChangeMonitoring<br/>
 MedicalScenario<br/>
 <a name="facet21"/>
 <h3>Non-Containment</h3>
 <b>Samples which demonstrate this as their core function</b><br/>
+MedicalScenarioWithChangeMonitoring<br/>
 MedicalScenario<br/>
 <b>Samples which demonstrate this in addition to their core function</b><br/>
 PrintDataGraph<br/>

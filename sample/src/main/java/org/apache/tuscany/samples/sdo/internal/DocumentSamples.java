@@ -59,9 +59,10 @@ public class DocumentSamples {
   }
   
   private static String HTML_HEADER =
+	"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n" +
     "<html>\n" +
-    "<!-- Note -- this file is GENERATED from the samples using the\n" +
-    "Document Samples utility. Hand edits will be lost when regenerated!-->\n"+
+    "<!-- Note: This file is GENERATED from the samples using the\n" +
+    "Document Samples utility. Hand edits will be lost when regenerated! --> \n"+
     "<!--                                                             \n"+
     "*                                                              \n"+
     "*  Licensed to the Apache Software Foundation (ASF) under one  \n"+
