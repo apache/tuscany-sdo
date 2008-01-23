@@ -235,7 +235,7 @@
 					  <id>SubstitutionWithExtensionValues</id>
 					  <configuration>
 					    <schemaFile>
-					      ${basedir}/src/main/resources/SubstitutionWithExtensionValues.xsd
+					      ${basedir}/src/main/resources/substitutionWithExtensionValues.xsd
 					    </schemaFile>
 					    <prefix>SEV</prefix>
 					  </configuration>
