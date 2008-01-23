@@ -24,10 +24,15 @@ import java.io.InputStream;
 import java.net.URL;
 
 import commonj.sdo.DataObject;
+import commonj.sdo.Type;
+import commonj.sdo.helper.DataFactory;
 import commonj.sdo.helper.EqualityHelper;
+import commonj.sdo.helper.HelperContext;
+import commonj.sdo.helper.TypeHelper;
 import commonj.sdo.helper.XMLDocument;
 import commonj.sdo.helper.XMLHelper;
 import commonj.sdo.helper.XSDHelper;
+import commonj.sdo.impl.HelperProvider;
 import junit.framework.TestCase;
 
 public class SimpleEqualityTestCase extends TestCase {
@@ -59,5 +64,28 @@ public class SimpleEqualityTestCase extends TestCase {
         InputStream inputStream = url.openStream();
         XSDHelper.INSTANCE.define(inputStream, url.toString());
         inputStream.close();
+    }
+    
+    public void testBytesEquality() {
+        // Dynamically create a type
+        HelperContext scope = HelperProvider.getDefaultContext();
+        TypeHelper types = scope.getTypeHelper();
+        Type BytesType = types.getType("commonj.sdo", "Bytes");
+        DataObject customerType = DataFactory.INSTANCE.create("commonj.sdo", "Type");
+        customerType.set("uri", "http://example.com/simple");
+        customerType.set("name", "Simple");
+        DataObject BytesProperty = customerType.createDataObject("property");
+        BytesProperty.set("name", "BytesVal");
+        BytesProperty.set("type", BytesType);
+        types.define(customerType);
+        
+        // Create two instances
+        DataObject obj1 = DataFactory.INSTANCE.create("http://example.com/simple", "Simple");
+        DataObject obj2 = DataFactory.INSTANCE.create("http://example.com/simple", "Simple");
+
+        obj1.setBytes("BytesVal", new byte[] {120, 80, -40});
+        obj2.setBytes("BytesVal", new byte[] {120, 80, -40});
+
+        assertTrue( scope.getEqualityHelper().equal(obj1, obj2) );
     }
 }

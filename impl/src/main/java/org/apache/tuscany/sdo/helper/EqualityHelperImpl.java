@@ -71,8 +71,23 @@ public class EqualityHelperImpl implements EqualityHelper
       {
         protected boolean haveEqualAttribute(EObject eObject1, EObject eObject2, EAttribute attribute) {
             if(("ChangeSummaryType".equals(attribute.getEType().getName()) && "commonj.sdo".equals(attribute.getEType().getEPackage().getNsURI()))) {
-                throw new UnsupportedOperationException("This will be implemented when change summary serialzation/deserialization is in place");
-            } else {
+                throw new UnsupportedOperationException("This will be implemented when change summary serialzation/deserialization is in place"); 
+            } 
+            else if( "Bytes".equals(attribute.getEType().getName()) ) {
+                try
+                {
+                    byte [] value1 = (byte [])eObject1.eGet(attribute);
+                    byte [] value2 = (byte [])eObject2.eGet(attribute);
+                
+                    return( java.util.Arrays.equals(value1,value2) );
+                }
+                catch(Exception ex)
+                {
+                    // if any exception is thrown, assumption is they are not equal
+                    return false;
+                }
+            } 
+            else {
                 return super.haveEqualAttribute(eObject1, eObject2, attribute);
             }
         }
