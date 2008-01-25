@@ -292,7 +292,7 @@ for (Iterator i=genPackage.getOrderedGenClassifiers().iterator(); i.hasNext();) 
         <%if (!genClass.isDynamic()) {%>
 		<%=genClass.getSafeUncapName()%>Type = createType(false, <%=genPackage.getClassifierID(genClass)%>);
           <%for (Iterator j=genClass.getGenFeatures().iterator(); j.hasNext();) { GenFeature genFeature = (GenFeature)j.next();%>
-		createProperty(<%=!genFeature.isReferenceType()%>, <%=genClass.getSafeUncapName()%>Type,<%=genClass.getClassName()%>.INTERNAL_<%=genFeature.getUpperName()%>); 
+		createProperty(<%=!genFeature.isReferenceType()%>, <%=genClass.getSafeUncapName()%>Type,<%=genClass.getClassName()%>._INTERNAL_<%=genFeature.getUpperName()%>); 
           <%}%>
         <%}%>
       <%}%>

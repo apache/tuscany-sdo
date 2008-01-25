@@ -36,7 +36,10 @@ public class AllTests extends TestCase {
         suite.addTestSuite(OpenContentTestCase.class);
         suite.addTestSuite(SimpleStaticTestCase.class);
         suite.addTestSuite(MixedTypesTestCase.class);
-
+        suite.addTestSuite(DataObjectGetListTestCase.class);
+        suite.addTestSuite(ListWithDefaultTestCase.class);
+        suite.addTestSuite(SubstitutionWithExtensionValuesTestCase.class);
+        suite.addTestSuite(InternalInElementTestCase.class);
         return suite;
     }
 
@@ -49,5 +52,6 @@ public class AllTests extends TestCase {
         junit.textui.TestRunner.run(suite());
     }
 }
+
 
 

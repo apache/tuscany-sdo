@@ -148,7 +148,7 @@ import org.eclipse.emf.codegen.util.CodeGenUtil;
   protected final String TEXT_108 = NL + "\t\tcreateProperty(";
   protected final String TEXT_109 = ", ";
   protected final String TEXT_110 = "Type,";
-  protected final String TEXT_111 = ".INTERNAL_";
+  protected final String TEXT_111 = "._INTERNAL_";
   protected final String TEXT_112 = "); ";
   protected final String TEXT_113 = NL + NL + "\t\t// Create data types";
   protected final String TEXT_114 = NL + "\t\t";

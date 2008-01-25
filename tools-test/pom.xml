@@ -243,6 +243,17 @@
 					    <goal>generate</goal>
 					  </goals>
 					</execution>
+					<execution>
+					  <id>InternalInElement</id>
+					  <configuration>
+					    <schemaFile>
+					      ${basedir}/src/main/resources/InternalInElement.xsd
+					    </schemaFile>
+					  </configuration>
+					  <goals>
+					    <goal>generate</goal>
+					  </goals>
+					</execution>					
 				</executions>
 			</plugin>
 		</plugins>
