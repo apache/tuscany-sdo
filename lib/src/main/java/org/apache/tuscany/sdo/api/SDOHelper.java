@@ -27,7 +27,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.tuscany.sdo.api.XMLStreamHelper;
+import commonj.sdo.helper.XSDHelper;
 
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
@@ -271,11 +271,28 @@ public interface SDOHelper
    * @return a MetaDataBuilder instance
    */
   public MetaDataBuilder getMetaDataBuilder();
+  
+  /**
+   * An experimental interface,  subject to possible change that permits
+   * registration of an event listener with a DataObject instance
+   * @param dob DataObject
+   * @param listener EventListener
+   */
+  public void addChangeListener(DataObject dob, EventListener listener);
+
+  /**
+   * An experimental interface,  subject to possible change that permits
+   * deregistration of an event listener with a DataObject instance
+   * @param dob DataObject
+   * @param listener EventListener
+   */
+  public void removeChangeListener(DataObject dob, EventListener listener);
 
   /**
    * This interface provides methods which can be used to programatically create SDO Types and Properties.
    * It provides a lower level and more efficient API then the DataObject-based one of TypeHelper.define().
    */
+ 
   public interface MetaDataBuilder
   {
 

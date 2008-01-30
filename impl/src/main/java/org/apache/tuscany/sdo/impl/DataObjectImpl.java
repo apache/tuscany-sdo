@@ -34,6 +34,7 @@ import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.apache.tuscany.sdo.util.VirtualSequence;
 import org.apache.tuscany.sdo.util.DataObjectUtil.Accessor;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -75,7 +76,8 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
   protected int eContainerFeatureID;
   protected SDOChangeRecorder changeRecorder;
   protected Object location; // Resource.Internal (if object is directly contained in a resource) or URI (if it is a proxy)
-
+  protected BasicEList eAdapters;
+  
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1359,12 +1361,18 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
 
   public boolean eNotificationRequired()
   {
-    return changeRecorder != null;
+    return changeRecorder != null || super.eNotificationRequired();
   }
 
+  public boolean eDeliver()
+  {
+    return true;
+  }
+  
   public void eNotify(Notification notification)
   {
-    changeRecorder.notifyChanged(notification);
+    if(changeRecorder != null) changeRecorder.notifyChanged(notification);
+    super.eNotify(notification);
   }
 
   public void setChangeRecorder(SDOChangeRecorder changeRecorder)
@@ -1497,6 +1505,21 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
   {
     return eOpenIsSet(DataObjectUtil.getOpenFeature(this, featureID));
   }
+  
+  public EList eAdapters()
+  {
+    if (eAdapters == null)
+    {
+      eAdapters =  new EAdapterList(this);
+    }
+    return eAdapters;
+  }
+
+  public BasicEList eBasicAdapters()
+  {
+    return eAdapters;
+  }
+
   
   /*
   public int eDerivedStructuralFeatureID(EStructuralFeature eStructuralFeature)

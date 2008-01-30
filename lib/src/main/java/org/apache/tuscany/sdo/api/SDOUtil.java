@@ -27,6 +27,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tuscany.sdo.api.EventListener;
 import org.apache.tuscany.sdo.spi.HelperProviderBase;
 
 import commonj.sdo.DataGraph;
@@ -412,5 +413,25 @@ public final class SDOUtil
   {
     defaultSDOHelper.getMetaDataBuilder().addPropertyInstanceProperty(definedProperty, property, value);
   }
+  
+
+  /**
+   * @see SDOHelper#addChangeListener(DataObject, EventListener)
+   * @param dob
+   * @param l
+   */
+  public static void addChangeListener(DataObject dob, EventListener l) {
+    defaultSDOHelper.addChangeListener(dob, l);
+  }
+
+  /**
+   * @see SDOHelper#addChangeListener(DataObject, EventListener)
+   * @param dob
+   * @param l
+   */
+  public static void removeChangeListener(DataObject dob, EventListener l) {
+    defaultSDOHelper.removeChangeListener(dob, l);
+  }
+  
   
 }

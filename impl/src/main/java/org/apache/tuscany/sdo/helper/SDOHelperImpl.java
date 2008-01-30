@@ -36,6 +36,7 @@ import org.apache.tuscany.sdo.SDOFactory;
 import org.apache.tuscany.sdo.SimpleAnyTypeDataObject;
 import org.apache.tuscany.sdo.api.SDOHelper;
 import org.apache.tuscany.sdo.api.XMLStreamHelper;
+import org.apache.tuscany.sdo.api.EventListener;
 import org.apache.tuscany.sdo.impl.ClassImpl;
 import org.apache.tuscany.sdo.impl.DataGraphImpl;
 import org.apache.tuscany.sdo.impl.DynamicDataObjectImpl;
@@ -43,6 +44,8 @@ import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
 import org.apache.tuscany.sdo.spi.SDOHelperBase;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.UniqueEList;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -66,7 +69,6 @@ import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 
-import commonj.sdo.impl.HelperProvider;
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -75,9 +77,11 @@ import commonj.sdo.Type;
 import commonj.sdo.helper.CopyHelper;
 import commonj.sdo.helper.HelperContext;
 import commonj.sdo.helper.TypeHelper;
+import commonj.sdo.impl.HelperProvider;
 
 public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper.MetaDataBuilder {
-    public DataObject createDataTypeWrapper(Type dataType, Object value) {
+  
+  public DataObject createDataTypeWrapper(Type dataType, Object value) {
         SimpleAnyTypeDataObject simpleAnyType = SDOFactory.eINSTANCE.createSimpleAnyTypeDataObject();
         simpleAnyType.setInstanceType((EDataType)dataType);
         simpleAnyType.setValue(value);
@@ -482,4 +486,15 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
         eAnnotation.getDetails().put(property.getName(), stringValue);
     }
 
+    
+    public void addChangeListener(DataObject dob, EventListener listener) {
+      // Adapter l = (Adapter)listener;
+      ((Notifier)dob).eAdapters().add(listener);
+    }
+    
+    public void removeChangeListener(DataObject dob, EventListener listener) {
+      ((Notifier)dob).eAdapters().remove(listener);
+    }
+    
+    
 }
