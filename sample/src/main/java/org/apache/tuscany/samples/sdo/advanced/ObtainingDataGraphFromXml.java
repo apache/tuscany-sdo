@@ -172,7 +172,7 @@ public class ObtainingDataGraphFromXml extends SampleBase {
             
             commentary(
                "Using an instance of DataGraph can perhaps be seen as an older style pattern of wrapping a data graph\n"+
-               "and the first approach is likely to get more emphaissi and attention in future revisions of the spec.\n"+
+               "and the first approach is likely to get more emphasis and attention in future revisions of the spec.\n"+
                "The SDO API has some limitations in the area of saving and loading instances of the\n"+
                "Java DataGraph type, so Tuscany has an API for doing this ...\n\n"+
                "DataGraph datagraph = SDOUtil.loadDataGraph(\n"+

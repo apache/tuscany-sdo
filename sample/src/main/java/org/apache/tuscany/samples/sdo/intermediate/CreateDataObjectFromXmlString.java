@@ -94,8 +94,8 @@ public class CreateDataObjectFromXmlString extends SampleBase {
             "purchaseOrder.getInstanceProperty(\"shipTo\") returns a Property");
         
         System.out.println("DataObject's type is open?: " + purchaseOrder.getType().isOpen());
-        System.out.println("Data Object's type has a propery shipTo?: " + (purchaseOrder.getType().getProperty("shipTo") != null));
-        System.out.println("Data Object instance has a propery shipTo?: " + (purchaseOrder.getInstanceProperty("shipTo") != null));
+        System.out.println("Data Object's type has a property shipTo?: " + (purchaseOrder.getType().getProperty("shipTo") != null));
+        System.out.println("Data Object instance has a property shipTo?: " + (purchaseOrder.getInstanceProperty("shipTo") != null));
 
         commentary(
             "Without a Type definition accessing a DataObject is slightly\n"+

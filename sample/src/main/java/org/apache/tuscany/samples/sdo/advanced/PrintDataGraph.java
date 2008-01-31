@@ -171,8 +171,8 @@ public class PrintDataGraph extends SampleBase {
           COMMENTARY_FOR_NOVICE,
           "We begin traversing the data graph by examining the root object of the graph's containment hierarchy,\n"
               + "making a record of the values of its Properties. As we inspect the values of the Properties of this object\n"
-              + "if we encounter contained DataObjects, then we will recurse through the containment hierarchy of the\n"
-              + "data graph in a depth first fashion, and create a text representaation of the graph that we'll print\n"
+              + "if we encounter contained DataObjects, then we will recurs through the containment hierarchy of the\n"
+              + "data graph in a depth first fashion, and create a text representation of the graph that we'll print\n"
               + "out after the graph traversal has been completed.",
 
           "We are beginning to traverse another data graph from its root object, in the same way that we saw previously");
@@ -239,7 +239,7 @@ public class PrintDataGraph extends SampleBase {
       commentary(
           "The Property/Value pairs of a Sequence can be accessed via the getProperty(int) and getValue(int)\n"
               + "accessor methods of the Sequence interface.  The size() method of the Sequence tells us how many there are.\n"
-              + "If the getProperty(int) method retunes null,  then the value is text.  These text values may be encountered\n"
+              + "If the getProperty(int) method returns null,  then the value is text.  These text values may be encountered\n"
               + "when the DataObject's type is 'mixed' (dataObject.getType().isMixed() == true). A typical example of this\n"
               + "is when the data graph represents a form letter.",
       
@@ -329,7 +329,7 @@ public class PrintDataGraph extends SampleBase {
             + "consider the nature of that Property in order to deal with it appropriately.\n"
             + "Firstly we see if the Property value has been set (dataObject.isSet(property))\n"
             + "Then we see if the Property is simple valued (property.isDataType() == true)\n"
-            + "--if not then we know it's a DataObject and we must recurse deeper into the graph's\n"
+            + "--if not then we know it's a DataObject and we must recurs deeper into the graph's\n"
             + "containment hierarchy\n"
             + "Whether or not the property value is a DataObject,  is may be single or multi-valued\n"
             + "so we must either use one of the DataObject's get*(Property) accessors for single\n"
@@ -338,7 +338,7 @@ public class PrintDataGraph extends SampleBase {
             + "Property is a 'containment' Property.  If it isn't, then here we simply record the fact that\n"
             + "we have encountered this non-containment relationship,  and move on to the next Property",
 
-        "Inspecting another property to determine how to access it's value,  as we saw before");
+        "Inspecting another property to determine how to access its value,  as we saw before");
 
     // TODO deal with nullable
 

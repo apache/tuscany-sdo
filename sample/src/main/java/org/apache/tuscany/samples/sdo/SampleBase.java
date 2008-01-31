@@ -133,7 +133,7 @@ public abstract class SampleBase extends SampleInfrastructure {
         "along with other aspects of the XML nature of the document\n\n"+
         "DataObject result = xmlDoc.getRootObject();",
         
-        "Geting the root object from an XMLDocument as seen in previous samples"
+        "Getting the root object from an XMLDocument as seen in previous samples"
     );
     DataObject result = xmlDoc.getRootObject();
 

@@ -170,8 +170,8 @@ public class MedicalScenarioWithChangeMonitoring extends SampleBase {
 
     DataObject referrals = test.createDataObject("referrals");
 
-    commentary("The default state for monitoring changes for da DataObject when created in this\n" +
-    		"way is thay monitoring is switched off, so we switch it on. (Note that if you\n" +
+    commentary("The default state for monitoring changes for the DataObject when created in this\n" +
+    		"way is the monitoring is switched off, so we switch it on. (Note that if you\n" +
     		"get your data graphs from a data Access Service then this service may turn on\n" +
     		"change monitoring be default\n\n" +
     		"test.getChangeSummary().beginLogging();");

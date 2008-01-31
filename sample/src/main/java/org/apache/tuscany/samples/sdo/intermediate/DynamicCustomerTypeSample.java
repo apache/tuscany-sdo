@@ -126,7 +126,7 @@ public class DynamicCustomerTypeSample extends SampleBase {
       Type intType = typeHelper.getType("commonj.sdo", "Int");
       Type stringType = typeHelper.getType("commonj.sdo", "String");
       
-      commentary("To begin modelling the type system we create a DataObject with\n"+
+      commentary("To begin modeling the type system we create a DataObject with\n"+
           "Type \"commonj.sdo#Type\" and set the URI and name for that type\n\n"+
           
           "DataObject customerType = scope.getDataFactory().create(\"commonj.sdo\", \"Type\");\n"+
@@ -148,7 +148,7 @@ public class DynamicCustomerTypeSample extends SampleBase {
       custNumProperty.set("name", "custNum");
       custNumProperty.set("type", intType);
       
-      commentary("We continue in this manner until all the Types and their Properties are modelled");
+      commentary("We continue in this manner until all the Types and their Properties are modeled");
       DataObject lastNameProperty = customerType.createDataObject("property");
       lastNameProperty.set("name", "lastName");
       lastNameProperty.set("type", stringType);
@@ -157,8 +157,8 @@ public class DynamicCustomerTypeSample extends SampleBase {
       firstNameProperty.set("name", "firstName");
       firstNameProperty.set("type", stringType);
       
-      commentary("Now that our type is fully modelled we submit the model to the TypeHelper\n"+
-          "The new Type instance is retuend to us,  but is also available for lookup within\n"+
+      commentary("Now that our type is fully modeled we submit the model to the TypeHelper\n"+
+          "The new Type instance is returned to us,  but is also available for lookup within\n"+
           "the scope associated with the TypeHelper\n\n"+
           "Type t = typeHelper.define(customerType);");
       Type t = typeHelper.define(customerType);

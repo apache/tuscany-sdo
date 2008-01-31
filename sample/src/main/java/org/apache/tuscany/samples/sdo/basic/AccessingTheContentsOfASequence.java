@@ -108,7 +108,7 @@ public class AccessingTheContentsOfASequence  extends SampleBase {
         }
         
         commentary("The values of the modeled Properties are still accessible through the DataObject\n" +
-        		"getter and setter methods,  but only through the Sequence API can we get to the untructured\n" +
+        		"getter and setter methods,  but only through the Sequence API can we get to the unstructured\n" +
         		"text and see the ordering of the instance document");
 
     }

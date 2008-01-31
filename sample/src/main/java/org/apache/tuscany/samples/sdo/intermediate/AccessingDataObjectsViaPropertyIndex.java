@@ -122,7 +122,7 @@ public class AccessingDataObjectsViaPropertyIndex  extends SampleBase {
       		"private static final int COMPANY_NAME = 2;\n\n" +
       		"The value of the integers is defined by the sequence the Properties\n" +
       		"appear in the List returned by dataObject.getType().getDeclaredProperties()\n" +
-      		"For a type derived from an XML schema this will be the sequence they appeard in the\n" +
+      		"For a type derived from an XML schema this will be the sequence they appeared in the\n" +
       		"schema document.\n" +
       		"We can use these integer values to get and set Properties on the company DataObject\n\n" +
       		"company.setString(COMPANY_NAME, \"MegaCorp\");\n" +

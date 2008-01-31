@@ -95,7 +95,7 @@ public class AccessDataObjectUsingValidXPath extends SampleBase {
         
         
         System.out.println("\nThen we use indexing by integer starting from 1\n" +
-            "purchaseOrder.getString(\"items/item[1]/productName\"\n" +
+            "purchaseOrder.getString(\"items/item[1]/productName\")\n" +
             "The first item in the order is a ... " +
             purchaseOrder.getString("items/item[1]/productName"));
         

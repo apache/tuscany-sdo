@@ -80,7 +80,7 @@ public class CreateCompanyTuscanyAPI extends org.apache.tuscany.samples.sdo.basi
         commentary(COMMENTARY_FOR_INTERMEDIATE,
             "As we are dealing with a DataGraph,  the SDO API has some gray areas at the moment\n"+
             "in that the DataGraph API hasn't yet been developed to deal with scopes\n"+
-            "other than the default scope. So here is an occasion where we must use"+
+            "other than the default scope. So here is an occasion where we must use "+
             "the default singleton scope");
         HelperContext scope = useDefaultScopeForTypes();
         loadTypesFromXMLSchemaFile(scope, SampleInfrastructure.COMPANY_XSD);
