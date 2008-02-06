@@ -61,6 +61,12 @@ public class DateConversionTestCase extends TestCase
         test_date = test_calendar.getTime();  
     }
     
+    //Test for TUSCANY-1514
+    public void testNullStringToDate() throws Exception {
+    	Date result = data_helper.toDate(null);
+    	assertEquals(null, result);
+    }
+    
     private static class TestType
     {
         private static final Class[] DATE_CLASS_ARRAY = {Date.class};
