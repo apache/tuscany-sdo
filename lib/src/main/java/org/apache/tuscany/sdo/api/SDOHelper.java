@@ -154,6 +154,20 @@ public interface SDOHelper
   public int getLowerBound(Property property);
   
   /**
+   * Return Enumeration facet 
+   * @param type
+   * @return List of enum facets in a Type
+   *///Amita
+  public List getEnumerationFacet(Type type);
+  
+  /**
+   * Return Pattern facet 
+   * @param type
+   * @return List of pattern facets in a Type
+   *///Amita
+  public List getPatternFacet(Type type);
+
+  /**
    * Returns whether the Property is many-valued given the specified context.
    * @param property The Property in question
    * @param context The context to check whether the specified Property is many-valued

@@ -119,6 +119,14 @@ public final class SDOUtil
     return defaultSDOHelper.getLowerBound(property);
   }
   
+  public static List getEnumerationFacet(Type type) {
+	  return defaultSDOHelper.getEnumerationFacet(type);
+  }
+
+  public static List getPatternFacet(Type type) {
+	  return defaultSDOHelper.getPatternFacet(type);
+  }
+	     
   /**
    * @see {@link org.apache.tuscany.sdo.api.SDOHelper#isMany(Property, DataObject)}.
    */

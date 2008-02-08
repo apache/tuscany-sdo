@@ -138,6 +138,29 @@ public class MetadataInstancePropertiesTestCase extends TestCase
     assertTrue(getInstanceProperty(property, "foo") == null);
   }
   
+  //Amita
+  public void testEnumProperty()
+  {
+	    Type type = typeHelper.getType(TEST_NAMESPACE, "ExampleRating");
+	    assertTrue(getInstanceProperty(type, "enumeration") != null);
+	    List enumFacet = SDOUtil.getEnumerationFacet(type);
+	    assertEquals(3, enumFacet.size());
+	    assertEquals("", enumFacet.get(0));
+	    assertEquals("Good", enumFacet.get(1));
+	    assertEquals("Bad", enumFacet.get(2));	    
+  }
+  
+  //Amita
+  public void testPatternProperty()
+  {
+	    Type type = typeHelper.getType(TEST_NAMESPACE, "PhoneNumber");
+	    assertTrue(getInstanceProperty(type, "pattern") != null);
+	    List patternFacet = SDOUtil.getPatternFacet(type);
+	    assertEquals(2, patternFacet.size());
+	    assertEquals("\\d{3}-\\d{4}", patternFacet.get(0));
+	    assertEquals("\\d{6}-\\d{8}", patternFacet.get(1));
+  }
+  
   public void setUp() throws Exception
   {
     super.setUp();

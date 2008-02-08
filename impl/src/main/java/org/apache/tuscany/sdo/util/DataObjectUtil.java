@@ -58,6 +58,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.impl.EDataTypeImpl;
 import org.eclipse.emf.ecore.impl.EPackageRegistryImpl;
 import org.eclipse.emf.ecore.impl.EStringToStringMapEntryImpl;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -2851,7 +2852,7 @@ public final class DataObjectUtil
   public static List getMetaObjectInstanceProperties(EModelElement metaObject) 
   {
     // Use the default helper context for now
-//    TypeHelper typeHelper = HelperProvider.getDefaultContext().getTypeHelper();
+	// TypeHelper typeHelper = HelperProvider.getDefaultContext().getTypeHelper();
       HelperContext hc = HelperProvider.getDefaultContext();
       
     List result = new UniqueEList();
@@ -2884,12 +2885,32 @@ public final class DataObjectUtil
    * @param property - The instance property to retrieve
    * @return The value of the instance property
    */
-  public static Object getMetaObjectInstanceProperty(EModelElement metaObject, Property property)
+  /*public static Object getMetaObjectInstanceProperty(EModelElement metaObject, Property property)
   {
     String value = EcoreUtil.getAnnotation(metaObject, property.getContainingType().getURI(), property.getName());
     //TODO if (property.isMany()) ... // create list of values from from string
     return SDOUtil.createFromString(property.getType(), value);
-  }
+  }*/
+  
+	 public static Object getMetaObjectInstanceProperty(EModelElement metaObject, Property property)
+	 {
+	  if(metaObject instanceof EDataTypeImpl){
+		  if(property.getName().equals("enumeration")) {
+				  List enumVals = ((EDataTypeImpl)metaObject).getExtendedMetaData().getEnumerationFacet();
+				  return enumVals;
+			  }
+	 
+			  if(property.getName().equals("pattern")) {
+			  List patternVals = ((EDataTypeImpl)metaObject).getExtendedMetaData().getPatternFacet();
+			  return patternVals;
+		  }
+	  }
+	  String value = EcoreUtil.getAnnotation(metaObject, property.getContainingType().getURI(), property.getName());
+	  //TODO if (property.isMany()) ... // create list of values from from string
+	  return SDOUtil.createFromString(property.getType(), value);
+	 }
+  
+  
 /*
   protected static Property getGlobalProperty(TypeHelper typeHelper, String uri, String name)
   {

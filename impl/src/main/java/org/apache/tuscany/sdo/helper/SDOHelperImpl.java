@@ -129,6 +129,36 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
         return ((EStructuralFeature)property).getLowerBound();
     }
     
+    public List getEnumerationFacet(Type type) {
+    	List instProps = type.getInstanceProperties();
+    	String propertyName = "enumeration";
+    	Property enumProperty = null;
+    	
+		for (int i = 0; i < instProps.size(); i++)
+		{
+		  Property prop = (Property)instProps.get(i);
+		  if (propertyName.equals(prop.getName()))
+			  enumProperty = prop;
+		}
+
+		return (List)DataObjectUtil.getMetaObjectInstanceProperty((EModelElement)type, enumProperty);
+    }
+    
+    public List getPatternFacet(Type type) {
+    	List instProps = type.getInstanceProperties();
+    	String propertyName = "pattern";
+    	Property patternProperty = null;
+    	
+		for (int i = 0; i < instProps.size(); i++)
+		{
+		  Property prop = (Property)instProps.get(i);
+		  if (propertyName.equals(prop.getName()))
+			  patternProperty = prop;
+		}
+
+		return (List)DataObjectUtil.getMetaObjectInstanceProperty((EModelElement)type, patternProperty);
+    }
+
     public boolean isMany(Property property, DataObject context) {
         return FeatureMapUtil.isMany((EObject)context, (EStructuralFeature)property);
     }
