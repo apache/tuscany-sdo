@@ -96,7 +96,7 @@ public class XSD2JavaGenerator extends JavaGenerator
       generator.processArguments(args);
       generator.run(args);
     }
-    catch (IllegalArgumentException e)
+    catch (Exception e)
     {
       printUsage();
     }
