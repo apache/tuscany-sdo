@@ -93,6 +93,7 @@
                 <module>plugin</module>
                 <module>sample</module>
                 <module>tools-test</module>
+                <module>java5tools</module>
             </modules>
         </profile>
 
@@ -106,6 +107,7 @@
                 <module>plugin</module>
                 <module>sample</module>
                 <module>distribution</module>
+                <module>java5tools</module>
             </modules>
         </profile>
 
@@ -119,8 +121,22 @@
                 <module>tools</module>
                 <module>sample</module>
                 <module>tools-test</module>
+                <module>java5tools</module>
             </modules>
         </profile>
+        
+	<profile>
+            <id>java_1_4_maven</id>
+            <modules>
+                <module>sdo-api</module>
+                <module>lib</module>
+                <module>impl</module>
+                <module>tools</module>
+                <module>plugin</module>
+                <module>sample</module>
+                <module>distribution</module>
+            </modules>
+        </profile>        
     </profiles>
 
     <build>

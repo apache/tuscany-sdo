@@ -22,8 +22,8 @@ package org.apache.tuscany.sdo.test;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
-import java.util.regex.MatchResult;
-import java.util.regex.Matcher;
+//import java.util.regex.MatchResult;
+//import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
