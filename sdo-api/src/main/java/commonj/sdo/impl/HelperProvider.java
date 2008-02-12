@@ -49,7 +49,7 @@ public abstract class HelperProvider {
      * to load the HelperProvider class itself and if no default implementation is available
      * this field will be set to null.
      */
-    public static final HelperProvider INSTANCE;
+    public static HelperProvider INSTANCE;
 
     /**
      * The name of the resource that is used for service location.
@@ -71,6 +71,15 @@ public abstract class HelperProvider {
             provider = null;
         }
         INSTANCE = provider;
+    }
+    
+    public static synchronized void setDefaultInstance(ClassLoader cl) {
+    	if (INSTANCE == null) {
+            try {
+                INSTANCE = getInstance(cl);
+            } catch (NoHelperProviderException e) {
+            }
+    	}
     }
 
     /**

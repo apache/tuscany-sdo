@@ -13,4 +13,5 @@ Bundle-Version: 1.0.0
 Bundle-Vendor: Apache Software Foundation
 Require-Bundle: org.apache.tuscany.sdo.spec;visibility:=reexport
 Export-Package: org.apache.tuscany.sdo.api,
- org.apache.tuscany.sdo.rtlib
+ org.apache.tuscany.sdo.spi,
+ org.apache.tuscany.sdo.lib

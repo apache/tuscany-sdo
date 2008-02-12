@@ -103,6 +103,13 @@
             <version>3.2.1</version>
         </dependency>
 
+        <!-- dependencies for OSGi support -->
+        <dependency>
+            <groupId>org.apache.felix</groupId>
+            <artifactId>org.apache.felix.main</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+
        <!-- dependencies for test cases -->
         <dependency>
             <groupId>junit</groupId>

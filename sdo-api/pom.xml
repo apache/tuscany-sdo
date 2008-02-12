@@ -103,10 +103,11 @@
                 <configuration>
                     <osgiManifest>
                         <bundleName>${pom.name}</bundleName>
+                        <bundleVersion>${specVersion}</bundleVersion>
                         <bundleDescription>${pom.description}</bundleDescription>
                         <bundleVendor>${pom.organization.name}</bundleVendor>
                         <bundleLocalization>plugin</bundleLocalization>
-                        <bundleSymbolicName>commonj.sdo</bundleSymbolicName>
+                        <bundleSymbolicName>org.apache.tuscany.sdo.spec</bundleSymbolicName>
                         <exportPackage>
                             commonj.sdo;version="${specVersion}", commonj.sdo.helper;version="${specVersion},
                             commonj.sdo.impl;version="${specVersion}"
