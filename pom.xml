@@ -93,7 +93,7 @@
                 <module>plugin</module>
                 <module>sample</module>
                 <module>tools-test</module>
-                <module>java5tools</module>
+                <!-- module>java5tools</module -->
             </modules>
         </profile>
 
@@ -107,7 +107,7 @@
                 <module>plugin</module>
                 <module>sample</module>
                 <module>distribution</module>
-                <module>java5tools</module>
+                <!-- module>java5tools</module -->
             </modules>
         </profile>
 
@@ -121,7 +121,7 @@
                 <module>tools</module>
                 <module>sample</module>
                 <module>tools-test</module>
-                <module>java5tools</module>
+                <!-- module>java5tools</module -->
             </modules>
         </profile>
         
