@@ -213,10 +213,6 @@ commonj/sdo/impl/NoHelperProviderException.class
 
 License applicable to the files ....
 
-commonj/sdo/impl/HelperProvider$1.class
-commonj/sdo/impl/HelperProvider$2.class
-commonj/sdo/impl/HelperProvider$DefaultHelperContext.class
-commonj/sdo/impl/HelperProvider.class
 commonj/sdo/ChangeSummary$Setting.class
 commonj/sdo/ChangeSummary.class
 commonj/sdo/DataGraph.class

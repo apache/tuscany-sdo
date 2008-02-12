@@ -212,7 +212,6 @@ code for the these subcomponents is subject to the terms and
 conditions of the following licenses.
 
 These files being ...
-commonj/sdo/impl/HelperProvider.java
 commonj/sdo/ChangeSummary.java
 commonj/sdo/DataGraph.java
 commonj/sdo/DataObject.java
