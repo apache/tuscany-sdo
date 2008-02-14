@@ -98,6 +98,7 @@ public class XSD2JavaGenerator extends JavaGenerator
     }
     catch (Exception e)
     {
+      e.printStackTrace();
       printUsage();
     }
   }
@@ -227,6 +228,8 @@ public class XSD2JavaGenerator extends JavaGenerator
           }    
         }
         */
+      } else {
+        System.err.println("Input schema file " + xsdFileName + " defined no metadata.");
       }
       
       /*
