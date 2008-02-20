@@ -68,6 +68,7 @@ public class AllTests extends TestCase {
         suite.addTestSuite(ExpectedExceptionsTestCase.class);
         suite.addTestSuite(TypeHelperTestCase.class);
         suite.addTestSuite(NotificationTestCase.class);
+        suite.addTestSuite(ImplSpecificTestCase.class);
         return suite;
     }
 
