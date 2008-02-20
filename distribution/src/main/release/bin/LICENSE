@@ -417,4 +417,11 @@ Dedicator makes this dedication for the benefit of the public at large and to th
 
 Dedicator recognizes that, once placed in the public domain, the Work may be freely reproduced, distributed, transmitted, used, modified, built upon, or otherwise exploited by anyone for any purpose, commercial or non-commercial, and in any way, including by methods that have not yet been invented or conceived.
 
+=======================================================================================================================
+
+For the felix components (org.apache.felix.bundlerepository-1.0.0.jar, org.apache.felix.framework-1.0.1.jar, org.apache.felix.main-1.0.1.jar, org.apache.felix.shell-1.0.0.jar and org.apache.felix.shell.tui-1.0.0.jar)
+
+These components are covered by the Apache License Version 2.0, January 2004, as above.
+
+========================================================================================================================
 
