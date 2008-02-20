@@ -68,7 +68,6 @@ Bug
 	TUSCANY-1006	ChangeSummaryImpl.cachedSDOObjectChanges appears to not be thread safe
 	TUSCANY-1079	Possible error in XSDSerialization tests
 	TUSCANY-1084	Java Serialization: The Type definition is overwritten in the registry within the same scope
-	TUSCANY-1105	CTS throws NoClassDefFound errors for javax.xml.stream.XMLStreamException while reading XML stream
 	TUSCANY-1272	CrudWithChangeHistory test case fails as it's not finding the deleted object in the changeSummary
 	TUSCANY-1293	SDO does not work with OSGi
 	TUSCANY-1397	createDataObject() throws NPE if property does not exist
