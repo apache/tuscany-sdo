@@ -89,7 +89,7 @@ Bug
 	TUSCANY-1811	ClassCastException saving codegen-based DataGraph with ChangeSummary containing an xsd:float
 	TUSCANY-1812	XMLHelper.load() IOException using schema that has both a substitution group and an extension
 	TUSCANY-1830	SimpleType extension across mixed static/dynamic namespaces is broken
-	USCANY-1832	Complex type w/simple content restriction facets are ignored
+	TUSCANY-1832	Complex type w/simple content restriction facets are ignored
 	TUSCANY-1838	HelperContext provided to createObjectOutputStream is inadvertantly ignored
 	TUSCANY-1842	IOException loading DataGraph containing a deleted dataObject with a property whose type extends a complexType w/simple integer content
 	TUSCANY-1853	XSD2JavaGenerator generates Java identifier with dots
