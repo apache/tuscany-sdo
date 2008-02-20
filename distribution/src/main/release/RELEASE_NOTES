@@ -56,7 +56,6 @@ New Feature
 	TUSCANY-1527	Allow for custom data binding of DataObjects in a Swing UI
 Improvement
 	TUSCANY-193	Fix eclipse warnings for sdo/tools
-	TUSCANY-1048	SDO CTS. Contribute Paramatized Test Cases, and application server test harness
 	TUSCANY-1063	Improve diagnostics running XSD2JavaGenerator against bad schema
 	TUSCANY-1283	Better organization of the interfaces and classes in the SDO Java project
 	TUSCANY-1399	Generate SDO test classes using maven-sdo-plugin
