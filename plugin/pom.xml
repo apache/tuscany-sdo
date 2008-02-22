@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.apache.tuscany.sdo</groupId>
         <artifactId>tuscany-sdo</artifactId>
-        <version>1.0-incubating-SNAPSHOT</version>
+        <version>1.1-incubating</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>tuscany-sdo-plugin</artifactId>
@@ -56,7 +56,7 @@
         <dependency>
             <groupId>org.apache.tuscany.sdo</groupId>
             <artifactId>tuscany-sdo-api-r${specVersion}</artifactId>
-            <version>1.0-incubating-SNAPSHOT</version>
+            <version>1.1-incubating</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
