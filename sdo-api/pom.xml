@@ -26,7 +26,7 @@
     </parent>
     <groupId>org.apache.tuscany.sdo</groupId>
     <artifactId>tuscany-sdo-api-r${specVersion}</artifactId>
-    <packaging>osgi-bundle</packaging>
+    <packaging>bundle</packaging>
     <version>1.1-incubating</version>
     <name>SDO API</name>
     <description>API classes for Service Data Objects</description>
@@ -96,23 +96,23 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.felix.plugins</groupId>
-                <artifactId>maven-osgi-plugin</artifactId>
-                <version>0.8.0-SNAPSHOT</version>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+                <version>1.2.1</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <osgiManifest>
-                        <bundleName>${pom.name}</bundleName>
-                        <bundleVersion>${specVersion}</bundleVersion>
-                        <bundleDescription>${pom.description}</bundleDescription>
-                        <bundleVendor>${pom.organization.name}</bundleVendor>
-                        <bundleLocalization>plugin</bundleLocalization>
-                        <bundleSymbolicName>org.apache.tuscany.sdo.spec</bundleSymbolicName>
-                        <exportPackage>
-                            commonj.sdo;version="${specVersion}", commonj.sdo.helper;version="${specVersion},
+                    <instructions>
+                        <Bundle-Name>${pom.name}</Bundle-Name>
+                        <Bundle-Version>${specVersion}</Bundle-Version>
+                        <Bundle-Description>${pom.description}</Bundle-Description>
+                        <Bundle-Vendor>${pom.organization.name}</Bundle-Vendor>
+                        <Bundle-Localization>plugin</Bundle-Localization>
+                        <Bundle-SymbolicName>org.apache.tuscany.sdo.spec</Bundle-SymbolicName>
+                        <Export-Package>
+                            commonj.sdo;version="${specVersion}", commonj.sdo.helper;version="${specVersion}",
                             commonj.sdo.impl;version="${specVersion}"
-                        </exportPackage>
-                    </osgiManifest>
+                        </Export-Package>
+                    </instructions>
                 </configuration>
             </plugin>
             <plugin>
