@@ -29,28 +29,28 @@
 	<fileSets>
 
             <!-- Add the text files to the top-level directory -->
-		<fileSet>
-			<directory>src/main/release</directory>
-			<outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
-			<includes>
+	    <fileSet>
+		<directory>src/main/release</directory>
+		<outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
+		<includes>
                 <include>DISCLAIMER</include>
-			</includes>
-		</fileSet>
-		<fileSet>
-			<directory>src/main/release/bin</directory>
-			<outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
-			<includes>
-				<include>INSTALL</include>
-                <include>NOTICE</include>
-			</includes>
-		</fileSet>
-        <fileSet>
-            <directory>src/main/release/bin/samples</directory>
-            <outputDirectory>tuscany-sdo-${sdo.version}/docs/javadoc/sdo-samples</outputDirectory>
-            <includes>
-                <include>sampleProgramContents.html</include>
-             </includes>
-        </fileSet>
+		</includes>
+	    </fileSet>
+	    <fileSet>
+		<directory>src/main/release/bin</directory>
+		<outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
+		<includes>
+			<include>INSTALL</include>
+                        <include>NOTICE</include>
+		</includes>
+	    </fileSet>
+            <fileSet>
+                   <directory>src/main/release/bin/samples</directory>
+                   <outputDirectory>tuscany-sdo-${sdo.version}/docs/javadoc/sdo-samples</outputDirectory>
+                   <includes>
+                        <include>sampleProgramContents.html</include>
+                   </includes>
+            </fileSet>
 
         <!-- Add javadoc to the doc directory -->
         <fileSet>
@@ -59,7 +59,7 @@
             <includes>
                 <include>**/*</include>
             </includes>
-		</fileSet>
+	</fileSet>
 
 
         <!-- Add all the sample source to the binary distribution's samples directory -->
@@ -68,18 +68,19 @@
 			<directory>../sample</directory>
 			<outputDirectory>tuscany-sdo-${sdo.version}/samples</outputDirectory>
 			<includes>
-				<include>**/*</include>
+				<include>src/**/*</include>
 			</includes>
 			<excludes>
 				<exclude>pom.xml</exclude>
 				<exclude>*/.classpath</exclude>
 				<exclude>*/.project</exclude>
-				<exclude>*/target/classes</exclude>
+				<!--<exclude>*/target/classes</exclude>
 				<exclude>*/target/classes/**/*</exclude>
 				<exclude>*/target/test-classes</exclude>
 				<exclude>*/target/test-classes/**/*</exclude>
 				<exclude>*/target/surefire-reports</exclude>
-				<exclude>*/target/surefire-reports/**/*</exclude>
+				<exclude>*/target/surefire-reports/**/*</exclude>-->
+				<exclude>target</exclude>
 			</excludes>
 		</fileSet>
 	</fileSets>
