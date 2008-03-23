@@ -34,7 +34,6 @@
             <includes>
                 <include>CHANGES</include>
                 <include>DISCLAIMER</include>
-                <include>NOTICE</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -78,6 +77,11 @@
         </file>
         <file>
             <source>src/main/release/src/LICENSE</source>
+            <outputDirectory>tuscany-sdo-${sdo.version}-src</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>src/main/release/src/NOTICE</source>
             <outputDirectory>tuscany-sdo-${sdo.version}-src</outputDirectory>
             <filtered>true</filtered>
         </file>
