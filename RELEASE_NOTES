@@ -1,16 +1,16 @@
-What's New in SDO Java ${sdo.version}
+What's New in SDO Java 1.1-incubating
 
-Apache Tuscany's SDO Java Release ${sdo.version} is the second such release
-with full coverage of the SDO 2.1 specification (First being ${sdo.previousversion}).
+Apache Tuscany's SDO Java Release 1.1-incubating is the second such release
+with full coverage of the SDO 2.1 specification (First being 1.0-incubating).
 
 It includes some new features and improvements along with a number of bug fixes (see below for detail).
 
 For previous revision history, take a look at
-http://svn.apache.org/viewvc/incubator/tuscany/tags/java/sdo/${sdo.previousversion}/sdo/distribution/RELEASE_NOTES.txt
+http://svn.apache.org/viewvc/incubator/tuscany/tags/java/sdo/1.0-incubating/sdo/distribution/RELEASE_NOTES.txt
 
-SDO Java ${sdo.version} is a superset of previous SDO ${sdo.previousversion} release.
-Anything in ${sdo.previousversion} is also in ${sdo.version}, but ${sdo.version} contains
-features and bugfixes not present in ${sdo.previousversion} release.
+SDO Java 1.1-incubating is a superset of previous SDO 1.0-incubating release.
+Anything in 1.0-incubating is also in 1.1-incubating, but 1.1-incubating contains
+features and bugfixes not present in 1.0-incubating release.
 
 Downloading
 ===========
@@ -35,7 +35,7 @@ In addition a new maven artifact and jar has appeared.
 
 maven groupId=org.apache.tuscany.sdo
 maven artifactId=tuscany-sdo-lib
-jar archive=tuscany-sdo-lib-${sdo.version}
+jar archive=tuscany-sdo-lib-1.1-incubating
 
 This artifact provides a clear distinction between Tuscany SDO implementation,  and the Tuscany
 API which extends the SDO API.  See the javadoc contained in the binary release for details of
