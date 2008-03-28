@@ -5,7 +5,7 @@ Specification-Vendor: Apache Software Foundation
 Implementation-Vendor: Apache Software Foundation
 Implementation-Vendor-Id: org.apache
 Implementation-Title: tuscany-sdo-lib
-Implementation-Version: incubating-M3
+Implementation-Version: ${pom.version}
 Bundle-ManifestVersion: 2
 Bundle-Name: Tuscany SDO Implementation Library
 Bundle-SymbolicName: org.apache.tuscany.sdo.lib
