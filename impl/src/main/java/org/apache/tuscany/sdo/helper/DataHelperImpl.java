@@ -22,7 +22,6 @@ package org.apache.tuscany.sdo.helper;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -54,7 +53,7 @@ public class DataHelperImpl implements DataHelper
       return null;
     }
       
-    SimpleDateFormat format;
+    SDOSimpleDateFormat format;
     Date result = null;
     boolean negative = false;
     String formatString;
@@ -77,7 +76,7 @@ public class DataHelperImpl implements DataHelper
       else
         formatString = new String ("yyyy-MM-dd'T'HH:mm:ss'Z'");
         
-      format = new SimpleDateFormat(formatString);
+      format = new SDOSimpleDateFormat(formatString);
       format.setTimeZone(TimeZone.getTimeZone("UTC"));
       
       result = checkFormat(dateString, format);
@@ -105,7 +104,7 @@ public class DataHelperImpl implements DataHelper
       // Build the formatString based on the contents of dateString
         
       formatString = obtainDurationFormats(durationString);
-      format = new SimpleDateFormat(formatString);
+      format = new SDOSimpleDateFormat(formatString);
       result = checkFormat(durationString, format);
       if (result != null)
       {     
@@ -120,7 +119,7 @@ public class DataHelperImpl implements DataHelper
 
     if (formatString != null)
     {
-      format = new SimpleDateFormat(formatString);
+      format = new SDOSimpleDateFormat(formatString);
       result = checkFormat(dateString, format); 
 
       if (result != null)
@@ -135,12 +134,12 @@ public class DataHelperImpl implements DataHelper
     return null;
   }
   
-  private synchronized Date checkFormat(String dateString, SimpleDateFormat format)
+  private synchronized Date checkFormat(String dateString, SDOSimpleDateFormat format)
   {
     String formatPattern = format.toPattern();
     StringBuffer addedFields = new StringBuffer();
     String fieldsString, parseString;
-    SimpleDateFormat compositeFormat;
+    SDOSimpleDateFormat compositeFormat;
     Date dateValue;
 
     // For certain permissable input strings (e.g. those resulting from toYear
@@ -176,7 +175,7 @@ public class DataHelperImpl implements DataHelper
     
     else
     {
-      compositeFormat = new SimpleDateFormat(fieldsString);
+      compositeFormat = new SDOSimpleDateFormat(fieldsString);
       dateValue = new Date(System.currentTimeMillis());
       parseString = compositeFormat.format(dateValue) + dateString;    
       compositeFormat.applyPattern(fieldsString + formatPattern);
@@ -354,7 +353,7 @@ public class DataHelperImpl implements DataHelper
       return null;
     }
     
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'");
+    SDOSimpleDateFormat f = new SDOSimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'");
     f.setTimeZone(TimeZone.getTimeZone("UTC"));
     
     return f.format(date);
@@ -367,7 +366,7 @@ public class DataHelperImpl implements DataHelper
       return null;
     }
     
-    SimpleDateFormat f = new SimpleDateFormat("'P'yyyy'Y' MM'M' dd'D' 'T' HH'H' mm'M' ss'S.'SSS");
+    SDOSimpleDateFormat f = new SDOSimpleDateFormat("'P'yyyy'Y' MM'M' dd'D' 'T' HH'H' mm'M' ss'S.'SSS");
     
     return f.format(date);
   }
@@ -379,7 +378,7 @@ public class DataHelperImpl implements DataHelper
       return null;
     }
     
-    SimpleDateFormat f = new SimpleDateFormat("HH:mm:ss'.'SSS zz");
+    SDOSimpleDateFormat f = new SDOSimpleDateFormat("HH:mm:ss'.'SSS zz");
     
     return f.format(date);
   }
@@ -391,7 +390,7 @@ public class DataHelperImpl implements DataHelper
       return null;
     }
     
-    SimpleDateFormat f = new SimpleDateFormat("---dd zz");
+    SDOSimpleDateFormat f = new SDOSimpleDateFormat("---dd zz");
     
     return f.format(date);
   }
@@ -403,7 +402,7 @@ public class DataHelperImpl implements DataHelper
       return null;
     }
     
-    SimpleDateFormat f = new SimpleDateFormat("--MM zz");
+    SDOSimpleDateFormat f = new SDOSimpleDateFormat("--MM zz");
     
     return f.format(date);
   }
@@ -415,7 +414,7 @@ public class DataHelperImpl implements DataHelper
       return null;
     }
     
-    SimpleDateFormat f = new SimpleDateFormat("--MM-dd zz");
+    SDOSimpleDateFormat f = new SDOSimpleDateFormat("--MM-dd zz");
     
     return f.format(date);
   }
@@ -427,7 +426,7 @@ public class DataHelperImpl implements DataHelper
       return null;
     }
     
-    SimpleDateFormat f = new SimpleDateFormat("yyyy zz");
+    SDOSimpleDateFormat f = new SDOSimpleDateFormat("yyyy zz");
     
     return f.format(date); 
   }
@@ -439,7 +438,7 @@ public class DataHelperImpl implements DataHelper
       return null;
     }
     
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM zz");
+    SDOSimpleDateFormat f = new SDOSimpleDateFormat("yyyy-MM zz");
     
     return f.format(date);
   }
@@ -451,7 +450,7 @@ public class DataHelperImpl implements DataHelper
       return null;
     }
     
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd zz");
+    SDOSimpleDateFormat f = new SDOSimpleDateFormat("yyyy-MM-dd zz");
     
     return f.format(date);
   }
