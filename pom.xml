@@ -167,7 +167,7 @@
                 <version>2.3</version>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <argLine>-Djava.endorsed.dirs=${java.endorsed.dirs}</argLine>
+                    <argLine>-Djava.endorsed.dirs=${endorsed.dirs}</argLine>
                     <includes>
                         <include>**/*TestCase.java</include>
                     </includes>
