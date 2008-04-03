@@ -89,11 +89,13 @@ Bug
 	TUSCANY-1838	HelperContext provided to createObjectOutputStream is inadvertently ignored
 	TUSCANY-1842	IOException loading DataGraph containing a deleted dataObject with a property whose type extends a complexType w/simple integer content
 	TUSCANY-1853	XSD2JavaGenerator generates Java identifier with dots
+	TUSCANY-1925      Cannot build or run with Sun's 1.4.2 JDK
 	TUSCANY-1935	Conversion of Bytes to/from String properties is not functioning correctly.
 	TUSCANY-2007	SDO Samples - fix sampleProgramContents.html's Firefox display issue
 	TUSCANY-2009	Java SDO's EqualityHelper doesn't compare Bytes values correctly
 	TUSCANY-2011	include apache headers in xmls and xsds without causing test case failures
 	TUSCANY-2025	SDO Java Samples - minor commentary fixes
+	TUSCANY-2187      Surefire fails because of java.endorsed.dirs setting
 Wish
 	TUSCANY-1359	New SDOUtil: Upper and lower bound on properties where 'isMany' is true
 	TUSCANY-1360	New SDOUtil: Getting the enumeration facet
