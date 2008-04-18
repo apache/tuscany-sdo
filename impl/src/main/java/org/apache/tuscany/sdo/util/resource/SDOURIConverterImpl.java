@@ -27,29 +27,34 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.URIConverterImpl;
 
-public class SDOURIConverterImpl extends URIConverterImpl
-{
-  /**
-   * Disable going out to the wire.
-   */
-  protected InputStream createURLInputStream(URI uri) throws IOException {
-      String scheme = uri.scheme();
-      if ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme)) {
-          throw new Resource.IOWrappedException(
-              new RuntimeException("Reading remote URL not supported."));
-      }
-      return super.createURLInputStream(uri);
-  }
-  
-  /**
-   * Disable going out to the wire.
-   */
-  protected OutputStream createURLOutputStream(URI uri) throws IOException {
-      String scheme = uri.scheme();
-      if ("http".equalsIgnoreCase(scheme) || "https".equalsIgnoreCase(scheme)) {
-          throw new Resource.IOWrappedException(
-              new RuntimeException("Writing remote URL not supported."));
-      }
-      return super.createURLOutputStream(uri);
-  }
+public class SDOURIConverterImpl extends URIConverterImpl {
+    /**
+     * Disable going out to the wire.
+     */
+    protected InputStream createURLInputStream(URI uri) throws IOException {
+        String scheme = uri.scheme();
+        if ("http".equals(scheme) || "https".equals(scheme)) {
+            // TUSCANY 2240: We need to compromise if the remote loading is allowed or not
+            String ext = uri.fileExtension();
+            if (!"wsdl".equalsIgnoreCase(ext) && !"xsd".equalsIgnoreCase(ext)) {
+                throw new Resource.IOWrappedException(new RuntimeException("Reading remote URL not supported: " + uri));
+            }
+        }
+        return super.createURLInputStream(uri);
+    }
+
+    /**
+     * Disable going out to the wire.
+     */
+    protected OutputStream createURLOutputStream(URI uri) throws IOException {
+        String scheme = uri.scheme();
+        if ("http".equals(scheme) || "https".equals(scheme)) {
+            // TUSCANY 2240: We need to compromise if the remote loading is allowed or not
+            String ext = uri.fileExtension();
+            if (!"wsdl".equalsIgnoreCase(ext) && !"xsd".equalsIgnoreCase(ext)) {
+                throw new Resource.IOWrappedException(new RuntimeException("Reading remote URL not supported: " + uri));
+            }
+        }
+        return super.createURLOutputStream(uri);
+    }
 }
