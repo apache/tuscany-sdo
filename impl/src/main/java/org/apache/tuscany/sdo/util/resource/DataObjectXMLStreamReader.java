@@ -273,6 +273,9 @@ public class DataObjectXMLStreamReader implements XMLFragmentStreamReader {
 
         List elementList = new ArrayList();
         List attributeList = new ArrayList();
+        if (dataObject == null) {
+            return;
+        }
         Type type = dataObject.getType();
         
         // Add xsi:type if rootElement doesn't exist or the type is different

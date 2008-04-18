@@ -19,11 +19,8 @@
  */
 package org.apache.tuscany.sdo.helper;
 
-import java.io.IOException;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
-import javax.xml.namespace.QName;
+
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -32,7 +29,6 @@ import javax.xml.stream.XMLStreamWriter;
 import org.apache.tuscany.sdo.util.resource.DataObjectXMLStreamReader;
 import org.apache.tuscany.sdo.util.resource.XMLDocumentStreamReader;
 import org.apache.tuscany.sdo.util.resource.XMLStreamSerializer;
-//import org.apache.tuscany.sdo.api.XMLStreamHelper;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import commonj.sdo.DataObject;
@@ -114,6 +110,9 @@ public class XMLStreamHelperImpl implements XMLStreamHelper {
     }
 
     public XMLStreamReader createXMLStreamReader(DataObject dataObject) {
+        if (dataObject == null) {
+            return null;
+        }
         String rootElementURI;
         String rootElementName;
 
