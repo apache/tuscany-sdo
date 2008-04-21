@@ -28,7 +28,7 @@
     <artifactId>tuscany-sdo</artifactId>
     <packaging>pom</packaging>
     <name>Apache Tuscany SDO Implementation Project</name>
-    <version>1.1-incubating</version>
+    <version>1.1.1-incubating-SNAPSHOT</version>
 
     <scm>
         <connection>scm:svn:http://svn.apache.org/repos/asf/incubator/tuscany/java/sdo</connection>
@@ -76,7 +76,7 @@
     <properties>
         <specVersion>2.1</specVersion>
         <emfVersion>2.2.3</emfVersion>
-        <sdo.version>1.1-incubating</sdo.version>
+        <sdo.version>1.1.1-incubating-SNAPSHOT</sdo.version>
     </properties>
 
     <profiles>
