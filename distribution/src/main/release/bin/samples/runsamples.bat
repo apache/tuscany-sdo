@@ -16,7 +16,7 @@ REM specific language governing permissions and limitations
 REM under the License.
 @echo off
 set BINARY_BASE=..
-set RELEASE=1.1.1-incubating-SNAPSHOT
+set RELEASE=1.1.1-incubating
 echo SDO Sample Programs.  Running with BINARY_BASE set to %BINARY_BASE%
 echo If this script fails with ClassDefNotFound errors you probably need to
 echo edit the BINARY_BASE variable in the script to point to the location

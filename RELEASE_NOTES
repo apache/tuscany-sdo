@@ -1,9 +1,9 @@
-Apache Tuscany's SDO Java Release 1.1.1-incubating-SNAPSHOT
+Apache Tuscany's SDO Java Release 1.1.1-incubating
 
 Tuscany SDO provides an implementation of the SDO 2.1 specification which
 aims to simplify and unify the way in which applications handle data.
 
-This 1.1.1-incubating-SNAPSHOT release is a maintenance release over the 
+This 1.1.1-incubating release is a maintenance release over the 
 previous 1.1 release. For previous revision history, take a look at
 http://svn.apache.org/repos/asf/incubator/tuscany/tags/java/sdo/1.1/RELEASE_NOTES
 
