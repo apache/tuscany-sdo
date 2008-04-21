@@ -1,101 +1,21 @@
-What's New in SDO Java 1.1.1-incubating-SNAPSHOT
+Apache Tuscany's SDO Java Release 1.1.1-incubating-SNAPSHOT
 
-Apache Tuscany's SDO Java Release 1.1.1-incubating-SNAPSHOT is the second such release
-with full coverage of the SDO 2.1 specification (First being 1.0-incubating).
+Tuscany SDO provides an implementation of the SDO 2.1 specification which
+aims to simplify and unify the way in which applications handle data.
 
-It includes some new features and improvements along with a number of bug fixes (see below for detail).
-
-For previous revision history, take a look at
-http://svn.apache.org/viewvc/incubator/tuscany/tags/java/sdo/1.0-incubating/sdo/distribution/RELEASE_NOTES.txt
-
-SDO Java 1.1.1-incubating-SNAPSHOT is a superset of previous SDO 1.0-incubating release.
-Anything in 1.0-incubating is also in 1.1.1-incubating-SNAPSHOT, but 1.1.1-incubating-SNAPSHOT contains
-features and bugfixes not present in 1.0-incubating release.
+This 1.1.1-incubating-SNAPSHOT release is a maintenance release over the 
+previous 1.1 release. For previous revision history, take a look at
+http://svn.apache.org/repos/asf/incubator/tuscany/tags/java/sdo/1.1/RELEASE_NOTES
 
 Downloading
 ===========
 
 Please visit  http://incubator.apache.org/tuscany/sdo-java-releases.html
 
-Binary Artifact Changes
-=======================
+-----------------------------------------
+Changes in this 1.1.1-incubating release:
+-----------------------------------------
 
-PLEASE NOTE that
-Since the 1.0-incubating-beta release the following binary artifacts have been renamed
+Bug Fix
+	TUSCANY-2240   Creation of SDO object out of XML (read from an JMS message) is taking too long
 
-The maven groupId of the SDO API binary artifact has changed from "commonj" to "org.apache.tuscany.sdo"
-
-The maven artifactId for the SDO API binary artifact has changed from "sdo-api-r2.1" to "tuscany-sdo-api-r2.1"
-
-The jar file containing the SDO API has a new "tuscany-" prefix,  so what was ..
-sdo-api-r2.1-1.0-incubating-beta1.jar in the beta1 release becomes
-tuscany-sdo-api-r2.1-1.0-incubating.jar in this release.
-
-In addition a new maven artifact and jar has appeared.
-
-maven groupId=org.apache.tuscany.sdo
-maven artifactId=tuscany-sdo-lib
-jar archive=tuscany-sdo-lib-1.1.1-incubating-SNAPSHOT
-
-This artifact provides a clear distinction between Tuscany SDO implementation,  and the Tuscany
-API which extends the SDO API.  See the javadoc contained in the binary release for details of
-the function provided by this artifact.
-
-
-New Features and Fixes
-======================
-
-For more detail on these fixes and features please see ...
-https://issues.apache.org/jira
-
-New Feature
-	TUSCANY-1128	Support attribute and element with same name
-	TUSCANY-1527	Allow for custom data binding of DataObjects in a Swing UI
-Improvement
-	TUSCANY-193	Fix eclipse warnings for sdo/tools
-	TUSCANY-1063	Improve diagnostics running XSD2JavaGenerator against bad schema
-	TUSCANY-1283	Better organization of the interfaces and classes in the SDO Java project
-	TUSCANY-1399	Generate SDO test classes using maven-sdo-plugin
-	TUSCANY-1468	Use HelperContext for scope in Tuscany API
-	TUSCANY-1483	Static SDO generator: problem with elements named internal*
-	TUSCANY-1498	Improve SubstitutionValuesTestCase
-Bug
-	TUSCANY-257	Recently added file Interface2JavaGenerator.java is not compatible with JDK 1.4
-	TUSCANY-612	Java SDO Overview doc doesn't address setting of M2_REPO variable
-	TUSCANY-1006	ChangeSummaryImpl.cachedSDOObjectChanges appears to not be thread safe
-	TUSCANY-1084	Java Serialization: The Type definition is overwritten in the registry within the same scope
-	TUSCANY-1272	CrudWithChangeHistory test case fails as it's not finding the deleted object in the changeSummary
-	TUSCANY-1293	SDO does not work with OSGi
-	TUSCANY-1397	createDataObject() throws NPE if property does not exist
-	TUSCANY-1484	StackOverflowException invoking isSet on a static DataObject with a dynamically-added property
-	TUSCANY-1505	Naming scheme used for variables in code gen factory init() method breaks under specific circumstances
-	TUSCANY-1514	DataHelperImpl.toDate will report a NullPointerException
-	TUSCANY-1528	ClassCastException thrown when trying to deserializing an XML with undefined global element
-	TUSCANY-1531	Java SDO Documentation page should be updated to default website stype/design
-	TUSCANY-1540	Abstract Static Base Types mixed with Dynamic Extended Types
-	TUSCANY-1545	Change default XML encoding to "UTF-8".
-	TUSCANY-1574	SDOXSDEcoreBuilder.createResourceSet() is not thread safe
-	TUSCANY-1638	SDO command-line code generator behaves differently than standalone when invoked in Eclipse
-	TUSCANY-1645	XSD2JavaGenerator failed to gen on the wsdl files with only <xsd:import> element in <xsd:schema>
-	TUSCANY-1655	Generated code uses deprecated method FactoryBase.getProperty(Type,int)
-	TUSCANY-1673	PackageClassInfo being override when Element and ComplexType have same name
-	TUSCANY-1726	List DataObject.getList(String path) should return an empty list when there is no value
-	TUSCANY-1780	[JAVA-SDO] Incorrect generation of class with default value for a list
-	TUSCANY-1788	DataObjectXMLStreamReader doesn't declare the xsi namespace if there is a xsi:type or xsi:nil attribute
-	TUSCANY-1811	ClassCastException saving codegen-based DataGraph with ChangeSummary containing an xsd:float
-	TUSCANY-1812	XMLHelper.load() IOException using schema that has both a substitution group and an extension
-	TUSCANY-1830	SimpleType extension across mixed static/dynamic namespaces is broken
-	TUSCANY-1832	Complex type w/simple content restriction facets are ignored
-	TUSCANY-1838	HelperContext provided to createObjectOutputStream is inadvertently ignored
-	TUSCANY-1842	IOException loading DataGraph containing a deleted dataObject with a property whose type extends a complexType w/simple integer content
-	TUSCANY-1853	XSD2JavaGenerator generates Java identifier with dots
-	TUSCANY-1925      Cannot build or run with Sun's 1.4.2 JDK
-	TUSCANY-1935	Conversion of Bytes to/from String properties is not functioning correctly.
-	TUSCANY-2007	SDO Samples - fix sampleProgramContents.html's Firefox display issue
-	TUSCANY-2009	Java SDO's EqualityHelper doesn't compare Bytes values correctly
-	TUSCANY-2011	include apache headers in xmls and xsds without causing test case failures
-	TUSCANY-2025	SDO Java Samples - minor commentary fixes
-	TUSCANY-2187      Surefire fails because of java.endorsed.dirs setting
-Wish
-	TUSCANY-1359	New SDOUtil: Upper and lower bound on properties where 'isMany' is true
-	TUSCANY-1360	New SDOUtil: Getting the enumeration facet
