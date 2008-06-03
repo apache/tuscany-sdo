@@ -108,6 +108,7 @@
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.main</artifactId>
             <version>1.0.1</version>
+            <scope>provided</scope>
         </dependency>
 
        <!-- dependencies for test cases -->

@@ -120,13 +120,6 @@
     <dependencySets>
         <dependencySet>
             <outputDirectory>tuscany-sdo-${sdo.version}/lib</outputDirectory>
-            <includes>
-            	<include>org.apache.tuscany.sdo:tuscany-sdo-api-r2.1</include>
-                <include>org.apache.tuscany.sdo:tuscany-sdo-lib</include>
-                <include>org.apache.tuscany.sdo:tuscany-sdo-impl</include>
-                <include>org.apache.tuscany.sdo:tuscany-sdo-tools</include>
-                <include>org.apache.tuscany.sdo:sample-sdo</include>
-            </includes>
             <fileMode>0644</fileMode>
         </dependencySet>
 
