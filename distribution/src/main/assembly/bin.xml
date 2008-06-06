@@ -80,11 +80,6 @@
 
     <files>
         <file>
-            <source>../DISCLAIMER</source>
-            <outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
-            <filtered>true</filtered>
-        </file>
-        <file>
             <source>../RELEASE_NOTES</source>
             <outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
             <filtered>true</filtered>

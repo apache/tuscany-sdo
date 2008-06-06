@@ -20,7 +20,7 @@ echo If this script fails with ClassDefNotFound errors you probably need to
 echo edit the BINARY_BASE variable in the script to point to the location
 echo where you unpacked the Tuscany SDO binary distribution
 export BINARY_BASE=..
-export RELEASE=1.1.1-incubating
+export RELEASE=1.1.1
 export LIB=$BINARY_BASE/lib
 export CLASSPATH=$LIB/sample-sdo-$RELEASE.jar:$LIB/tuscany-sdo-api-r2.1-$RELEASE.jar:$LIB/tuscany-sdo-lib-$RELEASE.jar:$LIB/tuscany-sdo-impl-$RELEASE.jar:$LIB/tuscany-sdo-tools-$RELEASE.jar:$LIB/codegen-ecore-2.2.3.jar:$LIB/codegen-2.2.3.jar:$LIB/ecore-2.2.3.jar:$LIB/ecore-change-2.2.3.jar:$LIB/ecore-xmi-2.2.3.jar:$LIB/common-2.2.3.jar:$LIB/xsd-2.2.3.jar:$LIB/stax-api-1.0.1.jar:$LIB/wstx-asl-3.2.1.jar
 echo $CLASSPATH

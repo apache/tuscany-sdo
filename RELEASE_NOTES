@@ -1,21 +1,31 @@
-Apache Tuscany's SDO Java Release 1.1.1-incubating
+Apache Tuscany's SDO Java Release 1.1.1
 
 Tuscany SDO provides an implementation of the SDO 2.1 specification which
 aims to simplify and unify the way in which applications handle data.
 
-This 1.1.1-incubating release is a maintenance release over the 
+This 1.1.1 release is a maintenance release over the 
 previous 1.1 release. For previous revision history, take a look at
 http://svn.apache.org/repos/asf/incubator/tuscany/tags/java/sdo/1.1/RELEASE_NOTES
 
 Downloading
 ===========
 
-Please visit  http://incubator.apache.org/tuscany/sdo-java-releases.html
+Please visit  the sdo java releases page on our website;  see below for how to access the website
+
+For general documentation about the Tuscany project and the SDO for Java, see the Tuscany website.
+Please note that at the time of making this release, Apache Tuscany is in transition from being an Apache
+incubator project to being an Apache top level project.  At the time of creating these release notes,
+the website can be found at 
+http://incubator.apache.org/tuscany
+However,  in the lifetime of this release that link will be out of date.  Please either follow any forward
+references provided by that link,  or find us via the top level http:/www.apache.org page.  Most likely
+you'll find us at http://tuscany.apache.org
 
 -----------------------------------------
-Changes in this 1.1.1-incubating release:
+Changes in this 1.1.1 release:
 -----------------------------------------
-
+Removal of the incubating tag,  since apache Tuscany has graduated to an Apache Top Level Project since the 1.1 release
+ 
 Bug Fix
 	TUSCANY-2240   Creation of SDO object out of XML (read from an JMS message) is taking too long
 

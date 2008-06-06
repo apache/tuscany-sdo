@@ -1,6 +1,6 @@
 Tuscany SDO for ${sdo.version} Binary Distribution Readme File
 
-See the LICENSE, DISCLAIMER and NOTICE files for legal information concerning this distribution. 
+See the LICENSE and NOTICE files for legal information concerning this distribution. 
 
 See the RELEASE_NOTES file for a summary of what's new with this release.
 
@@ -10,14 +10,21 @@ See the docs/javadoc/sdo-samples/index.html file for instructions on how to run 
 
 Documentation
 
-For general documentation about the Tuscany project and the SDO for Java, see the Tuscany website
+For general documentation about the Tuscany project and the SDO for Java, see the Tuscany website.
+Please note that at the time of making this release, Apache Tuscany is in transition from being an Apache
+incubator project to being an Apache top level project.  At the time of creating this readme,
+the website can be found at 
 http://incubator.apache.org/tuscany
+However,  in the lifetime of this release that link will be out of date.  Please either follow any forward
+references provided by that link,  or find us via the top level http:/www.apache.org page.  Most likely
+you'll find us at http://tuscany.apache.org
 
 This distribution contains javadoc for the SDO 2.1 API, the Tuscany SDO extensions API,  and the Tuscany SDO samples.
 
 Samples
 
 Sample source code is included with this binary distribution. 
+
 
 
 
