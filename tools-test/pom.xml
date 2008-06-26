@@ -21,7 +21,7 @@
 	<parent>
 		<artifactId>tuscany-sdo</artifactId>
 		<groupId>org.apache.tuscany.sdo</groupId>
-		<version>1.0-incubating-SNAPSHOT</version>
+		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.apache.tuscany.sdo</groupId>

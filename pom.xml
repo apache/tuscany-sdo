@@ -28,7 +28,7 @@
     <artifactId>tuscany-sdo</artifactId>
     <packaging>pom</packaging>
     <name>Apache Tuscany SDO Implementation Project</name>
-    <version>1.0-incubating-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
 
     <scm>
         <connection>scm:svn:http://svn.apache.org/repos/asf/tuscany/java/sdo</connection>
@@ -208,7 +208,7 @@
         <dependency>
             <groupId>org.apache.tuscany.sdo</groupId>
             <artifactId>tuscany-sdo-api-r${specVersion}</artifactId>
-            <version>1.0-incubating-SNAPSHOT</version>
+            <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
