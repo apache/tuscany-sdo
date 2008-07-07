@@ -1,7 +1,7 @@
 Note,  these instructions are for building the SDO binary release from
 source, not for establishing a development environment.  If you wish to
 participate in sdo development please visit the Apache Tuscany web site
-as deatiled in the accompanying README file.
+as detailed in the accompanying README file.
 
 
 Initial Setup
@@ -24,3 +24,7 @@ Building
 Note: Depending on the load being experienced by remote Maven 2.0 repositories you may have to execute mvn several
     times until required dependencies are all located in your local maven repository.  After you have completed a
     full successful build you can use "mvn -o" which builds without trying to access updated build dependencies (offline mode) and is much faster.
+
+    Also note that there can be intermittent problems downloading the EMF dependencies from the Maven repositories, using the command "mvn -U" 
+    should resolve this and you may need to run the command several times to get all the EMF dependencies successfully downloaded.
+ 
