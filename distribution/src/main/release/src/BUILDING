@@ -20,8 +20,7 @@ Building
 
 1) If you have chosen to install a JDK at version 5 then all will be fine,  but there is one value add component in the
    Tuscany SDO implementation which relies on new JDK 5.0 features.  If you do not wish to use JDK 5 for the following
-   build step, then you will need to delete the file
-   <archive-root>/sdo/tools/src/main/java/org/apache/tuscany/sdo/generate/Interface2JavaGenerator.java before proceding
+   build step, then you will need to do mvn -Pjava_1_4_maven, as this profile option excludes the JDK5 dependent features.
 2) In a command window/shell, change to the top level directory of the Tuscany SDO Java source distribution.
 3) Execute: mvn
    This will install the sdo implementation and tools jars in your local maven repository
