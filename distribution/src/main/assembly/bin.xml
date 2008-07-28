@@ -30,13 +30,6 @@
 
             <!-- Add the text files to the top-level directory -->
 		<fileSet>
-			<directory>src/main/release</directory>
-			<outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
-			<includes>
-                <include>DISCLAIMER</include>
-			</includes>
-		</fileSet>
-		<fileSet>
 			<directory>src/main/release/bin</directory>
 			<outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
 			<includes>
@@ -86,12 +79,7 @@
 
     <files>
         <file>
-            <source>src/main/release/RELEASE_NOTES</source>
-            <outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
-            <filtered>true</filtered>
-        </file>
-        <file>
-            <source>src/main/release/bin/README</source>
+            <source>../RELEASE_NOTES</source>
             <outputDirectory>tuscany-sdo-${sdo.version}</outputDirectory>
             <filtered>true</filtered>
         </file>

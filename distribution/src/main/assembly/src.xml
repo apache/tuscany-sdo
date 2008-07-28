@@ -28,22 +28,6 @@
 
     <fileSets>
         <fileSet>
-            <directory>src/main/release</directory>
-            <!-- TODO get the right version reference -->
-            <outputDirectory>tuscany-sdo-${tuscany.version}-src</outputDirectory>
-            <includes>
-                <include>CHANGES</include>
-                <include>DISCLAIMER</include>
-            </includes>
-        </fileSet>
-        <fileSet>
-            <directory>src/main/release/src</directory>
-            <outputDirectory>tuscany-sdo-${tuscany.version}-src</outputDirectory>
-            <includes>
-                <include>BUILDING</include>
-            </includes>
-        </fileSet>
-        <fileSet>
             <directory>..</directory>
             <outputDirectory>tuscany-sdo-${tuscany.version}-src</outputDirectory>
             <includes>
@@ -65,27 +49,28 @@
                 <exclude>bin/*</exclude>
                 <exclude>**/var/journal</exclude>
                 <exclude>**/build.out*</exclude>
+                <exclude>impl/.felix</exclude>
             </excludes>
         </fileSet>
     </fileSets>
     <files>
         <file>
-            <source>src/main/release/src/README</source>
+            <source>../README</source>
             <outputDirectory>tuscany-sdo-${sdo.version}-src</outputDirectory>
             <filtered>true</filtered>
         </file>
         <file>
-            <source>src/main/release/src/LICENSE</source>
+            <source>../LICENSE</source>
             <outputDirectory>tuscany-sdo-${sdo.version}-src</outputDirectory>
             <filtered>true</filtered>
         </file>
         <file>
-            <source>src/main/release/src/NOTICE</source>
+            <source>../NOTICE</source>
             <outputDirectory>tuscany-sdo-${sdo.version}-src</outputDirectory>
             <filtered>true</filtered>
         </file>
         <file>
-            <source>src/main/release/RELEASE_NOTES</source>
+            <source>../RELEASE_NOTES</source>
             <outputDirectory>tuscany-sdo-${sdo.version}-src</outputDirectory>
             <filtered>true</filtered>
         </file>

@@ -1,0 +1,34 @@
+Trunk version -- edit this as appropriate in the branch / tag of a release
+
+What's New in SDO Java XXXX
+
+Apache Tuscany's SDO Java Release *********** is 
+
+For previous revision history, take a look at
+http://svn.apache.org/viewvc/tuscany/tags/java/sdo/*******/RELEASE_NOTES
+
+SDO Java ************** is a superset of previous SDO xxxxxxxxxxxx release.
+Anything in xxxxxxxxxxxxxxxxx is also in *********, but ********** contains
+features and bugfixes not present in xxxxxxxxxxxx release.
+
+Downloading
+===========
+
+Please visit  http://tuscany.apache.org/sdo-java-releases.html
+
+
+
+New Features and Fixes
+======================
+
+For more detail on these fixes and features please see ...
+https://issues.apache.org/jira
+
+New Feature
+.....
+Improvement
+.....
+Bug
+.....
+Wish
+.....
