@@ -50,6 +50,7 @@
                 <exclude>**/var/journal</exclude>
                 <exclude>**/build.out*</exclude>
                 <exclude>impl/.felix</exclude>
+                <exclude>impl/.felix/**/*</exclude>
             </excludes>
         </fileSet>
     </fileSets>
