@@ -20,14 +20,14 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.apache.tuscany</groupId>
-        <artifactId>parent</artifactId>
-        <version>2-incubating-SNAPSHOT</version>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>4</version>
     </parent>
     <groupId>org.apache.tuscany.sdo</groupId>
     <artifactId>tuscany-sdo-api-r${specVersion}</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2-SNAPSHOT</version>
     <name>SDO API</name>
     <description>API classes for Service Data Objects</description>
 
@@ -48,17 +48,7 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
-        <repository>
-            <id>apache.incubator</id>
-            <name>Apache Incubator Repository</name>
-            <url>http://people.apache.org/repo/m2-incubating-repository/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
+
     </repositories>
 
     <dependencies>

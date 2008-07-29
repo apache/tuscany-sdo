@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.apache.tuscany.sdo</groupId>
         <artifactId>tuscany-sdo</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.2-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -33,7 +33,7 @@
     <properties>
         <maven.test.skip>true</maven.test.skip>
         <tuscany.version>${pom.version}</tuscany.version>
-        <sdo.previousversion>1.0-incubating-beta1</sdo.previousversion>
+        <sdo.previousversion>1.1.1</sdo.previousversion>
     </properties>
 
     <!-- in the sca build the bundle module is creating the merged jar which contains all the tuscany 
