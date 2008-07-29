@@ -82,6 +82,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- this is needed because test program calls XMLHelper.save() and SDOXMLResourceImpl (in the sdo/impl project) uses StAX ??? -->
