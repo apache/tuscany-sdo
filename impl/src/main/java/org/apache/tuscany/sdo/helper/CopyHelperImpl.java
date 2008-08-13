@@ -20,6 +20,10 @@
 package org.apache.tuscany.sdo.helper;
 
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
@@ -37,48 +41,75 @@ public class CopyHelperImpl implements CopyHelper
 {
   public DataObject copyShallow(DataObject dataObject)
   {
-    Copier copier = new Copier()
+    Copier copier = new SDOCopier()
       {
         protected void copyContainment(EReference eReference, EObject eObject, EObject copyEObject)
         {
         }
 
-        protected void copyAttribute(EAttribute eAttribute, EObject eObject, EObject copyEObject) {
-            if(("ChangeSummaryType".equals(eAttribute.getEType().getName()) && "commonj.sdo".equals(eAttribute.getEType().getEPackage().getNsURI()))) {
-                boolean isLogging = ((ChangeSummary)eObject.eGet(eAttribute)).isLogging();
-                ChangeSummary destSum = (ChangeSummary)copyEObject.eGet(eAttribute);
-                if(isLogging) {
-                    if(!destSum.isLogging()) destSum.beginLogging();
-                } else {
-                    if(destSum.isLogging()) destSum.endLogging();
-                }
-            } else {
-                super.copyAttribute(eAttribute, eObject, copyEObject);
-            }
-        }
+
       };
-    EObject result = copier.copy((EObject)dataObject);
-    copier.copyReferences();
-    return (DataObject)result;
+    return (DataObject)copier.copy((EObject)dataObject);
   }
 
   public DataObject copy(DataObject dataObject)
   {
-    Copier copier = new Copier()
-    {
+    Copier copier = new SDOCopier(){
 
         protected void copyAttribute(EAttribute eAttribute, EObject eObject, EObject copyEObject) {
             if(("ChangeSummaryType".equals(eAttribute.getEType().getName()) && "commonj.sdo".equals(eAttribute.getEType().getEPackage().getNsURI()))) {
-                throw new UnsupportedOperationException("This will be implemented when change summary serialization/deserialization is in place");
+                throw new UnsupportedOperationException("Copying of change summary yet to be done");
             } else {
                 super.copyAttribute(eAttribute, eObject, copyEObject);
             }
         }
     };
-    EObject result = copier.copy((EObject)dataObject);
-    copier.copyReferences();
-    return (DataObject)result;
+    
+    return (DataObject)copier.copy((EObject)dataObject);
   }
 
+
+}
+
+
+class SDOCopier extends Copier {
+	
+	List csToTurnOn = new ArrayList();
+	List csToTurnOff = new ArrayList();
+
+	public EObject copy(EObject object) {
+		
+		EObject result = super.copy(object);
+	    copyReferences();
+		
+		for (Iterator csit = csToTurnOn.iterator(); csit.hasNext();) {
+			ChangeSummary cs = (ChangeSummary) csit.next();
+			if(!cs.isLogging()) { cs.beginLogging(); }
+		}
+		for (Iterator csit = csToTurnOff.iterator(); csit.hasNext();) {
+			ChangeSummary cs = (ChangeSummary) csit.next();
+			if(cs.isLogging()) { cs.endLogging(); }
+		}
+		
+		return result;
+	}
+	
+	
+	
+    protected void copyAttribute(EAttribute eAttribute, EObject eObject, EObject copyEObject) {
+ 
+    	if(("ChangeSummaryType".equals(eAttribute.getEType().getName()) && "commonj.sdo".equals(eAttribute.getEType().getEPackage().getNsURI()))) {
+            if (((ChangeSummary)eObject.eGet(eAttribute)).isLogging()) {
+            	csToTurnOn.add(((DataObject)copyEObject).getChangeSummary());
+            } else {
+            	csToTurnOff.add(((DataObject)copyEObject).getChangeSummary());
+            }
+            ChangeSummary copyCS = (ChangeSummary)copyEObject.eGet(eAttribute);
+            if(copyCS.isLogging()) copyCS.endLogging();
+            
+        } else {
+            super.copyAttribute(eAttribute, eObject, copyEObject);
+        }
+    }
 
 }
