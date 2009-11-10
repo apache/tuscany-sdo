@@ -31,9 +31,9 @@
     <version>1.2-SNAPSHOT</version>
 
     <scm>
-        <connection>scm:svn:http://svn.apache.org/repos/asf/tuscany/java/sdo</connection>
-        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tuscany/java/sdo</developerConnection>
-        <url>http://svn.apache.org/repos/asf/tuscany/java/sdo</url>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/tuscany/sdo-java/trunk/</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tuscany/sdo-java/trunk/</developerConnection>
+        <url>http://svn.apache.org/repos/asf/tuscany/sdo-java/trunk/</url>
     </scm>
 
     <repositories>
