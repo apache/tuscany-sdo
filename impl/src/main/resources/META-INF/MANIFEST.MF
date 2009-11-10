@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Extension-Name: tuscany-sdo-impl
+Specification-Title: Tuscany SDO Implementation
+Specification-Vendor: Apache Software Foundation
+Implementation-Vendor: Apache Software Foundation
+Implementation-Vendor-Id: org.apache
+Implementation-Title: tuscany-sdo-impl
+Implementation-Version: ${pom.version}
+Bundle-ManifestVersion: 2
+Bundle-Name: Tuscany SDO Implementation
+Bundle-SymbolicName: org.apache.tuscany.sdo.impl
+Bundle-Version: 1.0.0
+Bundle-Vendor: Apache Software Foundation
+Require-Bundle-FIXME: org.eclipse.emf.common,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.change,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.xsd,
+ org.apache.tuscany.sdo.spec;visibility:=reexport
+Import-Package: org.osgi.framework
+Export-Package: commonj.sdo.impl,
+ org.apache.tuscany.sdo,
+ org.apache.tuscany.sdo.helper,
+ org.apache.tuscany.sdo.impl,
+ org.apache.tuscany.sdo.test,
+ org.apache.tuscany.sdo.codegen,
+ org.apache.tuscany.sdo.model,
+ org.apache.tuscany.sdo.util
+Bundle-Activator: org.apache.tuscany.sdo.osgi.SdoBundleActivator

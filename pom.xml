@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    * Licensed to the Apache Software Foundation (ASF) under one
+    * or more contributor license agreements.  See the NOTICE file
+    * distributed with this work for additional information
+    * regarding copyright ownership.  The ASF licenses this file
+    * to you under the Apache License, Version 2.0 (the
+    * "License"); you may not use this file except in compliance
+    * with the License.  You may obtain a copy of the License at
+    *
+    *   http://www.apache.org/licenses/LICENSE-2.0
+    *
+    * Unless required by applicable law or agreed to in writing,
+    * software distributed under the License is distributed on an
+    * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    * KIND, either express or implied.  See the License for the
+    * specific language governing permissions and limitations
+    * under the License.
+-->
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.apache</groupId>
+        <artifactId>apache</artifactId>
+        <version>4</version>
+    </parent>
+    <groupId>org.apache.tuscany.sdo</groupId>
+    <artifactId>tuscany-sdo</artifactId>
+    <packaging>pom</packaging>
+    <name>Apache Tuscany SDO Implementation Project</name>
+    <version>1.2-SNAPSHOT</version>
+
+    <scm>
+        <connection>scm:svn:http://svn.apache.org/repos/asf/tuscany/java/sdo</connection>
+        <developerConnection>scm:svn:https://svn.apache.org/repos/asf/tuscany/java/sdo</developerConnection>
+        <url>http://svn.apache.org/repos/asf/tuscany/java/sdo</url>
+    </scm>
+
+    <repositories>
+        <repository>
+            <id>apache.snapshots</id>
+            <name>Apache Snapshot Repository</name>
+            <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <!-- <id>eclipse.emf</id>
+                <url>http://download.eclipse.org/tools/emf/maven2</url> -->
+            <!-- <id>osuosl.org</id>
+                <url>http://ftp.osuosl.org/pub/eclipse/tools/emf/maven2</url> -->
+            <!-- temporarily using indiana state univ as eclipse site diesnt have 2.2.2 at the moment -->
+            <id>indiana</id>
+            <url>http://ftp.ussg.iu.edu/eclipse/modeling/emf/emf/maven2/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <properties>
+        <specVersion>2.1</specVersion>
+        <emfVersion>2.2.3</emfVersion>
+        <sdo.version>${version}</sdo.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>sdo-api</module>
+                <module>lib</module>
+                <module>impl</module>
+                <module>tools</module>
+                <module>plugin</module>
+                <module>sample</module>
+                <module>tools-test</module>
+                <module>java5tools</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>distribution</id>
+            <modules>
+                <module>sdo-api</module>
+                <module>lib</module>
+                <module>impl</module>
+                <module>tools</module>
+                <module>plugin</module>
+                <module>sample</module>
+                <module>distribution</module>
+                <module>java5tools</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>eclipse</id>
+            <modules>
+                <module>sdo-api</module>
+                <module>lib</module>
+                <module>impl</module>
+                <module>plugin</module>
+                <module>tools</module>
+                <module>sample</module>
+                <module>tools-test</module>
+                <module>java5tools</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>java_1_4_maven</id>
+            <activation>
+                <jdk>1.4</jdk>
+            </activation>
+
+            <modules>
+                <module>sdo-api</module>
+                <module>lib</module>
+                <module>impl</module>
+                <module>tools</module>
+                <module>plugin</module>
+                <module>sample</module>
+                <module>distribution</module>
+            </modules>
+        </profile>
+    </profiles>
+
+    <build>
+        <defaultGoal>install</defaultGoal>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.4</source>
+                    <target>1.4</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>2.3</version>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>-Djava.endorsed.dirs=${endorsed.dirs}</argLine>
+                    <includes>
+                        <include>**/*TestCase.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.2-beta-2</version>
+                <configuration>
+                    <descriptors>
+                        <descriptor>sdo.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.2</version>
+                    <configuration>
+                        <aggregate>true</aggregate>
+                        <version>2.0</version>
+                        <source>1.4</source>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.tuscany.sdo</groupId>
+            <artifactId>tuscany-sdo-api-r${specVersion}</artifactId>
+                <version>${version}</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.3.1</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

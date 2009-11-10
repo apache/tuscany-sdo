@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+/**
+ * <copyright>
+ *
+ * Service Data Objects
+ * Version 2.1.0
+ * Licensed Materials
+ *
+ * (c) Copyright BEA Systems, Inc., International Business Machines Corporation, 
+ * Oracle Corporation, Primeton Technologies Ltd., Rogue Wave Software, SAP AG., 
+ * Software AG., Sun Microsystems, Sybase Inc., Xcalia, Zend Technologies, 
+ * 2005, 2006. All rights reserved.
+ *
+ * </copyright>
+ * 
+ */
+-->
+
+<types xmlns="commonj.sdo"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:sdoJava="commonj.sdo/java"
+  xsi:schemaLocation="commonj.sdo sdoModel.xsd commonj.sdo/java sdoJava.xsd commonj.sdo/xml sdoXML.xsd">
+
+<!--
+   Global properties used in open content for 
+   the Java binding of SDO Types and Properties.
+-->
+
+  <type uri="commonj.sdo/java">
+    <property name="javaClass" type="commonj.sdo#String"/>
+  </type>
+
+  <!-- JavaInfo deprecated in 2.1.0 -->
+  <type name="JavaInfo" uri="commonj.sdo/java">
+    <property name="javaClass" type="commonj.sdo#String"/>
+  </type>
+
+<!--
+   The Java object data types.
+-->
+
+  <type name="BooleanObject" dataType="true" sdoJava:instanceClass="java.lang.Boolean" uri="commonj.sdo/java"/>
+  <type name="ByteObject" dataType="true" sdoJava:instanceClass="java.lang.Byte" uri="commonj.sdo/java"/>
+  <type name="CharacterObject" dataType="true" sdoJava:instanceClass="java.lang.Character" uri="commonj.sdo/java"/>
+  <type name="DoubleObject" dataType="true" sdoJava:instanceClass="java.lang.Double" uri="commonj.sdo/java"/>
+  <type name="FloatObject" dataType="true" sdoJava:instanceClass="java.lang.Float" uri="commonj.sdo/java"/>
+  <type name="IntObject" dataType="true" sdoJava:instanceClass="java.lang.Int" uri="commonj.sdo/java"/>
+  <type name="LongObject" dataType="true" sdoJava:instanceClass="java.lang.Long" uri="commonj.sdo/java"/>
+  <type name="ShortObject" dataType="true" sdoJava:instanceClass="java.lang.Short" uri="commonj.sdo/java"/>
+
+</types>

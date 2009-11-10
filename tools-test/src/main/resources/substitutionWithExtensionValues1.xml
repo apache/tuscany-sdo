@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<!--
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+-->
+<sev2:allResults xmlns:sev2="http://www.example.com/substitutionEV2">
+	<sev2:id>ZZZZZZZZZZZZZZZZZZZZ</sev2:id>
+	<sev2:results xmlns:sev="http://www.example.com/substitutionEV">
+		<sev:id>00000000000000000000</sev:id>
+		<sev:result>
+			<sev:id>11111111111111111111</sev:id>
+			<sev:name>name1</sev:name>
+			<sev:value>1</sev:value>
+		</sev:result>
+		<sev:myResult>
+			<sev:id>22222222222222222222</sev:id>
+			<sev:name>myName2</sev:name>
+			<sev:value>2</sev:value>
+		</sev:myResult>
+		<sev:comment>comment0</sev:comment>
+	</sev2:results>
+	<sev2:results xmlns:sev="http://www.example.com/substitutionEV">
+		<sev:id>AAAAAAAAAAAAAAAAAAAA</sev:id>
+		<sev:myResult>
+			<sev:id>BBBBBBBBBBBBBBBBBBBB</sev:id>
+			<sev:name>myNameB</sev:name>
+			<sev:value>11</sev:value>
+		</sev:myResult>
+		<sev:comment>commentA</sev:comment>
+	</sev2:results>
+	<sev2:comment language="English">
+		commentZZZZZZZZZZZZZZZZZZ
+	</sev2:comment>
+</sev2:allResults>

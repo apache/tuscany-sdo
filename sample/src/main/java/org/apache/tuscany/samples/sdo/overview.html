@@ -1,0 +1,127 @@
+<html>
+<!--
+ *
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ * -->
+<head>
+    <title>SDO Sample Overview</title>
+</head>
+<BODY>
+<h1>Tuscany Service Data Object (SDO) Sample Programs</h1> <h2>Overview</h2> 
+<a href="http://incubator.apache.org/tuscany">Apache Tuscany</a> SDO samples
+are provided here to help users learn SDO.
+The <a href="sampleProgramContents.html">index by SDO 
+subject areas</a> lists the different samples available
+to you. These samples provide a starting point for learning SDO and can be
+extended and enhanced to experiment with other available SDO features.
+Please help us enhance these samples by sending your feedback to Tuscany
+mailing list or join us and <a href="http://incubator.apache.org/tuscany/getting-involved.html">contribute to this
+project</a>.
+</P>
+<P>
+These samples are coded to the SDO 2.1 API defined <a href="http://osoa.org/download/attachments/36/Java-SDO-Spec-v2.1.0-FINAL.pdf">
+here</a>
+</P>
+<P>
+These samples provide a place to begin learning and experimenting with the SDO 
+API and programming model.  Developers are encouraged to extend and experiment 
+with the current set of samples.  If a sample is unclear, is missing 
+documentation, or does not cover a desired area, please send feedback to the 
+Tuscany mailing lists, or better still send us a patch or join the Tuscany team 
+and contribute back to the <A
+href="http://incubator.apache.org/tuscany">project</A>.
+</P>
+<h3>Running the Samples from a Binary Distribution of Apache Tuscany</h3>
+<P>The 
+SDO samples have been written to be useful in learning SDO, even without 
+reference to the sample source code.  The samples output commentary as they 
+execute and key lines of source code are output too. One of the sample programs 
+(ExecuteSamples) executes all the other samples in sequence. The binary 
+distribution includes the sample source code too, so that you can investigate 
+further if you wish.
+</P>
+<P>
+The binary distribution of Tuscany contains a pair of scripts to execute the 
+ExecuteSamples program (runsamples.bat and runsamples.sh).  To execute the 
+samples first locate the appropriate script for your environment in the samples 
+directory of the binary distribution and set the value of the BINARY_BASE 
+variable to be the directory in your file system that contains the lib and 
+samples directories. Then run the script and take a look at the output. After 
+that, copy and modify the script to suit your own purposes in running the other 
+samples.
+</P>
+<h3>Running the Samples from a Source Distribution of Apache Tuscany</h3>
+<P>
+The 
+samples depend on the following libraries
+</P>
+<UL>
+    <LI>
+        The samples themselves, the SDO 2.1 API and the Tuscany SDO 
+        Implementation
+        <UL>
+            <LI>
+                sample-sdo-{tuscany-version}.jar - SDO API
+            </LI>
+            <LI>
+                sdo-api-r2.1-{tuscany-version}.jar - SDO API
+            </LI>
+            <LI>
+                tuscany-sdo-lib-{tuscany-version}.jar - Tuscany APIs and support 
+                function
+            </LI>
+            <LI>
+                tuscany-sdo-impl-{tuscany-version}.jar - Tuscany SDO 
+                implementation
+            </LI>
+        </UL>
+    </LI>
+    <LI>
+        EMF dependencies.
+        <UL>
+            <LI>
+                common-{version}.jar - some common framework utility and base classes
+            </LI>
+            <LI>
+                ecore-{version}.jar - the EMF core runtime implementation classes (the Ecore 
+                metamodel)
+            </LI>
+            <LI>
+                ecore-change-{version}.jar - the EMF change recorder and framework
+            </LI>
+            <LI>
+                ecore-xmi-{version}.jar - EMF's default XML (and XMI) serializer and loader
+            </LI>
+            <LI>
+                xsd-{version}.jar - the XML Schema model
+            </LI>
+        </UL>
+    </LI>
+    <LI>And the StAX API</LI>
+    <UL>
+        <LI>stax-api-1.0.1.jar</LI>
+    </UL>
+</UL>
+<P>
+If you are running these samples as a result of building Tuscany SDO for Java 
+from a Tuscany source distribution using maven then these dependencies will be 
+resolved by having followed the instructions in the BUILDING file at the root of
+the source distribution.
+</P>
+</BODY>
+</html>

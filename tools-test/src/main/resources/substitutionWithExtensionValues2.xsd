@@ -1,0 +1,62 @@
+<xsd:schema 
+	targetNamespace="http://www.example.com/substitutionEV2"
+	xmlns="http://www.example.com/substitutionEV2"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:sev2="http://www.example.com/substitutionEV2"
+	xmlns:sev="http://www.example.com/substitutionEV"
+	elementFormDefault="qualified">
+	<!--
+		Licensed to the Apache Software Foundation (ASF) under one
+		or more contributor license agreements.  See the NOTICE file
+		distributed with this work for additional information
+		regarding copyright ownership.  The ASF licenses this file
+		to you under the Apache License, Version 2.0 (the
+		"License"); you may not use this file except in compliance
+		with the License.  You may obtain a copy of the License at
+		
+		http://www.apache.org/licenses/LICENSE-2.0
+		
+		Unless required by applicable law or agreed to in writing,
+		software distributed under the License is distributed on an
+		"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+		KIND, either express or implied.  See the License for the
+		specific language governing permissions and limitations
+		under the License.    
+	-->
+
+	<xsd:import namespace="http://www.example.com/substitutionEV"
+		schemaLocation="substitutionWithExtensionValues.xsd" />
+
+	<xsd:element name="allResults" type="sev2:AllResultsType" />
+
+	<xsd:complexType name="AllResultsType">
+		<xsd:sequence>
+			<xsd:element name="id" type="sev2:Id2Type" />
+			<xsd:element name="results" minOccurs="0" maxOccurs="unbounded"
+				type="sev2:Results2Type" />
+			<xsd:element name="comment" type="sev2:Comment2Type" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="Results2Type">
+		<xsd:complexContent>
+			<xsd:extension base="sev:ResultsType" />
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:simpleType name="Id2Type">
+		<xsd:restriction base="sev:IdType">
+			<xsd:maxLength value="10" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="Comment2Type">
+		<xsd:simpleContent>
+			<xsd:restriction base="sev:CommentType">
+				<xsd:minLength value="0" />
+				<xsd:maxLength value="20" />
+			</xsd:restriction>
+		</xsd:simpleContent>
+	</xsd:complexType>
+
+</xsd:schema>

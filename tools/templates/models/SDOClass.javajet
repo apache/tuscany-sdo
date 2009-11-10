@@ -1,0 +1,1968 @@
+<%@ jet package="org.apache.tuscany.sdo.generate.templates.model" imports="org.eclipse.emf.codegen.util.* org.apache.tuscany.sdo.impl.* java.util.* org.eclipse.emf.codegen.ecore.genmodel.* org.apache.tuscany.sdo.generate.util.*" class="SDOClass" version="$Id: Class.javajet,v 1.41 2006/02/15 19:58:39 emerks Exp $" %>
+<%
+/**
+ *
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
+%>
+<%GenClass genClass = (GenClass)((Object[])argument)[0]; GenPackage genPackage = genClass.getGenPackage(); GenModel genModel=genPackage.getGenModel();%>
+<%boolean isInterface = Boolean.TRUE.equals(((Object[])argument)[1]); boolean isImplementation = Boolean.TRUE.equals(((Object[])argument)[2]);%>
+<%boolean isDebug = false;%>
+<%String publicStaticFinalFlag = isImplementation ? "public static final " : "";%>
+<%/*%>
+<% * Output preamble and javadoc header%>
+<% */%>
+<%@ include file="../Header.javajetinc"%>
+<%if (isInterface) {%>
+package <%=genPackage.getInterfacePackageName()%>;
+<%} else {%>
+package <%=genPackage.getClassPackageName()%>;
+<%}%>
+
+<%genModel.markImportLocation(stringBuffer, genPackage);%>
+
+<%if (isDebug) { // EYECATCHER 1 %>
+  // EYECATCHER 1
+<%}%>
+<%if (isInterface) {%>
+/**
+ * <!-- begin-user-doc -->
+ * A representation of the model object '<em><b><%=genClass.getFormattedName()%></b></em>'.
+ * <!-- end-user-doc -->
+<%if (genClass.hasDocumentation()) {%>
+ *
+ * <!-- begin-model-doc -->
+ * <%=genClass.getDocumentation(genModel.getIndentation(stringBuffer))%>
+ * <!-- end-model-doc -->
+<%}%>
+ *
+<%if (!genClass.getGenFeatures().isEmpty()) {%>
+ * <p>
+ * The following features are supported:
+ * <ul>
+<%for (Iterator i=genClass.getGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+  <%if (!genFeature.isSuppressedGetVisibility()) {%>
+ *   <li>{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}</li>
+  <%}%>
+<%}%>
+ * </ul>
+ * </p>
+<%}%>
+ *
+<%if (!genModel.isSuppressEMFMetaData()) {%>
+ * @see <%=genPackage.getQualifiedPackageInterfaceName()%>#get<%=genClass.getClassifierAccessorName()%>()
+<%}%>
+<%if (!genModel.isSuppressEMFModelTags()) { boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genClass.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
+ * @model <%=modelInfo%>
+<%} else {%>
+ *        <%=modelInfo%>
+<%}} if (first) {%>
+ * @model
+<%}}%>
+<%if (genClass.needsRootExtendsInterfaceExtendsTag()) { // does it need an @extends tag %>
+ * @extends <%=genModel.getImportedName(genModel.getRootExtendsInterface())%>
+<%}%>
+ * @generated
+ */
+<%} else {%>
+/**
+ * <!-- begin-user-doc -->
+ * An implementation of the model object '<em><b><%=genClass.getFormattedName()%></b></em>'.
+ * <!-- end-user-doc -->
+ * <p>
+<%if (!genClass.getImplementedGenFeatures().isEmpty()) {%>
+ * The following features are implemented:
+ * <ul>
+<%for (Iterator i=genClass.getImplementedGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+ *   <li>{@link <%=genClass.getQualifiedClassName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}</li>
+<%}%>
+ * </ul>
+<%}%>
+ * </p>
+ *
+ * @generated
+ */
+<%}%>
+<%if (isImplementation) {%>
+public<%if (genClass.isAbstract()) {%> abstract<%}%> class <%=genClass.getClassName()%><%=genClass.getClassExtends()%><%=genClass.getClassImplements()%>
+<%} else {%>
+public interface <%=genClass.getInterfaceName()%><%=genClass.getInterfaceExtends()%>
+<%}%>
+{
+<%if (genModel.getCopyrightText() != null) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	<%=publicStaticFinalFlag%><%=genModel.getImportedName("java.lang.String")%> copyright = "<%=genModel.getCopyrightText()%>";<%=genModel.getNonNLS()%>
+
+<%}%>
+<%if (isImplementation && genModel.getDriverNumber() != null) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public static final <%=genModel.getImportedName("java.lang.String")%> mofDriverNumber = "<%=genModel.getDriverNumber()%>";<%=genModel.getNonNLS()%>
+
+<%}%>
+<%if (isImplementation && genClass.isJavaIOSerializable()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private static final long serialVersionUID = 1L;
+
+<%}%>
+<%if (isImplementation && genModel.isVirtualDelegation()) { String eVirtualValuesField = genClass.getEVirtualValuesField();%>
+  <%if (eVirtualValuesField != null) {%>
+	/**
+	 * An array of objects representing the values of non-primitive features.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected Object[] <%=eVirtualValuesField%> = null;
+
+  <%}%>
+  <%{ List eVirtualIndexBitFields = genClass.getEVirtualIndexBitFields(new ArrayList());%>
+    <%if (!eVirtualIndexBitFields.isEmpty()) {%>
+      <%for (Iterator i = eVirtualIndexBitFields.iterator(); i.hasNext();) { String eVirtualIndexBitField = (String)i.next();%>
+	/**
+	 * A bit field representing the indices of non-primitive feature values.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected int <%=eVirtualIndexBitField%> = 0;
+
+      <%}%>
+    <%}%>
+  <%}%>
+<%}%>
+<%if (isImplementation && genClass.isModelRoot() && genModel.isBooleanFlagsEnabled() && genModel.getBooleanFlagsReservedBits() == -1) {%>
+	/**
+	 * A set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected int <%=genModel.getBooleanFlagsField()%> = 0;
+
+<%}%>
+<%if (isImplementation && !genModel.isReflectiveDelegation()) {%>
+
+   <%ClassImpl classImpl = (ClassImpl) genClass.getEcoreClass();%>
+   <%List declaredProperties = classImpl.getDeclaredProperties();%>
+   <%List extendedProperties = classImpl.getExtendedProperties();%>
+   <%int declaredPropertiesCount = 0;%>
+   <%int extendedPropertiesCount = 0;%>
+   <%for (Iterator f=genClass.getAllGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();%>
+     <%if (declaredProperties.contains(genFeature.getEcoreFeature())){%>
+       <%declaredPropertiesCount++;%>
+       <%String featureValue = "";
+       List allFeatures = genClass.getAllGenFeatures();
+       int g = allFeatures.indexOf(genFeature);
+       GenClass base = genClass.getBaseGenClass();
+       if (base == null)
+       {
+         featureValue = Integer.toString(declaredProperties.indexOf(genFeature.getEcoreFeature()));
+       } else {
+         int baseCount = base.getFeatureCount();    
+         if (g < baseCount)
+         {
+           featureValue = base.getImportedClassName() + "." + genFeature.getUpperName();
+         } else {
+           String baseCountID = base.getImportedClassName() + "." + "SDO_PROPERTY_COUNT";
+           featureValue =  baseCountID + " + " + Integer.toString(declaredProperties.indexOf(genFeature.getEcoreFeature()));
+          }
+       }%>
+	public final static int <%=genFeature.getUpperName()%> = <%=featureValue%>;
+
+     <%} else if (extendedProperties.contains(genFeature.getEcoreFeature())){%>
+       <%extendedPropertiesCount++;%>
+       <%String featureValue = "";
+       List allFeatures = genClass.getAllGenFeatures();
+       int g = allFeatures.indexOf(genFeature);
+       GenClass base = genClass.getBaseGenClass();
+       if (base == null)
+       {
+         featureValue = Integer.toString(-1 - extendedProperties.indexOf(genFeature.getEcoreFeature()));
+       } else {
+         int baseCount = base.getFeatureCount();    
+         if (g < baseCount)
+         {
+           featureValue = base.getImportedClassName() + "." + genFeature.getUpperName();
+         } else {
+           String baseCountID = base.getImportedClassName() + "." + "EXTENDED_PROPERTY_COUNT";
+           featureValue =  baseCountID + " + " + Integer.toString(-1 - extendedProperties.indexOf(genFeature.getEcoreFeature()));
+          }
+       }%>
+	public final static int <%=genFeature.getUpperName()%> = <%=featureValue%>;
+
+     <%}%>
+   <%}%>
+   <%String featureCount = "";%>
+   <%GenClass base = genClass.getBaseGenClass();%>
+   <%if (base == null)%>
+     <%{%>
+       <%featureCount = Integer.toString(declaredPropertiesCount);%>
+     <%}%>
+     <%else {%>
+       <%String baseCountID = base.getImportedClassName() + "." + "SDO_PROPERTY_COUNT";%>
+       <%featureCount = baseCountID + " + " + Integer.toString(declaredPropertiesCount);%>
+     <%}%>
+	public final static int SDO_PROPERTY_COUNT = <%=featureCount%>;
+
+   <%featureCount = "";%>
+   <%base = genClass.getBaseGenClass();%>
+   <%if (base == null)%>
+     <%{%>
+       <%featureCount = Integer.toString(extendedPropertiesCount*-1);%>
+     <%}%>
+     <%else {%>
+       <%String baseCountID = base.getImportedClassName() + "." + "EXTENDED_PROPERTY_COUNT";%>
+       <%featureCount = baseCountID + " - " + Integer.toString(extendedPropertiesCount);%>
+     <%}%>
+	public final static int EXTENDED_PROPERTY_COUNT = <%=featureCount%>;
+
+
+  <%for (Iterator f=genClass.getAllGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();%>
+	/**
+	 * The internal feature id for the '<em><b><%=genFeature.getFormattedName()%></b></em>' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+    <%String featureValue = "";%>
+    <%List allFeatures = genClass.getAllGenFeatures();%>
+    <%int g = allFeatures.indexOf(genFeature);%>
+    <%base = genClass.getBaseGenClass();%>
+    <%if (base == null)%>
+    <%{%>
+      <%featureValue = Integer.toString(g);%>
+    <%} else {%>
+      <%int baseCount = base.getFeatureCount();%>
+      <%if (g < baseCount)%>
+      <%{%>
+        <%featureValue = base.getImportedClassName() + "._INTERNAL_" + genFeature.getUpperName();%>
+      <%} else {%>
+        <%String baseCountID = base.getImportedClassName() + "." + "INTERNAL_PROPERTY_COUNT";%>
+        <%featureValue =  baseCountID + " + " + Integer.toString(g - baseCount);%>
+       <%}%>
+     <%}%> 
+	public final static int _INTERNAL_<%=genFeature.getUpperName()%> = <%=featureValue%>;
+
+  <%}%>
+	/**
+	 * The number of properties for this type.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+   <%featureCount = "";
+    base = genClass.getBaseGenClass();
+    if (base == null)
+    {
+      featureCount = Integer.toString(genClass.getFeatureCount());
+    } 
+    else {
+      String baseCountID = base.getImportedClassName() + "." + "INTERNAL_PROPERTY_COUNT";
+      featureCount = baseCountID + " + " + Integer.toString(genClass.getFeatureCount() - base.getFeatureCount());
+    }%>
+	public final static int INTERNAL_PROPERTY_COUNT = <%=featureCount%>;
+
+	protected int internalConvertIndex(int internalIndex)
+	{
+		switch (internalIndex)
+		{
+  <%for (Iterator f=genClass.getAllGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next();%>
+			case _INTERNAL_<%=genFeature.getUpperName()%>: return <%=genFeature.getUpperName()%>;
+  <%}%>
+		}
+		return super.internalConvertIndex(internalIndex);
+	}
+
+
+  <%for (Iterator i=genClass.getDeclaredFieldGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+<%@ include file="Class/declaredFieldGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
+    <%if (genFeature.isListType() || genFeature.isReferenceType()) {%>
+      <%if (genClass.isField(genFeature)) {%>
+	/**
+	 * The cached value of the '{@link #<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #<%=genFeature.getGetAccessor()%>()
+	 * @generated
+	 * @ordered
+	 */
+	
+	protected <%=genModel.getImportedName(genFeature.getType())%> <%=genFeature.getSafeName()%> = null;
+	
+      <%}%>
+      <%if (genModel.isArrayAccessors() && !genFeature.isFeatureMapType() && !genFeature.isMapType()) {%>
+	/**
+	 * The empty value for the '{@link #<%=genFeature.getGetArrayAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' array accessor.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #<%=genFeature.getGetArrayAccessor()%>()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final <%=genFeature.getListItemType()%>[] <%=genFeature.getUpperName()%>_EEMPTY_ARRAY = new <%=genFeature.getListItemType()%> [0];
+
+      <%}%>
+    <%} else {%>
+      <%if (!genFeature.isVolatile() || !genModel.isReflectiveDelegation() && (!genFeature.hasDelegateFeature() || !genFeature.isUnsettable())) {%>
+	/**
+	 * The default value of the '{@link #<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #<%=genFeature.getGetAccessor()%>()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final <%=genFeature.getImportedType()%> <%=genFeature.getUpperName()%>_DEFAULT_ = <%=SDOGenUtil.getStaticDefaultValue(genFeature)%>;<%=genModel.getNonNLS(genFeature.getStaticDefaultValue())%>
+
+      <%}%>
+      <%if (genClass.isField(genFeature)) {%>
+        <%if (genClass.isFlag(genFeature)) {%>
+          <%if (genClass.getFlagIndex(genFeature) > 31 && genClass.getFlagIndex(genFeature) % 32 == 0) {%>
+	/**
+	 * An additional set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected int <%=genClass.getFlagsField(genFeature)%> = 0;
+
+          <%}%>
+	/**
+	 * The flag representing the value of the '{@link #<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #<%=genFeature.getGetAccessor()%>()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int <%=genFeature.getUpperName()%>_EFLAG = 1 <%="<< " + genClass.getFlagIndex(genFeature) % 32 %>;
+
+        <%} else {%>
+	/**
+	 * The cached value of the '{@link #<%=genFeature.getGetAccessor()%>() <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #<%=genFeature.getGetAccessor()%>()
+	 * @generated
+	 * @ordered
+	 */
+	protected <%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = <%=genFeature.getUpperName()%>_DEFAULT_;
+
+        <%}%>
+      <%}%>
+    <%}%>
+    <%if (genClass.isESetField(genFeature)) {%>
+      <%if (genClass.isESetFlag(genFeature)) {%>
+        <%if (genClass.getESetFlagIndex(genFeature) > 31 && genClass.getESetFlagIndex(genFeature) % 32 == 0) {%>
+	/**
+	 * An additional set of bit flags representing the values of boolean attributes and whether unsettable features have been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected int <%=genClass.getESetFlagsField(genFeature)%> = 0;
+
+        <%}%>
+	/**
+	 * The flag representing whether the <%=genFeature.getFormattedName()%> <%=genFeature.getFeatureKind()%> has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int <%=genFeature.getUpperName()%>_ESETFLAG = 1 <%="<< " + genClass.getESetFlagIndex(genFeature) % 32 %>;
+
+      <%} else {%>
+	/**
+	 * This is true if the <%=genFeature.getFormattedName()%> <%=genFeature.getFeatureKind()%> has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean <%=genFeature.getUncapName()%>_set_ = false;
+
+      <%}%>
+    <%}%>
+  <%}%>
+<%@ include file="Class/declaredFieldGenFeature.insert.javajetinc" fail="silent" %>
+<%@ end %><%//Class/declaredFieldGenFeature.override.javajetinc%>
+<%}%>
+<%if (isImplementation) { // create constructor %>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <%=genClass.getClassName()%>()
+	{
+		super();
+  <%for (Iterator i=genClass.getFlagGenFeatures("true").iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+		<%=genClass.getFlagsField(genFeature)%> |= <%=genFeature.getUpperName()%>_EFLAG;
+  <%}%>
+  <%if (SDOGenUtil.hasChangeSummaryProperty(genClass)) {%>
+		createChangeSummary(<%=SDOGenUtil.getChangeSummaryProperty(genClass)%>);
+  <%}%>
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <%=genModel.getImportedName("commonj.sdo.Type")%> getStaticType()
+	{
+		return ((<%=genPackage.getImportedFactoryClassName()%>)<%=genPackage.getImportedFactoryInterfaceName()%>.INSTANCE).get<%=genClass.getClassifierAccessorName()%>();
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getStaticPropertyCount()
+	{
+		return INTERNAL_PROPERTY_COUNT;
+	}
+
+<%}%>
+<%/*%>
+<% * Output getter and setter interfaces / impls%>
+<% */%>
+<%%>
+<%for (Iterator i=(isImplementation ? genClass.getImplementedGenFeatures() : genClass.getDeclaredGenFeatures()).iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+<%@ include file="Class/genFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
+  <%if (genModel.isArrayAccessors() && genFeature.isListType() && !genFeature.isFeatureMapType() && !genFeature.isMapType()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+    <%if (!isImplementation) {%>
+	<%=genFeature.getListItemType()%>[] <%=genFeature.getGetArrayAccessor()%>();
+
+    <%} else {%>
+	public <%=genFeature.getListItemType()%>[] <%=genFeature.getGetArrayAccessor()%>()
+	{
+      <%if (genFeature.isVolatile()) {%>
+		<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%> list = (<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%>)<%=genFeature.getGetAccessor()%>();
+		if (list.isEmpty()) return <%=genFeature.getUpperName()%>_EEMPTY_ARRAY;
+      <%} else {%>
+		if (<%=genFeature.getSafeName()%> == null || <%=genFeature.getSafeName()%>.isEmpty()) return <%=genFeature.getUpperName()%>_EEMPTY_ARRAY;
+		<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%> list = (<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%>)<%=genFeature.getSafeName()%>;
+      <%}%>
+		list.shrink();
+		return (<%=genFeature.getListItemType()%>[])list.data();
+	}
+
+    <%}%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+    <%if (!isImplementation) {%>
+	<%=genFeature.getListItemType()%> get<%=genFeature.getAccessorName()%>(int index);
+    <%} else {%>
+	public <%=genFeature.getListItemType()%> get<%=genFeature.getAccessorName()%>(int index)
+	{
+		return (<%=genFeature.getListItemType()%>)<%=genFeature.getGetAccessor()%>().get(index);
+	}
+    <%}%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+    <%if (!isImplementation) {%>
+	int get<%=genFeature.getAccessorName()%>Length();
+
+    <%} else {%>
+	public int get<%=genFeature.getAccessorName()%>Length()
+	{
+      <%if (genFeature.isVolatile()) {%>
+		return <%=genFeature.getGetAccessor()%>().size();
+      <%} else {%>
+		return <%=genFeature.getSafeName()%> == null ? 0 : <%=genFeature.getSafeName()%>.size();
+      <%}%>
+	}
+
+    <%}%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+    <%if (!isImplementation) {%>
+	void set<%=genFeature.getAccessorName()%>(<%=genFeature.getListItemType()%>[] new<%=genFeature.getCapName()%>);
+
+    <%} else {%>
+	public void set<%=genFeature.getAccessorName()%>(<%=genFeature.getListItemType()%>[] new<%=genFeature.getCapName()%>)
+	{
+		((<%=genModel.getImportedName("org.eclipse.emf.common.util.BasicEList")%>)<%=genFeature.getGetAccessor()%>()).setData(new<%=genFeature.getCapName()%>.length, new<%=genFeature.getCapName()%>);
+	}
+
+    <%}%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+    <%if (!isImplementation) {%>
+	void set<%=genFeature.getAccessorName()%>(int index, <%=genFeature.getListItemType()%> element);
+
+    <%} else {%>
+	public void set<%=genFeature.getAccessorName()%>(int index, <%=genFeature.getListItemType()%> element)
+	{
+		<%=genFeature.getGetAccessor()%>().set(index, element);
+	}
+
+    <%}%>
+  <%}%>
+  <%if (genFeature.isGet() && (isImplementation || !genFeature.isSuppressedGetVisibility())) {%>
+<%@ include file="Class/getGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
+<%if (isInterface) {%>
+	/**
+	 * Returns the value of the '<em><b><%=genFeature.getFormattedName()%></b></em>' <%=genFeature.getFeatureKind()%>.
+    <%if (genFeature.isListType()) {%>
+      <%if (genFeature.isMapType()) { GenFeature keyFeature = genFeature.getMapEntryTypeGenClass().getMapEntryKeyFeature(); GenFeature valueFeature = genFeature.getMapEntryTypeGenClass().getMapEntryValueFeature(); %>
+	 * The key is of type <%if (keyFeature.isListType()) {%>list of {@link <%=keyFeature.getQualifiedListItemType()%>}<%} else {%>{@link <%=keyFeature.getType()%>}<%}%>,
+	 * and the value is of type <%if (valueFeature.isListType()) {%>list of {@link <%=valueFeature.getQualifiedListItemType()%>}<%} else {%>{@link <%=valueFeature.getType()%>}<%}%>,
+      <%} else if (!genFeature.isWrappedFeatureMapType() && !(genModel.isSuppressEMFMetaData() && "org.eclipse.emf.ecore.EObject".equals(genFeature.getQualifiedListItemType()))) {%>
+	 * The list contents are of type {@link <%=genFeature.getQualifiedListItemType()%>}.
+      <%}%>
+    <%} else if (genFeature.isSetDefaultValue()) {%>
+	 * The default value is <code><%=genFeature.getDefaultValue()%></code>.
+    <%}%>
+    <%if (genFeature.getTypeGenEnum() != null) {%>
+	 * The literals are from the enumeration {@link <%=genFeature.getTypeGenEnum().getQualifiedName()%>}.
+    <%}%>
+    <%if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); %>
+      <%if (!reverseGenFeature.isSuppressedGetVisibility()) {%>
+	 * It is bidirectional and its opposite is '{@link <%=reverseGenFeature.getGenClass().getQualifiedInterfaceName()%>#<%=reverseGenFeature.getGetAccessor()%> <em><%=reverseGenFeature.getFormattedName()%></em>}'.
+      <%}%>
+    <%}%>
+	 * <!-- begin-user-doc -->
+    <%if (!genFeature.hasDocumentation()) {%>
+	 * <p>
+	 * If the meaning of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%> isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+    <%}%>
+	 * <!-- end-user-doc -->
+    <%if (genFeature.hasDocumentation()) {%>
+	 * <!-- begin-model-doc -->
+	 * <%=genFeature.getDocumentation(genModel.getIndentation(stringBuffer))%>
+	 * <!-- end-model-doc -->
+    <%}%>
+	 * @return the value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
+    <%if (genFeature.getTypeGenEnum() != null) {%>
+	 * @see <%=genFeature.getTypeGenEnum().getQualifiedName()%>
+    <%}%>
+    <%if (genFeature.isUnsettable()) {%>
+      <%if (!genFeature.isSuppressedIsSetVisibility()) {%>
+	 * @see #isSet<%=genFeature.getAccessorName()%>()
+      <%}%>
+      <%if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {%>
+	 * @see #unset<%=genFeature.getAccessorName()%>()
+      <%}%>
+    <%}%>
+    <%if (genFeature.isChangeable() && !genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {%>
+	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
+    <%}%>
+    <%if (!genModel.isSuppressEMFMetaData()) {%>
+	 * @see <%=genPackage.getQualifiedPackageInterfaceName()%>#get<%=genFeature.getFeatureAccessorName()%>()
+    <%}%>
+    <%if (genFeature.isBidirectional() && !genFeature.getReverse().getGenClass().isMapEntry()) { GenFeature reverseGenFeature = genFeature.getReverse(); %>
+      <%if (!reverseGenFeature.isSuppressedGetVisibility()) {%>
+	 * @see <%=reverseGenFeature.getGenClass().getQualifiedInterfaceName()%>#<%=reverseGenFeature.getGetAccessor()%>
+      <%}%>
+    <%}%>
+    <%if (!genModel.isSuppressEMFModelTags()) { boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genFeature.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
+	 * @model <%=modelInfo%>
+    <%} else {%>
+	 *        <%=modelInfo%>
+    <%}} if (first) {%>
+	 * @model
+    <%}}%>
+	 * @generated
+	 */
+<%} else {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+<%}%>
+<%if (!isImplementation) {%>
+	<%=genFeature.getImportedType()%> <%=genFeature.getGetAccessor()%>();
+
+<%} else {%>
+	public <%=genFeature.getImportedType()%> <%=genFeature.getGetAccessor()%>()
+	{
+<%@ include file="Class/getGenFeature.pre.insert.javajetinc" fail="silent" %>
+    <%if (genModel.isReflectiveDelegation()) {%>
+		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)get(<%=genFeature.getQualifiedFeatureAccessor()%>, true)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
+    <%} else if (!genFeature.isVolatile()) {%>
+      <%if (genFeature.isListType()) {%>
+        <%if (genModel.isVirtualDelegation()) {%>
+		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genFeature.getUpperName()%>);
+        <%}%>
+		if (<%=genFeature.getSafeName()%> == null)
+		{
+        <%if (genModel.isVirtualDelegation()) {%>
+			eVirtualSet(<%=genFeature.getUpperName()%>, <%=genFeature.getSafeName()%> = new <%=genClass.getListConstructor(genFeature)%>);
+        <%} else {
+                if (genFeature.getType().equals("commonj.sdo.Sequence")){%>
+		  <%=genFeature.getSafeName()%> = createSequence(_INTERNAL_<%=genFeature.getUpperName()%>);<%} else {%>
+		  <%=genFeature.getSafeName()%> = createPropertyList(<%=SDOGenUtil.getListKind(genFeature, genFeature.isUnsettable())%>, <%=genFeature.getListItemType()%>.class, <%=genFeature.getUpperName()%>, <%=genFeature.isBidirectional()?genFeature.getReverse().getUpperName():"0" %>);<%}}%>
+		}
+		return <%=genFeature.getSafeName()%><%=genFeature.isMapType() && genFeature.isEffectiveSuppressEMFTypes() ? ".map()" : ""%>;
+      <%} else if (genFeature.isContainer()) {%>
+		if (eContainerFeatureID != <%=genFeature.getUpperName()%>) return null;
+		return (<%=genFeature.getImportedType()%>)eContainer();
+      <%} else {%>
+        <%if (genFeature.isResolveProxies()) {%>
+          <%if (genModel.isVirtualDelegation()) {%>
+		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genFeature.getUpperName()%><%if (!genFeature.isReferenceType()) {%>, <%=genFeature.getUpperName()%>_DEFAULT_<%}%>);
+          <%}%>
+		if (<%=genFeature.getSafeName()%> != null && isProxy(<%=genFeature.getSafeName()%>))
+		{
+			Object old<%=genFeature.getCapName()%> = <%=genFeature.getSafeName()%>;
+			<%=genFeature.getSafeName()%> = <%=genFeature.getNonEObjectInternalTypeCast()%>resolveProxy(old<%=genFeature.getCapName()%>);
+			if (<%=genFeature.getSafeName()%> != old<%=genFeature.getCapName()%>)
+			{
+          <%if (genFeature.isEffectiveContains()) {%>
+				<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%> new<%=genFeature.getCapName()%> = (<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>;
+          <%if (!genFeature.isBidirectional()) {%>
+				ChangeContext changeContext = old<%=genFeature.getCapName()%>.eInverseRemove(this, EOPPOSITE_FEATURE_BASE - <%=genFeature.getUpperName()%>, null, null);
+          <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
+				<%=genModel.getImportedName("org.eclipse.emf.common.notify.ChangeContext")%> changeContext =  old<%=genFeature.getCapName()%>.eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, null);
+          <%}%>
+				if (new<%=genFeature.getCapName()%>.eInternalContainer() == null)
+				{
+          <%if (!genFeature.isBidirectional()) {%>
+					changeContext = new<%=genFeature.getCapName()%>.eInverseAdd(this, EOPPOSITE_FEATURE_BASE - <%=genFeature.getUpperName()%>, null, changeContext);
+          <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
+					changeContext =  new<%=genFeature.getCapName()%>.eInverseAdd(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
+          <%}%>
+				}
+				if (changeContext != null) dispatch(changeContext);
+          <%} else if (genModel.isVirtualDelegation()) {%>
+				eVirtualSet(<%=genFeature.getUpperName()%>, <%=genFeature.getSafeName()%>);
+          <%}%>
+          <%if (!genModel.isSuppressNotification()) {%>
+				if (isNotifying())
+					notify(ChangeKind.RESOLVE, _INTERNAL_<%=genFeature.getUpperName()%>, old<%=genFeature.getCapName()%>, <%=genFeature.getSafeName()%>);
+          <%}%>
+			}
+		}
+        <%}%>
+        <%if (!genFeature.isResolveProxies() && genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
+		return (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genFeature.getUpperName()%><%if (!genFeature.isReferenceType()) {%>, <%=genFeature.getUpperName()%>_DEFAULT_<%}%>);
+        <%} else if (genClass.isFlag(genFeature)) {%>
+		return (<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0;
+        <%} else {%>
+		return <%=genFeature.getSafeName()%>;
+        <%}%>
+      <%}%>
+    <%} else {//volatile%>
+      <%if (genFeature.isResolveProxies() && !genFeature.isListType()) {%>
+		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = basicGet<%=genFeature.getAccessorName()%>();
+		return <%=genFeature.getSafeName()%> != null && <%=genFeature.getSafeName()%>.isProxy() ? <%=genFeature.getNonEObjectInternalTypeCast()%>eResolveProxy((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>) : <%=genFeature.getSafeName()%>;
+      <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature(); // AAAA%>
+        <%if (genFeature.isFeatureMapType()) {%>
+          <%if (delegateFeature.isWrappedFeatureMapType()) {%>
+		return create<%=genFeature.getImportedType()%>(get<%=delegateFeature.getAccessorName()%>(), getType(), _INTERNAL_<%=genFeature.getUpperName()%>);
+          <%} else {%>
+		return (<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>)((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>)get<%=delegateFeature.getAccessorName()%>()).list(<%=genFeature.getQualifiedFeatureAccessor()%>);
+          <%}%>
+        <%} else if (genFeature.isListType()) {%>
+          <%if (delegateFeature.isWrappedFeatureMapType()) {%>
+		return get<%=genFeature.getImportedType()%>(get<%=delegateFeature.getAccessorName()%>(), getType(), _INTERNAL_<%=genFeature.getUpperName()%>);
+          <%} else {%>
+		return ((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>)get<%=delegateFeature.getAccessorName()%>()).list(<%=genFeature.getQualifiedFeatureAccessor()%>);
+          <%}%>
+        <%} else {%>
+          <%if (delegateFeature.isWrappedFeatureMapType()) {%>
+		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)get(get<%=delegateFeature.getAccessorName()%>(), getType(), _INTERNAL_<%=genFeature.getUpperName()%>)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
+          <%} else {%>
+		return <%if (genFeature.isPrimitiveType()) {%>(<%}%>(<%=genFeature.getObjectType()%>)get(get<%=delegateFeature.getAccessorName()%>(), getType(), _INTERNAL_<%=genFeature.getUpperName()%>)<%if (genFeature.isPrimitiveType()) {%>).<%=genFeature.getPrimitiveValueFunction()%>()<%}%>;
+          <%}%>
+        <%}%>
+      <%} else {%>
+<%@ include file="Class/getGenFeature.TODO.override.javajetinc" fail="alternative" %>
+<%@ start %>
+		// TODO: implement this method to return the '<%=genFeature.getFormattedName()%>' <%=genFeature.getFeatureKind()%>
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+<%@ end %><%//Class/getGenFeature.todo.override.javajetinc%>
+      <%}%>
+    <%}%>
+	}
+<%}%>
+<%@ end %><%//Class/getGenFeature.override.javajetinc%>
+  <%}%>
+  <%if (isImplementation && !genModel.isReflectiveDelegation() && genFeature.isBasicGet()) {%>
+<%@ include file="Class/basicGetGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <%=genFeature.getImportedType()%> basicGet<%=genFeature.getAccessorName()%>()
+	{
+<%@ include file="Class/basicGetGenFeature.pre.insert.javajetinc" fail="silent" %>
+    <%if (genFeature.isContainer()) {%>
+		if (eContainerFeatureID != <%=genFeature.getUpperName()%>) return null;
+		return (<%=genFeature.getImportedType()%>)eInternalContainer();
+    <%} else if (!genFeature.isVolatile()) {%>
+      <%if (genModel.isVirtualDelegation()) {%>
+		return (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genFeature.getUpperName()%>);
+      <%} else {%>
+		return <%=genFeature.getSafeName()%>;
+      <%}%>
+    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature(); //BBBB%>
+      <%if (delegateFeature.isWrappedFeatureMapType()) {%>
+		return (<%=genFeature.getImportedType()%>)get(get<%=delegateFeature.getAccessorName()%>(), getType(), _INTERNAL_<%=genFeature.getUpperName()%>);
+      <%} else {%>
+		return (<%=genFeature.getImportedType()%>)get<%=delegateFeature.getAccessorName()%>().get(<%=genFeature.getQualifiedFeatureAccessor()%>, false);
+      <%}%>
+    <%} else {%>
+<%@ include file="Class/basicGetGenFeature.TODO.override.javajetinc" fail="alternative" %>
+<%@ start %>
+		// TODO: implement this method to return the '<%=genFeature.getFormattedName()%>' <%=genFeature.getFeatureKind()%>
+		// -> do not perform proxy resolution
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+<%@ end %><%//Class/basicGetGenFeature.todo.override.javajetinc%>
+    <%}%>
+	}
+
+<%@ end %><%//Class/basicGetGenFeature.override.javajetinc%>
+  <%}%>
+  <%if (isImplementation && !genModel.isReflectiveDelegation() && genFeature.isBasicSet()) {%>
+<%@ include file="Class/basicSetGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ChangeContext basicSet<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedInternalType()%> new<%=genFeature.getCapName()%>, ChangeContext changeContext)
+	{
+    <%if (!genFeature.isVolatile()) {%>
+<%@ include file="Class/basicSetGenFeature.pre.insert.javajetinc" fail="silent" %>
+      <%if (genModel.isVirtualDelegation()) {%>
+		Object old<%=genFeature.getCapName()%> = eVirtualSet(<%=genFeature.getUpperName()%>, new<%=genFeature.getCapName()%>);
+      <%} else {%>
+		<%=genFeature.getImportedType()%> old<%=genFeature.getCapName()%> = <%=genFeature.getSafeName()%>;
+		<%=genFeature.getSafeName()%> = new<%=genFeature.getCapName()%>;
+      <%}%>
+      <%if (genFeature.isUnsettable()) {%>
+        <%if (genModel.isVirtualDelegation()) {%>
+		boolean isSetChange = old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE;
+        <%} else if (genClass.isESetFlag(genFeature)) {%>
+		boolean old<%=genFeature.getCapName()%>_set_ = (<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0;
+		<%=genClass.getESetFlagsField(genFeature)%> |= <%=genFeature.getUpperName()%>_ESETFLAG;
+        <%} else {%>
+		boolean old<%=genFeature.getCapName()%>_set_ = <%=genFeature.getUncapName()%>_set_;
+		<%=genFeature.getUncapName()%>_set_ = true;
+        <%}%>
+      <%}%>
+      <%if (!genModel.isSuppressNotification()) {%>
+		if (isNotifying())
+		{
+         <%if (genFeature.isUnsettable()) {%>
+			addNotification(this, ChangeKind.SET, _INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, new<%=genFeature.getCapName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange<%} else {%>!old<%=genFeature.getCapName()%>_set_<%}%>, changeContext);
+         <%} else {%>
+			addNotification(this, ChangeKind.SET, _INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, new<%=genFeature.getCapName()%>, changeContext);
+         <%}%>
+		}
+      <%}%>
+<%@ include file="Class/basicSetGenFeature.post.insert.javajetinc" fail="silent" %>
+		return changeContext;
+    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature(); //CCCC%>
+      <%if (delegateFeature.isWrappedFeatureMapType()) {%>
+		return basicAdd(get<%=delegateFeature.getAccessorName()%>(), getType(), _INTERNAL_<%=genFeature.getUpperName()%>, new<%=genFeature.getCapName()%>, changeContext);
+      <%} else {%>
+		return basicAdd(get<%=delegateFeature.getAccessorName()%>(), getType(), _INTERNAL_<%=genFeature.getUpperName()%>, new<%=genFeature.getCapName()%>, changeContext);
+      <%}%>
+    <%} else {%>
+<%@ include file="Class/basicSetGenFeature.TODO.override.javajetinc" fail="alternative" %>
+<%@ start %>
+		// TODO: implement this method to set the contained '<%=genFeature.getFormattedName()%>' <%=genFeature.getFeatureKind()%>
+		// -> this method is automatically invoked to keep the containment relationship in synch
+		// -> do not modify other features
+		// -> return changeContext, after adding any generated Notification to it (if it is null, a NotificationChain object must be created first)
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+<%@ end %><%//Class/basicSetGenFeature.todo.override.javajetinc%>
+    <%}%>
+	}
+
+<%@ end %><%//Class/basicSetGenFeature.override.javajetinc%>
+  <%}%>
+  <%if (genFeature.isSet() && (isImplementation || !genFeature.isSuppressedSetVisibility())) {%>
+<%@ include file="Class/setGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
+<%if (isInterface) { %>
+	/**
+	 * Sets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%>.
+    <%if (genFeature.isEnumType()) {%>
+	 * @see <%=genFeature.getTypeGenEnum().getQualifiedName()%>
+    <%}%>
+    <%if (genFeature.isUnsettable()) {%>
+      <%if (!genFeature.isSuppressedIsSetVisibility()) {%>
+	 * @see #isSet<%=genFeature.getAccessorName()%>()
+      <%}%>
+      <%if (!genFeature.isSuppressedUnsetVisibility()) {%>
+	 * @see #unset<%=genFeature.getAccessorName()%>()
+      <%}%>
+    <%}%>
+	 * @see #<%=genFeature.getGetAccessor()%>()
+	 * @generated
+	 */
+<%} else {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+<%}%>
+<%if (!isImplementation) { %>
+	void set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%> value);
+
+<%} else {%>
+	public void set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%> new<%=genFeature.getCapName()%>)
+	{
+<%@ include file="Class/setGenFeature.pre.insert.javajetinc" fail="alternative" %>
+    <%if (genModel.isReflectiveDelegation()) {%>
+		_set_(<%=genFeature.getQualifiedFeatureAccessor()%>, <%if (genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType()%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()) {%>)<%}%>);
+    <%} else if (!genFeature.isVolatile()) {%>
+      <%if (genFeature.isContainer()) { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
+		if (new<%=genFeature.getCapName()%> != eInternalContainer() || (eContainerFeatureID != <%=genFeature.getUpperName()%> && new<%=genFeature.getCapName()%> != null))
+		{
+			if (<%=genModel.getImportedName("org.eclipse.emf.ecore.util.EcoreUtil")%>.isAncestor(this, <%=genFeature.getEObjectCast()%>new<%=genFeature.getCapName()%>))
+				throw new <%=genModel.getImportedName("java.lang.IllegalArgumentException")%>("Recursive containment not allowed for " + toString());<%=genModel.getNonNLS()%>
+			ChangeContext changeContext = null;
+			if (eInternalContainer() != null)
+				changeContext = eBasicRemoveFromContainer(changeContext);
+			if (new<%=genFeature.getCapName()%> != null)
+				changeContext = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)new<%=genFeature.getCapName()%>).eInverseAdd(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
+			changeContext = eBasicSetContainer((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)new<%=genFeature.getCapName()%>, <%=genFeature.getUpperName()%>, changeContext);
+			if (changeContext != null) dispatch(changeContext);
+		}
+        <%if (!genModel.isSuppressNotification()) {%>
+		else if (isNotifying())
+			notify(ChangeKind.SET, _INTERNAL_<%=genFeature.getUpperName()%>, new<%=genFeature.getCapName()%>, new<%=genFeature.getCapName()%>);
+        <%}%>
+      <%} else if (genFeature.isBidirectional() || genFeature.isEffectiveContains()) {%>
+        <%if (genModel.isVirtualDelegation()) {%>
+		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genFeature.getUpperName()%>);
+        <%}%>
+		if (new<%=genFeature.getCapName()%> != <%=genFeature.getSafeName()%>)
+		{
+			ChangeContext changeContext = null;
+			if (<%=genFeature.getSafeName()%> != null)
+        <%if (!genFeature.isBidirectional()) {%>
+				changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, OPPOSITE_FEATURE_BASE - _INTERNAL_<%=genFeature.getUpperName()%>, null, changeContext);
+			if (new<%=genFeature.getCapName()%> != null)
+				changeContext = inverseAdd(new<%=genFeature.getCapName()%>, this, OPPOSITE_FEATURE_BASE - _INTERNAL_<%=genFeature.getUpperName()%>, null, changeContext);
+        <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
+				changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, <%=SDOGenUtil.getQualifiedInternalPropertyID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
+			if (new<%=genFeature.getCapName()%> != null)
+				changeContext = inverseAdd(new<%=genFeature.getCapName()%>, this, <%=SDOGenUtil.getQualifiedInternalPropertyID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
+        <%}%>
+			changeContext = basicSet<%=genFeature.getAccessorName()%>(<%=genFeature.getInternalTypeCast()%>new<%=genFeature.getCapName()%>, changeContext);
+			if (changeContext != null) dispatch(changeContext);
+		}
+        <%if (genFeature.isUnsettable()) {%>
+		else
+		{
+          <%if (genModel.isVirtualDelegation()) {%>
+			boolean old<%=genFeature.getCapName()%>_set_ = eVirtualIsSet(<%=genFeature.getUpperName()%>);
+          <%} else if (genClass.isESetFlag(genFeature)) {%>
+            <%if (!genModel.isSuppressNotification()) {%>
+			boolean old<%=genFeature.getCapName()%>_set_ = (<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0;
+            <%}%>
+			<%=genClass.getESetFlagsField(genFeature)%> |= <%=genFeature.getUpperName()%>_ESETFLAG;
+          <%} else {%>
+            <%if (!genModel.isSuppressNotification()) {%>
+			boolean old<%=genFeature.getCapName()%>_set_ = <%=genFeature.getUncapName()%>_set_;
+            <%}%>
+			<%=genFeature.getUncapName()%>_set_ = true;
+          <%}%>
+          <%if (!genModel.isSuppressNotification()) {%>
+			if (isNotifying())
+				notify(ChangeKind.SET, _INTERNAL_<%=genFeature.getUpperName()%>, new<%=genFeature.getCapName()%>, new<%=genFeature.getCapName()%>, !old<%=genFeature.getCapName()%>_set_);
+          <%}%>
+		}
+        <%} else {%>
+          <%if (!genModel.isSuppressNotification()) {%>
+		else if (isNotifying())
+			notify(ChangeKind.SET, _INTERNAL_<%=genFeature.getUpperName()%>, new<%=genFeature.getCapName()%>, new<%=genFeature.getCapName()%>);
+          <%}%>
+        <%}%>
+      <%} else {%>
+        <%if (genClass.isFlag(genFeature)) {%>
+          <%if (!genModel.isSuppressNotification()) {%>
+		<%=genFeature.getImportedType()%> old<%=genFeature.getCapName()%> = (<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0;
+          <%}%>
+		if (new<%=genFeature.getCapName()%>) <%=genClass.getFlagsField(genFeature)%> |= <%=genFeature.getUpperName()%>_EFLAG; else <%=genClass.getFlagsField(genFeature)%> &= ~<%=genFeature.getUpperName()%>_EFLAG;
+        <%} else {%>
+          <%if (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) {%>
+            <%if (!genModel.isSuppressNotification()) {%>
+		<%=genFeature.getImportedType()%> old<%=genFeature.getCapName()%> = <%=genFeature.getSafeName()%>;
+            <%}%>
+          <%}%>
+          <%if (genFeature.isEnumType()) {%>
+            <%if (genModel.isVirtualDelegation()) {%>
+		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = new<%=genFeature.getCapName()%> == null ? <%=genFeature.getUpperName()%>_DEFAULT_ : new<%=genFeature.getCapName()%>;
+            <%} else {%>
+		<%=genFeature.getSafeName()%> = new<%=genFeature.getCapName()%> == null ? <%=genFeature.getUpperName()%>_DEFAULT_ : new<%=genFeature.getCapName()%>;
+            <%}%>
+          <%} else {%>
+            <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
+		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = <%=genFeature.getInternalTypeCast()%>new<%=genFeature.getCapName()%>;
+            <%} else {%>
+		<%=genFeature.getSafeName()%> = <%=genFeature.getInternalTypeCast()%>new<%=genFeature.getCapName()%>;
+            <%}%>
+          <%}%>
+          <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
+		Object old<%=genFeature.getCapName()%> = eVirtualSet(<%=genFeature.getUpperName()%>, <%=genFeature.getSafeName()%>);
+          <%}%>
+        <%}%>
+        <%if (genFeature.isUnsettable()) {%>
+          <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
+		boolean isSetChange = old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE;
+          <%} else if (genClass.isESetFlag(genFeature)) {%>
+            <%if (!genModel.isSuppressNotification()) {%>
+		boolean old<%=genFeature.getCapName()%>_set_ = (<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0;
+            <%}%>
+		<%=genClass.getESetFlagsField(genFeature)%> |= <%=genFeature.getUpperName()%>_ESETFLAG;
+          <%} else {%>
+            <%if (!genModel.isSuppressNotification()) {%>
+		boolean old<%=genFeature.getCapName()%>_set_ = <%=genFeature.getUncapName()%>_set_;
+            <%}%>
+		<%=genFeature.getUncapName()%>_set_ = true;
+          <%}%>
+          <%if (!genModel.isSuppressNotification()) {%>
+		if (isNotifying())
+			notify(ChangeKind.SET, _INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>isSetChange ? <%if (genFeature.isReferenceType()) {%>null<%} else {%><%=genFeature.getUpperName()%>_DEFAULT_<%}%> : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, <%if (genClass.isFlag(genFeature)) {%>new<%=genFeature.getCapName()%><%} else {%><%=genFeature.getSafeName()%><%}%>, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>isSetChange<%} else {%>!old<%=genFeature.getCapName()%>_set_<%}%>);
+          <%}%>
+        <%} else {%>
+          <%if (!genModel.isSuppressNotification()) {%>
+		if (isNotifying())
+			notify(ChangeKind.SET, _INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE ? <%if (genFeature.isReferenceType()) {%>null<%} else {%><%=genFeature.getUpperName()%>_DEFAULT_<%}%> : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, <%if (genClass.isFlag(genFeature)) {%>new<%=genFeature.getCapName()%><%} else {%><%=genFeature.getSafeName()%><%}%>);
+          <%}%>
+        <%}%>
+      <%}%>
+<%@ include file="Class/setGenFeature.post.insert.javajetinc" fail="silent" %>
+    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature(); // DDDD%>
+      <%if (delegateFeature.isWrappedFeatureMapType()) {%>
+		set(get<%=delegateFeature.getAccessorName()%>(), getType(), _INTERNAL_<%=genFeature.getUpperName()%>, <%if (genFeature.isPrimitiveType()){%> new <%=genFeature.getObjectType()%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()){%>)<%}%>);
+      <%} else {%>
+		((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)get<%=delegateFeature.getAccessorName()%>()).set(<%=genFeature.getQualifiedFeatureAccessor()%>, <%if (genFeature.isPrimitiveType()) {%>new <%=genFeature.getObjectType()%>(<%}%>new<%=genFeature.getCapName()%><%if (genFeature.isPrimitiveType()){%>)<%}%>);
+      <%}%>
+    <%} else {%>
+<%@ include file="Class/setGenFeature.TODO.override.javajetinc" fail="alternative" %>
+<%@ start %>
+		// TODO: implement this method to set the '<%=genFeature.getFormattedName()%>' <%=genFeature.getFeatureKind()%>
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+<%@ end %><%//Class/setGenFeature.todo.override.javajetinc%>
+    <%}%>
+	}
+
+<%}%>
+<%@ end %><%//Class/setGenFeature.override.javajetinc%>
+  <%}%>
+  <%if (isImplementation && !genModel.isReflectiveDelegation() && genFeature.isBasicUnset()) {%>
+<%@ include file="Class/basicUnsetGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ChangeContext basicUnset<%=genFeature.getAccessorName()%>(ChangeContext changeContext)
+	{
+    <%if (!genFeature.isVolatile()) {%>
+      <%if (genModel.isVirtualDelegation()) {%>
+		Object old<%=genFeature.getCapName()%> = eVirtualUnset(<%=genFeature.getUpperName()%>);
+      <%} else {%>
+		<%=genFeature.getImportedType()%> old<%=genFeature.getCapName()%> = <%=genFeature.getSafeName()%>;
+		<%=genFeature.getSafeName()%> = null;
+      <%}%>
+      <%if (genModel.isVirtualDelegation()) {%>
+		boolean isSetChange = old<%=genFeature.getCapName()%> != EVIRTUAL_NO_VALUE;
+      <%} else if (genClass.isESetFlag(genFeature)) {%>
+		boolean old<%=genFeature.getCapName()%>_set_ = (<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0;
+		<%=genClass.getESetFlagsField(genFeature)%> &= ~<%=genFeature.getUpperName()%>_ESETFLAG;
+      <%} else {%>
+		boolean old<%=genFeature.getCapName()%>_set_ = <%=genFeature.getUncapName()%>_set_;
+		<%=genFeature.getUncapName()%>_set_ = false;
+      <%}%>
+        <%if (!genModel.isSuppressNotification()) {%>
+		if (isNotifying())
+		{
+            <%if (genFeature.isUnsettable()) {%>
+			addNotification(this, ChangeKind.UNSET, _INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, null, <%if (genModel.isVirtualDelegation()) {%>isSetChange<%} else {%>!old<%=genFeature.getCapName()%>_set_<%}%>, changeContext);
+            <%} else {%>
+			addNotification(this, ChangeKind.UNSET, _INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>old<%=genFeature.getCapName()%> == EVIRTUAL_NO_VALUE ? null : old<%=genFeature.getCapName()%><%} else {%>old<%=genFeature.getCapName()%><%}%>, null, changeContext);
+            <%}%>
+		}
+        <%}%>
+		return changeContext;
+    <%} else {%>
+<%@ include file="Class/basicUnsetGenFeature.TODO.override.javajetinc" fail="alternative" %>
+<%@ start %>
+		// TODO: implement this method to unset the contained '<%=genFeature.getFormattedName()%>' <%=genFeature.getFeatureKind()%>
+		// -> this method is automatically invoked to keep the containment relationship in synch
+		// -> do not modify other features
+		// -> return changeContext, after adding any generated Notification to it (if it is null, a NotificationChain object must be created first)
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+<%@ end %><%//Class/basicUnsetGenFeature.todo.override.javajetinc%>
+    <%}%>
+	}
+
+<%@ end %><%//Class.basicUnsetGenFeature.override.javajetinc%>
+  <%}%>
+  <%if (genFeature.isUnset() && (isImplementation || !genFeature.isSuppressedUnsetVisibility())) {%>
+<%@ include file="Class/unsetGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
+<%if (isInterface) {%>
+	/**
+	 * Unsets the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+  <%if (!genFeature.isSuppressedIsSetVisibility()) {%>
+	 * @see #isSet<%=genFeature.getAccessorName()%>()
+  <%}%>
+	 * @see #<%=genFeature.getGetAccessor()%>()
+  <%if (!genFeature.isListType() && !genFeature.isSuppressedSetVisibility()) {%>
+	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
+  <%}%>
+	 * @generated
+	 */
+<%} else {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+<%}%>
+<%if (!isImplementation) {%>
+	void unset<%=genFeature.getAccessorName()%>();
+
+<%} else {%>
+	public void unset<%=genFeature.getAccessorName()%>()
+	{
+    <%if (genModel.isReflectiveDelegation()) {%>
+		unset(<%=genFeature.getQualifiedFeatureAccessor()%>);
+    <%} else if (!genFeature.isVolatile()) {%>
+      <%if (genFeature.isListType()) {%>
+		((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList")%>.Unsettable)get<%=genFeature.getAccessorName()%>()).unset();
+      <%} else if (genFeature.isBidirectional() || genFeature.isEffectiveContains()) {%>
+        <%if (genModel.isVirtualDelegation()) {%>
+		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genFeature.getUpperName()%>);
+        <%}%>
+		if (<%=genFeature.getSafeName()%> != null)
+		{
+			ChangeContext changeContext = null;
+            <%if (!genFeature.isBidirectional()) {%>
+			changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, EOPPOSITE_FEATURE_BASE - _INTERNAL_<%=genFeature.getUpperName()%>, null, changeContext);
+            <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
+			changeContext = inverseRemove(<%=genFeature.getSafeName()%>, this, <%=SDOGenUtil.getQualifiedInternalPropertyID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
+        <%}%>
+			changeContext = basicUnset<%=genFeature.getAccessorName()%>(changeContext);
+			if (changeContext != null) dispatch(changeContext);
+		}
+		else
+    	{
+        <%if (genModel.isVirtualDelegation()) {%>
+			boolean old<%=genFeature.getCapName()%>_set_ = eVirtualIsSet(<%=genFeature.getUpperName()%>);
+        <%} else if (genClass.isESetFlag(genFeature)) {%>
+          <%if (!genModel.isSuppressNotification()) {%>
+			boolean old<%=genFeature.getCapName()%>_set_ = (<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0;
+          <%}%>
+			<%=genClass.getESetFlagsField(genFeature)%> &= ~<%=genFeature.getUpperName()%>_ESETFLAG;
+        <%} else {%>
+          <%if (!genModel.isSuppressNotification()) {%>
+			boolean old<%=genFeature.getCapName()%>_set_ = <%=genFeature.getUncapName()%>_set_;
+          <%}%>
+			<%=genFeature.getUncapName()%>_set_ = false;
+        <%}%>
+        <%if (!genModel.isSuppressNotification()) {%>
+			if (isNotifying())
+				notify(ChangeKind.UNSET, _INTERNAL_<%=genFeature.getUpperName()%>, null, null, old<%=genFeature.getCapName()%>_set_);
+        <%}%>
+    	}
+      <%} else {%>
+        <%if (genClass.isFlag(genFeature)) {%>
+          <%if (!genModel.isSuppressNotification()) {%>
+		<%=genFeature.getImportedType()%> old<%=genFeature.getCapName()%> = (<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0;
+          <%}%>
+        <%} else if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
+		Object old<%=genFeature.getCapName()%> = eVirtualUnset(<%=genFeature.getUpperName()%>);
+        <%} else {%>
+          <%if (!genModel.isSuppressNotification()) {%>
+		<%=genFeature.getImportedType()%> old<%=genFeature.getCapName()%> = <%=genFeature.getSafeName()%>;
+          <%}%>
+        <%}%>
+        <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
+		boolean isSetChange = old<%=genFeature.getCapName()%> != EVIRTUAL_NO_VALUE;
+        <%} else if (genClass.isESetFlag(genFeature)) {%>
+		boolean old<%=genFeature.getCapName()%>_set_ = (<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0;
+        <%} else {%>
+          <%if (!genModel.isSuppressNotification()) {%>
+		boolean old<%=genFeature.getCapName()%>_set_ = <%=genFeature.getUncapName()%>_set_;
+          <%}%>
+        <%}%>
+        <%if (genFeature.isReferenceType()) {%>
+		<%=genFeature.getSafeName()%> = null;
+          <%if (!genModel.isVirtualDelegation()) {%>
+            <%if (genClass.isESetFlag(genFeature)) {%>
+		<%=genClass.getESetFlagsField(genFeature)%> &= ~<%=genFeature.getUpperName()%>_ESETFLAG;
+            <%} else {%>
+		<%=genFeature.getUncapName()%>_set_ = false;
+            <%}%>
+          <%}%>
+          <%if (!genModel.isSuppressNotification()) {%>
+		if (isNotifying())
+			notify(ChangeKind.UNSET, _INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation()) {%>isSetChange ? old<%=genFeature.getCapName()%> : null<%} else {%>old<%=genFeature.getCapName()%><%}%>, null, <%if (genModel.isVirtualDelegation()) {%>isSetChange<%} else {%>old<%=genFeature.getCapName()%>_set_<%}%>);
+          <%}%>
+        <%} else {%>
+          <%if (genClass.isFlag(genFeature)) {%>
+		if (<%=genFeature.getUpperName()%>_DEFAULT_) <%=genClass.getFlagsField(genFeature)%> |= <%=genFeature.getUpperName()%>_EFLAG; else <%=genClass.getFlagsField(genFeature)%> &= ~<%=genFeature.getUpperName()%>_EFLAG;
+          <%} else if (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) {%>
+		<%=genFeature.getSafeName()%> = <%=genFeature.getUpperName()%>_DEFAULT_;
+          <%}%>
+          <%if (!genModel.isVirtualDelegation() || genFeature.isPrimitiveType()) {%>
+            <%if (genClass.isESetFlag(genFeature)) {%>
+		<%=genClass.getESetFlagsField(genFeature)%> &= ~<%=genFeature.getUpperName()%>_ESETFLAG;
+            <%} else {%>
+		<%=genFeature.getUncapName()%>_set_ = false;
+            <%}%>
+          <%}%>
+          <%if (!genModel.isSuppressNotification()) {%>
+		if (isNotifying())
+			notify(ChangeKind.UNSET, _INTERNAL_<%=genFeature.getUpperName()%>, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>isSetChange ? old<%=genFeature.getCapName()%> : <%=genFeature.getUpperName()%>_DEFAULT_<%} else {%>old<%=genFeature.getCapName()%><%}%>, <%=genFeature.getUpperName()%>_DEFAULT_, <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>isSetChange<%} else {%>old<%=genFeature.getCapName()%>_set_<%}%>);
+          <%}%>
+        <%}%>
+      <%}%>
+    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature(); //EEEE%>
+      <%if (delegateFeature.isWrappedFeatureMapType()) {%>
+        unset(get<%=delegateFeature.getAccessorName()%>(), getType(), _INTERNAL_<%=genFeature.getUpperName()%>);
+      <%} else {%>
+        unset<%=genFeature.getImportedType()%>(get<%=delegateFeature.getAccessorName()%>());
+      <%}%>
+    <%} else {%>
+<%@ include file="Class/unsetGenFeature.TODO.override.javajetinc" fail="alternative" %>
+<%@ start %>
+		// TODO: implement this method to unset the '<%=genFeature.getFormattedName()%>' <%=genFeature.getFeatureKind()%>
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+<%@ end %><%//Class/unsetGenFeature.todo.override.javajetinc%>
+    <%}%>
+	}
+
+<%}%>
+<%@ end %><%//Class/unsetGenFeature.override.javajetinc%>
+  <%}%>
+  <%if (genFeature.isIsSet() && (isImplementation || !genFeature.isSuppressedIsSetVisibility())) {%>
+<%@ include file="Class/isSetGenFeature.override.javajetinc" fail="alternative" %>
+<%@ start %>
+<%if (isInterface) {%>
+	/**
+	 * Returns whether the value of the '{@link <%=genClass.getQualifiedInterfaceName()%>#<%=genFeature.getGetAccessor()%> <em><%=genFeature.getFormattedName()%></em>}' <%=genFeature.getFeatureKind()%> is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em><%=genFeature.getFormattedName()%></em>' <%=genFeature.getFeatureKind()%> is set.
+    <%if (genFeature.isChangeable() && !genFeature.isSuppressedUnsetVisibility()) {%>
+	 * @see #unset<%=genFeature.getAccessorName()%>()
+    <%}%>
+	 * @see #<%=genFeature.getGetAccessor()%>()
+    <%if (!genFeature.isListType() && genFeature.isChangeable() && !genFeature.isSuppressedSetVisibility()) {%>
+	 * @see #set<%=genFeature.getAccessorName()%>(<%=genFeature.getImportedType()%>)
+    <%}%>
+	 * @generated
+	 */
+<%} else {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+<%}%>
+<%if (!isImplementation) {%>
+	boolean isSet<%=genFeature.getAccessorName()%>();
+
+<%} else {%>
+	public boolean isSet<%=genFeature.getAccessorName()%>()
+	{
+    <%if (genModel.isReflectiveDelegation()) {%>
+		return isSet(<%=genFeature.getQualifiedFeatureAccessor()%>);
+    <%} else if (!genFeature.isVolatile()) {%>
+      <%if (genFeature.isListType()) {%>
+        <%if (genModel.isVirtualDelegation()) {%>
+		<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genFeature.getUpperName()%>);
+        <%}%>
+		return <%=genFeature.getSafeName()%> != null && ((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList")%>.Unsettable)<%=genFeature.getSafeName()%>).isSet();
+      <%} else {%>
+        <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
+		return eVirtualIsSet(<%=genFeature.getUpperName()%>);
+        <%} else if (genClass.isESetFlag(genFeature)) {%>
+		return (<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0;
+        <%} else {%>
+		return <%=genFeature.getUncapName()%>_set_;
+        <%}%>
+      <%}%>
+    <%} else if (genFeature.hasDelegateFeature()) { GenFeature delegateFeature = genFeature.getDelegateFeature(); //FFFF%>
+      <%if (delegateFeature.isWrappedFeatureMapType()) {%>
+        return isSet(get<%=delegateFeature.getAccessorName()%>(), getType(), _INTERNAL_<%=genFeature.getUpperName()%>);
+      <%} else {%>
+		return !((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)get<%=delegateFeature.getAccessorName()%>()).isEmpty(<%=genFeature.getQualifiedFeatureAccessor()%>);
+      <%}%>
+    <%} else {%>
+<%@ include file="Class/isSetGenFeature.TODO.override.javajetinc" fail="alternative" %>
+<%@ start %>
+		// TODO: implement this method to return whether the '<%=genFeature.getFormattedName()%>' <%=genFeature.getFeatureKind()%> is set
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+<%@ end %><%//Class/isSetGenFeature.todo.override.javajetinc%>
+    <%}%>
+	}
+
+<%}%>
+<%@ end %><%//Class/isSetGenFeature.override.javajetinc%>
+  <%}%>
+<%@ include file="Class/genFeature.insert.javajetinc" fail="silent" %>
+<%@ end %><%//Class/genFeature.override.javajetinc%>
+<%}// end output getter and setter interfaces or impls%>
+<%for (Iterator i= (isImplementation ? genClass.getImplementedGenOperations() : genClass.getDeclaredGenOperations()).iterator(); i.hasNext();) { GenOperation genOperation = (GenOperation)i.next();%>
+<%@ include file="Class/genOperation.override.javajetinc" fail="alternative" %>
+<%@ start %>
+<%if (isInterface) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+  <%if (genOperation.hasDocumentation()) {%>
+	 * <!-- begin-model-doc -->
+	 * <%=genOperation.getDocumentation(genModel.getIndentation(stringBuffer))%>
+	 * <!-- end-model-doc -->
+  <%}%>
+  <%if (!genModel.isSuppressEMFModelTags()) { boolean first = true; for (StringTokenizer stringTokenizer = new StringTokenizer(genOperation.getModelInfo(), "\n\r"); stringTokenizer.hasMoreTokens(); ) { String modelInfo = stringTokenizer.nextToken(); if (first) { first = false;%>
+	 * @model <%=modelInfo%>
+  <%} else {%>
+	 *        <%=modelInfo%>
+  <%}} if (first) {%>
+	 * @model
+  <%}}%>
+	 * @generated
+	 */
+<%} else {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+<%}%>
+<%if (!isImplementation) {%>
+	<%=genOperation.getImportedType()%> <%=genOperation.getName()%>(<%=genOperation.getParameters()%>)<%=genOperation.getThrows()%>;
+
+<%} else {%>
+	public <%=genOperation.getImportedType()%> <%=genOperation.getName()%>(<%=genOperation.getParameters()%>)<%=genOperation.getThrows()%>
+	{
+  <%if (genOperation.hasBody()) {%>
+		<%=genOperation.getBody(genModel.getIndentation(stringBuffer))%>
+  <%} else if (genOperation.isInvariant()) {GenClass opClass = genOperation.getGenClass(); String diagnostics = ((GenParameter)genOperation.getGenParameters().get(0)).getName(); String context = ((GenParameter)genOperation.getGenParameters().get(1)).getName();%>
+		// TODO: implement this method
+		// -> specify the condition that violates the invariant
+		// -> verify the details of the diagnostic, including severity and message
+		// Ensure that you remove @generated or mark it @generated NOT
+		if (false)
+		{
+			if (<%=diagnostics%> != null)
+			{
+				<%=diagnostics%>.add
+					(new <%=genModel.getImportedName("org.eclipse.emf.common.util.BasicDiagnostic")%>
+						(<%=genModel.getImportedName("org.eclipse.emf.common.util.Diagnostic")%>.ERROR,
+						 <%=opClass.getGenPackage().getImportedValidatorClassName()%>.DIAGNOSTIC_SOURCE,
+						 <%=opClass.getGenPackage().getImportedValidatorClassName()%>.<%=opClass.getOperationID(genOperation)%>,
+						 <%=genModel.getImportedName("org.eclipse.emf.ecore.plugin.EcorePlugin")%>.INSTANCE.getString("_UI_GenericInvariant_diagnostic", new Object[] { "<%=genOperation.getName()%>", <%=genModel.getImportedName("org.eclipse.emf.ecore.util.EObjectValidator")%>.getObjectLabel(this, <%=context%>) }),<%=genModel.getNonNLS()%><%=genModel.getNonNLS(2)%>
+						 new Object [] { this }));
+			}
+			return false;
+		}
+		return true;
+  <%} else {%>
+<%@ include file="Class/implementedGenOperation.TODO.override.javajetinc" fail="alternative" %>
+<%@ start %>
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+<%@ end %><%//Class/implementedGenOperation.todo.override.javajetinc%>
+  <%}%>
+	}
+
+<%}%>
+<%@ include file="Class/genOperation.insert.javajetinc" fail="silent" %>
+<%@ end %><%//Class/implementedGenOperation.override.javajetinc%>
+<%}//for%>
+<%if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEInverseAddGenFeatures())) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ChangeContext eInverseAdd(<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%> otherEnd, int propertyIndex, ChangeContext changeContext)
+	{
+		switch (propertyIndex)
+		{
+<%for (Iterator i=genClass.getEInverseAddGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+  <%if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {%>
+			case <%=genFeature.getUpperName()%>:
+    <%if (genFeature.isListType()) {%>
+      <%if (genFeature.isMapType() && genFeature.isEffectiveSuppressEMFTypes()) {%>
+				return ((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList")%>)((<%=genModel.getImportedName("org.eclipse.emf.common.util.EMap")%>.InternalMapView)<%=genFeature.getGetAccessor()%>()).eMap()).basicAdd(otherEnd, changeContext);
+      <%} else {%>
+				return ((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList")%>)<%=genFeature.getGetAccessor()%>()).basicAdd(otherEnd, changeContext);
+      <%}%>
+    <%} else if (genFeature.isContainer()) {%>
+				if (eInternalContainer() != null)
+					changeContext = eBasicRemoveFromContainer(changeContext);
+				return eBasicSetContainer(otherEnd, <%=genFeature.getUpperName()%>, changeContext);
+    <%} else {%>
+      <%if (genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {%>
+				<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genFeature.getUpperName()%>);
+      <%}%>
+				if (<%=genFeature.getSafeName()%> != null)
+      <%if (genFeature.isEffectiveContains()) {%>
+					changeContext = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - <%=genFeature.getUpperName()%>, null, changeContext);
+      <%} else { GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
+					changeContext = ((<%=genModel.getImportedName("org.eclipse.emf.ecore.InternalEObject")%>)<%=genFeature.getSafeName()%>).eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
+      <%}%>
+				return basicSet<%=genFeature.getAccessorName()%>((<%=genFeature.getImportedType()%>)otherEnd, changeContext);
+    <%}%>
+  <%}%>
+<%}%>
+		}
+<%if (genModel.isMinimalReflectiveMethods()) {%>
+		return super.eInverseAdd(otherEnd, propertyIndex, changeContext);
+<%} else {%>
+		return eDynamicInverseAdd(otherEnd, propertyIndex, changeContext);
+<%}%>
+	}
+
+<%}%>
+<%if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEInverseRemoveGenFeatures())) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ChangeContext inverseRemove(<%=genModel.getImportedName("java.lang.Object")%> otherEnd, int propertyIndex, ChangeContext changeContext)
+	{
+		switch (propertyIndex)
+		{
+<%for (Iterator i=genClass.getEInverseRemoveGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+  <%if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {%>
+			case <%=genFeature.getUpperName()%>:
+    <%if (genFeature.isListType()) {%>
+      <%if (genFeature.isMapType() && genFeature.isEffectiveSuppressEMFTypes()) {%>
+				return ((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.InternalEList")%>)((<%=genModel.getImportedName("org.eclipse.emf.common.util.EMap")%>.InternalMapView)<%=genFeature.getGetAccessor()%>()).eMap()).basicRemove(otherEnd, changeContext);
+      <%} else if (genFeature.isWrappedFeatureMapType()) {%>
+				return removeFrom<%=genFeature.getImportedType()%>(<%=genFeature.getGetAccessor()%>(), otherEnd, changeContext);
+      <%} else {%>
+				return removeFromList(<%=genFeature.getGetAccessor()%>(), otherEnd, changeContext);
+      <%}%>
+    <%} else if (genFeature.isContainer()) {%>
+				return eBasicSetContainer(null, <%=genFeature.getUpperName()%>, changeContext);
+    <%} else if (genFeature.isUnsettable()) {%>
+				return basicUnset<%=genFeature.getAccessorName()%>(changeContext);
+    <%} else {%>
+				return basicSet<%=genFeature.getAccessorName()%>(null, changeContext);
+    <%}%>
+  <%}%>
+<%}%>
+		}
+<%if (genModel.isMinimalReflectiveMethods()) {%>
+		return super.inverseRemove(otherEnd, propertyIndex, changeContext);
+<%} else {%>
+		return eDynamicInverseRemove(otherEnd, propertyIndex, changeContext);
+<%}%>
+	}
+
+<%}%>
+<%if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getEBasicRemoveFromContainerGenFeatures())) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ChangeContext eBasicRemoveFromContainerFeature(ChangeContext changeContext)
+	{
+		switch (eContainerFeatureID)
+		{
+<%for (Iterator i=genClass.getEBasicRemoveFromContainerGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+  <%GenFeature reverseFeature = genFeature.getReverse(); GenClass targetClass = reverseFeature.getGenClass();%>
+  <%if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {%>
+			case <%=genFeature.getUpperName()%>:
+				return eInternalContainer().eInverseRemove(this, <%=targetClass.getQualifiedFeatureID(reverseFeature)%>, <%=targetClass.getImportedInterfaceName()%>.class, changeContext);
+  <%}%>
+<%}%>
+		}
+<%if (genModel.isMinimalReflectiveMethods()) {%>
+		return super.eBasicRemoveFromContainerFeature(changeContext);
+<%} else {%>
+		return eDynamicBasicRemoveFromContainer(changeContext);
+<%}%>
+	}
+
+<%}%>
+<%if (isImplementation && !genModel.isReflectiveDelegation() && !genClass.getImplementedGenFeatures().isEmpty()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object get(int propertyIndex, boolean resolve)
+	{
+		switch (propertyIndex)
+		{
+<%for (Iterator i=genClass.getAllGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+  <%if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {%>
+			case <%=genFeature.getUpperName()%>:
+    <%if (genFeature.isPrimitiveType()) {%>
+      <%if (genFeature.isBooleanType()) {%>
+				return <%=genFeature.getGetAccessor()%>() ? Boolean.TRUE : Boolean.FALSE;
+      <%} else {%>
+				return new <%=genFeature.getObjectType()%>(<%=genFeature.getGetAccessor()%>());
+      <%}%>
+    <%} else if (genFeature.isResolveProxies() && !genFeature.isListType()) {%>
+				if (resolve) return <%=genFeature.getGetAccessor()%>();
+				return basicGet<%=genFeature.getAccessorName()%>();
+    <%} else if (genFeature.isMapType()) {%>
+      <%if (genFeature.isEffectiveSuppressEMFTypes()) {%>
+				if (coreType) return ((<%=genModel.getImportedName("org.eclipse.emf.common.util.EMap")%>.InternalMapView)<%=genFeature.getGetAccessor()%>()).eMap();
+				else return <%=genFeature.getGetAccessor()%>();
+      <%} else {%>
+				if (coreType) return <%=genFeature.getGetAccessor()%>();
+				else return <%=genFeature.getGetAccessor()%>().map();
+      <%}%>
+    <%} else if (genFeature.isWrappedFeatureMapType()) {%>
+				// XXX query introduce coreType as an argument? -- semantic = if true -- coreType - return the core EMF object if value is a non-EMF wrapper/view
+				//if (coreType) 
+				return <%=genFeature.getGetAccessor()%>();
+    <%} else if (genFeature.isFeatureMapType()) {%>
+				if (coreType) return <%=genFeature.getGetAccessor()%>();
+				return ((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)<%=genFeature.getGetAccessor()%>()).getWrapper();
+    <%} else {%>
+				return <%=genFeature.getGetAccessor()%>();
+    <%}%>
+  <%}%>
+<%}%>
+		}
+<%if (genModel.isMinimalReflectiveMethods()) {%>
+		return super.get(propertyIndex, resolve);
+<%} else {%>
+		return eDynamicGet(propertyIndex, resolve, coreType);
+<%}%>
+	}
+
+<%}%>
+<%if (isImplementation && !genModel.isReflectiveDelegation() && genClass.implementsAny(genClass.getESetGenFeatures())) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void set(int propertyIndex, Object newValue)
+	{
+		switch (propertyIndex)
+		{
+<%for (Iterator i=genClass.getESetGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+  <%if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {%>
+			case <%=genFeature.getUpperName()%>:
+    <%if (genFeature.isListType()) {%>
+      <%if (genFeature.isWrappedFeatureMapType()) {%>
+      	set<%=genFeature.getImportedType()%>(<%=genFeature.getGetAccessor()%>(), newValue);
+      <%} else if (genFeature.isFeatureMapType()) {%>
+				((<%=genModel.getImportedName("org.eclipse.emf.ecore.util.FeatureMap")%>.Internal)<%=genFeature.getGetAccessor()%>()).set(newValue);
+      <%} else if (genFeature.isMapType()) {%>
+        <%if (genFeature.isEffectiveSuppressEMFTypes()) {%>
+				((<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%>.Setting)((<%=genModel.getImportedName("org.eclipse.emf.common.util.EMap")%>.InternalMapView)<%=genFeature.getGetAccessor()%>()).eMap()).set(newValue);
+        <%} else {%>
+				((<%=genModel.getImportedName("org.eclipse.emf.ecore.EStructuralFeature")%>.Setting)<%=genFeature.getGetAccessor()%>()).set(newValue);
+        <%}%>
+      <%} else {%>
+				<%=genFeature.getGetAccessor()%>().clear();
+				<%=genFeature.getGetAccessor()%>().addAll((<%=genModel.getImportedName("java.util.Collection")%>)newValue);
+      <%}%>
+    <%} else if (genFeature.isPrimitiveType()) {%>
+				set<%=genFeature.getAccessorName()%>(((<%=genFeature.getObjectType()%>)newValue).<%=genFeature.getPrimitiveValueFunction()%>());
+    <%} else {%>
+				set<%=genFeature.getAccessorName()%>((<%=genFeature.getImportedType()%>)newValue);
+    <%}%>
+				return;
+  <%}%>
+<%}%>
+		}
+<%if (genModel.isMinimalReflectiveMethods()) {%>
+		super.set(propertyIndex, newValue);
+<%} else {%>
+		eDynamicSet(propertyIndex, newValue);
+<%}%>
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unset(int propertyIndex)
+	{
+		switch (propertyIndex)
+		{
+<%for (Iterator i=genClass.getESetGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+  <%if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {%>
+			case <%=genFeature.getUpperName()%>:
+    <%if (genFeature.isListType() && !genFeature.isUnsettable()) {%>
+      <%if (genFeature.isWrappedFeatureMapType()) {%>
+				unset<%=genFeature.getImportedType()%>(<%=genFeature.getGetAccessor()%>());
+      <%} else {%>
+				<%=genFeature.getGetAccessor()%>().clear();
+      <%}%>
+    <%} else if (genFeature.isUnsettable()) {%>
+				unset<%=genFeature.getAccessorName()%>();
+    <%} else if (genFeature.isReferenceType()) {%>
+				set<%=genFeature.getAccessorName()%>((<%=genFeature.getImportedType()%>)null);
+    <%} else {%>
+				set<%=genFeature.getAccessorName()%>(<%=genFeature.getUpperName()%>_DEFAULT_);
+    <%}%>
+				return;
+  <%}%>
+<%}%>
+		}
+<%if (genModel.isMinimalReflectiveMethods()) {%>
+		super.unset(propertyIndex);
+<%} else {%>
+		eDynamicUnset(propertyIndex);
+<%}%>
+	}
+
+<%}%>
+<%if (isImplementation && !genModel.isReflectiveDelegation() && !genClass.getImplementedGenFeatures().isEmpty()) {%>
+<%@ include file="Class/eIsSet.override.javajetinc" fail="alternative" %>
+<%@ start %>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSet(int propertyIndex)
+	{
+		switch (propertyIndex)
+		{
+<%for (Iterator i=genClass.getAllGenFeatures().iterator(); i.hasNext();) { GenFeature genFeature = (GenFeature)i.next();%>
+  <%if (!genModel.isMinimalReflectiveMethods() || genClass.getImplementedGenFeatures().contains(genFeature)) {%>
+			case <%=genFeature.getUpperName()%>:
+    <%if (genFeature.isListType() && !genFeature.isUnsettable()) {%>
+      <%if (genFeature.isWrappedFeatureMapType()) {%>
+        <%if (genFeature.isVolatile()) {%>
+				return !is<%=genFeature.getImportedType()%>Empty(<%=genFeature.getGetAccessor()%>());
+        <%} else {%>
+				return <%=genFeature.getSafeName()%> != null && !is<%=genFeature.getImportedType()%>Empty(<%=genFeature.getGetAccessor()%>());
+        <%}%>
+      <%} else {%>
+        <%if (genClass.isField(genFeature)) {%>
+				return <%=genFeature.getSafeName()%> != null && !<%=genFeature.getSafeName()%>.isEmpty();
+        <%} else {%>
+          <%if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {%>
+				<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genFeature.getUpperName()%>);
+				return <%=genFeature.getSafeName()%> != null && !<%=genFeature.getSafeName()%>.isEmpty();
+          <%} else {%>
+				return !<%=genFeature.getGetAccessor()%>().isEmpty();
+          <%}%>
+        <%}%>
+      <%}%>
+    <%} else if (genFeature.isUnsettable()) {%>
+				return isSet<%=genFeature.getAccessorName()%>();
+    <%} else if (genFeature.isResolveProxies()) {%>
+      <%if (genClass.isField(genFeature)) {%>
+				return <%=genFeature.getSafeName()%> != null;
+      <%} else {%>
+        <%if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {%>
+				return eVirtualGet(<%=genFeature.getUpperName()%>) != null;
+        <%} else {%>
+				return basicGet<%=genFeature.getAccessorName()%>() != null;
+        <%}%>
+      <%}%>
+    <%} else if (genFeature.isReferenceType()) {%>
+      <%if (genClass.isField(genFeature)) {%>
+				return <%=genFeature.getSafeName()%> != null;
+      <%} else {%>
+        <%if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {%>
+				return eVirtualGet(<%=genFeature.getUpperName()%>) != null;
+        <%} else {%>
+				return <%=genFeature.getGetAccessor()%>() != null;
+        <%}%>
+      <%}%>
+    <%} else if (genFeature.isPrimitiveType() || genFeature.isEnumType()) {%>
+      <%if (genClass.isField(genFeature)) {%>
+        <%if (genClass.isFlag(genFeature)) {%>
+				return ((<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0) != <%=genFeature.getUpperName()%>_DEFAULT_;
+        <%} else {%>
+				return <%=genFeature.getSafeName()%> != <%=genFeature.getUpperName()%>_DEFAULT_;
+        <%}%>
+      <%} else {%>
+        <%if (genFeature.isEnumType() && genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {%>
+				return eVirtualGet(<%=genFeature.getUpperName()%>, <%=genFeature.getUpperName()%>_DEFAULT_) != <%=genFeature.getUpperName()%>_DEFAULT_;
+        <%} else {%>
+				return <%=genFeature.getGetAccessor()%>() != <%=genFeature.getUpperName()%>_DEFAULT_;
+        <%}%>
+      <%}%>
+    <%} else {//datatype%>
+      <%if (genClass.isField(genFeature)) {%>
+				return <%=genFeature.getUpperName()%>_DEFAULT_ == null ? <%=genFeature.getSafeName()%> != null : !<%=genFeature.getUpperName()%>_DEFAULT_.equals(<%=genFeature.getSafeName()%>);
+      <%} else {%>
+        <%if (genFeature.isField() && genClass.getImplementingGenModel(genFeature).isVirtualDelegation()) {%>
+				<%=genFeature.getImportedType()%> <%=genFeature.getSafeName()%> = (<%=genFeature.getImportedType()%>)eVirtualGet(<%=genFeature.getUpperName()%>, <%=genFeature.getUpperName()%>_DEFAULT_);
+				return <%=genFeature.getUpperName()%>_DEFAULT_ == null ? <%=genFeature.getSafeName()%> != null : !<%=genFeature.getUpperName()%>_DEFAULT_.equals(<%=genFeature.getSafeName()%>);
+        <%} else {%>
+				return <%=genFeature.getUpperName()%>_DEFAULT_ == null ? <%=genFeature.getGetAccessor()%>() != null : !<%=genFeature.getUpperName()%>_DEFAULT_.equals(<%=genFeature.getGetAccessor()%>());
+        <%}%>
+      <%}%>
+    <%}%>
+  <%}%>
+<%}%>
+		}
+<%if (genModel.isMinimalReflectiveMethods()) {%>
+		return super.isSet(propertyIndex);
+<%} else {%>
+		return eDynamicIsSet(propertyIndex);
+<%}%>
+	}
+
+<%@ end %><%//Class/eIsSet.override.javajetinc%>
+<%}%>
+<%if (isImplementation && !genClass.getMixinGenFeatures().isEmpty()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass)
+	{
+  <%for (Iterator m=genClass.getMixinGenClasses().iterator(); m.hasNext();) { GenClass mixinGenClass = (GenClass)m.next(); %>
+		if (baseClass == <%=mixinGenClass.getImportedInterfaceName()%>.class)
+		{
+			switch (derivedFeatureID)
+			{
+    <%for (Iterator f=mixinGenClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next(); %>
+				case <%=genFeature.getUpperName()%>: return <%=mixinGenClass.getQualifiedFeatureID(genFeature)%>;
+    <%}%>
+				default: return -1;
+			}
+		}
+  <%}%>
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass)
+	{
+  <%for (Iterator m=genClass.getMixinGenClasses().iterator(); m.hasNext();) { GenClass mixinGenClass = (GenClass)m.next(); %>
+		if (baseClass == <%=mixinGenClass.getImportedInterfaceName()%>.class)
+		{
+			switch (baseFeatureID)
+			{
+    <%for (Iterator f=mixinGenClass.getGenFeatures().iterator(); f.hasNext();) { GenFeature genFeature = (GenFeature)f.next(); %>
+				case <%=mixinGenClass.getQualifiedFeatureID(genFeature)%>: return <%=genFeature.getUpperName()%>;
+    <%}%>
+				default: return -1;
+			}
+		}
+  <%}%>
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
+
+<%}%>
+<%if (isImplementation && genModel.isVirtualDelegation()) { String eVirtualValuesField = genClass.getEVirtualValuesField();%>
+  <%if (eVirtualValuesField != null) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected Object[] eVirtualValues()
+	{
+		return <%=eVirtualValuesField%>;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void setVirtualValues(Object[] newValues)
+	{
+		<%=eVirtualValuesField%> = newValues;
+	}
+
+  <%}%>
+  <%{ List eVirtualIndexBitFields = genClass.getEVirtualIndexBitFields(new ArrayList());%>
+    <%if (!eVirtualIndexBitFields.isEmpty()) { List allEVirtualIndexBitFields = genClass.getAllEVirtualIndexBitFields(new ArrayList());%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected int eVirtualIndexBits(int offset)
+	{
+		switch (offset)
+		{
+      <%for (int i = 0; i < allEVirtualIndexBitFields.size(); i++) {%>
+			case <%=i%> :
+				return <%=allEVirtualIndexBitFields.get(i)%>;
+      <%}%>
+			default :
+				throw new IndexOutOfBoundsException();
+		}
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void setVirtualIndexBits(int offset, int newIndexBits)
+	{
+		switch (offset)
+		{
+      <%for (int i = 0; i < allEVirtualIndexBitFields.size(); i++) {%>
+			case <%=i%> :
+				<%=allEVirtualIndexBitFields.get(i)%> = newIndexBits;
+				break;
+      <%}%>
+			default :
+				throw new IndexOutOfBoundsException();
+		}
+	}
+
+    <%}%>
+  <%}%>
+<%}%>
+<%if (isImplementation && !genModel.isReflectiveDelegation() && !genClass.getToStringGenFeatures().isEmpty()) {%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String toString()
+	{
+		if (isProxy(this)) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+  <%{ boolean first = true;%>
+    <%for (Iterator i=genClass.getToStringGenFeatures().iterator(); i.hasNext(); ) { GenFeature genFeature = (GenFeature)i.next();%>
+      <%if (first) { first = false;%>
+		result.append(" (<%=genFeature.getName()%>: ");<%=genModel.getNonNLS()%>
+      <%} else {%>
+		result.append(", <%=genFeature.getName()%>: ");<%=genModel.getNonNLS()%>
+      <%}%>
+      <%if (genFeature.isUnsettable() && !genFeature.isListType()) {%>
+        <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
+		if (eVirtualIsSet(<%=genFeature.getUpperName()%>)) result.append(eVirtualGet(<%=genFeature.getUpperName()%>)); else result.append("<unset>");<%=genModel.getNonNLS()%>
+        <%} else {%>
+          <%if (genClass.isFlag(genFeature)) {%>
+		if (<%if (genClass.isESetFlag(genFeature)) {%>(<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0<%} else {%><%=genFeature.getUncapName()%>_set_<%}%>) result.append((<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0); else result.append("<unset>");<%=genModel.getNonNLS()%>
+          <%} else {%>
+		if (<%if (genClass.isESetFlag(genFeature)) {%>(<%=genClass.getESetFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_ESETFLAG) != 0<%} else {%><%=genFeature.getUncapName()%>_set_<%}%>) result.append(<%=genFeature.getSafeName()%>); else result.append("<unset>");<%=genModel.getNonNLS()%>
+          <%}%>
+        <%}%>
+      <%} else {%>
+        <%if (genModel.isVirtualDelegation() && !genFeature.isPrimitiveType()) {%>
+		result.append(eVirtualGet(<%=genFeature.getUpperName()%><%if (!genFeature.isListType() && !genFeature.isReferenceType()){%>, <%=genFeature.getUpperName()%>_DEFAULT_<%}%>));
+        <%} else {%>
+          <%if (genClass.isFlag(genFeature)) {%>
+		result.append((<%=genClass.getFlagsField(genFeature)%> & <%=genFeature.getUpperName()%>_EFLAG) != 0);
+          <%} else {%>
+		result.append(<%=genFeature.getSafeName()%>);
+          <%}%>
+        <%}%>
+      <%}%>
+    <%}%>
+  <%}%>
+		result.append(')');
+		return result.toString();
+	}
+
+<%}%>
+<%if (isImplementation && !genModel.isReflectiveDelegation() && genClass.isAbstract()) {%>
+	public static class ConcreteBase extends <%=genClass.getClassName()%>
+	{
+		public ConcreteBase()
+		{
+			super();
+		}
+	}
+	
+<%}%>
+<%if (isImplementation && genClass.isMapEntry()) { GenFeature keyFeature = genClass.getMapEntryKeyFeature(); GenFeature valueFeature = genClass.getMapEntryValueFeature();%>
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected int hash = -1;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+ 	 * @generated
+ 	 */
+	public int getHash()
+	{
+		if (hash == -1)
+		{
+			Object theKey = getKey();
+			hash = (theKey == null ? 0 : theKey.hashCode());
+		}
+		return hash;
+	}
+
+	/**
+ 	 * <!-- begin-user-doc -->
+ 	 * <!-- end-user-doc -->
+ 	 * @generated
+ 	 */
+	public void setHash(int hash)
+	{
+		this.hash = hash;
+	}
+
+	/**
+ 	 * <!-- begin-user-doc -->
+ 	 * <!-- end-user-doc -->
+ 	 * @generated
+ 	 */
+	public Object getKey()
+	{
+  	<%if (keyFeature.isPrimitiveType()) {%>
+		return new <%=keyFeature.getObjectType()%>(getTypedKey());
+ 	<%} else {%>
+		return getTypedKey();
+  	<%}%>
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setKey(Object key)
+	{
+  <%if (keyFeature.isListType()) {%>
+		getTypedKey().addAll((<%=genModel.getImportedName("java.util.Collection")%>)key);
+  <%} else if (keyFeature.isPrimitiveType()) {%>
+		setTypedKey(((<%=keyFeature.getObjectType()%>)key).<%=keyFeature.getPrimitiveValueFunction()%>());
+  <%} else {%>
+		setTypedKey((<%=keyFeature.getImportedType()%>)key);
+  <%}%>
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object getValue()
+	{
+ 	<%if (valueFeature.isPrimitiveType()) {%>
+		return new <%=valueFeature.getObjectType()%>(getTypedValue());
+ 	<%} else {%>
+		return getTypedValue();
+ 	<%}%>
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Object setValue(Object value)
+	{
+		Object oldValue = getValue();
+  	<%if (valueFeature.isListType()) {%>
+		getTypedValue().clear();
+		getTypedValue().addAll((<%=genModel.getImportedName("java.util.Collection")%>)value);
+  	<%} else if (valueFeature.isPrimitiveType()) {%>
+		setTypedValue(((<%=valueFeature.getObjectType()%>)value).<%=valueFeature.getPrimitiveValueFunction()%>());
+  	<%} else {%>
+		setTypedValue((<%=valueFeature.getImportedType()%>)value);
+  	<%}%>
+		return oldValue;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public <%=genModel.getImportedName("org.eclipse.emf.common.util.EMap")%> getEMap()
+	{
+		<%=genModel.getImportedName("org.eclipse.emf.ecore.EObject")%> container = eContainer();
+		return container == null ? null : (<%=genModel.getImportedName("org.eclipse.emf.common.util.EMap")%>)container.get(eContainmentFeature());
+	}
+<%}%>
+<%@ include file="Class/insert.javajetinc" fail="silent" %>
+} //<%=isInterface ? " " + genClass.getInterfaceName() : genClass.getClassName()%>
+<%// TODO fix the space above%>
+<%genModel.emitSortedImports();%>

@@ -1,0 +1,19 @@
+Manifest-Version: 1.0
+Extension-Name: tuscany-sdo-lib
+Specification-Title: Tuscany SDO Implementation Library
+Specification-Vendor: Apache Software Foundation
+Implementation-Vendor: Apache Software Foundation
+Implementation-Vendor-Id: org.apache
+Implementation-Title: tuscany-sdo-lib
+Implementation-Version: 1.1-incubating
+Bundle-ManifestVersion: 2
+Bundle-Name: Tuscany SDO Implementation Library
+Bundle-SymbolicName: org.apache.tuscany.sdo.lib
+Bundle-Version: 1.0.0
+Bundle-Vendor: Apache Software Foundation
+Require-Bundle: org.apache.tuscany.sdo.spec;visibility:=reexport
+Export-Package: org.apache.tuscany.sdo.api,
+ org.apache.tuscany.sdo.spi,
+ org.apache.tuscany.sdo.lib
+X-Compile-Source-JDK: 1.4
+X-Compile-Target-JDK: 1.4

@@ -1,0 +1,264 @@
+<?xml version="1.0"?>
+<!--
+	* Licensed to the Apache Software Foundation (ASF) under one
+	* or more contributor license agreements.  See the NOTICE file
+	* distributed with this work for additional information
+	* regarding copyright ownership.  The ASF licenses this file
+	* to you under the Apache License, Version 2.0 (the
+	* "License"); you may not use this file except in compliance
+	* with the License.  You may obtain a copy of the License at
+	*
+	*   http://www.apache.org/licenses/LICENSE-2.0
+	*
+	* Unless required by applicable law or agreed to in writing,
+	* software distributed under the License is distributed on an
+	* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+	* KIND, either express or implied.  See the License for the
+	* specific language governing permissions and limitations
+	* under the License.
+-->
+<project>
+	<parent>
+		<artifactId>tuscany-sdo</artifactId>
+		<groupId>org.apache.tuscany.sdo</groupId>
+		<version>1.2-SNAPSHOT</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.apache.tuscany.sdo</groupId>
+	<artifactId>tuscany-sdo-tools-test</artifactId>
+    <version>1.2-SNAPSHOT</version>
+	<name>Test the SDO Generator Tools and Tool Outputs</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.tuscany.sdo</groupId>
+			<artifactId>tuscany-sdo-impl</artifactId>
+			<version>${sdo.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tuscany.sdo</groupId>
+			<artifactId>tuscany-sdo-lib</artifactId>
+			<version>${sdo.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.tuscany.sdo</groupId>
+			<artifactId>tuscany-sdo-tools</artifactId>
+			<version>${sdo.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.3.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+
+	<build>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<id>add-test-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-test-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>target/sdo-source</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.tuscany.sdo</groupId>
+				<artifactId>tuscany-sdo-plugin</artifactId>
+				<version>${sdo.version}</version>
+				<executions>
+					<execution>
+						<id>simple</id>
+						<configuration>
+							<schemaFile>
+								${basedir}/src/main/resources/simple.xsd
+							</schemaFile>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>simpleWithChangeSummary</id>
+						<configuration>
+							<schemaFile>
+								${basedir}/src/main/resources/simpleWithChangeSummary.xsd
+							</schemaFile>
+							<prefix>CS</prefix>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>xsdListItem</id>
+						<configuration>
+							<schemaFile>
+								${basedir}/src/main/resources/xsdlistitem.xsd
+							</schemaFile>
+							<prefix>LI</prefix>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>simpleNoInterfaces</id>
+						<configuration>
+							<schemaFile>
+								${basedir}/src/main/resources/simpleNoIF.xsd
+							</schemaFile>
+							<javaPackage>
+								com.example.noInterfaces.simple
+							</javaPackage>
+							<noInterfaces>true</noInterfaces>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>customer</id>
+						<configuration>
+							<schemaFile>
+								${basedir}/src/main/resources/CustomerAccount.xsd
+							</schemaFile>
+							<prefix>Customer</prefix>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>extensible</id>
+						<configuration>
+							<schemaFile>
+								${basedir}/src/main/resources/extensible/customer.xsd
+							</schemaFile>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>extensible_infostreet</id>
+						<configuration>
+							<schemaFile>
+								${basedir}/src/main/resources/extensible/infostreet.xsd
+							</schemaFile>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>subgroup</id>
+						<configuration>
+							<schemaFile>
+								${basedir}/src/main/resources/subgroup.xsd
+							</schemaFile>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>openContent</id>
+						<configuration>
+							<schemaFile>
+								${basedir}/src/main/resources/Open.xsd
+							</schemaFile>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>MixedTypesStaticPart</id>
+						<configuration>
+							<schemaFile>
+								${basedir}/src/main/resources/mixedTypesStatic.xsd
+							</schemaFile>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>SimpleNoTns</id>
+						<configuration>
+							<schemaFile>
+								${basedir}/src/main/resources/simpleNoTns.xsd
+							</schemaFile>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>XSDImportOnly</id>
+						<configuration>
+							<schemaFile>
+								${basedir}/src/main/resources/xsdImportOnly.wsdl
+							</schemaFile>
+							<schemaNamespace>all</schemaNamespace>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>listAccess</id>
+						<configuration>
+							<schemaFile>
+								${basedir}/src/main/resources/listAccess.xsd
+							</schemaFile>
+						</configuration>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+					<execution>
+					  <id>SubstitutionWithExtensionValues</id>
+					  <configuration>
+					    <schemaFile>
+					      ${basedir}/src/main/resources/substitutionWithExtensionValues.xsd
+					    </schemaFile>
+					    <prefix>SEV</prefix>
+					  </configuration>
+					  <goals>
+					    <goal>generate</goal>
+					  </goals>
+					</execution>
+					<execution>
+					  <id>InternalInElement</id>
+					  <configuration>
+					    <schemaFile>
+					      ${basedir}/src/main/resources/InternalInElement.xsd
+					    </schemaFile>
+					  </configuration>
+					  <goals>
+					    <goal>generate</goal>
+					  </goals>
+					</execution>					
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

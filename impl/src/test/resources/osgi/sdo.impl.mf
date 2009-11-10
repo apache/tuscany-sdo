@@ -1,0 +1,44 @@
+Manifest-Version: 1.0
+Extension-Name: tuscany-sdo-impl
+Specification-Title: Tuscany SDO Implementation
+Specification-Vendor: Apache Software Foundation
+Implementation-Vendor: Apache Software Foundation
+Implementation-Vendor-Id: org.apache
+Implementation-Title: tuscany-sdo-impl
+Implementation-Version: incubating-M3
+Bundle-ManifestVersion: 2
+Bundle-Name: Tuscany SDO Implementation
+Bundle-SymbolicName: org.apache.tuscany.sdo.impl
+Bundle-Version: 1.0.0
+Bundle-Vendor: Apache Software Foundation
+Require-Bundle: org.eclipse.emf.common,
+ org.eclipse.emf.ecore,
+ org.eclipse.emf.ecore.change,
+ org.eclipse.emf.ecore.xmi,
+ org.eclipse.xsd,
+ org.apache.tuscany.sdo.lib;visibility:=reexport,
+ org.apache.tuscany.sdo.spec;visibility:=reexport
+Import-Package: org.osgi.framework,
+ org.xml.sax,
+ org.xml.sax.helpers,
+ org.xml.sax.ext,
+ org.w3c.dom,
+ org.w3c.dom.events,
+ javax.xml,
+ javax.xml.parsers,
+ javax.xml.stream,
+ javax.xml.transform,
+ javax.xml.transform.dom,
+ javax.xml.transform.stream,
+ javax.xml.namespace,
+ org.objectweb.asm
+Export-Package: 
+ org.apache.tuscany.sdo,
+ org.apache.tuscany.sdo.helper,
+ org.apache.tuscany.sdo.impl,
+ org.apache.tuscany.sdo.util,
+ org.apache.tuscany.sdo.codegen,
+ org.apache.tuscany.sdo.model,
+ org.apache.tuscany.sdo.model.impl,
+ org.apache.tuscany.sdo.model.internal
+Bundle-Activator: org.apache.tuscany.sdo.osgi.SdoBundleActivator

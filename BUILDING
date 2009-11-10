@@ -1,0 +1,34 @@
+Building the SDO Release from a Source Distribution
+===================================================
+
+
+Note,  these instructions are for building the SDO binary release from
+source, not for establishing a development environment.  If you wish to
+participate in sdo development, follow the instructions at 
+http://incubator.apache.org/tuscany/developing-sdo-java.html
+
+
+Initial Setup
+-------------
+
+1) Install J2SE JDK 1.4.2 or above
+2) Install Maven: Download Maven 2.0.7 (download from http://maven.apache.org/download.html) Follow the maven instructions for
+configuring the JAVA_HOME environment variable, and ensuring that the "mvn" command is on your execution PATH.
+
+Building
+--------
+
+1) If you have chosen to install a JDK at version 5 then all will be fine,  but there is one value add component in the
+   Tuscany SDO implementation which relies on new JDK 5.0 features.  If you do not wish to use JDK 5 for the following
+   build step, then you will need to do mvn -Pjava_1_4_maven, as this profile option excludes the JDK5 dependent features.
+2) In a command window/shell, change to the top level directory of the Tuscany SDO Java source distribution.
+3) Execute: mvn
+   This will install the sdo implementation and tools jars in your local maven repository
+4) If you wish to rebuild the Tuscany SDO Java binary dstribution change directory to "distribution" and run mvn
+   This will create archives of the binary and source distributions in the target subdirectory of the distribution directory
+
+Note: Depending on the load being experienced by remote Maven 2.0 repositories you may have to execute mvn several
+    times until required dependencies are all located in your local maven repository.  After you have completed a
+    full successful build you can use "mvn -o" which builds without trying to access updated build dependencies (offline mode) and is much faster.
+
+

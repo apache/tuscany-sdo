@@ -1,0 +1,583 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ *  Licensed to the Apache Software Foundation (ASF) under one
+ *  or more contributor license agreements.  See the NOTICE file
+ *  distributed with this work for additional information
+ *  regarding copyright ownership.  The ASF licenses this file
+ *  to you under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ -->
+<genmodel:GenModel xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/org.apache.tuscany.sdo.impl/src/main/java"
+    creationCommands="false" modelPluginID="org.apache.tuscany.sdo.impl" runtimeJar="true"
+    modelName="SDO" modelPluginClass="" updateClasspath="false" rootExtendsClass="org.eclipse.emf.ecore.impl.BasicEObjectImpl"
+    rootImplementsInterface="" testsDirectory="" importerID="org.eclipse.emf.importer.rose"
+    usedGenPackages="../../org.eclipse.emf.ecore/model/Ecore.genmodel#//ecore ../../org.eclipse.emf.ecore/model/XMLType.genmodel#//type ../../org.eclipse.emf.ecore.change/model/Change.genmodel#//change">
+  <foreignModel>SDO.mdl</foreignModel>
+  <foreignModel>VABASE_PLUGINS_PATH</foreignModel>
+  <foreignModel>../..</foreignModel>
+  <genPackages prefix="SDO" basePackage="org.apache.tuscany" disposableProviderFactory="true"
+      adapterFactory="false" generateExampleClass="false" ecorePackage="SDO.ecore#/">
+    <genDataTypes ecoreDataType="SDO.ecore#//EJavaList"/>
+    <genDataTypes ecoreDataType="SDO.ecore#//EObjectStreamException"/>
+    <genClasses ecoreClass="SDO.ecore#//ChangeSummary">
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference SDO.ecore#//ChangeSummary/eDataGraph"/>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/beginLogging"/>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/endLogging"/>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/isCreated">
+        <genParameters ecoreParameter="SDO.ecore#//ChangeSummary/isCreated/dataObject"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/isDeleted">
+        <genParameters ecoreParameter="SDO.ecore#//ChangeSummary/isDeleted/dataObject"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/getOldValues">
+        <genParameters ecoreParameter="SDO.ecore#//ChangeSummary/getOldValues/dataObject"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/isModified">
+        <genParameters ecoreParameter="SDO.ecore#//ChangeSummary/isModified/dataObject"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/getOldValue">
+        <genParameters ecoreParameter="SDO.ecore#//ChangeSummary/getOldValue/dataObject"/>
+        <genParameters ecoreParameter="SDO.ecore#//ChangeSummary/getOldValue/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/getOldContainer">
+        <genParameters ecoreParameter="SDO.ecore#//ChangeSummary/getOldContainer/dataObject"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/getOldContainmentProperty">
+        <genParameters ecoreParameter="SDO.ecore#//ChangeSummary/getOldContainmentProperty/dataObject"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/getOldSequence">
+        <genParameters ecoreParameter="SDO.ecore#//ChangeSummary/getOldSequence/dataObject"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/undoChanges"/>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/isLogging"/>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/getDataGraph"/>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/getChangedObjects"/>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummary/getRootObject"/>
+    </genClasses>
+    <genClasses ecoreClass="SDO.ecore#//ChangeSummarySetting">
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummarySetting/isSet"/>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummarySetting/getValue"/>
+      <genOperations ecoreOperation="SDO.ecore#//ChangeSummarySetting/getProperty"/>
+    </genClasses>
+    <genClasses ecoreClass="SDO.ecore#//DataGraph">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute SDO.ecore#//DataGraph/resourceSet"/>
+      <genFeatures property="Readonly" createChild="false" ecoreFeature="ecore:EAttribute SDO.ecore#//DataGraph/rootResource"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference SDO.ecore#//DataGraph/eChangeSummary"/>
+      <genFeatures notify="false" createChild="false" ecoreFeature="ecore:EReference SDO.ecore#//DataGraph/eRootObject"/>
+      <genOperations ecoreOperation="SDO.ecore#//DataGraph/createRootObject">
+        <genParameters ecoreParameter="SDO.ecore#//DataGraph/createRootObject/namespaceURI"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataGraph/createRootObject/typeName"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataGraph/createRootObject.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataGraph/createRootObject.1/type"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataGraph/getType">
+        <genParameters ecoreParameter="SDO.ecore#//DataGraph/getType/namespaceURI"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataGraph/getType/typeName"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataGraph/getRootObject"/>
+      <genOperations ecoreOperation="SDO.ecore#//DataGraph/getChangeSummary"/>
+    </genClasses>
+    <genClasses ecoreClass="SDO.ecore#//DataObject">
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/get">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/get/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/set">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/set/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/set/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/isSet">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/isSet/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/unset">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/unset/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/get.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/get.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/set.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/set.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/set.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/isSet.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/isSet.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/unset.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/unset.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/get.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/get.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/set.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/set.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/set.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/isSet.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/isSet.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/unset.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/unset.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getContainer"/>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getContainmentProperty"/>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getDataGraph"/>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getType"/>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getBigDecimal">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getBigDecimal/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getBigInteger">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getBigInteger/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getBoolean">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getBoolean/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getByte">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getByte/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getBytes">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getBytes/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getChar">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getChar/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getDataObject">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getDataObject/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getDate">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getDate/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getDouble">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getDouble/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getFloat">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getFloat/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getInt">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getInt/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getList">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getList/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getLong">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getLong/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getSequence">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getSequence/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getShort">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getShort/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getString">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getString/path"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setBigDecimal">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBigDecimal/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBigDecimal/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setBigInteger">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBigInteger/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBigInteger/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setBoolean">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBoolean/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBoolean/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setByte">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setByte/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setByte/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setBytes">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBytes/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBytes/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setChar">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setChar/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setChar/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setDataObject">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDataObject/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDataObject/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setDate">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDate/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDate/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setDouble">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDouble/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDouble/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setFloat">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setFloat/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setFloat/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setInt">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setInt/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setInt/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setList">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setList/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setList/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setLong">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setLong/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setLong/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setShort">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setShort/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setShort/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setString">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setString/path"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setString/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getBigDecimal.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getBigDecimal.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getBigInteger.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getBigInteger.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getBoolean.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getBoolean.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getByte.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getByte.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getBytes.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getBytes.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getChar.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getChar.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getDataObject.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getDataObject.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getDate.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getDate.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getDouble.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getDouble.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getFloat.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getFloat.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getInt.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getInt.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getList.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getList.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getLong.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getLong.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getSequence.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getSequence.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getShort.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getShort.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getString.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getString.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setBigDecimal.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBigDecimal.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBigDecimal.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setBigInteger.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBigInteger.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBigInteger.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setBoolean.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBoolean.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBoolean.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setByte.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setByte.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setByte.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setBytes.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBytes.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBytes.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setChar.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setChar.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setChar.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setDataObject.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDataObject.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDataObject.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setDate.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDate.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDate.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setDouble.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDouble.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDouble.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setFloat.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setFloat.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setFloat.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setInt.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setInt.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setInt.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setList.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setList.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setList.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setLong.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setLong.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setLong.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setShort.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setShort.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setShort.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setString.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setString.1/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setString.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getBigDecimal.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getBigDecimal.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getBigInteger.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getBigInteger.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getBoolean.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getBoolean.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getByte.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getByte.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getBytes.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getBytes.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getChar.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getChar.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getDataObject.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getDataObject.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getDate.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getDate.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getDouble.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getDouble.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getFloat.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getFloat.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getInt.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getInt.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getList.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getList.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getLong.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getLong.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getSequence.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getSequence.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getShort.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getShort.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getString.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getString.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setBigDecimal.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBigDecimal.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBigDecimal.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setBigInteger.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBigInteger.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBigInteger.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setBoolean.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBoolean.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBoolean.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setByte.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setByte.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setByte.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setBytes.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBytes.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setBytes.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setChar.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setChar.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setChar.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setDataObject.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDataObject.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDataObject.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setDate.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDate.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDate.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setDouble.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDouble.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setDouble.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setFloat.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setFloat.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setFloat.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setInt.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setInt.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setInt.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setList.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setList.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setList.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setLong.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setLong.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setLong.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setShort.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setShort.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setShort.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/setString.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setString.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/setString.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/createDataObject">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/createDataObject/propertyName"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/createDataObject.1">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/createDataObject.1/propertyIndex"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/createDataObject.2">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/createDataObject.2/property"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/createDataObject.3">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/createDataObject.3/propertyName"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/createDataObject.3/namespaceURI"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/createDataObject.3/typeName"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/createDataObject.4">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/createDataObject.4/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/createDataObject.4/namespaceURI"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/createDataObject.4/typeName"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/createDataObject.5">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/createDataObject.5/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/createDataObject.5/type"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/delete"/>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getSequence.3"/>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getInstanceProperties"/>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getProperty">
+        <genParameters ecoreParameter="SDO.ecore#//DataObject/getProperty/propertyName"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getRootObject"/>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/getChangeSummary"/>
+      <genOperations ecoreOperation="SDO.ecore#//DataObject/detach"/>
+    </genClasses>
+    <genClasses ecoreClass="SDO.ecore#//Property">
+      <genOperations ecoreOperation="SDO.ecore#//Property/getName"/>
+      <genOperations ecoreOperation="SDO.ecore#//Property/getType"/>
+      <genOperations ecoreOperation="SDO.ecore#//Property/isMany"/>
+      <genOperations ecoreOperation="SDO.ecore#//Property/isContainment"/>
+      <genOperations ecoreOperation="SDO.ecore#//Property/isReadOnly"/>
+      <genOperations ecoreOperation="SDO.ecore#//Property/getContainingType"/>
+      <genOperations ecoreOperation="SDO.ecore#//Property/getAliasNames"/>
+      <genOperations ecoreOperation="SDO.ecore#//Property/getOpposite"/>
+      <genOperations ecoreOperation="SDO.ecore#//Property/getDefault"/>
+    </genClasses>
+    <genClasses ecoreClass="SDO.ecore#//Sequence">
+      <genOperations ecoreOperation="SDO.ecore#//Sequence/size"/>
+      <genOperations ecoreOperation="SDO.ecore#//Sequence/getProperty">
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/getProperty/index"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//Sequence/getValue">
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/getValue/index"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//Sequence/setValue">
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/setValue/index"/>
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/setValue/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//Sequence/add">
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add/propertyName"/>
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//Sequence/add.1">
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.1/propertIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.1/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//Sequence/add.2">
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.2/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.2/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//Sequence/add.3">
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.3/index"/>
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.3/propertyName"/>
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.3/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//Sequence/add.4">
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.4/index"/>
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.4/propertyIndex"/>
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.4/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//Sequence/add.5">
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.5/index"/>
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.5/property"/>
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.5/value"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//Sequence/add.6">
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.6/text"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//Sequence/add.7">
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.7/index"/>
+        <genParameters ecoreParameter="SDO.ecore#//Sequence/add.7/text"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="SDO.ecore#//Type">
+      <genOperations ecoreOperation="SDO.ecore#//Type/getName"/>
+      <genOperations ecoreOperation="SDO.ecore#//Type/getURI"/>
+      <genOperations ecoreOperation="SDO.ecore#//Type/getInstanceClass"/>
+      <genOperations ecoreOperation="SDO.ecore#//Type/isInstance">
+        <genParameters ecoreParameter="SDO.ecore#//Type/isInstance/object"/>
+      </genOperations>
+      <genOperations ecoreOperation="SDO.ecore#//Type/isDataType"/>
+      <genOperations ecoreOperation="SDO.ecore#//Type/isSequenced"/>
+      <genOperations ecoreOperation="SDO.ecore#//Type/isOpen"/>
+      <genOperations ecoreOperation="SDO.ecore#//Type/isAbstract"/>
+      <genOperations ecoreOperation="SDO.ecore#//Type/getBaseTypes"/>
+      <genOperations ecoreOperation="SDO.ecore#//Type/getAliasNames"/>
+      <genOperations ecoreOperation="SDO.ecore#//Type/getProperties"/>
+      <genOperations ecoreOperation="SDO.ecore#//Type/getDeclaredProperties"/>
+      <genOperations ecoreOperation="SDO.ecore#//Type/getProperty">
+        <genParameters ecoreParameter="SDO.ecore#//Type/getProperty/propertyName"/>
+      </genOperations>
+    </genClasses>
+    <genClasses ecoreClass="SDO.ecore#//AnyTypeDataObject"/>
+    <genClasses ecoreClass="SDO.ecore#//SimpleAnyTypeDataObject"/>
+    <genClasses ecoreClass="SDO.ecore#//Class"/>
+    <genClasses ecoreClass="SDO.ecore#//DataType"/>
+    <genClasses ecoreClass="SDO.ecore#//Attribute"/>
+    <genClasses ecoreClass="SDO.ecore#//Reference"/>
+    <genClasses ecoreClass="SDO.ecore#//Enum"/>
+    <genClasses ecoreClass="SDO.ecore#//DynamicDataObject"/>
+    <genClasses ecoreClass="SDO.ecore#//StoreDataObject"/>
+    <genClasses ecoreClass="SDO.ecore#//DynamicStoreDataObject"/>
+    <genClasses ecoreClass="SDO.ecore#//ExtensibleDataObject"/>
+  </genPackages>
+</genmodel:GenModel>

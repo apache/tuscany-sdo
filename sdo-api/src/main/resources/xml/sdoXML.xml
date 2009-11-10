@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+/**
+ * <copyright>
+ *
+ * Service Data Objects
+ * Version 2.1.0
+ * Licensed Materials
+ *
+ * (c) Copyright BEA Systems, Inc., International Business Machines Corporation, 
+ * Oracle Corporation, Primeton Technologies Ltd., Rogue Wave Software, SAP AG., 
+ * Software AG., Sun Microsystems, Sybase Inc., Xcalia, Zend Technologies, 
+ * 2005, 2006. All rights reserved.
+ *
+ * </copyright>
+ * 
+ */
+-->
+
+<types xmlns="commonj.sdo"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:sdoXML="commonj.sdo/xml"
+  xsi:schemaLocation="commonj.sdo sdoModel.xsd commonj.sdo/java sdoJava.xsd commonj.sdo/xml sdoXML.xsd">
+
+<!--
+   Global properties used in open content for 
+   the XML binding of SDO Types and Properties.
+-->
+
+  <type uri="commonj.sdo/xml">
+    <property name="xmlElement" type="commonj.sdo#Boolean"/>
+  </type>
+
+  <!-- XMLInfo deprecated in 2.1.0 -->
+  <type name="XMLInfo" uri="commonj.sdo/xml">
+    <property name="xmlElement" type="commonj.sdo#Boolean"/>
+  </type>
+
+</types>

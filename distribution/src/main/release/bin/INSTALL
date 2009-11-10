@@ -1,0 +1,4 @@
+Tuscany Java SDO Installation
+
+Unpack the binary archive into a location of your choice and add each of the jar files in the
+lib directory to your CLASSPATH variable.

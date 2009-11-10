@@ -1,0 +1,243 @@
+<html>
+<!-- Note -- this file is GENERATED from the samples using the
+Document Samples utility. Hand edits will be lost when regenerated!-->
+<!--                                                             
+*                                                              
+*  Licensed to the Apache Software Foundation (ASF) under one  
+*  or more contributor license agreements.  See the NOTICE file
+*  distributed with this work for additional information       
+*  regarding copyright ownership.  The ASF licenses this file  
+*  to you under the Apache License, Version 2.0 (the           
+*  "License"); you may not use this file except in compliance  
+*  with the License.  You may obtain a copy of the License at  
+*                                                              
+*    http://www.apache.org/licenses/LICENSE-2.0                
+*                                                              
+*  Unless required by applicable law or agreed to in writing,  
+*  software distributed under the License is distributed on an 
+*  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY      
+*  KIND, either express or implied.  See the License for the   
+*  specific language governing permissions and limitations     
+*  under the License.                                          
+-->                                                             
+<head><title>SDO Samples</title></head><body>
+  <h1>SDO Samples</h1>
+<P>
+The samples provided in the Tuscany SDO distribution cover many areas of
+the SDO API.  Here we provide two indexes into the samples.  The first lists
+each sample in sequence and details the central theme(s) of the sample.
+It also mentions if the sample significantly demonstrates other areas in passing.
+The second index lists all the themes that are covered by these samples, and
+indicates which of the samples has that subject area as a central theme or as
+demonstrates the subject area significant as an incidental part of the sample.<H2>Index by Sample Program Name</H2>
+<h3>Sample Program CreateCompany</h3>
+<b>Core function:</b><br/>
+<a href="#facet2">Set Properties of DataObject by name</a><br/>
+<br/><h3>Sample Program ReadPurchaseOrder</h3>
+<b>Core function:</b><br/>
+<a href="#facet15">Loading data from XML</a><br/>
+<a href="#facet16">Saving data to XML</a><br/>
+<br/><b>Also demonstrates:</b><br/>
+<a href="#facet1">Get Properties of DataObject by name</a><br/>
+<h3>Sample Program CreatePurchaseOrder</h3>
+<b>Core function:</b><br/>
+<a href="#facet15">Loading data from XML</a><br/>
+<a href="#facet16">Saving data to XML</a><br/>
+<br/><h3>Sample Program AccessDataObjectPropertiesByName</h3>
+<b>Core function:</b><br/>
+<a href="#facet1">Get Properties of DataObject by name</a><br/>
+<br/><h3>Sample Program AccessingTheContentsOfASequence</h3>
+<b>Core function:</b><br/>
+<a href="#facet13">Accessing values in a Sequence</a><br/>
+<br/><h3>Sample Program AccessDataObjectUsingValidXPath</h3>
+<b>Core function:</b><br/>
+<a href="#facet6">Get/Set Properties of DataObject by Xpath</a><br/>
+<br/><h3>Sample Program DynamicCustomerTypeSample</h3>
+<b>Core function:</b><br/>
+<a href="#facet9">Create Types using the SDO API</a><br/>
+<br/><b>Also demonstrates:</b><br/>
+<a href="#facet2">Set Properties of DataObject by name</a><br/>
+<a href="#facet12">Using Built-in Types</a><br/>
+<a href="#facet16">Saving data to XML</a><br/>
+<h3>Sample Program CreateCompanyTuscanyAPI</h3>
+<b>Core function:</b><br/>
+<a href="#facet2">Set Properties of DataObject by name</a><br/>
+<br/><h3>Sample Program CreateDataObjectFromXmlString</h3>
+<b>Core function:</b><br/>
+<a href="#facet12">Using Built-in Types</a><br/>
+<a href="#facet15">Loading data from XML</a><br/>
+<br/><h3>Sample Program SerializingDeserializingADataObject</h3>
+<b>Core function:</b><br/>
+<a href="#facet23">Java Serialization of data graph</a><br/>
+<br/><b>Also demonstrates:</b><br/>
+<a href="#facet24">Testing for Graph Equality</a><br/>
+<h3>Sample Program AccessingDataObjectsViaPropertyIndex</h3>
+<b>Core function:</b><br/>
+<a href="#facet4">Get/Set Properties of DataObject by index</a><br/>
+<br/><h3>Sample Program ObtainingDataGraphFromXml</h3>
+<b>Core function:</b><br/>
+<a href="#facet19">Wrapping data graph in a DataGraph instance</a><br/>
+<br/><b>Also demonstrates:</b><br/>
+<a href="#facet12">Using Built-in Types</a><br/>
+<h3>Sample Program PrintDataGraph</h3>
+<b>Core function:</b><br/>
+<a href="#facet14">Generic data graph traversal</a><br/>
+<br/><b>Also demonstrates:</b><br/>
+<a href="#facet5">Get/Set Properties by Instance Properties</a><br/>
+<a href="#facet7">isMany Properties</a><br/>
+<a href="#facet9">Create Types using the SDO API</a><br/>
+<a href="#facet13">Accessing values in a Sequence</a><br/>
+<a href="#facet21">Non-Containment</a><br/>
+<h3>Sample Program MedicalScenario</h3>
+<b>Core function:</b><br/>
+<a href="#facet8">Containment</a><br/>
+<a href="#facet9">Create Types using the SDO API</a><br/>
+<a href="#facet10">Create Types using XML Schema</a><br/>
+<a href="#facet20">Open Content</a><br/>
+<a href="#facet21">Non-Containment</a><br/>
+<br/><b>Also demonstrates:</b><br/>
+<a href="#facet3">Create DataObjects by name</a><br/>
+<a href="#facet7">isMany Properties</a><br/>
+<a href="#facet14">Generic data graph traversal</a><br/>
+<a href="#facet16">Saving data to XML</a><br/>
+<h3>Sample Program MedicalScenarioWithChangeMonitoring</h3>
+<b>Core function:</b><br/>
+<a href="#facet8">Containment</a><br/>
+<a href="#facet9">Create Types using the SDO API</a><br/>
+<a href="#facet10">Create Types using XML Schema</a><br/>
+<a href="#facet20">Open Content</a><br/>
+<a href="#facet21">Non-Containment</a><br/>
+<a href="#facet18">Change Monitoring using a ChangeSummary Property on a DataObject</a><br/>
+<br/><b>Also demonstrates:</b><br/>
+<a href="#facet3">Create DataObjects by name</a><br/>
+<a href="#facet7">isMany Properties</a><br/>
+<a href="#facet14">Generic data graph traversal</a><br/>
+<a href="#facet16">Saving data to XML</a><br/>
+<H2>Index by function</H2>
+<a name="facet0"/>
+<h3></h3>
+<a name="facet1"/>
+<h3>Get Properties of DataObject by name</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+AccessDataObjectPropertiesByName<br/>
+<b>Samples which demonstrate this in addition to their core function</b><br/>
+ReadPurchaseOrder<br/>
+<a name="facet2"/>
+<h3>Set Properties of DataObject by name</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+CreateCompany<br/>
+CreateCompanyTuscanyAPI<br/>
+<b>Samples which demonstrate this in addition to their core function</b><br/>
+DynamicCustomerTypeSample<br/>
+<a name="facet3"/>
+<h3>Create DataObjects by name</h3>
+<b>Samples which demonstrate this in addition to their core function</b><br/>
+MedicalScenario<br/>
+MedicalScenarioWithChangeMonitoring<br/>
+<a name="facet4"/>
+<h3>Get/Set Properties of DataObject by index</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+AccessingDataObjectsViaPropertyIndex<br/>
+<a name="facet5"/>
+<h3>Get/Set Properties by Instance Properties</h3>
+<b>Samples which demonstrate this in addition to their core function</b><br/>
+PrintDataGraph<br/>
+<a name="facet6"/>
+<h3>Get/Set Properties of DataObject by Xpath</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+AccessDataObjectUsingValidXPath<br/>
+<a name="facet7"/>
+<h3>isMany Properties</h3>
+<b>Samples which demonstrate this in addition to their core function</b><br/>
+PrintDataGraph<br/>
+MedicalScenario<br/>
+MedicalScenarioWithChangeMonitoring<br/>
+<a name="facet8"/>
+<h3>Containment</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+MedicalScenario<br/>
+MedicalScenarioWithChangeMonitoring<br/>
+<a name="facet9"/>
+<h3>Create Types using the SDO API</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+MedicalScenario<br/>
+DynamicCustomerTypeSample<br/>
+MedicalScenarioWithChangeMonitoring<br/>
+<b>Samples which demonstrate this in addition to their core function</b><br/>
+PrintDataGraph<br/>
+<a name="facet10"/>
+<h3>Create Types using XML Schema</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+MedicalScenario<br/>
+MedicalScenarioWithChangeMonitoring<br/>
+<a name="facet11"/>
+<h3>Create Types using the Tuscany API</h3>
+<a name="facet12"/>
+<h3>Using Built-in Types</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+CreateDataObjectFromXmlString<br/>
+<b>Samples which demonstrate this in addition to their core function</b><br/>
+ObtainingDataGraphFromXml<br/>
+DynamicCustomerTypeSample<br/>
+<a name="facet13"/>
+<h3>Accessing values in a Sequence</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+AccessingTheContentsOfASequence<br/>
+<b>Samples which demonstrate this in addition to their core function</b><br/>
+PrintDataGraph<br/>
+<a name="facet14"/>
+<h3>Generic data graph traversal</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+PrintDataGraph<br/>
+<b>Samples which demonstrate this in addition to their core function</b><br/>
+MedicalScenario<br/>
+MedicalScenarioWithChangeMonitoring<br/>
+<a name="facet15"/>
+<h3>Loading data from XML</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+CreateDataObjectFromXmlString<br/>
+CreatePurchaseOrder<br/>
+ReadPurchaseOrder<br/>
+<a name="facet16"/>
+<h3>Saving data to XML</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+CreatePurchaseOrder<br/>
+ReadPurchaseOrder<br/>
+<b>Samples which demonstrate this in addition to their core function</b><br/>
+MedicalScenario<br/>
+DynamicCustomerTypeSample<br/>
+MedicalScenarioWithChangeMonitoring<br/>
+<a name="facet17"/>
+<h3>Change Monitoring using a DataGraph</h3>
+<a name="facet18"/>
+<h3>Change Monitoring using a ChangeSummary Property on a DataObject</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+MedicalScenarioWithChangeMonitoring<br/>
+<a name="facet19"/>
+<h3>Wrapping data graph in a DataGraph instance</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+ObtainingDataGraphFromXml<br/>
+<a name="facet20"/>
+<h3>Open Content</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+MedicalScenario<br/>
+MedicalScenarioWithChangeMonitoring<br/>
+<a name="facet21"/>
+<h3>Non-Containment</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+MedicalScenario<br/>
+MedicalScenarioWithChangeMonitoring<br/>
+<b>Samples which demonstrate this in addition to their core function</b><br/>
+PrintDataGraph<br/>
+<a name="facet22"/>
+<h3>Create XML Schema from Types</h3>
+<a name="facet23"/>
+<h3>Java Serialization of data graph</h3>
+<b>Samples which demonstrate this as their core function</b><br/>
+SerializingDeserializingADataObject<br/>
+<a name="facet24"/>
+<h3>Testing for Graph Equality</h3>
+<b>Samples which demonstrate this in addition to their core function</b><br/>
+SerializingDeserializingADataObject<br/>
+</body>
+</html>
