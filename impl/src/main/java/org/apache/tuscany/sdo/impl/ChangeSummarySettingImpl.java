@@ -43,14 +43,14 @@ import commonj.sdo.Property;
 public class ChangeSummarySettingImpl extends FeatureChangeImpl implements ChangeSummary.Setting
 {
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected ChangeSummarySettingImpl()
   {
-    super();
-  }
+		super();
+	}
 
   protected ChangeSummarySettingImpl(EStructuralFeature feature, Object value, boolean isSet)
   {
@@ -58,14 +58,14 @@ public class ChangeSummarySettingImpl extends FeatureChangeImpl implements Chang
   }
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected EClass eStaticClass()
   {
-    return SDOPackage.eINSTANCE.getChangeSummarySetting();
-  }
+		return SDOPackage.Literals.CHANGE_SUMMARY_SETTING;
+	}
 
   /**
    * <!-- begin-user-doc -->

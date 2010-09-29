@@ -467,7 +467,7 @@ public class BaseSDOXSDEcoreBuilder extends XSDEcoreBuilder
         EClassifier mixinType = getEClassifier(mixin);
         if (mixinType instanceof EClass && mixinType != ecorePackage.getEObject())
         {
-          eClass.getESuperTypes().add(mixinType);
+          eClass.getESuperTypes().add((EClass) mixinType);
         }
       }
     }

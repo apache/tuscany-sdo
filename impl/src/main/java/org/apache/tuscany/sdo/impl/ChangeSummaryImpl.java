@@ -57,6 +57,7 @@ import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 import commonj.sdo.ChangeSummary;
+import commonj.sdo.ChangeSummary.Setting;
 import commonj.sdo.DataGraph;
 import commonj.sdo.DataObject;
 import commonj.sdo.Property;
@@ -79,14 +80,14 @@ import commonj.sdo.Sequence;
 public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSummary
 {
   /**
-   * The cached value of the '{@link #getEDataGraph() <em>EData Graph</em>}' reference.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getEDataGraph() <em>EData Graph</em>}' reference.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getEDataGraph()
-   * @generated
-   * @ordered
-   */
-  protected DataGraph eDataGraph = null;
+	 * @see #getEDataGraph()
+	 * @generated
+	 * @ordered
+	 */
+  protected DataGraph eDataGraph;
   
   protected DataObject dataObject = null;
   protected SDOChangeRecorder changeRecorder = null;
@@ -97,25 +98,24 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
   protected boolean isStale = false;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 */
   protected ChangeSummaryImpl()
   {
-    super();
-    cachedSDOObjectChanges = createThreadSafeMap();
-  }
+		super();
+		cachedSDOObjectChanges = createThreadSafeMap();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected EClass eStaticClass()
   {
-    return SDOPackage.eINSTANCE.getChangeSummary();
-  }
+		return SDOPackage.Literals.CHANGE_SUMMARY;
+	}
 
   /**
    * <!-- begin-user-doc -->
@@ -128,52 +128,50 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
   }
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public DataGraph getEDataGraph()
   {
-    return eDataGraph;
-  }
+		return eDataGraph;
+	}
   
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public NotificationChain basicSetEDataGraph(DataGraph newEDataGraph, NotificationChain msgs)
   {
-    DataGraph oldEDataGraph = eDataGraph;
-    eDataGraph = newEDataGraph;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH, oldEDataGraph, newEDataGraph);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
+		DataGraph oldEDataGraph = eDataGraph;
+		eDataGraph = newEDataGraph;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH, oldEDataGraph, newEDataGraph);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setEDataGraph(DataGraph newEDataGraph)
   {
-    if (newEDataGraph != eDataGraph)
-    {
-      NotificationChain msgs = null;
-      if (eDataGraph != null)
-        msgs = ((InternalEObject)eDataGraph).eInverseRemove(this, SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY, DataGraph.class, msgs);
-      if (newEDataGraph != null)
-        msgs = ((InternalEObject)newEDataGraph).eInverseAdd(this, SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY, DataGraph.class, msgs);
-      msgs = basicSetEDataGraph(newEDataGraph, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH, newEDataGraph, newEDataGraph));
-  }
+		if (newEDataGraph != eDataGraph) {
+			NotificationChain msgs = null;
+			if (eDataGraph != null)
+				msgs = ((InternalEObject)eDataGraph).eInverseRemove(this, SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY, DataGraph.class, msgs);
+			if (newEDataGraph != null)
+				msgs = ((InternalEObject)newEDataGraph).eInverseAdd(this, SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY, DataGraph.class, msgs);
+			msgs = basicSetEDataGraph(newEDataGraph, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH, newEDataGraph, newEDataGraph));
+	}
 
   public DataObject getDataObject()
   {
@@ -246,162 +244,62 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
   }  
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
-          if (eDataGraph != null)
-            msgs = ((InternalEObject)eDataGraph).eInverseRemove(this, SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY, DataGraph.class, msgs);
-          return basicSetEDataGraph((DataGraph)otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case SDOPackage.CHANGE_SUMMARY__OBJECT_CHANGES:
-          return ((InternalEList)getObjectChanges()).basicRemove(otherEnd, msgs);
-        case SDOPackage.CHANGE_SUMMARY__OBJECTS_TO_ATTACH:
-          return ((InternalEList)getObjectsToAttach()).basicRemove(otherEnd, msgs);
-        case SDOPackage.CHANGE_SUMMARY__RESOURCE_CHANGES:
-          return ((InternalEList)getResourceChanges()).basicRemove(otherEnd, msgs);
-        case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
-          return basicSetEDataGraph(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case SDOPackage.CHANGE_SUMMARY__OBJECT_CHANGES:
-        if (coreType) return getObjectChanges();
-        else return getObjectChanges().map();
-      case SDOPackage.CHANGE_SUMMARY__OBJECTS_TO_DETACH:
-        return getObjectsToDetach();
-      case SDOPackage.CHANGE_SUMMARY__OBJECTS_TO_ATTACH:
-        return getObjectsToAttach();
-      case SDOPackage.CHANGE_SUMMARY__RESOURCE_CHANGES:
-        return getResourceChanges();
-      case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
-        return getEDataGraph();
-//      case SDOPackage.CHANGE_SUMMARY__EDATA_OBJECT:
-//        return getEDataObject();
-    }
-    return eDynamicGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
+				return getEDataGraph();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case SDOPackage.CHANGE_SUMMARY__OBJECT_CHANGES:
-        ((EStructuralFeature.Setting)getObjectChanges()).set(newValue);
-        return;
-      case SDOPackage.CHANGE_SUMMARY__OBJECTS_TO_DETACH:
-        getObjectsToDetach().clear();
-        getObjectsToDetach().addAll((Collection)newValue);
-        return;
-      case SDOPackage.CHANGE_SUMMARY__OBJECTS_TO_ATTACH:
-        getObjectsToAttach().clear();
-        getObjectsToAttach().addAll((Collection)newValue);
-        return;
-      case SDOPackage.CHANGE_SUMMARY__RESOURCE_CHANGES:
-        getResourceChanges().clear();
-        getResourceChanges().addAll((Collection)newValue);
-        return;
-      case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
-        setEDataGraph((DataGraph)newValue);
-        return;
-    }
-    eDynamicSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
+				setEDataGraph((DataGraph)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case SDOPackage.CHANGE_SUMMARY__OBJECT_CHANGES:
-        getObjectChanges().clear();
-        return;
-      case SDOPackage.CHANGE_SUMMARY__OBJECTS_TO_DETACH:
-        getObjectsToDetach().clear();
-        return;
-      case SDOPackage.CHANGE_SUMMARY__OBJECTS_TO_ATTACH:
-        getObjectsToAttach().clear();
-        return;
-      case SDOPackage.CHANGE_SUMMARY__RESOURCE_CHANGES:
-        getResourceChanges().clear();
-        return;
-      case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
-        setEDataGraph((DataGraph)null);
-        return;
-    }
-    eDynamicUnset(featureID);
-  }
+		switch (featureID) {
+			case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
+				setEDataGraph((DataGraph)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case SDOPackage.CHANGE_SUMMARY__OBJECT_CHANGES:
-        return objectChanges != null && !objectChanges.isEmpty();
-      case SDOPackage.CHANGE_SUMMARY__OBJECTS_TO_DETACH:
-        return objectsToDetach != null && !objectsToDetach.isEmpty();
-      case SDOPackage.CHANGE_SUMMARY__OBJECTS_TO_ATTACH:
-        return objectsToAttach != null && !objectsToAttach.isEmpty();
-      case SDOPackage.CHANGE_SUMMARY__RESOURCE_CHANGES:
-        return resourceChanges != null && !resourceChanges.isEmpty();
-      case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
-        return eDataGraph != null;
-    }
-    return eDynamicIsSet(featureID);
-  }
+		switch (featureID) {
+			case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
+				return eDataGraph != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
   protected void uncache()
   {
@@ -732,7 +630,18 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     return getEDataGraph();
   }
   
-  protected Map getOldContainmentInformation()
+  /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public List getChangedObjects() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+		protected Map getOldContainmentInformation()
   {
     if (oldContainmentInformation == null)
     {
@@ -765,7 +674,35 @@ public class ChangeSummaryImpl extends ChangeDescriptionImpl implements ChangeSu
     return null;
   }
 
-  static protected boolean isContainmentReference(Object feature)
+  /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
+				if (eDataGraph != null)
+					msgs = ((InternalEObject)eDataGraph).eInverseRemove(this, SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY, DataGraph.class, msgs);
+				return basicSetEDataGraph((DataGraph)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+		/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH:
+				return basicSetEDataGraph(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+		static protected boolean isContainmentReference(Object feature)
   {
     return feature instanceof EReference && ((EReference) feature).isContainment();
   }  

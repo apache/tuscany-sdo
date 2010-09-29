@@ -23,10 +23,12 @@ import org.apache.tuscany.sdo.AnyTypeDataObject;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.util.BasicSequence;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.util.BasicFeatureMap;
 import org.eclipse.emf.ecore.util.FeatureMap;
+import org.eclipse.emf.ecore.util.FeatureMapUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
 import org.eclipse.emf.ecore.xml.type.AnyType;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
@@ -49,44 +51,44 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 public class AnyTypeDataObjectImpl extends DataObjectImpl implements AnyTypeDataObject
 {
   /**
-   * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getMixed() <em>Mixed</em>}' attribute list.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getMixed()
-   * @generated
-   * @ordered
-   */
-  protected FeatureMap mixed = null;
+	 * @see #getMixed()
+	 * @generated
+	 * @ordered
+	 */
+  protected FeatureMap mixed;
 
   /**
-   * The cached value of the '{@link #getAnyAttribute() <em>Any Attribute</em>}' attribute list.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getAnyAttribute() <em>Any Attribute</em>}' attribute list.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getAnyAttribute()
-   * @generated
-   * @ordered
-   */
-  protected FeatureMap anyAttribute = null;
+	 * @see #getAnyAttribute()
+	 * @generated
+	 * @ordered
+	 */
+  protected FeatureMap anyAttribute;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected AnyTypeDataObjectImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected EClass eStaticClass()
   {
-    return SDOPackage.eINSTANCE.getAnyTypeDataObject();
-  }
+		return SDOPackage.Literals.ANY_TYPE_DATA_OBJECT;
+	}
 
   /**
    * <!-- begin-user-doc -->
@@ -111,8 +113,8 @@ public class AnyTypeDataObjectImpl extends DataObjectImpl implements AnyTypeData
   public FeatureMap getAny()
   {
     //return (FeatureMap)((FeatureMap)getMixed()).list(XMLTypePackage.eINSTANCE.getAnyType_Any());
-    return new BasicSequence((FeatureMap.Internal)((FeatureMap)getMixed()).list(XMLTypePackage.eINSTANCE.getAnyType_Any())).featureMap();
-  }
+    return new BasicSequence((FeatureMap.Internal)(EList<?>)((FeatureMap)getMixed()).list(XMLTypePackage.eINSTANCE.getAnyType_Any())).featureMap();
+    }
 
   /**
    * <!-- begin-user-doc -->
@@ -130,170 +132,155 @@ public class AnyTypeDataObjectImpl extends DataObjectImpl implements AnyTypeData
   }
 
   /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED:
-          return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
-        case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY:
-          return ((InternalEList)getAny()).basicRemove(otherEnd, msgs);
-        case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
-          return ((InternalEList)getAnyAttribute()).basicRemove(otherEnd, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED:
+				return ((InternalEList)getMixed()).basicRemove(otherEnd, msgs);
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY:
+				return ((InternalEList)getAny()).basicRemove(otherEnd, msgs);
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
+				return ((InternalEList)getAnyAttribute()).basicRemove(otherEnd, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
 
-  /**
-   * <!-- begin-user-doc -->
+		/**
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED:
-        if (coreType) return getMixed();
-        return ((FeatureMap.Internal)getMixed()).getWrapper();
-      case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY:
-        if (coreType) return getAny();
-        return ((FeatureMap.Internal)getAny()).getWrapper();
-      case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
-        if (coreType) return getAnyAttribute();
-        return ((FeatureMap.Internal)getAnyAttribute()).getWrapper();
-    }
-    return eDynamicGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED:
+				if (coreType) return getMixed();
+				return ((FeatureMap.Internal)getMixed()).getWrapper();
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY:
+				if (coreType) return getAny();
+				return ((FeatureMap.Internal)getAny()).getWrapper();
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
+				if (coreType) return getAnyAttribute();
+				return ((FeatureMap.Internal)getAnyAttribute()).getWrapper();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED:
-        ((FeatureMap.Internal)getMixed()).set(newValue);
-        return;
-      case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY:
-        ((FeatureMap.Internal)getAny()).set(newValue);
-        return;
-      case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
-        ((FeatureMap.Internal)getAnyAttribute()).set(newValue);
-        return;
-    }
-    eDynamicSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED:
+				((FeatureMap.Internal)getMixed()).set(newValue);
+				return;
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY:
+				((FeatureMap.Internal)getAny()).set(newValue);
+				return;
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
+				((FeatureMap.Internal)getAnyAttribute()).set(newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED:
-        getMixed().clear();
-        return;
-      case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY:
-        getAny().clear();
-        return;
-      case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
-        getAnyAttribute().clear();
-        return;
-    }
-    eDynamicUnset(featureID);
-  }
+		switch (featureID) {
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED:
+				getMixed().clear();
+				return;
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY:
+				getAny().clear();
+				return;
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
+				getAnyAttribute().clear();
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED:
-        return mixed != null && !mixed.isEmpty();
-      case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY:
-        return !getAny().isEmpty();
-      case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
-        return anyAttribute != null && !anyAttribute.isEmpty();
-    }
-    return eDynamicIsSet(featureID);
-  }
+		switch (featureID) {
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED:
+				return mixed != null && !mixed.isEmpty();
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY:
+				return !getAny().isEmpty();
+			case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
+				return anyAttribute != null && !anyAttribute.isEmpty();
+		}
+		return super.eIsSet(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass)
   {
-    if (baseClass == AnyType.class)
-    {
-      switch (derivedFeatureID)
-      {
-        case SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED: return XMLTypePackage.ANY_TYPE__MIXED;
-        case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY: return XMLTypePackage.ANY_TYPE__ANY;
-        case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE: return XMLTypePackage.ANY_TYPE__ANY_ATTRIBUTE;
-        default: return -1;
-      }
-    }
-    return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-  }
+		if (baseClass == AnyType.class) {
+			switch (derivedFeatureID) {
+				case SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED: return XMLTypePackage.ANY_TYPE__MIXED;
+				case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY: return XMLTypePackage.ANY_TYPE__ANY;
+				case SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE: return XMLTypePackage.ANY_TYPE__ANY_ATTRIBUTE;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass)
   {
-    if (baseClass == AnyType.class)
-    {
-      switch (baseFeatureID)
-      {
-        case XMLTypePackage.ANY_TYPE__MIXED: return SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED;
-        case XMLTypePackage.ANY_TYPE__ANY: return SDOPackage.ANY_TYPE_DATA_OBJECT__ANY;
-        case XMLTypePackage.ANY_TYPE__ANY_ATTRIBUTE: return SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE;
-        default: return -1;
-      }
-    }
-    return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-  }
+		if (baseClass == AnyType.class) {
+			switch (baseFeatureID) {
+				case XMLTypePackage.ANY_TYPE__MIXED: return SDOPackage.ANY_TYPE_DATA_OBJECT__MIXED;
+				case XMLTypePackage.ANY_TYPE__ANY: return SDOPackage.ANY_TYPE_DATA_OBJECT__ANY;
+				case XMLTypePackage.ANY_TYPE__ANY_ATTRIBUTE: return SDOPackage.ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (mixed: ");
-    result.append(mixed);
-    result.append(", anyAttribute: ");
-    result.append(anyAttribute);
-    result.append(')');
-    return result.toString();
-  }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (mixed: ");
+		result.append(mixed);
+		result.append(", anyAttribute: ");
+		result.append(anyAttribute);
+		result.append(')');
+		return result.toString();
+	}
 
 } //EDataObjectAnyTypeImpl

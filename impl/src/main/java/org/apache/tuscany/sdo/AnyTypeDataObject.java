@@ -30,7 +30,8 @@ import org.eclipse.emf.ecore.xml.type.AnyType;
  *
  *
  * @see org.apache.tuscany.sdo.SDOPackage#getAnyTypeDataObject()
- * @model extendedMetaData="kind='mixed'"
+ * @model superTypes="org.apache.tuscany.sdo.DataObject org.eclipse.emf.ecore.xml.type.AnyType"
+ *        extendedMetaData="kind='mixed'"
  * @generated
  */
 public interface AnyTypeDataObject extends DataObject, AnyType {

@@ -47,6 +47,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceFactoryImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.ExtendedMetaData;
+import org.eclipse.emf.ecore.util.FeatureMap;
 import org.eclipse.emf.ecore.xmi.EcoreBuilder;
 import org.eclipse.emf.ecore.xmi.NameInfo;
 import org.eclipse.emf.ecore.xmi.XMLHelper;
@@ -583,8 +584,8 @@ public class DataGraphResourceFactoryImpl extends ResourceFactoryImpl
                     Object object = objects.pop();
                     mixedTargets.pop();
                     objects.pop();
-                    mixedTargets.push(mixedTarget);
-                    objects.push(object);
+                    mixedTargets.push((FeatureMap) mixedTarget);
+                    objects.push((EObject) object);
                   }
                 }
               }

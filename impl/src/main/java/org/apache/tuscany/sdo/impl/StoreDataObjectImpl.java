@@ -302,13 +302,13 @@ public class StoreDataObjectImpl extends DataObjectImpl implements DataObject, E
   }
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected EClass eStaticClass()
   {
-    return SDOPackage.eINSTANCE.getStoreDataObject();
-  }
+		return SDOPackage.Literals.STORE_DATA_OBJECT;
+	}
 
 } //StoreDataObjectImpl

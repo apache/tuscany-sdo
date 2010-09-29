@@ -31,6 +31,7 @@ import org.eclipse.emf.ecore.impl.EEnumImpl;
 
 import commonj.sdo.Property;
 import commonj.sdo.Type;
+import java.lang.Class;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,19 +41,18 @@ import commonj.sdo.Type;
  * </p>
  *
  * @generated
- * @deprecated SDO doesn't support Enum types
  */
 public class EnumImpl extends EEnumImpl implements Type
 {
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected EnumImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
    * <!-- begin-user-doc -->
@@ -75,6 +75,17 @@ public class EnumImpl extends EEnumImpl implements Type
   }
 
   /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Class getInstanceClass() {
+		// TODO: implement this method
+		// Ensure that you remove @generated or mark it @generated NOT
+		throw new UnsupportedOperationException();
+	}
+
+		/**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT

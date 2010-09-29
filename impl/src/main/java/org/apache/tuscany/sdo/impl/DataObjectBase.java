@@ -28,6 +28,7 @@ import org.apache.tuscany.sdo.util.BasicSequence;
 import org.apache.tuscany.sdo.util.DataObjectUtil;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -274,7 +275,7 @@ public abstract class DataObjectBase extends ExtensibleDataObjectImpl
   }
   
   protected Sequence createSequence(Sequence sequence, Type type, int propertyIndex) {
-    return new BasicSequence((FeatureMap.Internal)((FeatureMap.Internal.Wrapper)sequence).featureMap().list(((EClass)type).getEStructuralFeature(propertyIndex)));
+    return new BasicSequence((FeatureMap.Internal)(EList<?>)((FeatureMap.Internal.Wrapper)sequence).featureMap().list(((EClass)type).getEStructuralFeature(propertyIndex)));
   }
   
   protected void createChangeSummary(int property) {

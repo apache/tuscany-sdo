@@ -34,59 +34,67 @@ import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xml.type.internal.QName;
 
 /**
- * StAX Deserializer. The instance isn't thread-safe, however it's safe to use the instance any times on the same thread.
+ * StAX Deserializer. The instance isn't thread-safe, however it's safe to use
+ * the instance any times on the same thread.
  */
 public class StreamDeserializer implements XMLStreamConstants {
-    protected XMLStreamReader reader;
+	protected XMLStreamReader reader;
 
-    protected final XMLStreamReader play(RecordedEventXMLStreamReader.Tag tag) {
-        return tag.play(reader);
-    }
+	protected final XMLStreamReader play(RecordedEventXMLStreamReader.Tag tag) {
+		return tag.play(reader);
+	}
 
-    protected String nameSpace, name;
+	protected String nameSpace, name;
 
-    protected final boolean typedXSI() {
-        name = reader.getAttributeValue(ExtendedMetaData.XSI_URI, XMLResource.TYPE);
-        if (name == null)
-            return false;
-        int index = name.indexOf(':');
-        if (index == -1)
-            nameSpace = reader.getNamespaceURI(XMLConstants.DEFAULT_NS_PREFIX); // may be XMLConstants.NULL_NS_URI
-        else {
-            nameSpace = reader.getNamespaceURI(name.substring(0, index));
-            name = name.substring(++index);
-        }
-        return true;
-    }
+	protected final boolean typedXSI() {
+		name = reader.getAttributeValue(ExtendedMetaData.XSI_URI,
+				XMLResource.TYPE);
+		if (name == null)
+			return false;
+		int index = name.indexOf(':');
+		if (index == -1)
+			nameSpace = reader.getNamespaceURI(XMLConstants.DEFAULT_NS_PREFIX); // may
+		// be
+		// XMLConstants.NULL_NS_URI
+		else {
+			nameSpace = reader.getNamespaceURI(name.substring(0, index));
+			name = name.substring(++index);
+		}
+		return true;
+	}
 
-    static protected Object value(Object type, String literal, NamespaceContext nameSpaces) {
-        Object value = EcoreUtil.createFromString((EDataType) type, literal);
-        if (!(value instanceof QName))
-            return value;
-        QName qName = (QName) value;
-        qName.setNamespaceURI(nameSpaces.getNamespaceURI(qName.getPrefix()));
-        return value;
-    }
+	static protected Object value(Object type, String literal,
+			NamespaceContext nameSpaces) {
+		Object value = EcoreUtil.createFromString((EDataType) type, literal);
+		if (!(value instanceof QName))
+			return value;
+		QName qName = (QName) value;
+		// qName.setNamespaceURI(nameSpaces.getNamespaceURI(qName.getPrefix()));
+		throw new UnsupportedOperationException(
+				"not setting neamespace uri on qname!!!! - " + qName + " - "
+						+ qName.getNamespaceURI() + " - " + qName.getPrefix());
+		// return value;
+	}
 
-    static public class Attribute {
-        public String name, value;
-    }
+	static public class Attribute {
+		public String name, value;
+	}
 
-    static public final class QualifiedAttribute extends Attribute {
-        public String nameSpace;
-    }
+	static public final class QualifiedAttribute extends Attribute {
+		public String nameSpace;
+	}
 
-    static protected final Comparator EQUAL_NULL = new Comparator() {
-        public int compare(Object v, Object NULL) {
-            return v == null || v.equals(null) ? 0 : 1;
-        }
-    }, EQUAL = new Comparator() {
-        public int compare(Object v, Object value) {
-            return value.equals(v) ? 0 : -1;
-        }
-    }, SAME = new Comparator() {
-        public int compare(Object v, Object value) {
-            return value == v ? 0 : -1;
-        }
-    };
+	static protected final Comparator EQUAL_NULL = new Comparator() {
+		public int compare(Object v, Object NULL) {
+			return v == null || v.equals(null) ? 0 : 1;
+		}
+	}, EQUAL = new Comparator() {
+		public int compare(Object v, Object value) {
+			return value.equals(v) ? 0 : -1;
+		}
+	}, SAME = new Comparator() {
+		public int compare(Object v, Object value) {
+			return value == v ? 0 : -1;
+		}
+	};
 }

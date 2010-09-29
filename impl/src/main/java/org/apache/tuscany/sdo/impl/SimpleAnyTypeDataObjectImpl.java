@@ -50,54 +50,54 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 public class SimpleAnyTypeDataObjectImpl extends AnyTypeDataObjectImpl implements SimpleAnyTypeDataObject
 {
   /**
-   * The default value of the '{@link #getRawValue() <em>Raw Value</em>}' attribute.
-   * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getRawValue() <em>Raw Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getRawValue()
-   * @generated
-   * @ordered
-   */
+	 * @see #getRawValue()
+	 * @generated
+	 * @ordered
+	 */
   protected static final String RAW_VALUE_EDEFAULT = null;
 
   /**
-   * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-   * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getValue()
-   * @generated
-   * @ordered
-   */
+	 * @see #getValue()
+	 * @generated
+	 * @ordered
+	 */
   protected static final Object VALUE_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getInstanceType() <em>Instance Type</em>}' reference.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getInstanceType() <em>Instance Type</em>}' reference.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getInstanceType()
-   * @generated
-   * @ordered
-   */
-  protected EDataType instanceType = null;
+	 * @see #getInstanceType()
+	 * @generated
+	 * @ordered
+	 */
+  protected EDataType instanceType;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected SimpleAnyTypeDataObjectImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected EClass eStaticClass()
   {
-    return SDOPackage.eINSTANCE.getSimpleAnyTypeDataObject();
-  }
+		return SDOPackage.Literals.SIMPLE_ANY_TYPE_DATA_OBJECT;
+	}
 
   /**
    * <!-- begin-user-doc -->
@@ -153,181 +153,140 @@ public class SimpleAnyTypeDataObjectImpl extends AnyTypeDataObjectImpl implement
   }
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public EDataType getInstanceType()
   {
-    return instanceType;
-  }
+		return instanceType;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setInstanceType(EDataType newInstanceType)
   {
-    EDataType oldInstanceType = instanceType;
-    instanceType = newInstanceType;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE, oldInstanceType, instanceType));
-  }
+		EDataType oldInstanceType = instanceType;
+		instanceType = newInstanceType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE, oldInstanceType, instanceType));
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__MIXED:
-        if (coreType) return getMixed();
-        return ((FeatureMap.Internal)getMixed()).getWrapper();
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__ANY:
-        if (coreType) return getAny();
-        return ((FeatureMap.Internal)getAny()).getWrapper();
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
-        if (coreType) return getAnyAttribute();
-        return ((FeatureMap.Internal)getAnyAttribute()).getWrapper();
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__RAW_VALUE:
-        return getRawValue();
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__VALUE:
-        return getValue();
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE:
-        return getInstanceType();
-    }
-    return eDynamicGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__RAW_VALUE:
+				return getRawValue();
+			case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__VALUE:
+				return getValue();
+			case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE:
+				return getInstanceType();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__MIXED:
-        ((FeatureMap.Internal)getMixed()).set(newValue);
-        return;
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__ANY:
-        ((FeatureMap.Internal)getAny()).set(newValue);
-        return;
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
-        ((FeatureMap.Internal)getAnyAttribute()).set(newValue);
-        return;
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__RAW_VALUE:
-        setRawValue((String)newValue);
-        return;
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__VALUE:
-        setValue((Object)newValue);
-        return;
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE:
-        setInstanceType((EDataType)newValue);
-        return;
-    }
-    eDynamicSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__RAW_VALUE:
+				setRawValue((String)newValue);
+				return;
+			case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__VALUE:
+				setValue(newValue);
+				return;
+			case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE:
+				setInstanceType((EDataType)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__MIXED:
-        getMixed().clear();
-        return;
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__ANY:
-        getAny().clear();
-        return;
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
-        getAnyAttribute().clear();
-        return;
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__RAW_VALUE:
-        setRawValue(RAW_VALUE_EDEFAULT);
-        return;
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__VALUE:
-        setValue(VALUE_EDEFAULT);
-        return;
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE:
-        setInstanceType((EDataType)null);
-        return;
-    }
-    eDynamicUnset(featureID);
-  }
+		switch (featureID) {
+			case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__RAW_VALUE:
+				setRawValue(RAW_VALUE_EDEFAULT);
+				return;
+			case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__VALUE:
+				setValue(VALUE_EDEFAULT);
+				return;
+			case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE:
+				setInstanceType((EDataType)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__MIXED:
-        return mixed != null && !mixed.isEmpty();
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__ANY:
-        return !getAny().isEmpty();
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__ANY_ATTRIBUTE:
-        return anyAttribute != null && !anyAttribute.isEmpty();
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__RAW_VALUE:
-        return RAW_VALUE_EDEFAULT == null ? getRawValue() != null : !RAW_VALUE_EDEFAULT.equals(getRawValue());
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__VALUE:
-        return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE:
-        return instanceType != null;
-    }
-    return eDynamicIsSet(featureID);
-  }
+		switch (featureID) {
+			case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__RAW_VALUE:
+				return RAW_VALUE_EDEFAULT == null ? getRawValue() != null : !RAW_VALUE_EDEFAULT.equals(getRawValue());
+			case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__VALUE:
+				return VALUE_EDEFAULT == null ? getValue() != null : !VALUE_EDEFAULT.equals(getValue());
+			case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE:
+				return instanceType != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public int eBaseStructuralFeatureID(int derivedFeatureID, Class baseClass)
   {
-    if (baseClass == SimpleAnyType.class)
-    {
-      switch (derivedFeatureID)
-      {
-        case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__RAW_VALUE: return XMLTypePackage.SIMPLE_ANY_TYPE__RAW_VALUE;
-        case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__VALUE: return XMLTypePackage.SIMPLE_ANY_TYPE__VALUE;
-        case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE: return XMLTypePackage.SIMPLE_ANY_TYPE__INSTANCE_TYPE;
-        default: return -1;
-      }
-    }
-    return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
-  }
+		if (baseClass == SimpleAnyType.class) {
+			switch (derivedFeatureID) {
+				case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__RAW_VALUE: return XMLTypePackage.SIMPLE_ANY_TYPE__RAW_VALUE;
+				case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__VALUE: return XMLTypePackage.SIMPLE_ANY_TYPE__VALUE;
+				case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE: return XMLTypePackage.SIMPLE_ANY_TYPE__INSTANCE_TYPE;
+				default: return -1;
+			}
+		}
+		return super.eBaseStructuralFeatureID(derivedFeatureID, baseClass);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public int eDerivedStructuralFeatureID(int baseFeatureID, Class baseClass)
   {
-    if (baseClass == SimpleAnyType.class)
-    {
-      switch (baseFeatureID)
-      {
-        case XMLTypePackage.SIMPLE_ANY_TYPE__RAW_VALUE: return SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__RAW_VALUE;
-        case XMLTypePackage.SIMPLE_ANY_TYPE__VALUE: return SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__VALUE;
-        case XMLTypePackage.SIMPLE_ANY_TYPE__INSTANCE_TYPE: return SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE;
-        default: return -1;
-      }
-    }
-    return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
-  }
+		if (baseClass == SimpleAnyType.class) {
+			switch (baseFeatureID) {
+				case XMLTypePackage.SIMPLE_ANY_TYPE__RAW_VALUE: return SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__RAW_VALUE;
+				case XMLTypePackage.SIMPLE_ANY_TYPE__VALUE: return SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__VALUE;
+				case XMLTypePackage.SIMPLE_ANY_TYPE__INSTANCE_TYPE: return SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT__INSTANCE_TYPE;
+				default: return -1;
+			}
+		}
+		return super.eDerivedStructuralFeatureID(baseFeatureID, baseClass);
+	}
 
 } //EDataObjectSimpleAnyTypeImpl

@@ -51,17 +51,17 @@ import commonj.sdo.Type;
  *
  * @generated
  */
-public class AttributeImpl extends EAttributeImpl implements Property, org.apache.tuscany.sdo.model.Property/*, DataObject*/
+public class AttributeImpl extends EAttributeImpl implements Property
 {
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected AttributeImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
    * <!-- begin-user-doc -->

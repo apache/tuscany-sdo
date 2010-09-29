@@ -47,14 +47,14 @@ public class ExtensibleDataObjectImpl extends DataObjectImpl implements DataObje
   protected static final Object [] ENO_SETTINGS = new Object [0];
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected ExtensibleDataObjectImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
    * Creates an extensible DataObject.
@@ -73,14 +73,14 @@ public class ExtensibleDataObjectImpl extends DataObjectImpl implements DataObje
   }
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected EClass eStaticClass()
   {
-    return SDOPackage.eINSTANCE.getExtensibleDataObject();
-  }
+		return SDOPackage.Literals.EXTENSIBLE_DATA_OBJECT;
+	}
 
   public int eDerivedStructuralFeatureID(EStructuralFeature eStructuralFeature)
   {

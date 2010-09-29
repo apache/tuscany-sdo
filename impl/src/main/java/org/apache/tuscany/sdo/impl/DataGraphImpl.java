@@ -80,54 +80,54 @@ import commonj.sdo.helper.TypeHelper;
 public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Serializable
 {
   /**
-   * The default value of the '{@link #getResourceSet() <em>Resource Set</em>}' attribute.
-   * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getResourceSet() <em>Resource Set</em>}' attribute.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getResourceSet()
-   * @generated
-   * @ordered
-   */
+	 * @see #getResourceSet()
+	 * @generated
+	 * @ordered
+	 */
   protected static final ResourceSet RESOURCE_SET_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getResourceSet() <em>Resource Set</em>}' attribute.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getResourceSet() <em>Resource Set</em>}' attribute.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getResourceSet()
-   * @generated
-   * @ordered
-   */
+	 * @see #getResourceSet()
+	 * @generated
+	 * @ordered
+	 */
   protected ResourceSet resourceSet = RESOURCE_SET_EDEFAULT;
 
   /**
-   * The default value of the '{@link #getRootResource() <em>Root Resource</em>}' attribute.
-   * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getRootResource() <em>Root Resource</em>}' attribute.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getRootResource()
-   * @generated
-   * @ordered
-   */
+	 * @see #getRootResource()
+	 * @generated
+	 * @ordered
+	 */
   protected static final Resource ROOT_RESOURCE_EDEFAULT = null;
 
   /**
-   * The cached value of the '{@link #getEChangeSummary() <em>EChange Summary</em>}' reference.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getEChangeSummary() <em>EChange Summary</em>}' reference.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getEChangeSummary()
-   * @generated
-   * @ordered
-   */
-  protected ChangeSummary eChangeSummary = null;
+	 * @see #getEChangeSummary()
+	 * @generated
+	 * @ordered
+	 */
+  protected ChangeSummary eChangeSummary;
 
   /**
-   * The cached value of the '{@link #getERootObject() <em>ERoot Object</em>}' reference.
-   * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getERootObject() <em>ERoot Object</em>}' reference.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getERootObject()
-   * @generated
-   * @ordered
-   */
-  protected EObject eRootObject = null;
+	 * @see #getERootObject()
+	 * @generated
+	 * @ordered
+	 */
+  protected EObject eRootObject;
 
   /**
    * The cached extended metadata to wrap the resource set's package registry.
@@ -135,24 +135,24 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
   protected ExtendedMetaData extendedMetaData;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected DataGraphImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected EClass eStaticClass()
   {
-    return SDOPackage.eINSTANCE.getDataGraph();
-  }
+		return SDOPackage.Literals.DATA_GRAPH;
+	}
 
   public boolean isAdapterForType(Object type)
   {
@@ -236,17 +236,17 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
   }
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setResourceSetGen(ResourceSet newResourceSet)
   {
-    ResourceSet oldResourceSet = resourceSet;
-    resourceSet = newResourceSet;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.DATA_GRAPH__RESOURCE_SET, oldResourceSet, resourceSet));
-  }
+		ResourceSet oldResourceSet = resourceSet;
+		resourceSet = newResourceSet;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.DATA_GRAPH__RESOURCE_SET, oldResourceSet, resourceSet));
+	}
 
   public void setResourceSet(ResourceSet newResourceSet)
   {
@@ -293,75 +293,73 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
   }
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public ChangeSummary getEChangeSummary()
   {
-    return eChangeSummary;
-  }
+		return eChangeSummary;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public NotificationChain basicSetEChangeSummary(ChangeSummary newEChangeSummary, NotificationChain msgs)
   {
-    ChangeSummary oldEChangeSummary = eChangeSummary;
-    eChangeSummary = newEChangeSummary;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY, oldEChangeSummary, newEChangeSummary);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
+		ChangeSummary oldEChangeSummary = eChangeSummary;
+		eChangeSummary = newEChangeSummary;
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY, oldEChangeSummary, newEChangeSummary);
+			if (msgs == null) msgs = notification; else msgs.add(notification);
+		}
+		return msgs;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setEChangeSummary(ChangeSummary newEChangeSummary)
   {
-    if (newEChangeSummary != eChangeSummary)
-    {
-      NotificationChain msgs = null;
-      if (eChangeSummary != null)
-        msgs = ((InternalEObject)eChangeSummary).eInverseRemove(this, SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH, ChangeSummary.class, msgs);
-      if (newEChangeSummary != null)
-        msgs = ((InternalEObject)newEChangeSummary).eInverseAdd(this, SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH, ChangeSummary.class, msgs);
-      msgs = basicSetEChangeSummary(newEChangeSummary, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY, newEChangeSummary, newEChangeSummary));
-  }
+		if (newEChangeSummary != eChangeSummary) {
+			NotificationChain msgs = null;
+			if (eChangeSummary != null)
+				msgs = ((InternalEObject)eChangeSummary).eInverseRemove(this, SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH, ChangeSummary.class, msgs);
+			if (newEChangeSummary != null)
+				msgs = ((InternalEObject)newEChangeSummary).eInverseAdd(this, SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH, ChangeSummary.class, msgs);
+			msgs = basicSetEChangeSummary(newEChangeSummary, msgs);
+			if (msgs != null) msgs.dispatch();
+		}
+		else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY, newEChangeSummary, newEChangeSummary));
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public EObject getERootObject()
   {
-    return eRootObject;
-  }
+		return eRootObject;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void setERootObjectGen(EObject newERootObject)
   {
-    EObject oldERootObject = eRootObject;
-    eRootObject = newERootObject;
-    if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.DATA_GRAPH__EROOT_OBJECT, oldERootObject, eRootObject));
-  }
+		EObject oldERootObject = eRootObject;
+		eRootObject = newERootObject;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SDOPackage.DATA_GRAPH__EROOT_OBJECT, oldERootObject, eRootObject));
+	}
 
   public void setERootObject(EObject newERootObject)
   {
@@ -453,134 +451,86 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
   }
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY:
-          if (eChangeSummary != null)
-            msgs = ((InternalEObject)eChangeSummary).eInverseRemove(this, SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH, ChangeSummary.class, msgs);
-          return basicSetEChangeSummary((ChangeSummary)otherEnd, msgs);
-        default:
-          return eDynamicInverseAdd(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    if (eInternalContainer() != null)
-      msgs = eBasicRemoveFromContainer(msgs);
-    return eBasicSetContainer(otherEnd, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, Class baseClass, NotificationChain msgs)
-  {
-    if (featureID >= 0)
-    {
-      switch (eDerivedStructuralFeatureID(featureID, baseClass))
-      {
-        case SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY:
-          return basicSetEChangeSummary(null, msgs);
-        default:
-          return eDynamicInverseRemove(otherEnd, featureID, baseClass, msgs);
-      }
-    }
-    return eBasicSetContainer(null, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
-    switch (featureID)
-    {
-      case SDOPackage.DATA_GRAPH__RESOURCE_SET:
-        return getResourceSet();
-      case SDOPackage.DATA_GRAPH__ROOT_RESOURCE:
-        return getRootResource();
-      case SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY:
-        return getEChangeSummary();
-      case SDOPackage.DATA_GRAPH__EROOT_OBJECT:
-        return getERootObject();
-    }
-    return eDynamicGet(featureID, resolve, coreType);
-  }
+		switch (featureID) {
+			case SDOPackage.DATA_GRAPH__RESOURCE_SET:
+				return getResourceSet();
+			case SDOPackage.DATA_GRAPH__ROOT_RESOURCE:
+				return getRootResource();
+			case SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY:
+				return getEChangeSummary();
+			case SDOPackage.DATA_GRAPH__EROOT_OBJECT:
+				return getERootObject();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void eSet(int featureID, Object newValue)
   {
-    switch (featureID)
-    {
-      case SDOPackage.DATA_GRAPH__RESOURCE_SET:
-        setResourceSet((ResourceSet)newValue);
-        return;
-      case SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY:
-        setEChangeSummary((ChangeSummary)newValue);
-        return;
-      case SDOPackage.DATA_GRAPH__EROOT_OBJECT:
-        setERootObject((EObject)newValue);
-        return;
-    }
-    eDynamicSet(featureID, newValue);
-  }
+		switch (featureID) {
+			case SDOPackage.DATA_GRAPH__RESOURCE_SET:
+				setResourceSet((ResourceSet)newValue);
+				return;
+			case SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY:
+				setEChangeSummary((ChangeSummary)newValue);
+				return;
+			case SDOPackage.DATA_GRAPH__EROOT_OBJECT:
+				setERootObject((EObject)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public void eUnset(int featureID)
   {
-    switch (featureID)
-    {
-      case SDOPackage.DATA_GRAPH__RESOURCE_SET:
-        setResourceSet(RESOURCE_SET_EDEFAULT);
-        return;
-      case SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY:
-        setEChangeSummary((ChangeSummary)null);
-        return;
-      case SDOPackage.DATA_GRAPH__EROOT_OBJECT:
-        setERootObject((EObject)null);
-        return;
-    }
-    eDynamicUnset(featureID);
-  }
+		switch (featureID) {
+			case SDOPackage.DATA_GRAPH__RESOURCE_SET:
+				setResourceSet(RESOURCE_SET_EDEFAULT);
+				return;
+			case SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY:
+				setEChangeSummary((ChangeSummary)null);
+				return;
+			case SDOPackage.DATA_GRAPH__EROOT_OBJECT:
+				setERootObject((EObject)null);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public boolean eIsSet(int featureID)
   {
-    switch (featureID)
-    {
-      case SDOPackage.DATA_GRAPH__RESOURCE_SET:
-        return RESOURCE_SET_EDEFAULT == null ? resourceSet != null : !RESOURCE_SET_EDEFAULT.equals(resourceSet);
-      case SDOPackage.DATA_GRAPH__ROOT_RESOURCE:
-        return ROOT_RESOURCE_EDEFAULT == null ? getRootResource() != null : !ROOT_RESOURCE_EDEFAULT.equals(getRootResource());
-      case SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY:
-        return eChangeSummary != null;
-      case SDOPackage.DATA_GRAPH__EROOT_OBJECT:
-        return eRootObject != null;
-    }
-    return eDynamicIsSet(featureID);
-  }
+		switch (featureID) {
+			case SDOPackage.DATA_GRAPH__RESOURCE_SET:
+				return RESOURCE_SET_EDEFAULT == null ? resourceSet != null : !RESOURCE_SET_EDEFAULT.equals(resourceSet);
+			case SDOPackage.DATA_GRAPH__ROOT_RESOURCE:
+				return ROOT_RESOURCE_EDEFAULT == null ? getRootResource() != null : !ROOT_RESOURCE_EDEFAULT.equals(getRootResource());
+			case SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY:
+				return eChangeSummary != null;
+			case SDOPackage.DATA_GRAPH__EROOT_OBJECT:
+				return eRootObject != null;
+		}
+		return super.eIsSet(featureID);
+	}
 
   public DataObject createEDataObject(Type type)
   {
@@ -638,13 +588,41 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
     if (((ChangeSummaryImpl)changeSummary).eResource() == null)
     {
       Resource changeSummaryResource = createChangeSummaryResource();
-      changeSummaryResource.getContents().add(changeSummary);
+      changeSummaryResource.getContents().add((EObject) changeSummary);
     }
 
     return changeSummary;
   }
 
-  protected ChangeSummaryImpl createEChangeSummary()
+  /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY:
+				if (eChangeSummary != null)
+					msgs = ((InternalEObject)eChangeSummary).eInverseRemove(this, SDOPackage.CHANGE_SUMMARY__EDATA_GRAPH, ChangeSummary.class, msgs);
+				return basicSetEChangeSummary((ChangeSummary)otherEnd, msgs);
+		}
+		return super.eInverseAdd(otherEnd, featureID, msgs);
+	}
+
+		/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+			case SDOPackage.DATA_GRAPH__ECHANGE_SUMMARY:
+				return basicSetEChangeSummary(null, msgs);
+		}
+		return super.eInverseRemove(otherEnd, featureID, msgs);
+	}
+
+		protected ChangeSummaryImpl createEChangeSummary()
   {
     return (ChangeSummaryImpl)SDOFactory.eINSTANCE.createChangeSummary();
   }
@@ -834,19 +812,19 @@ public class DataGraphImpl extends EObjectImpl implements DataGraph, Adapter, Se
   }
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public String toString()
   {
-    if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-    StringBuffer result = new StringBuffer(super.toString());
-    result.append(" (resourceSet: ");
-    result.append(resourceSet);
-    result.append(')');
-    return result.toString();
-  }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (resourceSet: ");
+		result.append(resourceSet);
+		result.append(')');
+		return result.toString();
+	}
 
 } //EDataGraphImpl

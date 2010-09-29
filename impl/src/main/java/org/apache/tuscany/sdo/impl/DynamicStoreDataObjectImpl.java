@@ -39,14 +39,14 @@ public class DynamicStoreDataObjectImpl extends StoreDataObjectImpl implements D
   protected EClass eClass;
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected DynamicStoreDataObjectImpl()
   {
-    super();
-  }
+		super();
+	}
 
   public DynamicStoreDataObjectImpl(InternalEObject.EStore eStore)
   {
@@ -64,14 +64,14 @@ public class DynamicStoreDataObjectImpl extends StoreDataObjectImpl implements D
   }
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected EClass eStaticClass()
   {
-    return SDOPackage.eINSTANCE.getDynamicStoreDataObject();
-  }
+		return SDOPackage.Literals.DYNAMIC_STORE_DATA_OBJECT;
+	}
 
   protected EClass eDynamicClass()
   {

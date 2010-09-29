@@ -42,17 +42,17 @@ import commonj.sdo.Type;
  *
  * @generated
  */
-public class ReferenceImpl extends EReferenceImpl implements Property,/* DataObject,*/ org.apache.tuscany.sdo.model.Property
+public class ReferenceImpl extends EReferenceImpl implements Property
 {
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected ReferenceImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
    * <!-- begin-user-doc -->

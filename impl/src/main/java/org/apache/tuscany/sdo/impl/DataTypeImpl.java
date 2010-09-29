@@ -32,6 +32,7 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import commonj.sdo.Property;
 import commonj.sdo.Sequence;
 import commonj.sdo.Type;
+import java.lang.Class;
 
 /**
  * <!-- begin-user-doc -->
@@ -45,14 +46,14 @@ import commonj.sdo.Type;
 public class DataTypeImpl extends EDataTypeImpl implements Type, org.apache.tuscany.sdo.model.Type/*, DataObject*/
 {
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected DataTypeImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
    * <!-- begin-user-doc -->
@@ -75,6 +76,15 @@ public class DataTypeImpl extends EDataTypeImpl implements Type, org.apache.tusc
   }
 
   /**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 */
+	public Class getInstanceClass() {
+		// TODO: verify!
+		return super.getInstanceClass();
+	}
+
+		/**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated NOT

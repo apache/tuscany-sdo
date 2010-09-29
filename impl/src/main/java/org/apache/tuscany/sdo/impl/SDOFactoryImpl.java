@@ -87,246 +87,243 @@ public class SDOFactoryImpl extends EFactoryImpl implements SDOFactory
   }
   
   /**
-   * Creates an instance of the factory.
-   * <!-- begin-user-doc -->
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public SDOFactoryImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public EObject create(EClass eClass)
   {
-    switch (eClass.getClassifierID())
-    {
-      case SDOPackage.CHANGE_SUMMARY: return (EObject)createChangeSummary();
-      case SDOPackage.CHANGE_SUMMARY_SETTING: return (EObject)createChangeSummarySetting();
-      case SDOPackage.DATA_GRAPH: return (EObject)createDataGraph();
-      case SDOPackage.ANY_TYPE_DATA_OBJECT: return createAnyTypeDataObject();
-      case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT: return createSimpleAnyTypeDataObject();
-      case SDOPackage.CLASS: return (EObject)createClass();
-      case SDOPackage.DATA_TYPE: return (EObject)createDataType();
-      case SDOPackage.ATTRIBUTE: return (EObject)createAttribute();
-      case SDOPackage.REFERENCE: return (EObject)createReference();
-      case SDOPackage.ENUM: return (EObject)createEnum();
-      case SDOPackage.DYNAMIC_DATA_OBJECT: return (EObject)createDynamicDataObject();
-      case SDOPackage.STORE_DATA_OBJECT: return (EObject)createStoreDataObject();
-      case SDOPackage.DYNAMIC_STORE_DATA_OBJECT: return (EObject)createDynamicStoreDataObject();
-      case SDOPackage.EXTENSIBLE_DATA_OBJECT: return (EObject)createExtensibleDataObject();
-      default:
-        throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-    }
-  }
+		switch (eClass.getClassifierID()) {
+			case SDOPackage.CHANGE_SUMMARY: return (EObject)createChangeSummary();
+			case SDOPackage.CHANGE_SUMMARY_SETTING: return (EObject)createChangeSummarySetting();
+			case SDOPackage.DATA_GRAPH: return (EObject)createDataGraph();
+			case SDOPackage.ANY_TYPE_DATA_OBJECT: return createAnyTypeDataObject();
+			case SDOPackage.SIMPLE_ANY_TYPE_DATA_OBJECT: return createSimpleAnyTypeDataObject();
+			case SDOPackage.CLASS: return (EObject)createClass();
+			case SDOPackage.DATA_TYPE: return (EObject)createDataType();
+			case SDOPackage.ATTRIBUTE: return (EObject)createAttribute();
+			case SDOPackage.REFERENCE: return (EObject)createReference();
+			case SDOPackage.ENUM: return (EObject)createEnum();
+			case SDOPackage.DYNAMIC_DATA_OBJECT: return (EObject)createDynamicDataObject();
+			case SDOPackage.STORE_DATA_OBJECT: return (EObject)createStoreDataObject();
+			case SDOPackage.DYNAMIC_STORE_DATA_OBJECT: return (EObject)createDynamicStoreDataObject();
+			case SDOPackage.EXTENSIBLE_DATA_OBJECT: return (EObject)createExtensibleDataObject();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
   
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Object createFromString(EDataType eDataType, String initialValue)
   {
-    switch (eDataType.getClassifierID())
-    {
-      default:
-        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-    }
-  }
+		switch (eDataType.getClassifierID()) {
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public String convertToString(EDataType eDataType, Object instanceValue)
   {
-    switch (eDataType.getClassifierID())
-    {
-      default:
-        throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
-    }
-  }
+		switch (eDataType.getClassifierID()) {
+			default:
+				throw new IllegalArgumentException("The datatype '" + eDataType.getName() + "' is not a valid classifier");
+		}
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public ChangeSummary createChangeSummary()
   {
-    ChangeSummaryImpl changeSummary = new ChangeSummaryImpl();
-    return changeSummary;
-  }
+		ChangeSummaryImpl changeSummary = new ChangeSummaryImpl();
+		return changeSummary;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public ChangeSummary.Setting createChangeSummarySetting()
   {
-    ChangeSummarySettingImpl changeSummarySetting = new ChangeSummarySettingImpl();
-    return changeSummarySetting;
-  }
+		ChangeSummarySettingImpl changeSummarySetting = new ChangeSummarySettingImpl();
+		return changeSummarySetting;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public DataGraph createDataGraph()
   {
-    DataGraphImpl dataGraph = new DataGraphImpl();
-    return dataGraph;
-  }
+		DataGraphImpl dataGraph = new DataGraphImpl();
+		return dataGraph;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public AnyTypeDataObject createAnyTypeDataObject()
   {
-    AnyTypeDataObjectImpl anyTypeDataObject = new AnyTypeDataObjectImpl();
-    return anyTypeDataObject;
-  }
+		AnyTypeDataObjectImpl anyTypeDataObject = new AnyTypeDataObjectImpl();
+		return anyTypeDataObject;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public SimpleAnyTypeDataObject createSimpleAnyTypeDataObject()
   {
-    SimpleAnyTypeDataObjectImpl simpleAnyTypeDataObject = new SimpleAnyTypeDataObjectImpl();
-    return simpleAnyTypeDataObject;
-  }
+		SimpleAnyTypeDataObjectImpl simpleAnyTypeDataObject = new SimpleAnyTypeDataObjectImpl();
+		return simpleAnyTypeDataObject;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Type createClass()
   {
-    ClassImpl class_ = new ClassImpl();
-    return class_;
-  }
+		ClassImpl class_ = new ClassImpl();
+		return class_;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Type createDataType()
   {
-    DataTypeImpl dataType = new DataTypeImpl();
-    return dataType;
-  }
+		DataTypeImpl dataType = new DataTypeImpl();
+		return dataType;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Property createAttribute()
   {
-    AttributeImpl attribute = new AttributeImpl();
-    return attribute;
-  }
+		AttributeImpl attribute = new AttributeImpl();
+		return attribute;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Property createReference()
   {
-    ReferenceImpl reference = new ReferenceImpl();
-    return reference;
-  }
+		ReferenceImpl reference = new ReferenceImpl();
+		return reference;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public Type createEnum()
   {
-    EnumImpl enum_ = new EnumImpl();
-    return enum_;
-  }
+		EnumImpl enum_ = new EnumImpl();
+		return enum_;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public DataObject createDynamicDataObject()
   {
-    DynamicDataObjectImpl dynamicDataObject = new DynamicDataObjectImpl();
-    return dynamicDataObject;
-  }
+		DynamicDataObjectImpl dynamicDataObject = new DynamicDataObjectImpl();
+		return dynamicDataObject;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public DataObject createStoreDataObject()
   {
-    StoreDataObjectImpl storeDataObject = new StoreDataObjectImpl();
-    return storeDataObject;
-  }
+		StoreDataObjectImpl storeDataObject = new StoreDataObjectImpl();
+		return storeDataObject;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public DataObject createDynamicStoreDataObject()
   {
-    DynamicStoreDataObjectImpl dynamicStoreDataObject = new DynamicStoreDataObjectImpl();
-    return dynamicStoreDataObject;
-  }
+		DynamicStoreDataObjectImpl dynamicStoreDataObject = new DynamicStoreDataObjectImpl();
+		return dynamicStoreDataObject;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public DataObject createExtensibleDataObject()
   {
-    ExtensibleDataObjectImpl extensibleDataObject = new ExtensibleDataObjectImpl();
-    return extensibleDataObject;
-  }
+		ExtensibleDataObjectImpl extensibleDataObject = new ExtensibleDataObjectImpl();
+		return extensibleDataObject;
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   public SDOPackage getSDOPackage()
   {
-    return (SDOPackage)getEPackage();
-  }
+		return (SDOPackage)getEPackage();
+	}
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @deprecated
-   * @generated
-   */
+	 * @deprecated
+	 * @generated
+	 */
   public static SDOPackage getPackage()
   {
-    return SDOPackage.eINSTANCE;
-  }
+		return SDOPackage.eINSTANCE;
+	}
 
   public ChangeSummary.Setting createChangeSummarySetting(EStructuralFeature eStructuralFeature, Object value, boolean isSet)
   {

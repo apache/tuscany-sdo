@@ -27,6 +27,8 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.tuscany.sdo.util.SDOUtil;
+import org.apache.tuscany.sdo.util.SDOUtil;
 import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.impl.ChangeSummaryImpl.SDOChangeRecorder;
 import org.apache.tuscany.sdo.lib.UnknownPropertyList;
@@ -79,14 +81,14 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
   protected BasicEList eAdapters;
   
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected DataObjectImpl()
   {
-    super();
-  }
+		super();
+	}
   
   /**
    * <!-- begin-user-doc -->
@@ -1350,14 +1352,14 @@ public abstract class DataObjectImpl extends BasicEObjectImpl implements DataObj
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected EClass eStaticClass()
   {
-    return SDOPackage.eINSTANCE.getDataObject();
-  }
+		return SDOPackage.Literals.DATA_OBJECT;
+	}
 
   public boolean eNotificationRequired()
   {

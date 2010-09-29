@@ -38,146 +38,146 @@ import commonj.sdo.Type;
  */
 public interface SDOFactory extends EFactory{
   /**
-   * The singleton instance of the factory.
-   * <!-- begin-user-doc -->
+	 * The singleton instance of the factory.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   SDOFactory eINSTANCE = org.apache.tuscany.sdo.impl.SDOFactoryImpl.init();
 
   /**
-   * Returns a new object of class '<em>Change Summary</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Change Summary</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Change Summary</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Change Summary</em>'.
+	 * @generated
+	 */
   ChangeSummary createChangeSummary();
 
   /**
-   * Returns a new object of class '<em>Change Summary Setting</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Change Summary Setting</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Change Summary Setting</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Change Summary Setting</em>'.
+	 * @generated
+	 */
   ChangeSummary.Setting createChangeSummarySetting();
 
   /**
-   * Returns a new object of class '<em>Data Graph</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Data Graph</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Data Graph</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Data Graph</em>'.
+	 * @generated
+	 */
   DataGraph createDataGraph();
 
   /**
-   * Returns a new object of class '<em>Any Type Data Object</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Any Type Data Object</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Any Type Data Object</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Any Type Data Object</em>'.
+	 * @generated
+	 */
   AnyTypeDataObject createAnyTypeDataObject();
 
   /**
-   * Returns a new object of class '<em>Simple Any Type Data Object</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Simple Any Type Data Object</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Simple Any Type Data Object</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Simple Any Type Data Object</em>'.
+	 * @generated
+	 */
   SimpleAnyTypeDataObject createSimpleAnyTypeDataObject();
 
   /**
-   * Returns a new object of class '<em>Class</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Class</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Class</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Class</em>'.
+	 * @generated
+	 */
   Type createClass();
 
   /**
-   * Returns a new object of class '<em>Data Type</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Data Type</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Data Type</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Data Type</em>'.
+	 * @generated
+	 */
   Type createDataType();
 
   /**
-   * Returns a new object of class '<em>Attribute</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Attribute</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Attribute</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Attribute</em>'.
+	 * @generated
+	 */
   Property createAttribute();
 
   /**
-   * Returns a new object of class '<em>Reference</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Reference</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Reference</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Reference</em>'.
+	 * @generated
+	 */
   Property createReference();
 
   /**
-   * Returns a new object of class '<em>Enum</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Enum</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Enum</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Enum</em>'.
+	 * @generated
+	 */
   Type createEnum();
 
   /**
-   * Returns a new object of class '<em>Dynamic Data Object</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Dynamic Data Object</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Dynamic Data Object</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Dynamic Data Object</em>'.
+	 * @generated
+	 */
   DataObject createDynamicDataObject();
 
   /**
-   * Returns a new object of class '<em>Store Data Object</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Store Data Object</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Store Data Object</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Store Data Object</em>'.
+	 * @generated
+	 */
   DataObject createStoreDataObject();
 
   /**
-   * Returns a new object of class '<em>Dynamic Store Data Object</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Dynamic Store Data Object</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Dynamic Store Data Object</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Dynamic Store Data Object</em>'.
+	 * @generated
+	 */
   DataObject createDynamicStoreDataObject();
 
   /**
-   * Returns a new object of class '<em>Extensible Data Object</em>'.
-   * <!-- begin-user-doc -->
+	 * Returns a new object of class '<em>Extensible Data Object</em>'.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Extensible Data Object</em>'.
-   * @generated
-   */
+	 * @return a new object of class '<em>Extensible Data Object</em>'.
+	 * @generated
+	 */
   DataObject createExtensibleDataObject();
 
   /**
-   * Returns the package supported by this factory.
-   * <!-- begin-user-doc -->
+	 * Returns the package supported by this factory.
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the package supported by this factory.
-   * @generated
-   */
+	 * @return the package supported by this factory.
+	 * @generated
+	 */
   SDOPackage getSDOPackage();
 
   ChangeSummary.Setting createChangeSummarySetting(EStructuralFeature eStructuralFeature, Object value, boolean isSet);

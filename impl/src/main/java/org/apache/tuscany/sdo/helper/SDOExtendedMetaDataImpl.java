@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.apache.tuscany.sdo.SDOExtendedMetaData;
+import org.apache.tuscany.sdo.SDOPackage;
 import org.apache.tuscany.sdo.impl.SDOFactoryImpl.SDOEcoreFactory;
 import org.apache.tuscany.sdo.model.ModelFactory;
 import org.apache.tuscany.sdo.model.impl.ModelFactoryImpl;
@@ -52,6 +53,8 @@ public class SDOExtendedMetaDataImpl
     super(registry);
     ecoreFactory = new SDOEcoreFactory();
     demandMetaData = new SDODemandMetaData();
+    
+    //demandRegistry.put("commonj.sdo", SDOPackage.eINSTANCE);
   }
 
   public static class SDODemandMetaData extends DemandMetaData {

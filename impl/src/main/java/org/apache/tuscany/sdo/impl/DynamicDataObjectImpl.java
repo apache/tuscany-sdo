@@ -47,14 +47,14 @@ public class DynamicDataObjectImpl extends DataObjectImpl implements DataObject,
   protected static final Object [] ENO_SETTINGS = new Object [0];
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected DynamicDataObjectImpl()
   {
-    super();
-  }
+		super();
+	}
 
   /**
    * Creates a dynamic DataObject.
@@ -73,14 +73,14 @@ public class DynamicDataObjectImpl extends DataObjectImpl implements DataObject,
   }
 
   /**
-   * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @generated
-   */
+	 * @generated
+	 */
   protected EClass eStaticClass()
   {
-    return SDOPackage.eINSTANCE.getDynamicDataObject();
-  }
+		return SDOPackage.Literals.DYNAMIC_DATA_OBJECT;
+	}
 
   protected int eStaticFeatureCount()
   {

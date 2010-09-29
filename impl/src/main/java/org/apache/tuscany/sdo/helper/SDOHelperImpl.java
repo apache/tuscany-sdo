@@ -329,7 +329,7 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
     }
 
     public void addBaseType(Type type, Type baseType) {
-        ((EClass)type).getESuperTypes().add(baseType);
+        ((EClass)type).getESuperTypes().add((EClass) baseType);
     }
 
     public void addAliasName(Type type, String aliasName) {
@@ -519,7 +519,7 @@ public class SDOHelperImpl extends SDOHelperBase implements SDOHelper, SDOHelper
     
     public void addChangeListener(DataObject dob, EventListener listener) {
       // Adapter l = (Adapter)listener;
-      ((Notifier)dob).eAdapters().add(listener);
+      ((Notifier)dob).eAdapters().add((Adapter) listener);
     }
     
     public void removeChangeListener(DataObject dob, EventListener listener) {

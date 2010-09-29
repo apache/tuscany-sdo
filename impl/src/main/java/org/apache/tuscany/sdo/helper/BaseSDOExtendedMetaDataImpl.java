@@ -19,6 +19,8 @@
  */
 package org.apache.tuscany.sdo.helper;
 
+import org.apache.tuscany.sdo.SDOPackage;
+import org.apache.tuscany.sdo.impl.SDOPackageImpl;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -33,135 +35,144 @@ import org.eclipse.emf.ecore.util.ExtendedMetaData;
 import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
 
 /**
- * A BasicExtendedMetaData that uses a supplied (SDO) ecore factory to create properties and types.
+ * A BasicExtendedMetaData that uses a supplied (SDO) ecore factory to create
+ * properties and types.
  */
-public class BaseSDOExtendedMetaDataImpl extends BasicExtendedMetaData
-{
-  protected EcoreFactory ecoreFactory = EcoreFactory.eINSTANCE;
-  protected DemandMetaData demandMetaData = new DemandMetaData();
-  
-  public static class DemandMetaData {
-    EClassifier getEObject() { return EcorePackage.eINSTANCE.getEObject(); }
-    EClassifier getAnyType() { return XMLTypePackage.eINSTANCE.getAnyType(); }
-    EClassifier getAnySimpleType() { return XMLTypePackage.eINSTANCE.getAnySimpleType(); }
-    EClassifier getXMLTypeDocumentRoot() { return XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot(); }
-  }
+public class BaseSDOExtendedMetaDataImpl extends BasicExtendedMetaData {
+	protected EcoreFactory ecoreFactory = EcoreFactory.eINSTANCE;
+	protected DemandMetaData demandMetaData = new DemandMetaData();
 
-  public BaseSDOExtendedMetaDataImpl(EPackage.Registry registry)
-  {
-    super(registry);
-  }
+	public static class DemandMetaData {
+		EClassifier getEObject() {
+			return EcorePackage.eINSTANCE.getEObject();
+		}
 
-  public EPackage demandPackage(String namespace)
-  {
-    EPackage ePackage = demandRegistry.getEPackage(namespace);
-    if (ePackage == null)
-    {
-      ePackage = ecoreFactory.createEPackage();
-      ePackage.setNsURI(namespace);
-      setQualified(ePackage, namespace != null);
-      if (namespace != null)
-      {
-        ePackage.setNsPrefix
-          (namespace.equals(ExtendedMetaData.XMLNS_URI) ? 
-             namespace.equals(ExtendedMetaData.XML_URI) ?
-               "xml" : 
-               "xmlns" : 
-             computePrefix(namespace));
-      }
-      demandRegistry.put(namespace, ePackage);
+		EClass getAnyType() {
+			return XMLTypePackage.eINSTANCE.getAnyType();
+		}
 
-      // demandDocumentRoot(ePackage);
+		EClassifier getAnySimpleType() {
+			return XMLTypePackage.eINSTANCE.getAnySimpleType();
+		}
 
-      EClass documentRootEClass = ecoreFactory.createEClass();
-      documentRootEClass.getESuperTypes().add(demandMetaData.getXMLTypeDocumentRoot());
-      documentRootEClass.setName("DocumentRoot");
-      ePackage.getEClassifiers().add(documentRootEClass);
-      setDocumentRoot(documentRootEClass);
-    }
-    return ePackage;
-  }
-  
-  public EClassifier demandType(String namespace, String name)
-  {
-    EPackage ePackage = demandPackage(namespace);
-    EClassifier eClassifier = getType(ePackage, name);
-    if (eClassifier != null)
-    {
-      return eClassifier;
-    }
-    else
-    {
-      EClass eClass = ecoreFactory.createEClass();
-      eClass.setName(name);
-      eClass.getESuperTypes().add(demandMetaData.getAnyType());
-      setContentKind(eClass, MIXED_CONTENT);
-      ePackage.getEClassifiers().add(eClass);
-      return eClass;
-    }
-  }
+		EClass getXMLTypeDocumentRoot() {
+			return XMLTypePackage.eINSTANCE.getXMLTypeDocumentRoot();
+		}
+	}
 
-  public EStructuralFeature demandFeature(String namespace, String name, boolean isElement, boolean isReference)
-  {
-    EPackage ePackage = demandPackage(namespace);
-    EClass documentRootEClass = getDocumentRoot(ePackage);
-    EStructuralFeature eStructuralFeature = 
-      isElement ? 
-        getLocalElement(documentRootEClass, namespace, name) : 
-        getLocalAttribute(documentRootEClass, namespace, name);
-    if (eStructuralFeature != null)
-    {
-      return eStructuralFeature;
-    }
-    else
-    {
-      if (isReference)
-      {
-        EReference eReference = ecoreFactory.createEReference();
-        eReference.setContainment(isElement);
-        eReference.setEType(demandMetaData.getEObject());
-        eReference.setName(name);
-        eReference.setDerived(true);
-        eReference.setTransient(true);
-        eReference.setVolatile(true);
-        documentRootEClass.getEStructuralFeatures().add(eReference);
+	public BaseSDOExtendedMetaDataImpl(EPackage.Registry registry) {
+		super(registry);
+	}
 
-        setFeatureKind(eReference, isElement ? ELEMENT_FEATURE : ATTRIBUTE_FEATURE);
-        setNamespace(eReference, namespace);
+	public EPackage demandPackage(String namespace) {
+		EPackage ePackage = demandRegistry.getEPackage(namespace);
+		if (ePackage == null) {
+			ePackage = ecoreFactory.createEPackage();
+			ePackage.setNsURI(namespace);
+			setQualified(ePackage, namespace != null);
+			if (namespace != null) {
+				ePackage.setNsPrefix(namespace
+						.equals(ExtendedMetaData.XMLNS_URI) ? namespace
+						.equals(ExtendedMetaData.XML_URI) ? "xml" : "xmlns"
+						: computePrefix(namespace));
+			}
+			demandRegistry.put(namespace, ePackage);
 
-        // Mark the bound as unspecified so that it won't be considered many
-        // but can nevertheless be recognized as being unspecified and perhaps still be treat as many.
-        //
-        if (isElement)
-        {
-          eReference.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
-        }
+			// demandDocumentRoot(ePackage);
 
-        return eReference;
-      }
-      else
-      {
-        EAttribute eAttribute = ecoreFactory.createEAttribute();
-        eAttribute.setName(name);
-        eAttribute.setEType(demandMetaData.getAnySimpleType());
-        eAttribute.setDerived(true);
-        eAttribute.setTransient(true);
-        eAttribute.setVolatile(true);
-        documentRootEClass.getEStructuralFeatures().add(eAttribute);
+			EClass documentRootEClass = ecoreFactory.createEClass();
+			documentRootEClass.getESuperTypes().add(
+					demandMetaData.getXMLTypeDocumentRoot());
+			documentRootEClass.setName("DocumentRoot");
+			ePackage.getEClassifiers().add(documentRootEClass);
+			setDocumentRoot(documentRootEClass);
+		}
+		return ePackage;
+	}
 
-        setFeatureKind(eAttribute, isElement ? ELEMENT_FEATURE : ATTRIBUTE_FEATURE);
-        setNamespace(eAttribute, namespace);
+	public EClassifier demandType(String namespace, String name) {
+		EPackage ePackage = demandPackage(namespace);
+		EClassifier eClassifier = getType(ePackage, name);
+		if (eClassifier != null) {
+			return eClassifier;
+		} else {
+			// if it is a DataObject I need to put the SDOPackage DataObject
+			// Class...
+			EClass eClass = null;
+			//if ("DataObject".equals(name)) {
+			//	eClass = SDOPackage.eINSTANCE.getAnyTypeDataObject();
+			//} else {
+				eClass = ecoreFactory.createEClass();
+				eClass.setName(name);
+				eClass.getESuperTypes().add(demandMetaData.getAnyType());
+				setContentKind(eClass, MIXED_CONTENT);
+			//}
 
-        // Mark the bound as unspecified so that it won't be considered many
-        // but can nevertheless be recognized as being unspecified and perhaps still be treat as many.
-        //
-        if (isElement)
-        {
-          eAttribute.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
-        }
+			ePackage.getEClassifiers().add(eClass);
+			return eClass;
+		}
+	}
 
-        return eAttribute;
-      }
-    }
-  }
+	public EStructuralFeature demandFeature(String namespace, String name,
+			boolean isElement, boolean isReference) {
+		EPackage ePackage = demandPackage(namespace);
+		EClass documentRootEClass = getDocumentRoot(ePackage);
+		EStructuralFeature eStructuralFeature = isElement ? getLocalElement(
+				documentRootEClass, namespace, name) : getLocalAttribute(
+				documentRootEClass, namespace, name);
+		if (eStructuralFeature != null) {
+			return eStructuralFeature;
+		} else {
+			if (isReference) {
+				EReference eReference = ecoreFactory.createEReference();
+				eReference.setContainment(isElement);
+				eReference.setEType(demandMetaData.getEObject());
+				eReference.setName(name);
+				eReference.setDerived(true);
+				eReference.setTransient(true);
+				eReference.setVolatile(true);
+				documentRootEClass.getEStructuralFeatures().add(eReference);
+
+				setFeatureKind(eReference, isElement ? ELEMENT_FEATURE
+						: ATTRIBUTE_FEATURE);
+				setNamespace(eReference, namespace);
+
+				// Mark the bound as unspecified so that it won't be considered
+				// many
+				// but can nevertheless be recognized as being unspecified and
+				// perhaps still be treat as many.
+				//
+				if (isElement) {
+					eReference
+							.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
+				}
+
+				return eReference;
+			} else {
+				EAttribute eAttribute = ecoreFactory.createEAttribute();
+				eAttribute.setName(name);
+				eAttribute.setEType(demandMetaData.getAnySimpleType());
+				eAttribute.setDerived(true);
+				eAttribute.setTransient(true);
+				eAttribute.setVolatile(true);
+				documentRootEClass.getEStructuralFeatures().add(eAttribute);
+
+				setFeatureKind(eAttribute, isElement ? ELEMENT_FEATURE
+						: ATTRIBUTE_FEATURE);
+				setNamespace(eAttribute, namespace);
+
+				// Mark the bound as unspecified so that it won't be considered
+				// many
+				// but can nevertheless be recognized as being unspecified and
+				// perhaps still be treat as many.
+				//
+				if (isElement) {
+					eAttribute
+							.setUpperBound(ETypedElement.UNSPECIFIED_MULTIPLICITY);
+				}
+
+				return eAttribute;
+			}
+		}
+	}
 }

@@ -40,6 +40,7 @@ public class AllTests extends TestCase {
         suite.addTestSuite(DateConversionTestCase.class);
         suite.addTestSuite(DefineOpenContentPropertyTestCase.class);
         suite.addTestSuite(DefineTypeTestCase.class);
+        suite.addTestSuite(DeserializationNoSchemaTestCase.class);
         suite.addTestSuite(FormTestCase.class);
         suite.addTestSuite(HelperContextTestCase.class);
         suite.addTestSuite(IsManyTestCase.class);
@@ -57,12 +58,12 @@ public class AllTests extends TestCase {
         suite.addTestSuite(TypeConversionTestCase.class);
         suite.addTestSuite(TypeRoundTripTestCase.class);
         suite.addTestSuite(XMLDocumentTestCase.class);
-        suite.addTestSuite(XMLHelperTestCase.class);
-        suite.addTestSuite(XMLStreamHelperTestCase.class);
+        //suite.addTestSuite(XMLHelperTestCase.class);
+        //suite.addTestSuite(XMLStreamHelperTestCase.class);
         suite.addTestSuite(XPathTestCase.class);
         suite.addTestSuite(XSDHelperTestCase.class);
-        suite.addTestSuite(XSDQNameTestCase.class);
-        suite.addTestSuite(XMLLoadOptionsTestCase.class);
+        //suite.addTestSuite(XSDQNameTestCase.class);
+        //suite.addTestSuite(XMLLoadOptionsTestCase.class);
         suite.addTestSuite(XMLSaveOptionsTestCase.class);
         suite.addTestSuite(XMLUnknownPropertiesTestCase.class);
         suite.addTestSuite(ExpectedExceptionsTestCase.class);
