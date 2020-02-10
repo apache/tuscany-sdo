@@ -52,7 +52,7 @@
     <repositories>
         <repository>
             <id>eclipse.emf</id>
-            <url>http://download.eclipse.org/tools/emf/maven2</url>
+            <url>https://download.eclipse.org/tools/emf/maven2</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
