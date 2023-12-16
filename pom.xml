@@ -40,7 +40,7 @@
         <repository>
             <id>apache.snapshots</id>
             <name>Apache Snapshot Repository</name>
-            <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+            <url>https://people.apache.org/repo/m2-snapshot-repository</url>
             <releases>
                 <enabled>false</enabled>
             </releases>
@@ -56,7 +56,7 @@
                 <url>http://ftp.osuosl.org/pub/eclipse/tools/emf/maven2</url> -->
             <!-- temporarily using indiana state univ as eclipse site diesnt have 2.2.2 at the moment -->
             <id>indiana</id>
-            <url>http://ftp.ussg.iu.edu/eclipse/modeling/emf/emf/maven2/</url>
+            <url>https://ftp.ussg.iu.edu/eclipse/modeling/emf/emf/maven2/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
